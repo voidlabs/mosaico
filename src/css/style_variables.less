@@ -1,0 +1,155 @@
+/**************************************************************************************************************************
+ * BASIC CONFIGURATION
+ *************************************************************************************************************************/
+
+@base-font-size: 13.6px; /* 20140929: Previously 0.85em, but we don't want user selected sizes because it breaks around */
+@accent-color: #D2CBB1;
+@background-color: #FEFDFC;
+@link-color: #9C010F;
+
+@red: #9C010F;
+@green: #94AF4B;
+@green-progress-bar: @status-progress-bar-color-ok; // Progress bars and trust-stars
+@blue: #4BA2AF;
+@yellow: #FFFF90;
+
+@mobile-menu: false;
+@button-reversed: false;
+
+@local-error-color: #CC0000;
+@local-unsub-color: #404040;
+@local-open-color: #2040B0;
+@local-click-color: #007030;
+@local-abuse-color: #EEEE00;
+@local-delayed-color: #b39601;
+@local-todo-color: #c2b798;
+
+@zindex-dialog: 1005;
+@zindex-dialog-modal: 1004;
+@zindex-popup: 1003;
+@zindex-tooltip: 1004;
+@zindex-thead: 1001; // Defined by thead plugin
+
+@elysia_nodes_property_label-width: 10em;
+@status-progress-bar-color-ok: #48AF26;
+
+/**************************************************************************************************************************
+ * COMPUTED CONFIUGRATION
+ *************************************************************************************************************************/
+
+@sidebar-background-color: @accent-color;
+@highlight-background-color: mix(@accent-color, @background-color, 60%);
+@sidebar-highlight-background-color: mix(@sidebar-background-color, @background-color, 60%);
+@button-text-color: @background-color;
+@button-text-color-disabled: lighten(@button-background-color, 20%);
+@button-background-color: @text-color;
+@button-border-color: @button-background-color;
+@button-border-color-split: contrast(difference(@button-border-color, @button-background-color), @button-border-color, @background-color, 5%);
+@button-primary-text-color: @button-text-color;
+@button-primary-background-color: @link-color;
+@button-primary-border-color: @button-primary-background-color;
+@input-border-color: @button-border-color;
+@input-focus-border-color: #66AFE9; // TODO
+@input-border-size: 0;
+@popup-background-color: lighten(@background-color,8%);
+
+// TODO remove unused vars
+
+@font-family: "trebuchet ms",arial,sans-serif;
+@standard-border-radius: 5px;
+@info-border-radius: @standard-border-radius;
+@button-border-radius: @standard-border-radius;
+@large-balloon-border-radius: 3em;
+
+@admin-menu-background-color: #000066;
+@admin-menu-dev-background-color: #660066;
+
+// Vertical margin for standard elements (to preserve alignment when in columns)
+@element-margin-vertical: 1.5em;
+
+/**************************************************************************************************************************
+ * SERVICE COLORS
+ *************************************************************************************************************************/
+
+@local-user-failure-row-background-color: mix(saturate(@local-error-color, 20%), @background-color, 25%);
+@local-user-clicker-row-background-color: mix(saturate(@local-click-color, 20%), @background-color, 25%);
+@local-user-opener-row-background-color: mix(saturate(@local-open-color, 20%), @background-color, 25%);
+@local-user-unsubscribe-row-background-color: mix(saturate(@local-unsub-color, 20%), @background-color, 25%);
+@local-user-abuse-row-background-color: mix(saturate(@local-abuse-color, 20%), @background-color, 25%);
+
+// TODO delivered should not share the color with clicker
+@local-result-delivered-color: @local-click-color;
+@local-result-error-color: @local-error-color;
+@local-result-delayed-color: @local-delayed-color;
+@local-result-todo-color: @local-todo-color;
+
+@local-balloon-error-color: @local-error-color;
+@local-balloon-unsubscribe-color: @local-unsub-color;
+@local-balloon-abuse-color: @local-abuse-color;
+@local-balloon-opener-color: @local-open-color;
+@local-balloon-opener-estimated-color: desaturate(lighten(@local-open-color, 20%), 20%);
+@local-balloon-clicker-color: @local-click-color;
+
+// TODO this works only with light background and dark text, only.
+@local-balloon-error-text-color: contrast(@local-balloon-error-color, @background-color, @text-color, 50%);
+@local-balloon-unsubscribe-text-color: contrast(@local-balloon-unsubscribe-color, @background-color, @text-color, 50%);
+@local-balloon-abuse-text-color: contrast(@local-balloon-abuse-color, @background-color, @text-color, 50%);
+@local-balloon-opener-text-color: contrast(@local-balloon-opener-color, @background-color, @text-color, 50%);
+@local-balloon-opener-estimated-text-color: contrast(@local-balloon-opener-estimated-color, @background-color, @text-color, 50%);
+@local-balloon-clicker-text-color: contrast(@local-balloon-clicker-color, @background-color, @text-color, 50%);
+
+
+/**************************************************************************************************************************
+ * COMPUTED VARIABLES
+ *************************************************************************************************************************/
+
+@text-color: contrast(@background-color, shade(@background-color, 80%), tint(@background-color, 80%), 50%);
+
+@error-color: @red;
+@warning-color: lighten(@yellow, 5%);
+@status-color: @green;
+
+@status-background-color: mix(@status-color, @background-color, 50%);
+@status-text-color: darken(@status-color, 30%);
+@warning-background-color: @warning-color;
+@warning-text-color: @text-color;
+@error-background-color: mix(@error-color, @background-color, 50%);
+@error-text-color: darken(@error-color, 30%);
+
+@link-active-color: darken(@link-color, 20%);
+@link-disabled-color: darken(@link-color, 50%);
+@text-greyed-color: contrast(@text-color, lighten(@text-color, 40%), darken(@text-color, 40%), 50%); // Elementi leggibili ma meno importanti di text-color
+@shadow-color: contrast(@background-color, darken(shade(@background-color, 20%), 30%), lighten(tint(@background-color, 20%), 30%), 50%);
+@img-border-style: 3px solid @background-color;
+
+@input-text-color: @text-color;
+@input-background-color: @highlight-background-color;
+@input-placeholder-color: lighten(@text-color, 30%);
+@input-error-border-style: 2px solid @red;
+
+@table-border-color: darken(@background-color, 10%);
+@table-border-style: 2px solid @table-border-color;
+@table-rows-separator-style: 1px solid @table-border-color;
+@table-odd-row-background-color: @background-color;
+@table-even-row-background-color: mix(@background-color, @highlight-background-color, 50%);
+@table-header-color: @accent-color;
+@table-row-selected-background-color: @yellow;
+
+@object-background-color: @table-even-row-background-color;
+@object-border-style: none; //1px solid @highlight-background-color;
+@object-border-radius: @large-border-radius;
+@object-selectable-border-style: none; //2px solid @background-color;
+@object-selectable-box-shadow: none;
+@object-selected-box-shadow: none; //0px 0px 0px 2px @sidebar-background-color;
+
+@dialog-title-background-color: @accent-color;
+@helpwin-background-color: @popup-background-color;
+@helpwin-text-color: @text-color;
+//@helpwin-title-background-color: @dialog-title-background-color;
+
+@large-border-radius: @standard-border-radius * 1.4;
+@large-button-border-radius: @button-border-radius * 1.4;
+@tabs-border-width: 1px;
+
+@button-hover-background-color: darken(@button-background-color, 10%);
+

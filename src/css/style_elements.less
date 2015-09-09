@@ -1,0 +1,497 @@
+/**************************************************************************************************************************
+ * COMMON USE, BASIC ELEMENTS
+ * Primitive html tags, common base classes, buttons, base forms, dropdown...
+ *************************************************************************************************************************/
+
+/**************************************************************************************************************************
+ * BASIC HTML ELEMENTS
+ *************************************************************************************************************************/
+
+a, a:link, a:visited, a:active, #site-slogan {
+  color: @link-color;
+  text-decoration: none;
+  li & {
+    color: @link-color; // reset system.css
+  }
+}
+a:hover /*, a:active*/ {
+  color: @link-active-color;
+  li & {
+    color: @link-active-color; // reset system.css
+  }
+}
+a.disabled, a.disabled:link, a.disabled:visited {
+  color: @link-disabled-color;
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+i, em {
+  font-style: italic;
+}
+
+ul, ol {
+  margin: .5em 0;
+  padding: 0 0 0 1.5em;
+  li {
+    margin: .5em 0;
+    a, a:active, a:link, a:visited {
+      white-space: nowrap;
+    }
+  }
+}
+
+p {
+  margin: 1em 0;
+  .grey {
+    color: @text-greyed-color;
+  }
+}
+
+small {
+  font-size: smaller;
+}
+
+big {
+  font-size: larger;
+}
+
+h1 {
+  font-size: 2em;
+  margin: .5em 0;
+}
+h2, h3.box_title {
+  font-size: 1.5em;
+  margin: .5em 0;
+}
+h3 {
+  font-size: 1.3em;
+  margin: .5em 0;
+}
+
+dl {
+  margin-bottom: 1.5em;
+  dt {
+    font-weight: bold;
+  }
+  dd {
+    margin-left: 10px;
+    font-style: italic;
+  }
+}
+hr {
+  border: 0;
+  border-top: @table-border-style;
+  margin: 1em 0;
+}
+blockquote {
+  font-style: italic;
+  border-left: @table-border-style;
+  padding: .5em
+}
+code {
+  display: inline-block;
+  border-left: @table-border-style;
+  padding: .5em
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin: @element-margin-vertical 0 @element-margin-vertical 0;
+  border-bottom: 2px solid @table-border-color;
+  
+  tr.even, tr.odd { // Reset system.css
+    border: none;
+    padding: 0;
+    background-color: transparent;
+  }
+  th {
+    padding: .5em .7em;
+    
+    font-weight: bold;
+    border-top: 0 none;
+    border-bottom: @table-border-style;
+    vertical-align: middle;
+    background-color: @table-header-color;
+  }
+  td {
+    padding: .1em .7em;
+    height: 3.3em;
+    
+    background-color: @table-odd-row-background-color;
+    border-top: 0 none;
+    vertical-align: middle;
+    &.active {
+      background-color: @table-odd-row-background-color;
+    }
+  }
+  tr.even td {
+    background-color: @table-even-row-background-color;
+    &.active {
+      background-color: @table-even-row-background-color;
+    }
+  }
+  
+  //border-radius: @large-border-radius @large-border-radius 0 0;
+  //overflow: hidden;
+  tr:first-child {
+    th:first-child {
+      border-top-left-radius: @large-border-radius;
+    }
+    th:last-child {
+      border-top-right-radius: @large-border-radius;
+    }
+  }
+
+  /*&.thead-fixed {
+    //margin: -@body-padding-top 0;
+    margin: 0;
+  }*/
+  .checkbox_cell {
+    width: 3em;
+  }
+  tr.selected td, tr.selected td.active {
+    background-color: @table-row-selected-background-color !important;
+  }
+  tr.odd.selected td, tr.odd.selected td.active, tr:nth-child(odd).selected td, tr:nth-child(odd).selected td.active {
+    background-color: mix(@background-color, @table-row-selected-background-color, 30%) !important;
+  }
+}
+.table-wrapper-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+caption {
+  color: @link-color;
+  font-weight: bold;
+  text-align: left;
+  padding: .5em .7em;
+}
+div.showall { // Copia degli stili di TD
+  padding: 0 .7em .5em .7em;
+  vertical-align: middle;
+  .clear-block;
+}
+
+/**************************************************************************************************************************
+ * HTML HELPERS
+ * Additional generic elements
+ *************************************************************************************************************************/
+
+// ul.links, copied by drupal's system.css to be used in mosaico
+ul.links {
+  margin: 0;
+  padding: 0;
+  &.inline {
+    display: inline;
+  }
+  li {
+    display: inline;
+    list-style-type: none;
+    padding: 0 0.5em;
+  }
+}
+
+.small {
+  font-size: 80%;
+}
+
+.big {
+  font-size: 120%;
+}
+
+.clear-block {
+  clear: both;
+}
+
+.margin-top {
+  margin-top: .5em;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.quarter-width {
+  width: 25% !important;
+}
+.half-width {
+  width: 50% !important;
+}
+.full-width {
+  width: 100% !important;
+}
+.normal-width {
+  width: auto !important;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.help {
+  background-color: @highlight-background-color;
+  //border-radius: @info-border-radius;
+  margin: 1em 0;
+  padding: .8em;
+  p:first-child {
+    margin-top: 0;
+  }
+  p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.dropdown {
+  .dropdown-style();
+}
+.dropdown-container {
+  position: relative;
+  white-space: nowrap; // Split buttons need a nowrapped container
+  display: inline-block;
+  .container-inline & {
+    display: inline-block;
+  }
+  .form-item & {
+    margin: 0 .5em 0 0; // So it equals the input-base margin-right;
+  }
+}
+
+/**
+ * ICONS FIX
+ */
+[class^="icon-"]:before, [class*=" icon-"]:before {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+i.icon {
+  cursor: default;
+}
+a:link i.icon {
+  cursor: pointer;
+}
+.icon_red { color: @red; }
+.icon_green { color: @green; }
+img.icon {
+  vertical-align: text-top;
+}
+a.hint, a.info {
+  color: lighten(@text-color, 20%); // NOTE: we had !important here, but it break things, so we removed it.. but why did we add it initially??
+  font-size: 80%;
+  vertical-align: top;
+  margin: 0 .2em;
+  &:hover {
+    color: @link-color;
+  }
+  h1 &, h2 &, h3 & {
+    font-size: 60%;
+  }
+  li & {
+    color: lighten(@text-color, 20%);
+  }
+}
+a.hint {
+  cursor: help;
+}
+
+.suffix_icon {
+  font-size: 80%;
+}
+
+div.info {
+  padding: .5em;
+  background-color: @highlight-background-color;
+  margin: .5em 0;
+}
+
+
+.menu_step_circle {
+  display: inline-block;
+  background-color: @object-background-color; color: @text-color;
+  padding: 0.3em 0.6em; margin: 0px 0.2em 0 0; border-radius: 1em;
+  &.current {
+    background-color: @accent-color;
+  }
+  &.disabled {
+    color: @text-greyed-color;
+  }
+}
+
+/**************************************************************************************************************************
+ * BUTTONS
+ *************************************************************************************************************************/
+
+/*
+button::-moz-focus-inner,
+input[type="reset"]::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,
+input[type="file"] > input[type="button"]::-moz-focus-inner {
+  border: none;
+}
+*/
+
+a.button_dropdown_split {
+  border-left: @input-border-size solid @text-color;
+  padding-left: .5em;
+}
+.button_links a.button_dropdown_split, .links.inline a.button_dropdown_split, .cell_links a.button_dropdown_split {
+  .button-style();
+}
+.button_links a.button_dropdown_split, .links.inline a.button_dropdown_split, .cell_links a.button_dropdown_split, .top_links a.button_dropdown_split {
+  margin-left: -1.5em;
+  border-left: @input-border-size solid @button-border-color-split !important; // !important is needed to match .big and .primary
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  z-index: 2;
+}
+  
+a.button, input.form-submit {
+  .button-style();
+}
+
+ul.links {
+  a {
+    font-weight: bold;
+  }
+}
+
+ul.button_links li, ul.inline li {
+  padding: 0;
+  a {
+    .button-style();
+    img {
+      vertical-align: text-top;
+      margin: 0 .5em 0 0;
+    }
+  }
+}
+/*#main */ul.buttonbar {
+  white-space: nowrap;
+  > li, > .dropdown-container > li {
+    margin: 0 1px 0 0;
+    float: left;
+    a, a.big {
+      margin-left: 0;
+      margin-right: 0;
+      border-radius: 0;
+      &.with_button_dropdown_split {
+        margin-right: @input-margin-right;
+      }
+    }
+    &.first a {
+      border-radius: @button-border-radius 0 0 @button-border-radius;
+      &.big {
+        border-radius: @large-button-border-radius 0 0 @large-button-border-radius;
+      }
+    }
+    &.last a {
+      border-radius: 0 @button-border-radius @button-border-radius 0;
+      &.big {
+        border-radius: 0 @large-button-border-radius @large-button-border-radius 0;
+      }
+    }
+  }
+  &.top_links {
+    margin-left: .5em;
+  }
+  .clear-after;
+}
+
+ul.cell_links {
+  > li, > .dropdown-container > li {
+    padding: 0;
+    > a {
+      .button-style();
+      margin: 0 .5em 0 0;
+    }
+  }
+  
+  a.button_dropdown_split {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  
+  td & {
+    text-align: right;
+  }
+}
+.td_cell_links {
+  text-align: right;
+  white-space: nowrap;
+}
+
+ul.top_links, ul.box_top_links {
+  float: right;
+  text-align: right; // Cosi' anche quando va su 2 righe rimane a DX
+  > * {
+    line-height: normal;
+    text-align: left;
+    margin-bottom: .4em; // Prevent page title or page buttons to overlap when they wraps on multiple lines.
+  }
+  li a, a.button_dropdown_split {
+    .button-style();
+    border-radius: @large-button-border-radius;
+    padding: .25em .4em;
+    font-size: 1.3em;
+  }
+  li {
+    padding: 0;
+    a {
+      margin: 0px 0px 0px .5em;
+    }
+  }
+  a.button_dropdown_split {
+    margin: 0 0 0 -1em;
+  }
+  .dropdown {
+    margin-left: .5em;
+  }
+}
+
+ul.popup_links {
+  .popup-links-style();
+}
+.dropdown ul.popup_links {
+  margin: -@dropdown-padding-v -@dropdown-padding-h;
+  > li > a, > .dropdown-container > li > a {
+    text-align: left;
+    width: 100%;
+  }
+}
+
+/**************************************************************************************************************************
+ * FORM
+ *************************************************************************************************************************/
+
+select, textarea {
+  .input-style;
+}
+input:disabled, select:disabled, textarea:disabled {
+  opacity: 0.5 !important; // Come chosen
+}
+
+::placeholder { 
+  color: @input-placeholder-color; 
+  opacity: 1;
+}
+
+/**************************************************************************************************************************
+ * TOOLTIPS, WINDOWS...
+ *************************************************************************************************************************/
+
+.async_loading {
+  color: transparent;
+  text-align: center;
+  background: url(../../../../misc/others/loading.gif) no-repeat 50% 50% white; // TODO remove me
+  opacity: .5;
+}
+
+.async_loading_iframe {
+  background: url(../../../../misc/others/loadingbig.gif) no-repeat 50% 50% transparent; // TODO remove me
+}

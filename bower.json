@@ -1,0 +1,78 @@
+{
+  "name": "mosaico",
+  "license": "GPL",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "knockout-sortable": "~0.10.0",
+    "jqueryui-touch-punch": "*",
+    "jquery-file-upload": "~9.8.0",
+    "jquery": "~1.11.2",
+    "jquery-ui": "~1.11.3",
+    "blueimp-load-image": "~1.13.0",
+    "blueimp-canvas-to-blob": "~2.1.1",
+    "knockoutjs-reactor": "bago/knockoutjs-reactor#v1.3.6-mosaico",
+    "knockout-jqueryui": "bago/knockout-jqueryui#9452901885186c94f97b34535374cbe31405a882",
+    "mensch": "brettstimmerman/mensch#~0.3.2",
+    "toastr": "~2.1.0",
+    "knockout-undomanager": "bago/knockout-undomanager#v0.2",
+    "knockout.wrap": "bago/knockout.wrap#mosaico",
+    "jquery.iframe-transport": "~1.0.0",
+    "tinymce": "~4.1.7",
+    "knockout": "~3.3.0",
+    "console-browserify": "Raynos/console-browserify#~1.0.3",
+    "font-awesome": "~4.3.0",
+    "blueimp-file-upload": "~9.9.3",
+    "evol-colorpicker": "bago/colorpicker#mosaico",
+    "jsep": "~0.3.0",
+    "tinycolor": "~1.2.1"
+  },
+  "overrides": {
+    "console-browserify": {
+      "main": "index.js"
+    },
+    "blueimp-load-image": {
+      "main": "js/load-image.js"
+    },
+    "jquery-file-upload": {
+      "dependencies": {
+        "jquery": ">=1.6",
+        "blueimp-load-image": ">=1.13.0",
+        "blueimp-canvas-to-blob": ">=2.1.1"
+      },
+      "main": [
+        "js/jquery.fileupload.js",
+        "js/jquery.fileupload-process.js",
+        "js/jquery.fileupload-validate.js",
+        "js/jquery.fileupload-image.js"
+      ]
+    },
+    "jsep": {
+      "main": "src/jsep.js"
+    },
+    "knockout-sortable": {
+      "dependencies": {
+        "knockout": ">=3.0.0"
+      }
+    },
+    "jqueryui-touch-punch": {
+      "dependencies": {
+        "jquery-ui": ">=1.8.0"
+      },
+      "main": "jquery.ui.touch-punch.min.js"
+    },
+    "mensch": {
+      "main": [
+        "index.js"
+      ]
+    }
+  },
+  "devDependencies": {
+    "tinymce": "~4.2.5"
+  }
+}

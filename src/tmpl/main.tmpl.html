@@ -1,0 +1,101 @@
+<div id="page" style="display: none;" data-bind="visible: true, css: { withToolbox: $root.showToolbox, withPreviewFrame: showPreviewFrame }">
+  <div id="main-edit-area" data-bind="click: function(obj, evt) { $root.selectBlock(null); return true; }, clickBubble: false">
+    <!-- ko withProperties: { templateMode: 'wysiwyg', templateModeFallback: 'show' } -->
+    <div id="main-wysiwyg-area" data-bind="wysiwygScrollfix: true, scrollable: true, fudroppable: { active: draggingImage }, css: { isdragging: dragging, isdraggingimg: draggingImage }, block: content"></div>
+    <!-- /ko -->
+  </div>
+
+  <div id="toolbar" class="mo" data-bind="tooltips: {}">
+    <!-- ko if: typeof $root.undo != 'undefined' -->
+    <span data-bind="buttonset: { }" class="leftButtons">
+    <a title="Undo last operation" href="#" data-bind="attr: { title: $root.t('Undo last operation') }, click: $root.undo.execute, clickBubble: false, button: { disabled: !$root.undo.enabled(), icons: { primary: 'fa fa-reply' }, label: $root.undo.name, text: true }">UNDO</a>
+    <a title="Redo last operation" href="#" data-bind="attr: { title: $root.t('Redo last operation') }, click: $root.redo.execute, clickBubble: false, button: { disabled: !$root.redo.enabled(), icons: { primary: 'fa fa-share' }, label: $root.redo.name, text: true }">REDO</a>
+    </span>
+    <!-- ko if: $root.debug -->
+    <a href="#" data-bind="click: $root.undoReset, clickBubble: false, button: { disabled: !$root.undo.enabled() && !$root.redo.enabled(), label: 'reset', text: true }">RESET</a>
+    <!-- /ko -->
+    <!-- /ko -->
+
+    <span>
+    <input id="showGallery" type="checkbox" data-bind="checked: $root.showGallery, button: { refreshOn: $root.showGallery, 
+    icons: { primary: 'fa fa-fw fa-picture-o', secondary: null }, text: true, label: $root.t('Gallery') }"><label title="Show image gallery" for="showGallery" data-bind="attr: { title: $root.t('Show image gallery') }">show gallery</label></input>
+    </span>
+
+    <input id="previewFrameToggle" type="checkbox" data-bind="checked: $root.showPreviewFrame, button: { refreshOn: $root.showPreviewFrame, icons: { primary: 'fa fa-fw fa-tablet', secondary: null }, text: false, label: $root.t('Preview') }"><label title="Show live preview" for="previewFrameToggle" data-bind="attr: { title: $root.t('Show live preview') }">PREVIEW</label></input>
+
+    <!-- ko if: $root.debug -->
+    <a href="#" data-bind="click: $root.export, clickBubble: false, button: { label: 'export', text: true }">EXPORT</a>
+    <input type="checkbox" data-bind="checked: $root.debug" /> debug
+    <a href="#" data-bind="click: $root.loadDefaultBlocks, clickBubble: false, button: { icons: { primary: 'fa fa-fw fa-upload' }, label: 'Default', text: true }">LOAD BLOCKS</a>
+    [<a id="subscriptionsCount" href="javascript:viewModel.loopSubscriptionsCount()">subs</a>]
+    <!-- /ko -->
+
+    <span data-bind="visible: false">
+    <input type="checkbox" data-bind="checked: $root.showToolbox" /> toolbox
+    </span>
+
+    <div class="rightButtons">
+    <!-- ko if: typeof $root.save !== 'undefined' -->
+    <a title="Save template" href="#" data-bind="attr: { title: $root.t('Save template') }, click: $root.save.execute, clickBubble: false, button: { disabled: !$root.save.enabled(), icons: { primary: 'fa fa-fw fa-cloud-upload' }, label: $root.t($root.save.name), text: true }">SALVA</a>
+    <!-- /ko -->
+    <!-- ko if: typeof $root.test !== 'undefined' -->
+    <a title="Show preview and send test" href="#" data-bind="attr: { title: $root.t('Show preview and send test') }, click: $root.test.execute, clickBubble: false, button: { disabled: !$root.test.enabled(), icons: { primary: 'fa fa-fw fa-paper-plane' }, label: $root.t($root.test.name), text: true }">TEST</a>
+    <!-- /ko -->
+    <!-- ko if: typeof $root.download !== 'undefined' -->
+    <form id="downloadForm" action="#" method="POST">
+    <input type="hidden" name="action" value="download" />
+    <input type="hidden" name="filename" value="email.html" />
+    <input type="hidden" name="html" id="downloadHtmlTextarea" />
+    <a title="Download template" href="#" data-bind="attr: { title: $root.t('Download template') }, click: $root.download.execute, clickBubble: false, button: { disabled: !$root.download.enabled(), icons: { primary: 'fa fa-fw fa-download' }, label: $root.t($root.download.name), text: true }">DOWNLOAD</a>
+    </form>
+    <!-- /ko -->
+    </div>
+  </div>
+
+  <!-- ko if: $root.showToolbox -->
+  <div id="main-toolbox" class="mo" data-bind="scrollable: true, withProperties: { templateMode: 'edit' }">
+    <div data-bind="template: { name: 'toolbox' }"></div>
+  </div>
+  <!-- /ko -->
+  
+  <div id="main-preview" class="mo" data-bind="scrollable: true, if: $root.showPreviewFrame">
+    <div id="preview-toolbar">
+      <div data-bind="visible: $root.showPreviewFrame, buttonset: { }" style="display: inline-block">
+        <input id="previewLarge" type="radio" name="previewMode" value="large" data-bind="checked: $root.previewMode, button: { text: false, label: 'large', icons: { primary: 'fa fa-fw fa-desktop' } }" />
+        <label for="previewLarge">large</label>
+        <input id="previewDesktop" type="radio" name="previewMode" value="desktop" data-bind="checked: $root.previewMode, button: { text: false, label: 'desktop', icons: { primary: 'fa fa-fw fa-tablet' } }" />
+        <label for="previewDesktop">desktop</label>
+        <input id="previewMobile" type="radio" name="previewMode" value="mobile" data-bind="checked: $root.previewMode, button: { text: false, label: 'mobile', icons: { primary: 'fa fa-fw fa-mobile' } }" />
+        <label for="previewMobile">mobile</label>
+      </div>
+    </div>
+
+    <div id="frame-container" data-bind="css: { desktop: $root.previewMode() == 'desktop', mobile: $root.previewMode() == 'mobile', large: $root.previewMode() == 'large' }">
+      <iframe data-bind="bindIframe: $data"></iframe>
+    </div>
+  </div>
+
+  <div class="mo" id="mo-body"></div>
+
+
+  <!-- TODO REMOVE ME
+  <div id="incompatible-browser" title="Unsupported browser" style="display: none" data-bind="attr: { title: $root.t('Usupported browser') }, html: '<p>Your browser is not supported.</p><p>Use a different browser or try updaring your browser.</p><p>Supported browsers: <ul><li>Internet Explorer &gt;= 10</li><li>Google Chrome &gt;= 30</li><li>Apple Safari &gt;= 5</li><li>Mozilla Firefix &gt;= 20</li></ul></p>'">
+    Unsupported browser
+  </div>
+  -->
+
+  <div id="incompatible-template" title="Saved model is obsolete" style="display: none" data-bind="attr: { title: $root.t('Saved model is obsolete') }, html: '<p>The saved model has been created with a previous, non completely compatible version, of the template</p><p>Some content or style in the model <b>COULD BE LOST</b> if you will <b>save</b></p><p>Contact us for more informations!</p>'">
+    Incompatible template
+  </div>
+
+  <div id="fake-image-editor" title="Fake image editor" style="display: none" data-bind="attr: { title: $root.t('Fake image editor') }, html: $root.t('<p>Fake image editor</p>')">
+    <p>Fake image editor</p>
+  </div>
+
+</div>
+
+
+<div id="loading" class="loading" style="display: block; width: 300px; text-align: center; height: 32px; position: absolute; top:0; bottom: 0; left: 0; right: 0;  margin: auto;" data-bind="attr: { style: 'position: absolute; top: 5px; left: 6px; '}, css: { loading: false }">
+  <a href="/"><img src="dist/img/mosaico32.png" width="32" height="32" alt="mosaico" border="0" /></a>
+  <div style="opacity: 0" data-bind="visible: false">Oppps... !!</div>
+</div>

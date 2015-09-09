@@ -1,0 +1,130 @@
+/**************************************************************************************************************************
+ * TINYMCE / MOXIEMANAGER HTML ELEMENTS
+ *************************************************************************************************************************/
+
+/**
+ * moxiemanager window
+ */
+.moxman-window, .mce-window {
+  border: none;
+  border-top-left-radius: @large-border-radius;
+  border-top-right-radius: @large-border-radius;
+  border-color: fade(@shadow-color, 0%);
+  box-shadow: 0 2px 20px @shadow-color;
+  overflow: hidden;
+  
+  .moxman-window-head, .mce-window-head {
+    background: none @dialog-title-background-color;
+    font-size: 1.1em;
+    //border-top-left-radius: @large-border-radius;
+    //border-top-right-radius: @large-border-radius;
+    
+    .moxman-title, .mce-title {
+      color: @text-color;
+    }
+    button.moxman-close, button.mce-close {
+      color: @background-color;
+      font-size: 1.6em;
+      top: 6px;
+      &:hover {
+        color: @text-color;
+      }
+    }
+  }
+  .moxman-panel, .mce-panel {
+    background-color: @background-color;
+  }
+  .moxman-container-body, .mce-container-body {
+    .moxman-panel.moxman-first, .mce-panel.mce-first {
+      border-bottom: none;
+    }
+  }
+  div.moxman-filelist-head {
+    background-color: @table-odd-row-background-color;
+    border-bottom: none; //@table-border-style;
+  }
+  .moxman-filelist {
+    border-top: @table-border-style;
+    .moxman-filelist-row td {
+      background-color: @table-even-row-background-color;
+      border-bottom: none; //@table-border-style;
+    }
+    .moxman-filelist-odd td {
+      background-color: @table-odd-row-background-color;
+    }
+    tr.moxman-checked, tr.moxman-checked td {
+      background-color: @table-row-selected-background-color;
+      color: @text-color;
+      & div .moxman-txt, & i.moxman-ico {
+        color: @text-color;
+      }
+    }
+    .moxman-filelist-head-item .moxman-down {
+      border-top-color: @text-color;
+    }
+    .moxman-filelist-head-item .moxman-up {
+      border-bottom-color: @text-color;
+    }
+    /* HIDE CHECKBOX: .moxman-filelist-body td:first-child, .moxman-filelist-head td:first-child {
+      display: none;
+    }*/
+  }
+  .moxman-thumbnailview {
+    border-top: @table-border-style;
+    .moxman-thumb {
+      border: 1px solid mix(@background-color, @highlight-background-color, 50%);
+      &:hover, &.moxman-checked {
+        outline: 2px solid @table-row-selected-background-color;
+      }
+      .moxman-info, &.moxman-active .moxman-info, &.moxman-checked .moxman-info {
+        background-color: mix(@background-color, @highlight-background-color, 50%);
+        color: @text-color;
+        i.moxman-i-checkbox {
+          // HIDE CHECKBOX: display: none;
+          background-color: @background-color;
+          color: @text-color;
+          border: 1px solid @text-color;
+          &:before {
+            color: @text-color;
+          }
+        }
+      }
+    }
+  }
+  i.moxman-i-checkbox, i.mce-i-checkbox {
+    background-color: transparent;
+  }
+  //.mce-btn.mce-active, .mce-btn.mce-active:hover {
+  
+  .mce-listbox, .mce-listbox:hover, .mce-listbox.mce-active, .mce-listbox.mce-active:hover, .mce-listbox:focus {
+    background-color: transparent;
+    text-shadow: none;
+    border: 1px solid #C5C5C5; // Could be @button-border-color, but moxiemanager have a different color for other fields
+    span, .mce-ico {
+      color: @text-color;
+    }
+    i.mce-caret {
+      border-top-color: @text-color; // Down arrow is written with borders, but uses text color
+    }
+  }
+  .moxman-btn i, .mce-btn i {
+    text-shadow: none;
+  }
+  input, select, textarea, button { // resets the "max-width: 100%;" from style_page.less, otherwise breaking images
+    max-width: none;
+    //border: 1px solid @button-border-color; // This doesn't work
+  }
+}
+
+.moxman-tooltip, .mce-tooltip { // Increases z-index for tooltips called by moxiemanager inside tinymce 3
+  z-index: 500000 !important;
+}
+
+.mce-toolbar-grp.mce-panel, .mce-tinymce-inline {
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+.mce-menu, .moxman-menu {
+  .win();
+}

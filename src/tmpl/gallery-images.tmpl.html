@@ -1,0 +1,16 @@
+<div data-bind="foreach: items.currentPageData">
+  <div class="draggable-item" data-bind="if: typeof thumbnailUrl != 'undefined'">
+    <div class="draggable image" data-bind="click: $root.addImage, extdraggable: { data: $data, dropContainer: '#main-wysiwyg-area', dragging: $root.draggingImage, 'options': { 'appendTo': '#page' } }, style: { backgroundImage: 'url(\\'' + thumbnailUrl + '\\')' }">
+      <img title="Trascina questa immagine sulla posizione in cui vuoi inserirla" style="display: block;" data-bind="tooltips: {}, attr: { src: thumbnailUrl }"/>
+    </div>
+  </div>
+</div>
+<!-- ko if: items.pageCount() > 1 -->
+<div class="galleryPager" data-bind="buttonset: {}">
+  <a href="#" data-bind="click: items.moveFirst, button: { disabled: items.currentPage() == 1, icons: { primary: 'fa fa-fast-backward' }, text: false }">First</a>
+  <a href="#" data-bind="click: items.movePrevious, button: { disabled: items.currentPage() == 1, icons: { primary: 'fa fa-backward' }, text: false }">Previous</a>
+  <span data-bind="button: { disabled: true, text: true, label: ' '+items.currentPage()+' di '+items.pageCount()+' ' }"> X di Y </span>
+  <a href="#" data-bind="click: items.moveNext, button: { disabled: items.currentPage() == items.pageCount(), icons: { primary: 'fa fa-forward' }, text: false }">Next</a>
+  <a href="#" data-bind="click: items.moveLast, button: { disabled: items.currentPage() == items.pageCount(), icons: { primary: 'fa fa-fast-forward' }, text: false }">Last</a>
+</div>
+<!-- /ko -->

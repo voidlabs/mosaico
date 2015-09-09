@@ -1,0 +1,18 @@
+<div class="editable block" data-drop-content="Drop here" data-bind="attr: { 'data-drop-content': $root.t('Drop here') }, click: function(obj, evt) { $root.selectBlock(obj); return true }, clickBubble: false, css: { selected: $root.selectedBlock() === $data }, scrollIntoView: $root.selectedBlock() === $data">
+  <div class="mo-blockselectionhelper"></div>
+  <div class="tools" data-bind="tooltips: {}">
+    <!-- ko if: typeof $index != 'undefined' -->
+    <div title="Drag this handle to move the block" data-bind="attr: { title: $root.t('Drag this handle to move the block') }" class="tool handle"><i class="fa fa-fw fa-sort"></i></div>
+    <!-- ko if: $index() > 0 -->
+    <div title="Move this block upside" data-bind="attr: { title: $root.t('Move this block upside') }" class="tool moveup"><i class="fa fa-fw fa-sort-asc" data-bind='click: $root.moveBlock.bind($element, $index, $parent, true)'></i></div>
+    <!-- /ko -->
+    <!-- ko if: $index() < $parent.blocks().length -1 -->
+    <div title="Move this block downside" data-bind="attr: { title: $root.t('Move this block downside') }" class="tool movedown"><i class="fa fa-fw fa-sort-desc" data-bind='click: $root.moveBlock.bind($element, $index, $parent, false)'></i></div>
+    <!-- /ko -->
+    <div title="Delete block" class="tool delete" data-bind="attr: { title: $root.t('Delete block') }, click: $root.removeBlock.bind($element, $rawData, $parent)"><i class="fa fa-fw fa-trash-o"></i></div>
+    <div title="Duplicate block" class="tool clone" data-bind="attr: { title: $root.t('Duplicate block') }, click: $root.duplicateBlock.bind($element, $index, $parent)"><i class="fa fa-fw fa-files-o"></i></div>
+    <!-- /ko -->
+    <!-- ko if: typeof $data._nextVariant != 'undefined' --><div title="Switch block variant" class="tool variant" data-bind="attr: { title: $root.t('Switch block variant') }, click: $data._nextVariant"><i class="fa fa-fw fa-magic"></i></div><!-- /ko -->
+  </div>
+  <!-- ko block: $data --><!-- /ko -->
+</div>

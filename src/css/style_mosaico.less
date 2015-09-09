@@ -1,0 +1,525 @@
+/****************************************************************************************************************************
+ * MOSAICO
+ ***************************************************************************************************************************/
+
+/**
+ * Page html structure:
+ * <body>
+ *   #page
+ *     #main-edit-area
+ *       #main-wysiwyg-area
+ *     #toolbar .mo
+ *     #main-toolbox .mo
+ *       #tooltabs
+ *       #toolimages
+ *       #tooldebug
+ *       #tooltheme
+ *     #main-preview .mo
+ *       #preview-toolbar
+ *       #frame-container
+ *   #incompatible-browser
+ *   #fake-image-editor
+ *   #loading (usato solo da standalone)
+ *   #moxman-loading
+ *   #toast-container
+ *   #contextmenu-help.mo
+ *   #carousel-container.mo
+ * 
+ * CSS selector used, beyond the #ids before:
+ * - .mo e .mo-*
+ * - .ui-* (ui-helper-hidden-accessible, ui-tooltip)
+ * - .moxman-* e .mce-*
+ * - .fa-* (font-awesome, configurable via @fa-css-prefix)
+ * - .icon-* (fontello: TODO remove me, we currently refer 2 icons from fontello)
+ * - .evo-* (evo.colorpicker)
+ * - .toast-* #toast-* (toastr)
+ */
+
+@leftsidebar-width: 400px;
+@rightsidebar-width: 340px;
+@mainarea-minwidth: 600px;
+@topbar-height: 40px;
+
+@screen-sm-max: 480px; // TODO Remove me, not used by mosaico (see style_page and style_admin)
+@screen-md-max: 1020px; // TODO Remove me, not used by mosaico (see style_page and style_admin)
+@screen-lg-max: 1460px; // Mosaico live preview will show beyond this
+
+@mosaico-text-color: @text-color;
+@mosaico-background-color: @background-color;
+@mosaico-ui-background-color: @sidebar-background-color;
+@mosaico-input-border-color: @input-border-color;
+@mosaico-button-text-color: @button-text-color;
+@mosaico-button-background-color: @button-background-color;
+@mosaico-button-background-color-hover: @button-hover-background-color;
+@mosaico-button-border-color: @button-border-color;
+@mosaico-button-shadow-color: lighten(#fff - @mosaico-button-background-color, 30%); // Used in content
+@mosaico-object-background-color: @object-background-color;
+@mosaico-object-border-radius: @object-border-radius;
+@mosaico-helpwin-background-color: @helpwin-background-color;
+@mosaico-helpwin-text-color: @helpwin-text-color;
+@mosaico-accent-color: @accent-color;
+@mosaico-outline-color: currentcolor;
+@mosaico-shadow-color: #808080;
+@mosaico-selection-color: #CC0000;
+
+// Variabili base usate da voxmail: colori, stili
+@import "style_variables.less";
+
+// Icone font-awesome (.fa-* , configurable via @fa-css-prefix)
+@import (optional) "font-awesome/less/font-awesome.less";
+
+// Mosaico: editing tools (toolbar, left toolbox, right preview)
+@import 'style_mosaico_tools.less';
+// Mosaico: wysiwyg content
+@import 'style_mosaico_content.less';
+
+// Base mixins for style_elements_*
+@import 'style_elements_mixins.less';
+// Styles for tinymce/moxiemanager (uses .moxman-* and .moxie-*)
+@import "style_elements_moxie.less";
+
+.makeFontAwesome() { // TODO move this in style_utils?
+  visibility: visible;
+  font-family: FontAwesome;
+  color: #333332;
+  position: relative;
+  top: 1px;
+  left: -2px;
+  display: inline-block;
+}
+
+@keyframes border-color-selection-pulsate {
+    0% { border-color: @mosaico-outline-color; }
+   40% { border-color: @mosaico-selection-color; }
+   60% { border-color: @mosaico-selection-color; }
+  100% { border-color: @mosaico-outline-color; }
+}
+
+@keyframes droppable-pulsate {
+  0% { opacity: 1 }
+  100% { opacity: .1 }
+}
+
+.makeDroppable() {
+  .resetFont();
+  font-weight: bold;
+
+  content: attr(data-drop-content);
+  text-align: center;
+  line-height: 24px;
+  position: absolute;
+  // animation: pulse .5s ease-out 0s 4 alternate;
+  animation: droppable-pulsate 1s ease-in-out infinite alternate;
+  top: -14px;
+  left: -10px;
+  height: 24px;
+  background-color: fade(@mosaico-selection-color, 60%);
+  background-clip: content-box;
+  color: white;
+  right: -10px;
+  border: 2px dashed @mosaico-selection-color;
+  // this z-index prevent using fileupload by showing the droppable
+  // under the mo-dropzone
+  z-index: 10;
+  pointer-events: none;
+}
+
+.makeSelectable(@size: 10px, @selectedSelector: ~'.selected', @selectedSize: 1px, @borderElementSelector: ~':after') {
+  position: relative;
+
+  &@{borderElementSelector} {
+    content: "";
+    display: none;
+    position: absolute;
+    z-index: -1;
+    top: -3px; bottom: -3px;
+    // animation: border-color-selection-pulsate 4s infinite;
+    left: -2px - @size;
+    right: -2px - @size;
+    border-width: 0px 0px;
+    border-style: solid solid;
+    border-color: @mosaico-outline-color;
+    outline-color: @mosaico-outline-color;
+  }
+  &@{selectedSelector}@{borderElementSelector} {
+    display: block;
+
+    border: @selectedSize dashed @mosaico-selection-color;
+    border-left-width: @size;
+    border-right-width: @size;
+    border-style: dashed solid;
+    animation: border-color-selection-pulsate 4s infinite;
+  }
+  &:hover@{borderElementSelector} {
+    display: block;
+    outline-width: 1px;
+    outline-style: solid;
+    border-top-width: 0;
+    border-bottom-width: 0;
+  }
+
+  &:hover,
+  &@{selectedSelector} {
+    position: relative;
+  }
+
+  &@{selectedSelector} {
+    z-index: 10;
+  }
+
+  &:hover {
+    z-index: 11;
+  }
+
+}
+
+.resetFont() {
+  font-family: @font-family;
+  font-size: 16px;
+  text-decoration: none !important;
+}
+
+/****************************************************************************************************************************
+ * PAGE SETTINGS
+ * Base styles / reset, full page layout
+ ***************************************************************************************************************************/
+
+body {
+  background-color: @mosaico-ui-background-color;
+  margin: 0;
+  overflow: hidden; /* otherwsie TinyMCE menues sometimes makes scrollbars show in main body */
+}
+input, select, textarea, button { // input don't inherit font properties from body by default.
+  font-family: inherit;
+  font-size: inherit; 
+  max-width: 100%;
+}
+
+* {
+  user-select: none;
+}
+input,
+textarea, 
+[contenteditable], 
+[contenteditable] *, // makes IE contenteditable content selectable again
+.evo-color span // allow selecting for hex colors in colorpicker
+{
+  user-select: text;
+}
+
+// IE/CH
+a[disabledhref] {
+  color: #06C;
+  color: -webkit-link;
+  text-decoration: underline;
+  cursor: auto;
+}
+
+// FF
+a[disabledhref]:-moz-read-write {
+  text-decoration: underline -moz-anchor-decoration;
+  color: -moz-hyperlinktext;
+}
+
+/****************************************************************************************************************************
+ * LAYOUT
+ ***************************************************************************************************************************/
+
+#page {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+}
+
+#main-edit-area {
+  left: 0;
+  right: 0;
+  overflow: hidden;
+}
+
+#main-edit-area, #toolbar {
+  min-width: @mainarea-minwidth;
+}
+
+#toolbar {
+  z-index: 101 !important; // Bigger than #main-toolbox .ui-tabs .ui-tabs-panel
+  background-color: @mosaico-ui-background-color;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: @topbar-height;
+}
+
+#main-toolbox {
+  backface-visibility: hidden;
+  display: none;
+  left: 0;
+  width: @leftsidebar-width;
+  box-shadow: 0 0 10px @mosaico-shadow-color, 0 0 5px @mosaico-shadow-color;
+}
+.withToolbox #main-toolbox {
+  display: block;
+}
+.withToolbox #main-edit-area,
+.withToolbox #toolbar {
+  left: @leftsidebar-width;
+}
+
+#main-preview {
+  backface-visibility: hidden;
+  display: none;
+  right: 0;
+  width: @rightsidebar-width;
+  //padding: 10px;
+  overflow: hidden;
+}
+.withPreviewFrame #main-preview {
+  display: block;
+}
+.withPreviewFrame #main-edit-area {
+  right: (@rightsidebar-width + 5px);
+}
+
+#main-edit-area:before,
+#main-edit-area:after,
+#frame-container:before,
+#frame-container:after {
+  content: "";
+  display: block;
+  position: absolute;
+  border: 0;
+  height: @topbar-height;
+  box-shadow: 0px 1px 10px @mosaico-shadow-color, 0px 0px 5px @mosaico-shadow-color;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 100;
+}
+#main-edit-area:after {
+  top: auto;
+  bottom: -@topbar-height;
+}
+#frame-container:before {
+  top: -@topbar-height;
+}
+#frame-container:after {
+  top: auto;
+  bottom: -@topbar-height;
+}
+#main-wysiwyg-area {
+  position: absolute;
+  top: @topbar-height;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+  // http://blog.getpostman.com/2015/01/23/ui-repaint-issue-on-chrome/
+  -webkit-transform: translate3d(0,0,0);
+  // overflow-x: hidden;
+}
+
+/****************************************************************************************************************************
+ * GENERIC UTILITIES: 
+ * DRAG&DROP, UPLOADER, TOASTER, TOOLTIP, FONTS, LOADER
+ ***************************************************************************************************************************/
+
+#main-toolbox .draggable {
+  &.image {
+
+    width: 85px;
+    height: 85px;
+    text-align: center;
+    vertical-align: middle;
+
+    padding: 5px;
+    border: 0;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-origin: content-box;
+    img {
+      opacity: 0;
+    }
+  }
+}
+.ui-draggable-dragging {
+  z-index: 10000;
+}
+.ui-draggable-dragging.sortable-placeholder {
+  top: 0 !important;
+  left: 0 !important;
+}
+
+
+.uploading .fileuploadtext {
+  display: none;
+}
+
+.fileuploadtext {
+  top: 0px !important;
+  left: 0px !important;
+  right: 0px !important;
+  bottom: 0px !important;
+  color: #000000;
+}
+.uploadzone .fileuploadtext {
+  .resetFont();
+  font-weight: bold;
+}
+.isdragging, .isdraggingimg {
+  .uploadzone .fileuploadtext {
+    display: none !important;
+  }
+}
+.uploadzone .progress {
+  display: none;
+}
+.uploadzone.uploading .progress {
+  display: block;
+}
+
+/* this is needed to push a dropzone over a "makeDroppable" (greater z-index)
+   because IE10 doesn't support "pointer-events: none" and images drag/drop from desktop wouldn't work */
+.mo-uploadzone {
+  position: absolute;
+  // less than tools, greater than makeDroppable
+  z-index: 15;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: block;
+}
+
+.toast-bottom-full-width {
+  margin-left: 25%;
+  margin-right: 25%;
+  width: 50% !important;
+}
+
+#toast-container.toast-bottom-full-width > div {
+  // width: 50% !important;
+}
+
+body > .ui-tooltip {
+  .win();
+  
+  .resetFont();
+  // font-family: @font-family;
+  // font-size: 1em;
+  font-size: 14px;
+
+  border-width: 0px;
+  padding: 8px;
+  position: absolute;
+  z-index: 9999;
+  max-width: 300px;
+  box-shadow: 0px 0px 5px #AAA;
+}
+
+.ui-helper-hidden-accessible {
+  border: 0px none;
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0px;
+  position: absolute !important;
+  width: 1px;
+}
+
+// Show "profile" icon in TinyMCE - TODO remove me
+i.mce-i-newsletter-profile:before {
+  content: '\e826'; //@see icon-profile14-noout
+  font-family: "fontello";
+}
+
+.mo-standalone {
+  @keyframes loading {
+      0% { transform: scale(1, 1) rotate(0deg); }
+     50% { transform: scale(1.5, 1.5) rotate(360deg); }
+    100% { transform: scale(1, 1) rotate(720deg); }
+  }
+
+  #loading.loading img {
+    animation: loading 4s linear infinite;
+  }
+}
+
+@keyframes broken {
+    0% { opacity: 0 }
+   95% { opacity: 0 }
+  100% { opacity: 1 }
+}
+#loading.loading div {
+  animation: broken 10s linear forwards;
+  padding: 1em;
+  opacity: 1;
+}
+
+#carousel-dialog {
+  .carousel-buttons {
+    position: absolute; right: 5px; bottom: 10px;
+  }
+  .carousel-buttons .button {
+    font-size: 1.2em;
+  }
+  .carousel-remember {
+    font-size: 1.2em;
+    position: absolute; left: 10px; bottom: 17px;
+  }
+  .carousel-remember input {
+    vertical-align: middle; margin-right: .2em;
+  }
+  .owl-carousel {
+    height: 550px;
+  }
+  .owl-controls {
+    position: absolute; left: 0; right: 0; bottom: 7px;
+  }
+  .owl-controls .owl-page.active span {
+    background-color: @button-background-color;
+  }
+  .owl-controls .owl-page span {
+    background-color: @accent-color;
+    /*opacity: 1;*/
+  }
+  .carousel-help {
+    margin-top: 5px;
+    font-size: 1.2em;
+  }
+  .carousel-help-text {
+    line-height: 1.5em;
+  }
+  .carousel-help-text.large-width {
+    width: 80%;
+    margin: 0 auto;
+  }
+  .carousel-help-text p {
+    padding: .5em;
+  }
+  .carousel-help-image {
+  }
+  .carousel-help .left {
+    margin-right: 20px;
+  }
+  .carousel-help .top {
+    margin-bottom: 10px;
+  }
+  .carousel-help-balloon {
+    display: flex; display: -webkit-flex; display: -ms-flexbox;
+    align-items: center; -webkit-align-items: center;
+    /*-ms-flex-align: center; -webkit-box-align: center;*/
+    justify-content: center;
+    text-align: center;
+    overflow: auto;
+    padding: 0 .5em;
+    // fix per IE10
+    > div { width: 100% }
+  }
+}

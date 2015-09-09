@@ -1,0 +1,361 @@
+@ie8hack: \0screen;
+
+@input-padding-v: 5px; // .35em
+@input-padding-h: 7px; // .5em
+@input-margin-top: 10px; // 0.7em;
+@input-margin-bottom: 10px; // 0.7em;
+@input-margin-right: 7px; // .5em
+@input-border-size: 1px;
+
+.input-button-common() {
+  font-size: 1.0em;
+  line-height: normal; // Firefox uses a "line-height: normal !important" for input elements, resulting in "1.2". If we use "1.2" on chrome we get bigger text (li has 1.25). Using "normal" works fine on both.
+  min-height: (18px + @input-border-size * 2 + @input-padding-v * 2); // Select size on Firefox is 18px, while another input is 16px, this creates differences fixed by min-height.
+  @media @ie8hack {
+    min-height: (18px + @input-border-size * 2 ); // IE8 ignores box-sizing for minheight, so we don't add @input-padding-v
+  }
+  vertical-align: middle;
+}
+
+.button-style() {
+  .input-button-common();
+  display: inline-block;
+  background-color: @button-background-color;
+  border: @input-border-size solid @button-border-color; // hidden, but declared to keep size consistency between input and buttons.
+  color: @button-text-color;
+  li & { color: @button-text-color; } // Buttons inside LI should preserve their color (declared for "li a")
+  border-radius: @button-border-radius;
+  font-weight: bold;
+  cursor: pointer;
+  padding: @input-padding-v @input-padding-h;
+  margin: @input-margin-top @input-margin-right @input-margin-bottom 0;
+  text-decoration: none;
+  white-space: nowrap;
+  text-align: center;
+  font-weight: bold;
+  img {
+    vertical-align: middle;
+    margin: 0 .2em;
+  }
+  &:hover, &.pressed, &.selected /*, &.active*/ {
+    text-decoration: none;
+    background-color: @button-hover-background-color;
+  }
+  &.disabled {
+    color: @button-text-color-disabled;
+    a, .link { // .link serve solo per poter fare l'import a style_elements_jquery.less
+      color: @button-text-color-disabled;
+    }
+    &:hover {
+      background-color: @button-background-color;
+      border: @input-border-size solid @button-border-color;
+      color: @button-text-color-disabled;
+    }
+  }
+  .container-inline & {
+   // width: auto; // IE8 has issues with this
+  }
+  &.inline {
+    margin: 0 @input-margin-right 0 0;
+  }
+  &.primary {
+    color: @button-primary-text-color;
+    background-color: @button-primary-background-color;
+    border-color: @button-primary-border-color;
+    &:hover {
+      background-color: darken(@button-primary-background-color, 10%);
+      border-color: darken(@button-primary-border-color, 10%);
+    }
+  }
+  &.big {
+    font-size: 1.5em;
+    border-radius: @large-button-border-radius;
+    padding: @input-padding-v*1.5 @input-padding-h*1.5;
+    //margin: @input-margin-top @input-margin-right @input-margin-bottom 0;
+    .suffix_icon {
+      font-size: 55%; // 53.5%
+      vertical-align: middle;
+    }
+  }
+  &.with_button_dropdown_split { // Have to be AFTER .big and .primary
+    padding-right: 1.2em;
+    &.big {
+      padding-right: 1.8em;
+    }
+  }
+  &.loading {
+    opacity: .5;
+    background-image: none; // Removes base ".loading" style
+    /* interesting CONTENT REPLACING alternative
+    position: relative;
+    color: transparent;
+    background: none;
+    background-color: lighten(@button-background-color, 40%);
+    border-color: lighten(@button-background-color, 40%);
+    &:after {
+      position: absolute;
+      left: 0; right: 0; top: 0; bottom: 0;
+      padding: @input-padding-v @input-padding-h;
+      color: @background-color;
+      content: '...';
+    }*/
+  }
+}
+
+.buttonset-style() {
+  margin-right: @input-margin-right;
+  vertical-align: middle;
+  font-size: 0;
+  > .ui-button {
+    font-size: @base-font-size;
+    margin-right: 1px;
+    border-radius: 0;
+    &.ui-corner-left {
+      border-radius: @button-border-radius 0 0 @button-border-radius;
+    }
+    &.ui-corner-right {
+      border-radius: 0 @button-border-radius @button-border-radius 0;
+    }
+  }
+}
+
+.input-base() {
+  .input-button-common;
+  display: inline-block;
+  border: @input-border-size solid transparent;
+  height: auto;
+  padding: @input-padding-v @input-padding-h;
+  margin: @input-margin-top 0 @input-margin-bottom 0;
+  width: 100%;
+}
+
+.input-style() {
+  .input-base;
+  color: @input-text-color;
+  background: none @input-background-color;
+  border-radius: @standard-border-radius;
+  border-color: @input-border-color;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+  
+  &:focus {
+    border-color: @input-focus-border-color;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px fade(@input-focus-border-color, 60);
+    outline: 0 none;
+  }
+  &.inline {
+    margin-right: .5em;
+    width: auto;
+  }
+}
+
+.win() {
+  border-radius: @large-border-radius;
+  // IE8 border
+  border: 0px solid @shadow-color;
+  @media @ie8hack {
+    border-width: 1px;
+  }
+  border-color: fade(@shadow-color, 0%);
+  box-shadow: 0 2px 20px @shadow-color;
+  color: @helpwin-text-color;
+  background-color: @helpwin-background-color;
+  padding: 0;
+  overflow: hidden;
+}
+
+.wintitle() {
+  position: relative; padding: .5em 1em .3em;
+
+  color: @text-color;
+  .ui-icon {
+    color: @text-color;
+  }
+  background: none @dialog-title-background-color;
+  border: none;
+  font-weight: bold;
+  border-radius: 0;
+}
+
+.popup-links-style() {
+  > li, > .dropdown-container > li {
+    display: block;
+    padding: 0; margin: 0;
+    //background-color: @popup-background-color;
+    
+    > a { // Reverting .button()
+      display: block;
+      border: none;
+      padding: .5em;
+      margin: 0;
+      border-radius: 0;
+      position: relative;
+      overflow: hidden; text-overflow: ellipsis; // nowrap is in the container (usually .dropdown)
+      font-weight: bold;
+      background-color: transparent;
+      color: @text-color;
+      img {
+        vertical-align: text-top;
+        margin: 0 .5em 0 0;
+      }
+      &.disabled {
+        color: @text-greyed-color !important;
+        &:hover {
+          border: none;
+        }
+      }
+      .badge {
+        position: absolute;
+        right: 0;
+        margin-left: 1em;
+        top: .6em;
+      }
+    }
+    > a when (@button-reversed = true) {
+      color: @link-color;
+    }
+    &:hover {
+      background-color: @button-background-color;
+      color: @button-text-color;
+      a {
+        color: @button-text-color;
+      }
+    }
+    // add a small border on cell_links inside rows for popup_links in dropdown
+    .cell_links > li > a {
+      border-color: mix(@popup-background-color, @text-color, 50%);
+    }
+    &.separator {
+      border-top: 1px solid @button-background-color;
+      margin: .5em 0;
+    }
+  }
+  &.table_columns {
+    > li, > .dropdown-container > li {
+      > a {
+        display: table-cell;
+        vertical-align: middle;
+        width: 100%;
+      }
+      > .table_column {
+        display: table-cell;
+        vertical-align: middle;
+        width: auto;
+        /*.button {
+          margin: 0 .5em;
+          color: @button-text-color;
+        }*/
+      }
+    }
+  }
+}
+
+@dropdown-padding-v: .5em;
+@dropdown-padding-h: 1em;
+
+.dropdown-style() {
+  position: absolute;
+  z-index: @zindex-popup;
+  margin: 0; // Basic margin for simple dropdown on simple link (button dropdown will declare their margin later)
+  padding: @dropdown-padding-v @dropdown-padding-h;
+  border-radius: @button-border-radius;
+  // IE8 border
+  border: 0px solid @shadow-color;
+  @media @ie8hack {
+    border-width: 1px;
+  }
+  // trasparented border for supporting browsers
+  border-color: fade(@shadow-color, 0%);
+  box-shadow: 0 4px 10px @shadow-color;
+  background-color: @popup-background-color;
+//  border: 0;
+  max-height: 300px;
+  overflow: auto;
+  min-width: 100%;
+  max-width: 25em;
+  white-space: normal; // dropdown-container inser a nowrap, but the dropdown content could be a simple div with text.
+  &.dropdown-right { right: 0; }
+  &.dropdown-bottom { bottom: 0; }
+  a.button + div.dropdown_spacer + &, .button_links &, .links.inline & {
+    margin: -.4em 0 0 0;
+  }
+  .cell_links &, .top_links &, .box_top_links &, .slide_links & /*, .slide_links a.button + div.dropdown_spacer + &*/ {
+    margin: .2em 0 0 0;
+  }
+  hr { 
+    margin: .5em -@dropdown-padding-h;
+    border-top: 1px solid lighten(@button-background-color, 40%); // Like button.active
+    box-shadow: none;
+  }
+  .container-inline & {
+    display: block;
+  }
+  .dropdown_footer {
+    padding: @dropdown-padding-v 0 0 0; margin: 0;
+  }
+}
+
+.tabs-style(@activeclass: ~'.active', @buttonstyle: false) {
+  & when (@buttonstyle) {
+    background-color: @sidebar-background-color;
+  }
+  margin: 0;
+  border-bottom: @tabs-border-width solid @accent-color;
+  .clear-after;
+  li {
+    float: left;
+    list-style-type: none;
+    margin: .4em 0 -@tabs-border-width 0; // margin-top used to show good tabs when they wrap on multiple lines
+    display: block;
+    text-align: center;
+    > a {
+      display: block;
+      padding: .5em 1em;
+      margin: 0 .5em 0 0;
+      border-radius: @button-border-radius @button-border-radius 0 0;
+      & when (@buttonstyle) {
+        background-color: @button-background-color;
+        color: @button-text-color;
+        border: none;
+        font-weight: bold; 
+        &:hover {
+          background-color: @button-hover-background-color;
+        }
+      }
+      & when not (@buttonstyle) {
+        background-color: @accent-color;
+        border: @tabs-border-width solid @accent-color;
+      }
+    }
+    a:focus {
+      outline: 0 none !important;
+    }
+  }
+  li@{activeclass} a {
+    border-bottom: @tabs-border-width solid @background-color;
+    background: transparent;
+    font-weight: bold;
+    & when(@buttonstyle) {
+      background-color: @background-color;
+      color: @text-color;
+    }
+    & when not (@buttonstyle) {
+      background-color: transparent;
+      color: @text-color;
+    }
+  }
+
+}
+
+
+.clear-after() {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+.no-focus() {
+  &:focus, &:-moz-focusring { outline: 0 none !important; }
+  &::-moz-focus-inner { border: none; }
+}

@@ -1,0 +1,8 @@
+{
+  "-W097": false,
+  "-W069": false,
+  "globals": {
+    "require": false,
+    "module": false
+  }
+}

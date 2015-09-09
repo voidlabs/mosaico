@@ -1,0 +1,1052 @@
+/****************************************************************************************************************************
+ * GENERIC TOOLS STYLES
+ ***************************************************************************************************************************/
+
+.mo {
+  font-family: @font-family;
+  font-size: @base-font-size;
+  line-height: 1.5em;
+}
+
+#main-toolbox {
+  //font-size: 1.1em;
+  line-height: normal;
+  
+  .propEditor .propInput .checkbox-replacer {
+    padding: 4px 2px;
+    font-size: 1.2em;
+  }
+  .objLabel.level0, .pane-title {
+    font-size: 1.2em;
+  }
+  .objLabel.level1 {
+    font-size: 1.2em;
+  }
+  .noSelectedBlock, .customStyleHelp, .objEmpty, .galleryEmpty {
+    font-size: 1.2em;
+  }
+  .propInput .data-select::after,
+  .propInput .evo-pointer::before {
+    width: 31px;
+    padding: 0 10px;
+    font-size: 80%;
+  }
+  .propInput .ui-textbutton .ui-textbutton-button.ui-button-icon-only {
+    width: 30px;
+    padding: 0;
+    .ui-icon {
+      margin: 0;
+    }
+  }
+  .propInput .ui-spinner-button {
+    width: 30px;
+    .ui-icon { left: 6px; top: 8px }
+  }
+  .evo-pop .evo-more {
+    font-size: 1em;
+  }
+}
+#toolimages {
+  .uploadzone {
+    font-size: 1.2em;
+  }
+}
+
+.mo {
+  @import "style_elements.less"; // (button, dropdown, tooltip, dialog...)
+  @import (optional) "style_elements_drupal.less"; // TODO remove me
+  @import "style_elements_jquery.less";
+  @import (optional) "style_elements_qtip.less"; // TODO remove me
+  
+  *,
+  *:before,
+  *:after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .fa { // reset .fa
+    display: inline-block;
+    font-style: normal;
+  }
+  
+  .buttons {
+    text-align: center;
+    padding-top: 3px;
+  }
+  
+  .propInput {
+    input[type=text], input[type=number], input[type=url], select {
+      .input-style();
+      margin: 0;
+
+      &.invalid, &.error {
+        border: @input-error-border-style;
+      }
+    }
+    .data-select {
+      select {
+        -webkit-appearance:none;
+        @media screen and (-webkit-min-device-pixel-ratio:0) { 
+          padding-right:30px;
+        }
+
+        .input-button-common;
+        // sovrapposizioni arrotondamenti
+        border-top-right-radius: 15px;
+        border-bottom-right-radius: 15px;
+      }
+
+      &:after {
+        content: "▼";
+        .button-style();
+        margin: 0;
+
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        font-size: 60%;
+        line-height: 30px;
+        width: 28px;
+        margin-right: 0;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+
+        // padding: 0 8px;
+        pointer-events:none;
+        // box-sizing: border-box;
+      }
+    }
+    .ui-textbutton {
+      width: 100%;
+
+      // .input_with_submit_icon
+      display: inline-table;
+      table-layout: fixed;
+      margin-right: 0;
+      vertical-align: middle;
+
+      .ui-textbutton-input.withButton {
+        display: table-cell;
+        margin: 0;
+        margin-right: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      // .submit_icon
+      .ui-textbutton-button {
+        display: table-cell;
+        margin-right: 0;
+        border-left: 0;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+
+        .ui-button-text {
+          line-height: 0;
+        }
+
+        &.ui-button-icon-only {
+          .input-button-common;
+          width: 1.6em;
+        }
+      }
+    }
+  }
+  
+  .propEditor {
+    display: table;
+    width: 100%;
+  }
+  
+  .propLabel {
+    padding: 8px 8px;
+    padding-left: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 45%; 
+    float: left; 
+    text-align: right; 
+
+    // "?" for tooltips
+    &[title]:before {
+      .makeFontAwesome();
+      float: right;
+      position: initial;
+      color: lighten(@text-color, 20%);
+      content: "\f059";
+      font-size: 80%;
+      line-height: 1.5em;
+      margin-left: 0.5em;
+    }
+
+  }
+
+  .propInput { 
+    width: 55%;
+    float: left;
+    input,  select { width: 100%; }
+  }
+
+  .notnull.propEditor.checkboxes .propInput {
+    width: 50%;
+  }
+
+  .propCheck { 
+    width: 5%; float: left; padding: 5px; display: none;
+  }
+  .notnull .propCheck {
+    display: block
+  }
+
+  .propLabel:after, .propInput:after, .objEdit:after {
+    content: "";
+    display: table;
+  }
+  
+  .objEdit {
+    display: block;
+    width: 100%;
+    /* background-color: rgba(0,0,0,0.02); */
+    &.level1 {
+      /* border-bottom: 2px solid #f1eee6; */
+      background-color: @mosaico-background-color;
+      padding: 2px;
+    }
+  }
+
+  .label.notused {
+    display: none;
+    font-size: 50%;
+    color: @mosaico-shadow-color;
+  }
+  .label.notused:before {
+    content: "[[[";
+  }
+  .label.notused:after {
+    content: "]]]";
+  }
+
+  .objLabel.level2 {
+    color: rgba(255,255,255,0.7);
+    float: left;
+    position: absolute;
+    display: none;
+  }
+  .objLabel.level3 {
+    color: rgba(255,255,255,0.4);
+    float: left;
+    position: absolute;
+    top: 1em;
+    display: none;
+  }
+
+  .objEdit.level1 {
+  /*  border-bottom: 2px solid #CCC; */
+    padding-top: 4px;
+    padding-bottom: 2px;
+    margin-bottom: 3px;
+  /*  padding: 2px; */
+  }
+  .objLabel.level1 {
+    color: black;
+    display: block;
+    /* display: none; */
+  }
+
+  #toolstyles .objLabel.level1,
+  #tooltheme .objLabel.level1 {
+    padding-left: 60px;
+  }
+
+  .objLabel {
+    text-transform: uppercase;
+    // text-align: center;
+    border-bottom: 3px solid @accent-color;
+    color: @mosaico-text-color;
+    display: block;
+    margin: -4px -2px 6px;
+    padding: 5px;
+    border-radius: 6px 6px 0 0;
+  }
+
+  .objEdit.level0 {
+    // border: 1px solid @mosaico-text-color;
+    padding: 0px 1px;
+    margin-top: 12px;
+  }
+
+  .objLabel.level0 {
+    display: block;
+    color: @mosaico-text-color;
+    background-color: @mosaico-background-color;
+    font-weight: bold;
+    font-size: 90%;
+    border-bottom: 3px solid @mosaico-text-color;
+    border-radius: 0;
+    padding: 3px 10px;
+    // margin: -4px -7px 6px -7px;
+    margin: 0px -7px 8px -7px;
+  }
+  .supportsCustomStyles .objLabel.level0 {
+    margin-right: 70px;
+  }
+
+  .objEdit.level-1 {
+    padding: 0 15px;
+    overflow: auto;
+    height: 95%;
+    background-color: @mosaico-background-color;
+    border-radius: 6px;
+  }
+
+  .objEdit {
+    position: relative;
+  }
+  .objEdit.level1 {
+    margin-top: 15px;
+  }
+  .objPreview {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    position: absolute;
+    overflow: hidden;
+    border: 2px solid @accent-color;
+    top: -11px;
+    left: 5px;
+  }
+
+  .objPreview > div {
+    position: absolute;
+    bottom: 20%;
+    left: 20%;
+  }
+
+  .propEditor {
+    /* border-bottom: 2px solid #CCC; */
+    padding: 2px;
+  }
+  .objEdit .propEditor {
+    padding: 2px 0;
+    border: 0;
+  }
+
+  /* questo renderebbe grigini i dati default
+  .propInput.default input,
+  .propInput.default select {
+    color: #CCC;
+  }
+  */
+
+  .propEditor.notnull {
+    font-weight: bold;
+    /* background-color: #FFFF80; */
+  }
+  .propEditor.notnull input, 
+  .propEditor.notnull select {
+    font-weight: bold;
+  }
+  .propEditor.notnull input[type=checkbox] {
+    font-weight: normal;
+  }
+
+  /*
+  .propInput.local.default, .propInput.local.default * { display: none; }
+  .propInput.global.overridden, .propInput.global.overridden * { display: none; }
+  */
+
+  .propInput {
+    position: relative;
+  }
+
+  .propInput .colorPicker {
+    padding-right: 30px;
+  }
+
+  .propInput .data-color input[type=text] {
+    font-size: 90%;
+    font-family: monospace;
+    width: 5.5em;
+    margin: 0;
+    margin-left: 85px;
+    background-color: transparent;
+    border-color: fade(@mosaico-button-border-color, 20%);
+    box-shadow: none;
+    border-style: dashed;
+
+    &:hover, &:focus {
+      .input-style();
+
+      font-size: 90%;
+      font-family: monospace;
+      width: 5.5em;
+      margin: 0;
+      margin-left: 85px;
+      /*
+      background: none #e4dfcf;
+      border-radius: 5px;
+      border-color: @mosaico-button-border-color;
+      border-style: solid;
+      */
+    }
+
+
+
+  }
+
+  .propInput .evo-pointer {
+    position: absolute;
+    .input-style();
+    margin: 0;
+  //  right: 4px;
+  //  top: 6px;
+    z-index: 5;
+
+    left: 0px;
+    top: 0px;
+    // border-radius: 5px;
+    width: 80px;
+    height: 30px;
+    // border-color: @mosaico-input-border-color;
+
+    // sovrapposizioni arrotondamenti
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+
+    &:before {
+      content: "▼";
+      .button-style();
+
+      // see .button_dropdown_split styles
+      border-left: @input-border-size solid fade(@button-border-color-split, 50%) !important; // !important to work also on .big and .primary
+      border-top-left-radius: 0 !important;
+      border-bottom-left-radius: 0 !important;
+
+      position: absolute;
+      top: -1px;
+      right: -1px;
+      bottom: -1px;
+      font-size: 60%;
+      line-height: 30px;
+      width: 28px;
+      padding: 0 8px;
+      margin: 0;
+
+    }
+  }
+
+  .objEdit input[type=checkbox] {
+    display: none;
+  
+    & + .checkbox-replacer {
+      width: 1.28571429em;
+      display: block;
+      text-align: center;
+      // Rompe IE10
+      // visibility: hidden;
+    }
+    
+    /* , &:checked + .checkbox-replacer:before */ 
+    & + .checkbox-replacer:before {
+      .makeFontAwesome();
+    }
+  }
+
+  .objEdit input[type=checkbox] {
+    &:checked + .checkbox-replacer:before {
+      content: '\f205'; /* '\f096'; */
+    }
+    & + .checkbox-replacer:before {
+      font-size: 150%;
+      text-align: center;
+      content: '\f204'; /* '\f14a'; */
+    }
+  }
+  
+  .propCheck input[type=checkbox] {
+    &:checked + .checkbox-replacer:before {
+      content: "\f041"; /* tondo con punto '\f192';*/ /* '\f140'; *//* '\f14a'; */
+      content: "\f1b2"; /* cubo */
+      font-size: 14px;
+      opacity: 1;
+    }
+    & + .checkbox-replacer:before {
+      content: '\f0ac'; /* asterisco "\f069"; *//* '\f096'; */
+      content: "\f1b3"; /* cubi */
+      font-size: 14px;
+      opacity: .8;
+    }
+  }
+  
+  .propInput .ui-spinner {
+    width: 100%;
+    margin: 0;
+
+    .ui-spinner-input {
+      border-top-right-radius: 15px;
+      border-bottom-right-radius: 15px;
+    }
+
+    // NOTE: maybe this could be applied also to non-propInput spinners
+    .ui-state-default .ui-icon.fa,
+    .ui-widget-content .ui-icon.fa {
+      background-image: none;
+      font-size: 10px;
+      top: 9px;
+    }
+  }
+
+  .propLabel[title] {
+    text-decoration: underline;
+    cursor: help;
+  }
+  
+  .noSelectedBlock, .customStyleHelp, .objEmpty, .galleryEmpty, .blockDescription {
+    padding: 1em;
+    margin-bottom: .5em;
+    background-color: @mosaico-object-background-color;
+    border-radius: @mosaico-object-border-radius;
+    color: #4F4F4F;
+  }
+
+  .customStyleHelp, .objEmpty {
+    margin-bottom: 1em;
+  }
+
+  /***************
+   * COLOR PICKER
+   ***************/
+  
+  .evo-pop {
+    right: 0;
+    width: auto;
+    .win();
+    border-width: 0;
+    padding: 3px;
+
+    .evo-palette td {
+      padding: 12px;
+      border: none;
+    }
+    .evo-palette th, .evo-palette-ie th, .evo-palette2 th {
+      border: none;
+    }
+    .evo-palette, .evo-palette-ie, .evo-palette2 {
+      border-spacing: 0px 0px;
+      margin: 0 auto;
+      width: auto;
+      border: none;
+    }
+
+    .evo-palette2 td {
+      padding: 8px 9px;
+    }
+
+    .evo-cHist div {
+      padding: 12px;
+      margin: 2px;
+    }
+
+    .evo-color div {
+      padding: 12px;
+      margin: 2px;
+      border-color: #c0c0c0;
+    }
+
+    .evo-color {
+      width: 120px;
+      padding: 1px 3px 2px 4px;
+    }
+
+    .evo-color span {
+      font-size: 17px;
+      margin: 5px 0 4px 4px;
+    }
+    
+    .evo-more {
+      padding: 4px 5px;
+      a {
+        margin-right: 1em;
+      }
+    }
+  }
+}
+
+
+/****************************************************************************************************************************
+ * TOOLBAR
+ ***************************************************************************************************************************/
+
+#toolbar {
+  padding: 5px 10px;
+  
+  .button, .ui-button, .button_dropdown_split {
+    margin-top: 0; margin-bottom: 0;
+  }
+
+  ul.top_right_links {
+    float: right;
+    .dropdown {
+      margin: .2em 0 0 0;
+    }
+  }
+  
+  // When screen is not big enough to show the preview sidebar, let's hide the preview button
+  @media (max-width: (@screen-lg-max) ) {
+    label[for=previewFrameToggle] {
+      display: none;
+    }
+    .ui-button[for=showGallery] {
+      .ui-icon { margin-right: 0 }
+      .ui-button-text { display: none }
+    }
+  }
+
+  .leftButtons {
+    float: left;
+  }
+
+  .rightButtons {
+    float: right;
+  }
+  #downloadForm {
+    display: inline-block;
+  }
+}
+
+/****************************************************************************************************************************
+ * TOOLBOX
+ ***************************************************************************************************************************/
+
+#main-toolbox {
+  > div,
+  > div > div {
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  #tooltabs.ui-tabs {
+    overflow: hidden;
+    .ui-tabs-panel {
+      top: @topbar-height;
+      overflow-y: auto;
+      overflow-x: hidden;
+      z-index: 100;
+    }
+    
+    .ui-tabs-nav {
+      font-size: 1.2em;
+      padding: 0px 0px 0px 4px;
+
+      li {
+        margin: 4px 4px 0 0; // margin-top for good tabs also when they wrap on new line.
+        line-height: @topbar-height - 4px + 1px;
+
+        a {
+          width: 100%;
+          padding: 0 .5em;
+        }
+        /*
+        a {
+          background-color: @mosaico-button-background-color;
+          color: @mosaico-button-text-color;
+          text-decoration: none;
+          font-weight: bold;
+          &:hover {
+            background-color: @mosaico-button-background-color-hover;
+          }
+        }
+        &.ui-tabs-active a {
+          background-color: @mosaico-background-color;
+          color: @mosaico-text-color;
+          font-weight: bold;
+        }
+        */
+        /*a:focus, a:-moz-focusring {
+          outline: 0 none !important;
+        }*/
+      }
+    }
+    .ui-tabs-panel {
+      margin: 0; padding: 0.7em;
+      position: absolute;
+      bottom: 4px;
+      left: 4px;
+      right: 4px;
+      z-index: 100;
+      background-color: @mosaico-background-color;
+    }
+    
+  }
+  
+  .draggable-item {
+    display: inline-block;
+  }
+  .draggable {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    border: 2px solid black;
+    z-index: 100;
+    display: inline-block;
+  }
+  
+  .draggable-item .block {
+    // margin: 3px;
+    .handle {
+      cursor: move;
+      z-index: 120;
+      position: absolute;
+      top: 0; bottom: 0;
+      left: 20px; right: 20px;
+      // outline: 1px solid green;
+    }
+  }
+  .draggable-item {
+    position: relative;
+
+    .addblockbutton {
+      z-index: 1000;
+      position: absolute;
+      bottom: 10px;
+      right: 5px;
+      display: none;
+    }
+
+    .image, .block img {
+      box-shadow: 0 0 1px @mosaico-shadow-color;
+      margin: 3px 0;
+    }
+
+  }
+
+  .draggable-item:hover {
+
+    transform: scale(1.05, 1.05);
+    z-index: 10;
+    position: relative;
+
+    .addblockbutton {
+      display: block;
+    }
+
+    .image {
+      box-shadow: 0 0 15px @mosaico-shadow-color;
+    }
+    .block {
+      // outline: 2px solid red;
+      img {
+        box-shadow: 0 0 15px @mosaico-shadow-color;
+      }
+    }
+  }
+  
+  .blockType {
+    display: none;
+  }
+  .block-list {
+    // suppongo che le immagini siano create per i 340px
+    max-width: 346px;
+  }
+
+  // mette i blocchi al 100%
+  .block-list .draggable-item,
+  .block-list .draggable-item img {
+    width: 100%;
+  }
+  
+  .objEdit.level1.selectable {
+    .makeSelectable(5px, ~'.selecteditem', 0);
+  }
+
+  .blockCheck {
+    float: right;
+    margin-top: -34px;
+    /*
+    border-radius: 5px;
+    border: 1px solid @mosaico-input-border-color;
+    .reverse & {
+      background-color: @mosaico-button-background-color;
+    }
+    */
+  }
+  
+  .blockCheck input[type=checkbox] {
+  
+    & + .checkbox-replacer {
+      width: 56px;
+    }
+  
+    & + .checkbox-replacer:after {
+      .makeFontAwesome;
+    }
+
+    & + .checkbox-replacer:before,
+    & + .checkbox-replacer:after,
+    &:checked + .checkbox-replacer:before,
+    &:checked + .checkbox-replacer:after {
+      padding: 1px;
+      display: block;
+      float: left;
+      font-size: 14px;
+      line-height: 18px;
+      width: 22px;
+      opacity: 1;
+      height: 18px;
+      // border-radius: 5px;
+      top: 0;
+      left: 0;
+      box-sizing: content-box;
+    }
+
+    & + .checkbox-replacer:after,
+    &:checked + .checkbox-replacer:after {
+      content: "\f1b2"; /* cubo */
+    }
+
+    & + .checkbox-replacer:before,
+    &:checked + .checkbox-replacer:before {
+      content: "\f1b3"; /* cubi */
+    }
+
+
+    & + .checkbox-replacer:after,
+    &:checked + .checkbox-replacer:before {
+      .input-style();
+
+      width: 22px;
+      font-weight: normal;
+      min-height: 18px;
+      line-height: 18px;
+      color: fade(@mosaico-text-color, 50%);
+
+      padding: 2px;
+      margin: -1px -2px;
+      // opacity: 0.5;
+      z-index: 0;
+    }
+    & + .checkbox-replacer:after {
+      padding-left: 4px;
+      padding-right: 2px;
+    }
+    &:checked + .checkbox-replacer:before {
+      padding-left: 2px;
+      padding-right: 4px;
+    }
+
+    
+    &:checked + .checkbox-replacer:after,
+    & + .checkbox-replacer:before {
+      .button-style();
+
+      font-weight: normal;
+      min-height: 18px;
+      line-height: 18px;
+
+      padding: 4px;
+      margin: -3px -2px;
+      opacity: 1;
+      z-index: 1;
+    }
+
+  }
+  
+  /* while local-editing we always show the local editor */
+  .workLocal {
+    .propInput.global, .propInput.global * { display: none; }
+  }
+  /* while global-editing show the global editor unless it is overwritten (not null) */
+  .workGlobal {
+    .propInput.local.default, .propInput.local.default * { display: none; }
+    .propInput.global.overridden, .propInput.global.overridden * { display: none; }
+  }
+
+  .workGlobalContent {
+    .propInput.local, .propInput.local * { display: none; }
+    .blockCheck { display: none; }
+    .objLabel.level0 {
+      margin-right: 0;
+    }
+  }
+  
+  .customStyled span {
+    display: none;
+  }
+
+  .customStyled:before {
+    content: " ";
+  }
+
+  .customStyled:after {
+    .makeFontAwesome();
+    content: "\f1b2";
+    font-size: 14px;
+    opacity: 1;
+  }
+
+  
+  #tooldebug {
+    overflow: auto;
+  }
+}
+.mo-standalone #main-toolbox #tooltabs.ui-tabs > .ui-tabs-nav {
+  margin-left: 40px;
+}
+
+/****************************************************************************************************************************
+ * IMAGES GALLERY
+ ***************************************************************************************************************************/
+
+#toolimagesgallery {
+  padding: 10px;
+}
+
+@keyframes slideright {
+  0% { left: -(@leftsidebar-width+50px) }
+  100% { left: 0 }
+}
+@keyframes slideleft {
+  0% { left: 0 }
+  100% { left: -(@leftsidebar-width+50px) }
+}
+
+#toolimages {
+  .pane {
+    text-align: center;
+  }
+  .loadbutton, .galleryPager {
+    margin: .5em;
+  }
+}
+.slidebar {
+  z-index: 200;
+  position: absolute;
+  top: 0;
+  width: @leftsidebar-width - 3px;
+  left: 0;
+  animation: slideright .2s ease-out 0s 1;
+  border-radius: 0;
+  background-color: #f1eee6;
+  box-shadow: 1px 0px 3px @mosaico-shadow-color;
+  
+  .close {
+    float: right;
+    visibility: hidden;
+    cursor: pointer;
+    width: 24px;
+    display: block;
+
+    &:before {
+      visibility: visible;
+      font-size: 24px;
+      font-family: FontAwesome;
+      content: '\f00d';
+      position: relative;
+      top: 0px;
+      right: 0px;
+      width: 24px;
+      height: 24px;
+    }
+  }
+  
+  .pane {
+    background-color: @mosaico-background-color;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 5px;
+  }
+  .pane-title {
+    padding: 5px;
+    display: block;
+  }
+  
+}
+
+.slidebar.hidden {
+  left: -(@leftsidebar-width+50px);
+  animation: slideleft .2s ease-out 0s 1;
+}
+
+#toolimagestab {
+  padding: 0.2em;
+  
+  ul.ui-tabs-nav {
+    padding: 0;
+  }
+  li.ui-state-active a {
+    background: none repeat scroll 0% 0% #FFF;
+  }
+  .ui-tabs-panel {
+    display: block;
+    margin-top: 0;
+    // max padding to avoid breaking the gallery
+    padding: 15px 18px;
+    background: none repeat scroll 0% 0% #FFF;
+    border: 1px solid @mosaico-accent-color;
+    border-width: 0px 1px 1px;
+  }
+}
+
+/****************************************************************************************************************************
+ * PREVIEW
+ ***************************************************************************************************************************/
+
+#main-preview {
+  .button, .ui-button, .button_dropdown_split {
+    margin-top: 0; margin-bottom: 0;
+  }
+}
+
+#main-preview #preview-toolbar {
+  padding: 3px 10px;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 200;
+}
+
+#main-preview #frame-container {
+  position: absolute;
+  top: @topbar-height;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+  background-color: @mosaico-background-color;
+  box-shadow: inset 0px 0px 10px @mosaico-shadow-color;
+}
+
+#frame-container > iframe {
+  
+  border: 0;
+  box-sizing: border-box;
+  padding: 0 6px;
+
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  transform-origin: 0 0;
+  transform: scale(1);
+
+}
+
+#frame-container.desktop > iframe {
+  padding: 12px;
+
+  width: 200%;
+  height: 200%;
+  transform: scale(0.5);
+}
+
+#frame-container.large > iframe {
+  padding: 15px;
+  
+  width: 250%;
+  height: 250%;
+  transform: scale(0.4);
+}

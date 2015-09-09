@@ -1,0 +1,109 @@
+<div id="tooltabs" class="tabs_horizontal button_color" data-bind="tabs: { active: $root.selectedTool }">
+  <ul>
+    <li data-bind="tooltips: {}"><a title="Blocks ready to be added to the template" href="#toolblocks" data-bind="attr: { title: 'Blocks ready to be added to the template' }"><i class="fa fa-fw fa-cubes"></i> <span data-bind="html: $root.t('Blocks')">Blocks</span></a></li>
+    <li data-bind="tooltips: {}"><a title="Edit content options" href="#toolcontents" data-bind="attr: { title: $root.t('Edit content options') }"><i class="fa fa-fw fa-pencil"></i> <span data-bind="html: $root.t('Content')">Content</span></a></li>
+    <li data-bind="tooltips: {}"><a title="Edit style options" href="#toolstyles" data-bind="attr: { title: $root.t('Edit style options') }"><i class="fa fa-fw fa-paint-brush"></i> <span data-bind="html: $root.t('Style')">Style</span></a></li>
+  </ul>
+
+  <div id="toolblocks" data-bind="scrollable: true">
+    <div class="block-list" data-bind="foreach: blockDefs" style="text-align: center">
+      <div class="draggable-item" data-bind="withProperties: { templateMode: 'show' }">
+        <div class="block" data-bind="extdraggable: { connectClass: 'sortable-blocks-edit', data: $data, dropContainer: '#main-wysiwyg-area', dragging: $root.dragging, 'options': { handle: '.handle', distance: 10, 'appendTo': '#page' } }, click: $root.addBlock" style="position: relative;">
+          <div title="Click or drag to add this block to the template" class="handle" data-bind="attr: { title: $root.t('Click or drag to add this block to the template') }, tooltips: {}"></div>
+          <img data-bind="attr: { alt: $root.t('Block __name__', { name: ko.utils.unwrapObservable(type) }), src: $root.basePath+'edres/'+ko.utils.unwrapObservable(type)+'.png' }" alt="Block __name__" />
+        </div>
+        <a href="#" class="addblockbutton" data-bind="html: $root.t('Add'), click: $root.addBlock, button: { }">Add</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="toolcontents" data-bind="scrollable: true">
+    <!-- ko if: $root.selectedBlock() !== null -->
+    <div data-bind="block: $root.selectedBlock"></div>
+    <!-- /ko -->
+    <!-- ko if: $root.selectedBlock() == null -->
+    <div class="noSelectedBlock" data-bind="text: $root.t('By clicking on message parts you will select a block and content options, if any, will show here')">By clicking on message parts you will select a block and content options, if any, will show here</div>
+    <!-- /ko -->
+    <!-- ko block: content --><!-- /ko -->
+  </div>
+  
+  <div id="toolstyles" data-bind="scrollable: true, withProperties: { templateMode: 'styler' }">
+    <!-- ko if: typeof $root.content().theme === 'undefined' || typeof $root.content().theme().scheme === 'undefined' || $root.content().theme().scheme() === 'custom' -->
+      <!-- ko if: $root.selectedBlock() !== null -->
+      <div data-bind="block: $root.selectedBlock, css: { workLocal: $root.selectedBlock().customStyle, workGlobal: typeof $root.selectedBlock().customStyle === 'undefined' || !$root.selectedBlock().customStyle() }"></div>
+      <!-- /ko -->
+      <!-- ko if: $root.selectedBlock() == null -->
+      <div class="noSelectedBlock" data-bind="text: $root.t('By clicking on message parts you will select a block and style options, if available, will show here')">By clicking on message parts you will select a block and style options, if available, will show here</div>
+      <!-- /ko -->
+      <div class="workGlobalContent">
+      <!-- ko block: content --><!-- /ko -->
+      </div>
+    <!-- /ko -->
+  </div>
+</div>
+        
+<div id="toolimages" class="slidebar" data-bind="scrollable: true, css: { hidden: $root.showGallery() === false }">
+  <div class="close" data-bind="click: $root.showGallery.bind($element, false);">X</div>
+  <span class="pane-title" data-bind="text: $root.t('Gallery:')">Gallery:</span>
+  <div class="pane uploadzone">
+  <div class="mo-uploadzone" style="position: relative; padding: 2em; border: 2px dotted #808080">
+     <input class="fileupload" type="file" multiple name="files[]" data-bind="fileupload: { onfile: $root.loadImage }" style="z-index: 10; position: absolute; top: 0; left: 0; right: 0; bottom: 0; min-width: 100%; min-height: 100%; font-zie: 999px; text-align: right; filter: alpha(opacity=0); opacity: 0; outline: none; cursor: inherit; display: block">
+     <span data-bind="text: $root.t('Click or drag files here')">Click or drag files here</span>
+     <div class="workzone" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden;">
+       <div class="progress" style="opacity: .5; width: 80%; margin-left: 10%; position: absolute; bottom: 30%; height: 20px; border: 2px solid black;">
+         <div class="progress-bar progress-bar-success" style="height: 20px; background-color: black; "></div>
+       </div>
+     </div>
+  </div>
+  </div>
+
+  <!-- ko if: $root.showGallery() -->
+  <div id="toolimagestab" class="tabs_horizontal" data-bind="tabs: { active: $root.selectedImageTab }">
+    <ul>
+      <li data-bind="tooltips: {}"><a title="Session images" href="#toolimagesrecent" data-bind="attr: { title: $root.t('Session images') }, text: $root.t('Recents')">Recents</a></li>
+      <li data-bind="tooltips: {}"><a title="Remote gallery" href="#toolimagesgallery" data-bind="attr: { title: $root.t('Remote gallery') }, text: $root.t('Gallery')">Gallery</a></li>
+    </ul>
+
+    <div id="toolimagesrecent">
+      <!-- ko if: galleryRecent().length == 0 --><div class="galleryEmpty" data-bind="text: $root.t('No images uploaded, yet')">No images uploaded, yet</div><!-- /ko -->
+      <!-- ko template: {name: 'gallery-images', data: { items: galleryRecent } } --># recent gallery #<!-- /ko -->
+    </div>
+
+    <div id="toolimagesgallery" style="text-align: center">
+    <!-- ko if: $root.galleryLoaded() === false --><a class="loadbutton" title="Show images from the gallery" href="#" data-bind="attr: { title: $root.t('Show images from the gallery') }, click: $root.loadGallery, button: { disabled: $root.galleryLoaded, icons: { primary: 'fa fa-fw fa-picture-o' }, label: $root.galleryLoaded() == 'loading' ? $root.t('Loading...') : $root.t('Load gallery'), text: true }"># load gally #</a><!-- /ko -->
+
+
+    <!-- ko if: $root.galleryLoaded() === 'loading' --><div class="galleryEmpty" data-bind="text: $root.t('Loading gallery...')">Loading gallery...</div><!-- /ko -->
+    <!-- ko if: $root.galleryLoaded() === 0 --><div class="galleryEmpty" data-bind="text: $root.t('The gallery is empty')">The gallery is empty</div><!-- /ko -->
+    <!-- ko template: {name: 'gallery-images', data: { items: galleryRemote } } --># remote gallery #<!-- /ko -->
+    </div>
+  </div>
+  <!-- /ko -->
+
+</div>
+
+<div id="tooldebug" class="slidebar" data-bind="css: { hidden: $root.debug() === false }">
+  <div class="close" data-bind="click: $root.debug.bind($element, false);">X</div>
+  
+  <!-- ko if: $root.debug -->
+  Content:
+  <pre data-bind='text: ko.toJSON(content, null, 2)' style="overflow: auto; height: 20%"></pre>
+  BlockDefs:
+  <pre data-bind='text: ko.toJSON(blockDefs, null, 2)' style="overflow: auto; height: 20%"></pre>
+  <!-- /ko -->
+  <a href="#" data-bind="click: $root.exportHTMLtoTextarea.bind($element, '#outputhtml'); clickBubble: false, button: { text: true, label:'Generate' }">Output</a>
+  <a href="#" data-bind="click: $root.exportJSONtoTextarea.bind($element, '#outputhtml'); clickBubble: false, button: { text: true, label:'Export' }">Export</a>
+  <a href="#" data-bind="click: $root.importJSONfromTextarea.bind($element, '#outputhtml'); clickBubble: false, button: { text: true, label:'Import' }">Import</a>
+
+  <textarea id="outputhtml" rows="10" style="width: 100%;"></textarea>
+</div>
+
+<div id="tooltheme" class="ui-widget slidebar" data-bind="css: { hidden: $root.showTheme() === false }">
+  <div class="close" data-bind="click: $root.showTheme.bind($element, false);">X</div>
+  
+  <!-- ko withProperties: { templateMode: 'styler' } -->
+    <!-- ko if: $root.showTheme -->
+      <!-- ko block: $root.content().theme --><!-- /ko -->
+    <!-- /ko -->
+  <!-- /ko -->
+</div>
