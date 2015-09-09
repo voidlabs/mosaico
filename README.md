@@ -10,7 +10,7 @@ The great thing is that Mosaico itself does not defined what you can edit or wha
 At this time we provide a single template to show the best practices: more templates will come soon! Please get in touch with us if you want to make your email html template "mosaico ready".
 
 ### Live demo
-On http://mosaico.io you can see a live demo of mosaico: the live deploy has a custom backend (you don't see it) and some customization (custom Moxiemanager integration, customized onboarding slideshow, contextual menu, and some other small bit), but 95% of what you see is provided by this library.
+On http://mosaico.io you can see a live demo of mosaico: the live deploy has a custom backend (you don't see it) and some customization (custom Moxiemanager integration, customized onboarding slideshow, contextual menu, and some other small bit), but 95% of what you see is provided by this library. You will also see a second working template, there: we are still working to opensource it.. stay tuned!
 
 #### 2015/09/09 - Initial code commit
 The main code has been extracted by production code used since the beginning of 2015 by thousands of users, so it should simply work, but please note that refactoring/translation/cleanup (to remove VOXmail proprietary code) could have created issues so this should be considered EXPERIMENTAL!.
