@@ -1,6 +1,8 @@
 bower_components
 node_modules
 uploads/**
+!uploads/README.md
 .tmp/**
+!.tmp/README.md
 build
 dist
