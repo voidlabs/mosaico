@@ -1,5 +1,4 @@
-# mosaico
-Mosaico - Free/Opensource Responsive Email Template Editor
+# Mosaico - Responsive Email Template Editor
 
 Mosaico is a javascript library (or maybe a single page application) supporting the editing of email templates.
 The great thing is that Mosaico itself does not defined what you can edit or what styles you can change: this is defined by the template. This makes mosaico very flexible.
