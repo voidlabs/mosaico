@@ -2,7 +2,7 @@
 
 Mosaico is a javascript library (or maybe a single page application) supporting the editing of email templates.
 The great thing is that Mosaico itself does not defined what you can edit or what styles you can change: this is defined by the template. This makes mosaico very flexible.
-
+![Mosaico Screenshot](res/img/screenshot.png)
 At this time we provide a single template to show the best practices: more templates will come soon! Please get in touch with us if you want to make your email html template "mosaico ready".
 
 ### Live demo
