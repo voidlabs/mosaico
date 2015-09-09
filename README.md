@@ -1,8 +1,13 @@
 # mosaico
 Mosaico - Free/Opensource Responsive Email Template Editor
 
+Mosaico is a javascript library (or maybe a single page application) supporting the editing of email templates.
+The great thing is that Mosaico itself does not defined what you can edit or what styles you can change: this is defined by the template. This makes mosaico very flexible.
+
+At this time we provide a single template to show the best practices: more templates will come soon! Please get in touch with us if you want to make your email html template "mosaico ready".
+
 #### 2015/09/09 - Initial code commit
-The main code has been extrapolated by production code used since the beginning of 2015 by thousands of users, so it should simply work, but please note that refactoring/translation/cleanup (to remove VOXmail proprietary code) could have created issues so this should be considered EXPERIMENTAL!.
+The main code has been extracted by production code used since the beginning of 2015 by thousands of users, so it should simply work, but please note that refactoring/translation/cleanup (to remove VOXmail proprietary code) could have created issues so this should be considered EXPERIMENTAL!.
 
 Subscribe to our newsletter to get updates: http://mosaico.voxmail.it/user/register
 
