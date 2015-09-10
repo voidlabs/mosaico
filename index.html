@@ -297,10 +297,10 @@ $(function() {
     <table class="logoWrapper" valign="bottom" align="center"><tr><td valign="bottom"><img class="logoImage" alt="Mosaico.io" style="display: block;" src="dist/img/mosaicologo.png" /><div class="logoContainer"></div></td><td class="byTable" valign="bottom"><a href="http://www.voxmail.it"><img src="dist/img/byvoxmail.png" alt="by VOXmail" /></a></td></tr></table>
     <div class="ribbon">opensource email template editor <span class="byRibbon" style="display: none;">by VOXmail</span></div>
   </div>
-  <div class="disclaimer" style="position: absolute; top: 10px; right: 10px; width: 140px; padding: .5em; background-color: #900000; color: white; border: 2px dashed #d2cbb1">WANRING: experimental beta version, use with care!</div>
+  <div class="disclaimer" style="position: absolute; top: 10px; right: 10px; width: 140px; padding: .5em; background-color: #900000; color: white; border: 2px dashed #d2cbb1">WARNING: experimental beta version, use with care!</div>
     <!-- ko if: edits().length -->
     <div style="overflow-y: auto; max-height: 200px; z-index: 10; position: relative; padding: 1em; background-color: #f1eee6;">
-    <!-- ko ifnot: $root.showSaved --><span>You already have created contents with this browser! <a class="resumeButton" href="#" data-bind="click: $root.showSaved.bind(undefined, true);"><i class="fa fa-plus-square"></i> Show</a></span><!-- /ko -->
+    <!-- ko ifnot: $root.showSaved --><span>You have saved contents in this browser! <a class="resumeButton" href="#" data-bind="click: $root.showSaved.bind(undefined, true);"><i class="fa fa-plus-square"></i> Show</a></span><!-- /ko -->
     <!-- ko if: $root.showSaved -->
     <table id="savedTable" align="center" cellspacing="0" cellpadding="8" style="padding: 5px; ">
     <caption>Email contents saved in your browser <a href="#" class="resumeButton" data-bind="click: $root.showSaved.bind(undefined, false);"><i class="fa fa-minus-square"></i> Hide</a></caption>
