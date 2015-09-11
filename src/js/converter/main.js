@@ -37,7 +37,7 @@ var generateEditors = function() {
 };
 
 var checkModel = function() {
-  var cm = require('./checkModel.js');
+  var cm = require('./checkmodel.js');
   return cm.apply(cm, arguments);
 };
 
