@@ -19,7 +19,7 @@ Subscribe to our newsletter to get updates: http://mosaico.voxmail.it/user/regis
 
 ### Build/Run
 
-this may raise warnings about Knockout, ignore them:
+this may raise warnings about Knockout, ignore them. It will probably fail on some colorpicker dependency, just run it again and will work:
 ```
   npm install
 ```
@@ -31,7 +31,7 @@ compile and runs a local webserver (http://127.0.0.1:9000) with incremental buil
 ```
   grunt
 ```
-in order to use image uploading/processing feature in Node you need imageMagick installed in your environment.
+*IMPORTANT* in order to use image uploading/processing feature in Node you need imageMagick installed in your environment.
 e.g: running "convert" and "identify" on the commandline should output imagemagick command line help.
 
 create thumbnails for all templates found in "./templates":
