@@ -17,6 +17,11 @@ The main code has been extracted by production code used since the beginning of 
 
 Subscribe to our newsletter to get updates: http://mosaico.voxmail.it/user/register
 
+### More Docs
+
+[Mosaico Basics](https://github.com/voidlabs/mosaico/wiki)
+[Developer Notes](https://github.com/voidlabs/mosaico/wiki/Developers)
+
 ### Build/Run
 
 this may raise warnings about Knockout, ignore them. It will probably fail on some colorpicker dependency, just run it again and will work:
