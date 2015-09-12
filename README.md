@@ -17,9 +17,10 @@ The main code has been extracted by production code used since the beginning of 
 
 Subscribe to our newsletter to get updates: http://mosaico.voxmail.it/user/register
 
-### More Docs
+### More Docs from the Wiki
 
 [Mosaico Basics](https://github.com/voidlabs/mosaico/wiki)
+
 [Developer Notes](https://github.com/voidlabs/mosaico/wiki/Developers)
 
 ### Build/Run
