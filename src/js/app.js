@@ -55,7 +55,7 @@ var start = function(options, templateFileOrMetadata, jsorjson, customExtensions
   // TODO what about appending to another element?
   $("<!-- ko template: 'main' --><!-- /ko -->").appendTo(global.document.body);
 
-  templateLoader.load(templateFileOrMetadata, jsorjson, customExtensions, galleryUrl);
+  templateLoader.load(templateFileOrMetadata, jsorjson, extensions, galleryUrl);
 
 };
 
