@@ -39,12 +39,13 @@ $(function() {
   });
   if (!ok) {
     console.log("Missing initialization hash, redirecting to main entrypoint");
-    global.document.location = ".";
+    document.location = ".";
   }
 });
     </script>
     
-    <link rel="stylesheet" href="dist/mosaico.min.css?v=0.10" />
+    <link rel="stylesheet" href="dist/mosaico-material.min.css?v=0.10" />
+    <link rel="stylesheet" href="dist/vendor/notoregular/stylesheet.css" />
     <link rel="stylesheet" href="dist/vendor/evol.colorpicker.min.css" /> <!-- 2k -->
   </head>
   <body class="mo-standalone">

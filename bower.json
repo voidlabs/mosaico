@@ -73,6 +73,7 @@
     }
   },
   "devDependencies": {
-    "tinymce": "~4.2.5"
+    "tinymce": "~4.2.5",
+    "webfont-notosans": "~0.1.0"
   }
 }

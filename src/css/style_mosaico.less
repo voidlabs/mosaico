@@ -55,6 +55,7 @@
 @mosaico-button-shadow-color: lighten(#fff - @mosaico-button-background-color, 30%); // Used in content
 @mosaico-object-background-color: @object-background-color;
 @mosaico-object-border-radius: @object-border-radius;
+@mosaico-object-shadow: none;
 @mosaico-helpwin-background-color: @helpwin-background-color;
 @mosaico-helpwin-text-color: @helpwin-text-color;
 @mosaico-accent-color: @accent-color;
@@ -245,7 +246,7 @@ a[disabledhref]:-moz-read-write {
 }
 
 #toolbar {
-  z-index: 101 !important; // Bigger than #main-toolbox .ui-tabs .ui-tabs-panel
+  z-index: 110 !important; // Bigger than #main-toolbox .ui-tabs .ui-tabs-panel
   background-color: @mosaico-ui-background-color;
   box-sizing: border-box;
   position: absolute;

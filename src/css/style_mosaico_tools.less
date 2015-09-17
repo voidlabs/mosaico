@@ -510,6 +510,7 @@
     margin-bottom: .5em;
     background-color: @mosaico-object-background-color;
     border-radius: @mosaico-object-border-radius;
+    box-shadow: @mosaico-object-shadow;
     color: #4F4F4F;
   }
 
@@ -674,9 +675,9 @@
     .ui-tabs-panel {
       margin: 0; padding: 0.7em;
       position: absolute;
-      bottom: 4px;
-      left: 4px;
-      right: 4px;
+      bottom: @ui-tabs-panel-padding;
+      left: @ui-tabs-panel-padding;
+      right: @ui-tabs-panel-padding;
       z-index: 100;
       background-color: @mosaico-background-color;
     }
@@ -894,7 +895,7 @@
   }
 }
 .mo-standalone #main-toolbox #tooltabs.ui-tabs > .ui-tabs-nav {
-  margin-left: 40px;
+  padding-left: 40px;
 }
 
 /****************************************************************************************************************************
@@ -930,7 +931,7 @@
   left: 0;
   animation: slideright .2s ease-out 0s 1;
   border-radius: 0;
-  background-color: #f1eee6;
+  background-color: @mosaico-background-color;
   box-shadow: 1px 0px 3px @mosaico-shadow-color;
   
   .close {

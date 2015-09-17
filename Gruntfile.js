@@ -47,7 +47,8 @@ module.exports = function(grunt) {
       },
       css: {
         files: {
-          "build/mosaico.css": "src/css/app_standalone.less"
+          "build/mosaico.css": "src/css/app_standalone.less",
+          "build/mosaico-material.css": "src/css/app_standalone_material.less"
         }
       }
     },
@@ -68,6 +69,10 @@ module.exports = function(grunt) {
       dist: {
         src: 'build/mosaico.css',
         dest: 'dist/mosaico.min.css'
+      },
+      material: {
+        src: 'build/mosaico-material.css',
+        dest: 'dist/mosaico-material.min.css'
       }
     },
 
@@ -181,6 +186,7 @@ module.exports = function(grunt) {
           'themes': 'tinymce/themes',
           'skins': 'tinymce/skins',
           'plugins': 'tinymce/plugins',
+          'notoregular': 'webfont-notosans/regular',
         }
       },
       fontawesome: {
