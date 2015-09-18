@@ -35,6 +35,10 @@
 
 // @button-hover-background-color: 
 
+.button-style() {
+  text-transform: uppercase;
+}
+
 #main-edit-area .tool {
   border-radius: 100%;
   padding: 4px;
@@ -70,6 +74,7 @@
 
 #main-toolbox #tooltabs.ui-tabs {
   .ui-tabs-nav {
+    font-size: 1em;
     li {
       margin: 1px 1px 0 0;
       line-height: @topbar-height - 4px;
@@ -77,7 +82,14 @@
   }
 }
 
+.addblockbutton {
+  box-shadow: 1px 1px 3px @shadow-color;
+}
+
 .tabs-style(@activeclass: ~'.active', @buttonstyle: false) {
+
+  text-transform: uppercase;
+
   & when (@buttonstyle) {
     border-bottom: 0;
     background-color: transparent;
