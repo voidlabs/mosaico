@@ -48,8 +48,10 @@
 
 #toolbar, #preview-toolbar {
   .ui-button {
-    padding-top: 9px;
-    padding-bottom: 9px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    line-height: 22px;
+
     background-color: @mosaico-ui-background-color;
     &:hover, &.pressed {
       background-color: lighten(@mosaico-ui-background-color, 10%);
@@ -324,4 +326,17 @@
     }
   }
 
+  // file manager broser button
+  .mo .propInput .ui-textbutton .ui-textbutton-button {
+    border-radius: 50%;
+    box-shadow: 1px 1px 3px @shadow-color;
+  }
+
 }
+
+.wintitle() {
+  color: @button-text-color;
+  .ui-icon {
+    color: @button-text-color;
+  }
+} 
