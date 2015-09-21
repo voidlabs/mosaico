@@ -5,7 +5,7 @@ require("evol-colorpicker");
 
 var $ = require("jquery");
 var ko = require("knockout");
-var kojqui = require("knockout-jqueryui-global");
+var kojqui = require("knockout-jqueryui");
 
 
 var ColorPicker = function() {

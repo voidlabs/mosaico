@@ -1,6 +1,6 @@
 "use strict";
 var console = require('console');
-var jsep = require('jsep-local');
+var jsep = require('jsep');
 
 jsep.addBinaryOp("or", 1);
 jsep.addBinaryOp("and", 2);

@@ -2,7 +2,7 @@
 
 var ko = require("knockout");
 var $ = require("jquery");
-var kojqui = require("knockout-jqueryui-global");
+var kojqui = require("knockout-jqueryui");
 var console = require("console");
 
 var extendValueAccessor = function(valueAccessor, obj) {

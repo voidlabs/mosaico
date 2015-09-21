@@ -30,7 +30,9 @@
     "blueimp-file-upload": "~9.9.3",
     "evol-colorpicker": "bago/colorpicker#mosaico",
     "jsep": "~0.3.0",
-    "tinycolor": "~1.2.1"
+    "tinycolor": "~1.2.1",
+    "tinymce": "~4.2.5",
+    "webfont-notosans": "~0.1.0"
   },
   "overrides": {
     "console-browserify": {
@@ -71,9 +73,5 @@
         "index.js"
       ]
     }
-  },
-  "devDependencies": {
-    "tinymce": "~4.2.5",
-    "webfont-notosans": "~0.1.0"
   }
 }

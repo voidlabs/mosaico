@@ -6,12 +6,15 @@
   "directories": {
     "test": "test"
   },
-  "browser": {
-    "console": "./bower_components/console-browserify/index.js",
-    "jsep-local": "./bower_components/jsep/src/jsep.js"
+  "aliasify": {
+    "aliases": {
+      "console": "./bower_components/console-browserify/index.js",
+      "jsep": "./bower_components/jsep/src/jsep.js"
+    }
   },
   "browserify": {
     "transform": [
+      "aliasify",
       "browserify-shim",
       "debowerify"
     ]
@@ -21,11 +24,11 @@
     "jquery.ui/sortable": "global:jQuery",
     "knockout": "global:ko",
     "evol-colorpicker": {},
-    "knockout-jqueryui-global": "global:kojqui",
-    "tinymce": "global:tinymce",
-    "knockoutjs-reactor-local": {}
+    "knockout-jqueryui": "global:kojqui",
+    "tinymce": "global:tinymce"
   },
   "devDependencies": {
+    "aliasify": "^1.7.2",
     "async": "0.9.0",
     "autoprefixer-core": "5.2.1",
     "body-parser": "1.13.3",
