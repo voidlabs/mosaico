@@ -8,8 +8,8 @@
   },
   "aliasify": {
     "aliases": {
-      "console": "./bower_components/console-browserify/index.js",
-      "jsep": "./bower_components/jsep/src/jsep.js"
+      "console": "console-browserify/index.js",
+      "jsep": "jsep/src/jsep.js"
     }
   },
   "browserify": {
