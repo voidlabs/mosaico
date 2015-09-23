@@ -20,7 +20,7 @@
     "knockout-jqueryui": "bago/knockout-jqueryui#9452901885186c94f97b34535374cbe31405a882",
     "mensch": "brettstimmerman/mensch#~0.3.2",
     "toastr": "~2.1.0",
-    "knockout-undomanager": "bago/knockout-undomanager#v0.2",
+    "knockout-undomanager": "bago/knockout-undomanager#v0.2.1",
     "knockout.wrap": "bago/knockout.wrap#mosaico",
     "jquery.iframe-transport": "~1.0.0",
     "tinymce": "~4.1.7",
