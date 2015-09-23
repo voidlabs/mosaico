@@ -207,7 +207,7 @@ var _propEditor = function(withBindingProvider, basePath, model, themeModel, pat
     if (hasCustomStyle) {
       html += '<label class="data-boolean blockCheck" data-bind="tooltips: { }">';
       html += '<input type="checkbox" value="nothing" data-bind="focusable: true, checked: customStyle" />';
-      html += '<span title="Permette di specificare se si vuole modificare lo stile generale o solamente quello specifico del blocco selezionato" class="checkbox-replacer checkbox-replacer-onoff"></span>'; //  data-bind="tooltip: { content: \'personalizza tutti\' }"
+      html += '<span title="Switch between global and block level styles editing" data-bind="attr: { title: \'Switch between global and block level styles editing\' }" class="checkbox-replacer checkbox-replacer-onoff"></span>'; //  data-bind="tooltip: { content: \'personalizza tutti\' }"
       html += '</label>';
       html += '<!-- ko template: { name: \'customstyle\', if: customStyle } --><!-- /ko -->';
     }

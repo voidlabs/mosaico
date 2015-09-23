@@ -46,6 +46,7 @@ var strings = {
   // editor.js
   'Selected element has no editable properties': 'L\'elemento selezionato non fornisce proprietà editabili',
   'This style is specific for this block: click here to remove the custom style and revert to the theme value': 'Questo stile è specifico di questo blocco: clicca qui per annullare lo stile personalizzato',
+  'Switch between global and block level styles editing': 'Permette di specificare se si vuole modificare lo stile generale o solamente quello specifico del blocco selezionato',
   // main.tpl.html
   'Undo last operation': 'Annulla ultima operazione',
   'Redo last operation': 'Ripeti operazione annullata',
