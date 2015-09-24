@@ -225,7 +225,7 @@ var elaborateDeclarations = function(style, declarations, basePath, bindingProvi
             newBindings[bind] = "'" + declarations[i].name + ": '+(" + bindVal2 + ")+';" + dist + "'+" + newBindings[bind];
             delete newBindings['virtualStyle'][bindName2];
           } else {
-            newBindings[bind] = "'" + declarations[i].name + ": " + replacedValue + ";" + dist + "'+" + newBindings[bind];
+            newBindings[bind] = "'" + declarations[i].name + ": " + converterUtils.addSlashes(replacedValue) + ";" + dist + "'+" + newBindings[bind];
           }
 
         }
