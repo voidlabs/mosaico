@@ -203,20 +203,22 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, basePath, 
       domutils.removeAttribute(element, 'data-ko-editable');
     } else {
       var width = domutils.getAttribute(element, 'width');
-      if (width === null || width === '') {
+      if (width === '') width = null;
+      if (width === null) {
         console.error("ERROR: data-ko-editable images must declare a WIDTH attribute!", element);
         throw "ERROR: data-ko-editable images must declare a WIDTH attribute!";
       }
       var height = domutils.getAttribute(element, 'height');
+      if (height === '') height = null;
 
       var align = domutils.getAttribute(element, 'align');
 
       currentBindings = domutils.getAttribute(element, 'data-bind');
 
       // TODO this is ugly... maybe a better strategy is to pass this around using "data-" attributes
-      var dynHeight = currentBindings && currentBindings.match(/virtualAttr: {[^}]* height: ([^,} ]*)[ ,}]/);
+      var dynHeight = currentBindings && currentBindings.match(/virtualAttr: {[^}]* height: ([^,}]*)[,}]/);
       if (dynHeight) height = dynHeight[1];
-      var dynWidth = currentBindings && currentBindings.match(/virtualAttr: {[^}]* width: ([^,} ]*)[ ,}]/);
+      var dynWidth = currentBindings && currentBindings.match(/virtualAttr: {[^}]* width: ([^,}]*)[,}]/);
       if (dynWidth) width = dynWidth[1];
 
       var method;
@@ -265,17 +267,16 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, basePath, 
 
       var tmplName = templateCreator(element);
 
-      var alignAttr = domutils.getAttribute(element, 'align');
       var containerBind = '{ width: ' + width;
-      if (alignAttr == 'left') containerBind += ', float: \'left\'';
-      else if (alignAttr == 'right') containerBind += ', float: \'right\'';
-      else if (alignAttr == 'center') console.log('non so cosa fa align=center su una img e quindi non so come simularne l\'editing');
-      else if (alignAttr == 'top') containerBind += ', verticalAlign: \'top\'';
-      else if (alignAttr == 'middle') containerBind += ', verticalAlign: \'middle\'';
-      else if (alignAttr == 'bottom') containerBind += ', verticalAlign: \'bottom\'';
+      if (align == 'left') containerBind += ', float: \'left\'';
+      else if (align == 'right') containerBind += ', float: \'right\'';
+      else if (align == 'center') console.log('non so cosa fa align=center su una img e quindi non so come simularne l\'editing');
+      else if (align == 'top') containerBind += ', verticalAlign: \'top\'';
+      else if (align == 'middle') containerBind += ', verticalAlign: \'middle\'';
+      else if (align == 'bottom') containerBind += ', verticalAlign: \'bottom\'';
       containerBind += '}';
 
-      $(element).before('<!-- ko wysiwygImg: { _data: $data, _item: ' + itemBindValue + ', _template: \'' + tmplName + '\', _editTemplate: \'img-wysiwyg\', _src: ' + bindingValue + ', _width: ' + width + ', _height: ' + height + ', _align: \'' + align + '\', _size: ' + size + ', _method: ' + method + ', _placeholdersrc: ' + placeholdersrc + ', _stylebind: ' + containerBind + ' } -->');
+      $(element).before('<!-- ko wysiwygImg: { _data: $data, _item: ' + itemBindValue + ', _template: \'' + tmplName + '\', _editTemplate: \'img-wysiwyg\', _src: ' + bindingValue + ', _width: ' + width + ', _height: ' + height + ', _align: ' + (align === null ? undefined : '\'' + align + '\'') + ', _size: ' + size + ', _method: ' + method + ', _placeholdersrc: ' + placeholdersrc + ', _stylebind: ' + containerBind + ' } -->');
       $(element).after('<!-- /ko -->');
     }
 
@@ -357,14 +358,26 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, basePath, 
 
 };
 
+function conditional_replace(html) {
+  return html.replace(/<!--\[if ([^\]]*)\]>([\s\S]*?)<!\[endif\]-->/g, function(match, condition, body) {
+    var dd = '<!-- cc:start -->';
+    dd += body.replace(/<\/([^>]*)>/g,'<before:$1></before:$1></$1><after:$1></after:$1>');
+    dd += '<!-- cc:end -->';
+    var output = '<replacedcc condition="'+condition+'" style="display: none">';
+    output += $('<div>').append($(dd)).html().replace(/<before:([^>]*)><\/before:\1><\/\1><after:\1><\/after:\1>/g, '</$1>');
+    output += '</replacedcc>';
+    return output;
+  });
+}
+
+
 var translateTemplate = function(templateName, html, basePath, templateCreator) {
   var defs = {};
-  var replacedHtml = html.replace(/(<[^>]+\s)(style|http-equiv)(="[^"]*"[^>]*>)/gi, function(match, p1, p2, p3) {
+  var replacedHtml = conditional_replace(html.replace(/(<[^>]+\s)(style|http-equiv)(="[^"]*"[^>]*>)/gi, function(match, p1, p2, p3) {
     return p1 + 'replaced' + p2 + p3;
-  });
+  }));
   var content = $(replacedHtml);
   var element = content[0];
-
 
   var blocks = []; // {rootName, blockName, containerName}
   var _blockPusher = function(rootName, blockName, contextName, containerName) {

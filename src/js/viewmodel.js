@@ -3,7 +3,6 @@
 
 var $ = require("jquery");
 var ko = require("knockout");
-var templateConverter = require("./converter/main.js");
 var console = require("console");
 var performanceAwareCaller = require("./timed-call.js").timedCall;
 
@@ -406,6 +405,17 @@ function initializeEditor(content, blockDefs, basePath, galleryUrl) {
     return content;
   };
 
+  function conditional_restore(html) {
+    return html.replace(/<replacedcc[^>]* condition="([^"]*)"[^>]*>([\s\S]*?)<\/replacedcc>/g, function(match, condition, body) {
+      var dd = '<!--[if '+condition+']>';
+      dd += body.replace(/<before:([^>]*)><\/before:\1><after:\1><\/after:\1>/g, '</$1>')
+            .replace(/^.*<!-- cc:start -->/,'')
+            .replace(/<!-- cc:end -->.*$/,'');
+      dd += '<![endif]-->';
+      return dd;
+    });
+  }
+
   viewModel.exportHTML = function() {
     var id = 'exportframe';
     $('body').append('<iframe id="' + id + '" data-bind="bindIframe: $data"></iframe>');
@@ -435,6 +445,8 @@ function initializeEditor(content, blockDefs, basePath, galleryUrl) {
     content = content.replace(/ replaced(style="[^"]*")([^>]*) style="[^"]*"/gm, ' $1$2');
     // Replace replacedhttp-equiv and other "replaced" attributes (TODO: maybe too broad!)
     content = content.replace(/ replaced([^= ]*=)/gm, ' $1');
+    // Restore conditional comments
+    content = conditional_restore(content);
     var trash = content.match(/ data-[^ =]+(="[^"]+")? /);
     if (trash) {
       console.warn("Output HTML contains unexpected data- attributes...", trash);
