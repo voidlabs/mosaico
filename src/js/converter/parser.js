@@ -182,6 +182,8 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, basePath, 
     selectBinding = "wysiwygClick: function(obj, evt) { $root.selectItem(" + itemBindValue + ", $data); return false }, clickBubble: false, wysiwygCss: { selecteditem: $root.isSelectedItem(" + itemBindValue + ") }, scrollIntoView: $root.isSelectedItem(" + itemBindValue + ")";
 
     if (domutils.getLowerTagName(element) != 'img') {
+
+
       defaultValue = domutils.getInnerHtml(element);
       var modelBindValue = bindingProvider(dataEditable, defaultValue, true, 'wysiwyg');
       newBinding = "";
@@ -196,10 +198,17 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, basePath, 
 
       newBinding += "wysiwygOrHtml: " + modelBindValue;
 
-      currentBindings = domutils.getAttribute(element, 'data-bind');
-      dataBind = (currentBindings !== null ? currentBindings + ", " : "") + newBinding;
-      domutils.setAttribute(element, 'data-bind', dataBind);
-      domutils.setContent(element, '');
+      if (domutils.getLowerTagName(element) == 'td') {
+        var wrappingDiv = $('<div data-ko-wrap="false" style="width: 100%; height: 100%"></div>')[0];
+        domutils.setAttribute(wrappingDiv, 'data-bind', newBinding);
+        var newContent = domutils.getInnerHtml($('<div></div>').append(wrappingDiv));
+        domutils.setContent(element, newContent);
+      } else {
+        currentBindings = domutils.getAttribute(element, 'data-bind');
+        dataBind = (currentBindings !== null ? currentBindings + ", " : "") + newBinding;
+        domutils.setAttribute(element, 'data-bind', dataBind);
+        domutils.setContent(element, '');
+      }
       domutils.removeAttribute(element, 'data-ko-editable');
     } else {
       var width = domutils.getAttribute(element, 'width');
