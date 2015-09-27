@@ -63,6 +63,7 @@ var processStyle = function(element, basePath, bindingProvider, addUniqueId) {
 
 var processBlock = function(element, defs, themeUpdater, blockPusher, basePath, contextName, rootModelName, containerName, generateUniqueId, templateCreator) {
 
+  try {
 
   var templateName;
   var variantName = '',
@@ -365,16 +366,25 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, basePath, 
 
   return templateName;
 
+  } catch (e) {
+    console.error("Exception while parsing the template", e, element);
+    throw e;
+  }
+
 };
 
 function conditional_replace(html) {
   return html.replace(/<!--\[if ([^\]]*)\]>([\s\S]*?)<!\[endif\]-->/g, function(match, condition, body) {
     var dd = '<!-- cc:start -->';
-    dd += body.replace(/<\/([^>]*)>/g,'<before:$1></before:$1></$1><after:$1></after:$1>');
+    dd += body.replace(/<(\/?)([A-Za-z]*)/g, '<$1cc$2').replace(/<\/([^>]*)>/g,'<!-- cc:before:$1 --></$1><!-- cc:after:$1 -->');
     dd += '<!-- cc:end -->';
     var output = '<replacedcc condition="'+condition+'" style="display: none">';
-    output += $('<div>').append($(dd)).html().replace(/<before:([^>]*)><\/before:\1><\/\1><after:\1><\/after:\1>/g, '</$1>');
+    output += $('<div>').append($(dd)).html().replace(/<!-- cc:before:([^ ]*) --><\/\1><!-- cc:after:\1 -->/g, '</$1>')
+      .replace(/^<!-- cc:start -->/, '')
+      .replace(/<!-- cc:end -->$/, '');
     output += '</replacedcc>';
+    // console.log("Returning empty string instead of", output);
+    // if (true) return '';
     return output;
   });
 }

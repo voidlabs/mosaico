@@ -408,9 +408,10 @@ function initializeEditor(content, blockDefs, basePath, galleryUrl) {
   function conditional_restore(html) {
     return html.replace(/<replacedcc[^>]* condition="([^"]*)"[^>]*>([\s\S]*?)<\/replacedcc>/g, function(match, condition, body) {
       var dd = '<!--[if '+condition+']>';
-      dd += body.replace(/<before:([^>]*)><\/before:\1><after:\1><\/after:\1>/g, '</$1>')
+      dd += body.replace(/<!-- cc:before:([^ ]*) --><!-- cc:after:\1 -->/g, '</$1>')
             .replace(/^.*<!-- cc:start -->/,'')
-            .replace(/<!-- cc:end -->.*$/,'');
+            .replace(/<!-- cc:end -->.*$/,'')
+            .replace(/<(\/?)cc([A-Za-z]*)/g, '<$1$2');
       dd += '<![endif]-->';
       return dd;
     });
