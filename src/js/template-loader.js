@@ -272,7 +272,7 @@ var templateCompiler = function(basePath, templateName, templatecode, jsorjson, 
 
   viewModel.metadata = metadata;
   // let's run some version check on template and editor used to build the model being loaded.
-  var editver = '0.10.0';
+  var editver = '0.11.0';
   if (typeof viewModel.metadata.editorversion !== 'undefined' && viewModel.metadata.editorversion !== editver) {
     console.warn("The model being loaded has been created with an older editor version", viewModel.metadata.editorversion, "vs", editver);
   }
