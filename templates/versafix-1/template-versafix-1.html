@@ -53,14 +53,14 @@
       hrStyle:preview { height: 200%; width: 200%; bottom: 20px; -ko-border-bottom: @[hrHeight]px solid @color; }
       preheaderVisible { label: Show Preheader; extend: visible; help: Preheader block is the first one on the top of the page. It contains web version link and optionally unsubscribe link or a preheader text that will be shown as a preview on some email clients; }
 
-      /* tipi contenuti */
+      /* content types */
       blocks { label: Blocks; properties: blocks[]; }
       link { label: Link; properties: text url }
       image { label: Image; properties: src url alt }
       backgroundColor { label: Background Color; extend: color }
       buttonLink { label: Button; extend: link }
       
-      /* testi e links */
+      /* texts and links */
       textStyle { label: Text; properties: face color size }
       textStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
       linkStyle { label: Link; properties: face color size decoration=none }
@@ -69,7 +69,7 @@
       longTextStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
       bigButtonStyle { label: Big Button; extend: buttonStyle }
       titleTextStyle { label: Title; extend: textStyle }
-       /* background */
+      /* background */
       externalBackgroundColor { label: External Background; extend: color }
 
       externalTextStyle { label: Alternative Text; extend: textStyle }
@@ -77,13 +77,13 @@
      
       bigTitleStyle { label: Title; properties: face color size align}
       bigTitleStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
-      /* bottoni */
+      /* buttons */
       buttonStyle color { label: Text Color; extend: color }
       buttonStyle size { label: Text Size; extend: size }
       buttonStyle { label: Button; properties: face color size buttonColor radius }
       buttonStyle:preview { -ko-bind-text: @['Button']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; -ko-background-color: @buttonColor; padding-left: 5px; -ko-border-radius: @[radius]px; }
       
-      /* contenuti */
+      /* contents */
       preheaderText {label: PreHeader Text; extend:text; help: This text will be shown on some email clients as a preview of the email contents;}
       leftImage { label: Left Image; extend: image }
       leftLongText { label: Left Text; extend: text }
@@ -197,7 +197,6 @@
     body { Margin: 0; padding: 0; }
     img { border: 0px; display: block; }
 
-    /* .vb-outer { min-width: 570px } */
     .socialLinks { font-size: 0; }
     .socialLinks a {
       display: inline-block;
@@ -261,9 +260,6 @@
     img { outline: none; text-decoration: none; border: none; -ms-interpolation-mode: bicubic; }
     a img { border: none; }
 
-    /* mobile text size */
-    body { -webkit-text-size-adjust: none; -ms-text-size-adjust: none; }
-
     @media screen and (max-device-width: 600px), screen and (max-width: 600px) {
       table.vb-container, table.vb-row {
         width: 95% !important;
@@ -272,13 +268,6 @@
       .mobile-hide { display: none !important; }
       .mobile-textcenter { text-align: center !important; }
 
-      /* chrome in quirks mode ignora display block */
-      .yfix {}
-      td.mobile-row {
-      display: block;
-      padding-right: 0 !important;
-      padding-left: 0 !important;
-      }
       .mobile-full {
         float: none !important;
         width: 100% !important;
@@ -852,7 +841,7 @@
                                 -ko-attr-bgcolor: @buttonStyle.buttonColor; -ko-background-color: @buttonStyle.buttonColor;
                                 -ko-font-size: @[buttonStyle.size]px; -ko-font-family: @buttonStyle.face; -ko-color: @buttonStyle.color;">
                                 <a data-ko-editable="rightButtonLink.text" href="" style="text-decoration: none; color: #3f3f3f; font-weight: normal;
-                                  -ko-color: @buttonStyle.color; -ko-attr-href: @rightButtonLink.url">PULSANTE</a>
+                                  -ko-color: @buttonStyle.color; -ko-attr-href: @rightButtonLink.url">BUTTON</a>
                               </td>
                             </tr>
                           </table>
