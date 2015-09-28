@@ -424,7 +424,7 @@ function initializeEditor(content, blockDefs, basePath, galleryUrl) {
     ko.applyBindings(viewModel, frameEl);
     // Obsolete method didn't work on IE11 when using "HTML5 doctype":
     // var docType = new XMLSerializer().serializeToString(global.document.doctype);
-    var node = global.document.doctype;
+    var node = frameEl.contentWindow.document.doctype;
     var docType = "<!DOCTYPE " + node.name +
       (node.publicId ? ' PUBLIC "' + node.publicId + '"' : '') +
       (!node.publicId && node.systemId ? ' SYSTEM' : '') +
