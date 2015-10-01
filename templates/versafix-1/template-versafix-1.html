@@ -40,12 +40,12 @@
       sponsor { label: Sponsor; properties: visible=true src url alt; category: hidden }
       titleText {label:Title Text;category: hidden;}
       gutterVisible { label: Show Gutter; extend: visible }
-      socialIconType { label: Icon Version;widget: select; options:Black and White|Colors; }
+      socialIconType { label: Icon Version;widget: select; options:bw=Black and White|colors=Colors; }
 
       preheaderLinkOption {
         label: Unsubscribe Link;
         widget: select;
-        options: [profile_link]=Profile |[unsubscribe_link]=Unsubscribe|none=None;
+        options: [profile_link]=Profile|[unsubscribe_link]=Unsubscribe|none=None;
         help: If -None- is selected, preHeader text will be shown;
       }
      
@@ -132,7 +132,7 @@
       socialBlock youUrl { label: YouTube Link}
       socialBlock {
         label: Social Block;
-        properties: socialIconType=Colors fbVisible=true fbUrl twVisible=true twUrl ggVisible=true ggUrl webVisible=false webUrl inVisible=false inUrl flVisible=false flUrl viVisible=false viUrl instVisible=false instUrl youVisible=false youUrl longTextStyle longText backgroundColor;
+        properties: socialIconType=colors fbVisible=true fbUrl twVisible=true twUrl ggVisible=true ggUrl webVisible=false webUrl inVisible=false inUrl flVisible=false flUrl viVisible=false viUrl instVisible=false instUrl youVisible=false youUrl longTextStyle longText backgroundColor;
         variant:socialIconType;
         theme: frameTheme
       }
@@ -428,7 +428,7 @@
 <!--[if (gte mso 9)|(lte ie 8)]><td align="left" valign="top" width="276"><![endif]--> 
 <div style="display:inline-block; max-width:276px; vertical-align:top; width:100%;" class="mobile-full mobile-hide"> 
 
-                    <table class="vb-content" border="0" cellspacing="9" cellpadding="0" width="276" style="width: 100%" align="left" style="text-align:right;">
+                    <table class="vb-content" border="0" cellspacing="9" cellpadding="0" width="276" style="width: 100%; text-align: right;" align="left">
                       <tr>
                         <td width="100%" valign="top" style="font-weight: normal;  font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #ffffff;
                       -ko-font-size: @[linkStyle.size]px; -ko-color: @linkStyle.color; -ko-font-family: @linkStyle.face">
@@ -1344,7 +1344,7 @@
 
                     <table class="vb-content" border="0" cellspacing="9" cellpadding="0" width="276" style="width: 100%" align="right">
                       <tr>
-                        <td align="right" valign="middle" class="links-color socialLinks mobile-textcenter" data-ko-display="socialIconType eq 'Colors'">
+                        <td align="right" valign="middle" class="links-color socialLinks mobile-textcenter" data-ko-display="socialIconType eq 'colors'">
                           <a data-ko-display="fbVisible" href="" style="-ko-attr-href: @fbUrl">
                             <img src="img/social_def/facebook_ok.png" alt="Facebook" border="0" hspace="2" vspace="0"  class="socialIcon" />
                           </a>
@@ -1373,7 +1373,7 @@
                             <img src="img/social_def/youtube_ok.png" alt="Youtube" border="0" hspace="2" vspace="0"  class="socialIcon" />
                           </a>
                         </td>
-                        <td align="right" valign="middle" class="links-color socialLinks mobile-textcenter" data-ko-display="socialIconType eq 'Black and White'"
+                        <td align="right" valign="middle" class="links-color socialLinks mobile-textcenter" data-ko-display="socialIconType eq 'bw'"
                           style="display: none">
                           <a data-ko-display="fbVisible" href="" style="-ko-attr-href: @fbUrl">
                             <img src="img/social_def/facebook_bw_ok.png" alt="Facebook" border="0" hspace="2" vspace="0"  class="socialIcon" />
