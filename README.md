@@ -51,4 +51,4 @@ grunt makeThumbs:main:versafix-1
 
 ### Contact Us
 
-Plase contact us if you have ideas, suggestions or, even better, you want to collaborate on this project: info@mosaico.io
+Plase contact us if you have ideas, suggestions or, even better, you want to collaborate on this project or you need COMMERCIAL support: info@mosaico.io . Please DON'T write to this email to get free support: use Git issues for that.
