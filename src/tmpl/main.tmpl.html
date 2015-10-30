@@ -62,11 +62,11 @@
     <div id="preview-toolbar">
       <div data-bind="visible: $root.showPreviewFrame, buttonset: { }" style="display: inline-block">
         <input id="previewLarge" type="radio" name="previewMode" value="large" data-bind="checked: $root.previewMode, button: { text: false, label: 'large', icons: { primary: 'fa fa-fw fa-desktop' } }" />
-        <label for="previewLarge">large</label>
+        <label for="previewLarge" title="Large screen" data-bind="attr: { title: $root.t('Large screen') }">Large screen</label>
         <input id="previewDesktop" type="radio" name="previewMode" value="desktop" data-bind="checked: $root.previewMode, button: { text: false, label: 'desktop', icons: { primary: 'fa fa-fw fa-tablet' } }" />
-        <label for="previewDesktop">desktop</label>
+        <label for="previewDesktop" title="Tablet" data-bind="attr: { title: $root.t('Tablet') }">Tablet</label>
         <input id="previewMobile" type="radio" name="previewMode" value="mobile" data-bind="checked: $root.previewMode, button: { text: false, label: 'mobile', icons: { primary: 'fa fa-fw fa-mobile' } }" />
-        <label for="previewMobile">mobile</label>
+        <label for="previewMobile" title="Smartphone" data-bind="attr: { title: $root.t('Smartphone') }">Smartphone</label>
       </div>
     </div>
 
