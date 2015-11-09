@@ -14,8 +14,9 @@ var extend = require('util')._extend;
 app.use(require('connect-livereload')({ ignore: [/^\/dl/] }));
 // app.use(require('morgan')('dev'));
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '5mb'}));
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  limit: '5mb',
   extended: true
 })); 
 
