@@ -49,6 +49,11 @@ creates only the "lm" template (./templates/versafix-1/template-versafix-1.html)
 grunt makeThumbs:main:versafix-1
 ```
 
+### Serving via Apache PHP?
+First you have to build it using grunt, then you can read (https://github.com/voidlabs/mosaico/wiki/Serving-Mosaico).
+
+*Access Interpreting* wrote a sample [PHP backend](https://github.com/ainterpreting/mosaico-php-backend) so you can start from there if you want to use mosaico with an Apache/PHP backend.
+
 ### Contact Us
 
 Plase contact us if you have ideas, suggestions or, even better, you want to collaborate on this project or you need COMMERCIAL support: info@mosaico.io . Please DON'T write to this email to get free support: use Git issues for that.
