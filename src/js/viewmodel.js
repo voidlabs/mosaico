@@ -446,17 +446,25 @@ function initializeEditor(content, blockDefs, basePath, galleryUrl) {
     content = content.replace(/ data-bind="[^"]*"/gm, '');
     // Remove trash leftover by TinyMCE
     content = content.replace(/ data-mce-(href|src)="[^"]*"/gm, '');
+
     // Replace "replacedstyle" to "style" attributes (chrome puts replacedstyle after style)
     content = content.replace(/ style="[^"]*"([^>]*) replaced(style="[^"]*")/gm, '$1 $2');
     // Replace "replacedstyle" to "style" attributes (ie/ff have reverse order)
     content = content.replace(/ replaced(style="[^"]*")([^>]*) style="[^"]*"/gm, ' $1$2');
-    // Replace replacedhttp-equiv and other "replaced" attributes (TODO: maybe too broad!)
-    content = content.replace(/ replaced([^= ]*=)/gm, ' $1');
+    content = content.replace(/ replaced(style="[^"]*")/gm, ' $1');
+
+    // same as style, but for http-equiv (some browser break it if we don't replace, but then we find it duplicated)
+    content = content.replace(/ http-equiv="[^"]*"([^>]*) replaced(http-equiv="[^"]*")/gm, '$1 $2');
+    content = content.replace(/ replaced(http-equiv="[^"]*")([^>]*) http-equiv="[^"]*"/gm, ' $1$2');
+    content = content.replace(/ replaced(http-equiv="[^"]*")/gm, ' $1');
+
+    // We already replace style and http-equiv and we don't need this.
+    // content = content.replace(/ replaced([^= ]*=)/gm, ' $1');
     // Restore conditional comments
     content = conditional_restore(content);
-    var trash = content.match(/ data-[^ =]+(="[^"]+")? /);
+    var trash = content.match(/ data-[^ =]+(="[^"]+")? /) || content.match(/ replaced([^= ]*=)/);
     if (trash) {
-      console.warn("Output HTML contains unexpected data- attributes...", trash);
+      console.warn("Output HTML contains unexpected data- attributes or replaced attributes", trash);
     }
 
     return content;
