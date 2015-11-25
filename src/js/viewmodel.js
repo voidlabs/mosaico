@@ -281,7 +281,8 @@ function initializeEditor(content, blockDefs, basePath, galleryUrl) {
     // find the newly added block and select it!
     var added = viewModel.content().mainBlocks().blocks()[pos]();
     viewModel.selectBlock(added, true);
-    return true;
+    // prevent click propagation (losing url hash - see #43)
+    return false;
   };
 
   // Used by stylesheet.js to create multiple styles
