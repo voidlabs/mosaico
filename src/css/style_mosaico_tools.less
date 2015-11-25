@@ -47,6 +47,21 @@
   }
 }
 #toolimages {
+  .img-dropzone {
+    position: relative;
+  }
+  .img-dropzone.ui-state-highlight:before {
+    .makeDroppable();
+    line-height: 45px;
+    height: auto;
+    top: -10px;
+    bottom: -10px;
+  }
+  .img-dropzone.ui-state-draghover:before {
+    background-color: fade(@mosaico-selection-color, 80%);
+    animation: none;
+  } 
+
   .uploadzone {
     font-size: 1.2em;
   }

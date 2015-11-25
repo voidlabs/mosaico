@@ -167,13 +167,15 @@ function initializeEditor(content, blockDefs, basePath, galleryUrl) {
   // toolbox.tmpl.html
   viewModel.loadGallery = function() {
     viewModel.galleryLoaded('loading');
-    // TODO l'upload non puo' chiaramente avvenire su bago.it
-    // lo stesso url e' usato anche nei bindings
     var url = galleryUrl ? galleryUrl : '/upload/';
     // retrieve the full list of remote files
     $.getJSON(url, function(data) {
       viewModel.galleryLoaded(data.files.length);
+      // TODO do I want this call to return relative paths? Or just absolute paths?
       viewModel.galleryRemote(data.files.reverse());
+    }).fail(function() {
+      viewModel.galleryLoaded(false);
+      viewModel.notifier.error(viewModel.t('Unexpected error listing files'));
     });
   };
 
@@ -279,7 +281,8 @@ function initializeEditor(content, blockDefs, basePath, galleryUrl) {
     // find the newly added block and select it!
     var added = viewModel.content().mainBlocks().blocks()[pos]();
     viewModel.selectBlock(added, true);
-    return true;
+    // prevent click propagation (losing url hash - see #43)
+    return false;
   };
 
   // Used by stylesheet.js to create multiple styles

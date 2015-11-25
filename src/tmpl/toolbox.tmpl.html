@@ -45,9 +45,10 @@
 <div id="toolimages" class="slidebar" data-bind="scrollable: true, css: { hidden: $root.showGallery() === false }">
   <div class="close" data-bind="click: $root.showGallery.bind($element, false);">X</div>
   <span class="pane-title" data-bind="text: $root.t('Gallery:')">Gallery:</span>
-  <div class="pane uploadzone">
+
+  <div data-drop-content="Drop here" class="img-dropzone pane uploadzone" data-bind="attr: { 'data-drop-content': $root.t('Drop here') }, fudroppable: { activeClass: 'ui-state-highlight', hoverClass: 'ui-state-draghover' }">
   <div class="mo-uploadzone" style="position: relative; padding: 2em; border: 2px dotted #808080">
-     <input class="fileupload" type="file" multiple name="files[]" data-bind="fileupload: { onfile: $root.loadImage }" style="z-index: 10; position: absolute; top: 0; left: 0; right: 0; bottom: 0; min-width: 100%; min-height: 100%; font-zie: 999px; text-align: right; filter: alpha(opacity=0); opacity: 0; outline: none; cursor: inherit; display: block">
+     <input class="fileupload" type="file" multiple name="files[]" data-bind="fileupload: { onerror: $root.notifier.error, onfile: $root.loadImage }" style="z-index: 10; position: absolute; top: 0; left: 0; right: 0; bottom: 0; min-width: 100%; min-height: 100%; font-zie: 999px; text-align: right; filter: alpha(opacity=0); opacity: 0; outline: none; cursor: inherit; display: block">
      <span data-bind="text: $root.t('Click or drag files here')">Click or drag files here</span>
      <div class="workzone" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden;">
        <div class="progress" style="opacity: .5; width: 80%; margin-left: 10%; position: absolute; bottom: 30%; height: 20px; border: 2px solid black;">
@@ -56,6 +57,7 @@
      </div>
   </div>
   </div>
+
 
   <!-- ko if: $root.showGallery() -->
   <div id="toolimagestab" class="tabs_horizontal" data-bind="tabs: { active: $root.selectedImageTab }">
