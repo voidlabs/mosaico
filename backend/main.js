@@ -38,7 +38,6 @@ var listFiles = function (options, callback) {
                     url: options.uploadHost + options.uploadUrl + '/' + name,
                     size: stats.size
                 };
-                console.log("X", file);
                 _.each(options.imageVersions, function (value, version) {
                     counter++;
                     fs.exists(options.uploadDir + '/' + version + '/' + name, function (exists) {
