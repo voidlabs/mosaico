@@ -438,7 +438,7 @@ function initializeEditor(content, blockDefs, basePath, galleryUrl) {
     ko.removeNode(frameEl);
 
     content = content.replace(/<script ([^>]* )?type="text\/html"[^>]*>[\s\S]*?<\/script>/gm, '');
-    content = content.replace(/<!-- ko [^>]* -->/g, '');
+    content = content.replace(/<!-- ko .*? -->/g, ''); // sometimes we have expressions like (<!-- ko var > 2 -->)
     content = content.replace(/<!-- \/ko -->/g, '');
     // Remove data-bind/data-block attributes
     content = content.replace(/ data-bind="[^"]*"/gm, '');
