@@ -134,8 +134,8 @@ describe('Stylesheet declaration processor', function() {
     var blockDefsUpdater = jasmine.createSpy("blockDefsUpdater");
     result = processStylesheetRules('@supports -ko-blockdefs { color { widget: color } color:preview { -ko-color: @color } }', undefined, mockedWithBindingProvider, blockDefsUpdater, undefined, '.', 'template', 'block');
     expect(result).toEqual("");
-    expect(blockDefsUpdater).toHaveBeenCalledWith('color', '', undefined, undefined, undefined, undefined, undefined, 'color', undefined, undefined, undefined, undefined, undefined, undefined, undefined);
-    expect(blockDefsUpdater).toHaveBeenCalledWith('color', undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [{
+    expect(blockDefsUpdater).toHaveBeenCalledWith('color', '', undefined, undefined, undefined, undefined, undefined, 'color', undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined);
+    expect(blockDefsUpdater).toHaveBeenCalledWith('color', undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [{
       type: 'property',
       name: '-ko-color',
       value: '@color',
@@ -157,7 +157,7 @@ describe('Stylesheet declaration processor', function() {
     var result;
     var blockDefsUpdater = jasmine.createSpy("blockDefsUpdater");
     result = processStylesheetRules('@supports -ko-blockdefs { color { } }', undefined, mockedWithBindingProvider, blockDefsUpdater, undefined, '.', 'template', 'block');
-    expect(blockDefsUpdater).toHaveBeenCalledWith('color', '', undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined);
+    expect(blockDefsUpdater).toHaveBeenCalledWith('color', '', undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined);
     expect(result).toEqual("");
     // console.log("BBB", blockDefsUpdater.calls);
   });

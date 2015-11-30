@@ -9,7 +9,7 @@ var currentDocument;
 mockery.registerMock('jquery', function() {
   return currentDocument.apply(currentDocument, arguments);
 });
-mockery.registerMock('jsep-local', require('../bower_components/jsep/src/jsep.js'));
+mockery.registerMock('jsep', require('../bower_components/jsep/src/jsep.js'));
 mockery.registerMock('mensch/lib/parser.js', function() {
   var parse = require('../bower_components/mensch').parse;
   return parse.apply(parse, arguments);
