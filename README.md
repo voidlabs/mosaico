@@ -23,7 +23,7 @@ Subscribe to our newsletter to get updates: http://mosaico.voxmail.it/user/regis
 
 [Developer Notes](https://github.com/voidlabs/mosaico/wiki/Developers)
 
-### Build/Run
+### Build/Run  [![Build Status](https://travis-ci.org/voidlabs/mosaico.svg)](https://travis-ci.org/voidlabs/mosaico)
 
 this may raise warnings about Knockout, ignore them. It will probably fail on some colorpicker dependency, just run it again and will work:
 ```
