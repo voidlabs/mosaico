@@ -18,15 +18,16 @@
                 options: 1 | 2 | 3;
             }
 
+            color {
+                widget: color;
+            }
         }
-
     </style>
 </head>
 
-<body>
+<body >
 <div id="preface">
     <h1>This is the Mosaico Tutorial</h1>
-
 </div>
 
 <div data-ko-container="main" data-ko-wrap="false">
@@ -40,8 +41,7 @@
     </div>
 
 
-    <div data-ko-block="fixedlist">
-
+    <div data-ko-block="fixedlist" style="background-color: #f0f0f0; -ko-background-color: @color;">
         <h1 data-ko-editable="headerText">fixed size list</h1>
 
         <ul>

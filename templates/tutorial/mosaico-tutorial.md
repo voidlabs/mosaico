@@ -223,7 +223,7 @@ the email by drag and drop.
 # make the structure of the content customizable
 
 The content customization is the second concept how to compose an email.
-Content customization allows to control the visibility and geomertry
+Content customization allows to control the visibility and geometry
 parameters of an inserted block.
 
 1.  create a new block
@@ -277,15 +277,40 @@ parameters of an inserted block.
 
     ![customized content][]
 
-# make the style editable
+# make the style customizable
 
-TODO
-:   add contents here
+The style customization is the second concept how to compose an email.
 
-# adapt styling for text blocks
+1.  create a "mosaico-class" named 'color'
 
-TODO
-:   add contents here
+        color {
+            widget: color;
+        }
+
+    Hint: you do this in the CSS section @supports -ko-blockdefs
+
+2.  change the block definition for "fixedlist" to start with
+
+        <div data-ko-block="fixedlist" style="background-color: #f0f0f0; -ko-background-color: @color;">
+
+    This change introduces
+
+    1.  the background-color is editable according to the
+        "mosaico-class" 'color'
+    2.  a default for background-color is provided
+
+        TODO
+        :   how can we provide a global default for 'color'
+
+3.  create a new email from the template. (Note that we introduced an
+    incompatible change in the template. Therefore emails of the
+    previous version cannot be loaded anymore.)
+
+    Again drag the "fixedlist" block to your email. You see that the
+    background of the block is grey.
+
+    Switch to the "STYLES" pane. There you can change the background
+    color for all blocks or for the current active block.
 
 # Customize TinyMce
 
