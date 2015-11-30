@@ -23,6 +23,7 @@ toastr.options = {
   "hideMethod": "fadeOut"
 };
 
+/* NOTE: translations moved to "plugin"
 var strings = {
   'show preview and send test': 'Visualizza una anteprima e fai un invio di test',
   // Strings for app.js
@@ -115,6 +116,7 @@ var strings = {
   'Drop here': 'Rilascia qui',
 
 };
+*/
 
 function initializeEditor(content, blockDefs, basePath, galleryUrl) {
 
@@ -138,7 +140,6 @@ function initializeEditor(content, blockDefs, basePath, galleryUrl) {
     showTheme: ko.observable(false),
     showGallery: ko.observable(false),
     debug: ko.observable(false),
-    lang: ko.observable('en'),
     contentListeners: ko.observable(0),
 
     basePath: basePath
@@ -150,19 +151,16 @@ function initializeEditor(content, blockDefs, basePath, galleryUrl) {
 
   viewModel.notifier = toastr;
 
-  viewModel.t = function(key, paramObj) {
-    var lang = viewModel.lang();
-    var res = strings[key];
-    if (typeof res == 'undefined') res = '##' + key + '##';
-    // TODO Temporary setting to show english strings.
-    else if (lang == 'en') res = key;
+  viewModel.tt = function(key, paramObj) {
     if (typeof paramObj !== 'undefined')
       for (var prop in paramObj)
         if (paramObj.hasOwnProperty(prop)) {
-          res = res.replace(new RegExp('__' + prop + '__', 'g'), paramObj[prop]);
+          key = key.replace(new RegExp('__' + prop + '__', 'g'), paramObj[prop]);
         }
-    return res;
+    return key;
   };
+
+  viewModel.t = viewModel.tt;
 
   // toolbox.tmpl.html
   viewModel.loadGallery = function() {
@@ -181,7 +179,7 @@ function initializeEditor(content, blockDefs, basePath, galleryUrl) {
 
   // img-wysiwyg.tmpl.html
   viewModel.fileToImage = function(obj, event, ui) {
-    console.log("fileToImage", obj);
+    // console.log("fileToImage", obj);
     return obj.url;
   };
 
