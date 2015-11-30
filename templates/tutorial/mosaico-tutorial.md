@@ -312,6 +312,8 @@ The style customization is the second concept how to compose an email.
     Switch to the "STYLES" pane. There you can change the background
     color for all blocks or for the current active block.
 
+    [Customized Style][]
+
 # Customize TinyMce
 
 TODO
@@ -321,3 +323,4 @@ TODO
   [tutorial template]: screenshot_385.jpg
   [draggable]: screenshot_386.jpg
   [customized content]: screenshot_407.jpg
+  [Customized Style]: screenshot_408.jpg
