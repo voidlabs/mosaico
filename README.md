@@ -40,13 +40,10 @@ compile and run a local webserver (http://127.0.0.1:9000) with incremental build
 *IMPORTANT* in order to use image uploading/processing feature in Node you need imageMagick installed in your environment.
 e.g: running "convert" and "identify" on the commandline should output imagemagick command line help.
 
-create thumbnails for all templates found in "./templates":
+
+If you create your own template you can generate the needed "thumbnails"/"block thumbnails" by running:
 ```
-grunt makeThumbs
-```
-creates only the "lm" template (./templates/versafix-1/template-versafix-1.html)
-```
-grunt makeThumbs:main:versafix-1
+grunt makeThumbs:main:yourtemplatename
 ```
 
 ### Serving via Apache PHP?
