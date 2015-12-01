@@ -33,7 +33,8 @@ var _processStyleSheetRules_processThemes = function (bindingProvider, themeUpda
 */
 
 var _processStyleSheetRules_processBlockDef = function(blockDefsUpdater, rules) {
-  var properties, name, contextName, globalStyle, themeOverride, extend, min, max, widget, options, category, variant, help, blockDescription, version, decls;
+  var properties, namedProps, decls;
+  // name, contextName, globalStyle, themeOverride, extend, min, max, widget, options, category, variant, help, blockDescription, version, 
   for (var i = 0; i < rules.length; i++) {
     if (rules[i].type == 'rule') {
       var sels = rules[i].selectors;
@@ -56,6 +57,9 @@ var _processStyleSheetRules_processBlockDef = function(blockDefsUpdater, rules) 
       }
       if (hasDeclarations) {
         properties = '';
+        namedProps = {};
+
+/*
         name = undefined;
         contextName = undefined;
         globalStyle = undefined;
@@ -70,37 +74,42 @@ var _processStyleSheetRules_processBlockDef = function(blockDefsUpdater, rules) 
         help = undefined;
         blockDescription = undefined;
         version = undefined;
+        */
         decls = rules[i].declarations;
-        for (var k = 0; k < decls.length; k++)
-          if (decls[k].type == 'property') {
-            if (decls[k].name == 'label') name = decls[k].value;
-            else if (decls[k].name == 'context') contextName = decls[k].value;
-            else if (decls[k].name == 'properties') properties = decls[k].value;
-            else if (decls[k].name == 'theme') globalStyle = '_theme_.' + decls[k].value;
-            else if (decls[k].name == 'themeOverride') themeOverride = String(decls[k].value).toLowerCase() == 'true';
-            else if (decls[k].name == 'extend') extend = decls[k].value;
-            else if (decls[k].name == 'max') max = decls[k].value;
-            else if (decls[k].name == 'min') min = decls[k].value;
-            else if (decls[k].name == 'widget') widget = decls[k].value;
-            else if (decls[k].name == 'category') category = decls[k].value;
-            else if (decls[k].name == 'options') options = decls[k].value;
-            else if (decls[k].name == 'variant') variant = decls[k].value;
-            else if (decls[k].name == 'help') help = decls[k].value;
-            else if (decls[k].name == 'blockDescription') blockDescription = decls[k].value;
-            else if (decls[k].name == 'version') version = decls[k].value;
-            else {
-              console.warn("Unknown property processing @supports -ko-blockdefs ", decls[k], sels);
-            }
+        for (var k = 0; k < decls.length; k++) if (decls[k].type == 'property') {
+          if (decls[k].name == 'label') namedProps.name = decls[k].value;
+          else if (decls[k].name == 'context') namedProps.contextName = decls[k].value;
+          else if (decls[k].name == 'properties') properties = decls[k].value;
+          else if (decls[k].name == 'theme') namedProps.globalStyle = '_theme_.' + decls[k].value;
+          else if (decls[k].name == 'themeOverride') namedProps.themeOverride = String(decls[k].value).toLowerCase() == 'true';
+          // else if (decls[k].name == 'extend') extend = decls[k].value;
+
+          // else if (decls[k].name == 'max') max = decls[k].value;
+          // else if (decls[k].name == 'min') min = decls[k].value;
+          // else if (decls[k].name == 'options') options = decls[k].value;
+
+          // else if (decls[k].name == 'widget') widget = decls[k].value;
+          // else if (decls[k].name == 'category') category = decls[k].value;
+          // else if (decls[k].name == 'variant') variant = decls[k].value;
+          // else if (decls[k].name == 'help') help = decls[k].value;
+          // else if (decls[k].name == 'blockDescription') blockDescription = decls[k].value;
+          // else if (decls[k].name == 'version') version = decls[k].value;
+          else {
+            namedProps[decls[k].name] = decls[k].value;
+            // TODO in past we detected unsupported properties, while now we simple push every declaration in a namedProperty.
+            // This make it harder to spot errors in declarations.
+            // console.warn("Unknown property processing @supports -ko-blockdefs ", decls[k], sels);
           }
+        }
         for (var l = 0; l < sels.length; l++) {
-          blockDefsUpdater(sels[l], properties, name, contextName, globalStyle, themeOverride, extend, widget, min, max, options, category, variant, help, blockDescription, version);
+          blockDefsUpdater(sels[l], properties, namedProps);
         }
       }
       if (hasPreviews) {
         for (var m = 0; m < sels.length; m++) {
           var localBlockName = sels[m].substr(0, sels[m].indexOf(':'));
           var previewBindings = rules[i].declarations;
-          blockDefsUpdater(localBlockName, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, previewBindings);
+          blockDefsUpdater(localBlockName, undefined, { previewBindings: previewBindings });
         }
       }
 
@@ -175,7 +184,7 @@ var processStylesheetRules = function(style, rules, localWithBindingProvider, bl
         else newStyle = converterUtils.removeStyle(newStyle, end, lastStart, 0, 0, 0, spacing + '}' + spacing + loopPostfix);
         newSel = loopPrefix + spacing + newSel.replace(new RegExp('\\[data-ko-block=' + foundBlockMatch + '\\]', 'g'), '<!-- ko text: \'#\'+id() -->' + foundBlockMatch + '<!-- /ko -->');
 
-        blockDefsUpdater(foundBlockMatch, '', undefined, 'block');
+        blockDefsUpdater(foundBlockMatch, '', { contextName: 'block' });
       }
       // TODO mensch update (using original mensch library we needed this line, while the patched one doesn't need this code)
       // newSel += " {";

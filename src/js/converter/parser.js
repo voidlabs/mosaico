@@ -103,7 +103,7 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, basePath, 
     domutils.removeAttribute(element, 'data-ko-properties');
   });
 
-  modelDef.createOrUpdateBlockDef(defs, templateName, dataDefs, undefined, contextName);
+  modelDef.createOrUpdateBlockDef(defs, templateName, dataDefs, { contextName: contextName });
 
   var bindingProvider = modelDef.ensurePathAndGetBindValue.bind(undefined, defs, themeUpdater, rootModelName, templateName, '');
   if (contextName == 'block') bindingProvider('id', '');
@@ -419,9 +419,6 @@ var translateTemplate = function(templateName, html, basePath, templateCreator) 
     }
   };
 
-  // TODO CHECK ME tried to remove this as it is already called inside processBlock, later.
-  // modelDef.createOrUpdateBlockDef(defs, templateName, "", undefined, 'template');
-
   var containers = $("[data-ko-container]", content);
   var containersDom = {};
   containers.each(function(index, element) {
@@ -472,7 +469,6 @@ var translateTemplate = function(templateName, html, basePath, templateCreator) 
   if (typeof defs[templateName]._version !== 'undefined') {
     templateDef.version = defs[templateName]._version;
   }
-
 
   return templateDef;
 };
