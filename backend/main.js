@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 })); 
 
-var listFiles = function (options, callback) {
+var listFiles = function (req, options, callback) {
 
     var files = [];
     var counter = 1;
@@ -29,20 +29,22 @@ var listFiles = function (options, callback) {
             callback(files);
     };
 
+    var uploadHost = req.protocol + '://' + req.get('host');
+
     fs.readdir(options.uploadDir, _.bind(function (err, list) {
         _.each(list, function (name) {
             var stats = fs.statSync(options.uploadDir + '/' + name);
             if (stats.isFile()) {
                 var file = {
                     name: name,
-                    url: options.uploadHost + options.uploadUrl + '/' + name,
+                    url: uploadHost + options.uploadUrl + '/' + name,
                     size: stats.size
                 };
                 _.each(options.imageVersions, function (value, version) {
                     counter++;
                     fs.exists(options.uploadDir + '/' + version + '/' + name, function (exists) {
                         if (exists)
-                            file.thumbnailUrl = options.uploadHost + options.uploadUrl + '/' + version + '/' + name;
+                            file.thumbnailUrl = uploadHost + options.uploadUrl + '/' + version + '/' + name;
                         finish();
                     });
                 });
@@ -57,12 +59,11 @@ var uploadOptions = {
   tmpDir: '.tmp',
   uploadDir: './uploads',
   uploadUrl: '/uploads',
-  uploadHost: 'http://127.0.0.1:9000',
   imageVersions: { thumbnail: { width: 90, height: 90 } }
 };
 
 app.get('/upload/', function(req, res) {
-    listFiles(uploadOptions, function (files) {
+    listFiles(req, uploadOptions, function (files) {
       res.json({ files: files });
     }); 
 });
