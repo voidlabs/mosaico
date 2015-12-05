@@ -16,7 +16,7 @@ var localStoragePluginFactory = require("./ext/localstorage.js");
 var applyBindingOptions = function(options, ko) {
   // push "convertedUrl" method to the wysiwygSrc binding
   ko.bindingHandlers.wysiwygSrc.convertedUrl = function(src, method, width, height) {
-    var imgProcessorBackend = options.imgProcessorBackend ? options.imgProcessorBackend : '/upload';
+    var imgProcessorBackend = options.imgProcessorBackend ? options.imgProcessorBackend : './upload';
     var backEndMatch = imgProcessorBackend.match(/^(https?:\/\/[^\/]*\/).*$/);
     var srcMatch = src.match(/^(https?:\/\/[^\/]*\/).*$/);
     if (backEndMatch === null || (srcMatch !== null && backEndMatch[1] == srcMatch[1])) {
@@ -36,18 +36,61 @@ var applyBindingOptions = function(options, ko) {
     ko.bindingHandlers.wysiwyg.standardOptions = options.tinymceConfig;
   if (options && options.tinymceConfigFull)
     ko.bindingHandlers.wysiwyg.fullOptions = options.tinymceConfigFull;
-  // fileUpload options.
-  if (options && options.fileuploadConfig)
-    ko.bindingHandlers['fileupload'].extendOptions = options.fileuploadConfig;
 };
 
 var start = function(options, templateFileOrMetadata, jsorjson, customExtensions) {
 
   templateLoader.fixPageEvents();
 
-  var extensions = [addUndoStack, colorPlugin];
+  var fileUploadMessages = function(vm) {
+    var fileuploadConfig = {
+      messages: {
+        unknownError: vm.t('Unknown error'),
+        uploadedBytes: vm.t('Uploaded bytes exceed file size'),
+        maxNumberOfFiles: vm.t('Maximum number of files exceeded'),
+        acceptFileTypes: vm.t('File type not allowed'),
+        maxFileSize: vm.t('File is too large'),
+        minFileSize: vm.t('File is too small'),
+        post_max_size: vm.t('The uploaded file exceeds the post_max_size directive in php.ini'),
+        max_file_size: vm.t('File is too big'),
+        min_file_size: vm.t('File is too small'),
+        accept_file_types: vm.t('Filetype not allowed'),
+        max_number_of_files: vm.t('Maximum number of files exceeded'),
+        max_width: vm.t('Image exceeds maximum width'),
+        min_width: vm.t('Image requires a minimum width'),
+        max_height: vm.t('Image exceeds maximum height'),
+        min_height: vm.t('Image requires a minimum height'),
+        abort: vm.t('File upload aborted'),
+        image_resize: vm.t('Failed to resize image'),
+        generic: vm.t('Unexpected upload error')
+      }
+    };
+    // fileUpload options.
+    if (options && options.fileuploadConfig)
+      fileuploadConfig = $.extend(true, fileuploadConfig, options.fileuploadConfig);
+
+    console.log("new file upload messages", fileuploadConfig);
+    ko.bindingHandlers['fileupload'].extendOptions = fileuploadConfig;
+
+  };
+
+  var simpleTranslationPlugin = function(vm) {
+    if (options && options.strings) {
+      vm.t = function(key, objParam) {
+        var res = options.strings[key];
+        if (typeof res == 'undefined') {
+          console.warn("Missing translation string for",key,": using default string");
+          res = key;
+        }
+        return vm.tt(res, objParam);
+      };
+    }
+  };
+
+  var extensions = [addUndoStack, colorPlugin, simpleTranslationPlugin];
   if (typeof customExtensions !== 'undefined')
     for (var k = 0; k < customExtensions.length; k++) extensions.push(customExtensions[k]);
+  extensions.push(fileUploadMessages);
 
   var galleryUrl = options.fileuploadConfig ? options.fileuploadConfig.url : '/upload/';
   applyBindingOptions(options, ko);

@@ -51,9 +51,9 @@ var _valueSet = function(defs, model, prop, value) {
   }
 };
 
-var _modelCreateOrUpdateBlockDef = function(defs, templateName, properties, name, contextName, globalStyle, themeOverride, extend, widget, min, max, options, category, variant, help, blockDescription, version, previewBindings) {
+var _modelCreateOrUpdateBlockDef = function(defs, templateName, properties, namedProperties) {
   if (typeof defs[templateName] !== 'undefined' && defs[templateName]._initialized && !defs[templateName]._writeable) {
-    console.log("_modelCreateOrUpdateBlockDef", defs, templateName, properties, name, contextName, globalStyle, themeOverride, extend, widget, options, category, variant, help, blockDescription, version, previewBindings);
+    console.log("_modelCreateOrUpdateBlockDef", defs, templateName, properties, namedProperties);
     throw "Trying to alter non writeable model: " + templateName + " / " + properties;
   }
 
@@ -63,57 +63,57 @@ var _modelCreateOrUpdateBlockDef = function(defs, templateName, properties, name
     };
     // Fallback computation of "category" depending on the property name
     // TODO remove me: this should be always defined in the template definition, no need to hardcode this stuff.
-    if (typeof category == 'undefined' && typeof defs[templateName]._category == 'undefined') {
+    if (typeof namedProperties == 'undefined') namedProperties = {};
+    if (typeof namedProperties.category == 'undefined' && typeof defs[templateName]._category == 'undefined') {
       if (templateName.match(/(^t|.T)heme$/) || templateName.match(/(^s|.S)tyle$/) || templateName.match(/(^c|.C)olor$/) || templateName.match(/(^r|.R)adius$/)) {
-        category = 'style';
+        namedProperties.category = 'style';
       } else {
-        category = 'content';
+        namedProperties.category = 'content';
       }
     }
   }
 
-  if (typeof name != 'undefined') defs[templateName]._name = name;
 
-  if (typeof themeOverride != 'undefined') {
-    defs[templateName]._themeOverride = themeOverride;
-  }
-  if (typeof globalStyle != 'undefined') {
-    defs[templateName]._globalStyle = globalStyle;
-    // TODO remove deprecated $theme
-    var globalStyleSub = globalStyle.replace(/^(\$theme|_theme_)\./, '');
-    var p = globalStyleSub.indexOf('.');
-    var gs = p != -1 ? globalStyleSub.substr(0, p) : globalStyleSub;
-    _modelCreateOrUpdateBlockDef(defs, 'theme', gs);
+  if (typeof namedProperties !== 'undefined') {
+    // TODO check if this is needed before the ending namedProperty "loop" or not.
+    if (typeof namedProperties.name != 'undefined') defs[templateName]._name = namedProperties.name;
 
-    if (typeof defs[templateName]._themeOverride === 'undefined' || !!defs[templateName]._themeOverride) {
-      _modelCreateOrUpdateBlockDef(defs, templateName, "customStyle=false");
+    if (typeof namedProperties.themeOverride != 'undefined') {
+      defs[templateName]._themeOverride = namedProperties.themeOverride;
     }
-  }
-  if (typeof contextName != 'undefined') {
-    defs[templateName]._context = contextName;
-    // TODO is it correct to fallback to "bodyTheme" for blocks not declaring a default theme?
-    // Maybe it would be better to simply declare it as mandatory but leave the default configutation
-    // to the template definition.
-    if (contextName == 'block' && typeof defs[templateName]._globalStyle == 'undefined') {
-      defs[templateName]._globalStyle = '_theme_.bodyTheme';
-      _modelCreateOrUpdateBlockDef(defs, 'theme', 'bodyTheme');
+    if (typeof namedProperties.globalStyle != 'undefined') {
+      defs[templateName]._globalStyle = namedProperties.globalStyle;
+      // TODO remove deprecated $theme
+      var globalStyleSub = namedProperties.globalStyle.replace(/^(\$theme|_theme_)\./, '');
+      var p = globalStyleSub.indexOf('.');
+      var gs = p != -1 ? globalStyleSub.substr(0, p) : globalStyleSub;
+      _modelCreateOrUpdateBlockDef(defs, 'theme', gs);
 
-      if (typeof defs[templateName]._themeOverride == 'undefined' || defs[templateName]._themeOverride) {
+      if (typeof defs[templateName]._themeOverride === 'undefined' || !!defs[templateName]._themeOverride) {
         _modelCreateOrUpdateBlockDef(defs, templateName, "customStyle=false");
       }
     }
+    if (typeof namedProperties.contextName !== 'undefined') {
+      defs[templateName]._context = namedProperties.contextName;
+      // TODO is it correct to fallback to "bodyTheme" for blocks not declaring a default theme?
+      // Maybe it would be better to simply declare it as mandatory but leave the default configutation
+      // to the template definition.
+      if (namedProperties.contextName == 'block' && typeof defs[templateName]._globalStyle == 'undefined') {
+        defs[templateName]._globalStyle = '_theme_.bodyTheme';
+        _modelCreateOrUpdateBlockDef(defs, 'theme', 'bodyTheme');
+
+        if (typeof defs[templateName]._themeOverride == 'undefined' || defs[templateName]._themeOverride) {
+          _modelCreateOrUpdateBlockDef(defs, templateName, "customStyle=false");
+        }
+      }
+    }
+    if (typeof namedProperties.extend != 'undefined') defs[templateName].type = namedProperties.extend;
   }
-  if (typeof extend != 'undefined') defs[templateName].type = extend;
-  if (typeof max != 'undefined') defs[templateName]._max = max;
-  if (typeof min != 'undefined') defs[templateName]._min = min;
-  if (typeof widget != 'undefined') defs[templateName]._widget = widget;
-  if (typeof options != 'undefined') defs[templateName]._options = options;
-  if (typeof category != 'undefined') defs[templateName]._category = category;
-  if (typeof variant != 'undefined') defs[templateName]._variant = variant;
-  if (typeof help != 'undefined') defs[templateName]._help = help;
-  if (typeof blockDescription != 'undefined') defs[templateName]._blockDescription = blockDescription;
-  if (typeof version != 'undefined') defs[templateName]._version = version;
-  if (typeof previewBindings != 'undefined') defs[templateName]._previewBindings = previewBindings;
+
+  for (var np in namedProperties) if (namedProperties.hasOwnProperty(np) && typeof namedProperties[np] !== 'undefined' && ['name', 'extend', 'contextName', 'globalStyle','themeOverride'].indexOf(np) == -1) {
+    defs[templateName]['_'+np] = namedProperties[np];
+  }
+
   if (typeof properties != 'undefined' && properties.length > 0) {
     defs[templateName]._props = typeof defs[templateName]._props != 'undefined' && defs[templateName]._props.length > 0 ? defs[templateName]._props + " " + properties : properties;
   }

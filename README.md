@@ -23,7 +23,7 @@ Subscribe to our newsletter to get updates: http://mosaico.voxmail.it/user/regis
 
 [Developer Notes](https://github.com/voidlabs/mosaico/wiki/Developers)
 
-### Build/Run
+### Build/Run  [![Build Status](https://travis-ci.org/voidlabs/mosaico.svg)](https://travis-ci.org/voidlabs/mosaico)
 
 this may raise warnings about Knockout, ignore them. It will probably fail on some colorpicker dependency, just run it again and will work:
 ```
@@ -33,20 +33,17 @@ if you don't have it, install grunt-cli globally
 ```
   npm install -g grunt-cli
 ```
-compile and run a local webserver (http://127.0.0.1:9000) with incremental build and livereload
+compile and run a local webserver (http://127.0.0.1:9006) with incremental build and livereload
 ```
   grunt
 ```
 *IMPORTANT* in order to use image uploading/processing feature in Node you need imageMagick installed in your environment.
 e.g: running "convert" and "identify" on the commandline should output imagemagick command line help.
 
-create thumbnails for all templates found in "./templates":
+
+If you create your own template you can generate the needed "thumbnails"/"block thumbnails" by running:
 ```
-grunt makeThumbs
-```
-creates only the "lm" template (./templates/versafix-1/template-versafix-1.html)
-```
-grunt makeThumbs:main:versafix-1
+grunt makeThumbs:main:yourtemplatename
 ```
 
 ### Serving via Apache PHP?

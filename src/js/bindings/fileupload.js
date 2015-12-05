@@ -224,26 +224,28 @@ ko.bindingHandlers['fileupload'] = {
       previewMaxHeight: 200,
       previewCrop: false,
       replaceFileInput: false, // replaceFileInput true breaks after uploading using "input" (using mouse clic instead of dropping)
-      // TODO default to english strings and integrate with main localization!
+
       messages: {
-        generic: 'Errore inaspettato durante il caricamento',
-        unknownError: 'Errore sconosciuto durante il caricamento',
-        minFileSize: 'File troppo piccolo',
-        maxFileSize: 'File troppo grande',
-        acceptFileTypes: 'Tipo di file non supportato',
-        maxNumberOfFiles: 'Numero massimo di file caricabili superato',
-        uploadedBytes: 'Errore inaspettato durante il caricamento (uploaded bytes)',
-        'post_max_size': 'Il server ha rifiutato il file perchè troppo grande (post_max_size)',
-        'max_file_size': 'Il server ha rifiutato il file perchè troppo grande (max_file_size)',
-        'min_file_size': 'Il server ha rifiutato il file perchè troppo piccolo',
-        'accept_file_types': 'Il server ha rifiutato questo tipo di file',
-        'max_number_of_files': 'Numero massimo di file caricabili superato (max_number_of_files)',
-        'max_width': 'L\'Immagine supera la larghezza massima consentita',
-        'min_width': 'L\'Immagine non è abbastanza larga',
-        'max_height': 'L\'Immagine supera l\'altezza massima consentita',
-        'min_height': 'L\'Immagine non è abbastanza alta',
-        'abort': 'Caricamento del file annullato',
-        'image_resize': 'Impossibile ridimensionare l\'immagine'
+        // client side
+        unknownError: 'Unknown error',
+        uploadedBytes: 'Uploaded bytes exceed file size',
+        maxNumberOfFiles: 'Maximum number of files exceeded',
+        acceptFileTypes: 'File type not allowed',
+        maxFileSize: 'File is too large',
+        minFileSize: 'File is too small',
+        // server side
+        post_max_size: 'The uploaded file exceeds the post_max_size directive in php.ini',
+        max_file_size: 'File is too big',
+        min_file_size: 'File is too small',
+        accept_file_types: 'Filetype not allowed',
+        max_number_of_files: 'Maximum number of files exceeded',
+        max_width: 'Image exceeds maximum width',
+        min_width: 'Image requires a minimum width',
+        max_height: 'Image exceeds maximum height',
+        min_height: 'Image requires a minimum height',
+        abort: 'File upload aborted',
+        image_resize: 'Failed to resize image',
+        generic: 'Unexpected upload error'
       }
     });
 

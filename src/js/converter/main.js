@@ -3,14 +3,6 @@
 
 var modelDef = require("./model.js");
 
-// TODO remove me.
-var translateTemplateAndGetModelContent = function(templateName, html, basePath, templateCreator, baseThreshold, blockDefs) {
-  var templateDef = translateTemplate(templateName, html, basePath, templateCreator);
-  var res = wrappedResultModel(templateDef);
-  blockDefs.push.apply(blockDefs, generateEditors(templateDef, basePath, templateCreator, baseThreshold));
-  return res;
-};
-
 var wrappedResultModel = function(templateDef) {
   var defs = templateDef._defs;
   var templateName = templateDef.templateName;
@@ -42,7 +34,6 @@ var checkModel = function() {
 };
 
 module.exports = {
-  translateTemplateAndGetModelContent: translateTemplateAndGetModelContent,
   translateTemplate: translateTemplate,
   wrappedResultModel: wrappedResultModel,
   generateResultModel: modelDef.generateResultModel,

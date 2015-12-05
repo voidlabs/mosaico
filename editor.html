@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=1024, initial-scale=1">
+
     <link rel="canonical" href="http://mosaico.io" />
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
@@ -28,15 +30,20 @@ $(function() {
     alert('Update your browser!');
     return;
   }
+  // var basePath = window.location.href.substr(0, window.location.href.lastIndexOf('/')).substr(window.location.href.indexOf('/','https://'.length));
+  var basePath = window.location.href.substr(0, window.location.href.lastIndexOf('/'));
+  var plugins;
+  // A basic plugin that expose the "viewModel" object as a global variable.
+  // plugins = [function(vm) {window.viewModel = vm;}];
   var ok = Mosaico.init({
-    imgProcessorBackend: '/img',
-    emailProcessorBackend: '/dl',
+    imgProcessorBackend: basePath+'/img/',
+    emailProcessorBackend: basePath+'/dl/',
     titleToken: "MOSAICO Responsive Email Designer",
     fileuploadConfig: {
-      url: '/upload',
+      url: basePath+'/upload/',
       // messages??
     }
-  });
+  }, plugins);
   if (!ok) {
     console.log("Missing initialization hash, redirecting to main entrypoint");
     document.location = ".";

@@ -62,7 +62,7 @@ describe('Stylesheet declaration processor', function() {
     result = processStylesheetRules('a[data-ko-block=foo] { b: c; -ko-b: @myc }', undefined, mockedWithBindingProvider, blockDefsUpdater, themeUpdater, '.', 'template', 'block');
     expect(result).toEqual("<!-- ko foreach: $root.findObjectsOfType($data, 'foo') --> <!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->a<!-- ko text: '#'+id() -->foo<!-- /ko -->{ b: c; b: <!-- ko text: $foo.myc[c]() -->c<!-- /ko --> } <!-- /ko -->");
 
-    expect(blockDefsUpdater).toHaveBeenCalledWith('foo', '', undefined, 'block');
+    expect(blockDefsUpdater).toHaveBeenCalledWith('foo', '', { contextName: 'block' });
     // blockDefsUpdater.calls.reset();
 
     result = processStylesheetRules('a[data-ko-block=foo], [data-ko-block=foo] a { b: c; -ko-b: @myc }', undefined, mockedWithBindingProvider, blockDefsUpdater, themeUpdater, '.', 'template', 'block');
@@ -134,8 +134,8 @@ describe('Stylesheet declaration processor', function() {
     var blockDefsUpdater = jasmine.createSpy("blockDefsUpdater");
     result = processStylesheetRules('@supports -ko-blockdefs { color { widget: color } color:preview { -ko-color: @color } }', undefined, mockedWithBindingProvider, blockDefsUpdater, undefined, '.', 'template', 'block');
     expect(result).toEqual("");
-    expect(blockDefsUpdater).toHaveBeenCalledWith('color', '', undefined, undefined, undefined, undefined, undefined, 'color', undefined, undefined, undefined, undefined, undefined, undefined, undefined);
-    expect(blockDefsUpdater).toHaveBeenCalledWith('color', undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [{
+    expect(blockDefsUpdater).toHaveBeenCalledWith('color', '', { widget: 'color' });
+    expect(blockDefsUpdater).toHaveBeenCalledWith('color', undefined, { previewBindings: [{
       type: 'property',
       name: '-ko-color',
       value: '@color',
@@ -149,7 +149,7 @@ describe('Stylesheet declaration processor', function() {
           col: 85
         }
       }
-    }]);
+    }]});
     // console.log("BBB", blockDefsUpdater.calls);
   });
 
@@ -157,7 +157,7 @@ describe('Stylesheet declaration processor', function() {
     var result;
     var blockDefsUpdater = jasmine.createSpy("blockDefsUpdater");
     result = processStylesheetRules('@supports -ko-blockdefs { color { } }', undefined, mockedWithBindingProvider, blockDefsUpdater, undefined, '.', 'template', 'block');
-    expect(blockDefsUpdater).toHaveBeenCalledWith('color', '', undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined);
+    expect(blockDefsUpdater).toHaveBeenCalledWith('color', '', {});
     expect(result).toEqual("");
     // console.log("BBB", blockDefsUpdater.calls);
   });

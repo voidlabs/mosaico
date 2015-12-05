@@ -3,6 +3,7 @@
 
 var $ = require("jquery");
 var ko = require("knockout");
+var kojqui = require("knockout-jqueryui"); // just for the widget plugins
 var templateConverter = require("./converter/main.js");
 var console = require("console");
 var performanceAwareCaller = require('./timed-call.js').timedCall;
@@ -12,7 +13,8 @@ var templateSystem = require('./bindings/choose-template.js');
 // call a given method on every plugin implementing it.
 // supports a "reverse" parameter to call the methods from the last one to the first one.
 var pluginsCall = function(plugins, methodName, args, reverse) {
-  var start, end, diff;
+  var start, end, diff, res, results;
+  results = [];
   if (typeof reverse !== 'undefined' && reverse) {
     start = plugins.length - 1;
     end = 0;
@@ -24,9 +26,11 @@ var pluginsCall = function(plugins, methodName, args, reverse) {
   }
   for (var i = start; i != end + diff; i += diff) {
     if (typeof plugins[i][methodName] !== 'undefined') {
-      plugins[i][methodName].apply(plugins[i], args);
+      res = plugins[i][methodName].apply(plugins[i], args);
+      if (typeof res !== 'undefined') results.push(res);
     }
   }
+  return results;
 };
 
 // workaround for knockout-jqueryui's buttonset/button disposal:
@@ -168,14 +172,35 @@ var templateCompiler = function(basePath, templateName, templatecode, jsorjson, 
   if (res === null) throw "Unable to find <html> opening and closing tags in the template";
   var prefix = res[1];
   // we parse the html content after replacing the tag name for html/head/body so to avoid jquery issues in parsing.
+  var basicStructure = { '<html': 0, '<head': 0, '<body': 0, '</html': 0, '</body': 0, '</head': 0 };
   var html = res[2].replace(/(<\/?)(html|head|body)([^>]*>)/gi, function(match, p1, p2, p3) {
+    basicStructure[(p1+p2).toLowerCase()] += 1;
     return p1 + 'replaced' + p2 + p3;
   });
+  for (var ele in basicStructure) if (basicStructure.hasOwnProperty(ele)) if (basicStructure[ele] != 1) {
+    if (basicStructure[ele] === 0) throw "ERROR: missing mandatory element "+ele+">";
+    if (basicStructure[ele] > 1) throw "ERROR: multiple element "+ele+"> occourences are not supported (found "+basicStructure[ele]+" occourences)";
+  }
   var postfix = res[3];
   var blockDefs = [];
   var enableUndo = true;
   var enableRecorder = true;
   var baseThreshold = '+$root.contentListeners()';
+
+
+  var plugins = [];
+
+  if (typeof extensions !== 'undefined') {
+    for (var i = 0; i < extensions.length; i++) {
+      if (typeof extensions[i] == 'function') {
+        plugins.push(_viewModelPluginInstance(extensions[i]));
+      } else {
+        plugins.push(extensions[i]);
+      }
+    }
+  }
+
+
 
   var createdTemplates = [];
   var templatesPlugin = {
@@ -212,7 +237,12 @@ var templateCompiler = function(basePath, templateName, templatecode, jsorjson, 
   var content = performanceAwareCaller('generateModel', templateConverter.wrappedResultModel.bind(undefined, templateDef));
 
   // third pass: we create "style/content editors" for every block
-  blockDefs.push.apply(blockDefs, performanceAwareCaller('generateEditors', templateConverter.generateEditors.bind(undefined, templateDef, basePath, myTemplateCreator, baseThreshold)));
+  var widgets = {};
+  var widgetPlugins = pluginsCall(plugins, 'widget', [$, ko, kojqui]);
+  for (var wi = 0; wi < widgetPlugins.length; wi++) {
+    widgets[widgetPlugins[wi].widget] = widgetPlugins[wi];
+  }
+  blockDefs.push.apply(blockDefs, performanceAwareCaller('generateEditors', templateConverter.generateEditors.bind(undefined, templateDef, widgets, basePath, myTemplateCreator, baseThreshold)));
 
   if (typeof jsorjson !== 'undefined' && jsorjson !== null) {
     var unwrapped;
@@ -255,17 +285,8 @@ var templateCompiler = function(basePath, templateName, templatecode, jsorjson, 
     }
   };
 
-  var plugins = [iFramePlugin, templatesPlugin];
-
-  if (typeof extensions !== 'undefined') {
-    for (var i = 0; i < extensions.length; i++) {
-      if (typeof extensions[i] == 'function') {
-        plugins.push(_viewModelPluginInstance(extensions[i]));
-      } else {
-        plugins.push(extensions[i]);
-      }
-    }
-  }
+  plugins.push(iFramePlugin);
+  plugins.push(templatesPlugin);
 
   // initialize the viewModel object based on the content model.
   var viewModel = performanceAwareCaller('initializeViewmodel', initializeViewmodel.bind(this, content, blockDefs, basePath, galleryUrl));
