@@ -1,0 +1,137 @@
+{
+  "type": "template",
+  "customStyle": false,
+  "preheaderVisible": true,
+  "titleText": "TITLE",
+  "preheaderBlock": {
+    "type": "preheaderBlock",
+    "customStyle": false,
+    "id": "",
+    "backgroundColor": null,
+    "preheaderText": "",
+    "linkStyle": {
+      "type": "linkStyle",
+      "face": null,
+      "color": null,
+      "size": null,
+      "decoration": null
+    },
+    "preheaderLinkOption": "[unsubscribe_link]",
+    "longTextStyle": {
+      "type": "longTextStyle",
+      "face": null,
+      "color": null,
+      "size": null,
+      "linksColor": null
+    },
+    "unsubscribeText": "Unsubscribe",
+    "webversionText": "View in your browser"
+  },
+  "sponsor": {
+    "type": "sponsor",
+    "visible": true,
+    "src": "img/sponsor.gif",
+    "url": "",
+    "alt": "sponsor"
+  },
+  "footerBlock": {
+    "type": "footerBlock",
+    "customStyle": false,
+    "longTextStyle": {
+      "type": "longTextStyle",
+      "face": null,
+      "color": null,
+      "size": null,
+      "linksColor": null
+    },
+    "id": "",
+    "backgroundColor": null,
+    "linkStyle": {
+      "type": "linkStyle",
+      "face": null,
+      "color": null,
+      "size": null,
+      "decoration": null
+    },
+    "longText": "<p>Email sent to <a href=\"mailto:[mail]\">[mail]</a></p>",
+    "disiscrivitiText": "Unsubscribe"
+  },
+  "mainBlocks": {
+    "type": "blocks",
+    "blocks": []
+  },
+  "theme": {
+    "type": "theme",
+    "frameTheme": {
+      "type": "frameTheme",
+      "backgroundColor": "#3f3f3f",
+      "longTextStyle": {
+        "type": "longTextStyle",
+        "face": "Arial, Helvetica, sans-serif",
+        "color": "#919191",
+        "size": "13",
+        "linksColor": "#cccccc"
+      },
+      "linkStyle": {
+        "type": "linkStyle",
+        "face": "Arial, Helvetica, sans-serif",
+        "color": "#ffffff",
+        "size": "13",
+        "decoration": "underline"
+      }
+    },
+    "contentTheme": {
+      "type": "contentTheme",
+      "longTextStyle": {
+        "type": "longTextStyle",
+        "face": "Arial, Helvetica, sans-serif",
+        "color": "#3f3f3f",
+        "size": "13",
+        "linksColor": "#3f3f3f"
+      },
+      "externalBackgroundColor": "#bfbfbf",
+      "externalTextStyle": {
+        "type": "textStyle",
+        "face": "Arial, Helvetica, sans-serif",
+        "color": "#f3f3f3",
+        "size": "18"
+      },
+      "backgroundColor": "#ffffff",
+      "titleTextStyle": {
+        "type": "textStyle",
+        "face": "Arial, Helvetica, sans-serif",
+        "color": "#3f3f3f",
+        "size": "18"
+      },
+      "buttonStyle": {
+        "type": "buttonStyle",
+        "face": "Arial, Helvetica, sans-serif",
+        "color": "#3f3f3f",
+        "size": "13",
+        "buttonColor": "#bfbfbf",
+        "radius": "4"
+      },
+      "bigTitleStyle": {
+        "type": "bigTitleStyle",
+        "face": "Arial, Helvetica, sans-serif",
+        "color": "#3f3f3f",
+        "size": "22",
+        "align": "center"
+      },
+      "hrStyle": {
+        "type": "hrStyle",
+        "color": "#3f3f3f",
+        "hrWidth": "100",
+        "hrHeight": "1"
+      },
+      "bigButtonStyle": {
+        "type": "buttonStyle",
+        "face": "Arial, Helvetica, sans-serif",
+        "color": "#3f3f3f",
+        "size": "22",
+        "buttonColor": "#bfbfbf",
+        "radius": "4"
+      }
+    }
+  }
+}
