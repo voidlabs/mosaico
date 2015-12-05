@@ -321,7 +321,7 @@ $(function() {
         <td><span style="font-weight: bold" data-bind="text: typeof changed !== 'undefined' ? $root.dateFormat(changed) : '-'">YYYY-MM-DD</span></td>
         <td>
         <a class="operationButton" href="#" data-bind="attr: { href: 'editor.html#'+key }" title="edit"><i class="fa fa-pencil"></i></a>
-        <!--(<a href="#" data-bind="click: $root.renameEdit.bind(undefined, $index())" title="rinomina"><i class="fa fa-trash-o"></i></a>)-->
+        <a class="operationButton" href="#" data-bind="click: $root.renameEdit.bind(undefined, $index())" title="rinomina"><i class="fa fa-renren"></i></a>
         <a class="operationButton" href="#" data-bind="click: $root.deleteEdit.bind(undefined, $index())" title="delete"><i class="fa fa-trash-o"></i></a>
         </td>
       </tr>

@@ -168,9 +168,15 @@ var templateCompiler = function(basePath, templateName, templatecode, jsorjson, 
   if (res === null) throw "Unable to find <html> opening and closing tags in the template";
   var prefix = res[1];
   // we parse the html content after replacing the tag name for html/head/body so to avoid jquery issues in parsing.
+  var basicStructure = { '<html': 0, '<head': 0, '<body': 0, '</html': 0, '</body': 0, '</head': 0 };
   var html = res[2].replace(/(<\/?)(html|head|body)([^>]*>)/gi, function(match, p1, p2, p3) {
+    basicStructure[(p1+p2).toLowerCase()] += 1;
     return p1 + 'replaced' + p2 + p3;
   });
+  for (var ele in basicStructure) if (basicStructure.hasOwnProperty(ele)) if (basicStructure[ele] != 1) {
+    if (basicStructure[ele] === 0) throw "ERROR: missing mandatory element "+ele+">";
+    if (basicStructure[ele] > 1) throw "ERROR: multiple element "+ele+"> occourences are not supported (found "+basicStructure[ele]+" occourences)";
+  }
   var postfix = res[3];
   var blockDefs = [];
   var enableUndo = true;

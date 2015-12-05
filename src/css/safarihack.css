@@ -1,0 +1,14 @@
+/*
+Safari Hack: Safari create reflow glitches due to a webkit bug with border-spacing (cellspacing)
+when the template being edited makes use of horizontal border spacing.
+The following are terrible hacks to make this happens less often, and this weird
+media query is to specifically target Safari and other webkit browsers (but not Chrome).
+*/
+@media screen and (min-color-index:0) and(-webkit-min-device-pixel-ratio:0) { @media  {
+  #main-wysiwyg-area table:not(.img-wysiwyg), #main-wysiwyg-area .selected table:not(.img-wysiwyg):hover {
+    position: relative;
+  }
+  #main-wysiwyg-area table:not(.img-wysiwyg):hover, #main-wysiwyg-area .selected table:not(.img-wysiwyg) {
+    position: static;
+  }
+}}
