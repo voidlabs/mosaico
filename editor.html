@@ -35,7 +35,7 @@ $(function() {
   var plugins;
   // A basic plugin that expose the "viewModel" object as a global variable.
   // plugins = [function(vm) {window.viewModel = vm;}];
-  var strings = $.ajax('src/lang/mosaico-de.json', {type: "GET", async: false}).responseText;
+  var strings = $.ajax('dist/lang/mosaico-en.json', {type: "GET", async: false}).responseText;
   strings = $.parseJSON(strings);
     console.log(strings);
   var ok = Mosaico.init({
