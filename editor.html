@@ -22,7 +22,7 @@
     <script src="dist/vendor/knockout-jqueryui.min.js"></script>
     <script src="dist/vendor/evol.colorpicker.min.js"></script>
     <script src="dist/vendor/tinymce.min.js"></script>
-    <script id="language_de" src="src/lang/mosaico-de.json" type ="application/json" ></script>
+
     <script src="dist/mosaico.min.js?v=0.11"></script>
     <script>
 $(function() {
@@ -35,17 +35,12 @@ $(function() {
   var plugins;
   // A basic plugin that expose the "viewModel" object as a global variable.
   // plugins = [function(vm) {window.viewModel = vm;}];
-  var strings = $.ajax('dist/lang/mosaico-en.json', {type: "GET", async: false}).responseText;
-  strings = $.parseJSON(strings);
-    console.log(strings);
   var ok = Mosaico.init({
-      strings: strings,
-      imgProcessorBackend: basePath+'/img/',
+    imgProcessorBackend: basePath+'/img/',
     emailProcessorBackend: basePath+'/dl/',
     titleToken: "MOSAICO Responsive Email Designer",
-
-      fileuploadConfig: {
-      url: basePath+'/upload/'
+    fileuploadConfig: {
+      url: basePath+'/upload/',
       // messages??
     }
   }, plugins);

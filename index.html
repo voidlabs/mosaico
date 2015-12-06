@@ -10,9 +10,9 @@
     <meta name="keywords" content="responsive email designer, email editor, free email editor, email template creator, open source email editor" />
     <meta name="author" content="VOXmail" />
     <meta name="application-name" content="Mosaico" />
-    <meta property="og:title" content="Mosaico Email Editor" />
-    <meta property="og:image" content="http://mosaico.io/dist/img/mosaico-v.gif" />
-    <meta property="og:description" content="Outstanding opensource email template editor by VOXmail.it" />
+    <meta property="og:title" content="Mosaico Email Editor" /> 
+    <meta property="og:image" content="http://mosaico.io/dist/img/mosaico-v.gif" /> 
+    <meta property="og:description" content="Outstanding opensource email template editor by VOXmail.it" /> 
     <meta property="og:url" content="http://mosaico.io" />
     <meta property="og:type" content="website" />
 
@@ -51,10 +51,7 @@
       var viewModel = {
         showSaved: ko.observable(false),
         edits: ko.observableArray(initialEdits),
-        templates: [
-          {
-            name: 'tutorial', desc: 'Mosaico-tutorial'
-          },{
+        templates: [{
           name: 'versafix-1', desc: 'The versatile template'
         },{
           name: 'tedc15', desc: 'The TEDC15 template'
@@ -137,7 +134,7 @@ a, a:link, a:visited {
 .template {
   margin: 10px;
   display: inline-block;
-  vertical-align: top;
+  vertical-align: top; 
 }
 .template a {
   display: block;
@@ -178,7 +175,7 @@ a, a:link, a:visited {
   outline: 1px solid #600000;
 }
 /* outline su firefox viene fuori dal content */
-@-moz-document url-prefix() {
+@-moz-document url-prefix() { 
   .ribbon {
      outline-color: transparent;
   }
@@ -321,7 +318,7 @@ $(function() {
         <td><span style="font-weight: bold" data-bind="text: typeof changed !== 'undefined' ? $root.dateFormat(changed) : '-'">YYYY-MM-DD</span></td>
         <td>
         <a class="operationButton" href="#" data-bind="attr: { href: 'editor.html#'+key }" title="edit"><i class="fa fa-pencil"></i></a>
-        <a class="operationButton" href="#" data-bind="click: $root.renameEdit.bind(undefined, $index())" title="rinomina"><i class="fa fa-renren"></i></a>
+        <!--(<a href="#" data-bind="click: $root.renameEdit.bind(undefined, $index())" title="rinomina"><i class="fa fa-trash-o"></i></a>)-->
         <a class="operationButton" href="#" data-bind="click: $root.deleteEdit.bind(undefined, $index())" title="delete"><i class="fa fa-trash-o"></i></a>
         </td>
       </tr>
