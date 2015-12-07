@@ -33,7 +33,7 @@ if you don't have it, install grunt-cli globally
 ```
   npm install -g grunt-cli
 ```
-compile and run a local webserver (http://127.0.0.1:9000) with incremental build and livereload
+compile and run a local webserver (http://127.0.0.1:9006) with incremental build and livereload
 ```
   grunt
 ```
