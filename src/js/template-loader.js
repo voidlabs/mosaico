@@ -244,6 +244,7 @@ var templateCompiler = function(basePath, templateName, templatecode, jsorjson, 
   }
   blockDefs.push.apply(blockDefs, performanceAwareCaller('generateEditors', templateConverter.generateEditors.bind(undefined, templateDef, widgets, basePath, myTemplateCreator, baseThreshold)));
 
+  var incompatibleTemplate = false;
   if (typeof jsorjson !== 'undefined' && jsorjson !== null) {
     var unwrapped;
     if (typeof jsorjson == 'string') {
@@ -256,19 +257,16 @@ var templateCompiler = function(basePath, templateName, templatecode, jsorjson, 
     var checkModelRes = performanceAwareCaller('checkModel', templateConverter.checkModel.bind(undefined, content._unwrap(), blockDefs, unwrapped));
     // if checkModelRes is 1 then the model is not fully compatible but we fixed it
     if (checkModelRes == 2) {
-      console.error("Trying to compile an incompatible template version!");
-      $('#incompatible-template').dialog({
-        modal: true,
-        appendTo: '#mo-body',
-        buttons: {
-          Ok: function() {
-            $(this).dialog("close");
-          }
-        }
-      });
+      console.error("Trying to compile an incompatible template version!", content._unwrap(), blockDefs, unwrapped);
+      incompatibleTemplate = true;
     }
 
-    content._wrap(unwrapped);
+    try {
+      content._wrap(unwrapped);
+    } catch (ex) {
+      console.error("Unable to inject model content!", ex);
+      incompatibleTemplate = true;
+    }
   }
 
   // This build the template for the preview/output, but concatenating prefix, template and content and stripping the "replaced" prefix added to "problematic" tag (html/head/body)
@@ -314,6 +312,18 @@ var templateCompiler = function(basePath, templateName, templatecode, jsorjson, 
   plugins.push(bindingPlugin);
 
   pluginsCall(plugins, 'viewModel', [viewModel]);
+
+  if (incompatibleTemplate) {
+    $('#incompatible-template').dialog({
+      modal: true,
+      appendTo: '#mo-body',
+      buttons: {
+        Ok: function() {
+          $(this).dialog("close");
+        }
+      }
+    });
+  }
 
   // dispose function      
   var dispose = function() {

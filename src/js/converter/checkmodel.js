@@ -84,8 +84,15 @@ var checkModel = function(reference, blockDefs, model, origPrefix, reverse) {
             }
           } else {
             if (model[prop] === null) {
-              console.log("TODO Null object in model ", prefix, "instead of", reference[prop]);
-              valid = Math.max(valid, 2);
+              if (reverse) {
+                console.log("WARN Null object in model ", prefix, "instead of", reference[prop], "deleting it");
+                valid = Math.max(valid, 2);
+                delete reference[prop];
+              } else {
+                console.log("INFO Null object in model ", prefix, "instead of", reference[prop], "cloning it from the reference");
+                valid = Math.max(valid, 1);
+                model[prop] = reference[prop];
+              }
             } else {
               valid = Math.max(valid, checkModel(reference[prop], blockDefsObj, model[prop], prefix, reverse));
             }
