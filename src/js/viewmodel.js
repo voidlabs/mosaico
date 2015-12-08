@@ -162,6 +162,13 @@ function initializeEditor(content, blockDefs, basePath, galleryUrl) {
 
   viewModel.t = viewModel.tt;
 
+  // currently called by editor.html to translate template-defined keys (label, help, descriptions)
+  // the editor always uses the "template" category for that strings.
+  // you can override this method as you like in order to provide translation or change the strings in any way.
+  viewModel.ut = function(category, key) {
+    return key;
+  };
+
   // toolbox.tmpl.html
   viewModel.loadGallery = function() {
     viewModel.galleryLoaded('loading');
