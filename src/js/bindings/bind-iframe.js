@@ -29,7 +29,7 @@ ko.bindingHandlers.bindIframe = {
         try {
           var iframedoc = iframe.body;
           if (iframedoc) {
-            // scripts have to be duplicated (maybe this is not needed using string-templates)
+            // scripts have to be duplicated (maybe this is not needed anymore since using string-templates)
             var templates = element.contentWindow.parent.document.getElementsByTagName('script');
             for (var i = 0; i < templates.length; i++) {
               if (templates[i].getAttribute('type') == 'text/html' && templates[i].getAttribute('id')) {

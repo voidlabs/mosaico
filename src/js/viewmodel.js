@@ -151,6 +151,7 @@ function initializeEditor(content, blockDefs, basePath, galleryUrl) {
 
   viewModel.notifier = toastr;
 
+  // Does token substitution in i18next style
   viewModel.tt = function(key, paramObj) {
     if (typeof paramObj !== 'undefined')
       for (var prop in paramObj)
@@ -160,6 +161,10 @@ function initializeEditor(content, blockDefs, basePath, galleryUrl) {
     return key;
   };
 
+  // Simply maps to tt: language plugins can override this method to define their own language
+  // handling.
+  // If this method invokes an observable (e.g: viewModel.lang()) then the UI language will automatically
+  // update when the "lang" observable changes.
   viewModel.t = viewModel.tt;
 
   // currently called by editor.html to translate template-defined keys (label, help, descriptions)
