@@ -143,6 +143,8 @@
       sideArticleBlock imageWidth { label: Image Size; widget: select; options: 120=Small|166=Medium|258=Big; }
       sideArticleBlock { label: Image+Text Block; properties: backgroundColor titleVisible=true buttonVisible=true imageWidth=166 imagePos=left titleTextStyle longTextStyle buttonStyle  image  longText buttonLink; variant:imagePos; theme: contentTheme }
 
+      textBlock { label: Text Block; properties: backgroundColor longTextStyle longText; theme: contentTheme}
+
       singleArticleBlock { label: Image/Text Block; properties: backgroundColor titleVisible=true buttonVisible=true imageVisible=true titleTextStyle longTextStyle buttonStyle  image  longText buttonLink;theme: contentTheme}
 
       doubleArticleBlock { label: 2 Columns Block; properties: backgroundColor titleVisible=true buttonVisible=true imageVisible=true titleTextStyle longTextStyle buttonStyle  leftImage  leftLongText leftButtonLink rightImage  rightLongText rightButtonLink; theme: contentTheme}
@@ -182,6 +184,7 @@
       preheaderBlock:preview,
       hrBlock:preview,
       sideArticleBlock:preview,
+      textBlock:preview,
       singleArticleBlock:preview,
       doubleArticleBlock:preview,
       tripleArticleBlock:preview,
@@ -318,6 +321,18 @@
     [data-ko-block=singleArticleBlock] .long-text p { Margin: 1em 0px; }
     [data-ko-block=singleArticleBlock] .long-text p:last-child { Margin-bottom: 0px; }
     [data-ko-block=singleArticleBlock] .long-text p:first-child { Margin-top: 0px; }
+
+    [data-ko-block=textBlock] .links-color a, 
+    [data-ko-block=textBlock] .links-color a:link, 
+    [data-ko-block=textBlock] .links-color a:visited,
+    [data-ko-block=textBlock] .links-color a:hover {
+      color: #3f3f3f;
+      -ko-color: @longTextStyle.linksColor;
+      text-decoration: underline;
+    }
+    [data-ko-block=textBlock] .long-text p { Margin: 1em 0px; }
+    [data-ko-block=textBlock] .long-text p:last-child { Margin-bottom: 0px; }
+    [data-ko-block=textBlock] .long-text p:first-child { Margin-top: 0px; }
 
     [data-ko-block=sideArticleBlock] .links-color a, 
     [data-ko-block=sideArticleBlock] .links-color a:link, 
@@ -692,6 +707,33 @@
     </tr>
   </table>
   <!-- /TitleBlock -->
+
+  <!-- textBlock -->
+  <table class="vb-outer" width="100%" cellpadding="0" border="0" cellspacing="0" bgcolor="#bfbfbf"
+    style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor" data-ko-block="textBlock">
+    <tr>
+      <td class="vb-outer" align="center" valign="top" bgcolor="#bfbfbf"
+        style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
+
+<!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
+        <div class="oldwebkit">
+        <table width="570" border="0" cellpadding="0" cellspacing="18" class="vb-container fullpad" bgcolor="#ffffff" 
+          style="width: 100%; max-width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
+          <tr>
+            <td align="left" style="text-align: left; font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;
+              -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color"
+              data-ko-editable="longText" class="long-text links-color">
+              <p>Far far away, behind the word mountains, far from the countries <a href="">Vokalia and Consonantia</a>, there live the blind texts.</p>
+              <p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+            </td>
+          </tr>
+        </table>
+        </div>
+<!--[if (gte mso 9)|(lte ie 8)]></td></tr></table><![endif]-->
+      </td>
+    </tr>
+  </table>
+  <!-- /textBlock -->
 
   <!-- tripleArticleBlock -->
   <table class="vb-outer" width="100%" cellpadding="0" border="0" cellspacing="0" bgcolor="#bfbfbf"
