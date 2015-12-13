@@ -74,8 +74,8 @@ if (typeof ko.DEBUG !== 'undefined' && typeof ko.isWritableObservable !== 'undef
   beforeSubscriptionProp = 'ja';
   afterSubscriptionProp = 'ua';
 } else if (ko.version == "3.4.0") {
-  beforeSubscriptionProp = 'Ia';
-  afterSubscriptionProp = 'sa';
+  beforeSubscriptionProp = 'sa';
+  afterSubscriptionProp = 'Ia';
 }
 else throw "Unsupported minimized Knockout version " + ko.version + " (supported DEBUG or minimized 3.2.0 ... 3.4.0)";
 
