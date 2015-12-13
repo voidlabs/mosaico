@@ -21,7 +21,8 @@
   },
   "browserify-shim": {
     "jquery": "global:jQuery",
-    "jquery.ui/sortable": "global:jQuery",
+    "jquery-ui/sortable": "global:jQuery",
+    "jquery-ui/draggable": "global:jQuery",
     "knockout": "global:ko",
     "evol-colorpicker": {},
     "knockout-jqueryui": "global:kojqui",
