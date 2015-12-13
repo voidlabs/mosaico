@@ -61,6 +61,7 @@ Please make sure:
 - you understand I'll close any github issue with insufficient informations: if you want help then you'll have to take your time to explain your issue.
 - you don't ask for a binary/executable to be used as a standalone desktop application
 - you understand you can't simply open index.html/editor.html and expect it to work if you don't build the library and don't run a backend server and access that files through the webserver.
+- you don't add off topic comments to an existing issue: if you want to add that you are having the same issue please make sure you are having the same issue described. If you are unsure, open a new issue following the rules (I prefer a duplicated issue than a chaotic issue mixing unrelated things).
 
 ##### issues building:
 - take note of the full log of your npm install, and grunt commands output
