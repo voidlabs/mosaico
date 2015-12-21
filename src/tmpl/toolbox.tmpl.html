@@ -1,8 +1,8 @@
 <div id="tooltabs" class="tabs_horizontal button_color" data-bind="tabs: { active: $root.selectedTool }">
   <ul>
-    <li data-bind="tooltips: {}"><a title="Blocks ready to be added to the template" href="#toolblocks" data-bind="attr: { title: $root.t('Blocks ready to be added to the template') }"><i class="fa fa-fw fa-cubes"></i> <span data-bind="html: $root.t('Blocks')">Blocks</span></a></li>
-    <li data-bind="tooltips: {}"><a title="Edit content options" href="#toolcontents" data-bind="attr: { title: $root.t('Edit content options') }"><i class="fa fa-fw fa-pencil"></i> <span data-bind="html: $root.t('Content')">Content</span></a></li>
-    <li data-bind="tooltips: {}"><a title="Edit style options" href="#toolstyles" data-bind="attr: { title: $root.t('Edit style options') }"><i class="fa fa-fw fa-paint-brush"></i> <span data-bind="html: $root.t('Style')">Style</span></a></li>
+    <li data-bind="tooltips: {}"><a title="Blocks ready to be added to the template" data-local="true" href="#toolblocks" data-bind="attr: { title: $root.t('Blocks ready to be added to the template') }"><i class="fa fa-fw fa-cubes"></i> <span data-bind="html: $root.t('Blocks')">Blocks</span></a></li>
+    <li data-bind="tooltips: {}"><a title="Edit content options" href="#toolcontents" data-local="true" data-bind="attr: { title: $root.t('Edit content options') }"><i class="fa fa-fw fa-pencil"></i> <span data-bind="html: $root.t('Content')">Content</span></a></li>
+    <li data-bind="tooltips: {}"><a title="Edit style options" href="#toolstyles" data-local="true" data-bind="attr: { title: $root.t('Edit style options') }"><i class="fa fa-fw fa-paint-brush"></i> <span data-bind="html: $root.t('Style')">Style</span></a></li>
   </ul>
 
   <div id="toolblocks" data-bind="scrollable: true">
@@ -10,7 +10,7 @@
       <div class="draggable-item" data-bind="withProperties: { templateMode: 'show' }">
         <div class="block" data-bind="extdraggable: { connectClass: 'sortable-blocks-edit', data: $data, dropContainer: '#main-wysiwyg-area', dragging: $root.dragging, 'options': { handle: '.handle', distance: 10, 'appendTo': '#page' } }, click: $root.addBlock" style="position: relative;">
           <div title="Click or drag to add this block to the template" class="handle" data-bind="attr: { title: $root.t('Click or drag to add this block to the template') }, tooltips: {}"></div>
-          <img data-bind="attr: { alt: $root.t('Block __name__', { name: ko.utils.unwrapObservable(type) }), src: $root.basePath+'edres/'+ko.utils.unwrapObservable(type)+'.png' }" alt="Block __name__" />
+          <img data-bind="attr: { alt: $root.t('Block __name__', { name: ko.utils.unwrapObservable(type) }), src: $root.templatePath('edres/'+ko.utils.unwrapObservable(type)+'.png') }" alt="Block __name__" />
         </div>
         <a href="#" class="addblockbutton" data-bind="click: $root.addBlock, button: { label: $root.t('Add') }">Add</a>
       </div>
@@ -62,8 +62,8 @@
   <!-- ko if: $root.showGallery() -->
   <div id="toolimagestab" class="tabs_horizontal" data-bind="tabs: { active: $root.selectedImageTab }">
     <ul>
-      <li data-bind="tooltips: {}"><a title="Session images" href="#toolimagesrecent" data-bind="attr: { title: $root.t('Session images') }, text: $root.t('Recents')">Recents</a></li>
-      <li data-bind="tooltips: {}"><a title="Remote gallery" href="#toolimagesgallery" data-bind="attr: { title: $root.t('Remote gallery') }, text: $root.t('Gallery')">Gallery</a></li>
+      <li data-bind="tooltips: {}"><a title="Session images" data-local="true" href="#toolimagesrecent" data-bind="attr: { title: $root.t('Session images') }, text: $root.t('Recents')">Recents</a></li>
+      <li data-bind="tooltips: {}"><a title="Remote gallery" data-local="true" href="#toolimagesgallery" data-bind="attr: { title: $root.t('Remote gallery') }, text: $root.t('Gallery')">Gallery</a></li>
     </ul>
 
     <div id="toolimagesrecent">
