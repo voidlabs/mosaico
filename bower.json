@@ -23,7 +23,7 @@
     "knockout-undomanager": "bago/knockout-undomanager#v0.2.1",
     "knockout.wrap": "bago/knockout.wrap#mosaico",
     "jquery.iframe-transport": "~1.0.0",
-    "tinymce": "~4.2.5",
+    "tinymce": "~4.3.2",
     "knockout": "~3.4.0",
     "console-browserify": "Raynos/console-browserify#~1.0.3",
     "font-awesome": "~4.3.0",
