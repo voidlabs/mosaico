@@ -7,8 +7,9 @@ var console = require("console");
 var ko = require("knockout");
 var $ = require("jquery");
 require("./ko-bindings.js");
+var performanceAwareCaller = require("./timed-call.js").timedCall;
 
-var addUndoStack = require("./undomanager/undomain.js");
+var addUndoStackExtensionMaker = require("./undomanager/undomain.js");
 var colorPlugin = require("./ext/color.js");
 
 var localStoragePluginFactory = require("./ext/localstorage.js");
@@ -94,7 +95,7 @@ var start = function(options, templateFileOrMetadata, jsorjson, customExtensions
     }
   };
 
-  var extensions = [addUndoStack, colorPlugin, simpleTranslationPlugin];
+  var extensions = [addUndoStackExtensionMaker(performanceAwareCaller), colorPlugin, simpleTranslationPlugin];
   if (typeof customExtensions !== 'undefined')
     for (var k = 0; k < customExtensions.length; k++) extensions.push(customExtensions[k]);
   extensions.push(fileUploadMessagesExtension);
@@ -116,7 +117,7 @@ var start = function(options, templateFileOrMetadata, jsorjson, customExtensions
   }
   // TODO canonicalize templateFile to absolute or relative depending on "relativeUrlsException" plugin
 
-  templateLoader.load(templateFile, templateMetadata, jsorjson, extensions, galleryUrl);
+  templateLoader.load(performanceAwareCaller, templateFile, templateMetadata, jsorjson, extensions, galleryUrl);
 
 };
 
@@ -162,8 +163,6 @@ var init = function(options, customExtensions) {
   }
   return true;
 };
-
-
 
 module.exports = {
   isCompatible: templateLoader.isCompatible,

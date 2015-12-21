@@ -6,7 +6,6 @@ var ko = require("knockout");
 var kojqui = require("knockout-jqueryui"); // just for the widget plugins
 var templateConverter = require("./converter/main.js");
 var console = require("console");
-var performanceAwareCaller = require('./timed-call.js').timedCall;
 var initializeViewmodel = require("./viewmodel.js");
 var templateSystem = require('./bindings/choose-template.js');
 
@@ -47,35 +46,25 @@ ko.utils.domNodeDisposal.addDisposeCallback = function(node, callback) {
   origDisposeCallback(node, newCallback);
 };
 
-var bindingPlugin = {
-  viewModel: function(viewModel) {
-    applyBindings(viewModel);
-  },
-  dispose: function() {
-    unapplyBindings(global.document.body);
-  }
-};
-var applyBindings = function(viewModel) {
-  try {
-    performanceAwareCaller('applyBindings', ko.applyBindings.bind(this, viewModel));
-    return {
-      dispose: function() {
-        unapplyBindings(global.document.body);
+var bindingPluginMaker = function(performanceAwareCaller) {
+  return {
+    viewModel: function(viewModel) {
+      try {
+        performanceAwareCaller('applyBindings', ko.applyBindings.bind(undefined, viewModel));
+      } catch (err) {
+        console.log(err, err.stack);
+        throw err;
       }
-    };
-  } catch (err) {
-    console.log(err, err.stack);
-    throw err;
-  }
-};
-
-var unapplyBindings = function(element) {
-  try {
-    performanceAwareCaller('unapplyBindings', ko.cleanNode.bind(this, element));
-  } catch (err) {
-    console.log(err, err.stack);
-    throw err;
-  }
+    },
+    dispose: function() {
+      try {
+        performanceAwareCaller('unapplyBindings', ko.cleanNode.bind(this, global.document.body));
+      } catch (err) {
+        console.log(err, err.stack);
+        throw err;
+      }
+    }
+  };
 };
 
 var templateCreator = function(templatePlugin, htmlOrElement, optionalName, templateMode) {
@@ -140,7 +129,7 @@ var _templateUrlConverter = function(basePath, url) {
   }
 };
 
-var templateLoader = function(templateFileName, templateMetadata, jsorjson, extensions, galleryUrl) {
+var templateLoader = function(performanceAwareCaller, templateFileName, templateMetadata, jsorjson, extensions, galleryUrl) {
   var templateFile = typeof templateFileName == 'string' ? templateFileName : templateMetadata.template;
   var templatePath = "./";
   var p = templateFile.lastIndexOf('/');
@@ -149,10 +138,6 @@ var templateLoader = function(templateFileName, templateMetadata, jsorjson, exte
   }
 
   var templateUrlConverter = _templateUrlConverter.bind(undefined, templatePath);
-
-  // TODO do we need an option for this?
-  // templatePath = canonicalize(templatePath);
-  console.error("TODO to canonicalize or to not canonicalize ?????? ", templatePath);
 
   var metadata;
   if (typeof templateFile == 'string') {
@@ -167,12 +152,12 @@ var templateLoader = function(templateFileName, templateMetadata, jsorjson, exte
   }
 
   $.get(templateFile, function(templatecode) {
-    var res = templateCompiler(templateUrlConverter, "template", templatecode, jsorjson, metadata, extensions, galleryUrl);
+    var res = templateCompiler(performanceAwareCaller, templateUrlConverter, "template", templatecode, jsorjson, metadata, extensions, galleryUrl);
     res.init();
   });
 };
 
-var templateCompiler = function(templateUrlConverter, templateName, templatecode, jsorjson, metadata, extensions, galleryUrl) {
+var templateCompiler = function(performanceAwareCaller, templateUrlConverter, templateName, templatecode, jsorjson, metadata, extensions, galleryUrl) {
   // we strip content before <html> tag and after </html> because jquery doesn't parse it.
   // we'll keep it "raw" and use it in the preview/output methods.
   var res = templatecode.match(/^([\S\s]*)([<]html[^>]*>[\S\s]*<\/html>)([\S\s]*)$/i);
@@ -310,10 +295,8 @@ var templateCompiler = function(templateUrlConverter, templateName, templatecode
 
   templateSystem.init();
 
-
-
   // everything's ready, start knockout bindings.
-  plugins.push(bindingPlugin);
+  plugins.push(bindingPluginMaker(performanceAwareCaller));
 
   pluginsCall(plugins, 'viewModel', [viewModel]);
 
