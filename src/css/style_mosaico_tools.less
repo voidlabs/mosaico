@@ -104,6 +104,13 @@
       select {
         -webkit-appearance: none;
         -moz-appearance: none;
+
+        // IE10 & 11 for appearance: none
+        &::-ms-expand {
+          display: none;
+        }
+
+
         @media screen and (-webkit-min-device-pixel-ratio:0) { 
           padding-right:30px;
         }

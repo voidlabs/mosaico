@@ -265,12 +265,16 @@
   margin: @input-margin-top 0 @input-margin-bottom 0; padding: 0;
   position: relative;
   
-  // hides natives spinner on Chrome and FF
+  // hides natives spinner on Chrome, FF and the "clear-cross" by IE10-11
   input[type=number] {
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
       -webkit-appearance: none;
       margin: 0;
+    }
+    &::-ms-clear {
+      width: 0;
+      height: 0;
     }
     -moz-appearance:textfield;
   }
