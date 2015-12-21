@@ -119,7 +119,7 @@ var _processStyleSheetRules_processBlockDef = function(blockDefsUpdater, rules) 
   }
 };
 
-var processStylesheetRules = function(style, rules, localWithBindingProvider, blockDefsUpdater, themeUpdater, basePath, rootModelName, templateName) {
+var processStylesheetRules = function(style, rules, localWithBindingProvider, blockDefsUpdater, themeUpdater, templateUrlConverter, rootModelName, templateName) {
   var newStyle = style;
   var lastStart = null;
 
@@ -152,7 +152,7 @@ var processStylesheetRules = function(style, rules, localWithBindingProvider, bl
         newStyle = converterUtils.removeStyle(newStyle, rules[i].position.start, lastStart, 0, 0, 0, '');
       */
     } else if (rules[i].type == 'media' || rules[i].type == 'supports') {
-      newStyle = processStylesheetRules(newStyle, rules[i].rules, localWithBindingProvider, blockDefsUpdater, themeUpdater, basePath, rootModelName, templateName);
+      newStyle = processStylesheetRules(newStyle, rules[i].rules, localWithBindingProvider, blockDefsUpdater, themeUpdater, templateUrlConverter, rootModelName, templateName);
     } else if (rules[i].type == 'comment') {
       // ignore comments
     } else if (rules[i].type == 'rule') {
@@ -190,7 +190,7 @@ var processStylesheetRules = function(style, rules, localWithBindingProvider, bl
       // newSel += " {";
       var localBlockName = foundBlockMatch ? foundBlockMatch : templateName;
       bindingProvider = localWithBindingProvider.bind(this, localBlockName, '');
-      var elaboratedStyle = elaborateDeclarations(newStyle, rules[i].declarations, basePath, bindingProvider);
+      var elaboratedStyle = elaborateDeclarations(newStyle, rules[i].declarations, templateUrlConverter, bindingProvider);
       if (elaboratedStyle !== null) newStyle = elaboratedStyle;
 
       newStyle = converterUtils.removeStyle(newStyle, rules[i].position.start, rules[i].position.end, 0, 0, 0, newSel);

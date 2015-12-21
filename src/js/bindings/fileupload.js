@@ -180,6 +180,7 @@ ko.bindingHandlers['fudroppable'] = {
 
 ko.bindingHandlers['fileupload'] = {
   extendOptions: {},
+  remoteFilePreprocessor: function(url) { return url; },
   init: function(element, valueAccessor) {
     // TODO domnodedisposal doesn't work when the upload is done by "clicking"
     // Probably jquery-fileupload moves the DOM somewhere else so that KO doesn't 
@@ -301,13 +302,14 @@ ko.bindingHandlers['fileupload'] = {
       }
       if (e.type == 'fileuploaddone') {
         if (typeof data.result.files[0].url !== 'undefined') {
-          if (firstWorked === '') firstWorked = data.result.files[0].url;
-
           if (options.onfile) {
             for (var i = 0; i < data.result.files.length; i++) {
+              data.result.files[i] = ko.bindingHandlers['fileupload'].remoteFilePreprocessor(data.result.files[i]);
               options.onfile(data.result.files[i]);
             }
           }
+
+          if (firstWorked === '') firstWorked = data.result.files[0].url;
 
           if (canvasPreview) {
             var img = new Image();

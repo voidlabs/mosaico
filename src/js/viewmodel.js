@@ -118,7 +118,7 @@ var strings = {
 };
 */
 
-function initializeEditor(content, blockDefs, basePath, galleryUrl) {
+function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
 
   var viewModel = {
     galleryRecent: ko.observableArray([]).extend({
@@ -140,9 +140,7 @@ function initializeEditor(content, blockDefs, basePath, galleryUrl) {
     showTheme: ko.observable(false),
     showGallery: ko.observable(false),
     debug: ko.observable(false),
-    contentListeners: ko.observable(0),
-
-    basePath: basePath
+    contentListeners: ko.observable(0)
   };
 
   // viewModel.content = content._instrument(ko, content, undefined, true);
@@ -174,12 +172,26 @@ function initializeEditor(content, blockDefs, basePath, galleryUrl) {
     return key;
   };
 
+  viewModel.templatePath = thumbPathConverter;
+
+  viewModel.remoteUrlProcessor = function(url) {
+    return url;
+  };
+
+  viewModel.remoteFileProcessor = function(fileObj) {
+    if (typeof fileObj.url !== 'undefined') fileObj.url = viewModel.remoteUrlProcessor(fileObj.url);
+    if (typeof fileObj.thumbnailUrl !== 'undefined') fileObj.thumbnailUrl = viewModel.remoteUrlProcessor(fileObj.thumbnailUrl);
+    // deleteUrl?
+    return fileObj;
+  };
+
   // toolbox.tmpl.html
   viewModel.loadGallery = function() {
     viewModel.galleryLoaded('loading');
     var url = galleryUrl ? galleryUrl : '/upload/';
     // retrieve the full list of remote files
     $.getJSON(url, function(data) {
+      for (var i = 0; i < data.files.length; i++) data.files[i] = viewModel.remoteFileProcessor(data.files[i]);
       viewModel.galleryLoaded(data.files.length);
       // TODO do I want this call to return relative paths? Or just absolute paths?
       viewModel.galleryRemote(data.files.reverse());

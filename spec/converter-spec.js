@@ -29,6 +29,10 @@ var mockedBindingProvider = function(a, b) {
   return "$" + a + "[" + b + "]";
 };
 
+var templateUrlConverter = function(url) {
+  return url;
+}
+
 describe('Template converter', function() {
 
   it('should handle basic template conversion', function() {
@@ -100,7 +104,7 @@ describe('Template converter', function() {
       return p1 + 'replaced' + p2 + p3;
     });
 
-    var templateDef = translateTemplate('template', html, '', myTemplateCreator);
+    var templateDef = translateTemplate('template', html, templateUrlConverter, myTemplateCreator);
     var model = modelDef.generateResultModel(templateDef);
 
     var expectedModel = JSON.parse("" + fs.readFileSync("spec/data/template-versafix-1.model.json"));

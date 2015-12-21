@@ -97,8 +97,9 @@ var templateCreator = function(templatePlugin, htmlOrElement, optionalName, temp
     templatePlugin.adder(tmpName + '-preview', $el.html());
     templatePlugin.adder(tmpName + '-wysiwyg', $el.html());
 
-    $head.attr('data-bind', 'block: content');
+    // $head.attr('data-bind', 'block: content');
     $head.children().detach();
+    $head.html("<!-- ko block: content --><!-- /ko -->");
     $head.before('<!-- ko withProperties: { templateMode: \'head\' } -->');
     $head.after('<!-- /ko -->');
     $body.html("<!-- ko block: content --><!-- /ko -->");
@@ -130,42 +131,48 @@ function _viewModelPluginInstance(pluginFunction) {
   };
 }
 
-function canonicalize(url) {
-  var div = global.document.createElement('div');
-  div.innerHTML = "<a></a>";
-  div.firstChild.href = url; // Ensures that the href is properly escaped
-  div.innerHTML = div.innerHTML; // Run the current innerHTML back through the parser
-  return div.firstChild.href;
-}
+var _templateUrlConverter = function(basePath, url) {
+  if (!url.match(/^[^\/]*:/) && !url.match(/^\//) && !url.match(/^\[/) && !url.match(/^#?$/)) {
+    // TODO this could be smarter joining the urls...
+    return basePath + url;
+  } else {
+    return null;
+  }
+};
 
-var templateLoader = function(templateFileOrMetadata, jsorjson, extensions, galleryUrl) {
-  var templateFile = typeof templateFileOrMetadata == 'string' ? templateFileOrMetadata : templateFileOrMetadata.template;
+var templateLoader = function(templateFileName, templateMetadata, jsorjson, extensions, galleryUrl) {
+  var templateFile = typeof templateFileName == 'string' ? templateFileName : templateMetadata.template;
   var templatePath = "./";
   var p = templateFile.lastIndexOf('/');
   if (p != -1) {
     templatePath = templateFile.substr(0, p + 1);
   }
-  templatePath = canonicalize(templatePath);
+
+  var templateUrlConverter = _templateUrlConverter.bind(undefined, templatePath);
+
+  // TODO do we need an option for this?
+  // templatePath = canonicalize(templatePath);
+  console.error("TODO to canonicalize or to not canonicalize ?????? ", templatePath);
 
   var metadata;
-  if (typeof templateFileOrMetadata == 'string') {
+  if (typeof templateFile == 'string') {
     metadata = {
-      template: templateFileOrMetadata,
+      template: templateFile,
       // TODO l10n?
       name: 'No name',
       created: Date.now()
     };
   } else {
-    metadata = templateFileOrMetadata;
+    metadata = templateMetadata;
   }
 
   $.get(templateFile, function(templatecode) {
-    var res = templateCompiler(templatePath, "template", templatecode, jsorjson, metadata, extensions, galleryUrl);
+    var res = templateCompiler(templateUrlConverter, "template", templatecode, jsorjson, metadata, extensions, galleryUrl);
     res.init();
   });
 };
 
-var templateCompiler = function(basePath, templateName, templatecode, jsorjson, metadata, extensions, galleryUrl) {
+var templateCompiler = function(templateUrlConverter, templateName, templatecode, jsorjson, metadata, extensions, galleryUrl) {
   // we strip content before <html> tag and after </html> because jquery doesn't parse it.
   // we'll keep it "raw" and use it in the preview/output methods.
   var res = templatecode.match(/^([\S\s]*)([<]html[^>]*>[\S\s]*<\/html>)([\S\s]*)$/i);
@@ -187,7 +194,6 @@ var templateCompiler = function(basePath, templateName, templatecode, jsorjson, 
   var enableRecorder = true;
   var baseThreshold = '+$root.contentListeners()';
 
-
   var plugins = [];
 
   if (typeof extensions !== 'undefined') {
@@ -199,8 +205,6 @@ var templateCompiler = function(basePath, templateName, templatecode, jsorjson, 
       }
     }
   }
-
-
 
   var createdTemplates = [];
   var templatesPlugin = {
@@ -231,7 +235,7 @@ var templateCompiler = function(basePath, templateName, templatecode, jsorjson, 
   var myTemplateCreator = templateCreator.bind(undefined, templatesPlugin);
 
   // first pass: we "compile" the template into a termplateDef object
-  var templateDef = performanceAwareCaller('translateTemplate', templateConverter.translateTemplate.bind(undefined, templateName, html, basePath, myTemplateCreator));
+  var templateDef = performanceAwareCaller('translateTemplate', templateConverter.translateTemplate.bind(undefined, templateName, html, templateUrlConverter, myTemplateCreator));
 
   // second pass: given the templateDef we create a base content model object for this template.
   var content = performanceAwareCaller('generateModel', templateConverter.wrappedResultModel.bind(undefined, templateDef));
@@ -242,7 +246,7 @@ var templateCompiler = function(basePath, templateName, templatecode, jsorjson, 
   for (var wi = 0; wi < widgetPlugins.length; wi++) {
     widgets[widgetPlugins[wi].widget] = widgetPlugins[wi];
   }
-  blockDefs.push.apply(blockDefs, performanceAwareCaller('generateEditors', templateConverter.generateEditors.bind(undefined, templateDef, widgets, basePath, myTemplateCreator, baseThreshold)));
+  blockDefs.push.apply(blockDefs, performanceAwareCaller('generateEditors', templateConverter.generateEditors.bind(undefined, templateDef, widgets, templateUrlConverter, myTemplateCreator, baseThreshold)));
 
   var incompatibleTemplate = false;
   if (typeof jsorjson !== 'undefined' && jsorjson !== null) {
@@ -287,7 +291,7 @@ var templateCompiler = function(basePath, templateName, templatecode, jsorjson, 
   plugins.push(templatesPlugin);
 
   // initialize the viewModel object based on the content model.
-  var viewModel = performanceAwareCaller('initializeViewmodel', initializeViewmodel.bind(this, content, blockDefs, basePath, galleryUrl));
+  var viewModel = performanceAwareCaller('initializeViewmodel', initializeViewmodel.bind(this, content, blockDefs, templateUrlConverter, galleryUrl));
 
   viewModel.metadata = metadata;
   // let's run some version check on template and editor used to build the model being loaded.
@@ -325,17 +329,14 @@ var templateCompiler = function(basePath, templateName, templatecode, jsorjson, 
     });
   }
 
-  // dispose function      
-  var dispose = function() {
-    pluginsCall(plugins, 'dispose', undefined, true);
-  };
-
   return {
     model: viewModel,
     init: function() {
       pluginsCall(plugins, 'init', undefined, true);
     },
-    dispose: dispose
+    dispose: function() {
+      pluginsCall(plugins, 'dispose', undefined, true);
+    }
   };
 
 };

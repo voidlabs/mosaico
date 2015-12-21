@@ -131,7 +131,7 @@ var _getGlobalStyleProp = function(globalStyles, model, prop, path) {
   return globalStyleProp;
 };
 
-var _propEditor = function(withBindingProvider, widgets, basePath, model, themeModel, path, prop, editType, level, baseThreshold, globalStyles, globalStyleProp, trackUsage, rootPreviewBinding, previewBackground) {
+var _propEditor = function(withBindingProvider, widgets, templateUrlConverter, model, themeModel, path, prop, editType, level, baseThreshold, globalStyles, globalStyleProp, trackUsage, rootPreviewBinding, previewBackground) {
   if (typeof level == 'undefined') level = 0;
 
   if (typeof prop !== 'undefined' && typeof model == 'object' && model !== null && typeof model._usecount === 'undefined') {
@@ -232,7 +232,7 @@ var _propEditor = function(withBindingProvider, widgets, basePath, model, themeM
         if (typeof model._previewBindings != 'undefined' && typeof withBindingProvider != 'undefined') {
           if (typeof rootPreviewBinding != 'undefined') html += '<!-- ko with: $root.content() --><div class="objPreview" data-bind="' + rootPreviewBinding + '"></div><!-- /ko -->';
           if (typeof previewBackground != 'undefined') html += '<!-- ko with: $parent --><div class="objPreview" data-bind="' + previewBackground + '"></div><!-- /ko -->';
-          var previewBindings = elaborateDeclarations(undefined, model._previewBindings, basePath, withBindingProvider.bind(this, path + '.'));
+          var previewBindings = elaborateDeclarations(undefined, model._previewBindings, templateUrlConverter, withBindingProvider.bind(this, path + '.'));
           html += '<div class="objPreview"><div class="objPreviewInner" data-bind="' + previewBindings + '"></div></div>';
         }
       }
@@ -242,7 +242,7 @@ var _propEditor = function(withBindingProvider, widgets, basePath, model, themeM
     var previewBG;
     if (level === 0) {
       if (typeof model._previewBindings != 'undefined') {
-        previewBG = elaborateDeclarations(undefined, model._previewBindings, basePath, withBindingProvider.bind(this, path.length > 0 ? path + '.' : ''));
+        previewBG = elaborateDeclarations(undefined, model._previewBindings, templateUrlConverter, withBindingProvider.bind(this, path.length > 0 ? path + '.' : ''));
       }
     }
 
@@ -258,10 +258,10 @@ var _propEditor = function(withBindingProvider, widgets, basePath, model, themeM
       if (typeof model[props[i]] != 'object' || model[props[i]] === null || typeof model[props[i]]._widget != 'undefined') {
         newGlobalStyleProp = undefined;
         if (level === 0 && props[i] == 'theme')
-          html += _propEditor(withBindingProvider, widgets, basePath, model[props[i]], newThemeModel, newPath, props[i], editType, 0, baseThreshold, undefined, undefined, trackUsage, rootPreviewBinding);
+          html += _propEditor(withBindingProvider, widgets, templateUrlConverter, model[props[i]], newThemeModel, newPath, props[i], editType, 0, baseThreshold, undefined, undefined, trackUsage, rootPreviewBinding);
         else {
           newGlobalStyleProp = _getGlobalStyleProp(globalStyles, model[props[i]], props[i], newPath);
-          html += _propEditor(withBindingProvider, widgets, basePath, model[props[i]], newThemeModel, newPath, props[i], editType, level + 1, baseThreshold, globalStyles, newGlobalStyleProp, trackUsage, rootPreviewBinding, previewBG);
+          html += _propEditor(withBindingProvider, widgets, templateUrlConverter, model[props[i]], newThemeModel, newPath, props[i], editType, level + 1, baseThreshold, globalStyles, newGlobalStyleProp, trackUsage, rootPreviewBinding, previewBG);
         }
       }
     }
@@ -270,10 +270,10 @@ var _propEditor = function(withBindingProvider, widgets, basePath, model, themeM
       if (!(typeof model[props[i]] != 'object' || model[props[i]] === null || typeof model[props[i]]._widget != 'undefined')) {
         newGlobalStyleProp = undefined;
         if (level === 0 && props[i] == 'theme')
-          html += _propEditor(withBindingProvider, widgets, basePath, model[props[i]], newThemeModel, newPath, props[i], editType, 0, baseThreshold, undefined, undefined, trackUsage, rootPreviewBinding);
+          html += _propEditor(withBindingProvider, widgets, templateUrlConverter, model[props[i]], newThemeModel, newPath, props[i], editType, 0, baseThreshold, undefined, undefined, trackUsage, rootPreviewBinding);
         else {
           newGlobalStyleProp = _getGlobalStyleProp(globalStyles, model[props[i]], props[i], newPath);
-          html += _propEditor(withBindingProvider, widgets, basePath, model[props[i]], newThemeModel, newPath, props[i], editType, level + 1, baseThreshold, globalStyles, newGlobalStyleProp, trackUsage, rootPreviewBinding, previewBG);
+          html += _propEditor(withBindingProvider, widgets, templateUrlConverter, model[props[i]], newThemeModel, newPath, props[i], editType, level + 1, baseThreshold, globalStyles, newGlobalStyleProp, trackUsage, rootPreviewBinding, previewBG);
         }
       }
     }
@@ -348,14 +348,14 @@ var _propEditor = function(withBindingProvider, widgets, basePath, model, themeM
 };
 
 
-var createBlockEditor = function(defs, widgets, themeUpdater, basePath, rootModelName, templateName, editType, templateCreator, baseThreshold, trackGlobalStyles, trackUsage, fromLevel) {
+var createBlockEditor = function(defs, widgets, themeUpdater, templateUrlConverter, rootModelName, templateName, editType, templateCreator, baseThreshold, trackGlobalStyles, trackUsage, fromLevel) {
   if (typeof trackUsage == 'undefined') trackUsage = true;
   var model = modelDef.getDef(defs, templateName);
 
   var rootModel = modelDef.getDef(defs, rootModelName);
   var rootPreviewBindings;
   if (typeof rootModel._previewBindings != 'undefined' && templateName != 'thaeme' && editType == 'styler') {
-    rootPreviewBindings = elaborateDeclarations(undefined, rootModel._previewBindings, basePath, modelDef.getBindValue.bind(undefined, defs, themeUpdater, rootModelName, rootModelName, ''));
+    rootPreviewBindings = elaborateDeclarations(undefined, rootModel._previewBindings, templateUrlConverter, modelDef.getBindValue.bind(undefined, defs, themeUpdater, rootModelName, rootModelName, ''));
   }
 
   var globalStyles = typeof trackGlobalStyles != 'undefined' && trackGlobalStyles ? defs[templateName]._globalStyles : undefined;
@@ -376,7 +376,7 @@ var createBlockEditor = function(defs, widgets, themeUpdater, basePath, rootMode
   var html = '<div class="editor">';
   html += "<div class=\"blockType" + (typeof globalStyles != 'undefined' ? " withdefaults" : "") + "\">" + model.type + "</div>";
 
-  var editorContent = _propEditor(withBindingProvider, widgets, basePath, model, themeModel, "", undefined, editType, fromLevel, baseThreshold, globalStyles, globalStyleProp, trackUsage, rootPreviewBindings);
+  var editorContent = _propEditor(withBindingProvider, widgets, templateUrlConverter, model, themeModel, "", undefined, editType, fromLevel, baseThreshold, globalStyles, globalStyleProp, trackUsage, rootPreviewBindings);
   if (editorContent.length > 0) {
     html += editorContent;
   }
@@ -386,12 +386,12 @@ var createBlockEditor = function(defs, widgets, themeUpdater, basePath, rootMode
   templateCreator(html, templateName, editType);
 };
 
-var createBlockEditors = function(defs, widgets, themeUpdater, basePath, rootModelName, templateName, templateCreator, baseThreshold) {
-  createBlockEditor(defs, widgets, themeUpdater, basePath, rootModelName, templateName, 'edit', templateCreator, baseThreshold);
-  createBlockEditor(defs, widgets, themeUpdater, basePath, rootModelName, templateName, 'styler', templateCreator, baseThreshold, true);
+var createBlockEditors = function(defs, widgets, themeUpdater, templateUrlConverter, rootModelName, templateName, templateCreator, baseThreshold) {
+  createBlockEditor(defs, widgets, themeUpdater, templateUrlConverter, rootModelName, templateName, 'edit', templateCreator, baseThreshold);
+  createBlockEditor(defs, widgets, themeUpdater, templateUrlConverter, rootModelName, templateName, 'styler', templateCreator, baseThreshold, true);
 };
 
-var generateEditors = function(templateDef, widgets, basePath, templateCreator, baseThreshold) {
+var generateEditors = function(templateDef, widgets, templateUrlConverter, templateCreator, baseThreshold) {
   var defs = templateDef._defs;
   var templateName = templateDef.templateName;
   var blocks = templateDef._blocks;
@@ -401,10 +401,10 @@ var generateEditors = function(templateDef, widgets, basePath, templateCreator, 
     if (typeof blocks[idx].container !== 'undefined') {
       blockDefs.push(modelDef.generateModel(defs, blocks[idx].block));
     }
-    createBlockEditors(defs, widgets, undefined, basePath, blocks[idx].root, blocks[idx].block, templateCreator, baseThreshold);
+    createBlockEditors(defs, widgets, undefined, templateUrlConverter, blocks[idx].root, blocks[idx].block, templateCreator, baseThreshold);
   }
 
-  if (typeof defs['theme'] != 'undefined') createBlockEditor(defs, widgets, undefined, basePath, templateName, 'theme', 'styler', templateCreator, undefined, false, false, -1);
+  if (typeof defs['theme'] != 'undefined') createBlockEditor(defs, widgets, undefined, templateUrlConverter, templateName, 'theme', 'styler', templateCreator, undefined, false, false, -1);
   return blockDefs;
 };
 

@@ -28,7 +28,7 @@ var replacedAttributes = function(element, attributeName) {
   domutils.setAttribute(element, attributeName, domutils.getAttribute(element, "replaced" + attributeName));
 };
 
-var processStyle = function(element, basePath, bindingProvider, addUniqueId) {
+var processStyle = function(element, templateUrlConverter, bindingProvider, addUniqueId) {
   var style = domutils.getAttribute(element, 'replacedstyle');
   var newStyle = null;
   var newBindings;
@@ -41,7 +41,7 @@ var processStyle = function(element, basePath, bindingProvider, addUniqueId) {
 
   var removeDisplayNone = domutils.getAttribute(element, 'data-ko-display') !== null;
 
-  newStyle = elaborateDeclarations(style, undefined, basePath, bindingProvider, element, newBindings, removeDisplayNone);
+  newStyle = elaborateDeclarations(style, undefined, templateUrlConverter, bindingProvider, element, newBindings, removeDisplayNone);
 
   // only when using "replaced"
   if (newStyle === null) {
@@ -61,7 +61,18 @@ var processStyle = function(element, basePath, bindingProvider, addUniqueId) {
   }
 };
 
-var processBlock = function(element, defs, themeUpdater, blockPusher, basePath, contextName, rootModelName, containerName, generateUniqueId, templateCreator) {
+
+// TODO fixing URLs is also needed where styles uses path (e.g: background-image, @import)
+var _fixRelativePath = function(attribute, templateUrlConverter, index, element) {
+  var url = domutils.getAttribute(element, attribute);
+  var newUrl = templateUrlConverter(url);
+  if (newUrl !== null) {
+    domutils.setAttribute(element, attribute, newUrl);
+  }
+};
+
+
+var processBlock = function(element, defs, themeUpdater, blockPusher, templateUrlConverter, contextName, rootModelName, containerName, generateUniqueId, templateCreator) {
 
   try {
 
@@ -86,12 +97,9 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, basePath, 
 
   // Urls in these attributes needs "relativization"
   var urlattrs = ['href', 'src', 'data-ko-placeholder-src', 'background'];
-  var fixPath = function(attr, basePath, index, element) {
-    return domutils.fixRelativePath(element, attr, basePath);
-  };
   for (var i = 0; i < urlattrs.length; i++) {
     // faccio il bind per non definire funzioni in un loop (jshint)
-    var func = fixPath.bind(undefined, urlattrs[i], basePath);
+    var func = _fixRelativePath.bind(undefined, urlattrs[i], templateUrlConverter);
     $('[' + urlattrs[i] + ']', element).each(func);
   }
 
@@ -113,7 +121,7 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, basePath, 
 
     var blockDefsUpdater = modelDef.createOrUpdateBlockDef.bind(undefined, defs);
     var localWithBindingProvider = modelDef.ensurePathAndGetBindValue.bind(undefined, defs, themeUpdater, rootModelName);
-    var newStyle = processStylesheetRules(style, undefined, localWithBindingProvider, blockDefsUpdater, themeUpdater, basePath, rootModelName, templateName);
+    var newStyle = processStylesheetRules(style, undefined, localWithBindingProvider, blockDefsUpdater, themeUpdater, templateUrlConverter, rootModelName, templateName);
 
     if (newStyle != style) {
       if (newStyle.trim() !== '') {
@@ -128,7 +136,7 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, basePath, 
     }
   });
 
-  processStyle(element, basePath, bindingProvider, generateUniqueId);
+  processStyle(element, templateUrlConverter, bindingProvider, generateUniqueId);
 
   // TODO href should be supported. data-ko-display and data-ko-wrap should never happen in here.
   var notsupported = ['data-ko-display', 'data-ko-editable', 'data-ko-wrap', 'href'];
@@ -153,7 +161,7 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, basePath, 
   });
 
   $("[replacedstyle]", element).each(function(index, element) {
-    processStyle(element, basePath, bindingProvider, false);
+    processStyle(element, templateUrlConverter, bindingProvider, false);
   });
 
   $("[replacedhttp-equiv]", element).each(function(index, element) {
@@ -304,7 +312,7 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, basePath, 
   $("replacedblock", element).each(function(index, element) {
     var blockElement = fixedBlocks[index];
 
-    var blockName = processBlock(blockElement, defs, themeUpdater, blockPusher, basePath, 'block', templateName, containerName, true, templateCreator);
+    var blockName = processBlock(blockElement, defs, themeUpdater, blockPusher, templateUrlConverter, 'block', templateName, containerName, true, templateCreator);
     // replaced blocks are defined in the model root
     var modelBindValue = modelDef.ensurePathAndGetBindValue(defs, themeUpdater, rootModelName, templateName, '', blockName);
 
@@ -390,7 +398,7 @@ function conditional_replace(html) {
 }
 
 
-var translateTemplate = function(templateName, html, basePath, templateCreator) {
+var translateTemplate = function(templateName, html, templateUrlConverter, templateCreator) {
   var defs = {};
   var replacedHtml = conditional_replace(html.replace(/(<[^>]+\s)(style|http-equiv)(="[^"]*"[^>]*>)/gi, function(match, p1, p2, p3) {
     return p1 + 'replaced' + p2 + p3;
@@ -444,10 +452,10 @@ var translateTemplate = function(templateName, html, basePath, templateCreator) 
   // Needed if you want to use a text variable? TODO this should not be needed!
   modelDef.createOrUpdateBlockDef(defs, 'text');
 
-  processBlock(element, defs, themeUpdater, _blockPusher, basePath, 'template', templateName, undefined, false, templateCreator);
+  processBlock(element, defs, themeUpdater, _blockPusher, templateUrlConverter, 'template', templateName, undefined, false, templateCreator);
 
   var blockProcess = function(containerName, index, element) {
-    processBlock(element, defs, themeUpdater, _blockPusher, basePath, 'block', templateName, containerName, true, templateCreator);
+    processBlock(element, defs, themeUpdater, _blockPusher, templateUrlConverter, 'block', templateName, containerName, true, templateCreator);
   };
 
   for (var prop in containersDom)

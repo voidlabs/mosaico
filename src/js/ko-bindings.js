@@ -3,6 +3,7 @@
 require("knockout-sortable");
 
 require("./bindings/jqueryui-spinner.js");
+require("./bindings/jqueryui-tabs.js");
 require("./bindings/colorpicker.js");
 require("./bindings/blocks.js");
 require("./bindings/csstext.js");

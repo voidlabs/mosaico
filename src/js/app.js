@@ -13,6 +13,14 @@ var colorPlugin = require("./ext/color.js");
 
 var localStoragePluginFactory = require("./ext/localstorage.js");
 
+function _canonicalize(url) {
+  var div = global.document.createElement('div');
+  div.innerHTML = "<a></a>";
+  div.firstChild.href = url; // Ensures that the href is properly escaped
+  div.innerHTML = div.innerHTML; // Run the current innerHTML back through the parser
+  return div.firstChild.href;
+}
+
 var applyBindingOptions = function(options, ko) {
   // push "convertedUrl" method to the wysiwygSrc binding
   ko.bindingHandlers.wysiwygSrc.convertedUrl = function(src, method, width, height) {
@@ -42,7 +50,7 @@ var start = function(options, templateFileOrMetadata, jsorjson, customExtensions
 
   templateLoader.fixPageEvents();
 
-  var fileUploadMessages = function(vm) {
+  var fileUploadMessagesExtension = function(vm) {
     var fileuploadConfig = {
       messages: {
         unknownError: vm.t('Unknown error'),
@@ -69,7 +77,6 @@ var start = function(options, templateFileOrMetadata, jsorjson, customExtensions
     if (options && options.fileuploadConfig)
       fileuploadConfig = $.extend(true, fileuploadConfig, options.fileuploadConfig);
 
-    console.log("new file upload messages", fileuploadConfig);
     ko.bindingHandlers['fileupload'].extendOptions = fileuploadConfig;
 
   };
@@ -90,7 +97,7 @@ var start = function(options, templateFileOrMetadata, jsorjson, customExtensions
   var extensions = [addUndoStack, colorPlugin, simpleTranslationPlugin];
   if (typeof customExtensions !== 'undefined')
     for (var k = 0; k < customExtensions.length; k++) extensions.push(customExtensions[k]);
-  extensions.push(fileUploadMessages);
+  extensions.push(fileUploadMessagesExtension);
 
   var galleryUrl = options.fileuploadConfig ? options.fileuploadConfig.url : '/upload/';
   applyBindingOptions(options, ko);
@@ -98,7 +105,18 @@ var start = function(options, templateFileOrMetadata, jsorjson, customExtensions
   // TODO what about appending to another element?
   $("<!-- ko template: 'main' --><!-- /ko -->").appendTo(global.document.body);
 
-  templateLoader.load(templateFileOrMetadata, jsorjson, extensions, galleryUrl);
+  // templateFile may override the template path in templateMetadata
+  var templateFile;
+  var templateMetadata;
+  if (typeof templateFileOrMetadata == 'string') {
+    templateFile = templateFileOrMetadata;
+  } else {
+    templateMetadata = templateFileOrMetadata;
+    templateFile = templateFileOrMetadata.template;
+  }
+  // TODO canonicalize templateFile to absolute or relative depending on "relativeUrlsException" plugin
+
+  templateLoader.load(templateFile, templateMetadata, jsorjson, extensions, galleryUrl);
 
 };
 
@@ -111,6 +129,7 @@ var initFromLocalStorage = function(options, hash_key, customExtensions) {
     if (td !== null) model = JSON.parse(td);
     var md = JSON.parse(mdStr);
 
+    // TODO canonicalize md.template vs expect it to be already canonical?
     var extensions = typeof customExtensions !== 'undefined' ? customExtensions : [];
     extensions.push(localStoragePluginFactory(md, options.emailProcessorBackend));
     start(options, md, model, extensions);
@@ -137,7 +156,7 @@ var init = function(options, customExtensions) {
     initFromLocalStorage(options, hash, customExtensions);
     // Loading from template url as hash (if hash is not a valid localstorage key)
   } else if (hash) {
-    start(options, hash, undefined, customExtensions);
+    start(options, _canonicalize(hash), undefined, customExtensions);
   } else {
     return false;
   }
