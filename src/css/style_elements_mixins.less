@@ -1,4 +1,4 @@
-@ie8hack: \0screen; // Match solo di IE8
+@ie8hackprop: ~"\9"; // Match solo di IE8
 @ie10modernhack: ~"(-ms-high-contrast: active), (-ms-high-contrast: none), not screen\0"; // Match di IE10+ e altri browser moderni
 
 @input-padding-v: 5px; // .35em
@@ -12,9 +12,7 @@
   font-size: 1.0em;
   line-height: normal; // Firefox uses a "line-height: normal !important" for input elements, resulting in "1.2". If we use "1.2" on chrome we get bigger text (li has 1.25). Using "normal" works fine on both.
   min-height: (18px + @input-border-size * 2 + @input-padding-v * 2); // Select size on Firefox is 18px, while another input is 16px, this creates differences fixed by min-height.
-  @media @ie8hack {
-    min-height: (18px + @input-border-size * 2 ); // IE8 ignores box-sizing for minheight, so we don't add @input-padding-v
-  }
+  min-height: (18px + @input-border-size * 2 )@ie8hackprop; // IE8 ignores box-sizing for minheight, so we don't add @input-padding-v
   vertical-align: middle;
 }
 
@@ -204,9 +202,7 @@
   border-radius: @large-border-radius;
   // IE8 border
   border: 0px solid @shadow-color;
-  @media @ie8hack {
-    border-width: 1px;
-  }
+  border-width: 1px@ie8hackprop;
   border-color: fade(@shadow-color, 0%);
   box-shadow: 0 2px 20px @shadow-color;
   color: @helpwin-text-color;
@@ -312,9 +308,7 @@
   border-radius: @button-border-radius;
   // IE8 border
   border: 0px solid @shadow-color;
-  @media @ie8hack {
-    border-width: 1px;
-  }
+  border-width: 1px@ie8hackprop;
   // trasparented border for supporting browsers
   border-color: fade(@shadow-color, 0%);
   box-shadow: 0 4px 10px @shadow-color;
