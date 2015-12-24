@@ -188,9 +188,15 @@
   background-color: white;
   color: lighten(@text-color, 30%);
 }
+.mo .propInput .data-integer .ui-spinner-button .ui-button-text {
+  background-color: transparent;
+  color: lighten(@text-color, 30%);
+}
 .mo .propInput .data-select:hover:after,
 .mo .propInput .evo-pointer:hover:before,
-.mo .ui-button.ui-spinner-button.ui-state-hover {
+.mo .ui-button.ui-spinner-button.ui-state-hover,
+.mo .propInput .data-integer .ui-button-text,
+.mo .propInput .data-integer .ui-spinner-button:hover .ui-button-text {
   color: @button-background-color;
 }
 

@@ -292,24 +292,31 @@
     padding: 0; margin: 0;
     position: absolute;
     right: 0;
-    font-size: 80%;
+    line-height: 1em;
     cursor: pointer;
-  }
-  .ui-icon {
-    position: absolute;
-    margin-top: -7px; // 1/2 di 16px
-    top: 50%;
-    left: .35em;
+    .ui-icon {
+      display: none;
+    }
   }
   .ui-spinner-up {
     top: 0;
     border-bottom: none;
     border-radius: 0 @button-border-radius 0 0;
+    .ui-button-text:after {
+      font-family: FontAwesome;
+      font-weight: normal;
+      content: "\f0d8";
+    }
   }
   .ui-spinner-down {
     bottom: 0;
     border-top: none;
     border-radius: 0 0 @button-border-radius 0;
+    .ui-button-text:after {
+      font-family: FontAwesome;
+      font-weight: normal;
+      content: "\f0d7";
+    }
   }
 }
 
