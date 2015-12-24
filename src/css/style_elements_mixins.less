@@ -1,4 +1,5 @@
-@ie8hack: \0screen;
+@ie8hack: \0screen; // Match solo di IE8
+@ie10modernhack: ~"(-ms-high-contrast: active), (-ms-high-contrast: none), not screen\0"; // Match di IE10+ e altri browser moderni
 
 @input-padding-v: 5px; // .35em
 @input-padding-h: 7px; // .5em
@@ -150,43 +151,52 @@
 }
 
 .input-select() {
-  position: relative;
-  select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
+  @media @ie10modernhack {
+    position: relative;
+    select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
 
-    // IE10 & 11 for appearance: none
-    &::-ms-expand {
-      display: none;
+      // IE10 & 11 for appearance: none
+      &::-ms-expand {
+        display: none;
+      }
+
+      padding-right:30px;
+
+      .input-button-common;
+      // sovrapposizioni arrotondamenti
+      border-top-right-radius: 15px;
+      border-bottom-right-radius: 15px;
     }
 
-    padding-right:30px;
+    &:after {
+      .button-style();
+      margin: 0;
 
-    .input-button-common;
-    // sovrapposizioni arrotondamenti
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
-  }
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      line-height: 30px;
+      width: 28px;
+      margin-right: 0;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      
+      /*
+      content: "▼";
+      font-size: 60%;
+      */
+      
+      font-family: FontAwesome;
+      content: "\f0d7";
+      font-weight: normal;
 
-  &:after {
-    content: "▼";
-    .button-style();
-    margin: 0;
-
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    font-size: 60%;
-    line-height: 30px;
-    width: 28px;
-    margin-right: 0;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-
-    // padding: 0 8px;
-    pointer-events:none;
-    // box-sizing: border-box;
+      // padding: 0 8px;
+      pointer-events:none;
+      // box-sizing: border-box;
+    }
   }
 }
 

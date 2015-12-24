@@ -29,7 +29,6 @@
   .propInput .evo-pointer::before {
     width: 31px;
     padding: 0 10px;
-    font-size: 80%;
   }
   .propInput .ui-textbutton .ui-textbutton-button.ui-button-icon-only {
     width: 30px;
@@ -403,8 +402,11 @@
     border-bottom-right-radius: 15px;
 
     &:before {
-      content: "▼";
       .button-style();
+
+      font-family: FontAwesome;
+      content: "\f0d7";
+      font-weight: normal;
 
       // see .button_dropdown_split styles
       border-left: @input-border-size solid fade(@button-border-color-split, 50%) !important; // !important to work also on .big and .primary
@@ -415,7 +417,6 @@
       top: -1px;
       right: -1px;
       bottom: -1px;
-      font-size: 60%;
       line-height: 30px;
       width: 28px;
       padding: 0 8px;
