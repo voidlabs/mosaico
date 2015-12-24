@@ -12,7 +12,7 @@ var performanceAwareCaller = require("./timed-call.js").timedCall;
 var addUndoStackExtensionMaker = require("./undomanager/undomain.js");
 var colorPlugin = require("./ext/color.js");
 
-var localStoragePluginFactory = require("./ext/localstorage.js");
+var localStorageLoader = require("./ext/localstorage.js");
 
 function _canonicalize(url) {
   var div = global.document.createElement('div');
@@ -47,7 +47,7 @@ var applyBindingOptions = function(options, ko) {
     ko.bindingHandlers.wysiwyg.fullOptions = options.tinymceConfigFull;
 };
 
-var start = function(options, templateFileOrMetadata, jsorjson, customExtensions) {
+var start = function(options, templateFile, templateMetadata, jsorjson, customExtensions) {
 
   templateLoader.fixPageEvents();
 
@@ -107,13 +107,8 @@ var start = function(options, templateFileOrMetadata, jsorjson, customExtensions
   $("<!-- ko template: 'main' --><!-- /ko -->").appendTo(global.document.body);
 
   // templateFile may override the template path in templateMetadata
-  var templateFile;
-  var templateMetadata;
-  if (typeof templateFileOrMetadata == 'string') {
-    templateFile = templateFileOrMetadata;
-  } else {
-    templateMetadata = templateFileOrMetadata;
-    templateFile = templateFileOrMetadata.template;
+  if (typeof templateFile == 'undefined' && typeof templateMetadata != 'undefined') {
+    templateFile = templateMetadata.template;
   }
   // TODO canonicalize templateFile to absolute or relative depending on "relativeUrlsException" plugin
 
@@ -122,22 +117,15 @@ var start = function(options, templateFileOrMetadata, jsorjson, customExtensions
 };
 
 var initFromLocalStorage = function(options, hash_key, customExtensions) {
-  // TODO l'index fa un array in JSON.. qui è scomodo.. meglio fare chiavi separate e fare un semplice array di chiavi.
-  var mdStr = global.localStorage.getItem("metadata-" + hash_key);
-  if (mdStr !== null) {
-    var model;
-    var td = global.localStorage.getItem("template-" + hash_key);
-    if (td !== null) model = JSON.parse(td);
-    var md = JSON.parse(mdStr);
-
-    // TODO canonicalize md.template vs expect it to be already canonical?
+  try {
+    var lsData = localStorageLoader(hash_key, options.emailProcessorBackend);
     var extensions = typeof customExtensions !== 'undefined' ? customExtensions : [];
-    extensions.push(localStoragePluginFactory(md, options.emailProcessorBackend));
-    start(options, md, model, extensions);
-  } else {
-    console.log("TODO not found ", mdStr, hash_key);
+    extensions.push(lsData.extension);
+    var template = _canonicalize(lsData.metadata.template);
+    start(options, template, lsData.metadata, lsData.model, extensions);
+  } catch (e) {
+    console.error("TODO not found ", hash_key, e);
   }
-
 };
 
 var init = function(options, customExtensions) {
@@ -148,16 +136,16 @@ var init = function(options, customExtensions) {
   if (options && (options.template || options.data)) {
     if (options.data) {
       var data = JSON.parse(options.data);
-      start(options, data.metadata, data.content, customExtensions);
+      start(options, undefined, data.metadata, data.content, customExtensions);
     } else {
-      start(options, options.template, undefined, customExtensions);
+      start(options, options.template, undefined, undefined, customExtensions);
     }
     // Loading from LocalStorage (if url hash has a 7chars key)
   } else if (hash && hash.length == 7) {
     initFromLocalStorage(options, hash, customExtensions);
     // Loading from template url as hash (if hash is not a valid localstorage key)
   } else if (hash) {
-    start(options, _canonicalize(hash), undefined, customExtensions);
+    start(options, _canonicalize(hash), undefined, undefined, customExtensions);
   } else {
     return false;
   }
