@@ -6,3 +6,10 @@ You can provide new translations to our mosaico translations project on Transife
 
 Please get in touch with me by sending an email to info on the mosaico.io domain including your email and the language you'd like to contribute.
 
+Thanks to translators:
+it (Italian): Mosaico Team
+de (German): Bernhard Weichel
+es (Spanish): Carlos Jacobs
+fr (French): Jonathan Loriaux
+
+Sign-up to Transifex if you want to collaborate or suggest changes to the current languages!
