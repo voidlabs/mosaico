@@ -140,7 +140,11 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
     showTheme: ko.observable(false),
     showGallery: ko.observable(false),
     debug: ko.observable(false),
-    contentListeners: ko.observable(0)
+    contentListeners: ko.observable(0),
+    
+    logoPath: 'dist/img/mosaico32.png',
+    logoUrl: '.',
+    logoAlt: 'mosaico'
   };
 
   // viewModel.content = content._instrument(ko, content, undefined, true);
