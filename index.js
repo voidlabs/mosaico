@@ -1,0 +1,75 @@
+'use strict';
+
+var chalk         = require('chalk');
+var express       = require('express');
+var bodyParser    = require('body-parser');
+var compression   = require('compression');
+var morgan        = require('morgan');
+
+var conf          = require('./server/config');
+var app           = express();
+
+//////
+// SERVER CONFIG
+//////
+
+var app = express();
+
+app.use(bodyParser.json({limit: '5mb'}));
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  limit: '5mb',
+  extended: true
+}));
+app.use(compression());
+
+// statics
+// app.use('/content', express.static('./build'));
+app.use(express.static('./dist'));
+app.use(express.static('./server/views'));
+app.use('/templates', express.static('./templates'));
+
+//////
+// LOGGING
+//////
+
+function logRequest(tokens, req, res) {
+  var method  = tokens.method(req, res);
+  var url     = tokens.url(req, res);
+  return chalk.blue(method) + ' ' + chalk.grey(url);
+}
+
+function logResponse(tokens, req, res) {
+  var method      = tokens.method(req, res);
+  var status      = tokens.status(req, res);
+  var url         = tokens.url(req, res);
+  var statusColor = status >= 500
+    ? 'red' : status >= 400
+    ? 'yellow' : status >= 300
+    ? 'cyan' : 'green';
+  return chalk.blue(method) + ' '
+    + chalk.grey(url) + ' '
+    + chalk[statusColor](status);
+}
+app.use(morgan(logRequest, {immediate: true}));
+app.use(morgan(logResponse));
+
+//////
+// ROUTING
+//////
+
+var upload    = require('./server/upload');
+var download  = require('./server/download');
+var images    = require('./server/images');
+
+app.get('/upload/', upload.get);
+app.use('/upload/', upload.all);
+app.get('/img/',    images.get);
+app.post('/dl/',    download.post);
+
+//////
+// LAUNCHING
+//////
+
+var server = app.listen(conf.PORT || 3000, function endInit() {
+  console.log('Server is listening on port ', server.address().port);
+});
