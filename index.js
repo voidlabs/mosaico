@@ -5,8 +5,9 @@ var express       = require('express');
 var bodyParser    = require('body-parser');
 var compression   = require('compression');
 var morgan        = require('morgan');
+var favicon       = require('serve-favicon');
 
-var conf          = require('./server/config');
+var config        = require('./server/config');
 var app           = express();
 
 //////
@@ -21,9 +22,9 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
 app.use(compression());
+app.use(favicon(__dirname + '/favicon.ico'));
 
 // statics
-// app.use('/content', express.static('./build'));
 app.use(express.static('./dist'));
 app.use(express.static('./server/views'));
 app.use('/templates', express.static('./templates'));
@@ -70,6 +71,9 @@ app.post('/dl/',    download.post);
 // LAUNCHING
 //////
 
-var server = app.listen(conf.PORT || 3000, function endInit() {
-  console.log('Server is listening on port ', server.address().port);
+var server = app.listen(config.PORT, function endInit() {
+  console.log(
+    chalk.green('Server is listening on port'), chalk.cyan(server.address().port),
+    chalk.green('on mode'), chalk.cyan(config.NODE_ENV)
+  );
 });

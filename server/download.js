@@ -35,11 +35,11 @@ function postDownload(req, res, next) {
       transporter.sendMail(mailOptions, mailSend);
     }
   }
+
   function processErrored(err) {
     console.log(err);
     return res.status(500).send('Error: ' + err);
   }
-
 
   function mailSend(error, info) {
     if (error) {

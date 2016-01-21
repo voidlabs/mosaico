@@ -36,7 +36,10 @@
     "postinstall": "bower-npm-install --non-interactive",
     "deps": "bower-npm-install --non-interactive",
     "test": "grunt jasmine_node",
-    "start": "nodemon ./index.js --watch server --watch .badsenderrc"
+    "build": "grunt build",
+    "sync": "browser-sync start --files \"dist/*.css, dist/*.js\" --proxy localhost:3000 --no-open --port 7000",
+    "nodemon": "nodemon ./index.js --watch server --watch .badsenderrc --watch index.js",
+    "start": "grunt build && parallelshell \"grunt watch\" \"npm run nodemon\"  \"npm run sync\""
   },
   "dependencies": {
     "body-parser": "^1.14.2",
@@ -47,7 +50,8 @@
     "jquery-file-upload-middleware": "^0.1.7",
     "lodash": "^4.0.0",
     "morgan": "^1.6.1",
-    "rc": "^1.1.6"
+    "rc": "^1.1.6",
+    "serve-favicon": "^2.3.0"
   },
   "devDependencies": {
     "aliasify": "^1.7.2",
@@ -55,6 +59,7 @@
     "autoprefixer-core": "5.2.1",
     "bower": "1.4.1",
     "bower-npm-install": "0.5.9",
+    "browser-sync": "^2.11.1",
     "browserify": "11.0.1",
     "browserify-shim": "3.8.10",
     "cheerio": "0.19.0",
@@ -83,11 +88,12 @@
     "mockery": "1.4.0",
     "nodemailer": "1.4.0",
     "nodemon": "^1.8.1",
+    "parallelshell": "^2.0.0",
     "phantomjs": "1.9.16",
     "styliner": "0.8.9",
     "uglifyify": "3.0.1",
     "watchify": "3.3.1"
   },
   "author": "Stefano Bagnara",
-  "license": "GPL"
+  "license": "GPL-3.0"
 }
