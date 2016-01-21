@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
 app.use(compression());
-app.use(favicon(__dirname + '/favicon.ico'));
+app.use(favicon(path.join(__dirname, '/favicon.ico')));
 
 // templates
 app.set('views', path.join(__dirname, './server/views'));

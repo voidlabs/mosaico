@@ -1,0 +1,388 @@
+// this the equivalent of app_standalone_material.less
+
+@import "../../bower_components/font-awesome/less/font-awesome.less";
+
+@import 'style_mosaico.less';
+
+@fa-font-path: "fa/fonts";
+
+@import (less) "../../bower_components/toastr/toastr.css";
+
+// Override variables
+
+@accent-color: #F5A316;
+@background-color: #eeeeee;
+@link-color: #ff5722; // #ea1c0d;
+@tab-text-color: #555;
+
+@font-family: "Noto Sans", "Helvetica Neue", Helvetica, Arial, "Nimbus Sans L", "Liberation Sans", Arimo, sans-serif;
+@standard-border-radius: 2px;
+@info-border-radius: @standard-border-radius;
+@button-border-radius: @standard-border-radius;
+@large-balloon-border-radius: 2px;
+
+@object-background-color: #DDDDDD;
+
+@input-background-color: white;
+@input-border-color: lighten(@text-color, 20%);
+
+@mosaico-selection-color: @link-color;
+
+#main-preview #preview-toolbar {
+  padding: 1px 5px;
+}
+
+#toolbar {
+  padding: 1px 5px;
+}
+
+@button-background-color: @link-color;
+@button-border-color: transparent;
+
+@ui-tabs-panel-padding: 0;
+
+.button-style() {
+  text-transform: uppercase;
+}
+
+#main-edit-area .tool {
+  border-radius: 100%;
+  padding: 4px;
+  padding-bottom: 2px;
+  box-shadow: 1px 1px 3px @shadow-color;
+}
+
+#main-toolbox #tooltabs.ui-tabs > .ui-tabs-nav {
+  box-shadow: 0 0 10px @shadow-color;
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 105; // the panel is 100, and the main toolbar 110
+}
+
+#main-toolbox #tooltabs.ui-tabs {
+  .ui-tabs-nav {
+    font-size: 1em;
+    li {
+      margin: 1px 1px 0 0;
+      line-height: @topbar-height - 4px;
+    }
+  }
+}
+
+.addblockbutton {
+  box-shadow: 1px 1px 3px @shadow-color;
+}
+
+.mo {
+  a {
+    &:link,
+    &:visited {
+      color: white;
+    }
+  }
+}
+
+////////
+// EDITOR'S TOP TABS
+////////
+
+@tab-text-color: #555;
+
+.mo .ui-tabs-nav {
+  height: @topbar-height;
+  display: flex;
+  color: @tab-text-color;
+
+  li,
+  a {
+    height: 100%;
+  }
+
+  li {
+    border-bottom: 3px solid transparent;
+    color: @tab-text-color;
+
+    &.ui-state-active {
+      border-bottom-color: currentColor;
+    }
+    &:hover,
+    &.pressed {
+      background-color: lighten(@mosaico-ui-background-color, 10%);
+    }
+  }
+
+  a {
+    color: currentColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    outline: 0;
+  }
+  .fa {
+    margin-right: .5em;
+  }
+}
+
+#toolbar {
+  .ui-button {
+    color: @tab-text-color;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    line-height: 22px;
+    background-color: @mosaico-ui-background-color;
+
+    .ui-icon,
+    .ui-button-text {
+      color: currentColor;
+    }
+
+    &:hover,
+    &.pressed {
+      background-color: lighten(@mosaico-ui-background-color, 10%);
+    }
+    &.selected,
+    &.ui-state-active {
+      border-top: 0;
+    }
+    &.ui-button-disabled, &.ui-button-disabled .ui-icon, &.ui-button-disabled .ui-button-text {
+      color: mix(@mosaico-ui-background-color, @tab-text-color);
+    }
+  }
+}
+
+
+////////
+// OTHER THINGS
+////////
+
+
+#main-toolbox {
+  .blockCheck input[type=checkbox] {
+    &:checked + .checkbox-replacer:after,
+    & + .checkbox-replacer:before {
+      border-radius: 50%;
+      // padding: 5px;
+      box-shadow: 1px 1px 2px @shadow-color;
+    }
+
+    & + .checkbox-replacer:after,
+    &:checked + .checkbox-replacer:before {
+      border-radius: 30px;
+      background-color: lighten(@button-background-color, 20%);
+      color: @button-text-color;
+      // margin: 0 -2px;
+    }
+    & + .checkbox-replacer:after {
+      padding-left: 15px;
+      margin-left: -15px;
+      border-color: transparent;
+    }
+    &:checked + .checkbox-replacer:before {
+      padding-right: 15px;
+      margin-right: -15px;
+      border-color: transparent;
+    }
+  }
+
+
+  .objEdit .propInput input[type=checkbox] {
+    &:checked + .checkbox-replacer:before {
+      margin-left: 20px;
+      background-color: @button-background-color;
+    }
+    & + .checkbox-replacer:before {
+      content: " ";
+      display: block;
+      width: 20px;
+      height: 20px;
+      background-color: white;
+      border-radius: 50%;
+      font-size: 120%;
+      box-shadow: 1px 1px 3px @shadow-color;
+    }
+    &:checked + .checkbox-replacer:after {
+      background-color: lighten(@button-background-color, 20%);
+    }
+    & + .checkbox-replacer:after {
+      content: " ";
+      display: block;
+      width: 34px;
+      height: 14px;
+      margin: -16px 2px 0 2px;
+      border-radius: 7px;
+      background-color: lighten(@text-color, 30%);
+    }
+  }
+
+}
+.mo .objEdit input[type=checkbox]+.checkbox-replacer:before {
+  color: @button-background-color;
+}
+
+.mo .propInput .data-select select {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.mo .propInput .data-select:after {
+  background-color: transparent;
+  color: lighten(@text-color, 30%);
+}
+.mo .propInput .evo-pointer:before {
+  background-color: white;
+  color: lighten(@text-color, 30%);
+}
+.mo .propInput .data-integer .ui-spinner-button .ui-button-text {
+  background-color: transparent;
+  color: lighten(@text-color, 30%);
+}
+.mo .propInput .data-select:hover:after,
+.mo .propInput .evo-pointer:hover:before,
+.mo .ui-button.ui-spinner-button.ui-state-hover,
+.mo .propInput .data-integer .ui-button-text,
+.mo .propInput .data-integer .ui-spinner-button:hover .ui-button-text {
+  color: @button-background-color;
+}
+
+.mo .propInput .ui-spinner .ui-spinner-input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.mo .ui-button.ui-spinner-button {
+  background-color: transparent;
+  // color: lighten(@text-color, 30%);
+  .ui-button-text .ui-icon {
+    color: lighten(@text-color, 30%);
+  }
+}
+
+#main-toolbox .objLabel.level1 {
+  font-weight: bold;
+  border-bottom-width: 1px;
+}
+
+.mo .objPreview {
+  border-width: 0;
+  box-shadow: 1px 1px 3px @shadow-color;
+}
+
+.mo .objLabel {
+  border-bottom: 0;
+  font-weight: bold;
+  font-size: 80%;
+}
+
+.mo .objEdit.level1 {
+  border-top: 2px solid @accent-color;
+}
+
+#main-toolbox .objLabel.level1 {
+  font-size: 1em;
+  padding-top: .5em;
+}
+
+.mo #toolstyles .objLabel.level1, .mo #tooltheme .objLabel.level1 {
+  padding-left: 70px;
+}
+
+.mo .objLabel.level0 {
+  border-bottom: none;
+}
+
+.input-style() {
+  box-shadow: none;
+}
+
+
+#main-toolbox {
+  .noSelectedBlock, .customStyleHelp, .objEmpty, .galleryEmpty {
+    font-size: 1em;
+  }
+  .noSelectedBlock, .customStyleHelp, .objEmpty {
+    margin-left: -15px;
+    padding-left: 25px;
+    padding-right: 25px;
+    width: ~"calc(100% + 40px)";
+  }
+}
+
+
+
+& when(true) {
+  .mo .objEdit.level1 {
+      background-color: white;
+      box-shadow: 1px 1px 3px #888;
+      border-top: 0;
+      padding: 6px;
+      padding-top: .5em;
+  }
+
+  .mo #toolstyles, .mo #tooltheme {
+    .objEdit.level1 {
+      border-top-left-radius: 30px;
+      .objLabel.level1 {
+        padding-bottom: 0;
+        padding-top: 1em;
+      }
+    }
+  }
+
+  .mo .objPreview {
+      border-width: 0;
+      box-shadow: inset 1px 1px 4px rgba(0,0,0,.3);
+      top: 4px;
+      left: 4px;
+  }
+
+  .mo #toolstyles .objLabel.level1, .mo #tooltheme .objLabel.level1 {
+    padding-left: 60px;
+  }
+
+  .mo .propInput input[type=text],
+  .mo .propInput input[type=number],
+  .mo .propInput input[type=url],
+  .mo .propInput select,
+  .mo .propInput .data-select select,
+  .mo .propInput .ui-spinner .ui-spinner-input {
+    border-width: 0 0 2px 0;
+    background-color: transparent;
+    &:hover, &:focus {
+      border-color: @link-color;
+    }
+  }
+
+  .mo .propInput .data-color input[type=text] {
+    margin-left: 35px;
+    &:hover, &:focus {
+      margin-left: 35px;
+    }
+  }
+
+  .mo .propInput .evo-pointer {
+    border-radius: 50%;
+    width: 30px;
+    border: 0;
+    box-shadow: 1px 1px 3px @shadow-color;
+    &:before {
+      content: none;
+      display: none;
+    }
+  }
+
+  // file manager broser button
+  .mo .propInput .ui-textbutton .ui-textbutton-button {
+    border-radius: 50%;
+    box-shadow: 1px 1px 3px @shadow-color;
+  }
+
+}
+
+.wintitle() {
+  color: @button-text-color;
+  .ui-icon {
+    color: @button-text-color;
+  }
+}

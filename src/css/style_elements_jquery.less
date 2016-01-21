@@ -1,6 +1,6 @@
 /**************************************************************************************************************************
  * JQUERY UI
- * 
+ *
  * Needs style_elements.less. Uses .button() .win()
  *************************************************************************************************************************/
 
@@ -29,7 +29,7 @@
 
 .ui-button {
   .button-style();
-  
+
   .ui-button-text, .ui-icon {
     color: @button-text-color;
   }
@@ -60,12 +60,12 @@
   padding: 0;
   font-size: 1em;
   z-index: @zindex-dialog;
-  
+
   .ui-dialog-titlebar {
     .wintitle();
     font-size: 1.1em;
-    
-    .ui-dialog-title { 
+
+    .ui-dialog-title {
       float: left; margin: .1em 16px .2em 0;
     }
     .ui-dialog-titlebar-close {
@@ -84,7 +84,7 @@
       &::-moz-focus-inner {
         border: none;
       }
-      
+
       .ui-icon {
         position: absolute;
         top: 50%;
@@ -92,7 +92,7 @@
         left: 50%;
         margin-left: -8px;
       }
-      
+
       &.ui-button-icon-only .ui-button-text {
         display: block;
         line-height: normal;
@@ -102,8 +102,8 @@
     }
   }
   .ui-dialog-content {
-    border: 0; padding: .5em 1em; background: none; zoom: 1; 
-    max-height: 600px; // Il max-height 
+    border: 0; padding: .5em 1em; background: none; zoom: 1;
+    max-height: 600px; // Il max-height
     position: relative;
     .async_loading_iframe {
       margin: -.5em 0 0 0;
@@ -116,9 +116,9 @@
     position: absolute; left: 0
   }
   .ui-dialog-buttonpane {
-    text-align: center; 
-    background-image: none; 
-    margin: .5em 0 0 0; 
+    text-align: center;
+    background-image: none;
+    margin: .5em 0 0 0;
     border: none;
     padding: .3em 0;
   }
@@ -168,7 +168,7 @@
   top: 0px;
   left: 0px;
   cursor: default;
-  
+
   .dropdown();
   min-width: auto;
   max-width: none;
@@ -198,19 +198,14 @@
  */
 .ui-tabs.tabs_horizontal {
   > ul {
-    .tabs-style(~'.ui-state-active', false);
     padding: 0px 0px 0px .5em;
   }
   .ui-tabs-panel {
     margin-top: .5em;
+
     &.ui-tabs-noscroll {
       padding: 0;
     }
-  }
-}
-.ui-tabs.tabs_horizontal.button_color {
-  > ul {
-    .tabs-style(~'.ui-state-active', true);
   }
 }
 
@@ -264,7 +259,7 @@
   display: block;
   margin: @input-margin-top 0 @input-margin-bottom 0; padding: 0;
   position: relative;
-  
+
   // hides natives spinner on Chrome, FF and the "clear-cross" by IE10-11
   input[type=number] {
     &::-webkit-outer-spin-button,
@@ -323,10 +318,10 @@
 .ui-icon {
   font-family: FontAwesome;
   background: none repeat scroll 0 0 transparent;
-  text-indent: 0; 
+  text-indent: 0;
   width: auto; height: auto;
   min-width: 16px;
-  
+
   vertical-align: middle;
   margin-top: 0;
   margin-right: .5em;
@@ -341,4 +336,4 @@
 .ui-draggable-handle, .ui-sortable-handle {
   -ms-touch-action: none;
   touch-action: none;
-} 
+}

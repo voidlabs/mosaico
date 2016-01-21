@@ -136,7 +136,7 @@
   border-color: @input-border-color;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
   transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
-  
+
   &:focus {
     border-color: @input-focus-border-color;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px fade(@input-focus-border-color, 60);
@@ -181,12 +181,12 @@
       margin-right: 0;
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
-      
+
       /*
       content: "▼";
       font-size: 60%;
       */
-      
+
       font-family: FontAwesome;
       content: "\f0d7";
       font-weight: normal;
@@ -229,7 +229,7 @@
     display: block;
     padding: 0; margin: 0;
     //background-color: @popup-background-color;
-    
+
     > a { // Reverting .button()
       display: block;
       border: none;
@@ -327,7 +327,7 @@
   .cell_links &, .top_links &, .box_top_links &, .slide_links & /*, .slide_links a.button + div.dropdown_spacer + &*/ {
     margin: .2em 0 0 0;
   }
-  hr { 
+  hr {
     margin: .5em -@dropdown-padding-h;
     border-top: 1px solid lighten(@button-background-color, 40%); // Like button.active
     box-shadow: none;
@@ -339,59 +339,6 @@
     padding: @dropdown-padding-v 0 0 0; margin: 0;
   }
 }
-
-.tabs-style(@activeclass: ~'.active', @buttonstyle: false) {
-  & when (@buttonstyle) {
-    background-color: @sidebar-background-color;
-  }
-  margin: 0;
-  border-bottom: @tabs-border-width solid @accent-color;
-  .clear-after;
-  li {
-    float: left;
-    list-style-type: none;
-    margin: .4em 0 -@tabs-border-width 0; // margin-top used to show good tabs when they wrap on multiple lines
-    display: block;
-    text-align: center;
-    > a {
-      display: block;
-      padding: .5em 1em;
-      margin: 0 .5em 0 0;
-      border-radius: @button-border-radius @button-border-radius 0 0;
-      & when (@buttonstyle) {
-        background-color: @button-background-color;
-        color: @button-text-color;
-        border: none;
-        font-weight: bold; 
-        &:hover {
-          background-color: @button-hover-background-color;
-        }
-      }
-      & when not (@buttonstyle) {
-        background-color: @accent-color;
-        border: @tabs-border-width solid @accent-color;
-      }
-    }
-    a:focus {
-      outline: 0 none !important;
-    }
-  }
-  li@{activeclass} a {
-    border-bottom: @tabs-border-width solid @background-color;
-    background: transparent;
-    font-weight: bold;
-    & when(@buttonstyle) {
-      background-color: @background-color;
-      color: @text-color;
-    }
-    & when not (@buttonstyle) {
-      background-color: transparent;
-      color: @text-color;
-    }
-  }
-
-}
-
 
 .clear-after() {
   &:after {
