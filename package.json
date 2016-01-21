@@ -47,6 +47,7 @@
     "compression": "^1.6.1",
     "express": "^4.13.3",
     "gm": "^1.21.1",
+    "jade": "^1.11.0",
     "jquery-file-upload-middleware": "^0.1.7",
     "lodash": "^4.0.0",
     "morgan": "^1.6.1",

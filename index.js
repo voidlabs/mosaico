@@ -1,5 +1,6 @@
 'use strict';
 
+var path          = require('path');
 var chalk         = require('chalk');
 var express       = require('express');
 var bodyParser    = require('body-parser');
@@ -8,7 +9,6 @@ var morgan        = require('morgan');
 var favicon       = require('serve-favicon');
 
 var config        = require('./server/config');
-var app           = express();
 
 //////
 // SERVER CONFIG
@@ -24,9 +24,12 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 app.use(compression());
 app.use(favicon(__dirname + '/favicon.ico'));
 
+// templates
+app.set('views', path.join(__dirname, './server/views'));
+app.set('view engine', 'jade');
+
 // statics
 app.use(express.static('./dist'));
-app.use(express.static('./server/views'));
 app.use('/templates', express.static('./templates'));
 
 //////
@@ -66,6 +69,12 @@ app.get('/upload/', upload.get);
 app.use('/upload/', upload.all);
 app.get('/img/',    images.get);
 app.post('/dl/',    download.post);
+app.get('/editor', function (req, res, next) {
+  res.render('editor');
+});
+app.get('/', function (req, res, next) {
+  res.render('home');
+});
 
 //////
 // LAUNCHING
