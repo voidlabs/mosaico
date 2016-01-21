@@ -2,6 +2,7 @@ extends _layout.jade
 
 block head-content
   meta(name="viewport", content="width=480, initial-scale=1")
+  link(rel="stylesheet", href="/badsender-home.css")
   script.
     var initialEdits = [];
     if (localStorage.getItem('edits')) {
@@ -99,123 +100,63 @@ block head-content
     document.addEventListener('DOMContentLoaded',function(){
       ko.applyBindings(viewModel);
     });
-  style.
-    body {
-      font-family: "trebuchet ms",arial,sans-serif;
-      font-size: 13.6px;
-    }
-
-    a, a:link, a:visited {
-      color: #A00000;
-      text-decoration: none;
-    }
-    .template {
-      margin: 10px;
-      display: inline-block;
-      vertical-align: top;
-    }
-    .template a {
-      display: block;
-      outline: 2px solid #333332;
-      padding: 2px;
-      width: 340px;
-      height: 300px;
-      overflow-y: auto;
-    }
-    .template a:hover {
-      outline: 5px solid #f5a316;
-      transition: outline .2s;
-    }
-    #savedTable tbody tr:nth-child(odd) td {
-      background-color: white;
-    }
-    #savedTable td {
-      padding: 2px 5px ;
-    }
-    .operationButton, .resumeButton {
-      background-color: #333332;
-      color: white !important;
-      padding: 5px 8px;
-      border-radius: 5px;
-      display: inline-block;
-    }
-    .operationButton i {
-      color: white;
-    }
-    .ribbon {
-      background-color: #f5a316;
-      color: white;
-      display: inline-block;
-      padding: 3px 10px;
-      margin: 6px;
-      position: relative;
-      z-index: 10;
-      outline: 1px solid #f5a316;
-    }
-    /* outline su firefox viene fuori dal content */
-    @-moz-document url-prefix() {
-      .ribbon {
-         outline-color: transparent;
-      }
-    }
-    .ribbon:before, .ribbon:after {
-      z-index: -4;
-      content: ' ';
-      position: absolute;
-      width: 5px;
-      top: 7px;
-      height: 0;
-      border-width: 12px 12px;
-      border-style: solid;
-      border-color: #f5a316;
-    }
-    .ribbon:before {
-      left: -20px;
-      border-left-color: transparent;
-    }
-    .ribbon:after {
-      right: -20px;
-      border-right-color: transparent;
-    }
-
-    @media screen and (max-width: 1400px) {
-      .disclaimer {
-        left: 0 !important; right: 0 !important;
-        top: 0 !important;
-        width: auto !important;
-        border: none !important;
-      }
-      body { padding-top: 40px !important; }
-    }
-
-    @media screen and (max-width: 900px) {
-      .byTable { display: none; }
-      .byRibbon { display: inline !important; }
-    }
 
 block content
-  body(style="overflow: auto; text-align: center; padding: 0px; margin: 0px; background-color: #2D2E2F;", data-bind="visible: true")
+  body(data-bind="visible: true")
     div(style="background-color: #ffffff; padding: 10px;")
       div: img(src="http://agence.badsender.com/wp-content/uploads/2014/09/logo_badsender_154x118.png")
       .ribbon Badsender Email Builder
 
-    .content(style="background-color: white; margin-top: -20px; padding-top: 15px; background-origin: border; padding-bottom: 2em")
+    .content
       h3 Demo
       p Click on one of the test templates below to try "Badsender Email Builder".
       p Cliquez sur l'un des templates de test ci-dessous afin d'essayer "Badsender Email Builder"
       div(data-bind="foreach: templates"): .template.template-xx(data-bind="attr: { class: 'template template-'+name }")
-        div.description(style="padding-bottom:5px")
+        div.description
           b(data-bind="text: name") xx
           | :
           span(data-bind="text: desc") xx
         a(href="#", data-bind="click: $root.newEdit.bind(undefined, name), attr: { href: '/editor#templates/'+name+'/template-'+name+'.html' }")
           img(src, width="100%", alt="xx", data-bind="attr: { src: 'templates/'+name+'/edres/_full.png' }")
 
-    .subscribe(style="background-color: #f5a316; color: white; padding: .5em")
-      br
+    // ko if: edits().length
+    div.table-container(style="")
+      // ko ifnot: $root.showSaved
+      p
+        span You have saved contents in this browser!
+        a.resumeButton(href="#", data-bind="click: $root.showSaved.bind(undefined, true);")
+          i.fa.fa-plus-square
+          |  show
+      // /ko
+      // ko if: $root.showSaved
+      table#savedTable
+        caption
+          | Email contents saved in your browser
+          a.resumeButton(href="#", data-bind="click: $root.showSaved.bind(undefined, false);")
+            i.fa.fa-minus-square
+            |  Hide
+        thead: tr
+          th Id
+          th Name
+          th Created
+          th Last changed
+          th Operations
+        tbody(data-bind="foreach: edits")
+          tr
+            td: a(href="#", data-bind="attr: { href: 'editor#'+key }"): code
+              | #
+              span(data-bind="text: key") key
+            td: a(href="#", data-bind="attr: { href: 'editor#'+key }")
+              span(data-bind="text: name") versamix
+            td: span(data-bind="text: typeof created !== 'undefined' ? $root.dateFormat(created) : '-'") YYYY-MM-DD
+            td: span(data-bind="text: typeof changed !== 'undefined' ? $root.dateFormat(changed) : '-'") YYYY-MM-DD
+            td
+              a.operationButton(href="#", data-bind="attr: { href: 'editor#'+key }", title="edit"):  i.fa.fa-pencil
+              a.operationButton(href="#", data-bind="click: $root.deleteEdit.bind(undefined, $index())", title="delete"): i.fa.fa-trash-o
+      // /ko
+    // /ko
+
+    .subscribe
       a(href="http://agency.badsender.com/production/email-builder/" style=" color: white; border: 1px solid white; box-sizing: border-box; border-radius: 0px; padding: 5px 10px") MORE INFO ABOUT THE BUILDER
-      &nbsp;
       a(href="http://agence.badsender.com/production/editeur-emailing" style=" color: white; border: 1px solid white; box-sizing: border-box; border-radius: 0px; padding: 5px 10px") EN SAVOIR PLUS À PROPOS DE L'ÉDITEUR
-      br
-      br
-    .footer(style="background-color: #2D2E2F; color: #777777; padding: 1em") Badsender.com - All rights reserved
+    .footer Badsender.com - All rights reserved

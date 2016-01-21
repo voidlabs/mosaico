@@ -19,7 +19,7 @@ var autoprefixer  = require('autoprefixer');
 var csswring      = require('csswring');
 
 gulp.task('css', function () {
-  return gulp.src('src/css/badsender.less')
+  return gulp.src('src/css/badsender*.less')
     .pipe($.plumber(onError))
     .pipe($.sourcemaps.init())
     .pipe($.less())
