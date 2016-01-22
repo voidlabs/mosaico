@@ -55,6 +55,7 @@ First you have to build it using grunt, then you can read (https://github.com/vo
 ### Are you having issues with Mosaico?
 
 Please make sure:
+
 - you understand you have to build it and to run a backend server (either the node.js version bundled with this project or the php backend referenced above or write your own)
 - you read this Readme *three* times and followed the instructions
 - you understand I'll close any github issue with insufficient informations: if you want help then you'll have to take your time to explain your issue.
@@ -63,13 +64,16 @@ Please make sure:
 - you don't add off topic comments to an existing issue: if you want to add that you are having the same issue please make sure you are having the same issue described. If you are unsure, open a new issue following the rules (I prefer a duplicated issue than a chaotic issue mixing unrelated things).
 
 ##### issues building:
+
 - take note of the full log of your npm install, and grunt commands output
 - open a github issues saying that you read this doc
 - paste the output from npm install and grunt
 - write your full environment (your operative system name and version, your node version, your npm version)
 
 ##### issues running/editing
+
 if your problem is not with the building then when you open a github issue:
+
 - make sure you specify if you are using the bundled backend or php backend or any other kind of deployment
 - tell us the browser you are using (name and version) and test at least a *second* browser to tell us if this happen in both or only one (tell us the details about the second browser too).
 - test the same scenaio on http://mosaico.io and tell us if you see the same issue

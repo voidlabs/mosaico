@@ -38,10 +38,11 @@
     "test": "grunt jasmine_node",
     "build": "parallelshell \"grunt build:badsender\" \"gulp css\"",
     "start": "npm run build && gulp dev",
-    "preprod": "npm run build && gulp dev --preprod"
+    "preprod": "parallelshell \"npm run build\" \"gulp dev --preprod\""
   },
   "dependencies": {
     "aws-sdk": "^2.2.32",
+    "blueimp-file-upload-expressjs": "git://github.com/arvindr21/blueimp-file-upload-expressjs",
     "body-parser": "^1.14.2",
     "chalk": "^1.1.1",
     "compression": "^1.6.1",

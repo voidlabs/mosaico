@@ -32,7 +32,7 @@ app.set('view engine', 'jade');
 // statics
 app.use(express.static('./dist'));
 app.use('/templates', express.static('./templates'));
-app.use('/uploads', express.static(config.images.uploadDir));
+// app.use('/uploads', express.static(config.images.uploadDir));
 
 //////
 // LOGGING
@@ -67,16 +67,36 @@ var upload    = require('./server/upload');
 var download  = require('./server/download');
 var images    = require('./server/images');
 
-app.get('/upload/',   upload.get);
-app.post('/upload/',  upload.post);
-app.get('/img/',      images.get);
-app.post('/dl/',      download.post);
-app.get('/editor',    function (req, res, next) {
+app.get('/upload/',     upload.get);
+app.post('/upload/',    upload.post);
+app.get('/img/',        images.get);
+app.post('/dl/',        download.post);
+app.get('/editor',      function (req, res, next) {
   res.render('editor');
 });
-app.get('/', function (req, res, next) {
+app.get('/',            function (req, res, next) {
   res.render('home');
 });
+
+//////
+// ERROR HANDLING
+//////
+
+var handler = errorHandler({
+  // views: {
+  //   default:  'error/default',
+  //   404:      'error/404',
+  // },
+});
+app.use(function (err, req, res, next) {
+  console.log(err);
+  // force status for morgan to catch up
+  res.status(err.status || err.statusCode);
+  next(err);
+});
+
+app.use(errorHandler.httpError(404));
+app.use(handler);
 
 //////
 // LAUNCHING
