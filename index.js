@@ -7,6 +7,7 @@ var bodyParser    = require('body-parser');
 var compression   = require('compression');
 var morgan        = require('morgan');
 var favicon       = require('serve-favicon');
+var errorHandler  = require('express-error-handler');
 
 var config        = require('./server/config');
 
@@ -31,7 +32,7 @@ app.set('view engine', 'jade');
 // statics
 app.use(express.static('./dist'));
 app.use('/templates', express.static('./templates'));
-app.use('/uploads', express.static('./uploads'));
+app.use('/uploads', express.static(config.images.uploadDir));
 
 //////
 // LOGGING
@@ -66,11 +67,11 @@ var upload    = require('./server/upload');
 var download  = require('./server/download');
 var images    = require('./server/images');
 
-app.get('/upload/', upload.get);
-app.use('/upload/', upload.all);
-app.get('/img/',    images.get);
-app.post('/dl/',    download.post);
-app.get('/editor', function (req, res, next) {
+app.get('/upload/',   upload.get);
+app.post('/upload/',  upload.post);
+app.get('/img/',      images.get);
+app.post('/dl/',      download.post);
+app.get('/editor',    function (req, res, next) {
   res.render('editor');
 });
 app.get('/', function (req, res, next) {

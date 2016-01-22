@@ -41,13 +41,14 @@
     "preprod": "npm run build && gulp dev --preprod"
   },
   "dependencies": {
+    "aws-sdk": "^2.2.32",
     "body-parser": "^1.14.2",
     "chalk": "^1.1.1",
     "compression": "^1.6.1",
     "express": "^4.13.3",
+    "express-error-handler": "^1.0.1",
     "gm": "^1.21.1",
     "jade": "^1.11.0",
-    "jquery-file-upload-middleware": "^0.1.7",
     "lodash": "^4.0.0",
     "morgan": "^1.6.1",
     "rc": "^1.1.6",
