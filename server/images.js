@@ -17,11 +17,20 @@ function streamImage(imageName) {
     var imagePath = path.join(config.images.uploadDir, imageName);
     return fs.createReadStream(imagePath);
   }
-  return s3.getObject({
-    Bucket: config.storage.aws.bucketName,
-    Key:    imageName
-  }).createReadStream();
+  return s3
+    .getObject({
+      Bucket: config.storage.aws.bucketName,
+      Key:    imageName
+    })
+    .createReadStream()
+    .on('error', function (err) {
+      console.log(err);
+    });
 }
+
+
+// this will retrieve any uploaded images and apply a resize
+// or generate a placeholder
 
 function get(req, res, next) {
 
@@ -31,6 +40,11 @@ function get(req, res, next) {
   var sizes     = req.query.params ? req.query.params.split(',') : [0, 0];
   var width     = sizes[0];
   var height    = sizes[1];
+
+  function streamToResponse (err, stdout, stderr) {
+    if (err) return next(err);
+    stdout.pipe(res);
+  }
 
   switch(method) {
     case 'placeholder':
@@ -52,13 +66,14 @@ function get(req, res, next) {
       return out.stream('png').pipe(res);
       break;
     case 'resize':
+      // on resize imageName seems to be double urlencoded
       var ir = gm(streamImage(imageName));
-      ir.format(function (err, format) {
+      ir.format({bufferStream: true}, function (err, format) {
         if (!err) res.set('Content-Type', 'image/'+format.toLowerCase());
         ir.autoOrient()
           .resize(width == 'null' ? null : width, height == 'null' ? null : height)
-          .stream()
-          .pipe(res);
+          .stream(streamToResponse);
+
       });
       break;
     case 'cover':
@@ -70,8 +85,7 @@ function get(req, res, next) {
             .resize(width, height + '^')
             .gravity('Center')
             .extent(width, height + '>')
-            .stream()
-            .pipe(res);
+            .stream(streamToResponse);
       });
       break;
     default:
