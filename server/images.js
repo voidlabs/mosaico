@@ -9,12 +9,18 @@ var config  = require('./config');
 if (config.isAws) {
   var AWS   = require('aws-sdk');
   AWS.config.update(config.storage.aws);
+  var s3    = new AWS.S3();
 }
 
-function getImage(imageName) {
-  var imagePath = path.join(config.images.uploadDir, imageName);
-  console.log(imagePath);
-  return fs.createReadStream(imagePath);
+function streamImage(imageName) {
+  if (!config.isAws) {
+    var imagePath = path.join(config.images.uploadDir, imageName);
+    return fs.createReadStream(imagePath);
+  }
+  return s3.getObject({
+    Bucket: config.storage.aws.bucketName,
+    Key:    imageName
+  }).createReadStream();
 }
 
 function get(req, res) {
@@ -46,14 +52,14 @@ function get(req, res) {
   }
 
   if (method == 'resize') {
-    var ir = gm(getImage(imageName));
+    var ir = gm(streamImage(imageName));
     ir.format(function(err,format) {
         if (!err) res.set('Content-Type', 'image/'+format.toLowerCase());
         ir.autoOrient().resize(width == 'null' ? null : width, height == 'null' ? null : height).stream().pipe(res);
     });
 
   } else if (method == 'cover') {
-    var ic = gm(getImage(imageName));
+    var ic = gm(streamImage(imageName));
     ic
       .format({bufferStream: true}, function (err, format) {
         if (!err) res.set('Content-Type', 'image/' + format.toLowerCase());
@@ -65,7 +71,7 @@ function get(req, res) {
           .pipe(res);
     });
   } else {
-    getImage(imageName).pipe(res);
+    streamImage(imageName).pipe(res);
   }
 }
 

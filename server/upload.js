@@ -13,13 +13,13 @@ var uploader      = fileupload({
 
 // get only the file name
 // this is for the image to be live resized by the back application
-// http://localhost:3000/uploads/sketchbook-263.jpg
-// https://badsender.s3-ap-southeast-1.amazonaws.com/527be5fe-9e3e-42d0-b3e6-e8d713e904be__sketchbook-266.jpg?AWSAccessKeyId=AKIAI356BI57IXXIN6ZA&Expires=1453461229&Signature=7vWJ2XTzrt38JXmqA%2BofeLuaW6Q%3D
 function processResponse(req, obj) {
-
   var url = req.protocol + '://' + req.hostname;
   if (config.PROXY) url = url + ':' + config.PROXY;
   obj.files.map(function (image) {
+    // after uploading S3 sent url with extra parameters (AWSAccessKeyId, Signature…)
+    // we need to clean them in order to have a nice url
+    image.url  = /^([^?]*)/.exec(image.url)[1];
     image.url  = url + '/img?src=' + image.url;
     return image;
   });
