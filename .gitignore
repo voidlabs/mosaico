@@ -7,3 +7,4 @@ uploads/**
 build
 dist
 .badsenderrc
+npm-debug.log

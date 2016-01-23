@@ -233,7 +233,7 @@ module.exports = function(grunt) {
   grunt.registerTask('css', ['less', 'postcss']);
   grunt.registerTask('server', ['express', 'watch', 'express-keepalive']);
   grunt.registerTask('build', ['bowercopy', 'copy', 'jshint', 'js', 'css']);
-  grunt.registerTask('build:badsender', ['bowercopy', 'copy', 'jshint', 'js']);
+  grunt.registerTask('build:badsender', ['jshint', 'js']);
   grunt.registerTask('default', ['build', 'server']);
   grunt.registerTask('test', ['jasmine_node']);
 };

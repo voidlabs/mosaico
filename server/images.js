@@ -32,6 +32,7 @@ function streamImage(imageName) {
 // this is the entry point for any images assets
 // - generate a placeholder
 // - or retrieve any uploaded images and apply a resize
+// imgProcessorBackend + "?src=" + encodeURIComponent(src) + "&method=" + encodeURIComponent(method) + "&params=" + encodeURIComponent(width + "," + height);
 function get(req, res, next) {
 
   var imageName = req.query.src ? decodeURIComponent(req.query.src) : '';

@@ -1,14 +1,15 @@
 'use strict';
 
-var gulp        = require('gulp');
-var $           = require('gulp-load-plugins')();
-var browserSync = require('browser-sync').create();
-var reload      = browserSync.reload;
-var lazypipe    = require('lazypipe');
-var del         = require('del');
-var merge       = require('merge-stream');
-var args        = require('yargs').argv;
-var isDev       = args.prod !== true;
+var gulp            = require('gulp');
+var $               = require('gulp-load-plugins')();
+var browserSync     = require('browser-sync').create();
+var reload          = browserSync.reload;
+var lazypipe        = require('lazypipe');
+var del             = require('del');
+var merge           = require('merge-stream');
+var args            = require('yargs').argv;
+var isDev           = args.prod !== true;
+var mainBowerFiles  = require('main-bower-files');
 
 var cyan        = require('chalk').cyan;
 console.log(cyan('build with env', isDev ? 'dev' : 'prod'));
@@ -16,8 +17,8 @@ console.log(cyan('build with env', isDev ? 'dev' : 'prod'));
 function onError(err) {
   $.util.beep();
   if (err.annotated)      { $.util.log(err.annotated); }
-  else if (err.message) { $.util.log(err.message); }
-  else                  { $.util.log(err); }
+  else if (err.message)   { $.util.log(err.message); }
+  else                    { $.util.log(err); }
   return this.emit('end');
 }
 
@@ -29,21 +30,22 @@ var autoprefixer  = require('autoprefixer');
 var csswring      = require('csswring');
 
 var cssDev        = lazypipe()
-  .pipe($.sourcemaps.write)
-  .pipe(gulp.dest, 'dist')
-  .pipe(reload, {stream: true});
+  .pipe($.sourcemaps.write);
 
 var cssProd       = lazypipe()
-  .pipe($.postcss, [csswring({ removeAllComments: true })])
-  .pipe(gulp.dest, 'dist');
+  .pipe($.postcss, [
+    csswring({ removeAllComments: true })
+  ]);
 
 gulp.task('clean-css', function (cb) {
   if (isDev) return cb();
-  return del(['dist/*.css', 'dist/*.css.map'], cb);
+  return del(['build/*.css', 'build/*.css.map'], cb);
 });
 
 gulp.task('css', ['clean-css'], function () {
-  return gulp.src('src/css/badsender*.less')
+
+  // compile LESS
+  var cssApp = gulp.src('src/css/badsender*.less')
     .pipe($.if(isDev, $.plumber(onError)))
     .pipe($.sourcemaps.init())
     .pipe($.less())
@@ -51,17 +53,32 @@ gulp.task('css', ['clean-css'], function () {
         autoprefixer({ browsers: ['ie 10', 'last 2 versions'], }),
       ]))
     .pipe($.if(isDev, cssDev(), cssProd()));
+
+  // get colorpicker CSS
+  var cssColorpicker = gulp.src(mainBowerFiles({
+    filter: /evol-colorpicker\/css/
+  }));
+
+  // bundle everything
+  var filter = $.filter(['*.css', '!*-home.css'], {restore: true});
+  return merge(cssApp, cssColorpicker)
+    .pipe(filter)
+    .pipe($.concat('badsender.css'))
+    .pipe(filter.restore)
+    .pipe(gulp.dest('build'))
+    .pipe($.if(isDev, reload({stream: true})))
+
 });
 
 ////////
 // JS
 ////////
 
-var mainBowerFiles  = require('main-bower-files');
+//----- LIBRARIES
 
 gulp.task('clean-lib', function (cb) {
   if (isDev) return cb();
-  return del('dist/lib/', cb);
+  return del('build/lib/', cb);
 });
 
 gulp.task('lib', ['clean-lib'], function () {
@@ -108,12 +125,30 @@ gulp.task('lib', ['clean-lib'], function () {
 
   return merge(mainLibs, editorLibs, tinymce)
     // .pipe($.uglify());
-    .pipe(gulp.dest('dist/lib'));
+    .pipe(gulp.dest('build/lib'));
 });
+
+//----- APPLICATION
+
+var browserify = require('browserify');
+
+////////
+// ASSETS
+////////
+
+gulp.task('fonts', function (cb) {
+  return gulp
+    .src(mainBowerFiles({filter: /font-awesome\/fonts/}))
+    .pipe(gulp.dest('public/fa/fonts'));
+});
+
+gulp.task('assets', ['fonts']);
 
 ////////
 // DEV
 ////////
+
+gulp.task('build', ['lib', 'css', 'assets']);
 
 var init = true;
 gulp.task('nodemon', function (cb) {
@@ -123,7 +158,6 @@ gulp.task('nodemon', function (cb) {
     watch: ['server/*.js', '.badsenderrc', 'index.js'],
     env:    {
       'NODE_ENV': isDev ? 'development' : 'production',
-      'pioc': 'clapou',
     }
   }).on('start', function () {
     // https://gist.github.com/sogko/b53d33d4f3b40d3b4b2e#comment-1457582

@@ -36,13 +36,12 @@
     "postinstall": "bower-npm-install --non-interactive",
     "deps": "bower-npm-install --non-interactive",
     "test": "grunt jasmine_node",
-    "build": "parallelshell \"grunt build:badsender\" \"gulp css\"",
-    "start": "npm run build && gulp dev",
-    "preprod": "parallelshell \"npm run build\" \"gulp dev --preprod\""
+    "build": "parallelshell \"grunt build:badsender\" \"gulp build --prod\"",
+    "start": "parallelshell \"grunt build:badsender\" \"gulp build\" \" gulp dev\""
   },
   "dependencies": {
     "aws-sdk": "^2.2.32",
-    "blueimp-file-upload-expressjs": "git://github.com/arvindr21/blueimp-file-upload-expressjs",
+    "blueimp-file-upload-expressjs": "git://github.com/arvindr21/blueimp-file-upload-expressjs#08533d63757b514bc09f55b10e8005df8c60174a",
     "body-parser": "^1.14.2",
     "chalk": "^1.1.1",
     "compression": "^1.6.1",

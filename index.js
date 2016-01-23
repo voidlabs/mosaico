@@ -25,14 +25,22 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 app.use(compression());
 app.use(favicon(path.join(__dirname, '/favicon.ico')));
 
-// templates
+//----- TEMPLATES
 app.set('views', path.join(__dirname, './server/views'));
 app.set('view engine', 'jade');
 
-// statics
+//----- STATIC
+
+// gulp compiled assets
+app.use(express.static('./build'));
+// grunt compiled assets
 app.use(express.static('./dist'));
+// commited assets
+app.use(express.static('./public'));
+// editor's templates
 app.use('/templates', express.static('./templates'));
-app.use('/lib/skins', express.static('./res/vendor/skins'));
+// tinymce skin
+app.use('/lib/skins', express.static('./public/vendor/skins'));
 
 //////
 // LOGGING
