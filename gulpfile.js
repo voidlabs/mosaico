@@ -130,9 +130,36 @@ gulp.task('lib', ['clean-lib'], function () {
 
 //----- APPLICATION
 
-var browserify = require('browserify');
+var browserify  = require('browserify');
+var source      = require('vinyl-source-stream');
+var watchify    = require('watchify');
 
+gulp.task('app', ['templates'], function () {
+  var b = browserify({
+    cache:        {},
+    packageCache: {},
+    debug:        true,
+    entries:      ['./src/js/app.js', './build/templates.js'],
+    standalone:   'Badsender',
+  });
 
+  b = watchify(b);
+
+  b.on('update', function(){
+    bundleShare(b);
+  });
+
+  return bundleShare(b);
+
+});
+
+function bundleShare(b) {
+  console.log('bundle');
+
+  return b.bundle()
+    .pipe(source('badsender.js'))
+    .pipe(gulp.dest('build'));
+}
 
 //----- TEMPLATES: see -> combineKOTemplates.js
 
@@ -217,7 +244,7 @@ gulp.task('browser-sync', ['nodemon'], function () {
   });
 });
 
-gulp.task('dev', ['browser-sync'], function () {
+gulp.task('dev', ['app', 'browser-sync'], function () {
   gulp.watch(['server/views/*.jade', 'dist/*.js']).on('change', reload);
   gulp.watch('src/css/**/*.less', ['css']);
 });

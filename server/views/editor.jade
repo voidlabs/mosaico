@@ -5,11 +5,12 @@ block head-content
   meta(name="viewport", content="width=1024, initial-scale=1")
 
   script(src="/lib/badsender-lib-editor.js")
-  script(src="/mosaico.min.js?v=0.13")
+  //- script(src="/mosaico.min.js?v=0.13")
+  script(src="/badsender.js")
 
   script.
     $(function() {
-      if (!Mosaico.isCompatible()) {
+      if (!Badsender.isCompatible()) {
         alert('Update your browser!');
         return;
       }
@@ -18,7 +19,7 @@ block head-content
       var plugins;
       // A basic plugin that expose the "viewModel" object as a global variable.
       // plugins = [function(vm) {window.viewModel = vm;}];
-      var ok = Mosaico.init({
+      var ok = Badsender.init({
         imgProcessorBackend: basePath+'/img/',
         emailProcessorBackend: basePath+'/dl/',
         titleToken: "MOSAICO Responsive Email Designer",
