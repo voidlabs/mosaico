@@ -32,7 +32,7 @@ app.set('view engine', 'jade');
 // statics
 app.use(express.static('./dist'));
 app.use('/templates', express.static('./templates'));
-// app.use('/uploads', express.static(config.images.uploadDir));
+app.use('/lib/skins', express.static('./res/vendor/skins'));
 
 //////
 // LOGGING

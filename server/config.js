@@ -6,12 +6,12 @@ var _       = require('lodash');
 
 var config  = rc('badsender', {
   PORT:       3000,
-  images: {
-    uploadDir:  'uploads',
-    tmpDir:     '.tmp',
-  },
   storage: {
     type: 'local',
+  },
+  images: {
+    uploadDir: '.tmp/uploads',
+    tmpDir:    '.tmp/tmp',
   }
 });
 

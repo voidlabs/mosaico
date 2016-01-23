@@ -17,6 +17,7 @@ function streamImage(imageName) {
     var imagePath = path.join(config.images.uploadDir, imageName);
     return fs.createReadStream(imagePath);
   }
+  // http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-examples.html#Amazon_Simple_Storage_Service__Amazon_S3_
   return s3
     .getObject({
       Bucket: config.storage.aws.bucketName,
@@ -28,10 +29,9 @@ function streamImage(imageName) {
     });
 }
 
-
-// this will retrieve any uploaded images and apply a resize
-// or generate a placeholder
-
+// this is the entry point for any images assets
+// - generate a placeholder
+// - or retrieve any uploaded images and apply a resize
 function get(req, res, next) {
 
   var imageName = req.query.src ? decodeURIComponent(req.query.src) : '';

@@ -75,5 +75,22 @@
   },
   "resolutions": {
     "knockout": "~3.4.0"
+  },
+  "group": {
+    "main": [
+      "knockout",
+      "jquery"
+    ],
+    "editor": [
+      "jquery-ui",
+      "jqueryui-touch-punch",
+      "blueimp-load-image",
+      "blueimp-canvas-to-blob",
+      "jquery.iframe-transport",
+      "jquery-file-upload",
+      "knockout-jqueryui",
+      "evol-colorpicker",
+      "tinymce"
+    ]
   }
 }

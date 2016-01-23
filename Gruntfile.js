@@ -34,7 +34,6 @@ module.exports = function(grunt) {
         sub: true,
         jshintrc: true,
         browserify: true
-
       }
     },
 
