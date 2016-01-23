@@ -132,6 +132,46 @@ gulp.task('lib', ['clean-lib'], function () {
 
 var browserify = require('browserify');
 
+
+
+//----- TEMPLATES: see -> combineKOTemplates.js
+
+var path          = require('path');
+var through       = require('through2');
+var StringDecoder = require('string_decoder').StringDecoder;
+var decoder       = new StringDecoder('utf8');
+
+gulp.task('templates', function () {
+  var templates = [];
+  function passThrough(file, encoding, cb) {
+    var name    = path.basename(file.path);
+    var name    = /^([^\.]*)/.exec(name)[1];
+    var content = decoder.write(file.contents);
+    content     = content.replace(/"/g , "\\x22");
+    content     = content.replace(/(\r\n|\n|\r)/gm, "");
+    content     = "  templateSystem.addTemplate(\"" + name + "\", \"" + content + "\");";
+    templates.push(content);
+    return cb(null);
+  }
+  function resizeFlush(cb) {
+    var result  = "var templateSystem = require('../src/js/bindings/choose-template.js');\n";
+    result      = result + "document.addEventListener('DOMContentLoaded', function(event) {\n";
+    result      = result + templates.join('\n') + '\n';
+    result      = result + "});\n";
+    this.push(new $.util.File({
+      cwd: './',
+      base: './',
+      path: 'templates.js',
+      contents: new Buffer(result),
+    }));
+    return cb();
+  }
+  return gulp.src('src/tmpl/*.html')
+  .pipe((function() {
+    return through.obj(passThrough, resizeFlush);
+  })()).pipe(gulp.dest('build'));
+});
+
 ////////
 // ASSETS
 ////////
