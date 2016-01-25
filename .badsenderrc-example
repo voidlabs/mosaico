@@ -1,0 +1,34 @@
+{
+  "PORT": 3000,
+  "emailTransport": {
+    // host: 'yoursmtpserver',
+    // port: 25,
+    // auth: { user: '####', pass: '####' }
+  },
+  "emailOptions": {
+    "from": "Pouic Clapou <pouic@clapou.name>" // sender address
+    // bcc: 'mosaico@mosaico.io',
+  },
+  "storage": {
+    "type": "local"
+  },
+
+  // OR for using Amazon S3:
+
+  // "storage": {
+  //   "type": "aws",
+  //   "aws": {
+  //     "accessKeyId": "20 characters key",
+  //     "secretAccessKey": "40 characters secret key",
+  //     "region": "ap-southeast-1",
+  //     "bucketName": "name of the bucket :)"
+  //   }
+  // },
+
+  // in case case of local storage
+
+  "images": {
+    "uploadDir": ".tmp/uploads",
+    "tmpDir":     ".tmp/tmp"
+  }
+}

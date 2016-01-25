@@ -244,6 +244,7 @@ gulp.task('nodemon', function (cb) {
     watch: ['server/*.js', '.badsenderrc', 'index.js'],
     env:    {
       'NODE_ENV': isDev ? 'development' : 'production',
+      'PROXY': 7000,
     }
   }).on('start', function () {
     // https://gist.github.com/sogko/b53d33d4f3b40d3b4b2e#comment-1457582
