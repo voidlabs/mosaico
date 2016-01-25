@@ -37,9 +37,11 @@
     "deps": "bower-npm-install --non-interactive",
     "test": "grunt jasmine_node",
     "build": "gulp build --prod",
-    "start": "npm run build && npm run server",
-    "server": "export NODE_ENV=production && node index.js",
-    "dev": "parallelshell \"gulp build\" \" gulp dev\""
+    "start": "export NODE_ENV=production && node index.js",
+    "prod": "npm run build && npm start",
+    "dev": "parallelshell \"gulp build\" \" gulp dev\"",
+    "release": "./bin/dist.sh",
+    "release-post-build": "gulp --gulpfile gulpfile-deploy.js"
   },
   "dependencies": {
     "aws-sdk": "^2.2.32",
@@ -53,8 +55,10 @@
     "jade": "^1.11.0",
     "lodash": "^4.0.0",
     "morgan": "^1.6.1",
+    "nodemailer": "^2.0.0",
     "rc": "^1.1.6",
-    "serve-favicon": "^2.3.0"
+    "serve-favicon": "^2.3.0",
+    "styliner": "^0.8.9"
   },
   "devDependencies": {
     "aliasify": "^1.7.2",
@@ -87,6 +91,7 @@
     "grunt-newer": "1.1.1",
     "grunt-postcss": "0.6.0",
     "gulp": "^3.9.0",
+    "gulp-bump": "^1.0.0",
     "gulp-concat": "^2.6.0",
     "gulp-filter": "^3.0.1",
     "gulp-if": "^2.0.0",
@@ -97,6 +102,7 @@
     "gulp-order": "^1.1.1",
     "gulp-plumber": "^1.0.1",
     "gulp-postcss": "^6.0.1",
+    "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.5.1",
     "gulp-util": "^3.0.7",
@@ -108,12 +114,10 @@
     "main-bower-files": "^2.11.1",
     "merge-stream": "^1.0.0",
     "mockery": "1.4.0",
-    "nodemailer": "1.4.0",
     "nodemon": "^1.8.1",
     "parallelshell": "^2.0.0",
     "phantomjs": "1.9.16",
     "run-sequence": "^1.1.5",
-    "styliner": "0.8.9",
     "through2": "^2.0.0",
     "uglifyify": "3.0.1",
     "vinyl-buffer": "^1.0.0",
