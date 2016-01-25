@@ -36,8 +36,10 @@
     "postinstall": "bower-npm-install --non-interactive",
     "deps": "bower-npm-install --non-interactive",
     "test": "grunt jasmine_node",
-    "build": "parallelshell \"grunt build:badsender\" \"gulp build --prod\"",
-    "start": "parallelshell \"grunt build:badsender\" \"gulp build\" \" gulp dev\""
+    "build": "gulp build --prod",
+    "start": "npm run build && npm run server",
+    "server": "export NODE_ENV=production && node index.js",
+    "dev": "parallelshell \"gulp build\" \" gulp dev\""
   },
   "dependencies": {
     "aws-sdk": "^2.2.32",
@@ -90,6 +92,7 @@
     "gulp-if": "^2.0.0",
     "gulp-less": "^3.0.5",
     "gulp-load-plugins": "^1.2.0",
+    "gulp-minify-css": "^1.2.3",
     "gulp-nodemon": "^2.0.6",
     "gulp-order": "^1.1.1",
     "gulp-plumber": "^1.0.1",
@@ -109,9 +112,11 @@
     "nodemon": "^1.8.1",
     "parallelshell": "^2.0.0",
     "phantomjs": "1.9.16",
+    "run-sequence": "^1.1.5",
     "styliner": "0.8.9",
     "through2": "^2.0.0",
     "uglifyify": "3.0.1",
+    "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "3.3.1",
     "yargs": "^3.32.0"

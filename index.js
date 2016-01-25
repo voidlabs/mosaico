@@ -31,16 +31,14 @@ app.set('view engine', 'jade');
 
 //----- STATIC
 
-// gulp compiled assets
-app.use(express.static('./build'));
-// grunt compiled assets
+// compiled assets
 app.use(express.static('./dist'));
 // commited assets
-app.use(express.static('./public'));
+app.use(express.static('./res'));
 // editor's templates
 app.use('/templates', express.static('./templates'));
 // tinymce skin
-app.use('/lib/skins', express.static('./public/vendor/skins'));
+app.use('/lib/skins', express.static('./res/vendor/skins'));
 
 //////
 // LOGGING
