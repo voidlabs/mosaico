@@ -217,7 +217,7 @@ gulp.task('templates', function () {
 gulp.task('fonts', function (cb) {
   return gulp
     .src(mainBowerFiles({filter: /font-awesome\/fonts/}))
-    .pipe(gulp.dest('public/fa/fonts'));
+    .pipe(gulp.dest('res/fa/fonts'));
 });
 
 gulp.task('assets', ['fonts']);
