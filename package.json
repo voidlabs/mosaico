@@ -41,7 +41,7 @@
     "prod": "npm run build && npm start",
     "dev": "parallelshell \"gulp build\" \" gulp dev\"",
     "release": "./bin/dist.sh",
-    "release-post-build": "gulp --gulpfile gulpfile-deploy.js"
+    "build-release": "npm run build && gulp --gulpfile gulpfile-deploy.js"
   },
   "dependencies": {
     "aws-sdk": "^2.2.32",
