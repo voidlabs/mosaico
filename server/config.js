@@ -1,8 +1,9 @@
 'use strict';
 
-var path      = require('path');
+var path    = require('path');
 var rc      = require('rc');
 var _       = require('lodash');
+var mkdirp  = require('mkdirp');
 
 var config  = rc('badsender', {
   storage: {
@@ -24,6 +25,12 @@ config.isAws      = config.storage.type === 'aws';
 
 config.images.uploadDir = path.join(__dirname, '../', config.images.uploadDir);
 config.images.tmpDir    = path.join(__dirname, '../', config.images.tmpDir);
+
+if (config.isAws) {
+  console.log('create temp dir in AWS mode');
+  mkdirp.sync(config.images.tmpDir);
+  mkdirp.sync(config.images.uploadDir);
+}
 
 // if (!config.isProd) {
 console.log('config is');
