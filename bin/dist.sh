@@ -76,5 +76,7 @@ git push --tags
 
 cd $origdir
 rm -Rf $copydir
+git branch -D $env
+git checkout -t origin/$env
 
 exit 0
