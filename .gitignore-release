@@ -6,6 +6,7 @@
 /src
 /tasks
 /uploads
+/tmp
 /.*
 !.gitignore
 /*.html

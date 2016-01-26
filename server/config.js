@@ -9,8 +9,8 @@ var config  = rc('badsender', {
     type: 'local',
   },
   images: {
-    uploadDir: '.tmp/uploads',
-    tmpDir:    '.tmp/tmp',
+    uploadDir: 'tmp/uploads',
+    tmpDir:    'tmp/tmp',
   }
 });
 

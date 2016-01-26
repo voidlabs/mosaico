@@ -91,21 +91,27 @@ gulp.task('lib', ['clean-lib'], function () {
     .pipe($.concat('badsender-lib-core.js'));
 
   // editor's only
+  var bowerfiles = mainBowerFiles({
+    group:  'editor',
+    overrides: {
+      // tinymce has no main…
+      tinymce: {
+        main: 'tinymce.js'
+      },
+      // override for load image
+      'blueimp-load-image': {
+        main: 'js/load-image.all.min.js',
+      },
+    }
+  });
+  // console.log(bowerfiles);
   var editorLibs = gulp
-    .src(mainBowerFiles({
-      group:  'editor',
-      overrides: {
-        // tinymce has no main…
-        tinymce: {
-          main: 'tinymce.js'
-        }
-      }
-    }))
-
+    .src(bowerfiles)
     .pipe($.filter(['*', '!*.css', '!jquery.js', '!knockout.js']))
     .pipe($.order([
       // reorganize files we want to concat
       'jquery-ui*.js',
+      'load-image.all.min.js',
       'jquery.fileupload.js',
       'jquery.fileupload-process.js',
       'jquery.fileupload-image.js',
@@ -242,7 +248,7 @@ gulp.task('nodemon', function (cb) {
     watch: ['server/*.js', '.badsenderrc', 'index.js'],
     env:    {
       'NODE_ENV': isDev ? 'development' : 'production',
-      'PROXY': 7000,
+      'badsender_PROXY': 7000,
     }
   }).on('start', function () {
     // https://gist.github.com/sogko/b53d33d4f3b40d3b4b2e#comment-1457582

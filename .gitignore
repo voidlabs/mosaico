@@ -4,6 +4,7 @@ uploads/**
 !uploads/README.md
 .tmp/**
 !.tmp/README.md
+tmp
 build
 dist
 .badsenderrc

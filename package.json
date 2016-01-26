@@ -37,8 +37,8 @@
     "test": "grunt jasmine_node",
     "build": "npm run deps && gulp build --prod",
     "start": "export NODE_ENV=production && node index.js",
-    "prod": "npm run build && npm start",
-    "dev": "parallelshell \"gulp build\" \" gulp dev\"",
+    "prod": "npm run deps && npm run build && npm start",
+    "dev": "npm run deps && parallelshell \"gulp build\" \" gulp dev\"",
     "release": "./bin/dist.sh",
     "build-release": "npm run build && gulp --gulpfile gulpfile-deploy.js"
   },
