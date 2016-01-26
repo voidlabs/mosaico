@@ -26,7 +26,8 @@ config.images.uploadDir = path.join(__dirname, '../', config.images.uploadDir);
 config.images.tmpDir    = path.join(__dirname, '../', config.images.tmpDir);
 
 // if (!config.isProd) {
-//   console.log(_.omit(config, ['_', 'config', '_configs']));
+console.log('config is');
+console.log(_.omit(config, ['_', 'config', '_configs']));
 // }
 
 module.exports  = config;
