@@ -5,7 +5,6 @@ var rc      = require('rc');
 var _       = require('lodash');
 
 var config  = rc('badsender', {
-  PORT:       3000,
   storage: {
     type: 'local',
   },
@@ -15,7 +14,8 @@ var config  = rc('badsender', {
   }
 });
 
-config.NODE_ENV = config.NODE_ENV || process.env.NODE_ENV || 'development';
+config.NODE_ENV   = config.NODE_ENV || process.env.NODE_ENV || 'development';
+config.PORT       = process.env.PORT || 3000;
 
 config.isDev      = config.NODE_ENV === 'development';
 config.isProd     = config.NODE_ENV === 'production';
