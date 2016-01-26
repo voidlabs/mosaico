@@ -33,10 +33,9 @@
     "tinymce": "global:tinymce"
   },
   "scripts": {
-    "postinstall": "bower-npm-install --non-interactive",
-    "deps": "bower-npm-install --non-interactive",
+    "deps": "npm install && bower-npm-install --non-interactive",
     "test": "grunt jasmine_node",
-    "build": "gulp build --prod",
+    "build": "npm run deps && gulp build --prod",
     "start": "export NODE_ENV=production && node index.js",
     "prod": "npm run build && npm start",
     "dev": "parallelshell \"gulp build\" \" gulp dev\"",
