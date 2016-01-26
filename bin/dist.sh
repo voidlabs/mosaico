@@ -56,7 +56,7 @@ rm -rf node_modules
 npm install --production
 
 # add, commit and push
-git checkout --orphan "$env"-"$version"
+git checkout -b "$env"-"$version"
 git rm -rf --cached .
 git add .
 git commit -m "build v$version"
@@ -76,7 +76,5 @@ git push --tags
 
 cd $origdir
 rm -Rf $copydir
-git branch -D $env
-git checkout -t origin/$env
 
 exit 0

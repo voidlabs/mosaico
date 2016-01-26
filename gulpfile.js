@@ -8,12 +8,10 @@ var lazypipe        = require('lazypipe');
 var del             = require('del');
 var merge           = require('merge-stream');
 var args            = require('yargs').argv;
-var isDev           = args.prod !== true;
 var mainBowerFiles  = require('main-bower-files');
+
+var isDev           = args.prod !== true;
 var cyan            = require('chalk').cyan;
-
-
-
 var buildDir        = 'dist';
 
 function onError(err) {
