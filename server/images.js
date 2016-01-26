@@ -3,11 +3,11 @@
 var fs      = require('fs');
 var path    = require('path');
 var gm      = require('gm').subClass({imageMagick: true});
+var AWS     = require('aws-sdk');
 
 var config  = require('./config');
 
 if (config.isAws) {
-  var AWS   = require('aws-sdk');
   AWS.config.update(config.storage.aws);
   var s3    = new AWS.S3();
 }
