@@ -140,7 +140,7 @@ var templateLoader = function(performanceAwareCaller, templateFileName, template
   var templateUrlConverter = _templateUrlConverter.bind(undefined, templatePath);
 
   var metadata;
-  if (typeof templateFile == 'string') {
+  if (typeof templateMetadata == 'undefined') {
     metadata = {
       template: templateFile,
       // TODO l10n?
