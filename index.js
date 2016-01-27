@@ -74,6 +74,11 @@ var download  = require('./server/download');
 var images    = require('./server/images');
 var render    = require('./server/render');
 
+// TODO additional routes for handling live resize
+// app.get('/placeholder',        images.getOriginal)
+// app.get('/resize/:imageName',  images.getOriginal)
+// app.get('/cover/:imageName',   images.getOriginal)
+
 app.get('/img/:imageName',  images.getOriginal)
 app.get('/img/',            images.getResized);
 app.get('/upload/',         upload.get);

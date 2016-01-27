@@ -54,6 +54,7 @@ var applyBindingOptions = function(options, ko) {
     });
   };
 
+  // TODO should be querying a placeholder route
   ko.bindingHandlers.wysiwygSrc.placeholderUrl = function(width, height, text) {
     return options.imgProcessorBackend + "?method=" + 'placeholder' + "&params=" + width + encodeURIComponent(",") + height;
   };
