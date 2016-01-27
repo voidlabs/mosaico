@@ -1,5 +1,6 @@
 'use strict';
 
+var url           = require('url');
 var fileupload    = require('blueimp-file-upload-expressjs');
 
 var config        = require('./config');
@@ -14,13 +15,10 @@ var uploader      = fileupload({
 // get only the file name
 // this is for the image to be live resized by the back application
 function processResponse(req, obj) {
-  var url = req.protocol + '://' + req.hostname;
-  if (config.PROXY) url = url + ':' + config.PROXY;
   obj.files.map(function (image) {
-    // after uploading S3 sent url with extra parameters (AWSAccessKeyId, Signature…)
-    // we need to clean them in order to have a nice url
-    image.url  = /^([^?]*)/.exec(image.url)[1];
-    image.url  = url + '/img?src=' + image.url;
+    // url will be recomposed front-end side
+    // remove trailing '/' in order for url.resolve to do the right concatenation
+    image.url  = url.parse(image.url).pathname.replace(/^\//, '');
     return image;
   });
   return JSON.stringify(obj);

@@ -27,9 +27,9 @@ function postDownload(req, res, next) {
     if (req.body.action == 'email') {
 
       var mailOptions = _.extend({
-          to: req.body.rcpt, // list of receivers
-          subject: req.body.subject, // Subject line
-          html: source // html body
+          to:       req.body.rcpt, // list of receivers
+          subject:  req.body.subject, // Subject line
+          html:     source // html body
       }, config.emailOptions);
 
       transporter.sendMail(mailOptions, mailSend);
@@ -42,11 +42,7 @@ function postDownload(req, res, next) {
   }
 
   function mailSend(error, info) {
-    if (error) {
-      console.log(error);
-      res.status(500).send('Error: '+error);
-      return res.write('ERR');
-    }
+    if (error) return next(error);
     console.log('Message sent: ' + info.response);
     res.send('OK: ' + info.response);
   }

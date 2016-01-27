@@ -20,11 +20,11 @@ block head-content
       // A basic plugin that expose the "viewModel" object as a global variable.
       // plugins = [function(vm) {window.viewModel = vm;}];
       var ok = Badsender.init({
-        imgProcessorBackend: basePath+'/img/',
-        emailProcessorBackend: basePath+'/dl/',
-        titleToken: "MOSAICO Responsive Email Designer",
+        imgProcessorBackend:    basePath + '/img/',
+        emailProcessorBackend:  basePath + '/dl/',
+        titleToken:             'BADSENDER Responsive Email Designer',
         fileuploadConfig: {
-          url: basePath+'/upload/',
+          url: basePath + '/upload/',
           // messages??
         }
       }, plugins);

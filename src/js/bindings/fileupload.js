@@ -10,8 +10,8 @@
 //require("jquery-file-upload/js/jquery.fileupload-image.js");
 //require("jquery-file-upload/js/jquery.fileupload-validate.js");
 
-var $ = require("jquery");
-var ko = require("knockout");
+var $       = require("jquery");
+var ko      = require("knockout");
 var console = require("console");
 
 // experimental image preloading.
@@ -180,10 +180,10 @@ ko.bindingHandlers['fudroppable'] = {
 
 ko.bindingHandlers['fileupload'] = {
   extendOptions: {},
-  remoteFilePreprocessor: function(url) { return url; },
+  // remoteFilePreprocessor method has been set in app.js
   init: function(element, valueAccessor) {
     // TODO domnodedisposal doesn't work when the upload is done by "clicking"
-    // Probably jquery-fileupload moves the DOM somewhere else so that KO doesn't 
+    // Probably jquery-fileupload moves the DOM somewhere else so that KO doesn't
     // detect the removal anymore.
     ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
       $(element).fileupload('destroy');

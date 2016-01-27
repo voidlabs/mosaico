@@ -72,17 +72,15 @@ app.use(morgan(logResponse));
 var upload    = require('./server/upload');
 var download  = require('./server/download');
 var images    = require('./server/images');
+var render    = require('./server/render');
 
-app.get('/upload/',     upload.get);
-app.post('/upload/',    upload.post);
-app.get('/img/',        images.get);
-app.post('/dl/',        download.post);
-app.get('/editor',      function (req, res, next) {
-  res.render('editor');
-});
-app.get('/',            function (req, res, next) {
-  res.render('home');
-});
+app.get('/img/:imageName',  images.getOriginal)
+app.get('/img/',            images.getResized);
+app.get('/upload/',         upload.get);
+app.post('/upload/',        upload.post);
+app.post('/dl/',            download.post);
+app.get('/editor',          render.editor);
+app.get('/',                render.home);
 
 //////
 // ERROR HANDLING
@@ -114,3 +112,4 @@ var server = app.listen(config.PORT, function endInit() {
     chalk.green('on mode'), chalk.cyan(config.NODE_ENV)
   );
 });
+

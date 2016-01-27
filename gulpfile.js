@@ -272,3 +272,26 @@ gulp.task('dev', ['app', 'browser-sync'], function () {
   gulp.watch(['server/views/*.jade', 'dist/*.js']).on('change', reload);
   gulp.watch('src/css/**/*.less', ['css']);
 });
+
+var init = true;
+gulp.task('nodemon-prod', function (cb) {
+  return $.nodemon({
+    script: 'index.js',
+    ext: 'js json',
+    watch: ['server/*.js', '.badsenderrc', 'index.js'],
+    env:    {
+      'NODE_ENV': 'production'
+    }
+  }).on('start', function () {
+    // https://gist.github.com/sogko/b53d33d4f3b40d3b4b2e#comment-1457582
+    if (init) {
+      init = false;
+      cb();
+    }
+  });
+});
+
+gulp.task('prod', ['app', 'nodemon-prod'], function () {
+  gulp.watch(['server/views/*.jade', 'dist/*.js']).on('change', reload);
+  gulp.watch('src/css/**/*.less', ['css']);
+});

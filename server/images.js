@@ -1,6 +1,7 @@
 'use strict';
 
 var fs      = require('fs');
+var url     = require('url');
 var path    = require('path');
 var gm      = require('gm').subClass({imageMagick: true});
 var AWS     = require('aws-sdk');
@@ -33,9 +34,8 @@ function streamImage(imageName) {
 // - generate a placeholder
 // - or retrieve any uploaded images and apply a resize
 // imgProcessorBackend + "?src=" + encodeURIComponent(src) + "&method=" + encodeURIComponent(method) + "&params=" + encodeURIComponent(width + "," + height);
-function get(req, res, next) {
-
-  var imageName = req.query.src ? decodeURIComponent(req.query.src) : '';
+function getResized(req, res, next) {
+  var imageName = req.query.src ? url.parse(req.query.src).pathname : '';
   imageName     = /([^/]*)$/.exec(imageName)[1];
   var method    = req.query.method;
   var sizes     = req.query.params ? req.query.params.split(',') : [0, 0];
@@ -90,10 +90,15 @@ function get(req, res, next) {
       });
       break;
     default:
-      streamImage(imageName).pipe(res);
+      return res.status(404).send();
   }
 }
 
+function getOriginal(req, res, next) {
+  return streamImage(req.params.imageName).pipe(res);
+}
+
 module.exports = {
-  get: get,
+  getResized:   getResized,
+  getOriginal:  getOriginal,
 }

@@ -34,7 +34,7 @@ if (config.isAws) {
 
 // if (!config.isProd) {
 console.log('config is');
-console.log(_.omit(config, ['_', 'config', '_configs']));
+console.log(_.omit(config, ['_', 'config', '_configs', 'configs']));
 // }
 
 module.exports  = config;

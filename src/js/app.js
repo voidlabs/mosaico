@@ -2,10 +2,13 @@
 /* global global: false */
 /* global XMLHttpRequest: false */
 
+var url     = require('url');
+var console = require('console');
+var ko      = require("knockout");
+var $       = require("jquery");
+
 var templateLoader = require('./template-loader.js');
-var console = require("console");
-var ko = require("knockout");
-var $ = require("jquery");
+
 require("./ko-bindings.js");
 var performanceAwareCaller = require("./timed-call.js").timedCall;
 
@@ -23,17 +26,32 @@ function _canonicalize(url) {
 }
 
 var applyBindingOptions = function(options, ko) {
+  // options have been set in the editor template
+  var imgProcessorBackend = url.parse(options.imgProcessorBackend);
+
+  // send the non-resized image url
+  ko.bindingHandlers.fileupload.remoteFilePreprocessor = function (file) {
+    var fileUrl = url.format({
+      protocol: imgProcessorBackend.protocol,
+      host:     imgProcessorBackend.host,
+      pathname: imgProcessorBackend.pathname,
+    });
+    file.url = url.resolve(fileUrl, url.parse(file.url).pathname);
+    return file;
+  },
+
   // push "convertedUrl" method to the wysiwygSrc binding
   ko.bindingHandlers.wysiwygSrc.convertedUrl = function(src, method, width, height) {
-    var imgProcessorBackend = options.imgProcessorBackend ? options.imgProcessorBackend : './upload';
-    var backEndMatch = imgProcessorBackend.match(/^(https?:\/\/[^\/]*\/).*$/);
-    var srcMatch = src.match(/^(https?:\/\/[^\/]*\/).*$/);
-    if (backEndMatch === null || (srcMatch !== null && backEndMatch[1] == srcMatch[1])) {
-      return imgProcessorBackend + "?src=" + encodeURIComponent(src) + "&method=" + encodeURIComponent(method) + "&params=" + encodeURIComponent(width + "," + height);
-    } else {
-      console.log("Cannot apply backend image resizing to non-local resources ", src, method, width, height, backEndMatch, srcMatch);
-      return src + "?method=" + method + "&width=" + width + (height !== null ? "&height=" + height : '');
-    }
+    return url.format({
+      protocol: imgProcessorBackend.protocol,
+      host:     imgProcessorBackend.host,
+      pathname: imgProcessorBackend.pathname,
+      query: {
+        method: method,
+        params: width + "," + height,
+        src:    url.parse(src).pathname,
+      }
+    });
   };
 
   ko.bindingHandlers.wysiwygSrc.placeholderUrl = function(width, height, text) {
