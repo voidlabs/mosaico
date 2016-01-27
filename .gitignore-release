@@ -2,7 +2,6 @@
 /bin
 /bower_components
 /build
-/node_modules
 /spec
 /src
 /tasks
