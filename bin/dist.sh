@@ -52,7 +52,7 @@ npm run build-release -- --pkg=$version
 
 rm .gitignore
 mv .gitignore-release .gitignore
-# git rm -rf node_modules --ignore-unmatch
+rm -rf node_modules
 npm install --production
 
 # add, commit and push
