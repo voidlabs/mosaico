@@ -52,8 +52,8 @@ npm run build-release -- --pkg=$version
 
 rm .gitignore
 mv .gitignore-release .gitignore
-rm -rf node_modules
-npm install --production
+git rm -rf node_modules
+# npm install --production
 
 # add, commit and push
 git checkout -b "$env"-"$version"
