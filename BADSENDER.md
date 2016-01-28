@@ -31,7 +31,7 @@ for example push the prod branch is:
 **being on the prod branch and make sure it's up-to-date**
 
 ```
-git co prod && git fetch origin prod && git reset --hard FETCH_HEAD && git clean -df
+git checkout prod && git fetch origin prod && git reset --hard FETCH_HEAD && git clean -df
 ```
 
 then
