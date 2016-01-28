@@ -103,13 +103,16 @@ block head-content
 
 block content
   body(data-bind="visible: true")
-    div(style="background-color: #ffffff; padding: 10px;")
+    header
+      .lang
+        if getLocale() === 'en'
+          a(href="/?lang=fr") version française
+        else
+          a(href="/?lang=en") english version
+
       div: img(src="/media/logo_badsender_154x118.png")
       .ribbon Badsender Email Builder
-    .content
-      a(href="/?lang=en") english
-      br
-      a(href="/?lang=fr") french
+    main(role="main").content
       h3 Demo
       p= __('home.click-to-try')
       div
@@ -158,8 +161,9 @@ block content
       // /ko
     // /ko
 
-    .subscribe
-      a(href="http://agency.badsender.com/production/email-builder/")= __('home.more-info')
-    .footer
-      | Badsender.com -
-      |  #{__('home.footer.rights')}
+    footer
+      .subscribe
+        a(href="http://agency.badsender.com/production/email-builder/")= __('home.more-info')
+      .footer
+        | Badsender.com -
+        |  #{__('home.footer.rights')}

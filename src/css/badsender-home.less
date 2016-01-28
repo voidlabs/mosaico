@@ -1,3 +1,6 @@
+@accent: #f5a316;
+@grey: #333332;
+
 body {
   font-family: 'PT Sans', sans-serif;
   font-size: 13.6px;
@@ -6,12 +9,13 @@ body {
   padding: 0;
   margin: 0;
   background: white;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-a,
-a:link,
-a:visited {
-  color: #A00000;
+a {
+  color: @grey;
   text-decoration: none;
 }
 
@@ -22,19 +26,38 @@ a:visited {
 }
 .template a {
   display: block;
-  outline: 2px solid #333332;
   padding: 2px;
   width: 340px;
   height: 300px;
   overflow-y: auto;
+  transition: box-shadow .2s;
+  box-shadow: 0 0 0 2px @accent;
 }
 .template a:hover {
-  outline: 5px solid #f5a316;
-  transition: outline .2s;
+  box-shadow: 0 0 0 5px @accent;
+}
+
+////////
+// HEADER
+////////
+
+header {
+  padding: 10px;
+  position: relative;
+}
+
+.lang {
+  position: absolute;
+  top: .5em;
+  right: 1em;
+
+  a:hover {
+    text-decoration: underline;
+  }
 }
 
 .ribbon {
-  background-color: #f5a316;
+  background-color: @accent;
   color: white;
   display: inline-block;
   padding: 3px 10px;
@@ -53,7 +76,7 @@ a:visited {
     height: 0;
     border-width: 12px 12px;
     border-style: solid;
-    border-color: #f5a316;
+    border-color: @accent;
   }
   &::before {
     left: -20px;
@@ -79,9 +102,11 @@ a:visited {
 .content {
   padding-top: 10px;
   padding-bottom: 2em;
+  flex: 1 0 auto;
 
   h3 {
     margin-top: 0;
+    text-transform: uppercase;
   }
 }
 
@@ -90,7 +115,7 @@ a:visited {
 }
 
 .subscribe {
-  background-color: #f5a316;
+  background-color: @accent;
   color: white;
   padding: 2em .5em;
 
@@ -104,7 +129,7 @@ a:visited {
     text-transform: uppercase;
 
     &:hover {
-      color: #f5a316;
+      color: @accent;
       background: white;
     }
   }
@@ -124,8 +149,6 @@ a:visited {
 ////////
 
 .table-container {
-  // overflow-y: auto;
-  // max-height: 200px;
   z-index: 10;
   position: relative;
   padding: 1em;
@@ -168,18 +191,22 @@ td {
 }
 .operationButton,
 .resumeButton {
-  background-color: #333332;
-  color: white !important;
+  border: 1px solid @grey;
+  color: @grey;
   padding: 5px 8px;
-  border-radius: 5px;
   display: inline-block;
+
+  &:hover {
+    background: @grey;
+    color: white;
+  }
 }
 .resumeButton,
 .operationButton + .operationButton {
   margin-left: .5em;
 }
-.operationButton i {
-  color: white;
+.operationButton {
+  border: 0;
 }
 
 @media screen and (max-width: 1400px) {
