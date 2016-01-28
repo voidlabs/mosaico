@@ -27,5 +27,9 @@
 				"tutorial": ": The Tutorial"
 			}
 		}
+	},
+	"layout": {
+		"title": "Email template editor by “drag & drop” - A Badsender.com solution",
+		"description": "Badsender Email Builder is an emailing responsive design solution for building an email graphically by drag & drop."
 	}
 }

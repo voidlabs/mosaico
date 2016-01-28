@@ -10,8 +10,15 @@ function home(req, res, next) {
   });
 }
 
+var translations = {
+  en: JSON.stringify(require('../res/lang/mosaico-en.json')),
+  fr: JSON.stringify(require('../res/lang/mosaico-fr.json')),
+};
+
 function editor(req, res, next) {
-  return res.render('editor');
+  return res.render('editor', {
+    translations: translations,
+  });
 }
 
 module.exports = {

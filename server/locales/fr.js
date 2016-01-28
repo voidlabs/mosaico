@@ -39,5 +39,9 @@
 				"tutorial": " : le tutoriel"
 			}
 		}
+	},
+	"layout": {
+		"title": "Éditeur de templates email responsive par \"glissé/déposé\" - Une solution Badsender.com",
+		"description": "Badsender Email Builder est une solution de conception d'emailing responsive permettant de construire un email graphiquement par glissé/déposé."
 	}
 }
