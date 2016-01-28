@@ -15,18 +15,6 @@
 		"footer": {
 			"rights": "Tous droits réservés"
 		},
-		"template": {
-			"name": {
-				"versafix-1": "home.template.name.versafix-1",
-				"tedc15": "home.template.name.tedc15",
-				"tutorial": "home.template.name.tutorial"
-			},
-			"desc": {
-				"versafix-1": "home.template.desc.versafix-1",
-				"tedc15": "home.template.desc.tedc15",
-				"tutorial": "home.template.desc.tutorial"
-			}
-		},
 		"templates": {
 			"name": {
 				"versafix-1": "versafix-1",
