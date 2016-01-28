@@ -35,7 +35,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
 app.use(compression());
-app.use(favicon(path.join(__dirname, '/favicon.ico')));
+app.use(favicon(path.join(__dirname, '/favicon.png')));
 app.use(cookieParser());
 app.use(i18n.init);
 
