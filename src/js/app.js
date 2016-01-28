@@ -113,8 +113,9 @@ var start = function(options, templateFile, templateMetadata, jsorjson, customEx
       };
     }
   };
-
-  var extensions = [addUndoStackExtensionMaker(performanceAwareCaller), colorPlugin, simpleTranslationPlugin];
+  // initialize simpleTranslationPlugin BEFORE addUndoStackExtensionMaker
+  // addUndoStackExtensionMaker is dependent on translations
+  var extensions = [simpleTranslationPlugin, addUndoStackExtensionMaker(performanceAwareCaller), colorPlugin];
   if (typeof customExtensions !== 'undefined')
     for (var k = 0; k < customExtensions.length; k++) extensions.push(customExtensions[k]);
   extensions.push(fileUploadMessagesExtension);

@@ -270,6 +270,7 @@ gulp.task('browser-sync', ['nodemon'], function () {
 gulp.task('dev', ['app', 'browser-sync'], function () {
   gulp.watch(['server/views/*.jade', 'dist/*.js']).on('change', reload);
   gulp.watch('src/css/**/*.less', ['css']);
+  gulp.watch('src/tmpl/*.html', ['templates']);
 });
 
 var init = true;
