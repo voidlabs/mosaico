@@ -112,13 +112,14 @@ block content
       a(href="/?lang=fr") french
       h3 Demo
       p= __('home.click-to-try')
-      div(data-bind="foreach: templates"): .template.template-xx(data-bind="attr: { class: 'template template-'+name }")
-        div.description
-          b(data-bind="text: name") xx
-          | :
-          span(data-bind="text: desc") xx
-        a(href="#", data-bind="click: $root.newEdit.bind(undefined, name), attr: { href: '/editor#templates/'+name+'/template-'+name+'.html' }")
-          img(src, width="100%", alt="xx", data-bind="attr: { src: 'templates/'+name+'/edres/_full.png' }")
+      div
+        each name in templates
+          .template.template-xx(class="template template-#{name}")
+            .description
+              b= __('home.templates.name.' + name)
+              span= __('home.templates.desc.' + name)
+            a(href="/editor#templates/#{name}/template-#{name}.html", data-bind="click: $root.newEdit.bind(undefined, '#{name}')")
+              img(src="templates/#{name}/edres/_full.png", width="100%", alt="xx")
 
     // ko if: edits().length
     div.table-container(style="")

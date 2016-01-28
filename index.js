@@ -25,6 +25,7 @@ var app = express();
     defaultLocale:  'fr',
     extension:      '.js',
     cookie:         'badsender',
+    objectNotation: true,
     directory:      path.join( __dirname, './server/locales'),
   });
 
