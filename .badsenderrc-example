@@ -1,5 +1,4 @@
 {
-  "PORT": 3000,
   "emailTransport": {
     // host: 'yoursmtpserver',
     // port: 25,
@@ -7,7 +6,6 @@
   },
   "emailOptions": {
     "from": "Pouic Clapou <pouic@clapou.name>" // sender address
-    // bcc: 'mosaico@mosaico.io',
   },
   "storage": {
     "type": "local"
