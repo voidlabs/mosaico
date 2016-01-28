@@ -9,6 +9,7 @@ var del             = require('del');
 var merge           = require('merge-stream');
 var args            = require('yargs').argv;
 var mainBowerFiles  = require('main-bower-files');
+var _               = require('lodash');
 
 var isDev           = args.prod !== true;
 var cyan            = require('chalk').cyan;
@@ -240,17 +241,15 @@ gulp.task('build', function (cb) {
   run(['clean-all'], ['lib', 'app', 'css', 'assets'], cb);
 });
 
+var nodemonOptions = {
+  script: 'index.js',
+  ext: 'js json',
+  watch: ['server/**/*.js', '.badsenderrc', 'index.js'],
+};
 var init = true;
 gulp.task('nodemon', function (cb) {
-  return $.nodemon({
-    script: 'index.js',
-    ext: 'js json',
-    watch: ['server/*.js', '.badsenderrc', 'index.js'],
-    env:    {
-      'NODE_ENV': isDev ? 'development' : 'production',
-      'badsender_PROXY': 7000,
-    }
-  }).on('start', function () {
+  return $.nodemon(_.merge({env: { 'NODE_ENV': 'development' }}, nodemonOptions))
+  .on('start', function () {
     // https://gist.github.com/sogko/b53d33d4f3b40d3b4b2e#comment-1457582
     if (init) {
       init = false;
@@ -275,14 +274,8 @@ gulp.task('dev', ['app', 'browser-sync'], function () {
 
 var init = true;
 gulp.task('nodemon-prod', function (cb) {
-  return $.nodemon({
-    script: 'index.js',
-    ext: 'js json',
-    watch: ['server/*.js', '.badsenderrc', 'index.js'],
-    env:    {
-      'NODE_ENV': 'production'
-    }
-  }).on('start', function () {
+  return $.nodemon(_.merge({env: { 'NODE_ENV': 'production' }}, nodemonOptions))
+  .on('start', function () {
     // https://gist.github.com/sogko/b53d33d4f3b40d3b4b2e#comment-1457582
     if (init) {
       init = false;

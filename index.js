@@ -8,6 +8,8 @@ var compression   = require('compression');
 var morgan        = require('morgan');
 var favicon       = require('serve-favicon');
 var errorHandler  = require('express-error-handler');
+var cookieParser  = require('cookie-parser');
+var i18n          = require('i18n');
 
 var config        = require('./server/config');
 
@@ -17,6 +19,15 @@ var config        = require('./server/config');
 
 var app = express();
 
+// configure i18n
+  i18n.configure({
+    locales:        ['fr', 'en',],
+    defaultLocale:  'fr',
+    extension:      '.js',
+    cookie:         'badsender',
+    directory:      path.join( __dirname, './server/locales'),
+  });
+
 app.use(bodyParser.json({limit: '5mb'}));
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   limit: '5mb',
@@ -24,8 +35,11 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }));
 app.use(compression());
 app.use(favicon(path.join(__dirname, '/favicon.ico')));
+app.use(cookieParser());
+app.use(i18n.init);
 
 //----- TEMPLATES
+
 app.set('views', path.join(__dirname, './server/views'));
 app.set('view engine', 'jade');
 
@@ -84,6 +98,16 @@ app.get('/img/',            images.getResized);
 app.get('/upload/',         upload.get);
 app.post('/upload/',        upload.post);
 app.post('/dl/',            download.post);
+
+// take care of language query params
+app.use(function(req, res, next) {
+  if (req.query.lang) {
+    res.setLocale(req.query.lang);
+    res.cookie('badsender', req.query.lang, { maxAge: 900000, httpOnly: true });
+  };
+  next();
+});
+
 app.get('/editor',          render.editor);
 app.get('/',                render.home);
 

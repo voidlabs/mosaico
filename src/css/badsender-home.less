@@ -101,6 +101,12 @@ a:visited {
     box-sizing: border-box;
     border-radius: 0;
     padding: 5px 10px;
+    text-transform: uppercase;
+
+    &:hover {
+      color: #f5a316;
+      background: white;
+    }
   }
   a + a {
     margin-left: 1em;
@@ -137,6 +143,10 @@ caption {
 
 tbody tr:nth-child(odd) {
   background-color: white;
+}
+
+th {
+  text-transform: capitalize;
 }
 
 td {

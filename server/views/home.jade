@@ -106,11 +106,12 @@ block content
     div(style="background-color: #ffffff; padding: 10px;")
       div: img(src="http://agence.badsender.com/wp-content/uploads/2014/09/logo_badsender_154x118.png")
       .ribbon Badsender Email Builder
-
     .content
+      a(href="/?lang=en") english
+      br
+      a(href="/?lang=fr") french
       h3 Demo
-      p Click on one of the test templates below to try "Badsender Email Builder".
-      p Cliquez sur l'un des templates de test ci-dessous afin d'essayer "Badsender Email Builder"
+      p= __('home.click-to-try')
       div(data-bind="foreach: templates"): .template.template-xx(data-bind="attr: { class: 'template template-'+name }")
         div.description
           b(data-bind="text: name") xx
@@ -123,24 +124,24 @@ block content
     div.table-container(style="")
       // ko ifnot: $root.showSaved
       p
-        span You have saved contents in this browser!
+        span= __('home.saved.notification')
         a.resumeButton(href="#", data-bind="click: $root.showSaved.bind(undefined, true);")
           i.fa.fa-plus-square
-          |  show
+          |  #{__('home.saved.show')}
       // /ko
       // ko if: $root.showSaved
       table#savedTable
         caption
-          | Email contents saved in your browser
+          | #{__('home.saved.caption')}
           a.resumeButton(href="#", data-bind="click: $root.showSaved.bind(undefined, false);")
             i.fa.fa-minus-square
-            |  Hide
+            |  #{__('home.saved.hide')}
         thead: tr
           th Id
-          th Name
-          th Created
-          th Last changed
-          th Operations
+          th= __('home.saved.name')
+          th= __('home.saved.created')
+          th= __('home.saved.last-change')
+          th= __('home.saved.operations')
         tbody(data-bind="foreach: edits")
           tr
             td: a(href="#", data-bind="attr: { href: 'editor#'+key }"): code
@@ -157,6 +158,7 @@ block content
     // /ko
 
     .subscribe
-      a(href="http://agency.badsender.com/production/email-builder/" style=" color: white; border: 1px solid white; box-sizing: border-box; border-radius: 0px; padding: 5px 10px") MORE INFO ABOUT THE BUILDER
-      a(href="http://agence.badsender.com/production/editeur-emailing" style=" color: white; border: 1px solid white; box-sizing: border-box; border-radius: 0px; padding: 5px 10px") EN SAVOIR PLUS À PROPOS DE L'ÉDITEUR
-    .footer Badsender.com - All rights reserved
+      a(href="http://agency.badsender.com/production/email-builder/")= __('home.more-info')
+    .footer
+      | Badsender.com -
+      |  #{__('home.footer.rights')}
