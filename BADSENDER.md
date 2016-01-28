@@ -2,7 +2,6 @@
 
 ## prerequisite
 
-- **NodeJS** should be installed on your computer ([https://nodejs.org/](https://nodejs.org/) for more details)  
 - **git** should be installed also
 - **heroku toolbelt** ([https://toolbelt.heroku.com/](https://toolbelt.heroku.com/))
 
@@ -127,9 +126,11 @@ and copy and paste this:
 then replace `YOURBUCKETNAME` by your real bucket name
 
 
-## project commands
+## Updating the code
 
-those are all commands needed if you want to make some change on the code
+If you want to run badsender on your computer, **NodeJS** should be installed on your computer ([https://nodejs.org/](https://nodejs.org/) for more details)  
+
+those are the main developper commands:
 
 ### Build the project for *production*
 
