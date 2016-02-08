@@ -1,10 +1,10 @@
 all: build run
 
 build:
-	docker build -t piotr-mroczek/mosaico .
+	docker build -t piotrmroczek/mosaico .
 
 run:
-	docker run -p 9006:9006 piotr-mroczek/mosaico	
+	docker run -d -p 9006:9006 --name mosaico-node1 piotrmroczek/mosaico	
 
 
 
