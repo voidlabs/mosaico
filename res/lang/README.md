@@ -11,5 +11,7 @@ it (Italian): Mosaico Team
 de (German): Bernhard Weichel
 es (Spanish): Carlos Jacobs
 fr (French): Jonathan Loriaux
+nl (Dutch): Pieter Emeis
+sv (Swedish): P-H Westman
 
 Sign-up to Transifex if you want to collaborate or suggest changes to the current languages!
