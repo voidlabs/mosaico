@@ -47,10 +47,12 @@ grunt makeThumbs:main:yourtemplatename
 
 *NOTE* we have reports that default Ubuntu node package have issues with building Mosaico via Grunt. If you see a ```Fatal error: watch ENOSPC``` then have a look at https://github.com/voidlabs/mosaico/issues/82
 
-### Serving via Apache PHP?
+### Serving via Apache PHP or Django?
 First you have to build it using grunt, then you can read (https://github.com/voidlabs/mosaico/wiki/Serving-Mosaico).
 
 *Access Interpreting* wrote a sample [PHP backend](https://github.com/ainterpreting/mosaico-php-backend) so you can start from there if you want to use mosaico with an Apache/PHP backend.
+
+*Ryan Nowakowski* wrote a [Python/Django backend](https://github.com/tubaman/django-mosaic) and also wrote a [test-suite in Python](https://github.com/tubaman/mosaico-server-tests) to help testing mosaico backends
 
 ### Are you having issues with Mosaico?
 
