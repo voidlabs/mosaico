@@ -107,8 +107,7 @@ var formID = {
   en: 'MzcyTTU1NTDXTU1NSdM1MTc10E1MMTTSTTJOMjNKM0g0MbA0BQA'
 }
 app.use(function(req, res, next) {
-  res.locals.formID = req.cookies.badsenderInfo ? false : formID[res.getLocale()];
-  res.cookie('badsenderInfo', true, { maxAge: 900000, httpOnly: true });
+  res.locals.formID = req.cookies.badsenderContact ? false : formID[res.getLocale()];
   next();
 });
 
