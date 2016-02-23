@@ -174,6 +174,14 @@ function bundleShare(b) {
     .pipe(gulp.dest(buildDir));
 }
 
+//----- POPUP SCRIPT
+
+gulp.task('contact-popup', function () {
+  return gulp.src('./src/js/contact-popup.js')
+    .pipe($.if(!isDev, $.uglify()))
+    .pipe(gulp.dest(buildDir));
+});
+
 //----- TEMPLATES: see -> combineKOTemplates.js
 
 var path          = require('path');
@@ -238,7 +246,7 @@ gulp.task('clean-all', function (cb) {
 });
 
 gulp.task('build', function (cb) {
-  run(['clean-all'], ['lib', 'app', 'css', 'assets'], cb);
+  run(['clean-all'], ['contact-popup', 'lib', 'app', 'css', 'assets'], cb);
 });
 
 var nodemonOptions = {
@@ -269,8 +277,9 @@ gulp.task('browser-sync', ['nodemon'], function () {
 
 gulp.task('dev', ['app', 'browser-sync'], function () {
   gulp.watch(['server/views/*.jade', 'dist/*.js']).on('change', reload);
-  gulp.watch('src/css/**/*.less', ['css']);
-  gulp.watch('src/tmpl/*.html', ['templates']);
+  gulp.watch('src/css/**/*.less',     ['css']);
+  gulp.watch('src/tmpl/*.html',       ['templates']);
+  gulp.watch('src/js/contact-popup.js', ['contact-popup']);
 });
 
 var init = true;

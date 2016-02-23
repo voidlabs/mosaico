@@ -100,6 +100,18 @@ app.get('/upload/',         upload.get);
 app.post('/upload/',        upload.post);
 app.post('/dl/',            download.post);
 
+// take care of popup params
+// no cookies yet -> show popup
+var formID = {
+  fr: 's0g1Mkw0TkrRNTdISdM1MTc31rU0STXSNTUxtjBISjG1NEhKBgA',
+  en: 'MzcyTTU1NTDXTU1NSdM1MTc10E1MMTTSTTJOMjNKM0g0MbA0BQA'
+}
+app.use(function(req, res, next) {
+  res.locals.formID = req.cookies.badsenderInfo ? false : formID[res.getLocale()];
+  res.cookie('badsenderInfo', true, { maxAge: 900000, httpOnly: true });
+  next();
+});
+
 // take care of language query params
 app.use(function(req, res, next) {
   if (req.query.lang) {
@@ -108,6 +120,7 @@ app.use(function(req, res, next) {
   };
   next();
 });
+
 
 app.get('/editor',          render.editor);
 app.get('/',                render.home);
