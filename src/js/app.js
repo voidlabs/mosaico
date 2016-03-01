@@ -95,7 +95,8 @@ var start = function(options, templateFile, templateMetadata, jsorjson, customEx
     }
   };
 
-  var extensions = [addUndoStackExtensionMaker(performanceAwareCaller), colorPlugin, simpleTranslationPlugin];
+  // simpleTranslationPlugin must be before the undoStack to translate undo/redo labels
+  var extensions = [simpleTranslationPlugin, addUndoStackExtensionMaker(performanceAwareCaller), colorPlugin];
   if (typeof customExtensions !== 'undefined')
     for (var k = 0; k < customExtensions.length; k++) extensions.push(customExtensions[k]);
   extensions.push(fileUploadMessagesExtension);
