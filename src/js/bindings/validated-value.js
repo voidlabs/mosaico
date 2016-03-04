@@ -23,7 +23,10 @@ ko.bindingHandlers['validatedValue'] = {
 					return res;
 				},
 				write: ko.isWriteableObservable(valueAccessor()) && function(value) {
-					valueAccessor()(value);
+					// @see https://github.com/voidlabs/mosaico/issues/103
+					ko.selectExtensions.writeValue(element, value);
+					var updValue = ko.selectExtensions.readValue(element);
+					valueAccessor()(updValue);
 				},
 				disposeWhenNodeIsRemoved: element
 			});
