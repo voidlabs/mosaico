@@ -9,7 +9,8 @@
   "aliasify": {
     "aliases": {
       "console": "console-browserify/index.js",
-      "jsep": "jsep/src/jsep.js"
+      "jsep": "jsep/src/jsep.js",
+      "knockoutjs-reactor": "knockoutjs-reactor/src/knockout.reactor.js"
     }
   },
   "browserify": {
