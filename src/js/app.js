@@ -14,6 +14,9 @@ var colorPlugin = require("./ext/color.js");
 
 var localStorageLoader = require("./ext/localstorage.js");
 
+if (typeof ko == 'undefined') throw "Cannot find knockout.js library!";
+if (typeof $ == 'undefined') throw "Cannot find jquery library!";
+
 function _canonicalize(url) {
   var div = global.document.createElement('div');
   div.innerHTML = "<a></a>";
@@ -48,6 +51,8 @@ var applyBindingOptions = function(options, ko) {
 };
 
 var start = function(options, templateFile, templateMetadata, jsorjson, customExtensions) {
+
+
 
   templateLoader.fixPageEvents();
 

@@ -5,7 +5,11 @@
 
 var $ = require('jquery');
 var console = require('console');
-$.widget("ui.tabs", $.ui.tabs, {
+var tabs = require("jquery-ui/tabs");
+
+if (typeof tabs == 'undefined') throw "Cannot find jquery-ui tabs widget dependency!";
+
+$.widget("ui.tabs", tabs, {
   _isLocal: function( anchor ) {
     if (anchor.getAttribute('data-local') == "true") return true;
     else return this._superApply( arguments );

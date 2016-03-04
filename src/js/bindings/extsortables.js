@@ -3,8 +3,13 @@
 
 var $ = require("jquery");
 var ko = require("knockout");
+var sortable = require("jquery-ui/sortable");
+var draggable = require("jquery-ui/draggable");
 var console = require("console");
 require("knockout-sortable");
+
+if (typeof sortable == 'undefined') throw "Cannot find jquery-ui sortable widget dependency!";
+if (typeof draggable == 'undefined') throw "Cannot find jquery-ui sortable widget dependency!";
 
 var isDraggingHelper = function(writable, e) {
   if (writable()) {
@@ -24,8 +29,6 @@ var makeExtendedValueAccessor = function(valueAccessor) {
     if (modelValue.options == 'undefined') {
       modelValue.options = {};
     }
-
-
 
     var origStart = modelValue.options.start;
     modelValue.options.start = function(e, ui) {

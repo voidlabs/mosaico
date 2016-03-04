@@ -4,8 +4,12 @@
 // We wants to use the step but also wants to leave the user the ability to select specific values.
 
 var $ = require('jquery');
+var spinner = require("jquery-ui/spinner");
 var console = require('console');
-$.widget("ui.spinner", $.ui.spinner, {
+
+if (typeof spinner == 'undefined') throw "Cannot find jquery-ui spinner widget dependency!";
+
+$.widget("ui.spinner", spinner, {
   _adjustValue: function(value) {
     var adj = this._super(value);
 
