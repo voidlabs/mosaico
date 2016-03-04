@@ -37,7 +37,7 @@
     "autoprefixer-core": "5.2.1",
     "body-parser": "1.13.3",
     "bower": "1.4.1",
-    "bower-npm-install": "0.5.9",
+    "bower-npm-install": "0.5.10",
     "browserify": "11.0.1",
     "browserify-shim": "3.8.10",
     "cheerio": "0.19.0",
