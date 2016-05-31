@@ -439,7 +439,7 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
 
   function conditional_restore(html) {
     return html.replace(/<replacedcc[^>]* condition="([^"]*)"[^>]*>([\s\S]*?)<\/replacedcc>/g, function(match, condition, body) {
-      var dd = '<!--[if '+condition+']>';
+      var dd = '<!--[if '+condition.replace(/&amp;/, '&')+']>';
       dd += body.replace(/<!-- cc:before:([^ ]*) --><!-- cc:after:\1 -->/g, '</$1>')
             .replace(/^.*<!-- cc:start -->/,'')
             .replace(/<!-- cc:end -->.*$/,'')
