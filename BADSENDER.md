@@ -3,7 +3,7 @@
 ## prerequisite
 
 - **git** should be installed also
-- **heroku toolbelt** ([https://toolbelt.heroku.com/](https://toolbelt.heroku.com/))
+- **heroku toolbelt** [toolbelt.heroku.com](https://toolbelt.heroku.com/)
 
 You need to have:
 
@@ -70,7 +70,7 @@ badsender_emailTransport__auth__user   your Username (or API key)
 badsender_emailTransport__auth__pass   your password (or Secret Key)
 ```
 
-documentation can be find here: [https://nodemailer.com/2-0-0-beta/setup-smtp/](https://nodemailer.com/2-0-0-beta/setup-smtp/)
+documentation can be find here: [nodemailer.com/2-0-0-beta/setup-smtp/](https://nodemailer.com/2-0-0-beta/setup-smtp/)
 
 
 #### Setting the *“from”* email adress
@@ -94,11 +94,11 @@ badsender_storage__aws__region           region of your bucket (ex: ap-southeast
 
 ###### getting AWS id
 
-[https://console.aws.amazon.com/iam](https://console.aws.amazon.com/iam) -> **create new access key**
+[console.aws.amazon.com/iam](https://console.aws.amazon.com/iam) -> **create new access key**
 
 ###### creating the bucket
 
-[https://console.aws.amazon.com/s3](https://console.aws.amazon.com/s3) -> **create bucket**
+[console.aws.amazon.com/s3](https://console.aws.amazon.com/s3) -> **create bucket**
 
 you have also to set the good policy for the bucket:
 
@@ -128,7 +128,7 @@ then replace `YOURBUCKETNAME` by your real bucket name
 
 ## Updating the code
 
-If you want to run badsender on your computer, **NodeJS** should be installed on your computer ([https://nodejs.org/](https://nodejs.org/) for more details)  
+If you want to run badsender on your computer, **NodeJS** should be installed on your computer (nodejs.org/](https://nodejs.org/) for more details)  
 
 those are the main developper commands:
 

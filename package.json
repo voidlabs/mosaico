@@ -36,6 +36,7 @@
     "tinymce": "global:tinymce"
   },
   "scripts": {
+    "bower": "bower-npm-install --non-interactive",
     "deps": "export NODE_ENV=development && npm install && bower-npm-install --non-interactive",
     "test": "grunt jasmine_node",
     "build": "npm run deps && gulp build --prod",
@@ -70,8 +71,8 @@
     "async": "0.9.0",
     "autoprefixer": "^6.3.1",
     "autoprefixer-core": "5.2.1",
-    "bower": "1.4.1",
-    "bower-npm-install": "0.5.9",
+    "bower": "^1.7.9",
+    "bower-npm-install": "^0.5.11",
     "browser-sync": "^2.11.1",
     "browserify": "11.0.1",
     "browserify-shim": "3.8.10",
