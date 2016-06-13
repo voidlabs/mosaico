@@ -1,0 +1,23 @@
+extends _layout-admin.jade
+
+block content
+  h1 connection admin
+  if (messages.error)
+    .message.error
+      h2 error
+      each message in messages.error
+        p= message
+
+  if (messages.success)
+    .message.success
+      h2 success
+      each message in messages.success
+        p= message
+
+  form(action="/admin" method="post")
+    label password
+    br
+    input(type="hidden" name="username" value=_config.admin.username)
+    input(name="password")
+
+  //- span= JSON.stringify(_user)
