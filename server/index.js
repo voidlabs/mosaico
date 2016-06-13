@@ -11,7 +11,7 @@ var errorHandler  = require('express-error-handler');
 var cookieParser  = require('cookie-parser');
 var i18n          = require('i18n');
 
-var config        = require('./server/config');
+var config        = require('./config');
 
 //////
 // SERVER CONFIG
@@ -26,7 +26,7 @@ var app = express();
     extension:      '.js',
     cookie:         'badsender',
     objectNotation: true,
-    directory:      path.join( __dirname, './server/locales'),
+    directory:      path.join( __dirname, './locales'),
   });
 
 app.use(bodyParser.json({limit: '5mb'}));
@@ -35,25 +35,25 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
 app.use(compression());
-app.use(favicon(path.join(__dirname, '/favicon.png')));
+app.use(favicon(path.join(__dirname, '../favicon.png')));
 app.use(cookieParser());
 app.use(i18n.init);
 
 //----- TEMPLATES
 
-app.set('views', path.join(__dirname, './server/views'));
+app.set('views', path.join(__dirname, './views'));
 app.set('view engine', 'jade');
 
 //----- STATIC
 
 // compiled assets
-app.use(express.static('./dist'));
+app.use(express.static( path.join(__dirname, '../dist') ));
 // commited assets
-app.use(express.static('./res'));
+app.use(express.static( path.join(__dirname, '../res') ));
 // editor's templates
-app.use('/templates', express.static('./templates'));
+app.use('/templates', express.static( path.join(__dirname, '../templates') ));
 // tinymce skin
-app.use('/lib/skins', express.static('./res/vendor/skins'));
+app.use('/lib/skins', express.static( path.join(__dirname,'../res/vendor/skins') ));
 
 //////
 // LOGGING
@@ -84,10 +84,10 @@ app.use(morgan(logResponse));
 // ROUTING
 //////
 
-var upload    = require('./server/upload');
-var download  = require('./server/download');
-var images    = require('./server/images');
-var render    = require('./server/render');
+var upload    = require('./upload');
+var download  = require('./download');
+var images    = require('./images');
+var render    = require('./render');
 
 // TODO additional routes for handling live resize
 // app.get('/placeholder',        images.getOriginal)
@@ -154,4 +154,3 @@ var server = app.listen(config.PORT, function endInit() {
     chalk.green('on mode'), chalk.cyan(config.NODE_ENV)
   );
 });
-
