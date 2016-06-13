@@ -140,7 +140,7 @@ var templateLoader = function(performanceAwareCaller, templateFileName, template
   var templateUrlConverter = _templateUrlConverter.bind(undefined, templatePath);
 
   var metadata;
-  if (typeof templateFile == 'string') {
+  if (typeof templateMetadata == 'undefined') {
     metadata = {
       template: templateFile,
       // TODO l10n?
@@ -280,7 +280,7 @@ var templateCompiler = function(performanceAwareCaller, templateUrlConverter, te
 
   viewModel.metadata = metadata;
   // let's run some version check on template and editor used to build the model being loaded.
-  var editver = '0.13.0';
+  var editver = '0.14.0';
   if (typeof viewModel.metadata.editorversion !== 'undefined' && viewModel.metadata.editorversion !== editver) {
     console.warn("The model being loaded has been created with an older editor version", viewModel.metadata.editorversion, "vs", editver);
   }
@@ -362,12 +362,41 @@ var isCompatible = function() {
     checkFeature('CSS backgroundOrigin', function() {
       return typeof global.document.body.style['backgroundOrigin'] != 'undefined';
     });
+    checkBadBrowserExtensions();
     return true;
   } catch (exception) {
     return false;
   }
 };
 
+var checkBadBrowserExtensions = function() {
+  var id = 'checkbadbrowsersframe';
+  var origTpl = ko.bindingHandlers.bindIframe.tpl;
+  ko.bindingHandlers.bindIframe.tpl = "<!DOCTYPE html>\r\n<html>\r\n<head><title>A</title>\r\n</head>\r\n<body><p style=\"color: blue\" align=\"right\" data-bind=\"style: { color: 'red' }\">B</p><div data-bind=\"text: content\"></div></body>\r\n</html>\r\n";
+  $('body').append('<iframe id="' + id + '" data-bind="bindIframe: $data"></iframe>');
+  var frameEl = global.document.getElementById(id);
+  ko.applyBindings({ content: "dummy content" }, frameEl);
+  // Obsolete method didn't work on IE11 when using "HTML5 doctype":
+  // var docType = new XMLSerializer().serializeToString(global.document.doctype);
+  var node = frameEl.contentWindow.document.doctype;
+  var docType = "<!DOCTYPE " + node.name +
+    (node.publicId ? ' PUBLIC "' + node.publicId + '"' : '') +
+    (!node.publicId && node.systemId ? ' SYSTEM' : '') +
+    (node.systemId ? ' "' + node.systemId + '"' : '') + '>';
+  var content = docType + "\n" + frameEl.contentWindow.document.documentElement.outerHTML;
+  ko.cleanNode(frameEl);
+  ko.removeNode(frameEl);
+  ko.bindingHandlers.bindIframe.tpl = origTpl;
+
+  var expected = "<!DOCTYPE html>\n<html><head><title>A</title>\n</head>\n<body><p align=\"right\" style=\"color: red;\" data-bind=\"style: { color: 'red' }\">B</p><div data-bind=\"text: content\">dummy content</div>\n\n</body></html>";
+  var expected2 = "<!DOCTYPE html>\n<html><head><title>A</title>\n</head>\n<body><p style=\"color: red;\" data-bind=\"style: { color: 'red' }\" align=\"right\">B</p><div data-bind=\"text: content\">dummy content</div>\n\n</body></html>";
+  var expected3 = "<!DOCTYPE html>\n<html><head><title>A</title>\n</head>\n<body><p style=\"color: red;\" align=\"right\" data-bind=\"style: { color: 'red' }\">B</p><div data-bind=\"text: content\">dummy content</div>\n\n</body></html>";
+  if (expected !== content && expected2 !== content && expected3 !== content) {
+    console.log("BadBrowser.FrameContentCheck", content.length, expected.length, expected2.length, expected3.length, content == expected, content == expected2, content == expected3);
+    console.log(content);
+    throw "Unexpected frame content. Misbehaving browser: "+content.length+"/"+expected.length+"/"+expected2.length+"/"+expected3.length;
+  }
+};
 
 var fixPageEvents = function() {
   // This is global code to prevent dragging/dropping in the page where we don't deal with it.

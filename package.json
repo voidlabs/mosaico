@@ -1,6 +1,6 @@
 {
   "name": "mosaico",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "Free Email Template Editor",
   "repository": {
     "type": "git",
@@ -16,7 +16,8 @@
   "aliasify": {
     "aliases": {
       "console": "console-browserify/index.js",
-      "jsep": "jsep/src/jsep.js"
+      "jsep": "jsep/src/jsep.js",
+      "knockoutjs-reactor": "knockoutjs-reactor/src/knockout.reactor.js"
     }
   },
   "browserify": {
@@ -28,8 +29,10 @@
   },
   "browserify-shim": {
     "jquery": "global:jQuery",
-    "jquery-ui/sortable": "global:jQuery",
-    "jquery-ui/draggable": "global:jQuery",
+    "jquery-ui/sortable": "global:jQuery.ui.sortable",
+    "jquery-ui/draggable": "global:jQuery.ui.draggable",
+    "jquery-ui/spinner": "global:jQuery.ui.spinner",
+    "jquery-ui/tabs": "global:jQuery.ui.tabs",
     "knockout": "global:ko",
     "evol-colorpicker": {},
     "knockout-jqueryui": "global:kojqui",
@@ -134,4 +137,4 @@
   },
   "author": "Stefano Bagnara",
   "license": "GPL-3.0"
-}
+  }

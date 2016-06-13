@@ -4,8 +4,8 @@
 
 var url     = require('url');
 var console = require('console');
-var ko      = require("knockout");
-var $       = require("jquery");
+var ko = require("knockout");
+var $ = require("jquery");
 
 var templateLoader = require('./template-loader.js');
 
@@ -16,6 +16,9 @@ var addUndoStackExtensionMaker = require("./undomanager/undomain.js");
 var colorPlugin = require("./ext/color.js");
 
 var localStorageLoader = require("./ext/localstorage.js");
+
+if (typeof ko == 'undefined') throw "Cannot find knockout.js library!";
+if (typeof $ == 'undefined') throw "Cannot find jquery library!";
 
 function _canonicalize(url) {
   var div = global.document.createElement('div');
@@ -50,7 +53,7 @@ var applyBindingOptions = function(options, ko) {
         method: method,
         params: width + "," + height,
         src:    url.parse(src).pathname,
-      }
+    }
     });
   };
 
@@ -113,8 +116,10 @@ var start = function(options, templateFile, templateMetadata, jsorjson, customEx
       };
     }
   };
-  // initialize simpleTranslationPlugin BEFORE addUndoStackExtensionMaker
-  // addUndoStackExtensionMaker is dependent on translations
+
+  // BS – initialize simpleTranslationPlugin BEFORE addUndoStackExtensionMaker
+  // BS – addUndoStackExtensionMaker is dependent on translations
+  // simpleTranslationPlugin must be before the undoStack to translate undo/redo labels
   var extensions = [simpleTranslationPlugin, addUndoStackExtensionMaker(performanceAwareCaller), colorPlugin];
   if (typeof customExtensions !== 'undefined')
     for (var k = 0; k < customExtensions.length; k++) extensions.push(customExtensions[k]);

@@ -5,19 +5,19 @@ Provides the following services:
 /dl
   receives a post with the html body and a parameter asking for "download" or "email".
   it does inlining using Styliner
-  if asked to send an email it send it using nodemailer
+  if asked to send an email it sends it using nodemailer
 
 /upload
   GET returns a JSON list of previously uploaded images 
-  POST to upload images (using the jquery-file-upload protocol)
+  POST to upload images (using the jQuery-file-upload protocol)
   when uploading it also create thumbnails for each uploaded image.
 
 /img
   GET with src, method and params query values
   method can be "placeholder", "cover" or "resize"
-  "placeholder" will return a placeholder image with the given width/heigth (encoded in params as "width,height")
-  "cover" will resize the image keeping the aspect ration and covering the whole dimension (cutting it if different A/R)
+  "placeholder" will return a placeholder image with the given width/height (encoded in params as "width,height")
+  "cover" will resize the image keeping the aspect ratio and covering the whole dimension (cutting it if different A/R)
   "resize" can receive one dimension to resize while keeping the A/R, or 2 to resize the image to be inside the dimensions.
-  this uses "gm" libray to do manipulation (you need ImageMagick installed in your system).
+  this uses "gm" library to do manipulation (you need ImageMagick installed in your system).
 
 This currently doesn't provide any authentication or security options, so don't use this in production!
