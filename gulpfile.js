@@ -81,7 +81,7 @@ gulp.task('css', ['clean-css'], function () {
 
 gulp.task('clean-lib', function (cb) {
   if (isDev) return cb();
-  return del(buildDir, '/**/*.js', cb);
+  return del(buildDir, '/**/*.js');
 });
 
 gulp.task('lib', ['clean-lib'], function () {
@@ -108,7 +108,7 @@ gulp.task('lib', ['clean-lib'], function () {
   // console.log(bowerfiles);
   var editorLibs = gulp
     .src(bowerfiles)
-    .pipe($.filter(['*', '!*.css', '!jquery.js', '!knockout.js']))
+    .pipe($.filter(['*', '**/*', '!**/*.css', '!**/jquery.js', '!**/knockout.js']))
     .pipe($.order([
       // reorganize files we want to concat
       'jquery-ui*.js',
@@ -119,7 +119,7 @@ gulp.task('lib', ['clean-lib'], function () {
       'jquery.fileupload-validate.js',
       '*.js',
     ]))
-    .pipe($.concat('badsender-lib-editor.js'));
+    .pipe($.concat('badsender-lib-editor.js'))
 
   // only copy necessary tinymce plugins
   var tinymce = gulp.src([
@@ -135,6 +135,7 @@ gulp.task('lib', ['clean-lib'], function () {
   return merge(mainLibs, editorLibs, tinymce)
     .pipe($.if(!isDev, $.uglify()))
     .pipe(gulp.dest(buildDir + '/lib'));
+
 });
 
 //----- APPLICATION
@@ -250,7 +251,7 @@ gulp.task('build', function (cb) {
 });
 
 var nodemonOptions = {
-  script: 'index.js',
+  script: 'server/index.js',
   ext: 'js json',
   watch: ['server/**/*.js', '.badsenderrc', 'index.js'],
 };
