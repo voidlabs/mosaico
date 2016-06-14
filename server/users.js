@@ -10,7 +10,6 @@ function list(req, res, next) {
   .catch(next)
 
   function onUsers(users) {
-    console.log(users)
     return res.render('user-list', {
       data: { users: users, }
     })
@@ -76,10 +75,19 @@ function update(req, res, next) {
   })
 }
 
+function remove(req, res, next) {
+  var _id = req.params._id
+  Users.
+  findOneAndRemove(_id)
+  .then( function () { res.redirect('/users')} )
+  .catch(next)
+}
+
 module.exports = {
   list:   list,
   new:    newUser,
   create: create,
   show:   show,
   update: update,
+  delete: remove,
 }

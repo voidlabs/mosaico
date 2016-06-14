@@ -149,15 +149,17 @@ app.get('/login',           render.home)
 //----- ADMIN
 
 // connection
-app.get('/admin',           admin.get)
-app.post('/admin',          admin.post)
-app.get('/admin/dashboard', session.guard('admin'), admin.dashboard)
+app.get('/admin',               admin.get)
+app.post('/admin',              admin.post)
+app.get('/admin/dashboard',     session.guard('admin'), admin.dashboard)
 // users
-app.get('/users',           session.guard('admin'), users.list)
-app.get('/users/new',       session.guard('admin'), users.new)
+
+app.post('/users/:_id/delete',  session.guard('admin'), users.delete)
+app.get('/users/new',           session.guard('admin'), users.new)
 app.post('/users/new',          session.guard('admin'), users.create)
-app.get('/users/:_id',      session.guard('admin'), users.show)
-app.post('/users/:_id',     session.guard('admin'), users.update)
+app.get('/users/:_id',          session.guard('admin'), users.show)
+app.post('/users/:_id',         session.guard('admin'), users.update)
+app.get('/users',               session.guard('admin'), users.list)
 // templates
 app.get('/templates',       session.guard('admin'), templates.list)
 
