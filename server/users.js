@@ -37,8 +37,36 @@ function create(req, res, next) {
   })
 }
 
+function show(req, res, next) {
+  console.log(req.params._id)
+  Users
+  .findById(req.params._id)
+  .then(function (user) {
+    if (!user) return res.status(404).end()
+    res.render('user-new-edit', {data: {user: user}})
+  })
+  .catch(next)
+}
+
+function update(req, res, next) {
+  var _id = req.params._id
+  Users
+  .findByIdAndUpdate(_id, req.body, {runValidators: true})
+  .then(function (user) {
+    console.log('update success')
+    res.redirect(`/users/${_id}`)
+  })
+  .catch(function (err) {
+    console.log('update error')
+    req.flash('error', err.errors)
+    res.redirect(`/users/${_id}`)
+  })
+}
+
 module.exports = {
   list:   list,
   new:    newUser,
   create: create,
+  show:   show,
+  update: update,
 }

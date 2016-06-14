@@ -11,7 +11,6 @@ var connection    = mongoose.connect(config.database)
 
 //----- USER
 
-// http://mongoosejs.com/docs/validation.html
 var userSchema    = Schema({
   id:         {type: ObjectId},
   name:       {type: String},
@@ -33,7 +32,6 @@ var userSchema    = Schema({
           console.log(err)
           cb(false)
         })
-        return false
       },
       message:  '{VALUE} email is already taken',
     }],

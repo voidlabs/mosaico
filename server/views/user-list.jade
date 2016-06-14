@@ -16,7 +16,7 @@ block content
       tbody
         each user in data.users
           tr
-            td= user._id
+            td: a(href=`/users/${user._id}`)= user._id
             td= user.name
             td= user.email
             td= user.createdAt

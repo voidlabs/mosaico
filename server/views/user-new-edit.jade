@@ -3,14 +3,16 @@ extends _layout-admin.jade
 block content
   - var hasError  = messages.error && messages.error.length;
   - var errors    = hasError ? messages.error[0] : {};
+  - var user      = data && data.user ? data.user : {};
+  - var action    = user ? `/users/${user._id}` : `/users`;
   h1 user new/edit
-  form(action="/users" method="post")
+  form(action=action method="post")
     fieldset
       label(for="email") email
-      input(type="email" name="email")
+      input(type="email" name="email" required value=user.email)
       if errors.email
         p= errors.email.message
     fieldset
       label(for="name") name
-      input(type="text" name="name")
+      input(type="text" name="name" value=user.name)
     button(type="submit") submit

@@ -156,6 +156,8 @@ app.get('/admin/dashboard', session.guard('admin'), admin.dashboard)
 app.get('/users',           session.guard('admin'), users.list)
 app.get('/users/new',       session.guard('admin'), users.new)
 app.post('/users',          session.guard('admin'), users.create)
+app.get('/users/:_id',      session.guard('admin'), users.show)
+app.post('/users/:_id',     session.guard('admin'), users.update)
 // templates
 app.get('/templates',       session.guard('admin'), templates.list)
 
