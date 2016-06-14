@@ -4,9 +4,15 @@ block content
   - var hasError  = messages.error && messages.error.length;
   - var errors    = hasError ? messages.error[0] : {};
   - var user      = data && data.user ? data.user : {};
-  - var action    = user ? `/users/${user._id}` : `/users`;
-  h1 user new/edit
+  - var isEdit    = user._id
+  - var action    = isEdit ? `/users/${user._id}` : `/users/new`;
+  if isEdit
+    h1 edit user ##{user._id}
+  else
+    h1 new user
   form(action=action method="post")
+    if user._id
+      input(type="text" name="id" value=user._id)
     fieldset
       label(for="email") email
       input(type="email" name="email" required value=user.email)

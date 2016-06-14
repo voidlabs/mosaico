@@ -11,7 +11,7 @@ var connection    = mongoose.connect(config.database)
 
 //----- USER
 
-var userSchema    = Schema({
+var UserSchema    = Schema({
   id:         {type: ObjectId},
   name:       {type: String},
   email:      {
@@ -21,16 +21,19 @@ var userSchema    = Schema({
       validator: function checkValidEmail(value) { return validator.isEmail(value) },
       message:  '{VALUE} is not a valid email address',
     }, {
-      validator: function checkEmailNotTaken(value, cb) {
+      // should be able to do better with
+      // https://github.com/Automattic/mongoose/issues/4184
+      validator: function checkEmailNotTaken(value, respond) {
+        if (!this) return respond(true)
         UserModel
         .findOne({'email': value })
         .then(function (result) {
-          if (result) return cb(false)
-          cb(true)
+          if (result) return respond(false)
+          respond(true)
         })
         .catch(function (err) {
           console.log(err)
-          cb(false)
+          respond(false)
         })
       },
       message:  '{VALUE} email is already taken',
@@ -40,7 +43,7 @@ var userSchema    = Schema({
   createdAt:  {type: Date, default: Date.now, },
 });
 
-var UserModel     = mongoose.model('User', userSchema)
+var UserModel     = mongoose.model('User', UserSchema)
 
 //////
 // EXPORTS
