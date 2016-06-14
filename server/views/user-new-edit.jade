@@ -1,0 +1,16 @@
+extends _layout-admin.jade
+
+block content
+  - var hasError  = messages.error && messages.error.length;
+  - var errors    = hasError ? messages.error[0] : {};
+  h1 user new/edit
+  form(action="/users" method="post")
+    fieldset
+      label(for="email") email
+      input(type="email" name="email")
+      if errors.email
+        p= errors.email.message
+    fieldset
+      label(for="name") name
+      input(type="text" name="name")
+    button(type="submit") submit

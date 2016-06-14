@@ -39,8 +39,8 @@ passport.use(new LocalStrategy(
 
 passport.serializeUser(function(user, done) {
   console.log('serializeUser')
-  // console.log(user)
-  if (user.id === -1) return done(null, adminUser)
+  console.log(user)
+  // if (user.id === -1) return done(null, adminUser)
   done(null, user.id)
 })
 
@@ -48,6 +48,8 @@ passport.deserializeUser(function(id, done) {
   // User.findById(id, function(err, user) {
     // done(err, user)
   // })
+  console.log('deserializeUser')
+  console.log(id)
   if (id === -1) return done(null, adminUser)
   done(null, {id: -1})
 })
@@ -65,9 +67,32 @@ function init(app) {
   app.use(passport.session())
 }
 
+function guard(role) {
+  if (!role) role = 'user'
+  var isAdminRoute = role === 'admin'
+  return function guardRoute(req, res, next) {
+    var user = req.user
+    if (!user) {
+      if (isAdminRoute) return res.redirect('/admin')
+      return res.redirect('/login')
+    }
+    if (isAdminRoute && !user.isAdmin) res.status(401).end()
+    next()
+  }
+}
+
+function logout(req, res, next) {
+  var isAdmin = req.user.isAdmin;
+  req.logout()
+  res.redirect(isAdmin ? '/admin' : '/')
+}
+
 module.exports = {
   init:         init,
   session:      session,
   passport:     passport,
+  // without bind, passport is failing
   authenticate: passport.authenticate.bind(passport),
+  guard:        guard,
+  logout:       logout,
 }

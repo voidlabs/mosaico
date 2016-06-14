@@ -21,10 +21,17 @@ html(lang=getLocale())
     link(href='https://fonts.googleapis.com/css?family=PT+Sans:400,700', rel='stylesheet', type='text/css')
 
   body
+    header
+      if _user.id
+        a(href="/logout") logout
+      if _user.isAdmin
+        | &nbsp;
+        a(href="/users") users
+        | &nbsp;
+        a(href="/templates") templates
+
     block content
 
-    footer
-      pre= JSON.stringify(_user)
-      pre= JSON.stringify(messages)
-      pre= JSON.stringify(_config)
-
+    footer(style="background: #eee")
+      pre= JSON.stringify(data, null, '  ')
+      pre= _debug

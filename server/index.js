@@ -18,7 +18,7 @@ var session       = require('./session')
 // SERVER CONFIG
 //////
 
-var app = express();
+var app = express()
 
 // configure i18n
 i18n.configure({
@@ -46,44 +46,44 @@ app.use(i18n.init)
 
 //----- TEMPLATES
 
-app.set('views', path.join(__dirname, './views'));
-app.set('view engine', 'jade');
+app.set('views', path.join(__dirname, './views'))
+app.set('view engine', 'jade')
 
 //----- STATIC
 
 // compiled assets
-app.use(express.static( path.join(__dirname, '../dist') ));
+app.use(express.static( path.join(__dirname, '../dist') ))
 // commited assets
-app.use(express.static( path.join(__dirname, '../res') ));
+app.use(express.static( path.join(__dirname, '../res') ))
 // editor's templates
-app.use('/templates', express.static( path.join(__dirname, '../templates') ));
+app.use('/templates', express.static( path.join(__dirname, '../templates') ))
 // tinymce skin
-app.use('/lib/skins', express.static( path.join(__dirname,'../res/vendor/skins') ));
+app.use('/lib/skins', express.static( path.join(__dirname,'../res/vendor/skins') ))
 
 //////
 // LOGGING
 //////
 
 function logRequest(tokens, req, res) {
-  var method  = tokens.method(req, res);
-  var url     = tokens.url(req, res);
-  return chalk.blue(method) + ' ' + chalk.grey(url);
+  var method  = tokens.method(req, res)
+  var url     = tokens.url(req, res)
+  return chalk.blue(method) + ' ' + chalk.grey(url)
 }
 
 function logResponse(tokens, req, res) {
-  var method      = tokens.method(req, res);
-  var status      = tokens.status(req, res);
-  var url         = tokens.url(req, res);
+  var method      = tokens.method(req, res)
+  var status      = tokens.status(req, res)
+  var url         = tokens.url(req, res)
   var statusColor = status >= 500
     ? 'red' : status >= 400
     ? 'yellow' : status >= 300
     ? 'cyan' : 'green';
   return chalk.blue(method) + ' '
     + chalk.grey(url) + ' '
-    + chalk[statusColor](status);
+    + chalk[statusColor](status)
 }
-app.use(morgan(logRequest, {immediate: true}));
-app.use(morgan(logResponse));
+app.use(morgan(logRequest, {immediate: true}))
+app.use(morgan(logResponse))
 
 //////
 // ROUTING
@@ -94,12 +94,20 @@ var download  = require('./download');
 var images    = require('./images');
 var render    = require('./render');
 var admin     = require('./admin');
+var users     = require('./users');
+var templates = require('./templates');
 
 // expose configuration to templates
 app.use(function(req, res, next) {
-  console.log(req.session)
   app.locals._config  = config
-  app.locals._user    = req.session && req.session.passport ? req.session.passport.user  : {}
+  app.locals._user    = req.user ? req.user : {}
+  if (config.isDev) {
+    app.locals._debug = JSON.stringify({
+      _user:    app.locals._user,
+      messages: req.session && req.session.flash,
+      _config:  config,
+    }, null, '  ')
+  }
   next()
 })
 // TODO additional routes for handling live resize
@@ -108,10 +116,10 @@ app.use(function(req, res, next) {
 // app.get('/cover/:imageName',   images.getOriginal)
 
 app.get('/img/:imageName',  images.getOriginal)
-app.get('/img/',            images.getResized);
-app.get('/upload/',         upload.get);
-app.post('/upload/',        upload.post);
-app.post('/dl/',            download.post);
+app.get('/img/',            images.getResized)
+app.get('/upload/',         upload.get)
+app.post('/upload/',        upload.post)
+app.post('/dl/',            download.post)
 
 // take care of popup params
 // no cookies yet -> show popup
@@ -120,28 +128,41 @@ var formID = {
   en: 'MzcyTTU1NTDXTU1NSdM1MTc10E1MMTTSTTJOMjNKM0g0MbA0BQA'
 }
 app.use(function(req, res, next) {
-  res.locals.formID = req.cookies.badsenderContact ? false : formID[res.getLocale()];
-  next();
-});
+  res.locals.formID = req.cookies.badsenderContact ? false : formID[res.getLocale()]
+  next()
+})
 
 // take care of language query params
+// http://stackoverflow.com/questions/19539332/localization-nodejs-i18n
 app.use(function(req, res, next) {
   if (req.query.lang) {
-    res.setLocale(req.query.lang);
-    res.cookie('badsender', req.query.lang, { maxAge: 900000, httpOnly: true });
-  };
-  next();
-});
+    res.setLocale(req.query.lang)
+    res.cookie('badsender', req.query.lang, { maxAge: 900000, httpOnly: true })
+  }
+  next()
+})
 
+//----- USER
+
+app.get('/login',           render.home)
+
+//----- ADMIN
+
+// connection
+app.get('/admin',           admin.get)
+app.post('/admin',          admin.post)
+app.get('/admin/dashboard', session.guard('admin'), admin.dashboard)
+// users
+app.get('/users',           session.guard('admin'), users.list)
+app.get('/users/new',       session.guard('admin'), users.new)
+app.post('/users',          session.guard('admin'), users.create)
+// templates
+app.get('/templates',       session.guard('admin'), templates.list)
+
+//----- OTHER
 
 app.get('/editor',          render.editor)
-app.get('/admin',           admin.get)
-app.post('/admin',          session.authenticate('local', {
-  successRedirect: '/admin',
-  failureRedirect: '/admin',
-  failureFlash:     true,
-  successFlash:     true,
-}))
+app.get('/logout',          session.logout)
 app.get('/',                render.home)
 
 //////
@@ -155,14 +176,14 @@ var handler = errorHandler({
   // },
 });
 app.use(function (err, req, res, next) {
-  console.log(err);
+  console.log(err)
   // force status for morgan to catch up
-  res.status(err.status || err.statusCode);
-  next(err);
+  res.status(err.status || err.statusCode)
+  next(err)
 });
 
-app.use(errorHandler.httpError(404));
-app.use(handler);
+app.use(errorHandler.httpError(404))
+app.use(handler)
 
 //////
 // LAUNCHING
@@ -172,5 +193,5 @@ var server = app.listen(config.PORT, function endInit() {
   console.log(
     chalk.green('Server is listening on port'), chalk.cyan(server.address().port),
     chalk.green('on mode'), chalk.cyan(config.NODE_ENV)
-  );
-});
+  )
+})

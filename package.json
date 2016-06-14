@@ -73,7 +73,8 @@
     "passport-local": "^1.0.0",
     "rc": "^1.1.6",
     "serve-favicon": "^2.3.0",
-    "styliner": "^0.8.9"
+    "styliner": "^0.8.9",
+    "validator": "^5.4.0"
   },
   "devDependencies": {
     "aliasify": "^1.7.2",

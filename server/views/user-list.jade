@@ -1,0 +1,23 @@
+extends _layout-admin.jade
+
+block content
+  h1 user list
+  a(href="/users/new") new
+  if !data.users.length
+    p now user yet
+  else
+    table(border="1")
+      thead
+        tr
+          th id
+          th name
+          th email
+          th created at
+      tbody
+        each user in data.users
+          tr
+            td= user._id
+            td= user.name
+            td= user.email
+            td= user.createdAt
+
