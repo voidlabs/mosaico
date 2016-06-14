@@ -2,6 +2,9 @@
 
 var validator     = require('validator')
 var mongoose      = require('mongoose')
+// Use native promises
+mongoose.Promise = global.Promise
+
 var Schema        = mongoose.Schema
 var ObjectId      = Schema.ObjectId
 
@@ -17,26 +20,12 @@ var UserSchema    = Schema({
   email:      {
     type: String,
     required: [true, 'Email address is required'],
+    // http://mongoosejs.com/docs/api.html#schematype_SchemaType-unique
+    // from mongoose doc: violating the constraint returns an E11000 error from MongoDB when saving, not a Mongoose validation error.
+    unique: true,
     validate: [{
       validator: function checkValidEmail(value) { return validator.isEmail(value) },
       message:  '{VALUE} is not a valid email address',
-    }, {
-      // should be able to do better with
-      // https://github.com/Automattic/mongoose/issues/4184
-      validator: function checkEmailNotTaken(value, respond) {
-        if (!this) return respond(true)
-        UserModel
-        .findOne({'email': value })
-        .then(function (result) {
-          if (result) return respond(false)
-          respond(true)
-        })
-        .catch(function (err) {
-          console.log(err)
-          respond(false)
-        })
-      },
-      message:  '{VALUE} email is already taken',
     }],
   },
   password:   {type: String, },
