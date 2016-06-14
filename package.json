@@ -55,6 +55,7 @@
     "body-parser": "^1.15.1",
     "chalk": "^1.1.1",
     "compression": "^1.6.2",
+    "connect-mongo": "^1.2.0",
     "cookie-parser": "^1.4.3",
     "express": "^4.13.3",
     "express-error-handler": "^1.0.1",

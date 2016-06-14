@@ -31,5 +31,11 @@
   },
 
   // super admin pass name
-  "adminPass": "toto"
+  "admin": {
+    "password": "toto"
+  },
+
+  // DB connection
+  "database": "mongodb://localhost/my_database",
+
 }
