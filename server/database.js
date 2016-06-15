@@ -1,8 +1,9 @@
 'use strict'
 
 var validator     = require('validator')
-var mongoose      = require('mongoose')
 var randtoken     = require('rand-token')
+var bcrypt        = require('bcryptjs')
+var mongoose      = require('mongoose')
 // Use native promises
 mongoose.Promise = global.Promise
 
@@ -35,13 +36,14 @@ var UserSchema    = Schema({
   },
   password:   {
     type: String,
-    set: encodePassword,
+    set:  encodePassword,
   },
   token:      {type: String},
 }, { timestamps: true })
 
-function encodePassword() {
-  return ''
+function encodePassword(password) {
+  if (typeof password === 'undefined') return void(0)
+  return bcrypt.hashSync(password, 10)
 }
 
 UserSchema.virtual('status').get(function () {
@@ -56,13 +58,12 @@ UserSchema.virtual('isReseted').get(function () {
   return false
 })
 
-// https://www.npmjs.com/package/bcryptjs
 UserSchema.methods.resetPassword = function resetPassword() {
   // don't use callback param
   // we want to use promise
-  var user = this
-  delete user.password
-  user.token = randtoken.generate(30)
+  var user      = this
+  user.password = void(0)
+  user.token    = randtoken.generate(30)
 
   return user
   .save()
@@ -71,12 +72,40 @@ UserSchema.methods.resetPassword = function resetPassword() {
     .send({
       to:       user.email,
       subject:  'badsender – password reset',
-      text:     `here is the link to enter your new password ${user.token}`,
+      text:     `here is the link to enter your new password http://localhost:3000/password/${user.token}`,
+      // html: ``,
     })
   })
   .then(function () {
     return Promise.resolve(user)
   })
+}
+
+UserSchema.methods.setPassword = function setPassword(password) {
+  // don't use callback param
+  // we want to use promise
+  var user      = this
+  user.token    = void(0)
+  user.password = password
+
+  return user
+  .save()
+  .then(function () {
+    return mail
+    .send({
+      to:       user.email,
+      subject:  'badsender – password reset',
+      text:     `your password has been succesfully been reseted. connect at http://localhost:3000/login`,
+      // html: ``,
+    })
+  })
+  .then(function () {
+    return Promise.resolve(user)
+  })
+}
+
+UserSchema.methods.comparePassword = function comparePassword(password) {
+  return bcrypt.compareSync(password, this.password)
 }
 
 //////

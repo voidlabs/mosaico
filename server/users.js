@@ -87,7 +87,7 @@ function remove(req, res, next) {
   .catch(next)
 }
 
-function resetPassword(req, res, next) {
+function adminResetPassword(req, res, next) {
   var id = req.body.id
   Users
   .findById(id)
@@ -101,12 +101,41 @@ function resetPassword(req, res, next) {
   .catch(next)
 }
 
+function userResetPassword(req, res, next) {
+  res.redirect('/')
+}
+
+function setPassword(req, res, next) {
+  Users
+  .findOne({
+    token: req.params.token,
+    email: req.body.username,
+  })
+  .then(function (user) {
+    console.log(user)
+    if (!user) {
+      req.flash('error', {message: 'not token or bad email adress'})
+      res.redirect(req.path)
+      return Promise.resolve(false)
+    }
+    return user.setPassword(req.body.password)
+  })
+  .then(function (user) {
+    console.log(user)
+    if (!user) return
+    res.redirect('/login')
+  })
+  .catch(next)
+}
+
 module.exports = {
-  list:           list,
-  new:            newUser,
-  create:         create,
-  show:           show,
-  update:         update,
-  delete:         remove,
-  resetPassword:  resetPassword,
+  list:               list,
+  new:                newUser,
+  create:             create,
+  show:               show,
+  update:             update,
+  delete:             remove,
+  adminResetPassword: adminResetPassword,
+  userResetPassword:  userResetPassword,
+  setPassword:        setPassword,
 }

@@ -6,8 +6,9 @@ var session       = require('express-session')
 var flash         = require('express-flash')
 var MongoStore    = require('connect-mongo')(session)
 
-var DB            = require('./database')
 var config        = require('./config')
+var DB            = require('./database')
+var Users         = DB.Users
 
 var adminUser = {
   isAdmin: true,
@@ -17,23 +18,25 @@ var adminUser = {
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
+    // admin
     if (username === config.admin.username) {
       if (password === config.admin.password) {
         return done(null , adminUser)
       }
       return done(null, false, { message: 'Incorrect password.' })
     }
-    return done(null, false)
-    // User.findOne({ username: username }, function (err, user) {
-    //   if (err) { return done(err); }
-    //   if (!user) {
-    //     return done(null, false, { message: 'Incorrect username.' });
-    //   }
-    //   if (!user.validPassword(password)) {
-    //     return done(null, false, { message: 'Incorrect password.' });
-    //   }
-    //   return done(null, user);
-    // });
+    // user
+    Users
+    .findOne({ email: username })
+    .then(function (user) {
+      if (!user) return done(null, false, {message: 'no user'})
+      var isPasswordValid = user.comparePassword(password)
+      if (!isPasswordValid) return done(null, false, { message: 'Incorrect password.' })
+      return done(null, user)
+    })
+    .catch(function (err) {
+      return done(null, false, err)
+    })
   }
 ))
 
@@ -45,13 +48,15 @@ passport.serializeUser(function(user, done) {
 })
 
 passport.deserializeUser(function(id, done) {
-  // User.findById(id, function(err, user) {
-    // done(err, user)
-  // })
-  console.log('deserializeUser')
-  console.log(id)
   if (id === -1) return done(null, adminUser)
-  done(null, {id: -1})
+  Users
+  .findById(id)
+  .then(function (user) {
+    done(null, user)
+  })
+  .catch(function (err) {
+    return done(null, false, err)
+  })
 })
 
 
