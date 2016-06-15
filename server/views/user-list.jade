@@ -2,7 +2,8 @@ extends _layout-admin.jade
 
 block content
   h1 user list
-  a(href="/users/new") new
+  h3: a(href="/users/new") new
+
   if !data.users.length
     p now user yet
   else
@@ -12,7 +13,9 @@ block content
           th id
           th name
           th email
+          th status
           th created at
+          th password mail
           th delete
       tbody
         each user in data.users
@@ -20,6 +23,9 @@ block content
             td: a(href=`/users/${user._id}`)= user._id
             td= user.name
             td= user.email
+            td= user.status
             td= user.createdAt
+            td: form(action='/users/reset' method="post")
+              button(type="submit" name="id" value=user._id) send
             td: form(action='/users/' + user._id + '/delete' method="post")
               button(type="submit") x

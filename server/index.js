@@ -157,13 +157,17 @@ app.get('/admin/dashboard',     session.guard('admin'), admin.dashboard)
 app.post('/users/:_id/delete',  session.guard('admin'), users.delete)
 app.get('/users/new',           session.guard('admin'), users.new)
 app.post('/users/new',          session.guard('admin'), users.create)
+app.post('/users/reset',        session.guard('admin'), users.resetPassword)
 app.get('/users/:_id',          session.guard('admin'), users.show)
 app.post('/users/:_id',         session.guard('admin'), users.update)
 app.get('/users',               session.guard('admin'), users.list)
 // templates
-app.get('/templates',       session.guard('admin'), templates.list)
+app.get('/templates',           session.guard('admin'), templates.list)
 
 //----- OTHER
+
+// app.get('/tokens/new', tokens.new);
+// app.get('/tokens/:token([a-zA-Z0-9_-]{40})', redis.isReady, tokens.show);
 
 app.get('/editor',          render.editor)
 app.get('/logout',          session.logout)

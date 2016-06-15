@@ -1,8 +1,8 @@
 {
   "emailTransport": {
-    // host: 'yoursmtpserver',
-    // port: 25,
-    // auth: { user: '####', pass: '####' }
+    // "host": "yoursmtpserver",
+    // "port": "25",
+    // "auth": { "user": "####", pass: "####" }
   },
   "emailOptions": {
     "from": "Pouic Clapou <pouic@clapou.name>" // sender address

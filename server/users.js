@@ -87,11 +87,26 @@ function remove(req, res, next) {
   .catch(next)
 }
 
+function resetPassword(req, res, next) {
+  var id = req.body.id
+  Users
+  .findById(id)
+  .exec()
+  .then(function (user) {
+    return user.resetPassword()
+  })
+  .then(function () {
+    res.redirect('/users')
+  })
+  .catch(next)
+}
+
 module.exports = {
-  list:   list,
-  new:    newUser,
-  create: create,
-  show:   show,
-  update: update,
-  delete: remove,
+  list:           list,
+  new:            newUser,
+  create:         create,
+  show:           show,
+  update:         update,
+  delete:         remove,
+  resetPassword:  resetPassword,
 }
