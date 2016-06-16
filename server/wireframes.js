@@ -56,7 +56,7 @@ function update(req, res, next) {
   function onParse(body) {
     console.log('files success')
     var dbRequest = wireId ?
-      Wireframes.findByIdAndUpdate(wireId, body.fields)
+      Wireframes.findByIdAndUpdate(wireId, body.fields, {runValidators: true})
       : new Wireframes(body.fields).save()
 
     dbRequest
