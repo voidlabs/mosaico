@@ -1,15 +1,5 @@
 'use strict'
 
-function home(req, res, next) {
-  return res.render('home', {
-    templates: [
-      'versafix-1',
-      'tedc15',
-      'tutorial',
-    ]
-  })
-}
-
 var translations = {
   en: JSON.stringify(require('../res/lang/mosaico-en.json')),
   fr: JSON.stringify(require('../res/lang/mosaico-fr.json')),
@@ -45,7 +35,6 @@ function dashboard(req, res, next) {
 
 module.exports = {
   adminLogin: adminLogin,
-  home:       home,
   editor:     editor,
   login:      login,
   forgot:     forgot,

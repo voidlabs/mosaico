@@ -89,14 +89,14 @@ app.use(morgan(logResponse))
 // ROUTING
 //////
 
-var upload    = require('./upload');
-var download  = require('./download');
-var images    = require('./images');
-var render    = require('./render');
-var users     = require('./users');
-var templates = require('./templates');
+var upload      = require('./upload');
+var download    = require('./download');
+var images      = require('./images');
+var render      = require('./render');
+var users       = require('./users');
+var wireframes  = require('./wireframes');
 
-// expose configuration to templates
+// expose configuration to views
 app.use(function(req, res, next) {
   app.locals._config  = config
   app.locals._user    = req.user ? req.user : {}
@@ -145,33 +145,37 @@ app.use(function(req, res, next) {
 //----- ADMIN
 
 // connection
-app.get('/admin',               render.adminLogin)
-app.post('/admin',              session.authenticate('local', {
+app.get('/admin',                 render.adminLogin)
+app.post('/admin',                session.authenticate('local', {
   successRedirect: '/admin/dashboard',
   failureRedirect: '/admin',
   failureFlash:     true,
   successFlash:     true,
 }))
-app.get('/admin/dashboard',     session.guard('admin'), render.dashboard)
-// users
+app.get('/admin/dashboard',       session.guard('admin'), render.dashboard)
 
-app.post('/users/:_id/delete',  session.guard('admin'), users.delete)
-app.get('/users/new',           session.guard('admin'), users.new)
-app.post('/users/new',          session.guard('admin'), users.create)
-app.post('/users/reset',        session.guard('admin'), users.adminResetPassword)
-app.get('/users/:_id',          session.guard('admin'), users.show)
-app.post('/users/:_id',         session.guard('admin'), users.update)
-app.get('/users',               session.guard('admin'), users.list)
-// templates
-app.get('/templates',           session.guard('admin'), templates.list)
+app.all('/users*',                            session.guard('admin'))
+// users' wireframes
+app.get('/users/:userId/wireframe/:wireId?',  wireframes.new)
+app.post('/users/:userId/wireframe/:wireId?', wireframes.update)
+// users
+app.post('/users/:userId/delete',             users.delete)
+app.get('/users/new',                         users.new)
+app.post('/users/new',                        users.create)
+app.post('/users/reset',                      users.adminResetPassword)
+app.get('/users/:userId',                     users.show)
+app.post('/users/:userId',                    users.update)
+app.get('/users',                             users.list)
+
+app.get('/wireframes',                        session.guard('admin'), wireframes.list)
 
 //----- USER
 
+app.get('/dashboard',             session.guard('user'), render.dashboard)
+// creations list
+// editor should be moved here
 
 //----- PUBLIC
-
-// app.get('/tokens/new', tokens.new);
-// app.get('/tokens/:token([a-zA-Z0-9_-]{40})', redis.isReady, tokens.show);
 
 app.get('/login',             render.login)
 app.post('/login',            session.authenticate('local', {
@@ -186,7 +190,15 @@ app.get('/password/:token',   render.reset)
 app.post('/password/:token',  users.setPassword)
 
 app.get('/editor',            render.editor)
-app.get('/',                  render.home)
+app.get('/',                  function home(req, res, next) {
+  return res.render('home', {
+    templates: [
+      'versafix-1',
+      'tedc15',
+      'tutorial',
+    ]
+  })
+})
 
 //////
 // ERROR HANDLING

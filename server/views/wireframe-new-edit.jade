@@ -1,0 +1,31 @@
+extends _layout-admin.jade
+
+block content
+  - var isEdit    = data.wireframe != null;
+  - var action    = '/users/' + data.userId + '/wireframe';
+  - var wireframe = data.wireframe || {};
+  - action        = isEdit ? action + '/' + wireframe._id : action;
+  if isEdit
+    h1 edit wireframe ##{wireframe._id}
+  else
+    h1 new wireframe
+
+  //- form(action=action method="post" enctype="multipart/form-data")
+  form(action=action method="post")
+    input(name="userId" value=data.userId)
+    fieldset
+      label
+        div Name
+        input(name="name" value=wireframe.name)
+      label
+        div Description
+        textarea(name="description" value=wireframe.description)
+    fieldset
+      label
+        div Markup
+        input(type="file" accept=".html")
+      label
+        div Images
+        input(type="file" accept="images/*" multiple)
+
+    button(type="submit") submit

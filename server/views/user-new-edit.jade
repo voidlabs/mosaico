@@ -22,3 +22,23 @@ block content
       label(for="name") name
       input(type="text" name="name" value=user.name)
     button(type="submit") submit
+
+  if isEdit
+    h1 current wireframes
+    h3: a(href='/users/' + user._id + '/wireframe') new wireframe
+
+    if !data.wireframes.length
+      p no wireframes yet
+    else
+      table(border="1")
+        thead
+          tr
+            th id
+            th name
+        tbody
+          each wireframe in data.wireframes
+            tr
+              td
+                a(href='/users/' + wireframe.userId + '/wireframe/' + wireframe._id)= wireframe._id
+              td= wireframe.name
+

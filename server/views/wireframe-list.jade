@@ -1,0 +1,22 @@
+extends _layout-admin.jade
+
+block content
+  h1 wireframes list
+
+  if !data.wireframes.length
+    p no wireframes yet
+  else
+    table(border="1")
+      thead
+        tr
+          th id
+          th User
+          th name
+      tbody
+        each wireframe in data.wireframes
+          tr
+            td
+              a(href='/users/' + wireframe.userId + '/wireframe/' + wireframe._id)= wireframe._id
+            td
+              a(href='/users/' + wireframe.userId )= wireframe.userId
+            td= wireframe.name

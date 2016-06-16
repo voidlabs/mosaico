@@ -1,35 +1,24 @@
 'use strict'
 
-var config  = require('./config')
-var Users   = require('./database').Users
+var config                  = require('./config')
+var DB                      = require('./database')
+var Users                   = DB.Users
+var Wireframes              = DB.Wireframes
+var handleValidationErrors  = DB.handleValidationErrors
 
 function list(req, res, next) {
   Users
   .find({})
-  .then(onUsers)
-  .catch(next)
-
-  function onUsers(users) {
+  .then(function onUsers(users) {
     return res.render('user-list', {
       data: { users: users, }
     })
-  }
+  })
+  .catch(next)
 }
 
 function newUser(req, res, next) {
   res.render('user-new-edit')
-}
-
-function handleValidationErrors(err) {
-  // mongoose errors
-  if (err.name === 'ValidationError') {
-    return Promise.resolve(err.errors)
-  }
-  // duplicated email
-  if (err.name === 'MongoError' && err.code === 11000) {
-    return Promise.resolve({email: {message: 'this email is already taken'}})
-  }
-  return Promise.reject(err)
 }
 
 function create(req, res, next) {
@@ -54,35 +43,44 @@ function create(req, res, next) {
 }
 
 function show(req, res, next) {
-  console.log(req.params._id)
-  Users
-  .findById(req.params._id)
-  .then(function (user) {
+  var userId        = req.params.userId
+  var getUser       = Users.findById(userId)
+  var getWireframes = Wireframes.find({userId: userId})
+
+  Promise
+  .all([getUser, getWireframes])
+  .then(function (dbResponse) {
+    var user        = dbResponse[0]
+    var wireframes  = dbResponse[1]
     if (!user) return res.status(404).end()
-    res.render('user-new-edit', {data: {user: user}})
+    res.render('user-new-edit', {data: {
+      user:       user,
+      wireframes: wireframes,
+    }})
   })
   .catch(next)
 }
 
 function update(req, res, next) {
-  var _id = req.params._id
+  var userId = req.params.userId
+  console.log(req.path)
   Users
-  .findByIdAndUpdate(_id, req.body, {runValidators: true})
+  .findByIdAndUpdate(userId, req.body, {runValidators: true})
   .then(function (user) {
-    res.redirect(`/users/${_id}`)
+    res.redirect(`/users/${userId}`)
   })
   .catch(handleValidationErrors)
   .then(function (errorMessages) {
     req.flash('error', errorMessages)
-    res.redirect(`/users/${_id}`)
+    res.redirect(`/users/${userId}`)
   })
   .catch(next)
 }
 
 function remove(req, res, next) {
-  var _id = req.params._id
+  var userId = req.params.userId
   Users
-  .findOneAndRemove(_id)
+  .findOneAndRemove(userId)
   .then( function () { res.redirect('/users')} )
   .catch(next)
 }

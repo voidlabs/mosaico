@@ -10,6 +10,8 @@ mongoose.Promise = global.Promise
 var Schema        = mongoose.Schema
 var ObjectId      = Schema.ObjectId
 
+console.log(new ObjectId())
+
 var config        = require('./config')
 var mail          = require('./mail')
 
@@ -109,16 +111,57 @@ UserSchema.methods.comparePassword = function comparePassword(password) {
 }
 
 //////
+// WIREFRAMES
+//////
+
+var WireframeSchema    = Schema({
+  id: {
+    type: ObjectId
+  },
+  name: {
+    type:       String,
+    unique:     true,
+    required:   true,
+  },
+  description:  { type: String },
+  userId: {
+    type:       String,
+    required:   true,
+  },
+  markup:       { type: String },
+}, { timestamps: true })
+
+//////
 // COMPILE SCHEMAS
 //////
 
-var UserModel     = mongoose.model('User', UserSchema)
+var UserModel       = mongoose.model('User', UserSchema)
+var WireframeModel  = mongoose.model('Wireframe', WireframeSchema)
+
+//////
+// ERRORS HANDLING
+//////
+
+// normalize errors between mongoose & mongoDB
+function handleValidationErrors(err) {
+  // mongoose errors
+  if (err.name === 'ValidationError') {
+    return Promise.resolve(err.errors)
+  }
+  // duplicated email
+  if (err.name === 'MongoError' && err.code === 11000) {
+    return Promise.resolve({email: {message: 'this email is already taken'}})
+  }
+  return Promise.reject(err)
+}
 
 //////
 // EXPORTS
 //////
 
 module.exports    = {
-  connection: mongoose.connection,
-  Users:      UserModel,
+  connection:             mongoose.connection,
+  Users:                  UserModel,
+  Wireframes:             WireframeModel,
+  handleValidationErrors: handleValidationErrors,
 }
