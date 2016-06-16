@@ -10,3 +10,5 @@ dist
 .badsenderrc
 npm-debug.log
 *.orig
+/server/formidable/*
+!/server/formidable/.gitkeep

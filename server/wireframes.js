@@ -1,6 +1,7 @@
 'use strict'
 
 var config                  = require('./config')
+var multipart               = require('./multipart')
 var DB                      = require('./database')
 var Wireframes              = DB.Wireframes
 var handleValidationErrors  = DB.handleValidationErrors
@@ -25,32 +26,41 @@ function newWireframe(req, res, next) {
     res.render('wireframe-new-edit', { data: data })
   })
   .catch(next)
-
-  // upload image on a specific client bucket
 }
 
 function update(req, res, next) {
   var wireId    = req.params.wireId
   var userId    = req.params.userId
-  console.log(req.path, wireId)
-  var dbRequest = wireId ? Wireframes.findByIdAndUpdate(wireId, req.body, { runValidators: true, })
-    : new Wireframes(req.body).save()
-  // if (!wireId) {
-  //   dbRequest = new Wireframes(req.body).save()
-  // } else {
-  //   dbRequest = Wireframes.findByIdAndUpdate(wireId, req.body, { runValidators: true, })
-  // }
+  console.log('new-update')
+  console.log(req.body)
 
-  dbRequest
-  .then(function (wireframe) {
-    res.redirect(`/users/${userId}/wireframe/${wireframe._id}`)
-  })
-  .catch(handleValidationErrors)
-  .then(function (errorMessages) {
-    req.flash('error', errorMessages)
-    res.redirect(req.path)
-  })
+  multipart
+  .parse(req)
+  .then(onParse)
   .catch(next)
+
+  function onParse(body) {
+    console.log('files success')
+    var dbRequest = wireId ?
+      Wireframes.findByIdAndUpdate(wireId, body.fields)
+      : new Wireframes(body.fields).save()
+
+    dbRequest
+    .then(function (wireframe) {
+      // don't use req.path: need to redirect new wireframes to their page
+      return res.redirect(`/users/${userId}/wireframe/${wireframe._id}`)
+    })
+    .catch(onError)
+  }
+
+  function onError(err) {
+    return handleValidationErrors(err)
+    .then(function (errorMessages) {
+      req.flash('error', errorMessages)
+      res.redirect(req.path)
+    })
+    .catch(next)
+  }
 }
 
 module.exports = {

@@ -32,14 +32,35 @@ function create(req, res, next) {
     if (user._id) return res.redirect(`/users/${user._id}`)
     res.redirect('/users')
   })
-  .catch(handleValidationErrors)
-  .then(function (errorMessages) {
-    req.flash('error', errorMessages)
-    return res.redirect('/users/new')
+  .catch(onError)
+
+  function onError(err) {
+    handleValidationErrors(err)
+    .then(function (errorMessages) {
+      req.flash('error', errorMessages)
+      res.redirect(req.path)
+    })
+    .catch(next)
+  }
+}
+
+function update(req, res, next) {
+  var userId = req.params.userId
+  Users
+  .findByIdAndUpdate(userId, req.body, {runValidators: true})
+  .then(function (user) {
+    res.redirect(`/users/${userId}`)
   })
-  .catch(function (err) {
-    next(err)
-  })
+  .catch(onError)
+
+  function onError(err) {
+    handleValidationErrors(err)
+    .then(function (errorMessages) {
+      req.flash('error', errorMessages)
+      res.redirect(req.path)
+    })
+    .catch(next)
+  }
 }
 
 function show(req, res, next) {
@@ -57,22 +78,6 @@ function show(req, res, next) {
       user:       user,
       wireframes: wireframes,
     }})
-  })
-  .catch(next)
-}
-
-function update(req, res, next) {
-  var userId = req.params.userId
-  console.log(req.path)
-  Users
-  .findByIdAndUpdate(userId, req.body, {runValidators: true})
-  .then(function (user) {
-    res.redirect(`/users/${userId}`)
-  })
-  .catch(handleValidationErrors)
-  .then(function (errorMessages) {
-    req.flash('error', errorMessages)
-    res.redirect(`/users/${userId}`)
   })
   .catch(next)
 }

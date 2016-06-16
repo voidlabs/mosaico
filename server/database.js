@@ -1,5 +1,6 @@
 'use strict'
 
+var util          = require('util')
 var validator     = require('validator')
 var randtoken     = require('rand-token')
 var bcrypt        = require('bcryptjs')
@@ -115,21 +116,28 @@ UserSchema.methods.comparePassword = function comparePassword(password) {
 //////
 
 var WireframeSchema    = Schema({
-  id: {
-    type: ObjectId
-  },
   name: {
     type:       String,
     unique:     true,
-    required:   true,
+    required:   [true, 'name is required'],
   },
   description:  { type: String },
   userId: {
     type:       String,
-    required:   true,
+    required:   [true, 'userId is required'],
   },
-  markup:       { type: String },
+  markup: {
+    type:       String,
+    required:   [true, 'markup is required'],
+  },
 }, { timestamps: true })
+
+//////
+// CREATIONS
+//////
+
+// should upload image on a specific client bucket
+// -> can't handle live resize
 
 //////
 // COMPILE SCHEMAS
@@ -144,13 +152,20 @@ var WireframeModel  = mongoose.model('Wireframe', WireframeSchema)
 
 // normalize errors between mongoose & mongoDB
 function handleValidationErrors(err) {
+  console.log('handleValidationErrors')
+  console.log(util.inspect(err))
   // mongoose errors
   if (err.name === 'ValidationError') {
     return Promise.resolve(err.errors)
   }
-  // duplicated email
+  // duplicated field
   if (err.name === 'MongoError' && err.code === 11000) {
-    return Promise.resolve({email: {message: 'this email is already taken'}})
+    // mongo doens't provide field name out of the box
+    // fix that based on the error message
+    var fieldName = /index:\s([a-z]*)/.exec(err.message)[1]
+    var errorMsg  = {}
+    errorMsg[fieldName] = {message: `this ${fieldName} is already taken`}
+    return Promise.resolve(errorMsg)
   }
   return Promise.reject(err)
 }

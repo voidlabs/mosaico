@@ -1,6 +1,8 @@
 extends _layout-admin.jade
 
 block content
+  - var hasError  = messages.error && messages.error.length;
+  - var errors    = hasError ? messages.error[0] : {};
   - var isEdit    = data.wireframe != null;
   - var action    = '/users/' + data.userId + '/wireframe';
   - var wireframe = data.wireframe || {};
@@ -10,22 +12,32 @@ block content
   else
     h1 new wireframe
 
-  //- form(action=action method="post" enctype="multipart/form-data")
-  form(action=action method="post")
+  //- images uploadées sur le bucket courant
+
+  form(action=action method="post" enctype="multipart/form-data")
     input(name="userId" value=data.userId)
     fieldset
       label
         div Name
         input(name="name" value=wireframe.name)
+      if errors.name
+        p= errors.name.message
       label
         div Description
         textarea(name="description" value=wireframe.description)
     fieldset
       label
         div Markup
-        input(type="file" accept=".html")
+        input(type="file" accept=".html" name="markup")
+      if errors.markup
+        p= errors.markup.message
       label
-        div Images
-        input(type="file" accept="images/*" multiple)
+        div Preview Images <small>(edres)</small>
+        input(type="file" accept=".png" multiple name="edres")
+
+    if isEdit
+      details
+        summary show markup
+        pre= wireframe.markup
 
     button(type="submit") submit
