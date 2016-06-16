@@ -121,16 +121,22 @@ var WireframeSchema    = Schema({
     unique:     true,
     required:   [true, 'name is required'],
   },
-  description:  { type: String },
+  description: {
+    type: String
+  },
   userId: {
     type:       String,
     required:   [true, 'userId is required'],
   },
   markup: {
     type:       String,
-    required:   [true, 'markup is required'],
+    // not required : we need it only on second save
   },
 }, { timestamps: true })
+
+WireframeSchema.virtual('imgPath').get(function () {
+  return '/img/' + this._id + '-'
+})
 
 //////
 // CREATIONS

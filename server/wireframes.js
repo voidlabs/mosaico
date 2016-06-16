@@ -17,6 +17,20 @@ function list(req, res, next) {
   .catch(next)
 }
 
+function listHome(req, res, next) {
+  var isAdmin = req.user.isAdmin
+  var request = isAdmin ? {} : {userId: req.user.id}
+
+  Wireframes
+  .find(request)
+  .then(function (wireframes) {
+    res.render('home', {
+      data: { wireframes: wireframes, }
+    })
+  })
+  .catch(next)
+}
+
 function newWireframe(req, res, next) {
   var data = { userId: req.params.userId }
   Wireframes
@@ -64,7 +78,8 @@ function update(req, res, next) {
 }
 
 module.exports = {
-  list:   list,
-  new:    newWireframe,
-  update: update,
+  list:     list,
+  new:      newWireframe,
+  update:   update,
+  listHome: listHome,
 }

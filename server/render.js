@@ -29,15 +29,10 @@ function reset(req, res, next) {
   })
 }
 
-function dashboard(req, res, next) {
-  return res.render('admin-dashboard')
-}
-
 module.exports = {
   adminLogin: adminLogin,
   editor:     editor,
   login:      login,
   forgot:     forgot,
   reset:      reset,
-  dashboard:  dashboard,
 }

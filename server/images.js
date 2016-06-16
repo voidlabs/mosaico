@@ -26,6 +26,8 @@ function streamImage(imageName) {
     })
     .createReadStream()
     .on('error', function (err) {
+      // local not found
+      if (err.code === 'ENOENT') return
       console.log(err);
     });
 }
@@ -96,7 +98,12 @@ function getResized(req, res, next) {
 }
 
 function getOriginal(req, res, next) {
-  return streamImage(req.params.imageName).pipe(res);
+  return streamImage(req.params.imageName)
+    .on('error', function (err) {
+      if (err.code === 'ENOENT') err.status = 404
+      next(err)
+    })
+    .pipe(res);
 }
 
 module.exports = {

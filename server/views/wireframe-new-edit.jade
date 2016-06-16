@@ -24,16 +24,17 @@ block content
         p= errors.name.message
       label
         div Description
-        textarea(name="description" value=wireframe.description)
-    fieldset
-      label
-        div Markup
-        input(type="file" accept=".html" name="markup")
-      if errors.markup
-        p= errors.markup.message
-      label
-        div Preview Images <small>(edres)</small>
-        input(type="file" accept=".png" multiple name="edres")
+        textarea(name="description")=wireframe.description
+    if isEdit
+      fieldset
+        label
+          div Markup
+          input(type="file" accept=".html" name="markup")
+        if errors.markup
+          p= errors.markup.message
+        label
+          div Preview Images <small>(edres)</small>
+          input(type="file" accept=".png" multiple name="edres")
 
     if isEdit
       details

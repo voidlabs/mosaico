@@ -28,6 +28,7 @@ config.isAws      = config.storage.type === 'aws'
 config.images.uploadDir = path.join(__dirname, '../', config.images.uploadDir)
 config.images.tmpDir    = path.join(__dirname, '../', config.images.tmpDir)
 
+// why this was setted at config.isAws?
 if (!config.isAws) {
   console.log('create temp dir in LOCAL mode')
   mkdirp.sync(config.images.tmpDir)

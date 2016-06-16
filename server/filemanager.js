@@ -13,6 +13,7 @@ if (config.isAws) {
   var s3    = new AWS.S3()
 }
 
+// http://stackoverflow.com/questions/12416738/how-to-use-herokus-ephemeral-filesystem
 function write(file) {
   var filePath = path.join(config.images.uploadDir, file.name)
   console.log('write', chalk.green(file.name))

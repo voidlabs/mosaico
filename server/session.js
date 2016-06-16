@@ -78,7 +78,7 @@ function guard(role) {
   return function guardRoute(req, res, next) {
     var user = req.user
     if (!user) {
-      if (isAdminRoute) return res.redirect('/admin')
+      if (isAdminRoute) return res.redirect('/admin/login')
       return res.redirect('/login')
     }
     if (isAdminRoute && !user.isAdmin) res.status(401).end()

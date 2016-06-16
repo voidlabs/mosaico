@@ -145,14 +145,14 @@ app.use(function(req, res, next) {
 //----- ADMIN
 
 // connection
-app.get('/admin',                 render.adminLogin)
-app.post('/admin',                session.authenticate('local', {
-  successRedirect: '/admin/dashboard',
-  failureRedirect: '/admin',
+app.get('/admin/login',                       render.adminLogin)
+app.post('/admin/login', session.authenticate('local', {
+  successRedirect: '/admin',
+  failureRedirect: '/admin/login',
   failureFlash:     true,
   successFlash:     true,
 }))
-app.get('/admin/dashboard',       session.guard('admin'), render.dashboard)
+app.get('/admin',                             session.guard('admin'), users.list)
 
 app.all('/users*',                            session.guard('admin'))
 // users' wireframes
@@ -171,7 +171,7 @@ app.get('/wireframes',                        session.guard('admin'), wireframes
 
 //----- USER
 
-app.get('/dashboard',             session.guard('user'), render.dashboard)
+// app.get('/dashboard',             session.guard('user'), render.dashboard)
 // creations list
 // editor should be moved here
 
@@ -190,15 +190,7 @@ app.get('/password/:token',   render.reset)
 app.post('/password/:token',  users.setPassword)
 
 app.get('/editor',            render.editor)
-app.get('/',                  function home(req, res, next) {
-  return res.render('home', {
-    templates: [
-      'versafix-1',
-      'tedc15',
-      'tutorial',
-    ]
-  })
-})
+app.get('/',                  session.guard('user'), wireframes.listHome)
 
 //////
 // ERROR HANDLING
