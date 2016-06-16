@@ -7,9 +7,9 @@ var chalk       = require('chalk')
 var formidable  = require('formidable')
 var denodeify   = require('denodeify')
 var readFile    = denodeify(fs.readFile)
-// https://github.com/mscdex/busboy
 
 var config      = require('./config')
+var filemanager = require('./filemanager')
 
 function parse(req) {
   return new Promise(function (resolve, reject) {
@@ -21,21 +21,20 @@ function parse(req) {
       if (err) return reject(err)
       return handleUploads(fields, files, resolve)
     })
+
     form.on('file', function(name, file) {
-      console.log(chalk.green('on file'))
-      if (file.name) {
-        console.log(chalk.blue(name))
-        // console.log(util.inspect(file))
-      }
+      // markup will be saved in DB
+      if (name === 'markup') return
+      // put all other files in the right place (S3 \\ local)
+      console.log('on file', chalk.green(name))
+      file.name = req.params.wireId + '-' + file.name
+      filemanager.write(file)
     })
   })
 }
 
 function handleUploads(fields, files, resolve) {
-  console.log(util.inspect({fields: fields, files: files}))
-
   //----- MARKUP
-
   if (files.markup && files.markup.name) {
     // read content from file system
     // no worry about performance: only admin will do it
@@ -45,13 +44,9 @@ function handleUploads(fields, files, resolve) {
       fields.markup = text
       resolve({fields: fields, files: files})
     })
-
-  //----- IMAGES
-
   } else {
     resolve({fields: fields, files: files})
   }
-
 }
 
 module.exports = {

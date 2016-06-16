@@ -24,6 +24,8 @@ html(lang=getLocale())
     header
       if _user.id
         a(href="/logout") logout
+        | &nbsp;
+        a(href="/") home
       if _user.isAdmin
         | &nbsp;
         a(href="/users") users

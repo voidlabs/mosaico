@@ -8,7 +8,7 @@
   },
   "main": "./index.js",
   "engines": {
-    "node": "0.12.0"
+    "node": "5.11.1"
   },
   "directories": {
     "test": "test"
