@@ -31,7 +31,7 @@ function listHome(req, res, next) {
   .catch(next)
 }
 
-function newWireframe(req, res, next) {
+function show(req, res, next) {
   var data = { userId: req.params.userId }
   Wireframes
   .findById(req.params.wireId)
@@ -79,7 +79,7 @@ function update(req, res, next) {
 
 module.exports = {
   list:     list,
-  new:      newWireframe,
+  show:      show,
   update:   update,
   listHome: listHome,
 }

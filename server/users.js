@@ -17,54 +17,9 @@ function list(req, res, next) {
   .catch(next)
 }
 
-function newUser(req, res, next) {
-  res.render('user-new-edit')
-}
-
-function create(req, res, next) {
-  console.log(req.body)
-  var newUser = new Users(req.body)
-  newUser
-  .save()
-  .then(function (user) {
-    console.log('success')
-    console.log(user)
-    if (user._id) return res.redirect(`/users/${user._id}`)
-    res.redirect('/users')
-  })
-  .catch(onError)
-
-  function onError(err) {
-    handleValidationErrors(err)
-    .then(function (errorMessages) {
-      req.flash('error', errorMessages)
-      res.redirect(req.path)
-    })
-    .catch(next)
-  }
-}
-
-function update(req, res, next) {
-  var userId = req.params.userId
-  Users
-  .findByIdAndUpdate(userId, req.body, {runValidators: true})
-  .then(function (user) {
-    res.redirect(`/users/${userId}`)
-  })
-  .catch(onError)
-
-  function onError(err) {
-    handleValidationErrors(err)
-    .then(function (errorMessages) {
-      req.flash('error', errorMessages)
-      res.redirect(req.path)
-    })
-    .catch(next)
-  }
-}
-
 function show(req, res, next) {
   var userId        = req.params.userId
+  if (!userId) return res.render('user-new-edit')
   var getUser       = Users.findById(userId)
   var getWireframes = Wireframes.find({userId: userId})
 
@@ -80,6 +35,28 @@ function show(req, res, next) {
     }})
   })
   .catch(next)
+}
+
+function update(req, res, next) {
+  var userId = req.params.userId
+  var dbRequest = userId ?
+    Users.findByIdAndUpdate(wireId, req.body, {runValidators: true})
+    : new Users(req.body).save()
+
+  dbRequest
+  .then(function (user) {
+    res.redirect(`/users/${user._id}`)
+  })
+  .catch(onError)
+
+  function onError(err) {
+    handleValidationErrors(err)
+    .then(function (errorMessages) {
+      req.flash('error', errorMessages)
+      res.redirect(req.path)
+    })
+    .catch(next)
+  }
 }
 
 function remove(req, res, next) {
@@ -105,6 +82,7 @@ function adminResetPassword(req, res, next) {
 }
 
 function userResetPassword(req, res, next) {
+  // TBD
   res.redirect('/')
 }
 
@@ -117,7 +95,7 @@ function setPassword(req, res, next) {
   .then(function (user) {
     console.log(user)
     if (!user) {
-      req.flash('error', {message: 'not token or bad email adress'})
+      req.flash('error', {message: 'not token or bad email address'})
       res.redirect(req.path)
       return Promise.resolve(false)
     }
@@ -133,8 +111,6 @@ function setPassword(req, res, next) {
 
 module.exports = {
   list:               list,
-  new:                newUser,
-  create:             create,
   show:               show,
   update:             update,
   delete:             remove,

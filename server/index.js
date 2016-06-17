@@ -156,24 +156,18 @@ app.get('/admin',                             session.guard('admin'), users.list
 
 app.all('/users*',                            session.guard('admin'))
 // users' wireframes
-app.get('/users/:userId/wireframe/:wireId?',  wireframes.new)
+app.get('/users/:userId/wireframe/:wireId?',  wireframes.show)
 app.post('/users/:userId/wireframe/:wireId?', wireframes.update)
 // users
 app.post('/users/:userId/delete',             users.delete)
-app.get('/users/new',                         users.new)
-app.post('/users/new',                        users.create)
 app.post('/users/reset',                      users.adminResetPassword)
-app.get('/users/:userId',                     users.show)
-app.post('/users/:userId',                    users.update)
-app.get('/users',                             users.list)
+app.get('/users/list',                        users.list)
+app.get('/users/:userId?',                    users.show)
+app.post('/users/:userId?',                   users.update)
 
 app.get('/wireframes',                        session.guard('admin'), wireframes.list)
-
-//----- USER
-
-// app.get('/dashboard',             session.guard('user'), render.dashboard)
-// creations list
-// editor should be moved here
+// xhr template. Check user
+// app.get('/wireframes/:wireId',                        session.guard('admin'), wireframes.list)
 
 //----- PUBLIC
 
@@ -189,7 +183,15 @@ app.post('/forgot',           users.userResetPassword)
 app.get('/password/:token',   render.reset)
 app.post('/password/:token',  users.setPassword)
 
+// userId in session
+// app.get('/editor/:wireId/:creationId?',            render.editor)
+// app.post('/editor/:wireId/:creationId?',            render.editor)
 app.get('/editor',            render.editor)
+
+//----- USER
+
+// creations list
+// editor should be moved here
 app.get('/',                  session.guard('user'), wireframes.listHome)
 
 //////

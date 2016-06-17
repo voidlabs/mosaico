@@ -5,7 +5,7 @@ block content
   - var errors    = hasError ? messages.error[0] : {};
   - var user      = data && data.user ? data.user : {};
   - var isEdit    = user._id
-  - var action    = isEdit ? `/users/${user._id}` : `/users/new`;
+  - var action    = isEdit ? `/users/${user._id}` : `/users`;
   if isEdit
     h1 edit user ##{user._id}
   else
@@ -14,13 +14,14 @@ block content
     if user._id
       input(type="text" name="id" value=user._id)
     fieldset
-      label(for="email") email
-      input(type="email" name="email" required value=user.email)
+      label(for="email")
+        div email
+        input(type="email" name="email" required value=user.email)
       if errors.email
         p= errors.email.message
-    fieldset
-      label(for="name") name
-      input(type="text" name="name" value=user.name)
+      label(for="name")
+        div name
+        input(type="text" name="name" value=user.name)
     button(type="submit") submit
 
   if isEdit
