@@ -20,13 +20,6 @@
       "knockoutjs-reactor": "knockoutjs-reactor/src/knockout.reactor.js"
     }
   },
-  "browserify": {
-    "transform": [
-      "aliasify",
-      "browserify-shim",
-      "debowerify"
-    ]
-  },
   "browserify-shim": {
     "jquery": "global:jQuery",
     "jquery-ui/sortable": "global:jQuery.ui.sortable",
@@ -45,12 +38,12 @@
     "build": "npm run deps && gulp build --prod",
     "start": "export NODE_ENV=production && node server/index.js",
     "prod": "npm run build && npm start",
-    "dev": "parallelshell \"gulp build\" \" gulp dev\"",
+    "dev": "gulp dev --watch",
     "release": "./bin/dist.sh",
     "build-release": "npm run build && gulp --gulpfile gulpfile-deploy.js"
   },
   "dependencies": {
-    "aws-sdk": "^2.3.19",
+    "aws-sdk": "^2.4.0",
     "bcryptjs": "^2.3.0",
     "blueimp-file-upload-expressjs": "git://github.com/arvindr21/blueimp-file-upload-expressjs#08533d63757b514bc09f55b10e8005df8c60174a",
     "body-parser": "^1.15.1",
@@ -59,7 +52,7 @@
     "connect-mongo": "^1.2.0",
     "cookie-parser": "^1.4.3",
     "denodeify": "^1.2.1",
-    "express": "^4.13.3",
+    "express": "^4.14.0",
     "express-error-handler": "^1.0.1",
     "express-flash": "0.0.2",
     "express-session": "^1.13.0",
@@ -69,7 +62,7 @@
     "jade": "^1.11.0",
     "lodash": "^4.13.1",
     "mkdirp": "^0.5.1",
-    "mongoose": "^4.4.20",
+    "mongoose": "^4.5.0",
     "morgan": "^1.6.1",
     "nodemailer": "^2.4.2",
     "passport": "^0.3.2",
@@ -81,7 +74,7 @@
     "validator": "^5.4.0"
   },
   "devDependencies": {
-    "aliasify": "^1.7.2",
+    "aliasify": "^2.0.0",
     "async": "0.9.0",
     "autoprefixer": "^6.3.1",
     "autoprefixer-core": "^6.0.1",
@@ -94,8 +87,9 @@
     "connect-livereload": "0.5.3",
     "csswring": "^4.2.1",
     "deamdify": "0.1.1",
-    "debowerify": "1.2.0",
+    "debowerify": "^1.5.0",
     "del": "^2.2.0",
+    "envify": "^3.4.0",
     "grunt": "0.4.5",
     "grunt-bowercopy": "1.2.0",
     "grunt-browserify": "4.0.0",
@@ -131,7 +125,7 @@
     "jshint-stylish": "2.0.1",
     "lazypipe": "^1.0.1",
     "load-grunt-tasks": "3.1.0",
-    "main-bower-files": "^2.11.1",
+    "main-bower-files": "^2.13.1",
     "merge-stream": "^1.0.0",
     "mockery": "1.4.0",
     "nodemon": "^1.8.1",

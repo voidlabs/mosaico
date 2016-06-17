@@ -65,12 +65,14 @@ app.use('/lib/skins', express.static( path.join(__dirname,'../res/vendor/skins')
 //////
 
 function logRequest(tokens, req, res) {
+  if (/\/img\//.test(req.path)) return
   var method  = tokens.method(req, res)
   var url     = tokens.url(req, res)
   return chalk.blue(method) + ' ' + chalk.grey(url)
 }
 
 function logResponse(tokens, req, res) {
+  if (/\/img\//.test(req.path)) return
   var method      = tokens.method(req, res)
   var status      = tokens.status(req, res)
   var url         = tokens.url(req, res)
@@ -95,6 +97,7 @@ var images      = require('./images');
 var render      = require('./render');
 var users       = require('./users');
 var wireframes  = require('./wireframes');
+var creations   = require('./creations');
 
 // expose configuration to views
 app.use(function(req, res, next) {
@@ -171,22 +174,22 @@ app.get('/wireframes',                        session.guard('admin'), wireframes
 
 //----- PUBLIC
 
-app.get('/login',             render.login)
-app.post('/login',            session.authenticate('local', {
+app.get('/login',                 render.login)
+app.post('/login',                session.authenticate('local', {
   successRedirect: '/',
   failureRedirect: '/login',
   failureFlash:     true,
 }))
-app.get('/logout',            session.logout)
-app.get('/forgot',            render.forgot)
-app.post('/forgot',           users.userResetPassword)
-app.get('/password/:token',   render.reset)
-app.post('/password/:token',  users.setPassword)
+app.get('/logout',                session.logout)
+app.get('/forgot',                render.forgot)
+app.post('/forgot',               users.userResetPassword)
+app.get('/password/:token',       render.reset)
+app.post('/password/:token',      users.setPassword)
 
 // userId in session
-// app.get('/editor/:wireId/:creationId?',            render.editor)
-// app.post('/editor/:wireId/:creationId?',            render.editor)
-app.get('/editor',            render.editor)
+app.all('/editor*',               session.guard('user'))
+app.get('/editor/:creationId?',   creations.show)
+app.post('/editor/:creationId?',  creations.update)
 
 //----- USER
 
@@ -198,19 +201,19 @@ app.get('/',                  session.guard('user'), wireframes.listHome)
 // ERROR HANDLING
 //////
 
-var handler = errorHandler({
-  // views: {
-  //   default:  'error/default',
-  //   404:      'error/404',
-  // },
-});
 app.use(function (err, req, res, next) {
   console.log(err)
   // force status for morgan to catch up
   res.status(err.status || err.statusCode)
   next(err)
-});
+})
 
+var handler = errorHandler({
+  views: {
+    default:  'error-default',
+    404:      'error-404',
+  },
+})
 app.use(errorHandler.httpError(404))
 app.use(handler)
 

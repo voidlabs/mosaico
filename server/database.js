@@ -9,9 +9,6 @@ var mongoose      = require('mongoose')
 mongoose.Promise = global.Promise
 
 var Schema        = mongoose.Schema
-var ObjectId      = Schema.ObjectId
-
-console.log(new ObjectId())
 
 var config        = require('./config')
 var mail          = require('./mail')
@@ -23,7 +20,6 @@ var connection    = mongoose.connect(config.database)
 //////
 
 var UserSchema    = Schema({
-  id:         {type: ObjectId},
   name:       {type: String},
   email:      {
     type: String,
@@ -142,6 +138,33 @@ WireframeSchema.virtual('imgPath').get(function () {
 // CREATIONS
 //////
 
+var CreationSchema    = Schema({
+  name: {
+    type: String,
+  },
+  userId: {
+    type: String,
+  },
+  wireframeId: {
+    type: String,
+  },
+  // http://mongoosejs.com/docs/schematypes.html#mixed
+  templateDatas: { },
+
+}, { timestamps: true })
+
+WireframeSchema.virtual('key').get(function () {
+  return this._id
+})
+
+WireframeSchema.virtual('created').get(function () {
+  return this.createdAt.getTime()
+})
+
+WireframeSchema.virtual('changed').get(function () {
+  return this.updatedAt.getTime()
+})
+
 // should upload image on a specific client bucket
 // -> can't handle live resize
 
@@ -151,6 +174,7 @@ WireframeSchema.virtual('imgPath').get(function () {
 
 var UserModel       = mongoose.model('User', UserSchema)
 var WireframeModel  = mongoose.model('Wireframe', WireframeSchema)
+var CreationModel   = mongoose.model('Creation', CreationSchema)
 
 //////
 // ERRORS HANDLING
@@ -185,4 +209,5 @@ module.exports    = {
   Users:                  UserModel,
   Wireframes:             WireframeModel,
   handleValidationErrors: handleValidationErrors,
+  CreationModel:          CreationModel,
 }

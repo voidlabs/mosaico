@@ -153,6 +153,8 @@ var initFromLocalStorage = function(options, hash_key, customExtensions) {
   }
 };
 
+if (process.env.MOSAICO) {
+
 var init = function(options, customExtensions) {
 
   var hash = global.location.hash ? global.location.href.split("#")[1] : undefined;
@@ -176,6 +178,36 @@ var init = function(options, customExtensions) {
   }
   return true;
 };
+
+} else if (process.env.BADSENDER) {
+
+var init = function(options, customExtensions) {
+  console.log('BADSENDER – init')
+  console.log(options)
+  var hash = global.location.hash ? global.location.href.split("#")[1] : undefined;
+
+
+  // Loading from configured template or configured metadata
+  if (options && (options.template || options.data)) {
+    if (options.data) {
+      var data = JSON.parse(options.data);
+      start(options, undefined, data.metadata, data.content, customExtensions);
+    } else {
+      start(options, options.template, undefined, undefined, customExtensions);
+    }
+    // Loading from LocalStorage (if url hash has a 7chars key)
+  } else if (hash && hash.length == 7) {
+    initFromLocalStorage(options, hash, customExtensions);
+    // Loading from template url as hash (if hash is not a valid localstorage key)
+  } else if (hash) {
+    start(options, _canonicalize(hash), undefined, undefined, customExtensions);
+  } else {
+    return false;
+  }
+  return true;
+};
+
+}
 
 module.exports = {
   isCompatible: templateLoader.isCompatible,

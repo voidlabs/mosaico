@@ -77,9 +77,12 @@ function update(req, res, next) {
   }
 }
 
+function remove(req, res, next) {
+}
+
 module.exports = {
   list:     list,
-  show:      show,
+  show:     show,
   update:   update,
   listHome: listHome,
 }

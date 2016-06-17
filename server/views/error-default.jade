@@ -1,0 +1,14 @@
+extends _layout-admin.jade
+
+block content
+  h1 ERROR
+  pre= reason
+  pre= description
+  hr
+  if error
+    pre= error
+  if stacktrace
+    if Array.isArray(stacktrace)
+      pre= stacktrace.join('\n')
+    else
+      code= stacktrace

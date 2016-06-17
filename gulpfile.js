@@ -11,8 +11,10 @@ var args            = require('yargs').argv;
 var mainBowerFiles  = require('main-bower-files');
 var _               = require('lodash');
 
-var isDev           = args.prod !== true;
-var cyan            = require('chalk').cyan;
+var isWatch         = args.watch  === true
+var isDev           = args.prod   !== true
+var env             = isDev ? 'development' : 'production'
+var cyan            = require('chalk').cyan
 var buildDir        = 'dist';
 
 function onError(err) {
@@ -23,7 +25,10 @@ function onError(err) {
   return this.emit('end');
 }
 
-console.log(cyan('build with env', isDev ? 'dev' : 'prod'));
+$.util.log(
+  'environement is', $.util.colors.magenta(env),
+  'watch is', isWatch ? $.util.colors.magenta('enable') : 'disable'
+)
 
 ////////
 // CSS
@@ -140,10 +145,16 @@ gulp.task('lib', ['clean-lib'], function () {
 
 //----- APPLICATION
 
-var browserify  = require('browserify');
-var source      = require('vinyl-source-stream');
-var vinylBuffer = require('vinyl-buffer');
-var watchify    = require('watchify');
+var browserify  = require('browserify')
+var source      = require('vinyl-source-stream')
+var vinylBuffer = require('vinyl-buffer')
+var aliasify    = require('aliasify')
+var shim        = require('browserify-shim')
+var debowerify  = require('debowerify')
+var envify      = require('envify/custom')
+var watchify    = require('watchify')
+
+
 
 gulp.task('app', ['templates'], function () {
   var b = browserify({
@@ -154,9 +165,27 @@ gulp.task('app', ['templates'], function () {
     standalone:   'Badsender',
   });
 
-  if (isDev) {
+  b.transform(aliasify, {
+    "aliases": {
+      "console": "console-browserify/index.js",
+      "jsep": "jsep/src/jsep.js",
+      "knockoutjs-reactor": "knockoutjs-reactor/src/knockout.reactor.js"
+    }
+  })
+  b.transform(shim)
+  b.transform(debowerify)
+
+  b.transform(envify({
+    _: 'purge',
+    NODE_ENV:   env,
+    BADSENDER:  true,
+    MOSAICO:    false,
+  }))
+
+  if (isWatch) {
     b = watchify(b);
     b.on('update', function () {
+      $.util.log('bundle front app');
       bundleShare(b);
     });
   }
@@ -166,8 +195,6 @@ gulp.task('app', ['templates'], function () {
 });
 
 function bundleShare(b) {
-  $.util.log('bundle front app');
-
   return b.bundle()
     .pipe(source('badsender.js'))
     .pipe(vinylBuffer())
@@ -267,16 +294,15 @@ gulp.task('nodemon', function (cb) {
   });
 });
 
-gulp.task('browser-sync', ['nodemon'], function () {
+gulp.task('dev', ['build', 'nodemon'], function () {
+
   browserSync.init({
     proxy: 'http://localhost:3000',
     open: false,
     port: 7000,
     ghostMode: false,
   });
-});
 
-gulp.task('dev', ['app', 'browser-sync'], function () {
   gulp.watch(['server/views/*.jade', 'dist/*.js']).on('change', reload);
   gulp.watch('src/css/**/*.less',     ['css']);
   gulp.watch('src/tmpl/*.html',       ['templates']);

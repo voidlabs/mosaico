@@ -95,7 +95,7 @@ function setPassword(req, res, next) {
   .then(function (user) {
     console.log(user)
     if (!user) {
-      req.flash('error', {message: 'not token or bad email address'})
+      req.flash('error', {message: 'no token or bad email address'})
       res.redirect(req.path)
       return Promise.resolve(false)
     }
