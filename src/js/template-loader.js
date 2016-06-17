@@ -120,6 +120,8 @@ function _viewModelPluginInstance(pluginFunction) {
   };
 }
 
+if (process.env.MOSAICO) {
+
 var _templateUrlConverter = function(basePath, url) {
   if (!url.match(/^[^\/]*:/) && !url.match(/^\//) && !url.match(/^\[/) && !url.match(/^#?$/)) {
     // TODO this could be smarter joining the urls...
@@ -162,7 +164,7 @@ var templateLoader = function(performanceAwareCaller, templateFileName, template
 } else if (process.env.BADSENDER) {
 
 var templateLoader = function(performanceAwareCaller, templateMetadata, jsorjson, extensions, galleryUrl) {
-  console.log('templateLoader')
+  console.info('TEMPLATE LOADER')
   console.log(templateMetadata)
   var templateFile = templateMetadata.template;
   var templatePath = "./";
@@ -171,19 +173,9 @@ var templateLoader = function(performanceAwareCaller, templateMetadata, jsorjson
     templatePath = templateFile.substr(0, p + 1);
   }
 
-  var templateUrlConverter = _templateUrlConverter.bind(undefined, templatePath);
+  var templateUrlConverter = templateMetadata.urlConverter;
 
-  var metadata;
-  if (typeof templateMetadata == 'undefined') {
-    metadata = {
-      template: templateFile,
-      // TODO l10n?
-      name: 'No name',
-      created: Date.now()
-    };
-  } else {
-    metadata = templateMetadata;
-  }
+  var metadata  = templateMetadata;
 
   $.get(templateFile, function(templatecode) {
     var res = templateCompiler(performanceAwareCaller, templateUrlConverter, "template", templatecode, jsorjson, metadata, extensions, galleryUrl);

@@ -100,7 +100,7 @@ var wireframes  = require('./wireframes');
 var creations   = require('./creations');
 
 // expose configuration to views
-app.use(function(req, res, next) {
+app.use(function exposeDataToViews(req, res, next) {
   app.locals._config  = config
   app.locals._user    = req.user ? req.user : {}
   if (config.isDev) {
@@ -110,6 +110,8 @@ app.use(function(req, res, next) {
       _config:  config,
     }, null, '  ')
   }
+  app.locals._basePath = "//" + req.get('host')
+
   app.locals.stringify = function (data) {
     return JSON.stringify(data, null, '  ')
   }

@@ -180,7 +180,8 @@ CreationSchema.virtual('changed').get(function () {
 
 CreationSchema.statics.getBlank = function (wireframeId) {
   return {
-    template: wireframeLoadingUrl(wireframeId),
+    wireframeId:  wireframeId,
+    template:     wireframeLoadingUrl(wireframeId),
   }
 }
 

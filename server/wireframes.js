@@ -49,8 +49,6 @@ function getMarkup(req, res, next) {
   Wireframes
   .findById(req.params.wireId, 'markup')
   .then(function (wireframe) {
-    console.log(chalk.green('wireframe'))
-    console.log(wireframe)
     if (!wireframe.markup) return res.status(404).send('not found')
     res.send(wireframe.markup)
   })

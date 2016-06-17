@@ -5,7 +5,6 @@ block head-content
   meta(name="viewport", content="width=1024, initial-scale=1")
 
   script(src="/lib/badsender-lib-editor.js")
-  //- script(src="/mosaico.min.js?v=0.13")
   link(rel="stylesheet", href="/badsender.css")
   script(src="/badsender.js")
 
@@ -16,8 +15,8 @@ block head-content
         return;
       }
       // var basePath = window.location.href.substr(0, window.location.href.lastIndexOf('/')).substr(window.location.href.indexOf('/','https://'.length));
-      var basePath = window.location.href.substr(0, window.location.href.lastIndexOf('/'));
-      var plugins;
+      var basePath  = window.location.protocol + '#{_basePath}';
+      var plugins   = [];
       // A basic plugin that expose the "viewModel" object as a global variable.
       // plugins = [function(vm) {window.viewModel = vm;}];
       var ok = Badsender.init({
@@ -39,6 +38,6 @@ block head-content
 
 block content
   body.mo-standalone
-  footer(style="background: #eee")
-      pre= JSON.stringify(data, null, '  ')
-      pre= _debug
+  //- footer(style="background: #eee")
+  //-     pre= JSON.stringify(data, null, '  ')
+  //-     pre= _debug

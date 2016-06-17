@@ -181,21 +181,30 @@ var init = function(options, customExtensions) {
 
 } else if (process.env.BADSENDER) {
 
-var init = function(options, customExtensions) {
+var init = function(opts, customExtensions) {
   console.log('BADSENDER – init')
-  console.log(options)
+  console.log(opts)
   var hash = global.location.hash ? global.location.href.split("#")[1] : undefined;
 
-
   // Loading from configured template or configured metadata
-  if (options && (options.template || options.data)) {
-    if (options.data) {
+  if (opts && (opts.template || opts.data)) {
+    // Put this in meta datas…
+    opts.template.urlConverter = function (url) {
+      url = url.replace('edres/', '')
+      console.log('URLCONVERTER')
+      console.log(url)
+      url = opts.imgProcessorBackend + opts.template.wireframeId  + '-' + url
+      console.log(url)
+      return url
+    }
+    if (opts.data) {
       console.log('loading CREATION')
-      var data = JSON.parse(options.data);
-      start(options, data.metadata, data.content, customExtensions);
+      var data = JSON.parse(opts.data);
+      start(opts, data.metadata, data.content, customExtensions);
     } else {
       console.log('loading EMPTY')
-      start(options, options.template, void(0), customExtensions);
+      // function(opts, templateFile, templateMetadata, jsorjson, customExtensions)
+      start(opts, opts.template, void(0), customExtensions);
     }
     // Loading from LocalStorage (if url hash has a 7chars key)
   } else {
