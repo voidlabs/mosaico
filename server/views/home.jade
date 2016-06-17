@@ -23,16 +23,17 @@ block content
           p no wireframes yet
         else
           each wireframe in data.wireframes
-            .template.template-xx(class="template template-#{name}")
-              .description
-                b= wireframe.name
-                span= wireframe.description
-                //- b= __('home.templates.name.' + name)
-                //- span= __('home.templates.desc.' + name)
-              //- a(href="/editor#templates/#{name}/template-#{name}.html", data-bind="click: $root.newEdit.bind(undefined, '#{name}')")
-              //-   img(src="templates/#{name}/edres/_full.png", width="100%", alt="xx")
-              a(href='/editor?wireframeId=' + wireframe._id)
-                img(src=wireframe.imgPath + '_full.png' width="100%" alt="xx")
+            if (wireframe.hasMarkup)
+              .template.template-xx(class="template template-#{name}")
+                .description
+                  b= wireframe.name
+                  span= wireframe.description
+                  //- b= __('home.templates.name.' + name)
+                  //- span= __('home.templates.desc.' + name)
+                //- a(href="/editor#templates/#{name}/template-#{name}.html", data-bind="click: $root.newEdit.bind(undefined, '#{name}')")
+                //-   img(src="templates/#{name}/edres/_full.png", width="100%", alt="xx")
+                a(href='/editor?wireframeId=' + wireframe._id)
+                  img(src=wireframe.imgPath + '_full.png' width="100%" alt="xx")
 
     footer
       .subscribe

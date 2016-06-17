@@ -1,5 +1,7 @@
 'use strict'
 
+var chalk                   = require('chalk')
+
 var config                  = require('./config')
 var multipart               = require('./multipart')
 var DB                      = require('./database')
@@ -38,6 +40,19 @@ function show(req, res, next) {
   .then(function (wireframe) {
     if (wireframe) data.wireframe = wireframe
     res.render('wireframe-new-edit', { data: data })
+  })
+  .catch(next)
+}
+
+function getMarkup(req, res, next) {
+  // TODO control if user is authorized
+  Wireframes
+  .findById(req.params.wireId, 'markup')
+  .then(function (wireframe) {
+    console.log(chalk.green('wireframe'))
+    console.log(wireframe)
+    if (!wireframe.markup) return res.status(404).send('not found')
+    res.send(wireframe.markup)
   })
   .catch(next)
 }
@@ -81,8 +96,9 @@ function remove(req, res, next) {
 }
 
 module.exports = {
-  list:     list,
-  show:     show,
-  update:   update,
-  listHome: listHome,
+  list:       list,
+  show:       show,
+  update:     update,
+  listHome:   listHome,
+  getMarkup:  getMarkup,
 }

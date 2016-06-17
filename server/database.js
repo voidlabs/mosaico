@@ -134,6 +134,10 @@ WireframeSchema.virtual('imgPath').get(function () {
   return '/img/' + this._id + '-'
 })
 
+WireframeSchema.virtual('hasMarkup').get(function () {
+  return this.markup != null
+})
+
 //////
 // CREATIONS
 //////
@@ -153,17 +157,32 @@ var CreationSchema    = Schema({
 
 }, { timestamps: true })
 
-WireframeSchema.virtual('key').get(function () {
+CreationSchema.virtual('key').get(function () {
   return this._id
 })
 
-WireframeSchema.virtual('created').get(function () {
+function wireframeLoadingUrl(wireframeId) {
+  return `/wireframes/${wireframeId}/markup`
+}
+
+// path to load a template
+CreationSchema.virtual('template').get(function () {
+  return wireframeLoadingUrl(this.wireframeId)
+})
+
+CreationSchema.virtual('created').get(function () {
   return this.createdAt.getTime()
 })
 
-WireframeSchema.virtual('changed').get(function () {
+CreationSchema.virtual('changed').get(function () {
   return this.updatedAt.getTime()
 })
+
+CreationSchema.statics.getBlank = function (wireframeId) {
+  return {
+    template: wireframeLoadingUrl(wireframeId),
+  }
+}
 
 // should upload image on a specific client bucket
 // -> can't handle live resize
@@ -208,6 +227,6 @@ module.exports    = {
   connection:             mongoose.connection,
   Users:                  UserModel,
   Wireframes:             WireframeModel,
+  Creations:              CreationModel,
   handleValidationErrors: handleValidationErrors,
-  CreationModel:          CreationModel,
 }

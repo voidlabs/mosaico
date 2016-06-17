@@ -4,6 +4,7 @@ var config                  = require('./config')
 var multipart               = require('./multipart')
 var DB                      = require('./database')
 var Wireframes              = DB.Wireframes
+var Creations               = DB.Creations
 
 var translations = {
   en: JSON.stringify(require('../res/lang/mosaico-en.json')),
@@ -14,10 +15,11 @@ function list(req, res, next) {
 }
 
 function show(req, res, next) {
-  var data = {
-    translations: translations[req.getLocale()]
-  }
   console.log(req.query.wireframeId)
+  var data = {
+    translations: translations[req.getLocale()],
+    meta:         Creations.getBlank(req.query.wireframeId)
+  }
   res.render('editor', { data: data })
 }
 

@@ -22,13 +22,14 @@ block head-content
       // plugins = [function(vm) {window.viewModel = vm;}];
       var ok = Badsender.init({
         strings:                !{data.translations},
+        template:               !{stringify(data.meta)},
         imgProcessorBackend:    basePath + '/img/',
         emailProcessorBackend:  basePath + '/dl/',
         titleToken:             'BADSENDER Responsive Email Designer',
         fileuploadConfig: {
           url: basePath + '/upload/',
           // messages??
-        }
+        },
       }, plugins);
       if (!ok) {
         console.log("Missing initialization hash, redirecting to main entrypoint");
@@ -38,3 +39,6 @@ block head-content
 
 block content
   body.mo-standalone
+  footer(style="background: #eee")
+      pre= JSON.stringify(data, null, '  ')
+      pre= _debug

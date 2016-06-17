@@ -190,17 +190,14 @@ var init = function(options, customExtensions) {
   // Loading from configured template or configured metadata
   if (options && (options.template || options.data)) {
     if (options.data) {
+      console.log('loading CREATION')
       var data = JSON.parse(options.data);
-      start(options, undefined, data.metadata, data.content, customExtensions);
+      start(options, data.metadata, data.content, customExtensions);
     } else {
-      start(options, options.template, undefined, undefined, customExtensions);
+      console.log('loading EMPTY')
+      start(options, options.template, void(0), customExtensions);
     }
     // Loading from LocalStorage (if url hash has a 7chars key)
-  } else if (hash && hash.length == 7) {
-    initFromLocalStorage(options, hash, customExtensions);
-    // Loading from template url as hash (if hash is not a valid localstorage key)
-  } else if (hash) {
-    start(options, _canonicalize(hash), undefined, undefined, customExtensions);
   } else {
     return false;
   }

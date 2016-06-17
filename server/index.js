@@ -110,6 +110,9 @@ app.use(function(req, res, next) {
       _config:  config,
     }, null, '  ')
   }
+  app.locals.stringify = function (data) {
+    return JSON.stringify(data, null, '  ')
+  }
   next()
 })
 // TODO additional routes for handling live resize
@@ -170,7 +173,7 @@ app.post('/users/:userId?',                   users.update)
 
 app.get('/wireframes',                        session.guard('admin'), wireframes.list)
 // xhr template. Check user
-// app.get('/wireframes/:wireId',                        session.guard('admin'), wireframes.list)
+app.get('/wireframes/:wireId/markup',         session.guard('admin'), wireframes.getMarkup)
 
 //----- PUBLIC
 
@@ -209,10 +212,16 @@ app.use(function (err, req, res, next) {
 })
 
 var handler = errorHandler({
-  views: {
-    default:  'error-default',
-    404:      'error-404',
-  },
+  handlers: {
+    default: function errDefault(err, req, res, next) {
+      if (req.xhr) return res.status(err.status).send(err.message)
+      res.render('error-default', err)
+    },
+    404: function err404(err, req, res, next) {
+      if (req.xhr) return res.status(404).send(err.message)
+      res.render('error-404')
+    }
+  }
 })
 app.use(errorHandler.httpError(404))
 app.use(handler)

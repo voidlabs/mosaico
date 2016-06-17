@@ -129,6 +129,8 @@ var _templateUrlConverter = function(basePath, url) {
   }
 };
 
+if (process.env.MOSAICO) {
+
 var templateLoader = function(performanceAwareCaller, templateFileName, templateMetadata, jsorjson, extensions, galleryUrl) {
   var templateFile = typeof templateFileName == 'string' ? templateFileName : templateMetadata.template;
   var templatePath = "./";
@@ -156,6 +158,40 @@ var templateLoader = function(performanceAwareCaller, templateFileName, template
     res.init();
   });
 };
+
+} else if (process.env.BADSENDER) {
+
+var templateLoader = function(performanceAwareCaller, templateMetadata, jsorjson, extensions, galleryUrl) {
+  console.log('templateLoader')
+  console.log(templateMetadata)
+  var templateFile = templateMetadata.template;
+  var templatePath = "./";
+  var p = templateFile.lastIndexOf('/');
+  if (p != -1) {
+    templatePath = templateFile.substr(0, p + 1);
+  }
+
+  var templateUrlConverter = _templateUrlConverter.bind(undefined, templatePath);
+
+  var metadata;
+  if (typeof templateMetadata == 'undefined') {
+    metadata = {
+      template: templateFile,
+      // TODO l10n?
+      name: 'No name',
+      created: Date.now()
+    };
+  } else {
+    metadata = templateMetadata;
+  }
+
+  $.get(templateFile, function(templatecode) {
+    var res = templateCompiler(performanceAwareCaller, templateUrlConverter, "template", templatecode, jsorjson, metadata, extensions, galleryUrl);
+    res.init();
+  });
+};
+
+}
 
 var templateCompiler = function(performanceAwareCaller, templateUrlConverter, templateName, templatecode, jsorjson, metadata, extensions, galleryUrl) {
   // we strip content before <html> tag and after </html> because jquery doesn't parse it.

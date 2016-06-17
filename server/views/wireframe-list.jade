@@ -12,6 +12,7 @@ block content
           th id
           th User
           th name
+          th markup?
       tbody
         each wireframe in data.wireframes
           tr
@@ -20,3 +21,4 @@ block content
             td
               a(href='/users/' + wireframe.userId )= wireframe.userId
             td= wireframe.name
+            td= wireframe.hasMarkup ? '' : 'NO'
