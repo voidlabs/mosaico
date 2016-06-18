@@ -119,8 +119,6 @@ var start = function(options, templateFile, templateMetadata, jsorjson, customEx
     }
   };
 
-  // BS – initialize simpleTranslationPlugin BEFORE addUndoStackExtensionMaker
-  // BS – addUndoStackExtensionMaker is dependent on translations
   // simpleTranslationPlugin must be before the undoStack to translate undo/redo labels
   var extensions = [simpleTranslationPlugin, addUndoStackExtensionMaker(performanceAwareCaller), colorPlugin];
   if (typeof customExtensions !== 'undefined')
@@ -143,6 +141,8 @@ var start = function(options, templateFile, templateMetadata, jsorjson, customEx
 
 };
 
+if (process.env.MOSAICO) {
+
 var initFromLocalStorage = function(options, hash_key, customExtensions) {
   try {
     var lsData = localStorageLoader(hash_key, options.emailProcessorBackend);
@@ -154,8 +154,6 @@ var initFromLocalStorage = function(options, hash_key, customExtensions) {
     console.error("TODO not found ", hash_key, e);
   }
 };
-
-if (process.env.MOSAICO) {
 
 var init = function(options, customExtensions) {
 
@@ -187,6 +185,9 @@ var init = function(opts, customExtensions) {
   console.log('BADSENDER – init')
   console.log(opts)
   var hash = global.location.hash ? global.location.href.split("#")[1] : undefined;
+
+  // enable server saving
+  customExtensions.push( require('./ext/server-storage') )
 
   // Loading from configured template or configured metadata
   if (opts && (opts.metadata || opts.data)) {
