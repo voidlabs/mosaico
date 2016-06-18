@@ -31,12 +31,7 @@ i18n.configure({
 })
 
 app.use(bodyParser.json({
-  limit: '5mb',
-  strict: false,
-  reviver: function (k, v) {
-    console.log(k, v, typeof v)
-    return v
-  }
+  limit: '5mb'
 }))
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   limit: '5mb',
