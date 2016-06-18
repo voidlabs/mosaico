@@ -69,6 +69,8 @@ var applyBindingOptions = function(options, ko) {
     ko.bindingHandlers.wysiwyg.fullOptions = options.tinymceConfigFull;
 };
 
+
+// start(opts, void(0), opts.metadata, void(0), customExtensions);
 var start = function(options, templateFile, templateMetadata, jsorjson, customExtensions) {
 
   templateLoader.fixPageEvents();
@@ -187,26 +189,27 @@ var init = function(opts, customExtensions) {
   var hash = global.location.hash ? global.location.href.split("#")[1] : undefined;
 
   // Loading from configured template or configured metadata
-  if (opts && (opts.template || opts.data)) {
+  if (opts && (opts.metadata || opts.data)) {
     // Put this in meta datas…
-    opts.template.urlConverter = function (url) {
+    // don't have access to options in templateLoader
+    opts.metadata.urlConverter = function (url) {
       url = url.replace('edres/', '')
-      console.log('URLCONVERTER')
-      console.log(url)
-      url = opts.imgProcessorBackend + opts.template.wireframeId  + '-' + url
-      console.log(url)
+      url = opts.imgProcessorBackend + opts.metadata.wireframeId  + '-' + url
       return url
     }
-    if (opts.data) {
-      console.log('loading CREATION')
-      var data = JSON.parse(opts.data);
-      start(opts, data.metadata, data.content, customExtensions);
-    } else {
-      console.log('loading EMPTY')
-      // function(opts, templateFile, templateMetadata, jsorjson, customExtensions)
-      start(opts, opts.template, void(0), customExtensions);
-    }
-    // Loading from LocalStorage (if url hash has a 7chars key)
+
+    start(opts, void(0), opts.metadata, void(0), customExtensions);
+
+    // if (opts.data) {
+    //   console.log('loading CREATION')
+    //   var data = JSON.parse(opts.data);
+    //   start(opts, void(0), data.metadata, data.content, customExtensions);
+    // } else {
+    //   console.log('loading EMPTY')
+    //   console.log(opts.template)
+    //   // function(opts, templateFile, templateMetadata, jsorjson, customExtensions)
+    //   start(opts, void(0), opts.template, void(0), customExtensions);
+    // }
   } else {
     return false;
   }

@@ -131,6 +131,8 @@ var _templateUrlConverter = function(basePath, url) {
   }
 };
 
+}
+
 if (process.env.MOSAICO) {
 
 var templateLoader = function(performanceAwareCaller, templateFileName, templateMetadata, jsorjson, extensions, galleryUrl) {
@@ -163,21 +165,21 @@ var templateLoader = function(performanceAwareCaller, templateFileName, template
 
 } else if (process.env.BADSENDER) {
 
-var templateLoader = function(performanceAwareCaller, templateMetadata, jsorjson, extensions, galleryUrl) {
+// keep function signatures
+// templateLoader.load(performanceAwareCaller, templateFile, templateMetadata, jsorjson, extensions, galleryUrl);
+var templateLoader = function(performanceAwareCaller, templateFileName, templateMetadata, jsorjson, extensions, galleryUrl) {
   console.info('TEMPLATE LOADER')
   console.log(templateMetadata)
-  var templateFile = templateMetadata.template;
-  var templatePath = "./";
-  var p = templateFile.lastIndexOf('/');
-  if (p != -1) {
-    templatePath = templateFile.substr(0, p + 1);
-  }
 
+  // Url converter is used only for preview images on left bar
   var templateUrlConverter = templateMetadata.urlConverter;
 
   var metadata  = templateMetadata;
 
-  $.get(templateFile, function(templatecode) {
+  // Keep XHR to load template.
+  // Don't want to output all the html in initialization
+  // Should handle errors
+  $.get(templateFileName, function(templatecode) {
     var res = templateCompiler(performanceAwareCaller, templateUrlConverter, "template", templatecode, jsorjson, metadata, extensions, galleryUrl);
     res.init();
   });
