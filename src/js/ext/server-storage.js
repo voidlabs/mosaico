@@ -26,10 +26,11 @@ var loader = function (viewModel) {
     console.info('SAVE DATA')
     console.log(data)
 
+    // force JSON for bodyparser to catch up
+    // => keep types server side
     $.ajax({
       url: window.location.href,
       method:       'POST',
-      // application/x-www-form-urlencoded
       contentType:  'application/json',
       data:         JSON.stringify(data),
       success:      onPostSuccess,

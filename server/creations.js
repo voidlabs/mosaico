@@ -40,7 +40,6 @@ function update(req, res, next) {
     res.status(501) // Not Implemented
     return next()
   }
-  console.log(req.user.id)
   var creationId  = req.params.creationId
   var dbRequest   = creationId ?
     Creations.findById(req.params.creationId)
@@ -52,11 +51,8 @@ function update(req, res, next) {
       res.status(404)
       return next()
     }
-    console.log(chalk.green('SAVE TO CREATION TO DB'))
-    console.log(util.inspect(creation, {depth: 5}))
     creation.wireframeId  = creation.wireframeId || req.body.wireframeId
     creation.userId       = creation.userId     || req.user.id
-    console.log(req.body.data)
     creation.data         = req.body.data
     // http://mongoosejs.com/docs/schematypes.html#mixed
     creation.markModified('data')

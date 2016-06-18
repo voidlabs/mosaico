@@ -73,7 +73,6 @@ app.use('/lib/skins', express.static( path.join(__dirname,'../res/vendor/skins')
 
 function logRequest(tokens, req, res) {
   if (/\/img\//.test(req.path)) return
-  console.log(req.headers['content-type'])
   var method  = tokens.method(req, res)
   var url     = tokens.url(req, res)
   return chalk.blue(method) + ' ' + chalk.grey(url)
@@ -119,16 +118,7 @@ app.use(function exposeDataToViews(req, res, next) {
     }, null, '  ')
   }
   app.locals._basePath = "//" + req.get('host')
-
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify#Issue_with_plain_JSON.stringify_for_use_as_JavaScript
-  app.locals.stringify = function (data) {
-    if (!data) return '{}'
-    console.log(data)
-    return JSON.stringify(data)
-      .replace(/\u2028/g, '\\u2028')
-      .replace(/\u2029/g, '\\u2029')
-  }
-  app.locals.stringifyDebug = function (data) {
+  app.locals.printJS = function (data) {
     return JSON.stringify(data, null, '  ')
   }
   next()

@@ -190,10 +190,6 @@ var init = function(opts, customExtensions) {
 
   // Loading from configured template or configured metadata
   if (opts && opts.metadata && opts.data) {
-    //
-    opts.metadata = JSON.parse(opts.metadata)
-    opts.data     = JSON.parse(opts.data)
-    // console.log(opts.data)
     // Put this in meta datas…
     // don't have access to options in templateLoader
     opts.metadata.urlConverter = function (url) {
@@ -202,7 +198,6 @@ var init = function(opts, customExtensions) {
       url = opts.imgProcessorBackend + opts.metadata.wireframeId  + '-' + url
       return url
     }
-    // console.info(opts.data)
     start(opts, void(0), opts.metadata, opts.data, customExtensions)
   } else {
     return false;

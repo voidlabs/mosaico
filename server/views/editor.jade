@@ -21,8 +21,8 @@ block head-content
       // plugins = [function(vm) {window.viewModel = vm;}];
       var ok = Badsender.init({
         strings:                !{data.translations},
-        metadata:               '!{stringify(data.meta)}',
-        data:                   '!{stringify(data.data)}',
+        metadata:               !{printJS(data.meta)},
+        data:                   !{printJS(data.data)},
         imgProcessorBackend:    basePath + '/img/',
         emailProcessorBackend:  basePath + '/dl/',
         titleToken:             'BADSENDER Responsive Email Designer',
