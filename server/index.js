@@ -30,10 +30,17 @@ i18n.configure({
   directory:      path.join( __dirname, './locales'),
 })
 
-app.use(bodyParser.json({limit: '5mb'}))
+app.use(bodyParser.json({
+  limit: '5mb',
+  strict: false,
+  reviver: function (k, v) {
+    console.log(k, v, typeof v)
+    return v
+  }
+}))
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   limit: '5mb',
-  extended: true
+  extended: true,
 }))
 app.use(compression())
 app.use(favicon(path.join(__dirname, '../favicon.png')))
@@ -66,6 +73,7 @@ app.use('/lib/skins', express.static( path.join(__dirname,'../res/vendor/skins')
 
 function logRequest(tokens, req, res) {
   if (/\/img\//.test(req.path)) return
+  console.log(req.headers['content-type'])
   var method  = tokens.method(req, res)
   var url     = tokens.url(req, res)
   return chalk.blue(method) + ' ' + chalk.grey(url)
@@ -112,7 +120,15 @@ app.use(function exposeDataToViews(req, res, next) {
   }
   app.locals._basePath = "//" + req.get('host')
 
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify#Issue_with_plain_JSON.stringify_for_use_as_JavaScript
   app.locals.stringify = function (data) {
+    if (!data) return '{}'
+    console.log(data)
+    return JSON.stringify(data)
+      .replace(/\u2028/g, '\\u2028')
+      .replace(/\u2029/g, '\\u2029')
+  }
+  app.locals.stringifyDebug = function (data) {
     return JSON.stringify(data, null, '  ')
   }
   next()

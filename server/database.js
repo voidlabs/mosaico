@@ -153,7 +153,7 @@ var CreationSchema    = Schema({
     type: String,
   },
   // http://mongoosejs.com/docs/schematypes.html#mixed
-  templateDatas: { },
+  data: { },
 
 }, { timestamps: true })
 
@@ -178,10 +178,28 @@ CreationSchema.virtual('changed').get(function () {
   return this.updatedAt.getTime()
 })
 
+CreationSchema.virtual('mosaico').get(function () {
+  var mosaicoEditorData = {
+    meta: {
+      id:           this._id,
+      wireframeId:  this.wireframeId,
+      template:     wireframeLoadingUrl(this.wireframeId),
+    },
+    data: this.data,
+  }
+  return mosaicoEditorData
+})
+
 CreationSchema.statics.getBlank = function (wireframeId) {
   return {
-    wireframeId:  wireframeId,
-    template:     wireframeLoadingUrl(wireframeId),
+    // simulate virtual mosaico key
+    mosaico: {
+      meta: {
+        wireframeId:  wireframeId,
+        template:     wireframeLoadingUrl(wireframeId),
+      },
+      data: { },
+    }
   }
 }
 

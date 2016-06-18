@@ -1,29 +1,65 @@
 'use strict'
 
 var console = require('console')
+var $       = require('jquery')
+var ko      = require('knockout')
+var _omit   = require('lodash.omit')
+
+function getData(viewModel) {
+  // gather meta
+  // remove keys that aren't necessary to update
+  var datas  = _omit(ko.toJS(viewModel.metadata), ['urlConverter', 'template'])
+  datas.data = viewModel.exportJS()
+  return datas
+}
 
 var loader = function (viewModel) {
-  // console.log("loading from metadata", md, model);
+  console.info('init server storage')
+
   var saveCmd = {
     name: 'Save', // l10n happens in the template
     enabled: ko.observable(true)
   };
   saveCmd.execute = function() {
-    console.info('SAVE')
     saveCmd.enabled(false);
-    // viewModel.metadata.changed = Date.now();
-    // if (typeof viewModel.metadata.key == 'undefined') {
-    //   console.warn("Unable to find ket in metadata object...", viewModel.metadata);
-    //   viewModel.metadata.key = mdkey;
-    // }
-    // global.localStorage.setItem("metadata-" + mdkey, viewModel.exportMetadata());
-    // global.localStorage.setItem("template-" + mdkey, viewModel.exportJSON());
-    saveCmd.enabled(true);
-  };
+    var data = getData(viewModel)
+    console.info('SAVE DATA')
+    console.log(data)
+
+    $.ajax({
+      url: window.location.href,
+      method:       'POST',
+      // application/x-www-form-urlencoded
+      contentType:  'application/json',
+      data:         JSON.stringify(data),
+      success:      onPostSuccess,
+      error:        onPostError,
+      complete:     onPostComplete,
+    })
+
+    function onPostSuccess(data, textStatus, jqXHR) {
+      console.log('save success')
+      if (data.meta.redirect) {
+        history.replaceState({}, 'editor', data.meta.redirect)
+      }
+      viewModel.notifier.success(viewModel.t("Creation has been saved"))
+    }
+
+    function onPostError(jqXHR, textStatus, errorThrown) {
+      console.log('save error')
+      console.log(errorThrown)
+      viewModel.notifier.error(viewModel.t("Save errir"))
+    }
+
+    function onPostComplete() {
+      saveCmd.enabled(true);
+    }
+  }
+
   var testCmd = {
     name: 'Test', // l10n happens in the template
     enabled: ko.observable(true)
-  };
+  }
   testCmd.execute = function() {
     console.info('TEST')
     testCmd.enabled(false)

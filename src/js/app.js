@@ -70,7 +70,6 @@ var applyBindingOptions = function(options, ko) {
 };
 
 
-// start(opts, void(0), opts.metadata, void(0), customExtensions);
 var start = function(options, templateFile, templateMetadata, jsorjson, customExtensions) {
 
   templateLoader.fixPageEvents();
@@ -183,34 +182,28 @@ var init = function(options, customExtensions) {
 
 var init = function(opts, customExtensions) {
   console.log('BADSENDER – init')
-  console.log(opts)
+  console.log(opts.data)
   var hash = global.location.hash ? global.location.href.split("#")[1] : undefined;
 
   // enable server saving
   customExtensions.push( require('./ext/server-storage') )
 
   // Loading from configured template or configured metadata
-  if (opts && (opts.metadata || opts.data)) {
+  if (opts && opts.metadata && opts.data) {
+    //
+    opts.metadata = JSON.parse(opts.metadata)
+    opts.data     = JSON.parse(opts.data)
+    // console.log(opts.data)
     // Put this in meta datas…
     // don't have access to options in templateLoader
     opts.metadata.urlConverter = function (url) {
+      // remove edres to keep toolbox.tmpl.html unmodify
       url = url.replace('edres/', '')
       url = opts.imgProcessorBackend + opts.metadata.wireframeId  + '-' + url
       return url
     }
-
-    start(opts, void(0), opts.metadata, void(0), customExtensions);
-
-    // if (opts.data) {
-    //   console.log('loading CREATION')
-    //   var data = JSON.parse(opts.data);
-    //   start(opts, void(0), data.metadata, data.content, customExtensions);
-    // } else {
-    //   console.log('loading EMPTY')
-    //   console.log(opts.template)
-    //   // function(opts, templateFile, templateMetadata, jsorjson, customExtensions)
-    //   start(opts, void(0), opts.template, void(0), customExtensions);
-    // }
+    // console.info(opts.data)
+    start(opts, void(0), opts.metadata, opts.data, customExtensions)
   } else {
     return false;
   }

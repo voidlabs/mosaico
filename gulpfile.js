@@ -154,8 +154,6 @@ var debowerify  = require('debowerify')
 var envify      = require('envify/custom')
 var watchify    = require('watchify')
 
-
-
 gulp.task('app', ['templates'], function () {
   var b = browserify({
     cache:        {},
@@ -174,7 +172,6 @@ gulp.task('app', ['templates'], function () {
   })
   b.transform(shim)
   b.transform(debowerify)
-
   b.transform(envify({
     _: 'purge',
     NODE_ENV:   env,
@@ -185,9 +182,9 @@ gulp.task('app', ['templates'], function () {
   if (isWatch) {
     b = watchify(b);
     b.on('update', function () {
-      $.util.log('bundle front app');
-      bundleShare(b);
-    });
+      $.util.log('bundle front app')
+      bundleShare(b)
+    })
   }
 
   return bundleShare(b);
@@ -196,6 +193,7 @@ gulp.task('app', ['templates'], function () {
 
 function bundleShare(b) {
   return b.bundle()
+    .on('error', onError)
     .pipe(source('badsender.js'))
     .pipe(vinylBuffer())
     .pipe($.if(!isDev, $.uglify()))
