@@ -101,6 +101,8 @@ var render      = require('./render')
 var users       = require('./users')
 var wireframes  = require('./wireframes')
 var creations   = require('./creations')
+var filemanager = require('./filemanager')
+var guard       = session.guard
 
 // expose configuration to views
 app.use(function exposeDataToViews(req, res, next) {
@@ -128,7 +130,7 @@ app.use(function exposeDataToViews(req, res, next) {
 // app.get('/resize/:imageName',  images.getOriginal)
 // app.get('/cover/:imageName',   images.getOriginal)
 
-app.get('/img/:imageName',  images.getOriginal)
+app.get('/img/:imageName',  filemanager.read)
 app.get('/img/',            images.getResized)
 app.get('/upload/',         upload.get)
 app.post('/upload/',        upload.post)
@@ -157,16 +159,16 @@ app.use(function(req, res, next) {
 //----- ADMIN
 
 // connection
-app.get('/admin/login',                       render.adminLogin)
 app.post('/admin/login', session.authenticate('local', {
   successRedirect: '/admin',
   failureRedirect: '/admin/login',
   failureFlash:     true,
   successFlash:     true,
 }))
-app.get('/admin',                             session.guard('admin'), users.list)
+app.get('/admin/login',                       render.adminLogin)
+app.get('/admin',                             guard('admin'), users.list)
 
-app.all('/users*',                            session.guard('admin'))
+app.all('/users*',                            guard('admin'))
 // users' wireframes
 app.get('/users/:userId/wireframe/:wireId?',  wireframes.show)
 app.post('/users/:userId/wireframe/:wireId?', wireframes.update)
@@ -177,18 +179,18 @@ app.get('/users/list',                        users.list)
 app.get('/users/:userId?',                    users.show)
 app.post('/users/:userId?',                   users.update)
 
-app.get('/wireframes',                        session.guard('admin'), wireframes.list)
+app.get('/wireframes',                        guard('admin'), wireframes.list)
 // xhr template. Check user
-app.get('/wireframes/:wireId/markup',         session.guard('user'), wireframes.getMarkup)
+app.get('/wireframes/:wireId/markup',         guard('user'), wireframes.getMarkup)
 
 //----- PUBLIC
 
-app.get('/login',                 render.login)
-app.post('/login',                session.authenticate('local', {
+app.post('/login', session.authenticate('local', {
   successRedirect: '/',
   failureRedirect: '/login',
   failureFlash:     true,
 }))
+app.get('/login',                 render.login)
 app.get('/logout',                session.logout)
 app.get('/forgot',                render.forgot)
 app.post('/forgot',               users.userResetPassword)
@@ -197,11 +199,12 @@ app.post('/password/:token',      users.setPassword)
 
 //----- USER
 
-app.post('/dl/',                  session.guard('user'), download.post)
-app.all('/editor*',               session.guard('user'))
-app.get('/editor/:creationId?',   creations.show)
-app.post('/editor/:creationId?',  creations.update)
-app.get('/',                      session.guard('user'), creations.list)
+app.post('/dl/',                       guard('user'), download.post)
+app.all('/editor*',                    guard('user'))
+app.get('/editor/:creationId/delete',  creations.update)
+app.get('/editor/:creationId?',        creations.show)
+app.post('/editor/:creationId?',       creations.update)
+app.get('/',                           guard('user'), creations.list)
 
 //////
 // ERROR HANDLING

@@ -1,36 +1,14 @@
 'use strict';
 
-var fs      = require('fs');
-var url     = require('url');
-var path    = require('path');
-var gm      = require('gm').subClass({imageMagick: true});
-var AWS     = require('aws-sdk');
+var fs          = require('fs');
+var url         = require('url');
+var path        = require('path');
+var gm          = require('gm').subClass({imageMagick: true});
 
-var config  = require('./config');
+var config      = require('./config')
+var filemanager = require('./filemanager')
+var streamImage = filemanager.streamImage
 
-if (config.isAws) {
-  AWS.config.update(config.storage.aws);
-  var s3    = new AWS.S3();
-}
-
-function streamImage(imageName) {
-  if (!config.isAws) {
-    var imagePath = path.join(config.images.uploadDir, imageName);
-    return fs.createReadStream(imagePath);
-  }
-  // http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-examples.html#Amazon_Simple_Storage_Service__Amazon_S3_
-  return s3
-    .getObject({
-      Bucket: config.storage.aws.bucketName,
-      Key:    imageName
-    })
-    .createReadStream()
-    .on('error', function (err) {
-      // local not found
-      if (err.code === 'ENOENT') return
-      console.log(err);
-    });
-}
 
 // this is the entry point for any images assets
 // - generate a placeholder
@@ -97,16 +75,6 @@ function getResized(req, res, next) {
   }
 }
 
-function getOriginal(req, res, next) {
-  return streamImage(req.params.imageName)
-    .on('error', function (err) {
-      if (err.code === 'ENOENT') err.status = 404
-      next(err)
-    })
-    .pipe(res);
-}
-
 module.exports = {
-  getResized:   getResized,
-  getOriginal:  getOriginal,
+  getResized:   getResized
 }
