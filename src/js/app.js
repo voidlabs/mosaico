@@ -200,6 +200,7 @@ var init = function(opts, customExtensions) {
   customExtensions.push(function setEditorIcon(viewModel) {
     viewModel.logoPath  = '/media/editor-icon.png'
     viewModel.logoUrl   = '/'
+    viewModel.logoAlt   = 'Badsender'
   })
 
   // Loading from configured template or configured metadata
