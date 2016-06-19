@@ -166,7 +166,6 @@ var templateLoader = function(performanceAwareCaller, templateFileName, template
 } else if (process.env.BADSENDER) {
 
 // keep function signatures
-// templateLoader.load(performanceAwareCaller, templateFile, templateMetadata, jsorjson, extensions, galleryUrl);
 var templateLoader = function(performanceAwareCaller, templateFileName, templateMetadata, jsorjson, extensions, galleryUrl) {
   console.info('TEMPLATE LOADER')
   console.log(templateMetadata)

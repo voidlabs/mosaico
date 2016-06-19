@@ -20,12 +20,16 @@ var localStorageLoader = require("./ext/localstorage.js");
 if (typeof ko == 'undefined') throw "Cannot find knockout.js library!";
 if (typeof $ == 'undefined') throw "Cannot find jquery library!";
 
+if (process.env.MOSAICO) {
+
 function _canonicalize(url) {
   var div = global.document.createElement('div');
   div.innerHTML = "<a></a>";
   div.firstChild.href = url; // Ensures that the href is properly escaped
   div.innerHTML = div.innerHTML; // Run the current innerHTML back through the parser
   return div.firstChild.href;
+}
+
 }
 
 var applyBindingOptions = function(options, ko) {
@@ -180,13 +184,22 @@ var init = function(options, customExtensions) {
 
 } else if (process.env.BADSENDER) {
 
+// FLOW:
+// => init
+// => start
+// => templateLoader: Ajax datas
+// => templateCompiler: Initialize viewmodel & apply plugins
+
 var init = function(opts, customExtensions) {
   console.log('BADSENDER – init')
   console.log(opts.data)
-  var hash = global.location.hash ? global.location.href.split("#")[1] : undefined;
 
   // enable server saving
   customExtensions.push( require('./ext/server-storage') )
+  // fix icon
+  customExtensions.push(function setEditorIcon(viewModel) {
+    viewModel.logoPath = '/media/editor-icon.png'
+  })
 
   // Loading from configured template or configured metadata
   if (opts && opts.metadata && opts.data) {
