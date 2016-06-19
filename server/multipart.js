@@ -33,7 +33,25 @@ function parse(req) {
   })
 }
 
+function imageToFields(fields, file) {
+  if (file.size === 0) return
+  if (!file.name) return
+  fields.images = fields.images || []
+  fields.images.push(file.name)
+}
+
 function handleUploads(fields, files, resolve) {
+  //----- IMAGES
+  // we want to store any images that have been uploaded on the current model
+
+  if (files.images) {
+    if (Array.isArray(files.images)) {
+      files.images.forEach( file => imageToFields(fields, file) )
+    } else {
+      imageToFields(fields, files.images)
+    }
+  }
+
   //----- MARKUP
   if (files.markup && files.markup.name) {
     // read content from file system

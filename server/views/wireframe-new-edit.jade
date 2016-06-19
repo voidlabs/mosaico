@@ -33,16 +33,25 @@ block content
         if errors.markup
           p= errors.markup.message
         label
-          div Preview Images <small>(edres)</small>
-          input(type="file" accept=".png,.gif,.jpg" multiple name="edres")
+          div Images
+          input(type="file" accept=".png,.gif,.jpg" multiple name="images")
 
     if isEdit
       if wireframe.hasMarkup
-        details
-          summary show markup
-          pre= wireframe.markup
+        div
+          details
+            summary show markup
+            pre= wireframe.markup
+
+          a(href='/wireframes/' + wireframe._id + '/markup') download markup
       else
         p ! NO MARKUP <br> fix this by uploading a new html file
+
+      if wireframe.images.length
+        h3 images
+        ul
+          for image in wireframe.images
+            li: a(href='/img/' + image)= image
 
     button(type="submit") submit
     if isEdit

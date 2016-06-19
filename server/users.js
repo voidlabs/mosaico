@@ -4,7 +4,7 @@ var config                  = require('./config')
 var DB                      = require('./database')
 var Users                   = DB.Users
 var Wireframes              = DB.Wireframes
-var handleValidationErrors  = DB.handleValidationErrors
+var handleValidatorsErrors  = DB.handleValidatorsErrors
 
 function list(req, res, next) {
   Users
@@ -47,16 +47,7 @@ function update(req, res, next) {
   .then(function (user) {
     res.redirect(`/users/${user._id}`)
   })
-  .catch(onError)
-
-  function onError(err) {
-    handleValidationErrors(err)
-    .then(function (errorMessages) {
-      req.flash('error', errorMessages)
-      res.redirect(req.path)
-    })
-    .catch(next)
-  }
+  .catch(err => handleValidatorsErrors(err, req, res, next) )
 }
 
 function remove(req, res, next) {

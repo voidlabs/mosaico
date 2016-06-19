@@ -1,5 +1,6 @@
 'use strict'
 
+var _                       = require('lodash')
 var chalk                   = require('chalk')
 
 var config                  = require('./config')
@@ -7,7 +8,7 @@ var multipart               = require('./multipart')
 var DB                      = require('./database')
 var Wireframes              = DB.Wireframes
 var Creations               = DB.Creations
-var handleValidationErrors  = DB.handleValidationErrors
+var handleValidatorsErrors  = DB.handleValidatorsErrors
 
 function list(req, res, next) {
   Wireframes
@@ -32,21 +33,33 @@ function show(req, res, next) {
 }
 
 function getMarkup(req, res, next) {
-  // TODO control if user is authorized
   Wireframes
-  .findById(req.params.wireId, 'markup')
-  .then(function (wireframe) {
-    if (!wireframe.markup) return res.status(404).send('not found')
-    res.send(wireframe.markup)
-  })
+  .findById(req.params.wireId)
+  .then(onWireframe)
   .catch(next)
+
+  function onWireframe(wireframe) {
+    var isAuthorized = req.user.isAdmin || wireframe.userId === req.user.id
+    if (!isAuthorized) {
+      res.status(401)
+      return next()
+    }
+    if (!wireframe.markup) {
+      res.status(404)
+      return next()
+    }
+    if (req.xhr) return res.send(wireframe.markup)
+    // let download content
+    res.setHeader('Content-disposition', 'attachment; filename=' + wireframe.name + '.html')
+    res.setHeader('Content-type', 'text/html')
+    res.write(wireframe.markup)
+    return res.end()
+  }
 }
 
 function update(req, res, next) {
   var wireId    = req.params.wireId
   var userId    = req.params.userId
-  console.log('new-update')
-  console.log(req.body)
 
   multipart
   .parse(req)
@@ -54,30 +67,33 @@ function update(req, res, next) {
   .catch(next)
 
   function onParse(body) {
+    // as of now ./multipart return both files & fields
+    body = body.fields
     console.log('files success')
     var dbRequest = wireId ?
-      Wireframes.findByIdAndUpdate(wireId, body.fields, {runValidators: true})
-      : new Wireframes(body.fields).save()
+      Wireframes.findById(wireId)
+      : Promise.resolve(new Wireframes())
 
     dbRequest
     .then(function (wireframe) {
-      // don't use req.path: need to redirect new wireframes to their page
+      // custom update function
+      wireframe         = _.assignIn(wireframe, _.omit(body, ['images']))
+      // merge images array
+      // could be done in `images setter`
+      // but won't be able to remove files…
+      wireframe.images  = _.isArray(wireframe.images) ?
+        wireframe.images.concat(body.images)
+        : body.images
+      wireframe.images = _.compact( _.uniq(wireframe.images) ).sort()
+      return wireframe.save()
+    })
+    .then(function (wireframe) {
       return res.redirect(`/users/${userId}/wireframe/${wireframe._id}`)
     })
-    .catch(onError)
-  }
-
-  function onError(err) {
-    return handleValidationErrors(err)
-    .then(function (errorMessages) {
-      req.flash('error', errorMessages)
-      res.redirect(req.path)
-    })
-    .catch(next)
+    .catch(err => handleValidatorsErrors(err, req, res, next))
   }
 }
 
-// Model.find().remove().exec()
 function remove(req, res, next) {
   var wireframeId = req.params.wireId
   console.log('REMOVE WIREFRAME', wireframeId)

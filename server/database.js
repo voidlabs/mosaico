@@ -131,7 +131,9 @@ var WireframeSchema    = Schema({
   },
   markup: {
     type:       String,
-    // not required : we need it only on second save
+  },
+  images: {
+    type:       [],
   },
 }, { timestamps: true })
 
@@ -243,6 +245,16 @@ function handleValidationErrors(err) {
   return Promise.reject(err)
 }
 
+// take care of everything
+function handleValidatorsErrors(err, req, res, next) {
+  handleValidationErrors()
+  .then(function (errorMessages) {
+    req.flash('error', errorMessages)
+    res.redirect(req.path)
+  })
+  .catch(next)
+}
+
 //////
 // EXPORTS
 //////
@@ -253,4 +265,5 @@ module.exports    = {
   Wireframes:             WireframeModel,
   Creations:              CreationModel,
   handleValidationErrors: handleValidationErrors,
+  handleValidatorsErrors: handleValidatorsErrors,
 }
