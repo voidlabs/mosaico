@@ -37,8 +37,16 @@ block content
           input(type="file" accept=".png" multiple name="edres")
 
     if isEdit
-      details
-        summary show markup
-        pre= wireframe.markup
+      if wireframe.hasMarkup
+        details
+          summary show markup
+          pre= wireframe.markup
+      else
+        p ! NO MARKUP <br> fix this by uploading a new html file
 
     button(type="submit") submit
+    if isEdit
+      - var deleteUrl = '/wireframes/' + wireframe._id + '/delete'
+      - deleteUrl = deleteUrl + '?redirect=/users/' + data.userId
+      p deleting a wireframe will also remove every creations using this one
+      h4: a(href=deleteUrl) delete

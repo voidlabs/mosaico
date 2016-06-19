@@ -6,6 +6,7 @@ var config                  = require('./config')
 var multipart               = require('./multipart')
 var DB                      = require('./database')
 var Wireframes              = DB.Wireframes
+var Creations               = DB.Creations
 var handleValidationErrors  = DB.handleValidationErrors
 
 function list(req, res, next) {
@@ -13,20 +14,6 @@ function list(req, res, next) {
   .find({})
   .then(function (wireframes) {
     res.render('wireframe-list', {
-      data: { wireframes: wireframes, }
-    })
-  })
-  .catch(next)
-}
-
-function listHome(req, res, next) {
-  var isAdmin = req.user.isAdmin
-  var request = isAdmin ? {} : {userId: req.user.id}
-
-  Wireframes
-  .find(request)
-  .then(function (wireframes) {
-    res.render('home', {
       data: { wireframes: wireframes, }
     })
   })
@@ -90,13 +77,32 @@ function update(req, res, next) {
   }
 }
 
+// Model.find().remove().exec()
 function remove(req, res, next) {
+  var wireframeId = req.params.wireId
+  console.log('REMOVE WIREFRAME', wireframeId)
+  Creations
+  .find({wireframeId: wireframeId})
+  .then(function (creations) {
+    console.log(creations.length, 'to remove')
+    creations = creations.map(function (creation) {
+      creation.remove()
+    })
+    return Promise.all(creations)
+  })
+  .then(function (deletedCreations) {
+    return Wireframes.findOneAndRemove(wireframeId)
+  })
+  .then(function (deletedWireframe) {
+    res.redirect(req.query.redirect)
+  })
+  .catch(next)
 }
 
 module.exports = {
   list:       list,
   show:       show,
   update:     update,
-  listHome:   listHome,
+  remove:     remove,
   getMarkup:  getMarkup,
 }

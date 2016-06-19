@@ -181,6 +181,7 @@ app.post('/users/:userId?',                   users.update)
 
 app.get('/wireframes',                        guard('admin'), wireframes.list)
 // xhr template. Check user
+app.get('/wireframes/:wireId/delete',         guard('admin'), wireframes.remove)
 app.get('/wireframes/:wireId/markup',         guard('user'), wireframes.getMarkup)
 
 //----- PUBLIC
