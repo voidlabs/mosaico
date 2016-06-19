@@ -161,7 +161,7 @@ gulp.task('app', ['templates'], function () {
     debug:        true,
     entries:      ['./src/js/app.js', './build/templates.js'],
     standalone:   'Badsender',
-  });
+  })
 
   b.transform(aliasify, {
     "aliases": {

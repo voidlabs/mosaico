@@ -4,6 +4,7 @@ var console = require('console')
 var $       = require('jquery')
 var ko      = require('knockout')
 var _omit   = require('lodash.omit')
+var isEmail = require('validator/lib/isEmail')
 
 function getData(viewModel) {
   // gather meta
@@ -38,6 +39,8 @@ var loader = function (viewModel) {
       complete:     onPostComplete,
     })
 
+    // use callback for easier jQuery updates
+    // => Deprecation notice for .success(), .error(), and .complete()
     function onPostSuccess(data, textStatus, jqXHR) {
       console.log('save success')
       if (data.meta.redirect) {
@@ -66,33 +69,47 @@ var loader = function (viewModel) {
     testCmd.enabled(false)
     // var email = global.localStorage.getItem("testemail");
     // if (email === null || email == 'null') email = viewModel.t('Insert here the recipient email address');
-    // email = global.prompt(viewModel.t("Test email address"), email);
-    // if (email.match(/@/)) {
-    //   global.localStorage.setItem("testemail", email);
-    //   console.log("TODO testing...", email);
-    //   var postUrl = emailProcessorBackend ? emailProcessorBackend : '/dl/';
-    //   var post = $.post(postUrl, {
-    //     action: 'email',
-    //     rcpt: email,
-    //     subject: "[test] " + mdkey + " - " + mdname,
-    //     html: viewModel.exportHTML()
-    //   }, null, 'html');
-    //   post.fail(function() {
-    //     console.log("fail", arguments);
-    //     viewModel.notifier.error(viewModel.t('Unexpected error talking to server: contact us!'));
-    //   });
-    //   post.success(function() {
-    //     console.log("success", arguments);
-    //     viewModel.notifier.success(viewModel.t("Test email sent..."));
-    //   });
-    //   post.always(function() {
-    //     testCmd.enabled(true);
-    //   });
-    // } else {
-    //   global.alert(viewModel.t('Invalid email address'));
-    //   testCmd.enabled(true);
-    // }
-    testCmd.enabled(true)
+    var email = viewModel.t('Insert here the recipient email address')
+    email     = global.prompt(viewModel.t("Test email address"), email)
+
+    if (!isEmail(email)) {
+      global.alert(viewModel.t('Invalid email address'));
+      return testCmd.enabled(true)
+    }
+
+    console.log("TODO testing...", email)
+
+    var metadata = ko.toJS(viewModel.metadata)
+
+    var datas   = {
+      action:   'email',
+      rcpt:     email,
+      subject:  '[test] ' + metadata.id,
+      html:     viewModel.exportHTML()
+    }
+    $.ajax({
+      url:          /dl/,
+      method:       'POST',
+      data:         datas,
+      success:      onTestSuccess,
+      error:        onTestError,
+      complete:     onTestComplete,
+    })
+
+    function onTestSuccess(data, textStatus, jqXHR) {
+      console.log('test success')
+      viewModel.notifier.success(viewModel.t("Test email sent..."))
+    }
+
+    function onTestError(jqXHR, textStatus, errorThrown) {
+      console.log('test error')
+      console.log(errorThrown)
+      viewModel.notifier.error(viewModel.t('Unexpected error talking to server: contact us!'))
+    }
+
+    function onTestComplete() {
+      saveCmd.enabled(true);
+    }
   }
 
   var downloadCmd = {
