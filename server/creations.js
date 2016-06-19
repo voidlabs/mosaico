@@ -84,12 +84,16 @@ function update(req, res, next) {
 }
 
 function remove(req, res, next) {
+  var creationId  = req.params.creationId
+  Creations
+  .findOneAndRemove(creationId)
+  .then( function () { res.redirect('/')} )
+  .catch(next)
 }
-
 
 module.exports = {
   list:               list,
   show:               show,
   update:             update,
-  delete:             remove,
+  remove:             remove,
 }

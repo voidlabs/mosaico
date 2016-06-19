@@ -56,7 +56,7 @@ block content
                 td: span= formatDate(creation.updatedAt)
                 td
                   a.operationButton(href=editUrl title="edit"):  i.fa.fa-pencil
-                  a.operationButton(href="#" title="delete"): i.fa.fa-trash-o
+                  a.operationButton(href=editUrl + '/delete' title="delete"): i.fa.fa-trash-o
 
     footer
       .subscribe

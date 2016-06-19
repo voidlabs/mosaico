@@ -139,7 +139,7 @@ app.post('/upload/',        upload.post)
 // no cookies yet -> show popup
 var formID = {
   fr: 's0g1Mkw0TkrRNTdISdM1MTc31rU0STXSNTUxtjBISjG1NEhKBgA',
-  en: 'MzcyTTU1NTDXTU1NSdM1MTc10E1MMTTSTTJOMjNKM0g0MbA0BQA'
+  en: 'MzcyTTU1NTDXTU1NSdM1MTc10E1MMTTSTTJOMjNKM0g0MbA0BQA',
 }
 app.use(function(req, res, next) {
   res.locals.formID = req.cookies.badsenderContact ? false : formID[res.getLocale()]
@@ -201,7 +201,7 @@ app.post('/password/:token',      users.setPassword)
 
 app.post('/dl/',                       guard('user'), download.post)
 app.all('/editor*',                    guard('user'))
-app.get('/editor/:creationId/delete',  creations.update)
+app.get('/editor/:creationId/delete',  creations.remove)
 app.get('/editor/:creationId?',        creations.show)
 app.post('/editor/:creationId?',       creations.update)
 app.get('/',                           guard('user'), creations.list)
