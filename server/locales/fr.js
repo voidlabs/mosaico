@@ -4,7 +4,7 @@
 		"saved": {
 			"notification": "Vous avez des éléments sauvegardés dans votre navigateur !",
 			"show": "afficher",
-			"caption": "Liste des Emails sauvegardés dans votre navigateur",
+			"caption": "Liste des Emails sauvegardés",
 			"hide": "masquer",
 			"name": "nom",
 			"created": "créé le",

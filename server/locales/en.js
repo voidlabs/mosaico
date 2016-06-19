@@ -4,7 +4,7 @@
 		"saved": {
 			"notification": "You have saved contents in this browser!",
 			"show": "show",
-			"caption": "Email contents saved in your browser",
+			"caption": "Email contents saved",
 			"hide": "hide",
 			"name": "name",
 			"created": "created",

@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 var path          = require('path')
 var chalk         = require('chalk')
@@ -10,6 +10,7 @@ var favicon       = require('serve-favicon')
 var errorHandler  = require('express-error-handler')
 var cookieParser  = require('cookie-parser')
 var i18n          = require('i18n')
+var moment        = require('moment')
 
 var config        = require('./config')
 var session       = require('./session')
@@ -93,13 +94,13 @@ app.use(morgan(logResponse))
 // ROUTING
 //////
 
-var upload      = require('./upload');
-var download    = require('./download');
-var images      = require('./images');
-var render      = require('./render');
-var users       = require('./users');
-var wireframes  = require('./wireframes');
-var creations   = require('./creations');
+var upload      = require('./upload')
+var download    = require('./download')
+var images      = require('./images')
+var render      = require('./render')
+var users       = require('./users')
+var wireframes  = require('./wireframes')
+var creations   = require('./creations')
 
 // expose configuration to views
 app.use(function exposeDataToViews(req, res, next) {
@@ -115,6 +116,10 @@ app.use(function exposeDataToViews(req, res, next) {
   app.locals._basePath = "//" + req.get('host')
   app.locals.printJS = function (data) {
     return JSON.stringify(data, null, '  ')
+  }
+  app.locals.formatDate = function formatDate(data) {
+    var formatedDate = moment(data).format('DD/MM/YYYY HH:mm');
+    return formatedDate === 'Invalid date' ? '' : formatedDate;
   }
   next()
 })
@@ -149,7 +154,6 @@ app.use(function(req, res, next) {
   next()
 })
 
-
 //----- ADMIN
 
 // connection
@@ -175,7 +179,7 @@ app.post('/users/:userId?',                   users.update)
 
 app.get('/wireframes',                        session.guard('admin'), wireframes.list)
 // xhr template. Check user
-app.get('/wireframes/:wireId/markup',         session.guard('admin'), wireframes.getMarkup)
+app.get('/wireframes/:wireId/markup',         session.guard('user'), wireframes.getMarkup)
 
 //----- PUBLIC
 
@@ -191,17 +195,13 @@ app.post('/forgot',               users.userResetPassword)
 app.get('/password/:token',       render.reset)
 app.post('/password/:token',      users.setPassword)
 
-// userId in session
+//----- USER
+
+app.post('/dl/',                  session.guard('user'), download.post)
 app.all('/editor*',               session.guard('user'))
 app.get('/editor/:creationId?',   creations.show)
 app.post('/editor/:creationId?',  creations.update)
-
-//----- USER
-
-// creations list
-// editor should be moved here
-app.post('/dl/',                  session.guard('user'), download.post)
-app.get('/',                      session.guard('user'), wireframes.listHome)
+app.get('/',                      session.guard('user'), creations.list)
 
 //////
 // ERROR HANDLING

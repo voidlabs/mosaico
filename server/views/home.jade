@@ -31,9 +31,40 @@ block content
                 a(href='/editor?wireframeId=' + wireframe._id)
                   img(src=wireframe.imgPath + '_full.png' width="100%" alt="xx")
 
+    if !data.creations.length
+      p no saved content
+    else
+      div.table-container
+        table#savedTable
+          caption= __('home.saved.caption')
+          thead: tr
+            th Id
+            //- th= __('home.saved.name')
+            th= __('home.saved.created')
+            th= __('home.saved.last-change')
+            th= __('home.saved.operations')
+          tbody(data-bind="foreach: edits")
+            each creation in data.creations
+              - var editUrl = '/editor/' + creation._id;
+              tr
+                td: a(href=editUrl): code
+                  | #
+                  span()= creation._id
+                //- td: a(href="#")
+                //-   span versamix
+                td: span= formatDate(creation.createdAt)
+                td: span= formatDate(creation.updatedAt)
+                td
+                  a.operationButton(href=editUrl title="edit"):  i.fa.fa-pencil
+                  a.operationButton(href="#" title="delete"): i.fa.fa-trash-o
+
     footer
       .subscribe
         a(href="http://agency.badsender.com/production/email-builder/")= __('home.more-info')
       .footer
         | Badsender.com -
         |  #{__('home.footer.rights')}
+
+    footer(style="background: #eee; text-align: left")
+      pre= JSON.stringify(data, null, '  ')
+      pre= _debug

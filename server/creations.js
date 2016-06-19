@@ -1,6 +1,6 @@
 'use strict'
 
-var _assign     = require('lodash.assign')
+var _           = require('lodash')
 var chalk       = require('chalk')
 var util        = require('util')
 
@@ -16,6 +16,22 @@ var translations = {
 }
 
 function list(req, res, next) {
+  var isAdmin         = req.user.isAdmin
+  // var wireframeQuery  = isAdmin ? {} : {userId: req.user.id}
+
+  var wireframesRequest = Wireframes.find(isAdmin ? {} : {userId: req.user.id})
+  var creationsRequest  = Creations.find({userId: req.user.id})
+
+  Promise.all([wireframesRequest, creationsRequest])
+  .then(function (datas) {
+    res.render('home', {
+      data: {
+        wireframes: datas[0],
+        creations:  datas[1],
+      }
+    })
+  })
+  .catch(next)
 }
 
 function show(req, res, next) {
@@ -30,7 +46,7 @@ function show(req, res, next) {
   dbRequest
   .then(function (creation) {
     console.log(util.inspect(creation.mosaico, {depth: 5}))
-    res.render('editor', { data: _assign({}, data, creation.mosaico) })
+    res.render('editor', { data: _.assign({}, data, creation.mosaico) })
   })
   .catch(next)
 }
