@@ -58,8 +58,6 @@ app.set('view engine', 'jade')
 app.use(express.static( path.join(__dirname, '../dist') ))
 // commited assets
 app.use(express.static( path.join(__dirname, '../res') ))
-// editor's templates
-app.use('/templates', express.static( path.join(__dirname, '../templates') ))
 // tinymce skin
 app.use('/lib/skins', express.static( path.join(__dirname,'../res/vendor/skins') ))
 
@@ -104,9 +102,19 @@ var creations   = require('./creations')
 var filemanager = require('./filemanager')
 var guard       = session.guard
 
-// expose configuration to views
+//----- EXPOSE DATAS TO VIEWS
+
+app.locals._config  = config
+app.locals.printJS = function (data) {
+  return JSON.stringify(data, null, '  ')
+}
+app.locals.formatDate = function formatDate(data) {
+  var formatedDate = moment(data).format('DD/MM/YYYY HH:mm')
+  return formatedDate === 'Invalid date' ? '' : formatedDate
+}
+
 app.use(function exposeDataToViews(req, res, next) {
-  app.locals._config  = config
+  app.locals._basePath = "//" + req.get('host')
   app.locals._user    = req.user ? req.user : {}
   if (config.isDev) {
     app.locals._debug = JSON.stringify({
@@ -115,36 +123,21 @@ app.use(function exposeDataToViews(req, res, next) {
       _config:  config,
     }, null, '  ')
   }
-  app.locals._basePath = "//" + req.get('host')
-  app.locals.printJS = function (data) {
-    return JSON.stringify(data, null, '  ')
-  }
-  app.locals.formatDate = function formatDate(data) {
-    var formatedDate = moment(data).format('DD/MM/YYYY HH:mm');
-    return formatedDate === 'Invalid date' ? '' : formatedDate;
-  }
   next()
 })
-// TODO additional routes for handling live resize
-// app.get('/placeholder',        images.getOriginal)
-// app.get('/resize/:imageName',  images.getOriginal)
-// app.get('/cover/:imageName',   images.getOriginal)
 
-app.get('/img/:imageName',  filemanager.read)
-app.get('/img/',            images.getResized)
-app.get('/upload/',         upload.get)
-app.post('/upload/',        upload.post)
+// // take care of popup params
+// // no cookies yet -> show popup
+// var formID = {
+//   fr: 's0g1Mkw0TkrRNTdISdM1MTc31rU0STXSNTUxtjBISjG1NEhKBgA',
+//   en: 'MzcyTTU1NTDXTU1NSdM1MTc10E1MMTTSTTJOMjNKM0g0MbA0BQA',
+// }
+// app.use(function(req, res, next) {
+//   res.locals.formID = req.cookies.badsenderContact ? false : formID[res.getLocale()]
+//   next()
+// })
 
-// take care of popup params
-// no cookies yet -> show popup
-var formID = {
-  fr: 's0g1Mkw0TkrRNTdISdM1MTc31rU0STXSNTUxtjBISjG1NEhKBgA',
-  en: 'MzcyTTU1NTDXTU1NSdM1MTc10E1MMTTSTTJOMjNKM0g0MbA0BQA',
-}
-app.use(function(req, res, next) {
-  res.locals.formID = req.cookies.badsenderContact ? false : formID[res.getLocale()]
-  next()
-})
+//----- MORE I18N
 
 // take care of language query params
 // http://stackoverflow.com/questions/19539332/localization-nodejs-i18n
@@ -180,7 +173,6 @@ app.get('/users/:userId?',                    users.show)
 app.post('/users/:userId?',                   users.update)
 
 app.get('/wireframes',                        guard('admin'), wireframes.list)
-// xhr template. Check user
 app.get('/wireframes/:wireId/delete',         guard('admin'), wireframes.remove)
 app.get('/wireframes/:wireId/markup',         guard('user'), wireframes.getMarkup)
 
@@ -197,15 +189,25 @@ app.get('/forgot',                render.forgot)
 app.post('/forgot',               users.userResetPassword)
 app.get('/password/:token',       render.reset)
 app.post('/password/:token',      users.setPassword)
+app.get('/img/:imageName',        filemanager.read)
+app.get('/img/',                  images.getResized)
+
+// NTH additional routes for handling live resize
+// app.get('/placeholder',        images.getOriginal)
+// app.get('/resize/:imageName',  images.getOriginal)
+// app.get('/cover/:imageName',   images.getOriginal)
 
 //----- USER
 
-app.post('/dl/',                       guard('user'), download.post)
-app.all('/editor*',                    guard('user'))
-app.get('/editor/:creationId/delete',  creations.remove)
-app.get('/editor/:creationId?',        creations.show)
-app.post('/editor/:creationId?',       creations.update)
-app.get('/',                           guard('user'), creations.list)
+app.all('/upload*',                   guard('user'))
+app.get('/upload/',                   upload.get)
+app.post('/upload/',                  upload.post)
+app.post('/dl/',                      guard('user'), download.post)
+app.all('/editor*',                   guard('user'))
+app.get('/editor/:creationId/delete', creations.remove)
+app.get('/editor/:creationId?',       creations.show)
+app.post('/editor/:creationId?',      creations.update)
+app.get('/',                          guard('user'), creations.list)
 
 //////
 // ERROR HANDLING
@@ -237,9 +239,11 @@ app.use(handler)
 // LAUNCHING
 //////
 
-var server = app.listen(config.PORT, function endInit() {
-  console.log(
-    chalk.green('Server is listening on port'), chalk.cyan(server.address().port),
-    chalk.green('on mode'), chalk.cyan(config.NODE_ENV)
-  )
+config.setup.then(function endSetup() {
+  var server = app.listen(config.PORT, function endInit() {
+    console.log(
+      chalk.green('Server is listening on port'), chalk.cyan(server.address().port),
+      chalk.green('on mode'), chalk.cyan(config.NODE_ENV)
+    )
+  })
 })

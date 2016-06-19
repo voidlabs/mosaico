@@ -45,7 +45,6 @@ function show(req, res, next) {
 
   dbRequest
   .then(function (creation) {
-    console.log(util.inspect(creation.mosaico, {depth: 5}))
     res.render('editor', { data: _.assign({}, data, creation.mosaico) })
   })
   .catch(next)

@@ -14,9 +14,9 @@ var filemanager = require('./filemanager')
 function parse(req) {
   return new Promise(function (resolve, reject) {
     // parse a file upload
-    var form = new formidable.IncomingForm()
-    form.multiples = true
-    form.uploadDir = path.join(__dirname,'./formidable/')
+    var form        = new formidable.IncomingForm()
+    form.multiples  = true
+    form.uploadDir  = config.images.tmpDir
     form.parse(req, function(err, fields, files) {
       if (err) return reject(err)
       return handleUploads(fields, files, resolve)

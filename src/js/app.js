@@ -30,38 +30,20 @@ function _canonicalize(url) {
   return div.firstChild.href;
 }
 
-}
-
 var applyBindingOptions = function(options, ko) {
-  // options have been set in the editor template
-  var imgProcessorBackend = url.parse(options.imgProcessorBackend);
-
-  // send the non-resized image url
-  ko.bindingHandlers.fileupload.remoteFilePreprocessor = function (file) {
-    var fileUrl = url.format({
-      protocol: imgProcessorBackend.protocol,
-      host:     imgProcessorBackend.host,
-      pathname: imgProcessorBackend.pathname,
-    });
-    file.url = url.resolve(fileUrl, url.parse(file.url).pathname);
-    return file;
-  },
-
   // push "convertedUrl" method to the wysiwygSrc binding
   ko.bindingHandlers.wysiwygSrc.convertedUrl = function(src, method, width, height) {
-    return url.format({
-      protocol: imgProcessorBackend.protocol,
-      host:     imgProcessorBackend.host,
-      pathname: imgProcessorBackend.pathname,
-      query: {
-        method: method,
-        params: width + "," + height,
-        src:    url.parse(src).pathname,
+    var imgProcessorBackend = options.imgProcessorBackend ? options.imgProcessorBackend : './upload';
+    var backEndMatch = imgProcessorBackend.match(/^(https?:\/\/[^\/]*\/).*$/);
+    var srcMatch = src.match(/^(https?:\/\/[^\/]*\/).*$/);
+    if (backEndMatch === null || (srcMatch !== null && backEndMatch[1] == srcMatch[1])) {
+      return imgProcessorBackend + "?src=" + encodeURIComponent(src) + "&method=" + encodeURIComponent(method) + "&params=" + encodeURIComponent(width + "," + height);
+    } else {
+      console.log("Cannot apply backend image resizing to non-local resources ", src, method, width, height, backEndMatch, srcMatch);
+      return src + "?method=" + method + "&width=" + width + (height !== null ? "&height=" + height : '');
     }
-    });
   };
 
-  // TODO should be querying a placeholder route
   ko.bindingHandlers.wysiwygSrc.placeholderUrl = function(width, height, text) {
     return options.imgProcessorBackend + "?method=" + 'placeholder' + "&params=" + width + encodeURIComponent(",") + height;
   };
@@ -73,6 +55,7 @@ var applyBindingOptions = function(options, ko) {
     ko.bindingHandlers.wysiwyg.fullOptions = options.tinymceConfigFull;
 };
 
+}
 
 var start = function(options, templateFile, templateMetadata, jsorjson, customExtensions) {
 
@@ -182,7 +165,62 @@ var init = function(options, customExtensions) {
   return true;
 };
 
-} else if (process.env.BADSENDER) {
+}
+
+if (process.env.BADSENDER) {
+
+//////
+// BADSENDER SPECIFIC
+//////
+
+// don't replace mosaico code for better merging
+
+var applyBindingOptions = function(options, ko) {
+  // options have been set in the editor template
+  var imgProcessorBackend = url.parse(options.imgProcessorBackend);
+
+  // send the non-resized image url
+  ko.bindingHandlers.fileupload.remoteFilePreprocessor = function (file) {
+    console.info('REMOTE FILE PREPROCESSOR')
+    console.log(file)
+    var fileUrl = url.format({
+      protocol: imgProcessorBackend.protocol,
+      host:     imgProcessorBackend.host,
+      pathname: imgProcessorBackend.pathname,
+    });
+    file.url = url.resolve(fileUrl, url.parse(file.url).pathname);
+    return file;
+  },
+
+  // push "convertedUrl" method to the wysiwygSrc binding
+  ko.bindingHandlers.wysiwygSrc.convertedUrl = function(src, method, width, height) {
+    console.info('CONVERTED URL')
+    console.log(src, method, width, height)
+    return url.format({
+      protocol: imgProcessorBackend.protocol,
+      host:     imgProcessorBackend.host,
+      pathname: imgProcessorBackend.pathname,
+      query: {
+        method: method,
+        params: width + "," + height,
+        src:    url.parse(src).pathname,
+    }
+    });
+  };
+
+  // TODO should be querying a placeholder route
+  ko.bindingHandlers.wysiwygSrc.placeholderUrl = function(width, height, text) {
+    console.info('PLACEHOLDERURL')
+    console.log(width, height, text)
+    return options.imgProcessorBackend + "?method=" + 'placeholder' + "&params=" + width + encodeURIComponent(",") + height;
+  };
+
+  // pushes custom tinymce configurations from options to the binding
+  if (options && options.tinymceConfig)
+    ko.bindingHandlers.wysiwyg.standardOptions = options.tinymceConfig;
+  if (options && options.tinymceConfigFull)
+    ko.bindingHandlers.wysiwyg.fullOptions = options.tinymceConfigFull;
+}
 
 // FLOW:
 // => init

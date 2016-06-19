@@ -27,7 +27,9 @@ block head-content
         emailProcessorBackend:  basePath + '/dl/',
         titleToken:             'BADSENDER Responsive Email Designer',
         fileuploadConfig: {
-          url: basePath + '/upload/',
+          //- don't prepend basePath
+          //- CORS errors can occur while using browsersync
+          url: '/upload/',
           // messages??
         },
       }, plugins);

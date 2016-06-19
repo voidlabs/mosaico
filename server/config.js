@@ -1,17 +1,21 @@
 'use strict';
 
-var path    = require('path')
-var rc      = require('rc')
-var _       = require('lodash')
-var mkdirp  = require('mkdirp')
+var os        = require('os')
+var path      = require('path')
+var rc        = require('rc')
+var _         = require('lodash')
+var denodeify = require('denodeify')
+var mkdirp    = denodeify(require('mkdirp'))
+// var mkdirp    = require('mkdirp')
+
 
 var config  = rc('badsender', {
   storage: {
     type: 'local',
   },
   images: {
-    uploadDir: 'tmp/uploads',
-    tmpDir:    'tmp/tmp',
+    uploadDir: 'uploads',
+    tmpDir:    'tmp',
   }
 })
 
@@ -24,20 +28,50 @@ config.isProd     = config.NODE_ENV === 'production'
 config.isPreProd  = !config.isDev && !config.isProd
 config.isAws      = config.storage.type === 'aws'
 
+config.setup    = new Promise(function (resolve, reject) {
+  console.log('create temp dir')
+  var tmpPath     = path.join(__dirname, '/../', config.images.tmpDir)
+  var uploadPath  = path.join(__dirname, '/../', config.images.uploadDir)
+  var tmpDir      = mkdirp(tmpPath)
+  var uploadDir   = config.isAws ? Promise.resolve(null) : mkdirp(uploadPath)
 
-config.images.uploadDir = path.join(__dirname, '../', config.images.uploadDir)
-config.images.tmpDir    = path.join(__dirname, '../', config.images.tmpDir)
+  Promise
+  .all([tmpDir, uploadDir])
+  .then(function (folders) {
+    config.images.tmpDir    = tmpPath
+    config.images.uploadDir = uploadPath
+    resolve(config)
+  })
+  .catch(function (err) {
+    console.log('folder exception')
+    console.log('attempt with os.tmpdir()')
+    console.log(err)
+    var tmpPath     = path.join(os.tmpdir(), config.images.tmpDir)
+    var uploadPath  = path.join(os.tmpdir(), config.images.uploadDir)
+    var tmpDir      = mkdirp(tmpPath)
+    var uploadDir   = config.isAws ? Promise.resolve(null) : mkdirp(uploadPath)
 
-// why this was setted at config.isAws?
-if (!config.isAws) {
-  console.log('create temp dir in LOCAL mode')
-  mkdirp.sync(config.images.tmpDir)
-  mkdirp.sync(config.images.uploadDir)
-}
+    Promise
+    .all([tmpDir, uploadDir])
+    .then(function (folders) {
+      console.log('all done with os.tmpdir()')
+      config.images.tmpDir    = tmpPath
+      config.images.uploadDir = uploadPath
+      resolve(config)
+    })
+    .catch(function (err) {
+      reject(err)
+      throw err
+    })
+  })
+})
 
 // if (!config.isProd) {
-console.log('config is')
-console.log(_.omit(config, ['_', 'config', '_configs', 'configs']))
+config.setup.then(function (config) {
+  console.log('config is')
+  console.log(_.omit(config, ['_', 'config', '_configs', 'configs', 'setup']))
+})
+
 // }
 
 module.exports  = config

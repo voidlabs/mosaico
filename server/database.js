@@ -156,6 +156,8 @@ var CreationSchema    = Schema({
   userId: {
     type: String,
   },
+  // should use populate
+  // http://mongoosejs.com/docs/populate.html
   wireframeId: {
     type: String,
   },
