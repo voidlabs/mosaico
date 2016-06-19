@@ -198,7 +198,8 @@ var init = function(opts, customExtensions) {
   customExtensions.push( require('./ext/server-storage') )
   // fix icon
   customExtensions.push(function setEditorIcon(viewModel) {
-    viewModel.logoPath = '/media/editor-icon.png'
+    viewModel.logoPath  = '/media/editor-icon.png'
+    viewModel.logoUrl   = '/'
   })
 
   // Loading from configured template or configured metadata
