@@ -73,7 +73,7 @@ function logRequest(tokens, req, res) {
 }
 
 function logResponse(tokens, req, res) {
-  if (/\/img\//.test(req.path)) return
+
   var method      = tokens.method(req, res)
   var status      = tokens.status(req, res)
   var url         = tokens.url(req, res)
@@ -81,6 +81,7 @@ function logResponse(tokens, req, res) {
     ? 'red' : status >= 400
     ? 'yellow' : status >= 300
     ? 'cyan' : 'green';
+  if (/\/img\//.test(req.path) && status < 400) return
   return chalk.blue(method) + ' '
     + chalk.grey(url) + ' '
     + chalk[statusColor](status)
@@ -214,9 +215,10 @@ app.get('/',                          guard('user'), creations.list)
 //////
 
 app.use(function (err, req, res, next) {
-  console.log(err)
+  var status = err.status || err.statusCode
+  status < 500 ? status === 404 ? void(0) : console.log(err) : console.trace(err)
   // force status for morgan to catch up
-  res.status(err.status || err.statusCode)
+  res.status(status)
   next(err)
 })
 

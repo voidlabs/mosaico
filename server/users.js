@@ -40,7 +40,7 @@ function show(req, res, next) {
 function update(req, res, next) {
   var userId = req.params.userId
   var dbRequest = userId ?
-    Users.findByIdAndUpdate(wireId, req.body, {runValidators: true})
+    Users.findByIdAndUpdate(userId, req.body, {runValidators: true})
     : new Users(req.body).save()
 
   dbRequest
@@ -54,7 +54,7 @@ function remove(req, res, next) {
   var userId = req.params.userId
   Users
   .findOneAndRemove(userId)
-  .then( function () { res.redirect('/users')} )
+  .then( function () { res.redirect('/admin')} )
   .catch(next)
 }
 
@@ -66,8 +66,9 @@ function adminResetPassword(req, res, next) {
   .then(function (user) {
     return user.resetPassword()
   })
-  .then(function () {
-    res.redirect('/users')
+  .then(function (user) {
+    console.log(user);
+    res.redirect('/admin')
   })
   .catch(next)
 }

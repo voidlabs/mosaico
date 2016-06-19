@@ -46,13 +46,16 @@ function write(file) {
   orig.pipe(dest)
 }
 
+// https://docs.nodejitsu.com/articles/advanced/streams/how-to-use-fs-create-read-stream/
 function read(req, res, next) {
-  return streamImage(req.params.imageName)
-  .on('error', function (err) {
+  var imageStream = streamImage(req.params.imageName)
+  imageStream.on('open', function () {
+    imageStream.pipe(res)
+  })
+  imageStream.on('error', function (err) {
     if (err.code === 'ENOENT') err.status = 404
     next(err)
   })
-  .pipe(res);
 }
 
 module.exports = {
