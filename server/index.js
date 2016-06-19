@@ -127,7 +127,6 @@ app.get('/img/:imageName',  images.getOriginal)
 app.get('/img/',            images.getResized)
 app.get('/upload/',         upload.get)
 app.post('/upload/',        upload.post)
-app.post('/dl/',            download.post)
 
 // take care of popup params
 // no cookies yet -> show popup
@@ -201,7 +200,8 @@ app.post('/editor/:creationId?',  creations.update)
 
 // creations list
 // editor should be moved here
-app.get('/',                  session.guard('user'), wireframes.listHome)
+app.post('/dl/',                  session.guard('user'), download.post)
+app.get('/',                      session.guard('user'), wireframes.listHome)
 
 //////
 // ERROR HANDLING

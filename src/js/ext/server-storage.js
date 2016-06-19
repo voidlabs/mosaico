@@ -67,8 +67,6 @@ var loader = function (viewModel) {
   testCmd.execute = function() {
     console.info('TEST')
     testCmd.enabled(false)
-    // var email = global.localStorage.getItem("testemail");
-    // if (email === null || email == 'null') email = viewModel.t('Insert here the recipient email address');
     var email = viewModel.t('Insert here the recipient email address')
     email     = global.prompt(viewModel.t("Test email address"), email)
 
@@ -78,10 +76,8 @@ var loader = function (viewModel) {
     }
 
     console.log("TODO testing...", email)
-
-    var metadata = ko.toJS(viewModel.metadata)
-
-    var datas   = {
+    var metadata  = ko.toJS(viewModel.metadata)
+    var datas     = {
       action:   'email',
       rcpt:     email,
       subject:  '[test] ' + metadata.id,
@@ -116,21 +112,20 @@ var loader = function (viewModel) {
     name: 'Download', // l10n happens in the template
     enabled: ko.observable(true)
   }
-
   downloadCmd.execute = function() {
     console.info('DOWNLOAD')
-    downloadCmd.enabled(false);
-    // viewModel.notifier.info(viewModel.t("Downloading..."));
-    // viewModel.exportHTMLtoTextarea('#downloadHtmlTextarea');
-    // var postUrl = emailProcessorBackend ? emailProcessorBackend : '/dl/';
-    // global.document.getElementById('downloadForm').setAttribute("action", postUrl);
-    // global.document.getElementById('downloadForm').submit();
-    downloadCmd.enabled(true);
-  };
+    downloadCmd.enabled(false)
+    viewModel.notifier.info(viewModel.t("Downloading..."))
+    viewModel.exportHTMLtoTextarea('#downloadHtmlTextarea')
+    $('#downloadForm')
+    .attr('action', '/dl/')
+    .submit()
+    downloadCmd.enabled(true)
+  }
 
-  viewModel.save = saveCmd;
-  viewModel.test = testCmd;
-  viewModel.download = downloadCmd;
+  viewModel.save      = saveCmd
+  viewModel.test      = testCmd
+  viewModel.download  = downloadCmd
 
 }
 
