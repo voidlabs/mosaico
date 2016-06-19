@@ -193,7 +193,9 @@ var init = function(options, customExtensions) {
 var init = function(opts, customExtensions) {
   console.log('BADSENDER – init')
   console.log(opts.data)
-
+  var hasDatas = opts && opts.metadata && opts.data
+  // editor.jade script need a return value
+  if (!hasDatas) return false;
   // enable server saving
   customExtensions.push( require('./ext/server-storage') )
   // fix icon
@@ -202,23 +204,25 @@ var init = function(opts, customExtensions) {
     viewModel.logoUrl   = '/'
     viewModel.logoAlt   = 'Badsender'
   })
-
-  // Loading from configured template or configured metadata
-  if (opts && opts.metadata && opts.data) {
-    // Put this in meta datas…
-    // don't have access to options in templateLoader
-    opts.metadata.urlConverter = function (url) {
-      // remove edres to keep toolbox.tmpl.html unmodify
-      url = url.replace('edres/', '')
-      url = opts.imgProcessorBackend + opts.metadata.wireframeId  + '-' + url
-      return url
-    }
-    start(opts, void(0), opts.metadata, opts.data, customExtensions)
-  } else {
-    return false;
+  // Put this in meta datas…
+  // …don't have access to options in templateLoader
+  opts.metadata.urlConverter = function (url) {
+    if (!url) return null
+    // handle: [unsubscribe_link] or mailto:[mail]
+    if (/\]$/.test(url)) return null
+    // handle absolute url: http
+    if (/^http/.test(url)) return null
+    // handle other urls: img/social_def/twitter_ok.png
+    // as it is done, all files are flatten in asset folder (uploads or S3)
+    url = /([^\/]*)$/.exec(url)[1]
+    url = opts.imgProcessorBackend + opts.metadata.wireframeId  + '-' + url
+    return url
   }
+
+  start(opts, void(0), opts.metadata, opts.data, customExtensions)
+
   return true;
-};
+}
 
 }
 

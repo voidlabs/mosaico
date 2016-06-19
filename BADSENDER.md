@@ -171,3 +171,8 @@ npm run release
 ```
 
 The release will be pushed in the branch you have chosen (prod/preprod)
+
+
+### A list of possible nice to have
+
+- clean uploads when removing wireframes & creations

@@ -19,6 +19,11 @@ var connection    = mongoose.connect(config.database)
 // USER
 //////
 
+// store customer logo:
+// https://github.com/panta/mongoose-file
+// https://github.com/heapsource/mongoose-attachments
+// https://github.com/panta/mongoose-thumbnail
+
 var UserSchema    = Schema({
   name:       {type: String},
   email:      {
