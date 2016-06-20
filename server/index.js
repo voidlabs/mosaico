@@ -71,7 +71,6 @@ function logRequest(tokens, req, res) {
 }
 
 function logResponse(tokens, req, res) {
-
   var method      = tokens.method(req, res)
   var status      = tokens.status(req, res)
   var url         = tokens.url(req, res)
@@ -187,9 +186,7 @@ app.get('/img/',                  images.getResized)
 
 //----- USER
 
-app.all('/upload*',                   guard('user'))
-app.get('/upload/',                   upload.get)
-app.post('/upload/',                  upload.post)
+app.post('/upload/',                  guard('user'), filemanager.upload)
 app.post('/dl/',                      guard('user'), download.post)
 app.all('/editor*',                   guard('user'))
 app.get('/editor/:creationId/delete', creations.remove)

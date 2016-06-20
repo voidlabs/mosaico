@@ -7,6 +7,7 @@ var AWS         = require('aws-sdk')
 var chalk       = require('chalk')
 
 var config      = require('./config')
+var multipart   = require('./multipart')
 var streamImage
 var writeStream
 
@@ -90,8 +91,23 @@ function read(req, res, next) {
   })
 }
 
+function upload(req, res, next) {
+  multipart
+  .parse(req, {
+    prefix:     req.user.id,
+    formatter:  'editor',
+  })
+  .then(onParse)
+  .catch(next)
+
+  function onParse(datas4fileupload) {
+    res.send(JSON.stringify(datas4fileupload))
+  }
+}
+
 module.exports = {
   streamImage:  streamImage,
   read:         read,
   write:        write,
+  upload:       upload,
 }
