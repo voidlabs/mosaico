@@ -226,7 +226,9 @@ var applyBindingOptions = function(options, ko) {
 // => init
 // => start
 // => templateLoader: Ajax datas
-// => templateCompiler: Initialize viewmodel & apply plugins
+// => templateCompiler:
+//    -> Initialize viewmode
+//    -> apply plugins (server-storage, setEditorIcon + mosaico defined)
 
 var init = function(opts, customExtensions) {
   console.log('BADSENDER – init')

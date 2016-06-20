@@ -104,7 +104,7 @@ var loader = function (viewModel) {
     }
 
     function onTestComplete() {
-      saveCmd.enabled(true);
+      testCmd.enabled(true);
     }
   }
 
