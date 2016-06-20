@@ -25,18 +25,3 @@ html(lang=getLocale())
 
   block content
 
-  if formID
-    script.
-      window.ss_form = {
-        account: 'MzYwNzawMDUxAwA',
-        //- width: '100%',
-        //- height: 1000,
-        domain: 'app-3Q56OXU3WO.marketingautomation.services',
-        formID: '#{formID}'
-      };
-    //- can't load asynchronously
-    //- script use document.write(form) which is forbidden after page load
-    script(src="https://koi-3Q56OXU3WO.marketingautomation.services/client/form.js?ver=1.1.1")
-    script.
-      document.querySelector('iframe').style.display = 'none'
-    script(src="/contact-popup.js", async)

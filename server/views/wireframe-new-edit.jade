@@ -14,6 +14,16 @@ block content
 
   //- images uploadées sur le bucket courant
 
+  if isEdit
+      - var deleteUrl = '/wireframes/' + wireframe._id + '/delete'
+      - deleteUrl = deleteUrl + '?redirect=/users/' + data.userId
+      ul
+        li: a(href='/users/' + data.userId) back to user
+        li: a(href='/editor?wireframeId=' + wireframe._id) view
+        li
+          div deleting a wireframe will also remove every creations using this one
+          a(href=deleteUrl) delete
+
   form(action=action method="post" enctype="multipart/form-data")
     input(name="userId" value=data.userId)
     fieldset
@@ -48,16 +58,12 @@ block content
         p ! NO MARKUP <br> fix this by uploading a new html file
 
       if wireframe.images.length
-        h3 images
-        ul
-          for image in wireframe.images
-            li: a(href='/img/' + image)= image
+        div
+          details
+            summary images
+            ul
+              for image in wireframe.images
+                li: a(href='/img/' + image)= image
+
 
     button(type="submit") submit
-    if isEdit
-      - var deleteUrl = '/wireframes/' + wireframe._id + '/delete'
-      - deleteUrl = deleteUrl + '?redirect=/users/' + data.userId
-      p deleting a wireframe will also remove every creations using this one
-      h4: a(href=deleteUrl) delete
-      p view
-      h4: a(href='/editor?wireframeId=' + wireframe._id) view

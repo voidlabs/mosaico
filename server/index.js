@@ -125,17 +125,6 @@ app.use(function exposeDataToViews(req, res, next) {
   next()
 })
 
-// // take care of popup params
-// // no cookies yet -> show popup
-// var formID = {
-//   fr: 's0g1Mkw0TkrRNTdISdM1MTc31rU0STXSNTUxtjBISjG1NEhKBgA',
-//   en: 'MzcyTTU1NTDXTU1NSdM1MTc10E1MMTTSTTJOMjNKM0g0MbA0BQA',
-// }
-// app.use(function(req, res, next) {
-//   res.locals.formID = req.cookies.badsenderContact ? false : formID[res.getLocale()]
-//   next()
-// })
-
 //----- MORE I18N
 
 // take care of language query params
