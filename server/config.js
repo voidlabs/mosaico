@@ -28,6 +28,7 @@ config.isProd     = config.NODE_ENV === 'production'
 config.isPreProd  = !config.isDev && !config.isProd
 config.isAws      = config.storage.type === 'aws'
 
+// http://stackoverflow.com/questions/12416738/how-to-use-herokus-ephemeral-filesystem
 config.setup    = new Promise(function (resolve, reject) {
   console.log('create temp dir')
   var tmpPath     = path.join(__dirname, '/../', config.images.tmpDir)

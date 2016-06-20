@@ -21,20 +21,10 @@ var session       = require('./session')
 
 var app = express()
 
-// configure i18n
-i18n.configure({
-  locales:        ['fr', 'en',],
-  defaultLocale:  'fr',
-  extension:      '.js',
-  cookie:         'badsender',
-  objectNotation: true,
-  directory:      path.join( __dirname, './locales'),
-})
-
 app.use(bodyParser.json({
   limit: '5mb'
 }))
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+app.use(bodyParser.urlencoded({
   limit: '5mb',
   extended: true,
 }))
@@ -45,6 +35,14 @@ app.use(cookieParser())
 //----- SESSION & I18N
 
 session.init(app)
+i18n.configure({
+  locales:        ['fr', 'en',],
+  defaultLocale:  'fr',
+  extension:      '.js',
+  cookie:         'badsender',
+  objectNotation: true,
+  directory:      path.join( __dirname, './locales'),
+})
 app.use(i18n.init)
 
 //----- TEMPLATES

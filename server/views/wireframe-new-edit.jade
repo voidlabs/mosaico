@@ -59,3 +59,5 @@ block content
       - deleteUrl = deleteUrl + '?redirect=/users/' + data.userId
       p deleting a wireframe will also remove every creations using this one
       h4: a(href=deleteUrl) delete
+      p view
+      h4: a(href='/editor?wireframeId=' + wireframe._id) view

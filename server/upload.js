@@ -9,16 +9,16 @@ var multipart     = require('./multipart')
 
 var uploader
 
-config.setup.then(function (conf) {
-  var fileuploadConfig = {
-    uploadUrl:  '/uploads/',
-    tmpDir:     conf.images.tmpDir,
-    uploadDir:  conf.images.uploadDir,
-    storage:    conf.storage,
-  }
-  console.log('FILEUPLOAD', fileuploadConfig)
-  uploader = fileupload(fileuploadConfig)
-})
+// config.setup.then(function (conf) {
+//   var fileuploadConfig = {
+//     uploadUrl:  '/uploads/',
+//     tmpDir:     conf.images.tmpDir,
+//     uploadDir:  conf.images.uploadDir,
+//     storage:    conf.storage,
+//   }
+//   console.log('FILEUPLOAD', fileuploadConfig)
+//   uploader = fileupload(fileuploadConfig)
+// })
 
 // get only the file name
 // this is for the image to be live resized by the back application
