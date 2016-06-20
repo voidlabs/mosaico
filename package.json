@@ -45,7 +45,6 @@
   "dependencies": {
     "aws-sdk": "^2.4.0",
     "bcryptjs": "^2.3.0",
-    "blueimp-file-upload-expressjs": "git://github.com/arvindr21/blueimp-file-upload-expressjs#08533d63757b514bc09f55b10e8005df8c60174a",
     "body-parser": "^1.15.1",
     "chalk": "^1.1.1",
     "compression": "^1.6.2",

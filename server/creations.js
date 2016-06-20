@@ -5,7 +5,6 @@ var chalk       = require('chalk')
 var util        = require('util')
 
 var config      = require('./config')
-var multipart   = require('./multipart')
 var DB          = require('./database')
 var Wireframes  = DB.Wireframes
 var Creations   = DB.Creations

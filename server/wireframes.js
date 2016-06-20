@@ -4,7 +4,7 @@ var _                       = require('lodash')
 var chalk                   = require('chalk')
 
 var config                  = require('./config')
-var multipart               = require('./multipart')
+var filemanager             = require('./filemanager')
 var DB                      = require('./database')
 var Wireframes              = DB.Wireframes
 var Creations               = DB.Creations
@@ -61,8 +61,8 @@ function update(req, res, next) {
   var wireId    = req.params.wireId
   var userId    = req.params.userId
 
-  multipart
-  .parse(req, {
+  filemanager
+  .parseMultipart(req, {
     prefix:     wireId,
     formatter: 'wireframes',
   })
@@ -70,7 +70,8 @@ function update(req, res, next) {
   .catch(next)
 
   function onParse(body) {
-    // as of now ./multipart return both files & fields
+    // as of now ./parseMultipart#wireframes formatter return both files & fields
+    // could simply return fields
     body = body.fields
     console.log('files success')
     var dbRequest = wireId ?

@@ -90,7 +90,6 @@ app.use(morgan(logResponse))
 // ROUTING
 //////
 
-var upload      = require('./upload')
 var download    = require('./download')
 var images      = require('./images')
 var render      = require('./render')
