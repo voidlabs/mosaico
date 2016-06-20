@@ -15,7 +15,7 @@ function getData(viewModel) {
 }
 
 var loader = function (viewModel) {
-  console.info('init server storage')
+  console.info('init server storage (save, test, download)')
 
   var saveCmd = {
     name: 'Save', // l10n happens in the template

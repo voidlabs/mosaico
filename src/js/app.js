@@ -231,8 +231,8 @@ var applyBindingOptions = function(options, ko) {
 //    -> apply plugins (server-storage, setEditorIcon + mosaico defined)
 
 var init = function(opts, customExtensions) {
-  console.log('BADSENDER – init')
-  console.log(opts.data)
+  console.info('BADSENDER – init')
+  console.log(opts)
   var hasDatas = opts && opts.metadata && opts.data
   // editor.jade script need a return value
   if (!hasDatas) return false;
