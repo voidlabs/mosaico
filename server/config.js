@@ -6,10 +6,9 @@ var rc        = require('rc')
 var _         = require('lodash')
 var denodeify = require('denodeify')
 var mkdirp    = denodeify(require('mkdirp'))
-// var mkdirp    = require('mkdirp')
-
 
 var config  = rc('badsender', {
+  debug: false,
   storage: {
     type: 'local',
   },

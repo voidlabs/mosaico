@@ -34,6 +34,7 @@ html(lang=getLocale())
 
     block content
 
-    footer(style="background: #eee")
-      pre= JSON.stringify(data, null, '  ')
-      pre= _debug
+    if _config.debug
+      footer(style="background: #eee")
+        pre= JSON.stringify(data, null, '  ')
+        pre= _debug

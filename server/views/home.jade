@@ -64,7 +64,7 @@ block content
       .footer
         | Badsender.com -
         |  #{__('home.footer.rights')}
-
-    footer(style="background: #eee; text-align: left")
-      pre= JSON.stringify(data, null, '  ')
-      pre= _debug
+    if _config.debug
+      footer(style="background: #eee; text-align: left")
+        pre= JSON.stringify(data, null, '  ')
+        pre= _debug
