@@ -62,7 +62,10 @@ function update(req, res, next) {
   var userId    = req.params.userId
 
   multipart
-  .parse(req)
+  .parse(req, {
+    prefix:     wireId,
+    formatter: 'wireframes',
+  })
   .then(onParse)
   .catch(next)
 
@@ -81,8 +84,8 @@ function update(req, res, next) {
       // merge images array
       // could be done in `images setter`
       // but won't be able to remove files…
-      wireframe.images  = _.isArray(wireframe.images) ?
-        wireframe.images.concat(body.images)
+      wireframe.images  = _.isArray(wireframe.images)
+        ? wireframe.images.concat(body.images)
         : body.images
       wireframe.images = _.compact( _.uniq(wireframe.images) ).sort()
       return wireframe.save()

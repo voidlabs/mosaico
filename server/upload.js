@@ -1,10 +1,11 @@
 'use strict';
 
-var url           = require('url');
-var fileupload    = require('blueimp-file-upload-expressjs');
+var url           = require('url')
+var fileupload    = require('blueimp-file-upload-expressjs')
 
-var config        = require('./config');
-var utils         = require('./utils');
+var config        = require('./config')
+var utils         = require('./utils')
+var multipart     = require('./multipart')
 
 var uploader
 
@@ -22,6 +23,7 @@ config.setup.then(function (conf) {
 // get only the file name
 // this is for the image to be live resized by the back application
 function processResponse(req, obj) {
+  console.log(obj)
   obj.files.map(function (image) {
     // url will be recomposed front-end side
     // remove trailing '/' in order for url.resolve to do the right concatenation
@@ -45,10 +47,24 @@ function get(req, res, next) {
 }
 
 function post(req, res, next) {
-  uploader.post(req, res, function (err, obj) {
-    if (err) return next(err);
-    res.send(processResponse(req, obj));
-  });
+  multipart
+  .parse(req, {
+    prefix:     req.user.id,
+    formatter:  'editor',
+  })
+  .then(onParse)
+  .catch(next)
+
+  function onParse(datas4fileupload) {
+    res.send(JSON.stringify(datas4fileupload))
+  }
+
+  // blueimp-file-upload-expressjs doesn't allow to change a file name
+
+  // uploader.post(req, res, function (err, obj) {
+  //   if (err) return next(err);
+  //   res.send(processResponse(req, obj));
+  // });
 }
 
 module.exports = {

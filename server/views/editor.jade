@@ -34,7 +34,7 @@ block head-content
         },
       }, plugins);
       if (!ok) {
-        console.log("Missing initialization hash, redirecting to main entrypoint");
+        console.error("config not setted properly");
         //- document.location = ".";
       }
     });

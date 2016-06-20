@@ -9,6 +9,12 @@ var chalk       = require('chalk')
 var config      = require('./config')
 var streamImage
 
+function printStreamError(err) {
+  // local not found
+  if (err.code === 'ENOENT') return
+  console.log(err)
+}
+
 if (config.isAws) {
   // listing
   // http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#listObjects-property
@@ -20,19 +26,15 @@ if (config.isAws) {
     return s3
     .getObject({
       Bucket: config.storage.aws.bucketName,
-      Key:    imageName
+      Key:    imageName,
     })
     .createReadStream()
-    .on('error', function (err) {
-      // local not found
-      if (err.code === 'ENOENT') return
-      console.log(err);
-    })
+    .on('error', printStreamError)
   }
 } else {
   streamImage = function streamImage(imageName) {
-    var imagePath = path.join(config.images.uploadDir, imageName);
-    return fs.createReadStream(imagePath);
+    var imagePath = path.join(config.images.uploadDir, imageName)
+    return fs.createReadStream(imagePath).on('error', printStreamError)
   }
 }
 
