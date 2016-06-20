@@ -34,6 +34,7 @@ block content
     if !data.creations.length
       p no saved content
     else
+      //- modification du nom directement depuis le tableau
       div.table-container
         table#savedTable
           caption= __('home.saved.caption')
@@ -55,6 +56,7 @@ block content
                 td: span= formatDate(creation.createdAt)
                 td: span= formatDate(creation.updatedAt)
                 td
+                  //- ajout d'un bouton dupliquer
                   a.operationButton(href=editUrl title="edit"):  i.fa.fa-pencil
                   a.operationButton(href=editUrl + '/delete' title="delete"): i.fa.fa-trash-o
 

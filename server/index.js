@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({
   extended: true,
 }))
 app.use(compression())
-app.use(favicon(path.join(__dirname, '../favicon.png')))
+app.use(favicon(path.join(__dirname, '../res/favicon.png')))
 app.use(cookieParser())
 
 //----- SESSION & I18N
@@ -185,6 +185,8 @@ app.get('/img/',                  images.getResized)
 
 //----- USER
 
+
+//- should go prefix by creationId
 app.post('/upload/',                  guard('user'), filemanager.upload)
 app.post('/dl/',                      guard('user'), download.post)
 app.all('/editor*',                   guard('user'))
