@@ -26,9 +26,17 @@ function onError(err) {
 }
 
 $.util.log(
-  'environement is', $.util.colors.magenta(env),
+  'environment is', $.util.colors.magenta(env),
   'watch is', isWatch ? $.util.colors.magenta('enable') : 'disable'
 )
+
+gulp.task('bump', function(){
+  gulp.src('./*.json')
+  .pipe($.bump({
+    version: args.pkg
+  }))
+  .pipe(gulp.dest('./'))
+})
 
 ////////
 // CSS

@@ -5,7 +5,7 @@
 #
 
 echo "Choose environment:"
-select env in preprod prod;
+select env in dev stage prod;
 do
   echo $env
   break
@@ -48,7 +48,11 @@ echo "…copy end!"
 cd $copydir
 
 # build and clean directory
-npm run build-release -- --pkg=$version
+if [ $env = "dev" ]; then
+  npm run build-release-dev -- --pkg=$version
+else
+  npm run build-release -- --pkg=$version
+fi
 
 rm .gitignore
 mv .gitignore-release .gitignore

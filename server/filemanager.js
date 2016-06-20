@@ -206,6 +206,7 @@ function read(req, res, next) {
   var imageStream = streamImage(req.params.imageName)
   imageStream.on('error', function (err) {
     console.log(chalk.red('read stream error'))
+    // Local => ENOENT || S3 => NoSuchKey
     if (err.code === 'ENOENT' || err.code === 'NoSuchKey') err.status = 404
     next(err)
   })
