@@ -249,7 +249,7 @@ function handleValidationErrors(err) {
 
 // take care of everything
 function handleValidatorsErrors(err, req, res, next) {
-  handleValidationErrors()
+  handleValidationErrors(err)
   .then(function (errorMessages) {
     req.flash('error', errorMessages)
     res.redirect(req.path)

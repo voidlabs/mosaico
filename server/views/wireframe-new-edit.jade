@@ -1,5 +1,11 @@
 extends _layout-admin.jade
 
+block vars
+  - var isEdit    = data.wireframe != null;
+  - var wireframe = data.wireframe || {};
+  - var pageTitle = isEdit ? 'wireframe: ' + wireframe.name : 'new wireframe'
+  - var pageClass = 'wireframe-new-edit'
+
 block content
   - var hasError  = messages.error && messages.error.length;
   - var errors    = hasError ? messages.error[0] : {};
@@ -7,63 +13,76 @@ block content
   - var action    = '/users/' + data.userId + '/wireframe';
   - var wireframe = data.wireframe || {};
   - action        = isEdit ? action + '/' + wireframe._id : action;
-  if isEdit
-    h1 edit wireframe ##{wireframe._id}
-  else
-    h1 new wireframe
 
-  //- images uploadées sur le bucket courant
+  .mdl-grid.mdl-grid--no-spacing
 
-  if isEdit
+    if isEdit
       - var deleteUrl = '/wireframes/' + wireframe._id + '/delete'
       - deleteUrl = deleteUrl + '?redirect=/users/' + data.userId
-      ul
-        li: a(href='/users/' + data.userId) back to user
-        li: a(href='/editor?wireframeId=' + wireframe._id) view
-        li
-          div deleting a wireframe will also remove every creations using this one
-          a(href=deleteUrl) delete
+      .mdl-cell.mdl-cell--2-col.mdl-color--accent-contrast.mdl-shadow--4dp
+        ul.mdl-list
+          li.mdl-list__item: a.mdl-list__item-primary-content(href='/users/' + data.userId)
+            .material-icons.mdl-list__item-icon person
+            | back to user
+          li.mdl-list__item: a.mdl-list__item-primary-content(href='/editor?wireframeId=' + wireframe._id)
+            .material-icons.mdl-list__item-icon pageview
+            | view
+          if !wireframe.hasMarkup
+            li.mdl-list__item: span.mdl-list__item-primary-content(style="color: #d50000")
+              .material-icons.mdl-list__item-icon report_problem
+              | NO MARKUP
+          li.mdl-list__item: span.mdl-list__item-primary-content deleting a wireframe will also remove every creations using this one
+          li.mdl-list__item: a.mdl-list__item-primary-content(href=deleteUrl)
+            .material-icons.mdl-list__item-icon delete_forever
+            | delete
 
-  form(action=action method="post" enctype="multipart/form-data")
-    input(name="userId" value=data.userId)
-    fieldset
-      label
-        div Name
-        input(name="name" value=wireframe.name)
-      if errors.name
-        p= errors.name.message
-      label
-        div Description
-        textarea(name="description")=wireframe.description
-    if isEdit
-      fieldset
-        label
-          div Markup
-          input(type="file" accept=".html" name="markup")
-        if errors.markup
-          p= errors.markup.message
-        label
-          div Images
-          input(type="file" accept=".png,.gif,.jpg" multiple name="images")
+    form(action=action method="post" enctype="multipart/form-data" class=isEdit ? 'mdl-cell--10-col' : 'mdl-cell--12-col').mdl-cell
+      input(name="userId" type="hidden" value=data.userId)
+      .mdl-grid
+        fieldset.mdl-cell.mdl-cell--6-col.mdl-card.mdl-shadow--2dp(class=isEdit ? '' : 'mdl-cell--3-offset-desktop')
+          .mdl-card__title: .mdl-card__title-text meta
+          .mdl-card__supporting-text
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+              input.mdl-textfield__input#name-field(type="text" name="name" required value=wireframe.name)
+              label.mdl-textfield__label(for="name-field") name
+              if errors.name
+                span.mdl-textfield__error= errors.name.message
+            .mdl-textfield.mdl-js-textfield
+              textarea.mdl-textfield__input#description-field(type="text" rows="1" name="description")=wireframe.description
+              label.mdl-textfield__label(for="description-field") Description
+        if isEdit
+          fieldset.mdl-cell.mdl-cell--6-col.mdl-card.mdl-shadow--2dp
+            .mdl-card__title: .mdl-card__title-text files
+            .mdl-card__supporting-text
+              .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+                input.mdl-textfield__input#markup-field(type="file" accept=".html" name="markup")
+                label.mdl-textfield__label.mdl-textfield__label--fixed(for="markup-field") Markup
+                if errors.markup
+                  span.mdl-textfield__error= errors.markup.message
+              .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+                input.mdl-textfield__input#images-field(type="file" accept=".png,.gif,.jpg" multiple name="images")
+                label.mdl-textfield__label.mdl-textfield__label--fixed(for="images-field") Images
 
-    if isEdit
-      if wireframe.hasMarkup
-        div
-          details
-            summary show markup
-            pre= wireframe.markup
+        if isEdit
+          if wireframe.hasMarkup
+            .mdl-cell.mdl-cell--12-col.mdl-card.mdl-shadow--2dp
+              .mdl-card__title: .mdl-card__title-text Markup
+              details.mdl-card__supporting-text
+                summary show
+                pre= wireframe.markup
 
-          a(href='/wireframes/' + wireframe._id + '/markup') download markup
-      else
-        p ! NO MARKUP <br> fix this by uploading a new html file
+              .mdl-card__actions.mdl-card--border
+                a(href='/wireframes/' + wireframe._id + '/markup').mdl-button.mdl-button--accent.mdl-js-button.mdl-js-ripple-effect
+                  | download markup
 
-      if wireframe.images.length
-        div
-          details
-            summary images
-            ul
-              for image in wireframe.images
-                li: a(href='/img/' + image)= image
+          if wireframe.images.length
+            .mdl-cell.mdl-cell--12-col.mdl-card.mdl-shadow--2dp
+              .mdl-card__title: .mdl-card__title-text Images
+              details.mdl-card__supporting-text
+                summary show
+                ul
+                  for image in wireframe.images
+                    li: a(href='/img/' + image)= image
 
-
-    button(type="submit") submit
+      button(type="submit").mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored
+        i.material-icons save

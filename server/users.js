@@ -1,5 +1,7 @@
 'use strict'
 
+var chalk                   = require('chalk')
+
 var config                  = require('./config')
 var DB                      = require('./database')
 var Users                   = DB.Users
@@ -75,6 +77,7 @@ function adminResetPassword(req, res, next) {
 
 function userResetPassword(req, res, next) {
   // TBD
+  console.log(chalk.red('TBD: userResetPassword'))
   res.redirect('/')
 }
 

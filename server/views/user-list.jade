@@ -1,31 +1,47 @@
 extends _layout-admin.jade
 
-block content
-  h1 user list
-  h3: a(href="/users") new
+block vars
+  - var pageTitle = 'user list'
 
+block content
   if !data.users.length
     p now user yet
   else
-    table(border="1")
+    table.mdl-data-table.mdl-js-data-table.mdl-shadow--2dp
       thead
         tr
-          th id
-          th name
-          th email
-          th status
-          th created at
-          th password mail
-          th delete
+          if _config.debug
+            th.mdl-data-table__cell--non-numeric id
+          th.mdl-data-table__cell--non-numeric name
+          th.mdl-data-table__cell--non-numeric email
+          th.mdl-data-table__cell--non-numeric(colspan="2") status
+          th.mdl-data-table__cell--non-numeric created at
+          th.mdl-data-table__cell--non-numeric password mail
+          th.mdl-data-table__cell--non-numeric delete
       tbody
         each user in data.users
           tr
-            td: a(href=`/users/${user._id}`)= user._id
-            td= user.name
-            td= user.email
-            td= user.status
-            td= user.createdAt
-            td: form(action='/users/reset' method="post")
-              button(type="submit" name="id" value=user._id) send
-            td: form(action='/users/' + user._id + '/delete' method="post")
-              button(type="submit") x
+            if _config.debug
+              td.mdl-data-table__cell--non-numeric: a(href=`/users/${user._id}`)= user._id
+            td.mdl-data-table__cell--non-numeric: a(href=`/users/${user._id}`)= user.name
+            td.mdl-data-table__cell--non-numeric= user.email
+            td.mdl-data-table__cell--non-numeric
+              if user.status === 'confirmed'
+                i.material-icons check
+              if user.status === 'to be initialized'
+                i.material-icons report_problem
+              if user.status === 'password mail send'
+                i.material-icons schedule
+               //- user.status
+            td.mdl-data-table__cell--non-numeric= user.status
+            td.mdl-data-table__cell--non-numeric= formatDate(user.createdAt)
+            td.mdl-data-table__cell--non-numeric: form(action='/users/reset' method="post")
+              button.mdl-button.mdl-js-button.mdl-button--accent(type="submit" name="id" value=user._id)
+                | send
+            td.mdl-data-table__cell--non-numeric: form(action='/users/' + user._id + '/delete' method="post")
+              button.mdl-button.mdl-js-button.mdl-button--icon(type="submit")
+                i.material-icons delete
+
+    a.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored(href="/users")
+      i.material-icons person_add
+

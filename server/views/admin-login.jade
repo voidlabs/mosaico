@@ -1,22 +1,27 @@
 extends _layout-admin.jade
 
 block content
-  h1 connection admin
-  if (messages.error)
-    .message.error
-      h2 error
-      each message in messages.error
-        p= message
+  form(action="/admin/login" method="post").mdl-card.mdl-shadow--2dp
+    .mdl-card__title: .mdl-card__title-text connection admin
+    .mdl-card__supporting-text
+      if (messages.error)
+        .message.error
+          h2 error
+          each message in messages.error
+            p= message
 
-  if (messages.success)
-    .message.success
-      h2 success
-      each message in messages.success
-        p= message
+      if (messages.success)
+        .message.success
+          h2 success
+          each message in messages.success
+            p= message
 
-  form(action="/admin/login" method="post")
-    label password
-    br
-    input(type="hidden" name="username" value=_config.admin.username)
-    input(name="password")
-    button(type="submit") submit
+      input(type="hidden" name="username" value=_config.admin.username)
+
+      .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+        input.mdl-textfield__input#password-field(type="password" name="password" required)
+        label.mdl-textfield__label(for="password-field") password
+
+    .mdl-card__actions.mdl-card--border
+      button(type="submit").mdl-button.mdl-button--accent.mdl-js-button.mdl-js-ripple-effect
+        | submit
