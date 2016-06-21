@@ -85,7 +85,7 @@ function userResetPassword(req, res, next) {
   function onUser(user) {
     if (!user) {
       req.flash('error', 'invalid email')
-      res.redirect('/forgot')
+      return res.redirect('/forgot')
     }
     user
     .resetPassword()
