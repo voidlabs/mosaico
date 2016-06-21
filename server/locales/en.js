@@ -26,7 +26,8 @@
 			}
 		},
 		"logout": "logout",
-		"make-creation": "Click on one of the templates below to make a new mailing"
+		"make-creation": "Click on one of the templates below to make a new mailing",
+		"no-content": "No saved content"
 	},
 	"layout": {
 		"title": "Email template editor by “drag & drop” - A Badsender.com solution",
@@ -34,19 +35,22 @@
 	},
 	"password": {
 		"title": {
-			"login": "login",
-			"forgot": "forgot password?"
+			"login": "Login",
+			"forgot": "Forgot password?",
+			"reset": "Setup a new password"
 		},
 		"field": {
-			"email": "email",
-			"password": "password",
-			"confirm-email": "confirm your email address"
+			"email": "Email",
+			"password": "Password",
+			"confirm-email": "Confirm your email address",
+			"password-new": "New password"
 		},
 		"action": {
 			"login": "login",
 			"forgot": "forgot password?",
 			"reset": "reset",
-			"back-to-login": "back to login"
+			"back-to-login": "back to login",
+			"password-new": "Set my new password"
 		}
 	}
 }

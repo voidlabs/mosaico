@@ -38,7 +38,7 @@ block content
                   img(src=wireframe.imgPath + '_full.png' width="100%" alt="xx")
 
     if !data.creations.length
-      p no saved content
+      p= __('home.no-content')
     else
       //- modification du nom directement depuis le tableau
       div.table-container

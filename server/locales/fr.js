@@ -26,7 +26,8 @@
 			}
 		},
 		"logout": "déconnexion",
-		"make-creation": "Cliquez sur l'un des templates ci-dessous pour créer un nouvel email"
+		"make-creation": "Cliquez sur l'un des templates ci-dessous pour créer un nouvel email",
+		"no-content": "Pas de mailing enregistrés"
 	},
 	"layout": {
 		"title": "Éditeur de templates email responsive par \"glissé/déposé\" - Une solution Badsender.com",
@@ -34,19 +35,22 @@
 	},
 	"password": {
 		"field": {
-			"email": "email",
+			"email": "Email",
 			"password": "mot de passe",
-			"confirm-email": "Mot de passe oublié ?"
+			"confirm-email": "Confirmez votre email",
+			"password-new": "Nouveau mot de passe"
 		},
 		"action": {
 			"login": "connexion",
 			"forgot": "mot de passe oublié ?",
 			"reset": "réinitialiser",
-			"back-to-login": "revenir à la connexion"
+			"back-to-login": "revenir à la connexion",
+			"password-new": "Enregistrer"
 		},
 		"title": {
 			"login": "Connectez-vous",
-			"forgot": "mot de passe oublié ?"
+			"forgot": "Mot de passe oublié ?",
+			"reset": "Réinitialisation du mot de passe"
 		}
 	}
 }

@@ -64,21 +64,36 @@ function adminResetPassword(req, res, next) {
   var id = req.body.id
   Users
   .findById(id)
-  .exec()
   .then(function (user) {
     return user.resetPassword()
   })
   .then(function (user) {
-    console.log(user);
+    console.log(user)
     res.redirect('/admin')
   })
   .catch(next)
 }
 
 function userResetPassword(req, res, next) {
-  // TBD
-  console.log(chalk.red('TBD: userResetPassword'))
-  res.redirect('/')
+  Users
+  .findOne({
+    email: req.body.username
+  })
+  .then(onUser)
+  .catch(next)
+
+  function onUser(user) {
+    if (!user) {
+      req.flash('error', 'invalid email')
+      res.redirect('/forgot')
+    }
+    user
+    .resetPassword()
+    .then(function(user) {
+      req.flash('success', 'password has been reseted. You should receive an email soon')
+      res.redirect('/forgot')
+    })
+  }
 }
 
 function setPassword(req, res, next) {
