@@ -26,10 +26,28 @@
 				"tedc15": ": The TEDC15 template",
 				"tutorial": ": The Tutorial"
 			}
-		}
+		},
+		"logout": "logout"
 	},
 	"layout": {
 		"title": "Email template editor by “drag & drop” - A Badsender.com solution",
 		"description": "Badsender Email Builder is an emailing responsive design solution for building an email graphically by drag & drop."
+	},
+	"password": {
+		"title": {
+			"login": "login",
+			"forgot": "forgot password?"
+		},
+		"field": {
+			"email": "email",
+			"password": "password",
+			"confirm-email": "confirm your email address"
+		},
+		"action": {
+			"login": "login",
+			"forgot": "forgot password?",
+			"reset": "reset",
+			"back-to-login": "back to login"
+		}
 	}
 }

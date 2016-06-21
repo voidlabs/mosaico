@@ -48,6 +48,9 @@ html(lang=getLocale())
       .mdl-data-table {
         width: 100%;
       }
+      .mdl-textfield {
+        width: auto;
+      }
       .mdl-button--fab:not(.mdl-button--mini-fab) {
         position: fixed;
         bottom: .5em;
@@ -69,9 +72,8 @@ html(lang=getLocale())
         justify-content: center;
         align-items: center;
       }
-      .center-content .mdl-layout__content {
-        flex-grow: 0;
-        overflow: visible;
+      .center-content .mdl-card {
+        width: 400px;
       }
       .mdl-textfield {
         display: block;
@@ -89,8 +91,15 @@ html(lang=getLocale())
         font-size: 12px;
         overflow-x: auto;
       }
-
-    //- link(href='https://fonts.googleapis.com/css?family=PT+Sans:400,700', rel='stylesheet', type='text/css')
+      .lang {
+        position: absolute;
+        top: .25em;
+        right: .5em;
+      }
+      .lang a {
+        color: #000;
+        text-decoration: none;
+      }
 
   if _user.id
 
@@ -129,7 +138,13 @@ html(lang=getLocale())
                 pre= _debug
   else
     body.mdl-color--primary.mdl-color-text--grey-700.center-content
-      main.mdl-layout__content
+      main
+        .lang
+          if getLocale() === 'en'
+            a(href=_path + "?lang=fr") version française
+          else
+            a(href=_path + "?lang=en") english version
+
         block content
           if _config.debug
             footer(style="background: #eee")

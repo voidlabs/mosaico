@@ -13,10 +13,16 @@ block content
         else
           a(href="/?lang=en") english version
 
+        if (_user.isAdmin)
+          | &nbsp;|&nbsp;
+          a(href="/admin") admin
+
+        | &nbsp;|&nbsp;
+        a(href="/logout")= __('home.logout')
+
       div: img(src="/media/logo_badsender_154x118.png")
       .ribbon Badsender Email Builder
     main(role="main").content
-      h3 Demo
       p= __('home.click-to-try')
       div
         if !data.wireframes.length
