@@ -1,8 +1,6 @@
 {
 	"home": {
-		"click-to-try": "Cliquez sur l'un des templates de test ci-dessous afin d'essayer \"Badsender Email Builder\"",
 		"saved": {
-			"notification": "Vous avez des éléments sauvegardés dans votre navigateur !",
 			"show": "afficher",
 			"caption": "Liste des Emails sauvegardés",
 			"hide": "masquer",
@@ -27,7 +25,8 @@
 				"tutorial": " : le tutoriel"
 			}
 		},
-		"logout": "déconnexion"
+		"logout": "déconnexion",
+		"make-creation": "Cliquez sur l'un des templates ci-dessous pour créer un nouvel email"
 	},
 	"layout": {
 		"title": "Éditeur de templates email responsive par \"glissé/déposé\" - Une solution Badsender.com",

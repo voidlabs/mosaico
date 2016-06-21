@@ -1,8 +1,6 @@
 {
 	"home": {
-		"click-to-try": "Click on one of the test templates below to try “Badsender Email Builder”.",
 		"saved": {
-			"notification": "You have saved contents in this browser!",
 			"show": "show",
 			"caption": "Email contents saved",
 			"hide": "hide",
@@ -27,7 +25,8 @@
 				"tutorial": ": The Tutorial"
 			}
 		},
-		"logout": "logout"
+		"logout": "logout",
+		"make-creation": "Click on one of the templates below to make a new mailing"
 	},
 	"layout": {
 		"title": "Email template editor by “drag & drop” - A Badsender.com solution",
