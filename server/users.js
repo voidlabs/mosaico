@@ -55,7 +55,7 @@ function update(req, res, next) {
 function remove(req, res, next) {
   var userId = req.params.userId
   Users
-  .findOneAndRemove(userId)
+  .findByIdAndRemove(userId)
   .then( function () { res.redirect('/admin')} )
   .catch(next)
 }

@@ -112,7 +112,7 @@ function remove(req, res, next) {
     return Promise.all(creations)
   })
   .then(function (deletedCreations) {
-    return Wireframes.findOneAndRemove(wireframeId)
+    return Wireframes.findByIdAndRemove(wireframeId)
   })
   .then(function (deletedWireframe) {
     res.redirect(req.query.redirect)

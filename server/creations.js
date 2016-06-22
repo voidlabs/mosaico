@@ -78,7 +78,10 @@ function update(req, res, next) {
 
   Creations
   .findById(req.params.creationId)
-  .then(function (creation) {
+  .then(onCreation)
+  .catch(next)
+
+  function onCreation(creation) {
     if (!creation) {
       res.status(404)
       return next()
@@ -88,14 +91,16 @@ function update(req, res, next) {
     creation.data         = req.body.data
     // http://mongoosejs.com/docs/schematypes.html#mixed
     creation.markModified('data')
-    return creation.save()
-  })
-  .then(function (creation) {
-    var data2editor = creation.mosaico
-    if (!creationId) data2editor.meta.redirect = `/editor/${creation._id}`
-    res.json(data2editor)
-  })
-  .catch(next)
+
+    return creation
+    .save()
+    .then(function (creation) {
+      var data2editor = creation.mosaico
+      if (!creationId) data2editor.meta.redirect = `/editor/${creation._id}`
+      res.json(data2editor)
+    })
+    .catch(next)
+  }
 
 }
 

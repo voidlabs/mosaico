@@ -187,9 +187,6 @@ app.get('/img/',                    images.getResized)
 
 //----- USER
 
-
-//- should go prefix by creationId
-
 app.post('/dl/',                          guard('user'), download.post)
 app.all('/editor*',                       guard('user'))
 app.get('/editor/:creationId/delete',     creations.remove)
