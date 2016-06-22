@@ -5,7 +5,7 @@ var path      = require('path')
 var rc        = require('rc')
 var _         = require('lodash')
 var denodeify = require('denodeify')
-var mkdirp    = denodeify(require('mkdirp'))
+var mkdirp    = denodeify(require('fs-extra').mkdirs)
 
 var config  = rc('badsender', {
   debug: false,

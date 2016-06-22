@@ -11,7 +11,6 @@ var denodeify   = require('denodeify')
 var readFile    = denodeify(fs.readFile)
 var readDir     = denodeify(fs.readdir)
 
-
 var config      = require('./config')
 var streamImage
 var writeStream
@@ -163,6 +162,15 @@ if (config.isAws) {
         return new Promise( function (done) {
           var srcPath = path.join(config.images.uploadDir, file.name)
           var dstPath = srcPath.replace(oldPrefix, newPrefix)
+          fs.copy(srcPath, dstPath, function (err) {
+            if (err) console.log(err)
+            done()
+          })
+        })
+      }
+
+    })
+  }
 }
 
 
@@ -314,4 +322,5 @@ module.exports = {
   write:          write,
   list:           listImages,
   parseMultipart: parseMultipart,
+  copyImages:     copyImages,
 }
