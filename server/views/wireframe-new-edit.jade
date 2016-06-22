@@ -77,7 +77,7 @@ block content
 
           if wireframe.images.length
             .mdl-cell.mdl-cell--12-col.mdl-card.mdl-shadow--2dp
-              .mdl-card__title: .mdl-card__title-text Images
+              .mdl-card__title: .mdl-card__title-text Images (#{wireframe.images.length})
               details.mdl-card__supporting-text
                 summary show
                 ul
@@ -86,3 +86,18 @@ block content
 
       button(type="submit").mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored
         i.material-icons save
+
+  if (messages.success)
+    #notification.mdl-js-snackbar.mdl-snackbar.mdl-snackbar--active
+      .mdl-snackbar__text
+        each message in messages.success
+          span= message
+      button.mdl-snackbar__action(type="button")
+
+    script.
+      (function() {
+      'use strict';
+        setTimeout(function () {
+          document.querySelector('#notification').classList.remove('mdl-snackbar--active')
+        }, 2700)
+      }())

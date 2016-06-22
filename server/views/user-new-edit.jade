@@ -19,6 +19,9 @@ block content
       .mdl-card__title
         .mdl-card__title-text informations
       fieldset.mdl-card__supporting-text
+        //- if user._id
+        //-   ul
+        //-     li status: #{user.status}
         .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
           input.mdl-textfield__input#email-field(type="email" name="email" required value=user.email)
           label.mdl-textfield__label(for="email-field") email
@@ -33,9 +36,6 @@ block content
 
       button(type="submit").mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored
         i.material-icons save
-      //- .mdl-card__actions.mdl-card--border
-      //-   button.mdl-button.mdl-button--accent.mdl-js-button.mdl-js-ripple-effect(type="submit")
-      //-     | submit
 
     if isEdit
       .mdl-cell.mdl-cell--6-col.mdl-cell--top.mdl-card.mdl-shadow--2dp
@@ -59,6 +59,4 @@ block content
         .mdl-card__actions(class=data.wireframes.length ? '' : 'mdl-card--border')
           a.mdl-button.mdl-button--accent.mdl-js-button.mdl-js-ripple-effect(href='/users/' + user._id + '/wireframe')
             | new wireframe
-        //- a.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored(href='/users/' + user._id + '/wireframe')
-        //-   i.material-icons add
 

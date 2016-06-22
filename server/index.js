@@ -194,6 +194,7 @@ app.all('/editor*',                   guard('user'))
 app.get('/editor/:creationId/delete', creations.remove)
 app.get('/editor/:creationId?',       creations.show)
 app.post('/editor/:creationId?',      creations.update)
+app.put('/editor/:creationId',        creations.rename)
 app.get('/',                          guard('user'), creations.list)
 
 //////

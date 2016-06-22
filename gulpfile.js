@@ -58,33 +58,72 @@ gulp.task('clean-css', function (cb) {
   return del([buildDir + '/*.css', buildDir + '/*.css.map'], cb);
 });
 
-gulp.task('css', ['clean-css'], function () {
+// gulp.task('css', ['clean-css'], function () {
 
-  // compile LESS
-  var cssApp = gulp.src('src/css/badsender*.less')
-    .pipe($.if(isDev, $.plumber(onError)))
-    .pipe($.sourcemaps.init())
-    .pipe($.less())
-    .pipe($.postcss([
-        autoprefixer({ browsers: ['ie 10', 'last 2 versions'], }),
-      ]))
-    .pipe($.if(isDev, cssDev(), cssProd()));
+//   // compile LESS
+//   var cssApp = gulp.src('src/css/badsender*.less')
+//     .pipe($.if(isDev, $.plumber(onError)))
+//     .pipe($.sourcemaps.init())
+//     .pipe($.less())
+//     .pipe($.postcss([
+//         autoprefixer({ browsers: ['ie 10', 'last 2 versions'], }),
+//       ]))
+//     .pipe($.if(isDev, cssDev(), cssProd()));
 
-  // get colorpicker CSS
-  var cssColorpicker = gulp.src(mainBowerFiles({
+//   // get colorpicker CSS
+//   var cssColorpicker = gulp.src(mainBowerFiles({
+//     filter: /evol-colorpicker\/css/
+//   }));
+
+//   // bundle everything
+//   var filter = $.filter(['*.css', '!*-home.css'], {restore: true});
+//   return merge(cssApp, cssColorpicker)
+//     .pipe(filter)
+//     .pipe($.concat('badsender.css'))
+//     .pipe(filter.restore)
+//     .pipe($.if(!isDev, $.minifyCss()))
+//     .pipe(gulp.dest(buildDir))
+//     .pipe($.if(isDev, reload({stream: true})))
+// })
+
+gulp.task('css', ['css-editor', 'css-app'])
+
+gulp.task('css-editor', ['clean-css'], function () {
+  var cssColorpicker  = gulp
+  .src(mainBowerFiles({
     filter: /evol-colorpicker\/css/
-  }));
+  }))
+  var cssEditor = gulp
+  .src('src/css/badsender.less')
+  .pipe($.less())
+  .pipe($.postcss([
+    autoprefixer({ browsers: ['ie 10', 'last 2 versions'], }),
+  ]))
+  .pipe(cssProd())
 
-  // bundle everything
-  var filter = $.filter(['*.css', '!*-home.css'], {restore: true});
-  return merge(cssApp, cssColorpicker)
-    .pipe(filter)
-    .pipe($.concat('badsender.css'))
-    .pipe(filter.restore)
-    .pipe($.if(!isDev, $.minifyCss()))
-    .pipe(gulp.dest(buildDir))
-    .pipe($.if(isDev, reload({stream: true})))
-});
+  return merge(cssEditor, cssColorpicker)
+  .pipe($.concat('badsender-editor.css'))
+  .pipe($.if(!isDev, $.minifyCss()))
+  .pipe(gulp.dest(buildDir))
+  .pipe($.if(isDev, reload({stream: true})))
+})
+
+gulp.task('css-app', ['clean-css'], function () {
+  return gulp
+  .src('src/css/badsender-home.less')
+  .pipe($.if(isDev, $.plumber(onError)))
+  .pipe($.sourcemaps.init())
+  .pipe($.less())
+  .pipe($.postcss([
+    autoprefixer({ browsers: ['ie 10', 'last 2 versions'], }),
+  ]))
+  .pipe($.replace('rgb(255,152,0)', '#ff9f00'))
+  .pipe($.rename('badsender-app.css'))
+  .pipe($.if(isDev, cssDev(), cssProd()))
+  .pipe($.if(!isDev, $.minifyCss()))
+  .pipe(gulp.dest(buildDir))
+  .pipe($.if(isDev, reload({stream: true})))
+})
 
 ////////
 // JS
@@ -162,7 +201,7 @@ var debowerify  = require('debowerify')
 var envify      = require('envify/custom')
 var watchify    = require('watchify')
 
-gulp.task('app', ['templates'], function () {
+gulp.task('js-editor', ['templates'], function () {
   var b = browserify({
     cache:        {},
     packageCache: {},
@@ -195,9 +234,9 @@ gulp.task('app', ['templates'], function () {
     })
   }
 
-  return bundleShare(b);
+  return bundleShare(b)
 
-});
+})
 
 function bundleShare(b) {
   return b.bundle()
@@ -242,12 +281,42 @@ gulp.task('templates', function () {
   }
   return gulp.src('src/tmpl/*.html')
   .pipe((function() {
-    return through.obj(passThrough, resizeFlush);
+    return through.obj(passThrough, resizeFlush)
   })())
   // templates has to be build on “build” folder
   // they will be require by editor app application
-  .pipe(gulp.dest('build'));
-});
+  .pipe(gulp.dest('build'))
+})
+
+//----- HOME JS (rename for now)
+
+gulp.task('js-home', function () {
+  var b = browserify({
+    cache:        {},
+    packageCache: {},
+    debug:        true,
+    entries:      ['./src/js/home.js']
+  })
+  if (isWatch) {
+    b = watchify(b);
+    b.on('update', function () {
+      $.util.log('bundle home app')
+      bundleHome(b)
+    })
+  }
+  return bundleHome(b)
+})
+
+function bundleHome(b) {
+  return b.bundle()
+    .on('error', onError)
+    .pipe(source('badsender-home.js'))
+    .pipe(vinylBuffer())
+    .pipe($.if(!isDev, $.uglify()))
+    .pipe(gulp.dest(buildDir));
+}
+
+gulp.task('js', ['js-editor', 'js-home'])
 
 ////////
 // ASSETS
@@ -272,7 +341,7 @@ gulp.task('clean-all', function (cb) {
 });
 
 gulp.task('build', function (cb) {
-  run(['clean-all'], ['lib', 'app', 'css', 'assets'], cb);
+  run(['clean-all'], ['lib', 'js', 'css', 'assets'], cb);
 });
 
 var nodemonOptions = {
@@ -299,13 +368,12 @@ gulp.task('dev', ['build', 'nodemon'], function () {
     open: false,
     port: 7000,
     ghostMode: false,
-  });
+  })
 
-  gulp.watch(['server/views/*.jade', 'dist/*.js']).on('change', reload);
-  gulp.watch('src/css/**/*.less',     ['css']);
-  gulp.watch('src/tmpl/*.html',       ['templates']);
-  gulp.watch('src/js/contact-popup.js', ['contact-popup']);
-});
+  gulp.watch(['server/views/*.jade', 'dist/*.js']).on('change', reload)
+  gulp.watch('src/css/**/*.less',     ['css-app'])
+  gulp.watch('src/tmpl/*.html',       ['templates'])
+})
 
 var init = true;
 gulp.task('nodemon-prod', function (cb) {
@@ -319,7 +387,7 @@ gulp.task('nodemon-prod', function (cb) {
   });
 });
 
-gulp.task('prod', ['app', 'nodemon-prod'], function () {
+gulp.task('prod', ['js', 'nodemon-prod'], function () {
   gulp.watch(['server/views/*.jade', 'dist/*.js']).on('change', reload);
-  gulp.watch('src/css/**/*.less', ['css']);
+  gulp.watch('src/css/**/*.less', ['css-app']);
 });

@@ -92,6 +92,7 @@ function update(req, res, next) {
       return wireframe.save()
     })
     .then(function (wireframe) {
+      req.flash('success', wireId ? 'updated' : 'created')
       return res.redirect(`/users/${userId}/wireframe/${wireframe._id}`)
     })
     .catch(err => handleValidatorsErrors(err, req, res, next))

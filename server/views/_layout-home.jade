@@ -1,0 +1,90 @@
+doctype html
+
+block vars
+
+- var page = pageClass || ''
+- var title = pageTitle || ''
+
+html(lang=getLocale())
+  head
+    include _head-material
+    meta(name="viewport", content="width=480, initial-scale=1")
+    //- link(rel="stylesheet", href="/badsender-home.css")
+
+  body.mdl-color--grey-100.mdl-color-text--grey-700(class=page)
+    .mdl-layout.mdl-js-layout.mdl-layout--fixed-header.mdl-layout--fixed-tabs
+      header.mdl-layout__header
+        .mdl-layout__header-row
+          //- Title
+          //- Add spacer, to align navigation to the right
+          .mdl-layout-spacer
+          //- Navigation. We hide it in small screens
+          nav.mdl-navigation
+            if _user.isAdmin
+              a.mdl-navigation__link(href="/admin"): i.material-icons people
+              a.mdl-navigation__link(href="/wireframes"): i.material-icons web
+
+            if getLocale() === 'en'
+              a.mdl-navigation__link(href="/?lang=fr") version française
+            else
+              a.mdl-navigation__link(href="/?lang=en") english version
+
+            //- a(href="#scroll-tab-1").mdl-layout__tab.is-active Tab 1
+            //- a(href="#scroll-tab-2").mdl-layout__tab Tab 2
+
+            a.mdl-navigation__link(href="/logout"): i.material-icons power_settings_new
+
+        //- .mdl-layout__tab-bar.mdl-js-ripple-effect
+        //-   a(href="#create").mdl-layout__tab.is-active create new mailing
+        //-   a(href="#list").mdl-layout__tab Show creations
+
+      //- .mdl-layout__drawer
+      //-   span.mdl-layout-title Menu
+      //-   nav.mdl-navigation
+      //-     if _user.isAdmin
+      //-       a.mdl-navigation__link(href="/admin") users
+      //-       a.mdl-navigation__link(href="/wireframes") wireframes
+      //-     if getLocale() === 'en'
+      //-         a.mdl-navigation__link(href="/?lang=fr") version française
+      //-       else
+      //-         a.mdl-navigation__link(href="/?lang=en") english version
+      //-     a.mdl-navigation__link(href="/logout") logout
+
+      main.mdl-layout__content
+        .page-content
+          //- section#create.mdl-layout__tab-panel.is-active
+          //-   block create
+          //- section#list.mdl-layout__tab-panel
+          //-   block list
+          block create
+          block list
+        footer
+          .subscribe
+            a(href="http://agency.badsender.com/production/email-builder/")= __('home.more-info')
+          .footer
+            | Badsender.com -
+            |  #{__('home.footer.rights')}
+        if _config.debug
+          footer(style="background: #eee; text-align: left")
+            pre= JSON.stringify(data, null, '  ')
+            pre= _debug
+
+    //- should be a child of <body>
+    //- https://github.com/GoogleChrome/dialog-polyfill#limitations
+    dialog.mdl-dialog
+      h4.mdl-dialog__title= __('home.saved.new-name')
+      .mdl-dialog__content
+        .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+          input.mdl-textfield__input#name-field(type="text" name="name" required)
+          label.mdl-textfield__label(for="name-field") name
+      .mdl-dialog__actions
+        button(type="button").mdl-button.js-post Rename
+        button(type="button").mdl-button.js-close cancel
+
+    #notification.mdl-js-snackbar.mdl-snackbar
+      .mdl-snackbar__text
+      .mdl-snackbar__action(type="button")
+
+    script(defer src="/badsender-home.js")
+
+

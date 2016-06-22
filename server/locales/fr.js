@@ -7,7 +7,12 @@
 			"name": "nom",
 			"created": "créé le",
 			"last-change": "modifié le",
-			"operations": "opérations"
+			"operations": "opérations",
+			"rename": "renommer",
+			"edit": "éditer",
+			"delete": "supprimer",
+			"new-name": "home.saved.new-name",
+			"noname": "home.saved.noname"
 		},
 		"more-info": "en savoir plus à propos de l'éditeur",
 		"footer": {

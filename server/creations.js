@@ -89,9 +89,20 @@ function remove(req, res, next) {
   .catch(next)
 }
 
+function rename(req, res, next) {
+  var creationId  = req.params.creationId
+  Creations
+  .findByIdAndUpdate(creationId, req.body)
+  .then(function (creation) {
+    res.json(creation)
+  })
+  .catch(next)
+}
+
 module.exports = {
-  list:               list,
-  show:               show,
-  update:             update,
-  remove:             remove,
+  list:   list,
+  show:   show,
+  update: update,
+  remove: remove,
+  rename: rename,
 }
