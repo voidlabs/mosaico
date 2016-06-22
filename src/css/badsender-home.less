@@ -219,9 +219,29 @@ header {
 .mdl-card {
   min-height: 0;
 }
-details pre {
-  font-size: 12px;
-  overflow-x: auto;
+details {
+  pre {
+    font-size: 11px;
+    overflow-x: auto;
+  }
+
+  ul,
+  ol {
+    columns: 300px 2;
+    list-style: none;
+    counter-reset: nombre;
+  }
+  li {
+    counter-increment: nombre;
+    &::before {
+      content: counter(nombre) ' -';
+      color: #ccc;
+      width: 2em;
+      display: inline-block;
+      text-align: right;
+      padding-right: .5em;
+    }
+  }
 }
 .lang {
   position: absolute;

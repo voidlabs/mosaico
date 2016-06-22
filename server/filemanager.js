@@ -27,6 +27,14 @@ function printStreamError(err) {
 // AWS
 //////
 
+function formatFilenameForFront(filename) {
+  return {
+    url:          '/img/' + filename,
+    deleteUrl:    '/img/' + filename,
+    thumbnailUrl: `/cover/${filename}/150x150`,
+  }
+}
+
 if (config.isAws) {
   AWS.config.update(config.storage.aws)
   var s3    = new AWS.S3()
@@ -56,7 +64,16 @@ if (config.isAws) {
   }
   // http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#listObjects-property
   listImages = function(prefix) {
-
+    return new Promise(function (resolve, reject) {
+      s3.listObjects({
+        Bucket: config.storage.aws.bucketName,
+        Prefix: prefix,
+      }, function (err, data) {
+        if (err) return reject(err)
+        data = data.Contents
+        resolve(data.map( file => formatFilenameForFront(file.Key)) )
+      })
+    })
   }
 
 //////
@@ -83,14 +100,8 @@ if (config.isAws) {
 
       function onFiles(files) {
         files = files
-        .filter(function (file) { return file.indexOf(prefix) !== -1 })
-        .map(function (file) {
-          return {
-            url:          '/img/' + file,
-            deleteUrl:    '/img/' + file,
-            thumbnailUrl: `/cover/${file}/150x150`,
-          }
-        })
+        .filter( file => file.indexOf(prefix) !== -1 )
+        .map(formatFilenameForFront)
         resolve(files)
       }
     })
