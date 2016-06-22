@@ -19,8 +19,11 @@ var transporter = nodemailer.createTransport(config.emailTransport)
 
 transporter
 .verify()
+.then(function () {
+  console.log(chalk.green('[EMAIL] transport creation – SUCCESS'))
+})
 .catch(function (err) {
-  console.log(chalk.red('email config is bad'))
+  console.log(chalk.red('[EMAIL] transport creation – ERROR'))
   console.trace(err)
 })
 
