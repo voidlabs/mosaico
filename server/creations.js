@@ -37,16 +37,37 @@ function show(req, res, next) {
   var data = {
     translations: translations[req.getLocale()],
   }
-  var isNew = req.params.creationId == null
-  var dbRequest = isNew ?
-  Promise.resolve(Creations.getBlank(req.query.wireframeId))
-  : Creations.findById(req.params.creationId)
-
-  dbRequest
+  Creations
+  .findById(req.params.creationId)
   .then(function (creation) {
     res.render('editor', { data: _.assign({}, data, creation.mosaico) })
   })
   .catch(next)
+}
+
+function create(req, res, next) {
+  var wireframeId = req.query.wireframeId
+
+  Wireframes
+  .findById(wireframeId)
+  .then(onWireframe)
+  .catch(next)
+
+  function onWireframe(wireframe) {
+    if (!wireframe) {
+      res.status(404)
+      return next()
+    }
+    new Creations({
+      userId:       req.user.id,
+      wireframeId:  wireframeId,
+    })
+    .save()
+    .then(function (creation) {
+      res.redirect('/editor/' + creation._id)
+    })
+    .catch(next)
+  }
 }
 
 function update(req, res, next) {
@@ -55,11 +76,9 @@ function update(req, res, next) {
     return next()
   }
   var creationId  = req.params.creationId
-  var dbRequest   = creationId ?
-    Creations.findById(req.params.creationId)
-    : Promise.resolve(new Creations())
 
-  dbRequest
+  Creations
+  .findById(req.params.creationId)
   .then(function (creation) {
     if (!creation) {
       res.status(404)
@@ -105,4 +124,5 @@ module.exports = {
   update: update,
   remove: remove,
   rename: rename,
+  create: create,
 }

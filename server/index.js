@@ -192,24 +192,31 @@ app.post('/upload/',                  guard('user'), filemanager.upload)
 app.post('/dl/',                      guard('user'), download.post)
 app.all('/editor*',                   guard('user'))
 app.get('/editor/:creationId/delete', creations.remove)
-app.get('/editor/:creationId?',       creations.show)
-app.post('/editor/:creationId?',      creations.update)
+app.get('/editor/:creationId',        creations.show)
+app.post('/editor/:creationId',       creations.update)
 app.put('/editor/:creationId',        creations.rename)
+app.get('/editor',                    creations.create)
 app.get('/',                          guard('user'), creations.list)
 
 //////
 // ERROR HANDLING
 //////
 
+app.use(function (req, res, next) {
+  if (req.xhr) return  res.status(404).send('not found')
+  return res.render('error-404')
+})
+
 app.use(function (err, req, res, next) {
   console.log('error handling')
-  var status = err.status || err.statusCode || 500
+  var status = err.status || err.statusCode || (err.status = 500)
   status < 500 ? status === 404 ? void(0) : console.log(err) : console.trace(err)
   // force status for morgan to catch up
   res.status(status)
   // different formating
   if (req.xhr) return res.send(err)
-  if (status === 400) return res.render('error-404', err)
+  if (status === 400) return res.render('error-404')
+  if (!err.stacktrace) err.stacktrace = err.stack || new Error(err).stack
   return res.render('error-default', err)
 })
 

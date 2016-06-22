@@ -241,7 +241,7 @@ gulp.task('js-editor', ['templates'], function () {
 function bundleShare(b) {
   return b.bundle()
     .on('error', onError)
-    .pipe(source('badsender.js'))
+    .pipe(source('badsender-editor.js'))
     .pipe(vinylBuffer())
     .pipe($.if(!isDev, $.uglify()))
     .pipe(gulp.dest(buildDir));

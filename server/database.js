@@ -159,12 +159,14 @@ var CreationSchema    = Schema({
     type: String,
   },
   userId: {
-    type: String,
+    type:     String,
+    required: true,
   },
   // should use populate
   // http://mongoosejs.com/docs/populate.html
   wireframeId: {
-    type: String,
+    type:     String,
+    required: true,
   },
   // http://mongoosejs.com/docs/schematypes.html#mixed
   data: { },

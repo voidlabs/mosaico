@@ -16,7 +16,7 @@ block head-content
       var ok = Badsender.init({
         strings:                !{data.translations},
         metadata:               !{printJS(data.meta)},
-        data:                   !{printJS(data.data)},
+        data:                   !{ data.data ? printJS(data.data) : printJS('{}')},
         imgProcessorBackend:    basePath + '/img/',
         emailProcessorBackend:  basePath + '/dl/',
         titleToken:             'BADSENDER Responsive Email Designer',
