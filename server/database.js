@@ -206,21 +206,22 @@ CreationSchema.virtual('mosaico').get(function () {
   return mosaicoEditorData
 })
 
-CreationSchema.statics.getBlank = function (wireframeId) {
-  return {
-    // simulate virtual mosaico key
-    mosaico: {
-      meta: {
-        wireframeId:  wireframeId,
-        template:     wireframeLoadingUrl(wireframeId),
-      },
-      data: { },
-    }
-  }
-}
+// http://stackoverflow.com/questions/18324843/easiest-way-to-copy-clone-a-mongoose-document-instance#answer-25845569
+CreationSchema.methods.duplicate = function duplicate() {
+  var oldId   = this._id.toString()
+  var newId   = mongoose.Types.ObjectId()
+  this._id    = newId
+  this.name   = this.name + ' copy'
+  this.isNew  = true
+  // update all templates infos
+  var data    = JSON.stringify(this.data)
+  var replace = new RegExp(oldId, 'gm')
+  data        = data.replace(replace, newId.toString())
+  this.data   = JSON.parse(data)
+  this.markModified('data')
 
-// should upload image on a specific client bucket
-// -> can't handle live resize
+  return this.save()
+}
 
 //////
 // COMPILE SCHEMAS

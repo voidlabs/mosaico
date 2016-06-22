@@ -11,8 +11,9 @@
 			"rename": "renommer",
 			"edit": "éditer",
 			"delete": "supprimer",
-			"new-name": "home.saved.new-name",
-			"noname": "home.saved.noname"
+			"new-name": "Nouveau nom",
+			"noname": "sans titre",
+			"duplicate": "dupliquer"
 		},
 		"more-info": "en savoir plus à propos de l'éditeur",
 		"footer": {

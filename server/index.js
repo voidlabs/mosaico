@@ -191,16 +191,17 @@ app.get('/img/',                    images.getResized)
 
 //- should go prefix by creationId
 
-app.post('/dl/',                        guard('user'), download.post)
-app.all('/editor*',                     guard('user'))
-app.get('/editor/:creationId/delete',   creations.remove)
-app.get('/editor/:creationId/upload',   creations.listImages)
-app.post('/editor/:creationId/upload',  creations.upload)
-app.get('/editor/:creationId',          creations.show)
-app.post('/editor/:creationId',         creations.update)
-app.put('/editor/:creationId',          creations.rename)
-app.get('/editor',                      creations.create)
-app.get('/',                            guard('user'), creations.list)
+app.post('/dl/',                          guard('user'), download.post)
+app.all('/editor*',                       guard('user'))
+app.get('/editor/:creationId/delete',     creations.remove)
+app.get('/editor/:creationId/upload',     creations.listImages)
+app.post('/editor/:creationId/upload',    creations.upload)
+app.get('/editor/:creationId/duplicate',  creations.duplicate)
+app.get('/editor/:creationId',            creations.show)
+app.post('/editor/:creationId',           creations.update)
+app.put('/editor/:creationId',            creations.rename)
+app.get('/editor',                        creations.create)
+app.get('/',                              guard('user'), creations.list)
 
 //////
 // ERROR HANDLING
@@ -215,7 +216,11 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
   console.log('error handling')
   var status = err.status || err.statusCode || (err.status = 500)
-  status < 500 ? status === 404 ? void(0) : console.log(err) : console.trace(err)
+  if (status !== 404) {
+    console.log(err)
+    console.trace(err)
+  }
+
   // force status for morgan to catch up
   res.status(status)
   // different formating

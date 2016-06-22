@@ -102,7 +102,7 @@ function update(req, res, next) {
 function remove(req, res, next) {
   var creationId  = req.params.creationId
   Creations
-  .findOneAndRemove(creationId)
+  .findByIdAndRemove(creationId)
   .then( function () { res.redirect('/')} )
   .catch(next)
 }
@@ -116,6 +116,10 @@ function rename(req, res, next) {
   })
   .catch(next)
 }
+
+
+// should upload image on a specific client bucket
+// -> can't handle live resize
 
 function upload(req, res, next) {
   console.log(chalk.green('UPLOAD'))
@@ -143,6 +147,33 @@ function listImages(req, res, next) {
   .catch(next)
 }
 
+function duplicate(req, res, next) {
+
+  Creations
+  .findById(req.params.creationId)
+  .then(onCreation)
+  .catch(next)
+
+  function onCreation(creation) {
+    if (!creation) {
+      res.status(404)
+      next()
+    }
+    creation
+    .duplicate()
+    .then(onDuplicate)
+    .catch(next)
+  }
+
+  function onDuplicate(newCreation) {
+    filemanager
+    .copyImages(req.params.creationId, newCreation._id)
+    .then(function () {
+      res.redirect('/')
+    })
+  }
+}
+
 module.exports = {
   list:       list,
   show:       show,
@@ -152,4 +183,5 @@ module.exports = {
   create:     create,
   upload:     upload,
   listImages: listImages,
+  duplicate:  duplicate,
 }

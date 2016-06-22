@@ -9,14 +9,19 @@ if (!dialog.showModal) dialogPolyfill.registerDialog(dialog)
 
 var route   = false
 var $name   = false
+var $input  = $('#name-field')
 var notif   = $('#notification')[0]
 
 $('.js-rename').on('click', function (e) {
   e.preventDefault()
   var $target = $(e.currentTarget)
   route       = $target.data('href')
-  $name       = $target.parents('tr').find('js-name')
-  console.log(route)
+  $name       = $target.parents('tr').find('.js-name')
+  $input.val($name.text())
+  // don't seem to work…
+  setTimeout(function () {
+    componentHandler.upgradeElement($input.parent()[0])
+  }, 10)
   dialog.showModal()
 })
 

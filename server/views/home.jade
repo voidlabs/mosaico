@@ -35,7 +35,9 @@ block list
           th.mdl-data-table__cell--non-numeric= __('home.saved.last-change')
           th.mdl-data-table__cell--non-numeric= __('home.saved.rename')
           th.mdl-data-table__cell--non-numeric= __('home.saved.edit')
+          th.mdl-data-table__cell--non-numeric= __('home.saved.duplicate')
           th.mdl-data-table__cell--non-numeric= __('home.saved.delete')
+
         tbody(data-bind="foreach: edits")
           each creation in data.creations
             - var editUrl = '/editor/' + creation._id;
@@ -52,7 +54,8 @@ block list
                 a.js-rename.operationButton(data-href=editUrl title="rename" href="#"): i.material-icons title
               td.mdl-data-table__cell--non-numeric
                 a.operationButton(href=editUrl title="edit"):  i.material-icons mode_edit
-              //- ajout d'un bouton dupliquer
+              td.mdl-data-table__cell--non-numeric
+                a.operationButton(href=editUrl + '/duplicate' title="duplicate"):  i.material-icons content_copy
               td.mdl-data-table__cell--non-numeric
                 a.operationButton(href=editUrl + '/delete' title="delete"): i.material-icons delete
 

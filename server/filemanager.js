@@ -1,7 +1,7 @@
 'use strict'
 
 var _           = require('lodash')
-var fs          = require('fs')
+var fs          = require('fs-extra')
 var url         = require('url')
 var path        = require('path')
 var AWS         = require('aws-sdk')
@@ -16,6 +16,7 @@ var config      = require('./config')
 var streamImage
 var writeStream
 var listImages
+var copyImages
 
 function printStreamError(err) {
   // local not found
@@ -29,6 +30,7 @@ function printStreamError(err) {
 
 function formatFilenameForFront(filename) {
   return {
+    name:         filename,
     url:          '/img/' + filename,
     deleteUrl:    '/img/' + filename,
     thumbnailUrl: `/cover/${filename}/150x150`,
@@ -76,6 +78,39 @@ if (config.isAws) {
     })
   }
 
+  // copy always resolve
+  // http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#copyObject-property
+  copyImages = function(oldPrefix, newPrefix) {
+    return new Promise(function (resolve) {
+
+      listImages(oldPrefix)
+      .then(onImages)
+      .catch(resolve)
+
+      function onImages(files) {
+        files = files.map(copyAndAlwaysResolve)
+        Promise
+        .all(files)
+        .then(resolve)
+      }
+
+      function copyAndAlwaysResolve(file) {
+        return new Promise( function (done) {
+          var src = config.storage.aws.bucketName + '/' + file.name
+          s3.copyObject({
+            Bucket:     config.storage.aws.bucketName,
+            CopySource: src,
+            Key:        file.name.replace(oldPrefix, newPrefix),
+          }, function (err, data) {
+            if (err) console.log(err)
+            done()
+          })
+        })
+      }
+
+    })
+  }
+
 //////
 // LOCAL
 //////
@@ -107,6 +142,27 @@ if (config.isAws) {
     })
   }
 
+  // copy always resolve
+  copyImages = function(oldPrefix, newPrefix) {
+    return new Promise(function (resolve) {
+
+      listImages(oldPrefix)
+      .then(onImages)
+      .catch(resolve)
+
+      function onImages(files) {
+        files = files.map(copyAndAlwaysResolve)
+        Promise
+        .all(files)
+        .then(resolve)
+
+      }
+
+      function copyAndAlwaysResolve(file) {
+        console.log(file)
+        return new Promise( function (done) {
+          var srcPath = path.join(config.images.uploadDir, file.name)
+          var dstPath = srcPath.replace(oldPrefix, newPrefix)
 }
 
 
