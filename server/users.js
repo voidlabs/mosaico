@@ -93,6 +93,7 @@ function userResetPassword(req, res, next) {
       req.flash('success', 'password has been reseted. You should receive an email soon')
       res.redirect('/forgot')
     })
+    .catch(next)
   }
 }
 

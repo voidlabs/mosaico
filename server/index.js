@@ -201,27 +201,40 @@ app.get('/',                          guard('user'), creations.list)
 //////
 
 app.use(function (err, req, res, next) {
-  var status = err.status || err.statusCode
+  console.log('error handling')
+  var status = err.status || err.statusCode || 500
   status < 500 ? status === 404 ? void(0) : console.log(err) : console.trace(err)
   // force status for morgan to catch up
   res.status(status)
-  next(err)
+  // different formating
+  if (req.xhr) return res.send(err)
+  if (status === 400) return res.render('error-404', err)
+  return res.render('error-default', err)
 })
 
-var handler = errorHandler({
-  handlers: {
-    default: function errDefault(err, req, res, next) {
-      if (req.xhr) return res.status(err.status).send(err.message)
-      res.render('error-default', err)
-    },
-    404: function err404(err, req, res, next) {
-      if (req.xhr) return res.status(404).send(err.message)
-      res.render('error-404')
-    }
-  }
-})
-app.use(errorHandler.httpError(404))
-app.use(handler)
+// var handler = errorHandler({
+//   handlers: {
+//     // default: function errDefault(err, req, res, next) {
+//     //   console.log('ERROR DEFAULT')
+//     //   if (req.xhr) return res.status(err.status).send(err.message)
+//     //   res.render('error-default', err)
+//     // },
+//     500: function err500(err, req, res, next) {
+//       console.log('error 500')
+//       if (req.xhr) return res.status(500).send(err.message)
+//       res.render('error-default', err)
+//     },
+//     404: function err404(err, req, res, next) {
+//       if (req.xhr) return res.status(404).send(err.message)
+//       res.render('error-404')
+//     }
+//   },
+//   views: {
+//     default: 'error-default',
+//   }
+// })
+// app.use(errorHandler.httpError(404))
+// app.use(handler)
 
 //////
 // LAUNCHING

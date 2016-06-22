@@ -62,49 +62,54 @@ UserSchema.virtual('isReseted').get(function () {
   return false
 })
 
+// TODO: take care of good email send
 UserSchema.methods.resetPassword = function resetPassword() {
-  // don't use callback param
-  // we want to use promise
   var user      = this
   user.password = void(0)
   user.token    = randtoken.generate(30)
 
-  return user
-  .save()
-  .then(function () {
-    return mail
-    .send({
-      to:       user.email,
-      subject:  'badsender – password reset',
-      text:     `here is the link to enter your new password http://localhost:3000/password/${user.token}`,
-      // html: ``,
-    })
-  })
-  .then(function () {
-    return Promise.resolve(user)
+  return new Promise(function (resolve, reject) {
+    user
+    .save()
+    .then(onSave)
+    .catch(reject)
+
+    function onSave(updatedUser) {
+      return mail
+      .send({
+        to:       updatedUser.email,
+        subject:  'badsender – password reset',
+        text:     `here is the link to enter your new password http://localhost:3000/password/${user.token}`,
+        // html: ``,
+      })
+      .then(function () { return resolve(updatedUser) })
+      .catch(reject)
+    }
   })
 }
 
 UserSchema.methods.setPassword = function setPassword(password) {
-  // don't use callback param
-  // we want to use promise
   var user      = this
   user.token    = void(0)
   user.password = password
 
-  return user
-  .save()
-  .then(function () {
-    return mail
-    .send({
-      to:       user.email,
-      subject:  'badsender – password reset',
-      text:     `your password has been succesfully been reseted. connect at http://localhost:3000/login`,
-      // html: ``,
-    })
-  })
-  .then(function () {
-    return Promise.resolve(user)
+  return new Promise(function (resolve, reject) {
+    user
+    .save()
+    .then(onSave)
+    .catch(reject)
+
+    function onSave(updatedUser) {
+      return mail
+      .send({
+        to:       updatedUser.email,
+        subject:  'badsender – password reset',
+        text:     `your password has been succesfully been reseted. connect at http://localhost:3000/login`,
+        // html: ``,
+      })
+      .then(function () { return resolve(updatedUser) })
+      .catch(reject)
+    }
   })
 }
 
@@ -241,7 +246,9 @@ function handleValidationErrors(err) {
     // fix that based on the error message
     var fieldName = /index:\s([a-z]*)/.exec(err.message)[1]
     var errorMsg  = {}
-    errorMsg[fieldName] = {message: `this ${fieldName} is already taken`}
+    errorMsg[fieldName] = {
+      message: `this ${fieldName} is already taken`,
+    }
     return Promise.resolve(errorMsg)
   }
   return Promise.reject(err)
