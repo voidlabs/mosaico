@@ -54,7 +54,6 @@
     "cookie-parser": "^1.4.3",
     "denodeify": "^1.2.1",
     "express": "^4.14.0",
-    "express-error-handler": "^1.0.1",
     "express-flash": "0.0.2",
     "express-session": "^1.13.0",
     "formidable": "^1.0.17",

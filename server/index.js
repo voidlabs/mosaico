@@ -7,7 +7,6 @@ var bodyParser    = require('body-parser')
 var compression   = require('compression')
 var morgan        = require('morgan')
 var favicon       = require('serve-favicon')
-var errorHandler  = require('express-error-handler')
 var cookieParser  = require('cookie-parser')
 var i18n          = require('i18n')
 var moment        = require('moment')
@@ -229,30 +228,6 @@ app.use(function (err, req, res, next) {
   if (!err.stacktrace) err.stacktrace = err.stack || new Error(err).stack
   return res.render('error-default', err)
 })
-
-// var handler = errorHandler({
-//   handlers: {
-//     // default: function errDefault(err, req, res, next) {
-//     //   console.log('ERROR DEFAULT')
-//     //   if (req.xhr) return res.status(err.status).send(err.message)
-//     //   res.render('error-default', err)
-//     // },
-//     500: function err500(err, req, res, next) {
-//       console.log('error 500')
-//       if (req.xhr) return res.status(500).send(err.message)
-//       res.render('error-default', err)
-//     },
-//     404: function err404(err, req, res, next) {
-//       if (req.xhr) return res.status(404).send(err.message)
-//       res.render('error-404')
-//     }
-//   },
-//   views: {
-//     default: 'error-default',
-//   }
-// })
-// app.use(errorHandler.httpError(404))
-// app.use(handler)
 
 //////
 // LAUNCHING
