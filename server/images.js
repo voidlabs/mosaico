@@ -75,6 +75,31 @@ function getResized(req, res, next) {
   }
 }
 
+function getCover(req, res, next) {
+  var imageName = req.params.imageName
+  var sizes     = req.params.sizes ? req.params.sizes.split('x') : [0, 0]
+  var width     = sizes[0]
+  var height    = sizes[1]
+
+  var ic = gm(streamImage(imageName)).format({ bufferStream: true }, onFormat)
+
+  function streamToResponse (err, stdout, stderr) {
+    if (err) return next(err)
+    stdout.pipe(res)
+  }
+
+  function onFormat(err, format) {
+    if (!err) res.set('Content-Type', 'image/' + format.toLowerCase());
+    ic.autoOrient()
+    .resize(width, height + '^')
+    .gravity('Center')
+    .extent(width, height + '>')
+    .stream(streamToResponse)
+  }
+
+}
+
 module.exports = {
-  getResized:   getResized
+  getResized:   getResized,
+  getCover:     getCover,
 }

@@ -170,38 +170,43 @@ app.post('/login', session.authenticate('local', {
   failureRedirect: '/login',
   failureFlash:     true,
 }))
-app.get('/login',                 render.login)
-app.get('/logout',                session.logout)
-app.get('/forgot',                render.forgot)
-app.post('/forgot',               users.userResetPassword)
-app.get('/password/:token',       render.reset)
-app.post('/password/:token',      users.setPassword)
-app.get('/img/:imageName',        filemanager.read)
-app.get('/img/',                  images.getResized)
+app.get('/login',                   render.login)
+app.get('/logout',                  session.logout)
+app.get('/forgot',                  render.forgot)
+app.post('/forgot',                 users.userResetPassword)
+app.get('/password/:token',         render.reset)
+app.post('/password/:token',        users.setPassword)
+app.get('/img/:imageName',          filemanager.read)
+app.get('/cover/:imageName/:sizes', images.getCover)
+app.get('/img/',                    images.getResized)
+
 
 // NTH additional routes for handling live resize
 // app.get('/placeholder',        images.getOriginal)
 // app.get('/resize/:imageName',  images.getOriginal)
-// app.get('/cover/:imageName',   images.getOriginal)
+
 
 //----- USER
 
 
 //- should go prefix by creationId
-app.post('/upload/',                  guard('user'), filemanager.upload)
-app.post('/dl/',                      guard('user'), download.post)
-app.all('/editor*',                   guard('user'))
-app.get('/editor/:creationId/delete', creations.remove)
-app.get('/editor/:creationId',        creations.show)
-app.post('/editor/:creationId',       creations.update)
-app.put('/editor/:creationId',        creations.rename)
-app.get('/editor',                    creations.create)
-app.get('/',                          guard('user'), creations.list)
+
+app.post('/dl/',                        guard('user'), download.post)
+app.all('/editor*',                     guard('user'))
+app.get('/editor/:creationId/delete',   creations.remove)
+app.get('/editor/:creationId/upload',   creations.listImages)
+app.post('/editor/:creationId/upload',  creations.upload)
+app.get('/editor/:creationId',          creations.show)
+app.post('/editor/:creationId',         creations.update)
+app.put('/editor/:creationId',          creations.rename)
+app.get('/editor',                      creations.create)
+app.get('/',                            guard('user'), creations.list)
 
 //////
 // ERROR HANDLING
 //////
 
+// everyhting that go there without an error should be treated as a 404
 app.use(function (req, res, next) {
   if (req.xhr) return  res.status(404).send('not found')
   return res.render('error-404')

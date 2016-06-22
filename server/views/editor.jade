@@ -23,12 +23,12 @@ block head-content
         fileuploadConfig: {
           //- don't prepend basePath
           //- CORS errors can occur while using browsersync
-          url: '/upload/',
+          url: '/editor/#{data.meta.id}/upload',
           // messages??
         },
       }, plugins);
       if (!ok) {
         console.error("config not setted properly");
-        //- document.location = ".";
+        $('.mo-standalone').html('<h1>error</h1><h2>config not setted properly</h2>')
       }
     });

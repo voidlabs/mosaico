@@ -9,10 +9,13 @@ var chalk       = require('chalk')
 var formidable  = require('formidable')
 var denodeify   = require('denodeify')
 var readFile    = denodeify(fs.readFile)
+var readDir     = denodeify(fs.readdir)
+
 
 var config      = require('./config')
 var streamImage
 var writeStream
+var listImages
 
 function printStreamError(err) {
   // local not found
@@ -25,8 +28,6 @@ function printStreamError(err) {
 //////
 
 if (config.isAws) {
-  // listing
-  // http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#listObjects-property
   AWS.config.update(config.storage.aws)
   var s3    = new AWS.S3()
 
@@ -53,6 +54,10 @@ if (config.isAws) {
       console.log(err, data)
     })
   }
+  // http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#listObjects-property
+  listImages = function(prefix) {
+
+  }
 
 //////
 // LOCAL
@@ -70,6 +75,27 @@ if (config.isAws) {
     var dest      = fs.createWriteStream(filePath)
     return source.pipe(dest)
   }
+  listImages = function(prefix) {
+    return new Promise(function(resolve, reject) {
+      readDir(config.images.uploadDir)
+      .then(onFiles)
+      .catch(reject)
+
+      function onFiles(files) {
+        files = files
+        .filter(function (file) { return file.indexOf(prefix) !== -1 })
+        .map(function (file) {
+          return {
+            url:          '/img/' + file,
+            deleteUrl:    '/img/' + file,
+            thumbnailUrl: `/cover/${file}/150x150`,
+          }
+        })
+        resolve(files)
+      }
+    })
+  }
+
 }
 
 
@@ -179,7 +205,7 @@ function handleEditorUpload(fields, files, resolve) {
   file      = _.assign({}, file, {
     url:          '/img/' + file.name,
     deleteUrl:    '/img/' + file.name,
-    thumbnailUrl: '/img/' + file.name,
+    thumbnailUrl: `/cover/${file.name}/150x150`,
   })
   resolve({ files: [file] , })
 }
@@ -215,24 +241,10 @@ function read(req, res, next) {
   })
 }
 
-function upload(req, res, next) {
-  console.log(chalk.green('UPLOAD'))
-  parseMultipart(req, {
-    prefix:     req.user.id,
-    formatter:  'editor',
-  })
-  .then(onParse)
-  .catch(next)
-
-  function onParse(datas4fileupload) {
-    res.send(JSON.stringify(datas4fileupload))
-  }
-}
-
 module.exports = {
   streamImage:    streamImage,
   read:           read,
   write:          write,
-  upload:         upload,
+  list:           listImages,
   parseMultipart: parseMultipart,
 }

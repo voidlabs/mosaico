@@ -80,7 +80,7 @@ UserSchema.methods.resetPassword = function resetPassword() {
         to:       updatedUser.email,
         subject:  'badsender – password reset',
         text:     `here is the link to enter your new password http://localhost:3000/password/${user.token}`,
-        // html: ``,
+        html:     `here is the link to enter your new password http://localhost:3000/password/${user.token}`,
       })
       .then(function () { return resolve(updatedUser) })
       .catch(reject)
@@ -105,7 +105,7 @@ UserSchema.methods.setPassword = function setPassword(password) {
         to:       updatedUser.email,
         subject:  'badsender – password reset',
         text:     `your password has been succesfully been reseted. connect at http://localhost:3000/login`,
-        // html: ``,
+        html:     `your password has been succesfully been reseted. connect at http://localhost:3000/login`,
       })
       .then(function () { return resolve(updatedUser) })
       .catch(reject)

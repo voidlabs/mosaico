@@ -6,6 +6,7 @@ var util        = require('util')
 
 var config      = require('./config')
 var DB          = require('./database')
+var filemanager = require('./filemanager')
 var Wireframes  = DB.Wireframes
 var Creations   = DB.Creations
 
@@ -15,9 +16,7 @@ var translations = {
 }
 
 function list(req, res, next) {
-  var isAdmin         = req.user.isAdmin
-  // var wireframeQuery  = isAdmin ? {} : {userId: req.user.id}
-
+  var isAdmin           = req.user.isAdmin
   var wireframesRequest = Wireframes.find(isAdmin ? {} : {userId: req.user.id})
   var creationsRequest  = Creations.find({userId: req.user.id})
 
@@ -118,11 +117,39 @@ function rename(req, res, next) {
   .catch(next)
 }
 
+function upload(req, res, next) {
+  console.log(chalk.green('UPLOAD'))
+  filemanager
+  .parseMultipart(req, {
+    prefix:     req.params.creationId,
+    formatter:  'editor',
+  })
+  .then(onParse)
+  .catch(next)
+
+  function onParse(datas4fileupload) {
+    res.send(JSON.stringify(datas4fileupload))
+  }
+}
+
+function listImages(req, res, next) {
+  filemanager
+  .list(req.params.creationId)
+  .then(function (images) {
+    res.json({
+      files: images,
+    })
+  })
+  .catch(next)
+}
+
 module.exports = {
-  list:   list,
-  show:   show,
-  update: update,
-  remove: remove,
-  rename: rename,
-  create: create,
+  list:       list,
+  show:       show,
+  update:     update,
+  remove:     remove,
+  rename:     rename,
+  create:     create,
+  upload:     upload,
+  listImages: listImages,
 }
