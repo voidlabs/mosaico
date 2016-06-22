@@ -62,10 +62,10 @@ if (config.isAws) {
       console.log(err, data)
     })
   }
-  // http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#listObjects-property
+  // http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#listObjectsV2-property
   listImages = function(prefix) {
     return new Promise(function (resolve, reject) {
-      s3.listObjects({
+      s3.listObjectsV2({
         Bucket: config.storage.aws.bucketName,
         Prefix: prefix,
       }, function (err, data) {
