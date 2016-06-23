@@ -15,10 +15,10 @@ block content
           tr
             if _config.debug
               th.mdl-data-table__cell--non-numeric id
-            th.mdl-data-table__cell--non-numeric name
+            th.mdl-data-table__cell--non-numeric wireframe name
             th.mdl-data-table__cell--non-numeric user
             th.mdl-data-table__cell--action markup?
-            th.mdl-data-table__cell--action view
+            th.mdl-data-table__cell--action create new mailing
             th.mdl-data-table__cell--action delete
         tbody
           each wireframe in data.wireframes
@@ -38,7 +38,7 @@ block content
                   i.material-icons report_problem
               td.mdl-data-table__cell--action
                 a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href='/editor?wireframeId=' + wireframe._id)
-                  i.material-icons zoom_in
+                  i.material-icons library_add
               - var deleteUrl = '/wireframes/' + wireframe._id + '/delete'
               - deleteUrl = deleteUrl + '?redirect=/wireframes'
               td.mdl-data-table__cell--action

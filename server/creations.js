@@ -17,7 +17,9 @@ var translations = {
 
 function list(req, res, next) {
   var isAdmin           = req.user.isAdmin
-  var wireframesRequest = Wireframes.find(isAdmin ? {} : {userId: req.user.id})
+  // _user => for wireframe we have a relation
+  var wireframesRequest = Wireframes.find(isAdmin ? {} : {_user: req.user.id})
+  // userId => for creation not
   var creationsRequest  = Creations.find({userId: req.user.id}).populate('_wireframe')
 
   Promise.all([wireframesRequest, creationsRequest])

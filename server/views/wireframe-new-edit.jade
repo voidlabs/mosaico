@@ -25,8 +25,8 @@ block content
           .material-icons.mdl-list__item-icon person
           | back to user
         li.mdl-list__item: a.mdl-list__item-primary-content(href='/editor?wireframeId=' + wireframe._id)
-          .material-icons.mdl-list__item-icon pageview
-          | view
+          .material-icons.mdl-list__item-icon library_add
+          | create mailing
         if !wireframe.hasMarkup
           li.mdl-list__item: span.mdl-list__item-primary-content(style="color: #d50000")
             .material-icons.mdl-list__item-icon report_problem
