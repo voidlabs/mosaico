@@ -3,27 +3,8 @@
 @grey: #333332;
 @accent-color: @accent;
 
-
 @import (inline) "../../node_modules/material-design-lite/dist/material.orange-blue.min.css";
-// @fa-font-path: "fa/fonts";
-
-// body {
-//   font-family: 'PT Sans', sans-serif;
-//   font-size: 13.6px;
-//   overflow: auto;
-//   text-align: center;
-//   padding: 0;
-//   margin: 0;
-//   background: white;
-//   display: flex;
-//   flex-direction: column;
-//   min-height: 100vh;
-// }
-
-// a {
-//   color: @grey;
-//   text-decoration: none;
-// }
+@import (inline) "../../node_modules/dialog-polyfill/dialog-polyfill.css";
 
 .template {
   margin: 10px;
@@ -279,4 +260,7 @@ details {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.mdl-layout__content.mdl-grid {
+  width: 100%;
 }

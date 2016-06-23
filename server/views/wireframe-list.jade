@@ -4,34 +4,35 @@ block vars
   - var pageTitle = 'wireframes list'
 
 block content
+  .page-content
 
-  if !data.wireframes.length
-    p no wireframes yet
-  else
+    if !data.wireframes.length
+      p no wireframes yet
+    else
 
-    table.mdl-data-table.mdl-js-data-table.mdl-shadow--2dp
-      thead
-        tr
-          if _config.debug
-            th.mdl-data-table__cell--non-numeric id
-          th.mdl-data-table__cell--non-numeric name
-          th.mdl-data-table__cell--non-numeric user
-          th.mdl-data-table__cell--non-numeric markup?
-          th.mdl-data-table__cell--non-numeric
-      tbody
-        each wireframe in data.wireframes
+      table.mdl-data-table.mdl-js-data-table.mdl-shadow--2dp
+        thead
           tr
             if _config.debug
+              th.mdl-data-table__cell--non-numeric id
+            th.mdl-data-table__cell--non-numeric name
+            th.mdl-data-table__cell--non-numeric user
+            th.mdl-data-table__cell--non-numeric markup?
+            th.mdl-data-table__cell--non-numeric
+        tbody
+          each wireframe in data.wireframes
+            tr
+              if _config.debug
+                td.mdl-data-table__cell--non-numeric
+                  a(href='/users/' + wireframe.userId + '/wireframe/' + wireframe._id)= wireframe._id
               td.mdl-data-table__cell--non-numeric
-                a(href='/users/' + wireframe.userId + '/wireframe/' + wireframe._id)= wireframe._id
-            td.mdl-data-table__cell--non-numeric
-                a(href='/users/' + wireframe.userId + '/wireframe/' + wireframe._id)= wireframe.name
-            td.mdl-data-table__cell--non-numeric
-              a(href='/users/' + wireframe.userId )= wireframe.userId
-            td.mdl-data-table__cell--non-numeric
-              if wireframe.hasMarkup
-                i.material-icons check
-              else
-                i.material-icons report_problem
-            td
-              a.mdl-button.mdl-js-button.mdl-button--accent(href='/editor?wireframeId=' + wireframe._id) view
+                  a(href='/users/' + wireframe.userId + '/wireframe/' + wireframe._id)= wireframe.name
+              td.mdl-data-table__cell--non-numeric
+                a(href='/users/' + wireframe.userId )= wireframe.userId
+              td.mdl-data-table__cell--non-numeric
+                if wireframe.hasMarkup
+                  i.material-icons check
+                else
+                  i.material-icons report_problem
+              td
+                a.mdl-button.mdl-js-button.mdl-button--accent(href='/editor?wireframeId=' + wireframe._id) view

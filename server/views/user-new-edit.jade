@@ -12,51 +12,53 @@ block content
   - var hasError  = messages.error && messages.error.length;
   - var errors    = hasError ? messages.error[0] : {};
 
-  .mdl-grid
-    form.mdl-cell.mdl-cell--6-col.mdl-cell--top.mdl-card.mdl-shadow--2dp(action=action method="post" class=isEdit ? '' : 'mdl-cell--3-offset-desktop')
-      if user._id
-        input(type="hidden" name="id" value=user._id)
-      .mdl-card__title
-        .mdl-card__title-text informations
-      fieldset.mdl-card__supporting-text
-        //- if user._id
-        //-   ul
-        //-     li status: #{user.status}
-        .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-          input.mdl-textfield__input#email-field(type="email" name="email" required value=user.email)
-          label.mdl-textfield__label(for="email-field") email
-          if errors.email
-            span.mdl-textfield__error= errors.email.message
+  .page-content
 
-        .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-          input.mdl-textfield__input#name-field(type="text" name="name" value=user.name)
-          label.mdl-textfield__label(for="name-field") name
-          if errors.email
-            span.mdl-textfield__error= errors.email.message
-
-      button(type="submit").mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored
-        i.material-icons save
-
-    if isEdit
-      .mdl-cell.mdl-cell--6-col.mdl-cell--top.mdl-card.mdl-shadow--2dp
+    .mdl-grid
+      form.mdl-cell.mdl-cell--6-col.mdl-cell--top.mdl-card.mdl-shadow--2dp(action=action method="post" class=isEdit ? '' : 'mdl-cell--3-offset-desktop')
+        if user._id
+          input(type="hidden" name="id" value=user._id)
         .mdl-card__title
-          .mdl-card__title-text associated wireframes
+          .mdl-card__title-text informations
+        fieldset.mdl-card__supporting-text
+          //- if user._id
+          //-   ul
+          //-     li status: #{user.status}
+          .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+            input.mdl-textfield__input#email-field(type="email" name="email" required value=user.email)
+            label.mdl-textfield__label(for="email-field") email
+            if errors.email
+              span.mdl-textfield__error= errors.email.message
 
-        if !data.wireframes.length
-          .mdl-card__supporting-text: p no wireframes yet
-        else
-          table.mdl-data-table.mdl-js-data-table
-            thead
-              tr
-                th.mdl-data-table__cell--non-numeric id
-                th.mdl-data-table__cell--non-numeric name
-            tbody
-              each wireframe in data.wireframes
+          .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+            input.mdl-textfield__input#name-field(type="text" name="name" value=user.name)
+            label.mdl-textfield__label(for="name-field") name
+            if errors.email
+              span.mdl-textfield__error= errors.email.message
+
+        button(type="submit").mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored
+          i.material-icons save
+
+      if isEdit
+        .mdl-cell.mdl-cell--6-col.mdl-cell--top.mdl-card.mdl-shadow--2dp
+          .mdl-card__title
+            .mdl-card__title-text associated wireframes
+
+          if !data.wireframes.length
+            .mdl-card__supporting-text: p no wireframes yet
+          else
+            table.mdl-data-table.mdl-js-data-table
+              thead
                 tr
-                  td.mdl-data-table__cell--non-numeric
-                    a(href='/users/' + wireframe.userId + '/wireframe/' + wireframe._id)= wireframe._id
-                  td.mdl-data-table__cell--non-numeric= wireframe.name
-        .mdl-card__actions(class=data.wireframes.length ? '' : 'mdl-card--border')
-          a.mdl-button.mdl-button--accent.mdl-js-button.mdl-js-ripple-effect(href='/users/' + user._id + '/wireframe')
-            | new wireframe
+                  th.mdl-data-table__cell--non-numeric id
+                  th.mdl-data-table__cell--non-numeric name
+              tbody
+                each wireframe in data.wireframes
+                  tr
+                    td.mdl-data-table__cell--non-numeric
+                      a(href='/users/' + wireframe.userId + '/wireframe/' + wireframe._id)= wireframe._id
+                    td.mdl-data-table__cell--non-numeric= wireframe.name
+          .mdl-card__actions(class=data.wireframes.length ? '' : 'mdl-card--border')
+            a.mdl-button.mdl-button--accent.mdl-js-button.mdl-js-ripple-effect(href='/users/' + user._id + '/wireframe')
+              | new wireframe
 

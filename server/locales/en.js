@@ -7,7 +7,8 @@
 			"name": "name",
 			"created": "created",
 			"last-change": "last changed",
-			"operations": "operations"
+			"operations": "operations",
+			"new-name": "home.saved.new-name"
 		},
 		"more-info": "more info about the builder",
 		"footer": {

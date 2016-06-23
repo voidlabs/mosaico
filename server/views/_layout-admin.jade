@@ -35,10 +35,9 @@ html(lang=getLocale())
           a.mdl-navigation__link(href="/logout") logout
           a.mdl-navigation__link(href="/") home
 
-      main.mdl-layout__content
-        .page-content
-          block content
-          if _config.debug
-            footer(style="background: #eee")
-              pre= JSON.stringify(data, null, '  ')
-              pre= _debug
+      main.mdl-layout__content(class=page === 'wireframe-new-edit' ? 'mdl-grid mdl-grid--no-spacing' : '' )
+        block content
+        if _config.debug
+          footer(style="background: #eee")
+            pre= JSON.stringify(data, null, '  ')
+            pre= _debug

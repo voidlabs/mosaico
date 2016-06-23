@@ -5,7 +5,10 @@ var dialogPolyfill  = require('dialog-polyfill')
 
 var dialog   = $('.mdl-dialog')[0]
 // https://github.com/GoogleChrome/dialog-polyfill
-if (!dialog.showModal) dialogPolyfill.registerDialog(dialog)
+if (!dialog.showModal) {
+  console.log('dialogPolyfill.registerDialog')
+  dialogPolyfill.registerDialog(dialog)
+}
 
 var route   = false
 var $name   = false
