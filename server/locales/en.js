@@ -8,7 +8,12 @@
 			"created": "created",
 			"last-change": "last changed",
 			"operations": "operations",
-			"new-name": "home.saved.new-name"
+			"new-name": "enter a new name",
+			"rename": "rename",
+			"edit": "edit",
+			"duplicate": "duplicate",
+			"delete": "delete",
+			"noname": "untitled"
 		},
 		"more-info": "more info about the builder",
 		"footer": {
@@ -28,7 +33,10 @@
 		},
 		"logout": "logout",
 		"make-creation": "Click on one of the templates below to make a new mailing",
-		"no-content": "No saved content"
+		"no-content": "No saved content",
+		"no": {
+			"wireframes": "No accessible templates yet"
+		}
 	},
 	"layout": {
 		"title": "Email template editor by “drag & drop” - A Badsender.com solution",

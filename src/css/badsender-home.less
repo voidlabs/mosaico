@@ -6,42 +6,52 @@
 @import (inline) "../../node_modules/material-design-lite/dist/material.orange-blue.min.css";
 @import (inline) "../../node_modules/dialog-polyfill/dialog-polyfill.css";
 
-.template {
-  margin: 10px;
-  display: inline-block;
-  vertical-align: top;
-}
-.template a {
-  display: block;
-  padding: 2px;
-  width: 340px;
-  height: 300px;
-  overflow-y: auto;
+////////
+// HOME
+////////
+
+.wireframe-card {
+  text-decoration: none;
   transition: box-shadow .2s;
-  box-shadow: 0 0 0 2px @accent;
+
+  &:hover {
+    box-shadow: 0 0 0 3px rgb(68,138,255);
+  }
+
+  .mdl-card__title {
+    justify-content: center;
+  }
+  .mdl-card__supporting-text {
+    text-align: center;
+  }
+  .mdl-card__media {
+    height: 250px;
+    overflow-y: auto;
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+  }
 }
-.template a:hover {
-  box-shadow: 0 0 0 5px @accent;
+
+.home-subtitle {
+  text-align: center;
+}
+
+#savedTable {
+  margin-bottom: 3em;
 }
 
 ////////
 // HEADER
 ////////
 
-header {
-  padding: 10px;
+.home-badsender-header {
+  padding:  0 10px 10px;
   position: relative;
 }
 
-.lang {
-  position: absolute;
-  top: .5em;
-  right: 1em;
-
-  a:hover {
-    text-decoration: underline;
-  }
-}
 
 .ribbon {
   background-color: @accent;
@@ -263,4 +273,12 @@ details {
 }
 .mdl-layout__content.mdl-grid {
   width: 100%;
+}
+.mdl-dialog__title {
+  font-size: 2rem;
+}
+.mdl-data-table__cell--action.mdl-data-table__cell--action {
+  text-align: center;
+  width: 1%;
+  white-space: nowrap;
 }

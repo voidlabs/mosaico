@@ -17,8 +17,8 @@ block content
             th.mdl-data-table__cell--non-numeric email
             th.mdl-data-table__cell--non-numeric(colspan="2") status
             th.mdl-data-table__cell--non-numeric created at
-            th.mdl-data-table__cell--non-numeric password mail
-            th.mdl-data-table__cell--non-numeric delete
+            th.mdl-data-table__cell--action password mail
+            th.mdl-data-table__cell--action delete
         tbody
           each user in data.users
             tr
@@ -36,11 +36,11 @@ block content
                  //- user.status
               td.mdl-data-table__cell--non-numeric= user.status
               td.mdl-data-table__cell--non-numeric= formatDate(user.createdAt)
-              td.mdl-data-table__cell--non-numeric: form(action='/users/reset' method="post")
+              td.mdl-data-table__cell--action: form(action='/users/reset' method="post")
                 button.mdl-button.mdl-js-button.mdl-button--accent(type="submit" name="id" value=user._id)
                   | send
-              td.mdl-data-table__cell--non-numeric: form(action='/users/' + user._id + '/delete' method="post")
-                button.mdl-button.mdl-js-button.mdl-button--icon(type="submit")
+              td.mdl-data-table__cell--action: form(action='/users/' + user._id + '/delete' method="post")
+                button.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(type="submit")
                   i.material-icons delete
 
       a.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored(href="/users")

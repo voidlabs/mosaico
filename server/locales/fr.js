@@ -33,7 +33,11 @@
 		},
 		"logout": "déconnexion",
 		"make-creation": "Cliquez sur l'un des templates ci-dessous pour créer un nouvel email",
-		"no-content": "Pas de mailing enregistrés"
+		"no-content": "Pas de mailing enregistrés",
+		"create-new-mailing": "home.create-new-mailing",
+		"no": {
+			"wireframes": "Il n'y a pas encore de templates accessibles"
+		}
 	},
 	"layout": {
 		"title": "Éditeur de templates email responsive par \"glissé/déposé\" - Une solution Badsender.com",
