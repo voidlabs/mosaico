@@ -157,9 +157,9 @@ app.get('/users/list',                        users.list)
 app.get('/users/:userId?',                    users.show)
 app.post('/users/:userId?',                   users.update)
 
-app.get('/wireframes',                        guard('admin'), wireframes.list)
 app.get('/wireframes/:wireId/delete',         guard('admin'), wireframes.remove)
 app.get('/wireframes/:wireId/markup',         guard('user'), wireframes.getMarkup)
+app.get('/wireframes',                        guard('admin'), wireframes.list)
 
 //----- PUBLIC
 

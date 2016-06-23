@@ -43,10 +43,9 @@ function getMarkup(req, res, next) {
   .catch(next)
 
   function onWireframe(wireframe) {
-    var isAuthorized = req.user.isAdmin || wireframe.userId === req.user.id
+    var isAuthorized = req.user.isAdmin || wireframe._user.toString() === req.user.id
     if (!isAuthorized) {
-      res.status(401)
-      return next()
+      return res.sendStatus(401)
     }
     if (!wireframe.markup) {
       res.status(404)

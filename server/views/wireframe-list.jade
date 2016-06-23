@@ -39,8 +39,7 @@ block content
               td.mdl-data-table__cell--action
                 a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href='/editor?wireframeId=' + wireframe._id)
                   i.material-icons library_add
-              - var deleteUrl = '/wireframes/' + wireframe._id + '/delete'
-              - deleteUrl = deleteUrl + '?redirect=/wireframes'
+              - var deleteUrl = wireframe.url.delete + '?redirect=/wireframes'
               td.mdl-data-table__cell--action
                 a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href=deleteUrl)
                   i.material-icons delete
