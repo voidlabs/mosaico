@@ -23,7 +23,7 @@ function show(req, res, next) {
   var userId        = req.params.userId
   if (!userId) return res.render('user-new-edit')
   var getUser       = Users.findById(userId)
-  var getWireframes = Wireframes.find({userId: userId})
+  var getWireframes = Wireframes.find({_user: userId})
 
   Promise
   .all([getUser, getWireframes])

@@ -7,7 +7,7 @@ block content
   .page-content
 
     if !data.wireframes.length
-      p no wireframes yet
+      h4.home-subtitle no wireframes yet
     else
 
       table.mdl-data-table.mdl-js-data-table.mdl-shadow--2dp
@@ -18,21 +18,29 @@ block content
             th.mdl-data-table__cell--non-numeric name
             th.mdl-data-table__cell--non-numeric user
             th.mdl-data-table__cell--action markup?
-            th.mdl-data-table__cell--non-numeric
+            th.mdl-data-table__cell--action view
+            th.mdl-data-table__cell--action delete
         tbody
           each wireframe in data.wireframes
             tr
               if _config.debug
                 td.mdl-data-table__cell--non-numeric
-                  a(href='/users/' + wireframe.userId + '/wireframe/' + wireframe._id)= wireframe._id
+                  a(href='/users/' + wireframe._user._id + '/wireframe/' + wireframe._id)= wireframe._id
               td.mdl-data-table__cell--non-numeric
-                  a(href='/users/' + wireframe.userId + '/wireframe/' + wireframe._id)= wireframe.name
+                  a(href='/users/' + wireframe._user._id + '/wireframe/' + wireframe._id)= wireframe.name
               td.mdl-data-table__cell--non-numeric
-                a(href='/users/' + wireframe.userId )= wireframe.userId
+                a(href='/users/' + wireframe._user._id )
+                  | #{wireframe._user.name} (#{wireframe._user.email})
               td.mdl-data-table__cell--action
                 if wireframe.hasMarkup
                   i.material-icons check
                 else
                   i.material-icons report_problem
-              td
-                a.mdl-button.mdl-js-button.mdl-button--accent(href='/editor?wireframeId=' + wireframe._id) view
+              td.mdl-data-table__cell--action
+                a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href='/editor?wireframeId=' + wireframe._id)
+                  i.material-icons zoom_in
+              - var deleteUrl = '/wireframes/' + wireframe._id + '/delete'
+              - deleteUrl = deleteUrl + '?redirect=/wireframes'
+              td.mdl-data-table__cell--action
+                a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href=deleteUrl)
+                  i.material-icons delete

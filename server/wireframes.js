@@ -13,6 +13,7 @@ var handleValidatorsErrors  = DB.handleValidatorsErrors
 function list(req, res, next) {
   Wireframes
   .find({})
+  .populate('_user')
   .then(function (wireframes) {
     res.render('wireframe-list', {
       data: { wireframes: wireframes, }
@@ -22,14 +23,25 @@ function list(req, res, next) {
 }
 
 function show(req, res, next) {
-  var data = { userId: req.params.userId }
+  var data = { _user: req.params.userId }
   Wireframes
   .findById(req.params.wireId)
+  .populate('_user')
+  // .then(onWireframe)
   .then(function (wireframe) {
-    if (wireframe) data.wireframe = wireframe
+    if (wireframe) {
+      data.wireframe = wireframe
+    }
     res.render('wireframe-new-edit', { data: data })
   })
   .catch(next)
+
+  // function onWireframe(wireframe) {
+  //   if (!wireframe) return res.render('wireframe-new-edit', { data: data })
+
+  //     res.render('wireframe-new-edit', { data: data })
+
+  // }
 }
 
 function getMarkup(req, res, next) {

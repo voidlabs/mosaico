@@ -131,9 +131,10 @@ var WireframeSchema    = Schema({
   description: {
     type: String
   },
-  userId: {
-    type:       String,
-    required:   [true, 'userId is required'],
+  _user: {
+    type:       ObjectId,
+    ref:        'User',
+    required:   [true, 'user is required'],
   },
   markup: {
     type:       String,

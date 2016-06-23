@@ -4,13 +4,14 @@ block vars
   - var isEdit    = data.wireframe != null;
   - var wireframe = data.wireframe || {};
   - var pageTitle = isEdit ? 'wireframe: ' + wireframe.name : 'new wireframe'
+  - pageTitle     = isEdit ? pageTitle + ' — ' + wireframe._user.name : pageTitle
   - var pageClass = 'wireframe-new-edit'
 
 block content
   - var hasError  = messages.error && messages.error.length;
   - var errors    = hasError ? messages.error[0] : {};
   - var isEdit    = data.wireframe != null;
-  - var action    = '/users/' + data.userId + '/wireframe';
+  - var action    = '/users/' + data._user + '/wireframe';
   - var wireframe = data.wireframe || {};
   - action        = isEdit ? action + '/' + wireframe._id : action;
 
@@ -18,10 +19,10 @@ block content
 
   if isEdit
     - var deleteUrl = '/wireframes/' + wireframe._id + '/delete'
-    - deleteUrl = deleteUrl + '?redirect=/users/' + data.userId
+    - deleteUrl = deleteUrl + '?redirect=/users/' + data._user
     .mdl-cell.mdl-cell--2-col.mdl-color--accent-contrast.mdl-shadow--4dp
       ul.mdl-list
-        li.mdl-list__item: a.mdl-list__item-primary-content(href='/users/' + data.userId)
+        li.mdl-list__item: a.mdl-list__item-primary-content(href='/users/' + data._user)
           .material-icons.mdl-list__item-icon person
           | back to user
         li.mdl-list__item: a.mdl-list__item-primary-content(href='/editor?wireframeId=' + wireframe._id)
@@ -37,7 +38,7 @@ block content
           | delete
 
   form(action=action method="post" enctype="multipart/form-data" class=isEdit ? 'mdl-cell--10-col' : 'mdl-cell--12-col').mdl-cell
-    input(name="userId" type="hidden" value=data.userId)
+    input(name="_user" type="hidden" value=data._user)
     .mdl-grid
       fieldset.mdl-cell.mdl-cell--6-col.mdl-card.mdl-shadow--2dp(class=isEdit ? '' : 'mdl-cell--3-offset-desktop')
         .mdl-card__title: .mdl-card__title-text meta
@@ -62,8 +63,7 @@ block content
             .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
               input.mdl-textfield__input#images-field(type="file" accept=".png,.gif,.jpg" multiple name="images")
               label.mdl-textfield__label.mdl-textfield__label--fixed(for="images-field") Images
-
-      if isEdit
+        //- HTML preview block
         if wireframe.hasMarkup
           .mdl-cell.mdl-cell--12-col.mdl-card.mdl-shadow--2dp
             .mdl-card__title: .mdl-card__title-text Markup
@@ -75,6 +75,7 @@ block content
               a(href='/wireframes/' + wireframe._id + '/markup').mdl-button.mdl-button--accent.mdl-js-button.mdl-js-ripple-effect
                 | download markup
 
+        //- Image listing
         if wireframe.images.length
           .mdl-cell.mdl-cell--12-col.mdl-card.mdl-shadow--2dp
             .mdl-card__title: .mdl-card__title-text Images (#{wireframe.images.length})
