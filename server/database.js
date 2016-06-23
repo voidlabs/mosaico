@@ -9,6 +9,7 @@ var mongoose      = require('mongoose')
 mongoose.Promise = global.Promise
 
 var Schema        = mongoose.Schema
+var ObjectId      = Schema.Types.ObjectId
 
 var config        = require('./config')
 var mail          = require('./mail')
@@ -79,8 +80,8 @@ UserSchema.methods.resetPassword = function resetPassword() {
       .send({
         to:       updatedUser.email,
         subject:  'badsender – password reset',
-        text:     `here is the link to enter your new password http://localhost:3000/password/${user.token}`,
-        html:     `here is the link to enter your new password http://localhost:3000/password/${user.token}`,
+        text:     `here is the link to enter your new password http://${config.host}/password/${user.token}`,
+        html:     `here is the link to enter your new password http://${config.host}/password/${user.token}`,
       })
       .then(function () { return resolve(updatedUser) })
       .catch(reject)
@@ -104,8 +105,8 @@ UserSchema.methods.setPassword = function setPassword(password) {
       .send({
         to:       updatedUser.email,
         subject:  'badsender – password reset',
-        text:     `your password has been succesfully been reseted. connect at http://localhost:3000/login`,
-        html:     `your password has been succesfully been reseted. connect at http://localhost:3000/login`,
+        text:     `your password has been succesfully been reseted. connect at http://${config.host}/login`,
+        html:     `your password has been succesfully been reseted. connect at http://${config.host}/login`,
       })
       .then(function () { return resolve(updatedUser) })
       .catch(reject)

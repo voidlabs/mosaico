@@ -110,8 +110,7 @@ app.locals.formatDate = function formatDate(data) {
 }
 
 app.use(function exposeDataToViews(req, res, next) {
-  app.locals._basePath    = "//" + req.get('host')
-  app.locals._path        = req.path
+  app.locals._path    = req.path
   app.locals._user    = req.user ? req.user : {}
   if (config.isDev) {
     app.locals._debug = JSON.stringify({

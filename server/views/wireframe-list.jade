@@ -17,7 +17,7 @@ block content
               th.mdl-data-table__cell--non-numeric id
             th.mdl-data-table__cell--non-numeric name
             th.mdl-data-table__cell--non-numeric user
-            th.mdl-data-table__cell--non-numeric markup?
+            th.mdl-data-table__cell--action markup?
             th.mdl-data-table__cell--non-numeric
         tbody
           each wireframe in data.wireframes
@@ -29,7 +29,7 @@ block content
                   a(href='/users/' + wireframe.userId + '/wireframe/' + wireframe._id)= wireframe.name
               td.mdl-data-table__cell--non-numeric
                 a(href='/users/' + wireframe.userId )= wireframe.userId
-              td.mdl-data-table__cell--non-numeric
+              td.mdl-data-table__cell--action
                 if wireframe.hasMarkup
                   i.material-icons check
                 else
