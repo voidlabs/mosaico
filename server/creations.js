@@ -18,7 +18,7 @@ var translations = {
 function list(req, res, next) {
   var isAdmin           = req.user.isAdmin
   var wireframesRequest = Wireframes.find(isAdmin ? {} : {userId: req.user.id})
-  var creationsRequest  = Creations.find({userId: req.user.id})
+  var creationsRequest  = Creations.find({userId: req.user.id}).populate('_wireframe')
 
   Promise.all([wireframesRequest, creationsRequest])
   .then(function (datas) {
@@ -59,7 +59,7 @@ function create(req, res, next) {
     }
     new Creations({
       userId:       req.user.id,
-      wireframeId:  wireframeId,
+      _wireframe:   wireframe._id,
     })
     .save()
     .then(function (creation) {
@@ -77,7 +77,7 @@ function update(req, res, next) {
   var creationId  = req.params.creationId
 
   Creations
-  .findById(req.params.creationId)
+  .findById(creationId)
   .then(onCreation)
   .catch(next)
 
@@ -86,9 +86,8 @@ function update(req, res, next) {
       res.status(404)
       return next()
     }
-    creation.wireframeId  = creation.wireframeId || req.body.wireframeId
-    creation.userId       = creation.userId     || req.user.id
-    creation.data         = req.body.data
+    creation._wireframe = creation._wireframe
+    creation.data       = req.body.data
     // http://mongoosejs.com/docs/schematypes.html#mixed
     creation.markModified('data')
 
@@ -101,7 +100,6 @@ function update(req, res, next) {
     })
     .catch(next)
   }
-
 }
 
 function remove(req, res, next) {
@@ -122,10 +120,8 @@ function rename(req, res, next) {
   .catch(next)
 }
 
-
 // should upload image on a specific client bucket
 // -> can't handle live resize
-
 function upload(req, res, next) {
   console.log(chalk.green('UPLOAD'))
   filemanager

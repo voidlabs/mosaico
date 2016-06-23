@@ -11,9 +11,9 @@ var DB            = require('./database')
 var Users         = DB.Users
 
 var adminUser = {
-  isAdmin: true,
-  id: -1,
-  name: 'admin',
+  isAdmin:  true,
+  id:       config.admin.id,
+  name:     'admin',
 }
 
 passport.use(new LocalStrategy(
@@ -48,7 +48,7 @@ passport.serializeUser(function(user, done) {
 })
 
 passport.deserializeUser(function(id, done) {
-  if (id === -1) return done(null, adminUser)
+  if (id === config.admin.id) return done(null, adminUser)
   Users
   .findById(id)
   .then(function (user) {
@@ -58,7 +58,6 @@ passport.deserializeUser(function(id, done) {
     return done(null, false, err)
   })
 })
-
 
 function init(app) {
   app.use(session({

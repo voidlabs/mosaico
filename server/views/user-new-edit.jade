@@ -52,18 +52,27 @@ block content
                 tr
                   th.mdl-data-table__cell--non-numeric id
                   th.mdl-data-table__cell--non-numeric name
+                  th.mdl-data-table__cell--action markup?
+                  th.mdl-data-table__cell--action edit
                   th.mdl-data-table__cell--action delete
               tbody
                 each wireframe in data.wireframes
-                  - var deleteUrl = '/wireframes/' + wireframe._id + '/delete'
-                  - deleteUrl = deleteUrl + '?redirect=/users/' + wireframe.userId
+                  - var deleteUrl = wireframe.url.delete + '?redirect=/users/' + wireframe._user
                   tr
                     td.mdl-data-table__cell--non-numeric
-                      a(href='/users/' + wireframe.userId + '/wireframe/' + wireframe._id)= wireframe._id
+                      a(href=wireframe.url.read)= wireframe._id
                     td.mdl-data-table__cell--non-numeric= wireframe.name
                     td.mdl-data-table__cell--action
-                      a.operationButton(href=deleteUrl)
-                        i.material-icons.mdl-list__item-icon delete_forever
+                      if wireframe.hasMarkup
+                        i.material-icons check
+                      else
+                        i.material-icons report_problem
+                    td.mdl-data-table__cell--action
+                      a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href=wireframe.url.read)
+                        i.material-icons mode_edit
+                    td.mdl-data-table__cell--action
+                      a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href=deleteUrl)
+                        i.material-icons delete_forever
           .mdl-card__actions(class=data.wireframes.length ? '' : 'mdl-card--border')
             a.mdl-button.mdl-button--accent.mdl-js-button.mdl-js-ripple-effect(href='/users/' + user._id + '/wireframe')
               | new wireframe

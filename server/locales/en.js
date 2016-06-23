@@ -2,7 +2,7 @@
 	"home": {
 		"saved": {
 			"show": "show",
-			"caption": "Email contents saved",
+			"caption": "Saved emails",
 			"hide": "hide",
 			"name": "name",
 			"created": "created",
@@ -13,7 +13,8 @@
 			"edit": "edit",
 			"duplicate": "duplicate",
 			"delete": "delete",
-			"noname": "untitled"
+			"noname": "untitled",
+			"wireframe-name": "wireframe used"
 		},
 		"more-info": "more info about the builder",
 		"footer": {

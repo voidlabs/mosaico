@@ -4,7 +4,7 @@ block vars
   - var isEdit    = data.wireframe != null;
   - var wireframe = data.wireframe || {};
   - var pageTitle = isEdit ? 'wireframe: ' + wireframe.name : 'new wireframe'
-  - pageTitle     = isEdit ? pageTitle + ' — ' + wireframe._user.name : pageTitle
+  - pageTitle     = isEdit ? pageTitle + ' — user: ' + wireframe._user.name : pageTitle
   - var pageClass = 'wireframe-new-edit'
 
 block content
@@ -18,8 +18,7 @@ block content
   //- .mdl-grid.mdl-grid--no-spacing
 
   if isEdit
-    - var deleteUrl = '/wireframes/' + wireframe._id + '/delete'
-    - deleteUrl = deleteUrl + '?redirect=/users/' + data._user
+    - var deleteUrl = wireframe.url.delete + '?redirect=/users/' + data._user
     .mdl-cell.mdl-cell--2-col.mdl-color--accent-contrast.mdl-shadow--4dp
       ul.mdl-list
         li.mdl-list__item: a.mdl-list__item-primary-content(href='/users/' + data._user)

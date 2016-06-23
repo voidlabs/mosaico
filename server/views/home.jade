@@ -28,6 +28,7 @@ block list
         if _config.debug
           th.mdl-data-table__cell--non-numeric Id
         th.mdl-data-table__cell--non-numeric= __('home.saved.name')
+        th.mdl-data-table__cell--non-numeric= __('home.saved.wireframe-name')
         th.mdl-data-table__cell--non-numeric= __('home.saved.created')
         th.mdl-data-table__cell--non-numeric= __('home.saved.last-change')
         th.mdl-data-table__cell--action= __('home.saved.rename')
@@ -37,23 +38,22 @@ block list
 
       tbody(data-bind="foreach: edits")
         each creation in data.creations
-          - var editUrl = '/editor/' + creation._id;
           tr
             if _config.debug
               td.mdl-data-table__cell--non-numeric
-                a(href=editUrl)= creation._id
+                a(href=creation.url.update)= creation._id
             td.mdl-data-table__cell--non-numeric
-              a(href=editUrl).js-name= creation.name || __('home.saved.noname')
-            //-   span versamix
+              a(href=creation.url.update).js-name= creation.name || __('home.saved.noname')
+            td.mdl-data-table__cell--non-numeric: span= creation._wireframe.name
             td.mdl-data-table__cell--non-numeric: span= formatDate(creation.createdAt)
             td.mdl-data-table__cell--non-numeric: span= formatDate(creation.updatedAt)
             td.mdl-data-table__cell--action
-              a.js-rename.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(data-href=editUrl title="rename" href="#"): i.material-icons title
+              a.js-rename.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(data-href=creation.url.update title="rename" href="#"): i.material-icons title
             td.mdl-data-table__cell--action
-              a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href=editUrl title="edit"):  i.material-icons mode_edit
+              a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href=creation.url.update title="edit"):  i.material-icons mode_edit
             td.mdl-data-table__cell--action
-              a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href=editUrl + '/duplicate' title="duplicate"):  i.material-icons content_copy
+              a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href=creation.url.duplicate title="duplicate"):  i.material-icons content_copy
             td.mdl-data-table__cell--action
-              a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href=editUrl + '/delete' title="delete"): i.material-icons delete
+              a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href=creation.url.delete title="delete"): i.material-icons delete
 
 

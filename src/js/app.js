@@ -255,7 +255,7 @@ var init = function(opts, customExtensions) {
     // handle other urls: img/social_def/twitter_ok.png
     // as it is done, all files are flatten in asset folder (uploads or S3)
     url = /([^\/]*)$/.exec(url)[1]
-    url = opts.imgProcessorBackend + opts.metadata.wireframeId  + '-' + url
+    url = opts.imgProcessorBackend + opts.metadata._wireframe  + '-' + url
     return url
   }
 

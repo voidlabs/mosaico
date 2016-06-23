@@ -15,6 +15,9 @@ var config  = rc('badsender', {
   images: {
     uploadDir: 'uploads',
     tmpDir:    'tmp',
+  },
+  admin: {
+    id: '576b90a441ceadc005124896'
   }
 })
 

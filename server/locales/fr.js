@@ -13,7 +13,8 @@
 			"delete": "supprimer",
 			"new-name": "Nouveau nom",
 			"noname": "sans titre",
-			"duplicate": "dupliquer"
+			"duplicate": "dupliquer",
+			"wireframe-name": "modèle utilisé"
 		},
 		"more-info": "en savoir plus à propos de l'éditeur",
 		"footer": {

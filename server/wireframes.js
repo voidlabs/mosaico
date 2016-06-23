@@ -27,7 +27,6 @@ function show(req, res, next) {
   Wireframes
   .findById(req.params.wireId)
   .populate('_user')
-  // .then(onWireframe)
   .then(function (wireframe) {
     if (wireframe) {
       data.wireframe = wireframe
@@ -35,13 +34,6 @@ function show(req, res, next) {
     res.render('wireframe-new-edit', { data: data })
   })
   .catch(next)
-
-  // function onWireframe(wireframe) {
-  //   if (!wireframe) return res.render('wireframe-new-edit', { data: data })
-
-  //     res.render('wireframe-new-edit', { data: data })
-
-  // }
 }
 
 function getMarkup(req, res, next) {
@@ -115,7 +107,7 @@ function remove(req, res, next) {
   var wireframeId = req.params.wireId
   console.log('REMOVE WIREFRAME', wireframeId)
   Creations
-  .find({wireframeId: wireframeId})
+  .find({_wireframe: wireframeId})
   .then(function (creations) {
     console.log(creations.length, 'to remove')
     creations = creations.map(function (creation) {

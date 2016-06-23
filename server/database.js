@@ -152,6 +152,13 @@ WireframeSchema.virtual('hasMarkup').get(function () {
   return this.markup != null
 })
 
+WireframeSchema.virtual('url').get(function () {
+  return {
+    read:   `/users/${this._user}/wireframe/${this._id}`,
+    delete: `/wireframe/${this._id}/delete`,
+  }
+})
+
 //////
 // CREATIONS
 //////
@@ -160,15 +167,18 @@ var CreationSchema    = Schema({
   name: {
     type: String,
   },
+  // no ref for user
+  // => admin doesn't exist in DB
   userId: {
-    type:     String,
+    type:     'string',
     required: true,
   },
   // should use populate
   // http://mongoosejs.com/docs/populate.html
-  wireframeId: {
-    type:     String,
+  _wireframe: {
+    type:     ObjectId,
     required: true,
+    ref:      'Wireframe',
   },
   // http://mongoosejs.com/docs/schematypes.html#mixed
   data: { },
@@ -185,7 +195,7 @@ function wireframeLoadingUrl(wireframeId) {
 
 // path to load a template
 CreationSchema.virtual('template').get(function () {
-  return wireframeLoadingUrl(this.wireframeId)
+  return wireframeLoadingUrl(this._wireframe)
 })
 
 CreationSchema.virtual('created').get(function () {
@@ -196,12 +206,20 @@ CreationSchema.virtual('changed').get(function () {
   return this.updatedAt.getTime()
 })
 
+CreationSchema.virtual('url').get(function () {
+  return {
+    update:     `/editor/${this._id}`,
+    delete:     `/editor/${this._id}/delete`,
+    duplicate:  `/editor/${this._id}/duplicate`,
+  }
+})
+
 CreationSchema.virtual('mosaico').get(function () {
   var mosaicoEditorData = {
     meta: {
       id:           this._id,
-      wireframeId:  this.wireframeId,
-      template:     wireframeLoadingUrl(this.wireframeId),
+      _wireframe:   this._wireframe,
+      template:     wireframeLoadingUrl(this._wireframe),
     },
     data: this.data,
   }
