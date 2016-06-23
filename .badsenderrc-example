@@ -55,8 +55,10 @@
   },
 
   //////
-  // SUPER ADMIN PASS NAME
+  // GENERAL
   //////
+
+  "host": "www.your-hostname-without-protocal.com",
 
   "admin": {
     "password": "toto"
