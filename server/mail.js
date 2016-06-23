@@ -28,12 +28,12 @@ transporter
 })
 
 function send(options) {
-  var mailOptions = _.extend(options, config.emailOptions)
+  var mailOptions = _.extend({}, options, config.emailOptions)
   return new Promise(function (resolve, reject) {
     transporter
     .sendMail(mailOptions)
     .then(function (info) {
-      console.log(chalk.green('email send to', info.email))
+      console.log(chalk.green('email send to', info.accepted))
       resolve(info)
     })
     .catch(function (err) {

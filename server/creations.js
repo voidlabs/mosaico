@@ -87,6 +87,7 @@ function update(req, res, next) {
       return next()
     }
     creation._wireframe = creation._wireframe
+    creation.userId     = creation.userId
     creation.data       = req.body.data
     // http://mongoosejs.com/docs/schematypes.html#mixed
     creation.markModified('data')
