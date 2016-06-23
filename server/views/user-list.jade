@@ -6,7 +6,7 @@ block vars
 block content
   .page-content
     if !data.users.length
-      p now user yet
+      h4.home-subtitle now user yet
     else
       table.mdl-data-table.mdl-js-data-table.mdl-shadow--2dp
         thead
@@ -43,6 +43,6 @@ block content
                 button.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(type="submit")
                   i.material-icons delete
 
-      a.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored(href="/users")
-        i.material-icons person_add
+    a.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored(href="/users")
+      i.material-icons person_add
 
