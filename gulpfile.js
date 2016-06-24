@@ -56,43 +56,15 @@ var cssProd       = lazypipe()
 gulp.task('clean-css', function (cb) {
   if (isDev) return cb();
   return del([buildDir + '/*.css', buildDir + '/*.css.map'], cb);
-});
-
-// gulp.task('css', ['clean-css'], function () {
-
-//   // compile LESS
-//   var cssApp = gulp.src('src/css/badsender*.less')
-//     .pipe($.if(isDev, $.plumber(onError)))
-//     .pipe($.sourcemaps.init())
-//     .pipe($.less())
-//     .pipe($.postcss([
-//         autoprefixer({ browsers: ['ie 10', 'last 2 versions'], }),
-//       ]))
-//     .pipe($.if(isDev, cssDev(), cssProd()));
-
-//   // get colorpicker CSS
-//   var cssColorpicker = gulp.src(mainBowerFiles({
-//     filter: /evol-colorpicker\/css/
-//   }));
-
-//   // bundle everything
-//   var filter = $.filter(['*.css', '!*-home.css'], {restore: true});
-//   return merge(cssApp, cssColorpicker)
-//     .pipe(filter)
-//     .pipe($.concat('badsender.css'))
-//     .pipe(filter.restore)
-//     .pipe($.if(!isDev, $.minifyCss()))
-//     .pipe(gulp.dest(buildDir))
-//     .pipe($.if(isDev, reload({stream: true})))
-// })
-
-gulp.task('css', ['css-editor', 'css-app'])
+})
 
 gulp.task('css-editor', ['clean-css'], function () {
+
   var cssColorpicker  = gulp
   .src(mainBowerFiles({
     filter: /evol-colorpicker\/css/
   }))
+
   var cssEditor = gulp
   .src('src/css/badsender.less')
   .pipe($.less())
@@ -124,6 +96,8 @@ gulp.task('css-app', ['clean-css'], function () {
   .pipe(gulp.dest(buildDir))
   .pipe($.if(isDev, reload({stream: true})))
 })
+
+gulp.task('css', ['css-editor', 'css-app'])
 
 ////////
 // JS
@@ -371,7 +345,7 @@ gulp.task('dev', ['build', 'nodemon'], function () {
   })
 
   gulp.watch(['server/views/*.jade', 'dist/*.js']).on('change', reload)
-  gulp.watch('src/css/**/*.less',     ['css-app'])
+  gulp.watch('src/css/**/*.less',     ['css'])
   gulp.watch('src/tmpl/*.html',       ['templates'])
 })
 

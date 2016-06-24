@@ -10,7 +10,7 @@
 
 // Override variables
 
-@accent-color: #F5A316;
+@accent-color: #ff9f00;
 @background-color: #eeeeee;
 @link-color: #ff5722;
 @tab-text-color: #555;
@@ -388,7 +388,20 @@
 }
 
 ////////
-// POPUP
+// GALLERY
 ////////
 
-@import './contact-popup.less';
+#toolimagestab {
+  .ui-tabs-panel {
+    border: 0;
+  }
+  li {
+    margin: 0;
+    border-bottom: 0;
+
+    a {
+      padding-left: 1em;
+      padding-right: 1em;
+    }
+  }
+}
