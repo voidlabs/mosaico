@@ -155,8 +155,8 @@ WireframeSchema.virtual('hasMarkup').get(function () {
 WireframeSchema.virtual('url').get(function () {
   return {
     read:   `/users/${this._user}/wireframe/${this._id}`,
-    delete: `/wireframe/${this._id}/delete`,
-    markup: `/wireframe/${this._id}/markup`,
+    delete: `/wireframes/${this._id}/delete`,
+    markup: `/wireframes/${this._id}/markup`,
   }
 })
 

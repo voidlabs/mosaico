@@ -18,7 +18,6 @@ block content
   //- .mdl-grid.mdl-grid--no-spacing
 
   if isEdit
-    - var deleteUrl = wireframe.url.delete + '?redirect=/users/' + data._user
     .mdl-cell.mdl-cell--2-col.mdl-color--accent-contrast.mdl-shadow--4dp
       ul.mdl-list
         li.mdl-list__item: a.mdl-list__item-primary-content(href='/users/' + data._user)
@@ -32,6 +31,7 @@ block content
             .material-icons.mdl-list__item-icon report_problem
             | NO MARKUP
         li.mdl-list__item: span.mdl-list__item-primary-content deleting a wireframe will also remove every creations using this one
+        - var deleteUrl = wireframe.url.delete + '?redirect=/users/' + data._user
         li.mdl-list__item: a.mdl-list__item-primary-content(href=deleteUrl)
           .material-icons.mdl-list__item-icon delete_forever
           | delete
@@ -71,7 +71,7 @@ block content
               pre= wireframe.markup
 
             .mdl-card__actions.mdl-card--border
-              a(href='/wireframes/' + wireframe._id + '/markup').mdl-button.mdl-button--accent.mdl-js-button.mdl-js-ripple-effect
+              a(href=wireframe.url.markup).mdl-button.mdl-button--accent.mdl-js-button.mdl-js-ripple-effect
                 | download markup
 
         //- Image listing
