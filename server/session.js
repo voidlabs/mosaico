@@ -76,11 +76,17 @@ function guard(role) {
   var isAdminRoute = role === 'admin'
   return function guardRoute(req, res, next) {
     var user = req.user
-    if (!user) {
-      if (isAdminRoute) return res.redirect('/admin/login')
-      return res.redirect('/login')
+    // connected user shouldn't acces those pages
+    if (role === 'no-session') {
+      if (user) return user.isAdmin ? res.redirect('/admin') : res.redirect('/')
+    } else {
+        // non connected user shouldn't acces those pages
+      if (!user) {
+        return isAdminRoute ? res.redirect('/admin/login') : res.redirect('/login')
+      }
+      // non admin user shouldn't acces those pages
+      if (isAdminRoute && !user.isAdmin) return res.sendStatus(401)
     }
-    if (isAdminRoute && !user.isAdmin) res.status(401).end()
     next()
   }
 }

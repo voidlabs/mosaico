@@ -246,6 +246,8 @@ var init = function(opts, customExtensions) {
   })
   // Put this in meta datas…
   // …don't have access to options in templateLoader
+  // maybe look at:
+  // https://github.com/voidlabs/mosaico/issues/162
   opts.metadata.urlConverter = function (url) {
     if (!url) return null
     // handle: [unsubscribe_link] or mailto:[mail]

@@ -168,21 +168,19 @@ app.post('/login', session.authenticate('local', {
   failureRedirect: '/login',
   failureFlash:     true,
 }))
-app.get('/login',                   render.login)
-app.get('/logout',                  session.logout)
-app.get('/forgot',                  render.forgot)
-app.post('/forgot',                 users.userResetPassword)
-app.get('/password/:token',         render.reset)
-app.post('/password/:token',        users.setPassword)
-app.get('/img/:imageName',          filemanager.read)
-app.get('/cover/:imageName/:sizes', images.getCover)
-app.get('/img/',                    images.getResized)
+app.get('/login',                         guard('no-session'), render.login)
+app.get('/forgot',                        guard('no-session'), render.forgot)
+app.post('/forgot',                       guard('no-session'), users.userResetPassword)
+app.get('/password/:token',               guard('no-session'), render.reset)
+app.post('/password/:token',              guard('no-session'), users.setPassword)
 
-
+app.get('/logout',                        session.logout)
+app.get('/img/:imageName',                filemanager.read)
 // NTH additional routes for handling live resize
 // app.get('/placeholder',        images.getOriginal)
 // app.get('/resize/:imageName',  images.getOriginal)
-
+app.get('/cover/:imageName/:sizes',       images.getCover)
+app.get('/img/',                          images.getResized)
 
 //----- USER
 
