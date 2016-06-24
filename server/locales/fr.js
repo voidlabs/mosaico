@@ -38,7 +38,8 @@
 		"create-new-mailing": "home.create-new-mailing",
 		"no": {
 			"wireframes": "Il n'y a pas encore de templates accessibles"
-		}
+		},
+		"welcome": "bienvenue"
 	},
 	"layout": {
 		"title": "Éditeur de templates email responsive par \"glissé/déposé\" - Une solution Badsender.com",

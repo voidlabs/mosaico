@@ -2,20 +2,20 @@ doctype html
 
 block vars
 
-- var page = pageClass || ''
+- var page  = pageClass || ''
 - var title = pageTitle || ''
 
 html(lang=getLocale())
   head
     include _head-material
-    meta(name="viewport", content="width=480, initial-scale=1")
-    //- link(rel="stylesheet", href="/badsender-home.css")
 
   body.mdl-color--grey-100.mdl-color-text--grey-700(class=page)
     .mdl-layout.mdl-js-layout
       header.mdl-layout__header.mdl-layout__header--scroll
         .mdl-layout__header-row
           //- Title
+          span.mdl-layout-title
+            | #{__('home.welcome')} #{_user.name}
           //- Add spacer, to align navigation to the right
           .mdl-layout-spacer
           //- Navigation. We hide it in small screens
@@ -29,26 +29,7 @@ html(lang=getLocale())
             else
               a.mdl-navigation__link(href="/?lang=en") english version
 
-            //- a(href="#scroll-tab-1").mdl-layout__tab.is-active Tab 1
-            //- a(href="#scroll-tab-2").mdl-layout__tab Tab 2
-
             a.mdl-navigation__link(href="/logout"): i.material-icons power_settings_new
-
-        //- .mdl-layout__tab-bar.mdl-js-ripple-effect
-        //-   a(href="#create").mdl-layout__tab.is-active create new mailing
-        //-   a(href="#list").mdl-layout__tab Show creations
-
-      //- .mdl-layout__drawer
-      //-   span.mdl-layout-title Menu
-      //-   nav.mdl-navigation
-      //-     if _user.isAdmin
-      //-       a.mdl-navigation__link(href="/admin") users
-      //-       a.mdl-navigation__link(href="/wireframes") wireframes
-      //-     if getLocale() === 'en'
-      //-         a.mdl-navigation__link(href="/?lang=fr") version française
-      //-       else
-      //-         a.mdl-navigation__link(href="/?lang=en") english version
-      //-     a.mdl-navigation__link(href="/logout") logout
 
       main.mdl-layout__content
         .page-content
@@ -62,6 +43,7 @@ html(lang=getLocale())
         .footer
           | Badsender.com -
           |  #{__('home.footer.rights')}
+
       if _config.debug
         footer(style="background: #eee; text-align: left")
           pre= JSON.stringify(data, null, '  ')

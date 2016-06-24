@@ -37,7 +37,8 @@
 		"no-content": "No saved content",
 		"no": {
 			"wireframes": "No accessible templates yet"
-		}
+		},
+		"welcome": "Welcome"
 	},
 	"layout": {
 		"title": "Email template editor by “drag & drop” - A Badsender.com solution",
