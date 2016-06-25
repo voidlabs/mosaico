@@ -59,6 +59,19 @@ function getTemplateData(templateName, lang, additionalDatas) {
         desc: `Click the button below to reset your password, or copy the following URL into your browser:`,
         reset: `RESET MY PASSWORD`,
       }
+    },
+    'reset-success': {
+      fr: {
+        title: `Votre mot de passe a bien été réinitialisé`,
+        desc: `Cliquez sur le bouton ci-dessous pour vous connecter, ou copiez l'url suivante dans votre navigateur:`,
+        reset: `SE CONNECTER`,
+
+      },
+      en: {
+        title: `Your password has been succesfully setted`,
+        desc: `Click the button below to login, or copy the following URL into your browser:`,
+        reset: `LOGIN`,
+      }
     }
   }
 
@@ -125,7 +138,7 @@ UserSchema.virtual('isReseted').get(function () {
 })
 
 // TODO: take care of good email send
-UserSchema.methods.resetPassword = function resetPassword(lang) {
+UserSchema.methods.resetPassword = function resetPassword(lang, type) {
   var user      = this
   user.password = void(0)
   user.token    = randtoken.generate(30)
@@ -144,7 +157,8 @@ UserSchema.methods.resetPassword = function resetPassword(lang) {
         subject:  'badsender – password reset',
         text:     `here is the link to enter your new password http://${config.host}/password/${user.token}`,
         html:     tmpReset(getTemplateData('reset-password', lang, {
-          url: `http://${config.host}/password/${user.token}?lang=${lang}`
+          type: type,
+          url:  `http://${config.host}/password/${user.token}?lang=${lang}`,
         })),
       })
       .then(function () { return resolve(updatedUser) })
@@ -157,6 +171,7 @@ UserSchema.methods.setPassword = function setPassword(password, lang) {
   var user      = this
   user.token    = void(0)
   user.password = password
+  lang          = lang ? lang : 'en'
 
   return new Promise(function (resolve, reject) {
     user
@@ -170,7 +185,10 @@ UserSchema.methods.setPassword = function setPassword(password, lang) {
         to:       updatedUser.email,
         subject:  'badsender – password reset',
         text:     `your password has been succesfully been reseted. connect at http://${config.host}/login`,
-        html:     `your password has been succesfully been reseted. connect at http://${config.host}/login`,
+        html:     tmpReset(getTemplateData('reset-success', lang, {
+          type: 'admin',
+          url:  `http://${config.host}/login?lang=${lang}`,
+        })),
       })
       .then(function () { return resolve(updatedUser) })
       .catch(reject)

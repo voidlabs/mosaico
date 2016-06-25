@@ -65,7 +65,7 @@ function adminResetPassword(req, res, next) {
   Users
   .findById(id)
   .then(function (user) {
-    return user.resetPassword(user.lang, , 'admin')
+    return user.resetPassword(user.lang, 'admin')
   })
   .then(function (user) {
     console.log(user)
