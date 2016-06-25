@@ -36,6 +36,12 @@ block content
             if errors.email
               span.mdl-textfield__error= errors.email.message
 
+          .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+            select.mdl-textfield__input#lang-field(name="lang")
+              option(value="en" selected=user.lang==='en') english
+              option(value="fr" selected=user.lang==='fr') french
+            label.mdl-textfield__label.mdl-textfield__label--fixed(for="lang-field") default language
+
         button(type="submit").mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored
           i.material-icons save
 

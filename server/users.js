@@ -65,7 +65,7 @@ function adminResetPassword(req, res, next) {
   Users
   .findById(id)
   .then(function (user) {
-    return user.resetPassword()
+    return user.resetPassword(user.lang, , 'admin')
   })
   .then(function (user) {
     console.log(user)
@@ -88,7 +88,7 @@ function userResetPassword(req, res, next) {
       return res.redirect('/forgot')
     }
     user
-    .resetPassword()
+    .resetPassword(req.getLocale(), 'user')
     .then(function(user) {
       req.flash('success', 'password has been reseted. You should receive an email soon')
       res.redirect('/forgot')
@@ -110,7 +110,7 @@ function setPassword(req, res, next) {
       res.redirect(req.path)
       return Promise.resolve(false)
     }
-    return user.setPassword(req.body.password)
+    return user.setPassword(req.body.password, req.getLocale())
   })
   .then(function (user) {
     console.log(user)

@@ -1,10 +1,14 @@
 'use strict'
 
+var _             = require('lodash')
+var fs            = require('fs')
+var path          = require('path')
 var util          = require('util')
 var validator     = require('validator')
 var randtoken     = require('rand-token')
 var bcrypt        = require('bcryptjs')
 var mongoose      = require('mongoose')
+var tmpl          = require("blueimp-tmpl")
 // Use native promises
 mongoose.Promise = global.Promise
 
@@ -17,33 +21,90 @@ var mail          = require('./mail')
 var connection    = mongoose.connect(config.database)
 
 //////
+// DEFINING mailing templates
+//////
+
+tmpl.load = function (id) {
+  var filename = path.join(__dirname + `/mailings/${id}.html`)
+  return fs.readFileSync(filename, 'utf8')
+}
+
+// put in cache
+var tmpReset = tmpl('reset-password')
+
+function getTemplateData(templateName, lang, additionalDatas) {
+  var i18n = {
+    common: {
+      fr: {
+        contact: `Contacter Badsender : `,
+        or: `ou`,
+        // social: `Badsender sur les réseaux sociaux :`,
+        social: `Badsender sur les r&eacute;seaux sociaux :`,
+      },
+      en: {
+        contact: `contact Badsender: `,
+        or: `or`,
+        social: `Badsender on social networks:`,
+      }
+    },
+    'reset-password': {
+      fr: {
+        title: `Bienvenue sur l'email builder de Badsender`,
+        desc: `Cliquez sur le bouton ci-dessous pour initialiser votre mot de passe, ou copiez l'url suivante dans votre navigateur:`,
+        reset: `INITIALISER MON MOT DE PASSE`,
+
+      },
+      en: {
+        title: `Welcome to the Badsender's email builder`,
+        desc: `Click the button below to reset your password, or copy the following URL into your browser:`,
+        reset: `RESET MY PASSWORD`,
+      }
+    }
+  }
+
+  var traductions = _.assign({}, i18n.common[lang],  i18n[templateName][lang])
+
+  console.log(_.assign({}, {t: traductions}, additionalDatas))
+
+  return _.assign({}, {t: traductions}, additionalDatas)
+}
+
+
+//////
 // USER
 //////
 
-// store customer logo:
-// https://github.com/panta/mongoose-file
-// https://github.com/heapsource/mongoose-attachments
-// https://github.com/panta/mongoose-thumbnail
-
 var UserSchema    = Schema({
-  name:       {type: String},
-  email:      {
-    type: String,
+  name: {
+    type:     String,
+  },
+  role: {
+    type:     String,
+    default:  'company',
+  },
+  email: {
+    type:     String,
     required: [true, 'Email address is required'],
     // http://mongoosejs.com/docs/api.html#schematype_SchemaType-unique
     // from mongoose doc:
     // violating the constraint returns an E11000 error from MongoDB when saving, not a Mongoose validation error.
-    unique: true,
+    unique:   true,
     validate: [{
       validator: function checkValidEmail(value) { return validator.isEmail(value) },
       message:  '{VALUE} is not a valid email address',
     }],
   },
   password:   {
-    type: String,
-    set:  encodePassword,
+    type:     String,
+    set:      encodePassword,
   },
-  token:      {type: String},
+  lang: {
+    type:     String,
+    default: 'en',
+  },
+  token: {
+    type:     String,
+  },
 }, { timestamps: true })
 
 function encodePassword(password) {
@@ -64,10 +125,11 @@ UserSchema.virtual('isReseted').get(function () {
 })
 
 // TODO: take care of good email send
-UserSchema.methods.resetPassword = function resetPassword() {
+UserSchema.methods.resetPassword = function resetPassword(lang) {
   var user      = this
   user.password = void(0)
   user.token    = randtoken.generate(30)
+  lang          = lang ? lang : 'en'
 
   return new Promise(function (resolve, reject) {
     user
@@ -81,7 +143,9 @@ UserSchema.methods.resetPassword = function resetPassword() {
         to:       updatedUser.email,
         subject:  'badsender – password reset',
         text:     `here is the link to enter your new password http://${config.host}/password/${user.token}`,
-        html:     `here is the link to enter your new password http://${config.host}/password/${user.token}`,
+        html:     tmpReset(getTemplateData('reset-password', lang, {
+          url: `http://${config.host}/password/${user.token}?lang=${lang}`
+        })),
       })
       .then(function () { return resolve(updatedUser) })
       .catch(reject)
@@ -89,7 +153,7 @@ UserSchema.methods.resetPassword = function resetPassword() {
   })
 }
 
-UserSchema.methods.setPassword = function setPassword(password) {
+UserSchema.methods.setPassword = function setPassword(password, lang) {
   var user      = this
   user.token    = void(0)
   user.password = password

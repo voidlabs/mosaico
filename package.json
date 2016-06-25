@@ -47,6 +47,7 @@
   "dependencies": {
     "aws-sdk": "^2.4.0",
     "bcryptjs": "^2.3.0",
+    "blueimp-tmpl": "^3.4.0",
     "body-parser": "^1.15.2",
     "chalk": "^1.1.1",
     "compression": "^1.6.2",

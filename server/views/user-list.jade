@@ -16,6 +16,7 @@ block content
             th.mdl-data-table__cell--non-numeric user name
             th.mdl-data-table__cell--non-numeric email
             th.mdl-data-table__cell--non-numeric(colspan="2") status
+            th.mdl-data-table__cell--action language
             th.mdl-data-table__cell--non-numeric created at
             th.mdl-data-table__cell--action password mail
             th.mdl-data-table__cell--action delete
@@ -24,7 +25,7 @@ block content
             tr
               if _config.debug
                 td.mdl-data-table__cell--non-numeric: a(href=`/users/${user._id}`)= user._id
-              td.mdl-data-table__cell--non-numeric: a(href=`/users/${user._id}`)= user.name
+              td.mdl-data-table__cell--non-numeric: a(href=`/users/${user._id}`)=user.name ? user.name : 'new user'
               td.mdl-data-table__cell--non-numeric= user.email
               td.mdl-data-table__cell--non-numeric
                 if user.status === 'confirmed'
@@ -33,8 +34,8 @@ block content
                   i.material-icons report_problem
                 if user.status === 'password mail send'
                   i.material-icons schedule
-                 //- user.status
               td.mdl-data-table__cell--non-numeric= user.status
+              td.mdl-data-table__cell--action= user.lang
               td.mdl-data-table__cell--non-numeric= formatDate(user.createdAt)
               td.mdl-data-table__cell--action: form(action='/users/reset' method="post")
                 button.mdl-button.mdl-js-button.mdl-button--accent(type="submit" name="id" value=user._id)
