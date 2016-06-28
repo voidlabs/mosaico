@@ -194,7 +194,7 @@ gulp.task('js-editor', ['templates'], function () {
   b.transform(shim)
   b.transform(debowerify)
   b.transform(envify({
-    _: 'purge',
+    _:          'purge',
     NODE_ENV:   env,
     BADSENDER:  true,
     MOSAICO:    false,
@@ -214,19 +214,20 @@ gulp.task('js-editor', ['templates'], function () {
 
 function bundleShare(b) {
   return b.bundle()
-    .on('error', onError)
-    .pipe(source('badsender-editor.js'))
-    .pipe(vinylBuffer())
-    .pipe($.if(!isDev, $.uglify()))
-    .pipe(gulp.dest(buildDir));
+  .on('error', onError)
+  .pipe(source('badsender-editor.js'))
+  .pipe(vinylBuffer())
+  .pipe( $.if(!isDev, $.stripDebug()) )
+  .pipe( $.if(!isDev, $.uglify()) )
+  .pipe(gulp.dest(buildDir))
 }
 
 //----- TEMPLATES: see -> combineKOTemplates.js
 
-var path          = require('path');
-var through       = require('through2');
-var StringDecoder = require('string_decoder').StringDecoder;
-var decoder       = new StringDecoder('utf8');
+var path          = require('path')
+var through       = require('through2')
+var StringDecoder = require('string_decoder').StringDecoder
+var decoder       = new StringDecoder('utf8')
 
 gulp.task('templates', function () {
   var templates = [];
