@@ -236,9 +236,10 @@ WireframeSchema.virtual('hasMarkup').get(function () {
 
 WireframeSchema.virtual('url').get(function () {
   return {
-    read:   `/users/${this._user}/wireframe/${this._id}`,
-    delete: `/wireframes/${this._id}/delete`,
-    markup: `/wireframes/${this._id}/markup`,
+    read:       `/users/${this._user}/wireframe/${this._id}`,
+    delete:     `/wireframes/${this._id}/delete`,
+    markup:     `/wireframes/${this._id}/markup`,
+    imgCover:   `/img/${this._id}-_full.png`,
   }
 })
 
@@ -317,11 +318,13 @@ CreationSchema.methods.duplicate = function duplicate() {
   this.name   = this.name + ' copy'
   this.isNew  = true
   // update all templates infos
-  var data    = JSON.stringify(this.data)
-  var replace = new RegExp(oldId, 'gm')
-  data        = data.replace(replace, newId.toString())
-  this.data   = JSON.parse(data)
-  this.markModified('data')
+  if (this.data) {
+    var data    = JSON.stringify(this.data)
+    var replace = new RegExp(oldId, 'gm')
+    data        = data.replace(replace, newId.toString())
+    this.data   = JSON.parse(data)
+    this.markModified('data')
+  }
 
   return this.save()
 }

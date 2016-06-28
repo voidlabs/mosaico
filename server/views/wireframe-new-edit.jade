@@ -35,6 +35,12 @@ block content
         li.mdl-list__item: a.mdl-list__item-primary-content(href=deleteUrl)
           .material-icons.mdl-list__item-icon delete_forever
           | delete
+        if wireframe.images.length
+          li.mdl-list__item: span.mdl-list__item-primary-content Preview:
+      if wireframe.images.length
+        div(style="max-height: 300px; overflow-y: auto; margin: 0 16px; outline: 1px solid #ff9f00")
+          img(src=wireframe.url.imgCover style="width: 100%; height: auto;")
+
 
   form(action=action method="post" enctype="multipart/form-data" class=isEdit ? 'mdl-cell--10-col' : 'mdl-cell--12-col').mdl-cell
     input(name="_user" type="hidden" value=data._user)
