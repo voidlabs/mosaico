@@ -6,12 +6,12 @@
 
 - [Heroku server configuration](#heroku-server-configuration)
   - [configuring environments variables](#configuring-environments-variables)
-    - [Mail sending](#mail-sending)
-    - [from email adress](#from-email-adress)
-    - [MongoDB database](#mongodb-database)
-    - [Admin password](#admin-password)
-    - [Hostname](#hostname)
-    - [AWS S3](#aws-s3)
+  - [Mail sending](#mail-sending)
+  - [from email adress](#from-email-adress)
+  - [MongoDB database](#mongodb-database)
+  - [Admin password](#admin-password)
+  - [Hostname](#hostname)
+  - [AWS S3](#aws-s3)
 - [Dev prerequisite](#dev-prerequisite)
 - [Updating the code](#updating-the-code)
   - [Build the project for *production*](#build-the-project-for-production)
@@ -43,7 +43,7 @@ badsender_emailOptions__from
 below are the common environments variables you should want to set:
 
 
-#### Mail sending
+### Mail sending
 
 ```
 badsender_emailTransport__service         Mailjet
@@ -55,14 +55,14 @@ badsender_emailTransport__auth__pass      your password (or Secret Key)
 badsender_emailTransport__service is for [nodemailer-wellknown](https://www.npmjs.com/package/nodemailer-wellknown) configuration  
 
 
-#### from email adress
+### from email adress
 
 
 ```
 badsender_emailOptions__from              Badsender Builder <emailbuilder@badsender.com>
 ```
 
-#### MongoDB database
+### MongoDB database
 
 the path to your mongoDB instance
 
@@ -70,13 +70,13 @@ the path to your mongoDB instance
 badsender_database                        mongodb://localhost/badsender
 ```
 
-#### Admin password
+### Admin password
 
 ```
 badsender_admin__password                 a password of your choice
 ```
 
-#### Hostname
+### Hostname
 
 The domain name of your app
 
@@ -84,7 +84,7 @@ The domain name of your app
 badsender_host                            badsender-test.herokuapp.com
 ```
 
-#### AWS S3
+### AWS S3
 
 Those are the keys you should set for aws
 
