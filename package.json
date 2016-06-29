@@ -111,6 +111,7 @@
     "gulp": "^3.9.0",
     "gulp-bump": "^1.0.0",
     "gulp-concat": "^2.6.0",
+    "gulp-doctoc": "^0.1.4",
     "gulp-filter": "^4.0.0",
     "gulp-if": "^2.0.1",
     "gulp-less": "^3.1.0",

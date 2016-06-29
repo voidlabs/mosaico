@@ -1,44 +1,29 @@
 # Badsender email builder
 
-## prerequisite
-
-- **git** should be installed also
-- **heroku toolbelt** [toolbelt.heroku.com](https://toolbelt.heroku.com/)
-
-You need to have:
-
-- clone/fork the project
-- in your terminal, go in the folder
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-## Configuring Heroku
+- [Heroku server configuration](#heroku-server-configuration)
+  - [configuring environments variables](#configuring-environments-variables)
+    - [Mail sending](#mail-sending)
+    - [from email adress](#from-email-adress)
+    - [MongoDB database](#mongodb-database)
+    - [Admin password](#admin-password)
+    - [Hostname](#hostname)
+    - [AWS S3](#aws-s3)
+- [Dev prerequisite](#dev-prerequisite)
+- [Updating the code](#updating-the-code)
+  - [Build the project for *production*](#build-the-project-for-production)
+  - [Start a server configured for *production*](#start-a-server-configured-for-production)
+  - [Build and start a *production* server](#build-and-start-a-production-server)
+  - [Build and start a *development* server](#build-and-start-a-development-server)
+  - [Make a release](#make-a-release)
+  - [Generating templates preview images](#generating-templates-preview-images)
 
-### initializing heroku git
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-Have to be done only one time.  
-*heroku-name* should be replace with your app name (configured in **https://dashboard.heroku.com/apps** -> **+** -> **create new app**)
-
-```
-heroku git:remote -a *heroku-name*
-```
-
-### pushing a release
-
-you should push the relase branch (prod/preprod) on heroku master.
-
-for example push the prod branch is:
-
-**being on the prod branch and make sure it's up-to-date**
-
-```
-git checkout prod && git fetch origin prod && git reset --hard FETCH_HEAD && git clean -df
-```
-
-then
-
-```
-git push heroku prod:master -f
-```
+## Heroku server configuration
 
 ### configuring environments variables
 
@@ -60,24 +45,43 @@ below are the common environments variables you should want to set:
 
 #### Mail sending
 
-So for a secure email transport using your own SMTP server you should set:
-
 ```
-badsender_emailTransport__host         your SMTP server host adress
-badsender_emailTransport__port         465
-badsender_emailTransport__secure       true
-badsender_emailTransport__auth__user   your Username (or API key)
-badsender_emailTransport__auth__pass   your password (or Secret Key)
+badsender_emailTransport__service         Mailjet
+badsender_emailTransport__auth__user      your Username (or API key)
+badsender_emailTransport__auth__pass      your password (or Secret Key)
 ```
 
-documentation can be find here: [nodemailer.com/2-0-0-beta/setup-smtp/](https://nodemailer.com/2-0-0-beta/setup-smtp/)
+
+badsender_emailTransport__service is for [nodemailer-wellknown](https://www.npmjs.com/package/nodemailer-wellknown) configuration  
 
 
-#### Setting the *“from”* email adress
+#### from email adress
 
 
 ```
-badsender_emailOptions__from           Badsender Builder <emailbuilder@badsender.com>			
+badsender_emailOptions__from              Badsender Builder <emailbuilder@badsender.com>
+```
+
+#### MongoDB database
+
+the path to your mongoDB instance
+
+```
+badsender_database                        mongodb://localhost/badsender
+```
+
+#### Admin password
+
+```
+badsender_admin__password                 a password of your choice
+```
+
+#### Hostname
+
+The domain name of your app
+
+```
+badsender_host                            badsender-test.herokuapp.com
 ```
 
 #### AWS S3
@@ -85,11 +89,11 @@ badsender_emailOptions__from           Badsender Builder <emailbuilder@badsender
 Those are the keys you should set for aws
 
 ```
-badsender_storage__type                  aws
-badsender_storage__aws__accessKeyId      20 characters key
-badsender_storage__aws__secretAccessKey  40 characters secret key
-badsender_storage__aws__bucketName       your bucket name
-badsender_storage__aws__region           region of your bucket (ex: ap-southeast-1)
+badsender_storage__type                   aws
+badsender_storage__aws__accessKeyId       20 characters key
+badsender_storage__aws__secretAccessKey   40 characters secret key
+badsender_storage__aws__bucketName        your bucket name
+badsender_storage__aws__region            region of your bucket (ex: ap-southeast-1)
 ```
 
 ###### getting AWS id
@@ -125,10 +129,23 @@ and copy and paste this:
 
 then replace `YOURBUCKETNAME` by your real bucket name
 
+## Dev prerequisite
+
+- [NodeJS 5](https://nodejs.org/en/)
+- [MongoDB](https://www.mongodb.com/)
+- [Imagemagick](http://www.imagemagick.org/script/index.php)
+
+You need to have:
+
+- clone/fork the project
+- in your terminal, go in the folder
+- run `npm install` in the root folder
+
 
 ## Updating the code
 
-If you want to run badsender on your computer, **NodeJS** should be installed on your computer (nodejs.org/](https://nodejs.org/) for more details)  
+Configuration can be made by creating a `.badsenderc` at the root of the project  
+See `.badsenderrc-example` for config detail.
 
 those are the main developper commands:
 
@@ -146,13 +163,13 @@ npm start
 
 server will be running on `localhost:3000`
 
-### Build & start a *production* server
+### Build and start a *production* server
 
 ```
 npm run prod
 ```
 
-### Build & start a *development* server
+### Build and start a *development* server
 
 ```
 npm run dev
@@ -170,9 +187,9 @@ on your current branch
 npm run release
 ```
 
-The release will be pushed in the branch you have chosen (prod/preprod)
+The release will be pushed in the branch you have chosen (dev/prod)  
+Automatic deploy is configured in heroku. So **pushing to dev or prod branch will automatically been deployed to heroku**
 
+### Generating templates preview images
 
-### A list of possible nice to have
-
-- clean uploads when removing wireframes & creations
+see README.md

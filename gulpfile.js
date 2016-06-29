@@ -309,6 +309,14 @@ gulp.task('assets', ['fonts']);
 // DEV
 ////////
 
+gulp.task('toc', function() {
+  return gulp.src('./BADSENDER.md')
+  .pipe($.doctoc({
+    mode: "github.com",
+  }))
+  .pipe(gulp.dest('./'));
+});
+
 var run = require('run-sequence');
 
 gulp.task('clean-all', function (cb) {
