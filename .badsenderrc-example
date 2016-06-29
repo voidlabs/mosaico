@@ -1,0 +1,73 @@
+{
+  //////
+  // SMTP
+  //////
+
+  //----- classic configuration
+
+  "emailTransport": {
+    "host": "yoursmtpserver",
+    "port": "25",
+    "auth": { "user": "####", pass: "####" }
+  },
+
+  //----- OR use https://github.com/nodemailer/nodemailer-wellknown
+
+  "emailTransport": {
+    "provider": "GandiMail",
+    "auth": { "user": "####", pass: "####" }
+  },
+
+  //----- complementary informations
+
+  "emailOptions": {
+    "from": "Pouic Clapou <pouic@clapou.name>" // sender address
+  },
+
+  //////
+  // STORAGE
+  //////
+
+  //----- local
+
+  "storage": {
+    "type": "local"
+  },
+
+  //----- OR for using Amazon S3:
+
+  "storage": {
+    "type": "aws",
+    "aws": {
+      "accessKeyId": "20 characters key",
+      "secretAccessKey": "40 characters secret key",
+      "region": "ap-southeast-1",
+      "bucketName": "name of the bucket :)"
+    }
+  },
+
+  //----- complementary informations
+
+  "images": {
+    "tmpDir":     "/tmp"
+    // in case case of local storage
+    "uploadDir": "/uploads",
+  },
+
+  //////
+  // GENERAL
+  //////
+
+  "host": "www.your-hostname-without-protocal.com",
+
+  "admin": {
+    "password": "toto"
+  },
+
+  //////
+  // DB CONNECTION
+  //////
+
+  "database": "mongodb://localhost/my_database",
+
+}

@@ -1,0 +1,21 @@
+extends _layout-login.jade
+
+block content
+  h1 ERROR #{status}
+  if reason
+    pre= reason
+  if description
+    pre= description
+  if message
+    pre= message
+  hr
+  if error
+    pre= error
+  if stacktrace
+    details
+      summary stacktrace
+      div
+        if Array.isArray(stacktrace)
+          pre= stacktrace.join('\n')
+        else
+          pre= stacktrace

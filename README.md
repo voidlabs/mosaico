@@ -57,6 +57,7 @@ First you have to build it using grunt, then you can read (https://github.com/vo
 ### Are you having issues with Mosaico?
 
 Please make sure:
+
 - you understand you have to build it and to run a backend server (either the node.js version bundled with this project or the php backend referenced above or write your own)
 - you read this Readme *three* times and followed the instructions
 - you understand I'll close any GitHub issue with insufficient information: if you want help then you'll have to take your time to explain your issue.
@@ -65,6 +66,7 @@ Please make sure:
 - you don't add off topic comments to an existing issue: if you want to add that you are having the same issue please make sure you are having the same issue described. If you are unsure, open a new issue following the rules (I prefer a duplicated issue than a chaotic issue mixing unrelated things).
 
 ##### issues building:
+
 - take note of the full log of your npm install, and grunt commands output
 - open a GitHub issues saying that you read this doc
 - paste the output from npm install and grunt

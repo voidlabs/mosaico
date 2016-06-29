@@ -2,10 +2,13 @@
 /* global global: false */
 /* global XMLHttpRequest: false */
 
-var templateLoader = require('./template-loader.js');
-var console = require("console");
+var url     = require('url');
+var console = require('console');
 var ko = require("knockout");
 var $ = require("jquery");
+
+var templateLoader = require('./template-loader.js');
+
 require("./ko-bindings.js");
 var performanceAwareCaller = require("./timed-call.js").timedCall;
 
@@ -16,6 +19,8 @@ var localStorageLoader = require("./ext/localstorage.js");
 
 if (typeof ko == 'undefined') throw "Cannot find knockout.js library!";
 if (typeof $ == 'undefined') throw "Cannot find jquery library!";
+
+if (process.env.MOSAICO) {
 
 function _canonicalize(url) {
   var div = global.document.createElement('div');
@@ -50,9 +55,9 @@ var applyBindingOptions = function(options, ko) {
     ko.bindingHandlers.wysiwyg.fullOptions = options.tinymceConfigFull;
 };
 
+}
+
 var start = function(options, templateFile, templateMetadata, jsorjson, customExtensions) {
-
-
 
   templateLoader.fixPageEvents();
 
@@ -122,6 +127,8 @@ var start = function(options, templateFile, templateMetadata, jsorjson, customEx
 
 };
 
+if (process.env.MOSAICO) {
+
 var initFromLocalStorage = function(options, hash_key, customExtensions) {
   try {
     var lsData = localStorageLoader(hash_key, options.emailProcessorBackend);
@@ -157,6 +164,109 @@ var init = function(options, customExtensions) {
   }
   return true;
 };
+
+}
+
+if (process.env.BADSENDER) {
+
+//////
+// BADSENDER SPECIFIC
+//////
+
+// don't replace mosaico code for better merging
+
+var applyBindingOptions = function(options, ko) {
+  // options have been set in the editor template
+  var imgProcessorBackend = url.parse(options.imgProcessorBackend);
+
+  // send the non-resized image url
+  ko.bindingHandlers.fileupload.remoteFilePreprocessor = function (file) {
+    console.info('REMOTE FILE PREPROCESSOR')
+    console.log(file)
+    var fileUrl = url.format({
+      protocol: imgProcessorBackend.protocol,
+      host:     imgProcessorBackend.host,
+      pathname: imgProcessorBackend.pathname,
+    });
+    file.url = url.resolve(fileUrl, url.parse(file.url).pathname);
+    return file;
+  },
+
+  // push "convertedUrl" method to the wysiwygSrc binding
+  ko.bindingHandlers.wysiwygSrc.convertedUrl = function(src, method, width, height) {
+    console.info('CONVERTED URL')
+    console.log(src, method, width, height)
+    return url.format({
+      protocol: imgProcessorBackend.protocol,
+      host:     imgProcessorBackend.host,
+      pathname: imgProcessorBackend.pathname,
+      query: {
+        method: method,
+        params: width + "," + height,
+        src:    url.parse(src).pathname,
+    }
+    });
+  };
+
+  // TODO should be querying a placeholder route
+  ko.bindingHandlers.wysiwygSrc.placeholderUrl = function(width, height, text) {
+    console.info('PLACEHOLDERURL')
+    console.log(width, height, text)
+    return options.imgProcessorBackend + "?method=" + 'placeholder' + "&params=" + width + encodeURIComponent(",") + height;
+  };
+
+  // pushes custom tinymce configurations from options to the binding
+  if (options && options.tinymceConfig)
+    ko.bindingHandlers.wysiwyg.standardOptions = options.tinymceConfig;
+  if (options && options.tinymceConfigFull)
+    ko.bindingHandlers.wysiwyg.fullOptions = options.tinymceConfigFull;
+}
+
+// FLOW:
+// => init
+// => start
+// => templateLoader: Ajax datas
+// => templateCompiler:
+//    -> Initialize viewmode
+//    -> apply plugins (server-storage, setEditorIcon + mosaico defined)
+
+var init = function(opts, customExtensions) {
+  console.info('BADSENDER – init')
+  console.log(opts)
+  var hasDatas = opts && opts.metadata && opts.data
+  // editor.jade script need a return value
+  if (!hasDatas) return false;
+  // enable server saving
+  customExtensions.push( require('./ext/server-storage') )
+  // fix icon
+  customExtensions.push(function setEditorIcon(viewModel) {
+    viewModel.logoPath  = '/media/editor-icon.png'
+    viewModel.logoUrl   = '/'
+    viewModel.logoAlt   = 'Badsender'
+  })
+  // Put this in meta datas…
+  // …don't have access to options in templateLoader
+  // maybe look at:
+  // https://github.com/voidlabs/mosaico/issues/162
+  opts.metadata.urlConverter = function (url) {
+    if (!url) return null
+    // handle: [unsubscribe_link] or mailto:[mail]
+    if (/\]$/.test(url)) return null
+    // handle absolute url: http
+    if (/^http/.test(url)) return null
+    // handle other urls: img/social_def/twitter_ok.png
+    // as it is done, all files are flatten in asset folder (uploads or S3)
+    url = /([^\/]*)$/.exec(url)[1]
+    url = opts.imgProcessorBackend + opts.metadata._wireframe  + '-' + url
+    return url
+  }
+
+  start(opts, void(0), opts.metadata, opts.data, customExtensions)
+
+  return true;
+}
+
+}
 
 module.exports = {
   isCompatible: templateLoader.isCompatible,

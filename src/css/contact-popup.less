@@ -1,0 +1,47 @@
+.popup-container {
+  position: fixed;
+  background: rgba(0, 0, 0, .5);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 900;
+  justify-content: center;
+  align-items: center;
+  display: none;
+  opacity: 0;
+
+  &.is-open {
+    display: flex;
+    transition: opacity .4s;
+  }
+
+  &,
+  .in {
+    min-height: 0 !important;
+  }
+
+  .in {
+    background: white;
+    width: 50%;
+    padding: 20px;
+    position: relative;
+  }
+
+  .popup-close {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    font-size: 1.5em;
+    cursor: pointer;
+
+    &:hover {
+      color: @accent-color;
+    }
+  }
+
+  iframe {
+    display: block !important;
+    width: 100%;
+  }
+}

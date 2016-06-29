@@ -1,0 +1,85 @@
+extends _layout-admin.jade
+
+block vars
+  - var user      = data && data.user ? data.user : {};
+  - var isEdit    = user._id
+  - var pageTitle = isEdit ? 'user: ' + user.name : 'new user'
+
+block content
+  - var user      = data && data.user ? data.user : {};
+  - var isEdit    = user._id
+  - var action    = isEdit ? `/users/${user._id}` : `/users`;
+  - var hasError  = messages.error && messages.error.length;
+  - var errors    = hasError ? messages.error[0] : {};
+
+  .page-content
+
+    .mdl-grid
+      form.mdl-cell.mdl-cell--6-col.mdl-cell--top.mdl-card.mdl-shadow--2dp(action=action method="post" class=isEdit ? '' : 'mdl-cell--3-offset-desktop')
+        if user._id
+          input(type="hidden" name="id" value=user._id)
+        .mdl-card__title
+          .mdl-card__title-text informations
+        fieldset.mdl-card__supporting-text
+          //- if user._id
+          //-   ul
+          //-     li status: #{user.status}
+          .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+            input.mdl-textfield__input#email-field(type="email" name="email" required value=user.email)
+            label.mdl-textfield__label(for="email-field") email
+            if errors.email
+              span.mdl-textfield__error= errors.email.message
+
+          .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+            input.mdl-textfield__input#name-field(type="text" name="name" value=user.name)
+            label.mdl-textfield__label(for="name-field") name
+            if errors.email
+              span.mdl-textfield__error= errors.email.message
+
+          .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+            select.mdl-textfield__input#lang-field(name="lang")
+              option(value="en" selected=user.lang==='en') english
+              option(value="fr" selected=user.lang==='fr') french
+            label.mdl-textfield__label.mdl-textfield__label--fixed(for="lang-field") default language
+
+        button(type="submit").mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored
+          i.material-icons save
+
+      if isEdit
+        .mdl-cell.mdl-cell--6-col.mdl-cell--top.mdl-card.mdl-shadow--2dp
+          .mdl-card__title
+            .mdl-card__title-text associated wireframes
+
+          if !data.wireframes.length
+            .mdl-card__supporting-text: p no wireframes yet
+          else
+            table.mdl-data-table.mdl-js-data-table
+              thead
+                tr
+                  th.mdl-data-table__cell--non-numeric id
+                  th.mdl-data-table__cell--non-numeric name
+                  th.mdl-data-table__cell--action markup?
+                  th.mdl-data-table__cell--action edit
+                  th.mdl-data-table__cell--action delete
+              tbody
+                each wireframe in data.wireframes
+                  - var deleteUrl = wireframe.url.delete + '?redirect=/users/' + wireframe._user
+                  tr
+                    td.mdl-data-table__cell--non-numeric
+                      a(href=wireframe.url.read)= wireframe._id
+                    td.mdl-data-table__cell--non-numeric= wireframe.name
+                    td.mdl-data-table__cell--action
+                      if wireframe.hasMarkup
+                        i.material-icons check
+                      else
+                        i.material-icons report_problem
+                    td.mdl-data-table__cell--action
+                      a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href=wireframe.url.read)
+                        i.material-icons mode_edit
+                    td.mdl-data-table__cell--action
+                      a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href=deleteUrl)
+                        i.material-icons delete_forever
+          .mdl-card__actions(class=data.wireframes.length ? '' : 'mdl-card--border')
+            a.mdl-button.mdl-button--accent.mdl-js-button.mdl-js-ripple-effect(href='/users/' + user._id + '/wireframe')
+              | new wireframe
+

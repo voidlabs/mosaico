@@ -34,7 +34,6 @@ module.exports = function(grunt) {
         sub: true,
         jshintrc: true,
         browserify: true
-
       }
     },
 
@@ -146,7 +145,7 @@ module.exports = function(grunt) {
           port: 9006,
           showStack: true,
           hostname: '127.0.0.1',
-          open: true,
+          open: false,
           bases: ['.'],
           server: 'backend/main.js'
         }
@@ -235,6 +234,7 @@ module.exports = function(grunt) {
   grunt.registerTask('css', ['less', 'postcss']);
   grunt.registerTask('server', ['express', 'watch', 'express-keepalive']);
   grunt.registerTask('build', ['bowercopy', 'copy', 'jshint', 'js', 'css']);
+  grunt.registerTask('build:badsender', ['jshint', 'js']);
   grunt.registerTask('default', ['build', 'server']);
   grunt.registerTask('test', ['jasmine_node']);
 };

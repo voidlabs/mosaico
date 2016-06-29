@@ -6,7 +6,7 @@ module.exports = function(grunt) {
   	// var files = grunt.file.expand(this.data.src);
   	var async = require('async');
   	var data = this.data;
-  	var script = this.data.script || './tasks/phantom-thumbnailer-editor.js';
+  	var script = this.data.script || '../phantom-thumbnailer-editor.js';
   	var done = this.async();
   	var tmplsDir;
   	if (typeof templateName != 'undefined') {

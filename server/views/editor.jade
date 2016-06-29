@@ -1,0 +1,34 @@
+extends _layout-editor.jade
+
+block head-content
+
+  script.
+    $(function() {
+      if (!Badsender.isCompatible()) {
+        alert('Update your browser!');
+        return;
+      }
+      // var basePath = window.location.href.substr(0, window.location.href.lastIndexOf('/')).substr(window.location.href.indexOf('/','https://'.length));
+      var basePath  = window.location.protocol + '//' + '#{_config.host}';
+      var plugins   = [];
+      // A basic plugin that expose the "viewModel" object as a global variable.
+      // plugins = [function(vm) {window.viewModel = vm;}];
+      var ok = Badsender.init({
+        strings:                !{data.translations},
+        metadata:               !{printJS(data.meta)},
+        data:                   !{ data.data ? printJS(data.data) : printJS('{}')},
+        imgProcessorBackend:    basePath + '/img/',
+        emailProcessorBackend:  basePath + '/dl/',
+        titleToken:             'BADSENDER Responsive Email Designer',
+        fileuploadConfig: {
+          //- don't prepend basePath
+          //- CORS errors can occur while using browsersync
+          url: '/editor/#{data.meta.id}/upload',
+          // messages??
+        },
+      }, plugins);
+      if (!ok) {
+        console.error("config not setted properly");
+        $('.mo-standalone').html('<h1>error</h1><h2>config not setted properly</h2>')
+      }
+    });
