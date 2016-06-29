@@ -1,0 +1,43 @@
+doctype html
+
+block vars
+
+- var page = pageClass || ''
+- var title = pageTitle || ''
+
+html(lang=getLocale())
+  head
+    include _head-material
+
+  body.mdl-color--grey-100.mdl-color-text--grey-700(class=page)
+    .mdl-layout.mdl-js-layout.mdl-layout--fixed-header
+      header.mdl-layout__header
+        .mdl-layout__header-row
+          //- Title
+          span.mdl-layout-title= title
+          //- Add spacer, to align navigation to the right
+          .mdl-layout-spacer
+          //- Navigation. We hide it in small screens
+          nav.mdl-navigation.mdl-layout--large-screen-only
+            if _user.isAdmin
+              a.mdl-navigation__link(href="/admin"): i.material-icons people
+              a.mdl-navigation__link(href="/wireframes"): i.material-icons web
+
+            a.mdl-navigation__link(href="/"): i.material-icons home
+            a.mdl-navigation__link(href="/logout"): i.material-icons power_settings_new
+
+      .mdl-layout__drawer
+        span.mdl-layout-title= title
+        nav.mdl-navigation
+          if _user.isAdmin
+            a.mdl-navigation__link(href="/admin") users
+            a.mdl-navigation__link(href="/wireframes") wireframes
+          a.mdl-navigation__link(href="/logout") logout
+          a.mdl-navigation__link(href="/") home
+
+      main.mdl-layout__content(class=page === 'wireframe-new-edit' ? 'mdl-grid mdl-grid--no-spacing' : '' )
+        block content
+        if _config.debug
+          footer(style="background: #eee")
+            pre= JSON.stringify(data, null, '  ')
+            pre= _debug

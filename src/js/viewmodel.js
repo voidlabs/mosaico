@@ -142,9 +142,9 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
     debug: ko.observable(false),
     contentListeners: ko.observable(0),
 
-    logoPath: 'media/editor-icon.png',
+    logoPath: 'dist/img/mosaico32.png',
     logoUrl: '.',
-    logoAlt: 'badsender'
+    logoAlt: 'mosaico'
   };
 
   // viewModel.content = content._instrument(ko, content, undefined, true);

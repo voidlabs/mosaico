@@ -1,21 +1,20 @@
-'use strict';
+'use strict'
 
-var _           = require('lodash');
-var Styliner    = require('styliner');
-var nodemailer  = require('nodemailer');
+var Styliner    = require('styliner')
 
-var config      = require('./config');
+var mail        = require('./mail')
 
-var styliner    = new Styliner(__dirname, { keepinvalid: true });
-var transporter = nodemailer.createTransport(config.emailTransport);
+var styliner    = new Styliner(__dirname, {
+  keepinvalid: true
+})
 
 function postDownload(req, res, next) {
 
   styliner
-    .processHTML(req.body.html)
-    .then(processDone)
-    .catch(processErrored)
-    .done();
+  .processHTML(req.body.html)
+  .then(processDone)
+  .catch(processErrored)
+  .done()
 
   function processDone(source) {
     if (req.body.action == 'download') {
@@ -25,29 +24,28 @@ function postDownload(req, res, next) {
       return res.end();
     }
     if (req.body.action == 'email') {
-
-      var mailOptions = _.extend({
-          to:       req.body.rcpt, // list of receivers
-          subject:  req.body.subject, // Subject line
-          html:     source // html body
-      }, config.emailOptions);
-
-      transporter.sendMail(mailOptions, mailSend);
+      mail
+      .send({
+        to:       req.body.rcpt,
+        subject:  req.body.subject,
+        html:     source,
+      })
+      .then(function (info) {
+        console.log('Message sent: ' + info.response)
+        res.send('OK: ' + info.response)
+      })
+      .catch(next)
     }
   }
 
   function processErrored(err) {
-    console.log(err);
-    return res.status(500).send('Error: ' + err);
-  }
-
-  function mailSend(error, info) {
-    if (error) return next(error);
-    console.log('Message sent: ' + info.response);
-    res.send('OK: ' + info.response);
+    console.log('Styliner error')
+    err.reason = 'Styliner error'
+    err.status = 500
+    next(err)
   }
 }
 
 module.exports = {
   post: postDownload,
-};
+}

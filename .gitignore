@@ -1,10 +1,7 @@
 bower_components
 node_modules
-uploads/**
-!uploads/README.md
-.tmp/**
-!.tmp/README.md
-tmp
+/tmp/**
+/uploads/**
 build
 dist
 .badsenderrc

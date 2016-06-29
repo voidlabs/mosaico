@@ -1,15 +1,20 @@
 {
 	"home": {
-		"click-to-try": "Cliquez sur l'un des templates de test ci-dessous afin d'essayer \"Badsender Email Builder\"",
 		"saved": {
-			"notification": "Vous avez des éléments sauvegardés dans votre navigateur !",
 			"show": "afficher",
-			"caption": "Liste des Emails sauvegardés dans votre navigateur",
+			"caption": "Liste des Emails sauvegardés",
 			"hide": "masquer",
 			"name": "nom",
 			"created": "créé le",
 			"last-change": "modifié le",
-			"operations": "opérations"
+			"operations": "opérations",
+			"rename": "renommer",
+			"edit": "éditer",
+			"delete": "supprimer",
+			"new-name": "Nouveau nom",
+			"noname": "sans titre",
+			"duplicate": "dupliquer",
+			"wireframe-name": "modèle utilisé"
 		},
 		"more-info": "en savoir plus à propos de l'éditeur",
 		"footer": {
@@ -26,10 +31,38 @@
 				"tedc15": " : le template TEDC15",
 				"tutorial": " : le tutoriel"
 			}
-		}
+		},
+		"logout": "déconnexion",
+		"make-creation": "Cliquez sur l'un des templates ci-dessous pour créer un nouvel email",
+		"no-content": "Pas de mailing enregistrés",
+		"create-new-mailing": "home.create-new-mailing",
+		"no": {
+			"wireframes": "Il n'y a pas encore de templates accessibles"
+		},
+		"welcome": "bienvenue"
 	},
 	"layout": {
 		"title": "Éditeur de templates email responsive par \"glissé/déposé\" - Une solution Badsender.com",
 		"description": "Badsender Email Builder est une solution de conception d'emailing responsive permettant de construire un email graphiquement par glissé/déposé."
+	},
+	"password": {
+		"field": {
+			"email": "Email",
+			"password": "mot de passe",
+			"confirm-email": "Confirmez votre email",
+			"password-new": "Nouveau mot de passe"
+		},
+		"action": {
+			"login": "connexion",
+			"forgot": "mot de passe oublié ?",
+			"reset": "réinitialiser",
+			"back-to-login": "revenir à la connexion",
+			"password-new": "Enregistrer"
+		},
+		"title": {
+			"login": "Connectez-vous",
+			"forgot": "Mot de passe oublié ?",
+			"reset": "Réinitialisation du mot de passe"
+		}
 	}
 }

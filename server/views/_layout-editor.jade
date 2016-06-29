@@ -8,11 +8,6 @@ html(lang=getLocale())
     meta(name="keywords", content="emailing responsive, éditeur email, editeur emailing, éditeur template email, éditeur newsletter")
     meta(name="author", content="VOXmail")
     meta(name="application-name", content="Badsender Email Builder")
-    meta(property="og:title", content="Badsender Email Builder")
-    meta(property="og:image", content="http://agence.badsender.com/wp-content/uploads/2014/09/logo_badsender_154x118.png")
-    meta(property="og:description", content="Editeur graphique de templates email par Badsender")
-    meta(property="og:url", content="http://agence.badsender.com")
-    meta(property="og:type", content="website")
 
     link(rel="canonical", href="http://agence.badsender.com")
     link(rel="shortcut icon", href="/favicon.png", type="image/png")
@@ -21,7 +16,11 @@ html(lang=getLocale())
     link(href='https://fonts.googleapis.com/css?family=PT+Sans:400,700', rel='stylesheet', type='text/css')
 
     script(src="/lib/badsender-lib-core.js")
+    meta(name="viewport", content="width=1024, initial-scale=1")
+    script(src="/lib/badsender-lib-editor.js")
+    link(rel="stylesheet", href="/badsender-editor.css")
+    script(src="/badsender-editor.js")
     block head-content
 
-  block content
+  body.mo-standalone
 

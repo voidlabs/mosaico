@@ -1,0 +1,29 @@
+doctype html
+
+block vars
+
+- var page = pageClass || ''
+- var title = pageTitle || ''
+
+html(lang=getLocale())
+  head
+    include _head-material
+    meta(property="og:title", content="Badsender Email Builder")
+    meta(property="og:image", content="http://agence.badsender.com/wp-content/uploads/2014/09/logo_badsender_154x118.png")
+    meta(property="og:description", content="Editeur graphique de templates email par Badsender")
+    meta(property="og:url", content="http://agence.badsender.com")
+    meta(property="og:type", content="website")
+
+body.mdl-color--primary.mdl-color-text--grey-700.center-content
+  main
+    .lang
+      if getLocale() === 'en'
+        a(href=_path + "?lang=fr") version française
+      else
+        a(href=_path + "?lang=en") english version
+
+    block content
+      if _config.debug
+        footer(style="background: #eee")
+          pre= JSON.stringify(data, null, '  ')
+          pre= _debug
