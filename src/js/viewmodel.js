@@ -454,6 +454,10 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
     $('body').append('<iframe id="' + id + '" data-bind="bindIframe: $data"></iframe>');
     var frameEl = global.document.getElementById(id);
     ko.applyBindings(viewModel, frameEl);
+
+    ko.cleanNode(frameEl);
+    if (viewModel.inline) viewModel.inline(frameEl.contentWindow.document);
+
     // Obsolete method didn't work on IE11 when using "HTML5 doctype":
     // var docType = new XMLSerializer().serializeToString(global.document.doctype);
     var node = frameEl.contentWindow.document.doctype;
@@ -462,7 +466,6 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
       (!node.publicId && node.systemId ? ' SYSTEM' : '') +
       (node.systemId ? ' "' + node.systemId + '"' : '') + '>';
     var content = docType + "\n" + frameEl.contentWindow.document.documentElement.outerHTML;
-    ko.cleanNode(frameEl);
     ko.removeNode(frameEl);
 
     content = content.replace(/<script ([^>]* )?type="text\/html"[^>]*>[\s\S]*?<\/script>/gm, '');

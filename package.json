@@ -70,7 +70,6 @@
     "morgan": "1.6.1",
     "nodemailer": "1.4.0",
     "phantomjs": "1.9.16",
-    "styliner": "0.8.9",
     "uglifyify": "3.0.1",
     "watchify": "3.3.1"
   },
