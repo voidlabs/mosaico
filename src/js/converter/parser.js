@@ -382,9 +382,9 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
 };
 
 function conditional_replace(html) {
-  return html.replace(/<!--\[if ([^\]]*)\]>([\s\S]*?)<!\[endif\]-->/g, function(match, condition, body) {
+  return html.replace(/<!--\[if ([^\]]*)\]>((?:(?!--).)*?)<!\[endif\]-->/g, function(match, condition, body) {
     var dd = '<!-- cc:start -->';
-    dd += body.replace(/<(\/?)([A-Za-z]*)/g, '<$1cc$2').replace(/<\/([^>]*)>/g,'<!-- cc:before:$1 --></$1><!-- cc:after:$1 -->');
+    dd += body.replace(/<(\/?)([A-Za-z:]*)/g, '<$1cc$2').replace(/<\/([^>]*)>/g,'<!-- cc:before:$1 --></$1><!-- cc:after:$1 -->');
     dd += '<!-- cc:end -->';
     var output = '<replacedcc condition="'+condition+'" style="display: none">';
     output += $('<div>').append($(dd)).html().replace(/<!-- cc:before:([^ ]*) --><\/\1><!-- cc:after:\1 -->/g, '</$1>')
