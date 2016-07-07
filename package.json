@@ -27,7 +27,6 @@
     "jquery-ui/spinner": "global:jQuery.ui.spinner",
     "jquery-ui/tabs": "global:jQuery.ui.tabs",
     "knockout": "global:ko",
-    "evol-colorpicker": {},
     "knockout-jqueryui": "global:kojqui",
     "tinymce": "global:tinymce"
   },
