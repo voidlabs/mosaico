@@ -55,9 +55,9 @@ module.exports = function(grunt) {
 	          'Please submit an issue providing as much detail as possible at: ' +
 	          'https://github.com/gruntjs/grunt-lib-phantomjs/issues'
 	        );
-	        grunt.warn('PhantomJS not found.', failCode);
+	        grunt.warn('PhantomJS not found.', code);
 	      } else {
-	        grunt.warn('PhantomJS exited unexpectedly with exit code ' + code + '.', failCode);
+	        grunt.warn('PhantomJS exited unexpectedly with exit code ' + code + '.');
 	      }
 	      // callback();
 	  	});
