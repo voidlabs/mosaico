@@ -1,0 +1,8 @@
+<svg width='3000' height='10' xmlns='http://www.w3.org/2000/svg'  viewBox='0 0 3000 10'>
+	<rect x='1500' y='0' width='3000' height='10' fill='#ff0000' />
+
+	<rect x='1495' y='-4' width='8' height='8' fill='#ff0000' transform="rotate(135 1499 0) "/>
+<rect x='1495' y='6' width='8' height='8' fill='#ff0000' transform="rotate(135 1499 10) "/>
+
+
+</svg>

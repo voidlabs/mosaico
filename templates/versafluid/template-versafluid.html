@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<title  style="-ko-bind-text: @titleText" >TITLE</title>
+<!--
+
+
+COLORE INTENSE  #9C010F
+COLORE LIGHT #EDE8DA
+
+TESTO LIGHT #3F3D33
+TESTO INTENSE #ffffff 
+
+
+ -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<style type="text/css">
+    @supports -ko-blockdefs {
+      
+        id { widget: id }
+        size { label: Size; widget: select; options: 8|9|10|11|12|13|14|15|16|18|20|22|25|28|31; }
+        lineheight { label: Line height; widget: select; options: 14|18|25|28|31; }
+        top { label: Top; widget: select; options: 10|20|30|40|50|60|70; }
+        bottom { label: Bottom; widget: select; options: 10|20|30|40|50|60|70; }
+        visible { label: Visible?; widget: boolean }
+        color { label: Color; widget: color }
+        imageHeight{label: Image Height;widget:integer;}
+        radius { label: Corner Radius; widget: select; options:0|3|5|7|9|11|13|15; }
+        face { label: Font; widget: select; options: Helvetica, Arial, sans-serif|Arial|Verdana|Helvetica|Times|Georgia }
+        decoration { label: Links decoration; widget: select; options: none=None|underline=Underline }
+        linksColor { label: Links color; extend: color }
+        linksDecoration { label: Links decoration; extend: decoration }
+        buttonColor { label: Button Color; extend: color }
+        text { label: Text; widget: text }
+        url { label: Url; widget: url }
+        src { label: Image; widget: src }
+        alt { label: Alternative text; widget: text }
+        sponsor { label: Sponsor; properties: visible src url alt; category: hidden }
+
+
+        height { label: Height; widget: integer }
+        imagePos { label: Image position; widget: select }
+        colorscheme { label: Color scheme; widget: select; options:Intense|Light;  }
+        /* tipi contenuti */
+        blocks { label: Blocks; properties: blocks[]; }
+        link { label: Link; properties: text url }
+        titleText {label:Title text;category: hidden;}
+
+        preheaderVisible { label: Show Preheader; extend: visible }
+        occhielloVisible { label: Show Subtitle; extend: visible }
+        titleVisible { label: Show Title; extend: visible }
+        textVisible { label: Show Text; extend: visible }
+        buttonVisible { label: Show Button; extend: visible }
+        imageVisible { label: Show Image; extend: visible }
+
+        facebookVisible { label: Show Facebook; extend: visible }  
+        twitterVisible { label: Show Twitter; extend: visible }
+        googleplusVisible { label: Show Google+; extend: visible }
+        linkedinVisible { label: Show Linkedin; extend: visible }
+        instagramVisible { label: Show Instagram; extend: visible }
+        
+        image { label: Image; properties: src url alt }   
+        imageA { label: Left Image; properties: src url alt } 
+        imageB { label: Right Image; properties: src url alt }       
+        
+
+        paddingStyle {label: Gutter; properties: top bottom;}
+
+        textintenseStyle { label: Text; properties: face color size  lineheight linksColor linksDecoration=none}
+        textintenseStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
+        textlightStyle { label: Text; properties: face color size  lineheight linksColor linksDecoration=none}
+        textlightStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
+        textwhiteStyle { label: Text; properties: face color size  lineheight linksColor linksDecoration=none}
+        textwhiteStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
+
+        pretextwhiteStyle { label: Text; properties: face color size  lineheight linksColor}
+        pretextwhiteStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
+
+
+        titleintenseStyle { label: Title; properties: face color size }
+        titleintenseStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
+        titlelightStyle { label: Title; properties: face color size }
+        titlelightStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
+        titlewhiteStyle { label: Title; properties: face color size }
+        titlewhiteStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
+
+        titlesmallintenseStyle { label: Title; properties: face color size }
+        titlesmallintenseStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
+        titlesmalllightStyle { label: Title; properties: face color size }
+        titlesmalllightStyle:preview { -ko-bind-text: [@['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
+
+        textsmallintenseStyle { label: Text; properties: face color size  lineheight linksColor linksDecoration=none}
+        textsmallintenseStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
+        textsmalllightStyle { label: Text; properties: face color size  lineheight linksColor linksDecoration=none}
+        textsmalllightStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
+
+        introtextintenseStyle { label: Introduction; properties: face color size linksColor linksDecoration=none}
+        introtextintenseStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
+        introtextlightStyle { label: Introduction; properties: face color size linksColor linksDecoration=none}
+        introtextlightStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
+
+
+        articletitleintenseStyle { label: Title; properties: face color size }
+        articletitleintenseStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; } 
+        articletitlelightStyle { label: Title; properties: face color size }
+        articletitlelightStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; } 
+       
+        articletextintenseStyle { label: Article; properties: face color size linksColor linksDecoration=none}
+        articletextintenseStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
+        articletextlightStyle { label: Article; properties: face color size linksColor linksDecoration=none}
+        articletextlightStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
+        
+        textfooterStyle { label: Introduction; properties: face color size }
+        textfooterStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
+
+        backgroundColor { label: Background Color; extend: color }
+        backgroundintenseColor { label: Intense Background; extend: color }
+        backgroundlightColor { label: Light Background; extend: color }
+        backgroundwhiteColor { label: Header Background; extend: color }
+        backgroundpreheaderColor { label: Header Background; extend: color }
+        
+        backgroundStyle { label: Header Style; properties: srcVisible=true src color }
+        backgroundStyle:preview { -ko-background: color;  }
+
+        buttonintenseStyle color { label: Text Color; extend: color }
+        buttonintenseStyle size { label: Text Size; extend: size }
+        buttonintenseStyle shadow { label: Shadow Size; widget:integer;max: 10; }
+        buttonintenseStyle { label: Button; properties: face color size buttonColor shadow  radius }
+        buttonintenseStyle:preview { -ko-bind-text: @['Button']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; -ko-background-color: @buttonColor; -ko-padding-left: @['5px']; -ko-border-radius: @[radius]px; -ko-padding:@['5px']; }
+
+        buttonlightStyle color { label: Text Color; extend: color }
+        buttonlightStyle size { label: Text Size; extend: size }
+        buttonlightStyle shadow { label: Shadow Size; widget:integer;max: 10; }
+        buttonlightStyle { label: Button; properties: face color size buttonColor shadow  radius }
+        buttonlightStyle:preview { -ko-bind-text: @['Button']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; -ko-background-color: @buttonColor; -ko-padding-left: @['5px']; -ko-border-radius: @[radius]px; -ko-padding:@['5px']; }
+
+
+        bigbuttonintenseStyle color { label: Text Color; extend: color }
+        bigbuttonintenseStyle size { label: Text Size; extend: size }
+        bigbuttonintenseStyle shadow { label: Shadow Size; widget:integer;max: 10; }
+        bigbuttonintenseStyle { label: Button; properties: face color size buttonColor shadow radius }
+        bigbuttonintenseStyle:preview { -ko-bind-text: @['Button']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; -ko-background-color: @buttonColor; -ko-padding-left: @['5px']; -ko-border-radius: @[radius]px; -ko-padding:@['5px']; }
+
+        bigbuttonlightStyle color { label: Text Color; extend: color }
+        bigbuttonlightStyle size { label: Text Size; extend: size }
+        bigbuttonlightStyle shadow { label: Shadow Size; widget:integer; max: 10;}
+        bigbuttonlightStyle { label: Button; properties: face color size buttonColor shadow radius }
+        bigbuttonlightStyle:preview { -ko-bind-text: @['Button']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; -ko-background-color: @buttonColor; -ko-padding-left: @['5px']; -ko-border-radius: @[radius]px; -ko-padding:@['5px']; }
+
+        buttonLink {label: Button; extend: link;}
+        buttonleftLink {label: Left Button; extend: link;}
+        buttonrightLink {label: Right Button; extend: link;}
+        facebookLink {label: Facebook; extend: link;}
+        twitterLink {label: Twitter; extend: link;}
+        googleplusLink {label: Google +; extend: link;}
+        linkedinLink {label: Linkedin; extend: link;}
+        instagramLink {label: Instagram; extend: link;}
+
+        /*ERR Anche senza tema, necessarie queste tre definizioni */
+        bodyTheme { label: Body; /* properties: backgroundColor titleStyle longTextStyle buttonintenseStyle subTitleStyle separatorLineStyle socialIconsStyle */ }
+        pageTheme { label: Page; /* properties: backgroundStyle borderLineStyle */ }
+        /*ERR END*/
+
+        template { label: Page; properties: preheaderVisible=true; version:0.6.0;}
+        
+        /* BLOCCHI */
+       
+        preheaderBlock {label: Preheader;} 
+
+        headerBlock {label: Header;} 
+        headerBlock backgroundwhiteColor{label:Background Color;}
+        headerBlock textwhiteStyle{label:Header Text;}
+        headerBlock image{label:Logo;}
+        
+        onecolumnBlock{label: Single Column;properties: buttonVisible=true colorscheme=Light; variant:colorscheme;}
+        onecolumnBlock:preview {-ko-background-color:@[(colorscheme eq 'Light')?backgroundlightColor:backgroundintenseColor]; }
+
+        twocolumnBlock{label: Two Columns;properties: colorscheme=Light buttonVisible=false titleVisible=true imageVisible=true; variant:colorscheme;}
+        twocolumnBlock:preview { -ko-background-color:@[(colorscheme eq 'Light')?backgroundlightColor:backgroundintenseColor];}
+
+        imageBlock{label: Full Image;properties: colorscheme=Intense; variant:colorscheme; }
+        imageBlock:preview {-ko-background-color:@[(colorscheme eq 'Light')?backgroundlightColor:backgroundintenseColor];}
+        imageBlock image{label: Image;}
+
+        titleBlock{label: Title;properties: colorscheme=Intense; variant:colorscheme; }
+        titleBlock:preview {-ko-background-color:@[(colorscheme eq 'Light')?backgroundlightColor:backgroundintenseColor];}
+
+        compactarticleBlock imageWidth { label: Image Width; widget: select; options: 105=Small|155=Medium|200=Big;}
+        compactarticleBlock{label: Left Article;properties: colorscheme=Intense buttonVisible=true occhielloVisible=true titleVisible=true; variant:colorscheme;}
+        compactarticleBlock:preview {-ko-background-color:@[(colorscheme eq 'Light')?backgroundlightColor:backgroundintenseColor]; }
+
+        compactarticlerightBlock imageWidth { label: Image Width; widget: select; options: 105=Small|155=Medium|200=Big;}
+        compactarticlerightBlock{label: Right Article;properties: colorscheme=Light buttonVisible=true  occhielloVisible=true titleVisible=true; variant:colorscheme;}
+        compactarticlerightBlock:preview {-ko-background-color:@[(colorscheme eq 'Light')?backgroundlightColor:backgroundintenseColor]; }
+
+        socialBlock{label: Social Share; properties: facebookVisible=true twitterVisible=true googleplusVisible=true linkedinVisible=true instagramVisible=true colorscheme=Intense; variant:colorscheme;}
+        socialBlock:preview {-ko-background-color:@[(colorscheme eq 'Light')?backgroundlightColor:backgroundintenseColor]; }
+
+        footerBlock{label:Footer; }
+        footerBlock:preview {-ko-background-color:@[(colorscheme eq 'Light')?backgroundlightColor:backgroundintenseColor]; }
+    }
+</style>
+<style type="text/css" data-inline="true">
+      [data-ko-block=onecolumnBlock] .textintenseStyle a, 
+      [data-ko-block=onecolumnBlock] .textintenseStyle a:link, 
+      [data-ko-block=onecolumnBlock] .textintenseStyle a:visited,
+      [data-ko-block=onecolumnBlock] .textintenseStyle a:hover {
+        color: #ffffff;
+        -ko-color:@[colorscheme eq 'Intense'?textintenseStyle.linksColor:textlightStyle.linksColor];
+        text-decoration: none;
+        font-weight: bold;
+        -ko-text-decoration: @[colorscheme eq 'Intense'?textintenseStyle.linksDecoration:textlightStyle.linksDecoration];
+    
+      }
+      [data-ko-block=onecolumnBlock] .textlightStyle a, 
+      [data-ko-block=onecolumnBlock] .textlightStyle a:link, 
+      [data-ko-block=onecolumnBlock] .textlightStyle a:visited,
+      [data-ko-block=onecolumnBlock] .textlightStyle a:hover {
+        color: #3F3D33;
+        -ko-color:@[colorscheme eq 'Intense'?textintenseStyle.linksColor:textlightStyle.linksColor];
+      
+        text-decoration: none;
+        font-weight: bold;
+        -ko-text-decoration: @[colorscheme eq 'Intense'?textintenseStyle.linksColor:textlightStyle.linksColor];
+       
+      }
+
+      [data-ko-block=twocolumnBlock] .textsmallintenseStyle a, 
+      [data-ko-block=twocolumnBlock] .textsmallintenseStyle a:link, 
+      [data-ko-block=twocolumnBlock] .textsmallintenseStyle a:visited,
+      [data-ko-block=twocolumnBlock] .textsmallintenseStyle a:hover {
+        color: #ffffff;
+        -ko-color: @[colorscheme eq 'Intense'?textsmallintenseStyle.linksColor:textsmalllightStyle.linksColor];
+        text-decoration: none;
+        font-weight: bold;
+        -ko-text-decoration: @[colorscheme eq 'Intense'?textsmallintenseStyle.linksDecoration:textsmalllightStyle.linksDecoration];
+       
+      }
+
+      [data-ko-block=twocolumnBlock] .textsmalllightStyle a, 
+      [data-ko-block=twocolumnBlock] .textsmalllightStyle a:link, 
+      [data-ko-block=twocolumnBlock] .textsmalllightStyle a:visited,
+      [data-ko-block=twocolumnBlock] .textsmalllightStyle a:hover {
+        color: #3F3D33;
+        -ko-color: @[colorscheme eq 'Intense'?textsmallintenseStyle.linksColor:textsmalllightStyle.linksColor];
+        text-decoration: none;
+        font-weight: bold;
+        -ko-text-decoration: @[colorscheme eq 'Intense'?textsmallintenseStyle.linksDecoration:textsmalllightStyle.linksDecoration];
+      }
+
+      [data-ko-block=compactarticlerightBlock] .articletextintenseStyle a, 
+      [data-ko-block=compactarticlerightBlock] .articletextintenseStyle a:link, 
+      [data-ko-block=compactarticlerightBlock] .articletextintenseStyle a:visited,
+      [data-ko-block=compactarticlerightBlock] .articletextintenseStyle a:hover {
+        color: #ffffff;
+        -ko-color: @[colorscheme eq 'Intense'?articletextintenseStyle.linksColor:articletextlightStyle.linksColor];
+
+        text-decoration: none;
+        font-weight: bold;
+        -ko-text-decoration: @[colorscheme eq 'Intense'?articletextintenseStyle.linksDecoration:articletextlightStyle.linksDecoration];
+      }
+
+      [data-ko-block=compactarticlerightBlock] .articletextlightStyle a, 
+      [data-ko-block=compactarticlerightBlock] .articletextlightStyle a:link, 
+      [data-ko-block=compactarticlerightBlock] .articletextlightStyle a:visited,
+      [data-ko-block=compactarticlerightBlock] .articletextlightStyle a:hover {
+        color: #3F3D33;
+         -ko-color: @[colorscheme eq 'Intense'?articletextintenseStyle.linksColor:articletextlightStyle.linksColor];
+        text-decoration: none;
+        font-weight: bold;
+          -ko-text-decoration: @[colorscheme eq 'Intense'?articletextintenseStyle.linksDecoration:articletextlightStyle.linksDecoration];
+      }
+
+      [data-ko-block=compactarticleBlock] .articletextintenseStyle a, 
+      [data-ko-block=compactarticleBlock] .articletextintenseStyle a:link, 
+      [data-ko-block=compactarticleBlock] .articletextintenseStyle a:visited,
+      [data-ko-block=compactarticleBlock] .articletextintenseStyle a:hover {
+        color: #ffffff;
+        -ko-color: @[colorscheme eq 'Intense'?articletextintenseStyle.linksColor:articletextlightStyle.linksColor];
+
+        text-decoration: none;
+        font-weight: bold;
+        -ko-text-decoration: @[colorscheme eq 'Intense'?articletextintenseStyle.linksDecoration:articletextlightStyle.linksDecoration];
+      }
+      [data-ko-block=compactarticleBlock] .articletextlightStyle a, 
+      [data-ko-block=compactarticleBlock] .articletextlightStyle a:link, 
+      [data-ko-block=compactarticleBlock] .articletextlightStyle a:visited,
+      [data-ko-block=compactarticleBlock] .articletextlightStyle a:hover {
+        color: #3F3D33;
+        -ko-color: @[colorscheme eq 'Intense'?articletextintenseStyle.linksColor:articletextlightStyle.linksColor];
+        text-decoration: none;
+        font-weight: bold;
+         -ko-text-decoration: @[colorscheme eq 'Intense'?articletextintenseStyle.linksDecoration:articletextlightStyle.linksDecoration];
+      }
+  </style>
+<style type="text/css" data-ko-remove>
+    /* PREVIEW STYLES */
+    .preview .row-a { -webkit-mask: url(./svg/maskA.svg) top center repeat-y;display:table !important;width:100%;}
+
+    .preview .row-b { -webkit-mask: url(./svg/maskB.svg) top center repeat-y;
+      position: absolute;
+      top:0;
+      display: table !important;
+      width: 100%;
+    }
+    .preview [data-ko-block] {position:relative;}
+</style>
+
+  <style type="text/css">
+    /* CLIENT-SPECIFIC STYLES */
+    #outlook a{padding:0;} /* Force Outlook to provide a "view in browser" message */
+    .ReadMsgBody{width:100%;} .ExternalClass{width:100%;} /* Force Hotmail to display emails at full width */
+    .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;} /* Force Hotmail to display normal line spacing */
+    body, table, td, a{-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;} /* Prevent WebKit and Windows mobile changing default text sizes */
+    table, td{mso-table-lspace:0pt; mso-table-rspace:0pt;} /* Remove spacing between tables in Outlook 2007 and up */
+    img{-ms-interpolation-mode:bicubic;} /* Allow smoother rendering of resized image in Internet Explorer */
+
+    /* RESET STYLES */
+    body{margin:0; padding:0;}
+    img{border:0; height:auto; line-height:100%; outline:none; text-decoration:none;}
+    table{border-collapse:collapse !important;}
+    body{height:100% !important; margin:0; padding:0; width:100% !important;}
+
+    /* iOS BLUE LINKS */
+    .appleBody a {color:#68440a; text-decoration: none;}
+    .appleFooter a {color:#999999; text-decoration: none;}
+
+    /* MOBILE STYLES */
+    @media screen and (max-width: 525px) {
+
+        /* ALLOWS FOR FLUID TABLES */
+        table[class="wrapper"]{
+          width:100% !important;
+          min-width:0px !important;
+        }
+
+        /* ADJUSTS LAYOUT OF LOGO IMAGE */
+        td[class="logo"]{
+          text-align: left;
+          padding: 20px 0 20px 0 !important;
+        }
+
+        td[class="logo"] img{
+          margin:0 auto!important;
+        }
+
+        /* USE THESE CLASSES TO HIDE CONTENT ON MOBILE */
+        td[class="mobile-hide"]{
+          display:none;}
+
+        img[class="mobile-hide"]{
+          display: none !important;
+        }
+
+        img[class="img-max"]{
+          width:100% !important;
+          max-width: 100% !important;
+          height:auto !important;
+        }
+
+        /* FULL-WIDTH TABLES */
+        table[class="responsive-table"]{
+          width:100%!important;
+        }
+
+        /* UTILITY CLASSES FOR ADJUSTING PADDING ON MOBILE */
+        td[class="padding"]{
+          padding: 10px 5% 15px 5% !important;
+        }
+
+        td[class="padding-copy"]{
+          padding: 10px 5% 10px 5% !important;
+          text-align: center;
+        }
+
+        td[class="padding-meta"]{
+          padding: 30px 5% 0px 5% !important;
+          text-align: center;
+        }
+
+        td[class="no-pad"]{
+          padding: 0 0 0px 0 !important;
+        }
+
+        td[class="no-padding"]{
+          padding: 0 !important;
+        }
+
+        td[class="section-padding"]{
+          padding: 10px 15px 10px 15px !important;
+        }
+
+        td[class="section-padding-bottom-image"]{
+          padding: 10px 15px 0 15px !important;
+        }
+
+        /* ADJUST BUTTONS ON MOBILE */
+        td[class="mobile-wrapper"]{
+            padding: 10px 5% 15px 5% !important;
+        }
+
+        table[class="mobile-button-container"]{
+            margin:0 auto;
+            width:100% !important;
+        }
+
+        a[class="mobile-button"]{
+            width:80% !important;
+            padding: 15px !important;
+            border: 0 !important;
+            font-size: 16px !important;
+        }
+
+    }
+</style>
+</head>
+<body style="margin: 0; padding: 0;" bgcolor="#ffffff" align="center" >
+
+<!-- PREHEADER -->
+<div data-ko-display="preheaderVisible" data-ko-wrap="false">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:530px" data-ko-block="preheaderBlock" >
+    <tr>
+        <td bgcolor="#3F3D33" style="-ko-attr-bgcolor: @backgroundpreheaderColor" class="mobile-hide">
+            <div align="center" style="padding: 0px 15px 0px 15px;">
+                <table border="0" cellpadding="0" cellspacing="0" width="500" style="min-width:500px" class="wrapper">
+                    <!--Preheade/view on web TEXT -->
+                    <tr>
+                        <td style="padding: 10px 0px 10px 0px;" >
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                
+                                    <td bgcolor="#3F3D33" style="-ko-attr-bgcolor: @backgroundpreheaderColor" width="50%" align="left" class="mobile-hide">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tr>
+                                                <td align="left" style="padding: 0 0 5px 0; font-size: 12px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; -ko-color:@pretextwhiteStyle.color;-ko-font-family:@pretextwhiteStyle.face;-ko-font-size:@[pretextwhiteStyle.size]px;text-decoration: none;"><span style="color: #ffffff; text-decoration: none;-ko-color:@pretextwhiteStyle.color" data-ko-editable="text">pre header text</span></td>
+                                            </tr>
+                                           
+                                        </table>
+                                    </td>
+                                  
+                                    <td bgcolor="#3F3D33" style="-ko-attr-bgcolor: @backgroundpreheaderColor" width="50%" align="right" class="mobile-hide">
+                                        <table border="0" cellpadding="0" cellspacing="0"  width="100%">
+                                            <tr>
+                                                <td align="right" style="padding: 0 0 5px 0; font-size: 12px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; -ko-color:@pretextwhiteStyle.color;-ko-font-family:@pretextwhiteStyle.face;-ko-font-size:@[pretextwhiteStyle.size]px;text-decoration: none;"><a style="color: #ffffff; -ko-color:@pretextwhiteStyle.linksColor" href="[show_link]"><span  data-ko-editable="webversionText">View on web</span></a></td>
+                                            </tr>
+                                           
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </td>
+    </tr>
+</table>
+</div>
+
+<div data-ko-wrap="false" data-ko-container="main" style="text-align:center">
+<!-- HEADER -->
+
+
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="" data-ko-block="headerBlock">
+    <tr>
+        <td bgcolor="#ffffff" align="center" style="-ko-attr-bgcolor: @backgroundwhiteColor;padding: 20px 15px 20px 15px;">
+        
+                <table border="0" cellpadding="0" cellspacing="0" width="500" class="responsive-table">
+                    <!-- LOGO/Title TEXT -->
+                    <tr>
+                        <td>
+                        <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                            <tr>
+                                <td valign="top" style="padding: 0;" class="mobile-wrapper">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="30%" class="responsive-table" align="left" >
+                                        <tr>
+                                            <td bgcolor="#ffffff" style="-ko-attr-bgcolor: @backgroundwhiteColor"  >
+                                            <a href="" style="-ko-attr-href: @image.url" target="_blank"><img  
+                                    alt=""  data-ko-editable="image.src" image-droppable src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=150%2C80" width="150" data-ko-placeholder-height="80" style="display: block; font-family: Helvetica, Arial, sans-serif; color: #3F3D33; font-size: 16px; -ko-attr-alt: @image.alt; " class="img-max" border="0"></a></td>
+                                        </tr>
+                                    </table>
+                                     <table border="0" cellpadding="0" cellspacing="0" width="60%" class="responsive-table"  align="right">
+                                        <tr>
+                                            <td bgcolor="#ffffff" style="-ko-attr-bgcolor: @backgroundwhiteColor" align="center">
+                                                <table border="0" cellpadding="0" cellspacing="0">
+                                                    <tr>
+                                                        <td align="center" style="padding: 10px 0 0 0px; font-size: 18px; font-family: Helvetica, Arial, sans-serif; color: #3F3D33; -ko-color:@textwhiteStyle.color;-ko-font-family:@textwhiteStyle.face;-ko-font-size:@[textwhiteStyle.size]px;text-decoration: none;"><span style="color: #3F3D33; text-decoration: none;-ko-color:@textwhiteStyle.color" data-ko-editable="preheaderText">Responsive Email Template.</span></td>
+                                                    </tr>
+                                                   
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        </td>
+                    </tr>
+                </table>
+         
+        </td>
+    </tr>
+</table>
+
+<!-- IMAGE SECTION -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="" data-ko-block="imageBlock">
+    <tr data-ko-display="colorscheme eq 'Intense'" class="row-a">
+        <td  bgcolor="#9C010F" align="center" style="padding-top: 0px;padding-left: 15px;padding-bottom: 0px;padding-right: 15px;-ko-attr-bgcolor:@backgroundintenseColor;" class="no-pad" >
+            <table border="0" cellpadding="0" cellspacing="0" width="500" class="responsive-table">
+                <tr>
+                    <td>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td>
+                                    <!-- HERO IMAGE -->
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                        <tbody>
+                                             <tr>
+                                                  <td class="no-padding">
+                                                      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                          <tr>
+                                                              <td>
+                                                                  <a href=""  data-ko-link="image.url" target="_blank"><img src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=500%2C200" width="500" data-ko-placeholder-height="200" border="0" alt="" style="display: block; padding: 0; color: #3F3D33; text-decoration: none; font-family: Helvetica, Arial, sans-serif; font-size: 16px; width: 500px;  -ko-attr-alt:@image.alt;" class="img-max" data-ko-editable="image.src"></a>
+                                                              </td>
+                                                            </tr>
+                                                        </table>
+                                                  </td>
+                                              </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <tr data-ko-display="colorscheme eq 'Light'" style="display:none"  class="row-b">
+        <td  bgcolor="#EDE8DA" align="center" style="padding-top: 0px;padding-left: 15px;padding-bottom: 0px;padding-right: 15px;-ko-attr-bgcolor:@backgroundlightColor;" class="no-pad" >
+            <table border="0" cellpadding="0" cellspacing="0" width="500" class="responsive-table">
+                <tr>
+                    <td>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td>
+                                    <!-- HERO IMAGE -->
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                        <tbody>
+                                             <tr>
+                                                  <td class="no-padding">
+                                                      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                          <tr>
+                                                              <td>
+                                                                  <a href="" target="_blank"  data-ko-link="image.url"><img src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=500%2C200" width="500" data-ko-placeholder-height="200" border="0" alt="" style="display: block; padding: 0; color: #3F3D33; text-decoration: none; font-family: Helvetica, Arial, sans-serif; font-size: 16px; width: 500px;  -ko-attr-alt:@image.alt;" class="img-max" data-ko-editable="image.src"></a>
+                                                              </td>
+                                                            </tr>
+                                                        </table>
+                                                  </td>
+                                              </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<!-- ONE COLUMN SECTION -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="" data-ko-block="onecolumnBlock">
+    
+    <tr data-ko-display="colorscheme eq 'Light'" class="row-a">
+        <td bgcolor="#EDE8DA" align="center" style="padding-top: 30px;padding-left: 15px;padding-bottom: 30px;padding-right: 15px;-ko-attr-bgcolor:@backgroundlightColor;" class="section-padding" >
+            <table border="0" cellpadding="0" cellspacing="0" width="500" class="responsive-table">
+                <tr>
+                    <td>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td>
+                                    <!-- COPY -->
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <td align="center" style="font-size: 25px; font-family: Helvetica, Arial, sans-serif; color: #3F3D33; padding-top: 0px; -ko-color:@titlelightStyle.color; -ko-font-family:@titlelightStyle.face; -ko-font-size:@[titlelightStyle.size]px" class="padding-copy"><span data-ko-wrap="false" data-ko-editable="titleText">Emails can be responsive!</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #3F3D33; -ko-color:@textlightStyle.color; -ko-font-family:@textlightStyle.face; -ko-font-size:@[textlightStyle.size]px;" class="padding-copy textlightStyle" ><div data-ko-editable="articleText" data-ko-wrap="false"><p style="margin:0px;">Far far away, behind the word mountains, far from the countries <a href="">Vokalia and Consonantia</a>, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p></div></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+
+                            <tr data-ko-display="buttonVisible">
+                                <td>
+                                    <!-- BULLETPROOF BUTTON -->
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mobile-button-container">
+                                        <tr>
+                                            <td align="center" style="padding: 25px 0 0 0;" class="padding-copy">
+                                                <table border="0" cellspacing="0" cellpadding="0" class="responsive-table">
+                                                    <tr>
+                                                        <td align="center"><a href="" target="_blank" style="display: inline-block;font-size: 18px; font-family: Helvetica, Arial, sans-serif; font-weight: normal; color: #ffffff; text-decoration: none; background-color: #9C010F; padding-top: 15px; padding-bottom: 15px; padding-left: 25px; padding-right: 25px; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-bottom:3px solid #69010A; -ko-border-bottom:@[bigbuttonlightStyle.shadow]px solid @[Color.getBrightness(bigbuttonlightStyle.buttonColor) lt 40 ? Color.lighten(bigbuttonlightStyle.buttonColor,25) : Color.darken(bigbuttonlightStyle.buttonColor,12)]; -ko-font-size: @[bigbuttonlightStyle.size]px; -ko-font-family: @bigbuttonlightStyle.face;  -ko-color: @bigbuttonlightStyle.color; -ko-background-color: @bigbuttonlightStyle.buttonColor; -ko-border-radius: @[bigbuttonlightStyle.radius]px; -ko--webkit-border-radius:@[bigbuttonlightStyle.radius]px; -ko--moz-border-radius: @[bigbuttonlightStyle.radius]px; -ko-attr-href:@buttonLink.url" class="mobile-button" data-ko-editable="buttonLink.text">Show More &rarr;</a></td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr data-ko-display="colorscheme eq 'Intense'" style="display:none;"  class="row-b">
+        <td bgcolor="#9C010F" align="center" style="padding-top: 30px;padding-left: 15px;padding-bottom: 30px;padding-right: 15px;-ko-attr-bgcolor:@backgroundintenseColor;" class="section-padding" >
+            <table border="0" cellpadding="0" cellspacing="0" width="500" class="responsive-table">
+                <tr>
+                    <td>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td>
+                                    <!-- COPY -->
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <td align="center" style="font-size: 25px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; padding-top: 0px; -ko-color:@titleintenseStyle.color; -ko-font-family:@titleintenseStyle.face; -ko-font-size:@[titleintenseStyle.size]px" class="padding-copy"><span data-ko-wrap="false" data-ko-editable="titleText">Email can be responsive!</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; -ko-color:@textintenseStyle.color; -ko-font-family:@textintenseStyle.face; -ko-font-size:@[textintenseStyle.size]px;" class="padding-copy textintenseStyle" ><div data-ko-editable="articleText" data-ko-wrap="false"><p style="margin:0px;">Far far away, behind the word mountains, far from the countries <a href="">Vokalia and Consonantia</a>, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p></div></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+
+                            <tr data-ko-display="buttonVisible">
+                                <td>
+                                    <!-- BULLETPROOF BUTTON -->
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mobile-button-container">
+                                        <tr>
+                                            <td align="center" style="padding: 25px 0 0 0;" class="padding-copy">
+                                                <table border="0" cellspacing="0" cellpadding="0" class="responsive-table">
+                                                    <tr>
+                                                        <td align="center"><a href="" target="_blank" style="display: inline-block;font-size: 18px; font-family: Helvetica, Arial, sans-serif; font-weight: normal; color: #3F3D33; text-decoration: none; background-color: #EDE8DA; padding-top: 15px ; padding-bottom: 15px ; padding-left: 25px; padding-right: 25px; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;  border-bottom:3px solid #C3B384;-ko-border-bottom:@[bigbuttonintenseStyle.shadow]px solid @[Color.getBrightness(bigbuttonintenseStyle.buttonColor) lt 40 ? Color.lighten(bigbuttonintenseStyle.buttonColor,25) : Color.darken(bigbuttonintenseStyle.buttonColor,12)];-ko-font-size: @[bigbuttonintenseStyle.size]px; -ko-font-family: @bigbuttonintenseStyle.face;  -ko-color: @bigbuttonintenseStyle.color; -ko-background-color: @bigbuttonintenseStyle.buttonColor;  -ko-border-radius: @[bigbuttonintenseStyle.radius]px; -ko--webkit-border-radius: @[bigbuttonintenseStyle.radius]px; -ko--moz-border-radius: @[bigbuttonintenseStyle.radius]px; -ko-attr-href:@buttonLink.url" class="mobile-button" data-ko-editable="buttonLink.text">Show More &rarr;</a></td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+
+<!-- TWO COLUMN SECTION -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style=""  data-ko-block="twocolumnBlock">
+    <tr data-ko-display="colorscheme eq 'Light'" class="row-a">
+        <td bgcolor="#EDE8DA" align="center" style="padding-top: 0px;padding-left: 15px;padding-bottom: 0px;padding-right: 15px;-ko-attr-bgcolor:@backgroundlightColor;" class="section-padding">
+            <table border="0" cellpadding="0" cellspacing="0" width="500" class="responsive-table">
+               
+                <tr>
+                    <td>
+                        <!-- TWO COLUMNS -->
+                        <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                            <tr>
+                                <td valign="top" style="padding: 0;" class="mobile-wrapper">
+                                    <!-- LEFT COLUMN -->
+                                    <table cellpadding="0" cellspacing="0" border="0" width="47%" align="left" class="responsive-table">
+                                        <tr>
+                                            <td style="padding: 20px 0 20px 0;">
+                                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                    <tr data-ko-display="imageVisible">
+                                                        <td align="center" bgcolor="#EDE8DA" style="-ko-attr-bgcolor:@backgroundlightColor;"  valign="middle"><a href=""  target="_blank"  data-ko-link="imageA.url"><img src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=240%2C130" width="240" height="130" border="0" alt="" style="display: block; padding: 0; color: #3F3D33; text-decoration: none; font-family: Helvetica, Arial, sans-serif; font-size: 16px; width: 240px; height: 130px; -ko-attr-alt:@imageA.alt;-ko-height:@[imageHeight]px;-ko-attr-height:@imageHeight" class="img-max" data-ko-editable="imageA.src"></a></td>
+                                                    </tr>
+                                                    <tr data-ko-display="titleVisible">
+                                                        <td align="center" bgcolor="#EDE8DA" style="padding: 15px 0 0 0; font-family: Helvetica, Arial, sans-serif; color: #3F3D33; font-size: 20px;-ko-attr-bgcolor:@backgroundlightColor;  -ko-color:@titlesmalllightStyle.color; -ko-font-family:@titlesmalllightStyle.face; -ko-font-size:@[titlesmalllightStyle.size]px" ><span data-ko-wrap="false" data-ko-editable="titleaText">Fluid Images</span></td>
+                                                    </tr>
+                                                    <tr >
+                                                        <td align="center" bgcolor="#EDE8DA" style="text-align:left;padding: 5px 0 0 0; font-family: Helvetica, Arial, sans-serif; color: #3F3D33; font-size: 14px; line-height: 20px;-ko-attr-bgcolor:@backgroundlightColor;-ko-color:@textsmalllightStyle.color; -ko-font-family:@textsmalllightStyle.face; -ko-font-size:@[textsmalllightStyle.size]px;" ><div class="appleBody textsmalllightStyle" data-ko-editable="textaText"><p style="margin-top:0px">Far far away, behind the word mountains, far from the countries <a href="">Vokalia and Consonantia</a>, there live the blind texts.</p></div></td>
+                                                    </tr>
+                                                    <tr  data-ko-display="buttonVisible" align="center">
+                                                        <td style="padding:10px 0 0px 0px;" align="center" class="padding">
+                                                            <table border="0" cellspacing="0" cellpadding="0" class="mobile-button-container">
+                                                                <tr>
+                                                                    <td align="center">
+                                                                        <!-- BULLETPROOF BUTTON -->
+                                                                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mobile-button-container">
+                                                                            <tr>
+                                                                                <td align="center" style="padding: 0;" class="padding-copy">
+                                                                                    <table border="0" cellspacing="0" cellpadding="0" class="responsive-table">
+                                                                                        <tr>
+                                                                                            <td align="center">
+                                                                                            <a href="" target="_blank" style="display: inline-block;font-size: 15px; font-family: Helvetica, Arial, sans-serif; font-weight: normal; color: #ffffff; text-decoration: none; background-color: #9C010F; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 20px; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;  border-bottom:3px solid #69010A; -ko-border-bottom:@[buttonlightStyle.shadow]px solid @[Color.getBrightness(buttonlightStyle.buttonColor) lt 40 ? Color.lighten(buttonlightStyle.buttonColor,25) : Color.darken(buttonlightStyle.buttonColor,12)]; -ko-font-size: @[buttonlightStyle.size]px; -ko-font-family: @buttonlightStyle.face;  -ko-color: @buttonlightStyle.color; -ko-background-color: @buttonlightStyle.buttonColor;  -ko-border-radius: @[buttonlightStyle.radius]px; -ko--webkit-border-radius: @[buttonlightStyle.radius]px; -ko--moz-border-radius: @[buttonlightStyle.radius]px; -ko-attr-href:@buttonleftLink.url" class="mobile-button" data-ko-editable="buttonleftLink.text">Show More &rarr;</a>
+
+                                                                                        </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <!-- RIGHT COLUMN -->
+                                    <table cellpadding="0" cellspacing="0" border="0" width="47%" align="right" class="responsive-table">
+                                        <tr>
+                                            <td style="padding: 20px 0 20px 0;">
+                                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                    <tr data-ko-display="imageVisible">
+                                                        <td align="center" bgcolor="#EDE8DA" style="-ko-attr-bgcolor:@backgroundlightColor;" valign="middle"><a href=""   data-ko-link="imageB.url" target="_blank"><img src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=240%2C130" width="240" height="130" border="0" alt="" style="display: block; padding: 0; color: #3F3D33; text-decoration: none; font-family: Helvetica, Arial, sans-serif; font-size: 16px; width: 240px; height: 130px; -ko-attr-alt:@imageB.alt;-ko-height:@[imageHeight]px;-ko-attr-height:@imageHeight" class="img-max" data-ko-editable="imageB.src"></a></td>
+                                                    </tr>
+                                                    <tr data-ko-display="titleVisible">
+                                                        <td align="center"  bgcolor="#EDE8DA" style="padding: 15px 0 0 0; font-family: Helvetica, Arial, sans-serif; color: #3F3D33; font-size: 20px;-ko-attr-bgcolor:@backgroundlightColor; -ko-color:@titlesmalllightStyle.color; -ko-font-family:@titlesmalllightStyle.face; -ko-font-size:@[titlesmalllightStyle.size]px" ><span data-ko-wrap="false" data-ko-editable="titlebText">Fluid Structure</span></td>
+                                                    </tr>
+                                                    <tr >
+                                                        <td align="center" bgcolor="#EDE8DA" style="text-align:left;padding: 5px 0 0 0; font-family: Helvetica, Arial, sans-serif; color: #3F3D33; font-size: 14px; line-height: 20px;-ko-attr-bgcolor:@backgroundlightColor;-ko-color:@textsmalllightStyle.color; -ko-font-family:@textsmalllightStyle.face; -ko-font-size:@[textsmalllightStyle.size]px;" ><div class="appleBody textsmalllightStyle" data-ko-editable="textbText"><p style="margin-top:0px">Far far away, behind the word mountains, far from the countries <a href="">Vokalia and Consonantia</a>, there live the blind texts.</p></div></td>
+                                                    </tr>
+                                                     <tr  data-ko-display="buttonVisible" align="center">
+                                                        <td style="padding:10px 0 0px 0px;" align="center" class="padding">
+                                                            <table border="0" cellspacing="0" cellpadding="0" class="mobile-button-container">
+                                                                <tr>
+                                                                    <td align="center">
+                                                                        <!-- BULLETPROOF BUTTON -->
+                                                                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mobile-button-container">
+                                                                            <tr>
+                                                                                <td align="center" style="padding: 0;" class="padding-copy">
+                                                                                    <table border="0" cellspacing="0" cellpadding="0" class="responsive-table">
+                                                                                        <tr>
+                                                                                            <td align="center">
+                                                                                            <a href="" target="_blank" style="display: inline-block;font-size: 15px; font-family: Helvetica, Arial, sans-serif; font-weight: normal; color: #ffffff; text-decoration: none; background-color: #9C010F; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 20px; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-bottom:3px solid #69010A; -ko-border-bottom:@[buttonlightStyle.shadow]px solid @[Color.getBrightness(buttonlightStyle.buttonColor) lt 40 ? Color.lighten(buttonlightStyle.buttonColor,25) : Color.darken(buttonlightStyle.buttonColor,12)]; -ko-font-size: @[buttonlightStyle.size]px; -ko-font-family: @buttonlightStyle.face;  -ko-color: @buttonlightStyle.color; -ko-background-color: @buttonlightStyle.buttonColor;  -ko-border-radius: @[buttonlightStyle.radius]px; -ko--webkit-border-radius: @[buttonlightStyle.radius]px; -ko--moz-border-radius: @[buttonlightStyle.radius]px; -ko-attr-href:@buttonrightLink.url" class="mobile-button" data-ko-editable="buttonrightLink.text">Show More &rarr;</a>
+
+                                                                                        </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                
+            </table>
+        </td>
+    </tr>
+    <tr data-ko-display="colorscheme eq 'Intense'" style="display:none" class="row-b">
+        <td bgcolor="#9C010F" align="center" style="padding-top: 0px;padding-left: 15px;padding-bottom: 0px;padding-right: 15px;-ko-attr-bgcolor:@backgroundintenseColor;" class="section-padding">
+            <table border="0" cellpadding="0" cellspacing="0" width="500" class="responsive-table">
+               
+                <tr>
+                    <td>
+                        <!-- TWO COLUMNS -->
+                        <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                            <tr>
+                                <td valign="top" style="padding: 0;" class="mobile-wrapper">
+                                    <!-- LEFT COLUMN -->
+                                    <table cellpadding="0" cellspacing="0" border="0" width="47%" align="left" class="responsive-table">
+                                        <tr>
+                                            <td style="padding: 20px 0 20px 0;">
+                                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                    <tr data-ko-display="imageVisible">
+                                                        <td align="center" bgcolor="#9C010F" style="-ko-attr-bgcolor:@backgroundintenseColor;" valign="middle"><a href=""   data-ko-link="imageA.url" target="_blank"><img src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=240%2C130" width="240" height="130" border="0" alt="" style="display: block; padding: 0; color: #3F3D33; text-decoration: none; font-family: Helvetica, Arial, sans-serif; font-size: 16px; width: 240px; height: 130px; -ko-attr-alt:@imageA.alt;-ko-height:@[imageHeight]px;-ko-attr-height:@imageHeight" class="img-max" data-ko-editable="imageA.src"></a></td>
+                                                    </tr>
+                                                    <tr data-ko-display="titleVisible">
+                                                        <td align="center" bgcolor="#9C010F" style="padding: 15px 0 0 0; font-family: Helvetica, Arial, sans-serif; color: #ffffff; font-size: 20px;-ko-attr-bgcolor:@backgroundintenseColor;  -ko-color:@titlesmallintenseStyle.color; -ko-font-family:@titlesmallintenseStyle.face; -ko-font-size:@[titlesmallintenseStyle.size]px" ><span data-ko-wrap="false" data-ko-editable="titleaText">Fluid Images</span></td>
+                                                    </tr>
+                                                    <tr >
+                                                        <td align="center" bgcolor="#9C010F" style="text-align:left;padding: 5px 0 0 0; font-family: Helvetica, Arial, sans-serif; color: #ffffff; font-size: 14px; line-height: 20px;-ko-attr-bgcolor:@backgroundintenseColor;-ko-color:@textsmallintenseStyle.color; -ko-font-family:@textsmallintenseStyle.face; -ko-font-size:@[textsmallintenseStyle.size]px;" ><div class="appleBody textsmallintenseStyle" data-ko-editable="textaText"><p style="margin-top:0px">Far far away, behind the word mountains, far from the countries <a href="">Vokalia and Consonantia</a>, there live the blind texts.</p></div></td>
+                                                    </tr>
+                                                    <tr  data-ko-display="buttonVisible">
+                                                        <td style="padding:10px 0px 0px 0px;" align="center" class="padding">
+                                                            <table border="0" cellspacing="0" cellpadding="0" class="mobile-button-container">
+                                                                <tr>
+                                                                    <td align="center">
+                                                                        <!-- BULLETPROOF BUTTON -->
+                                                                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mobile-button-container">
+                                                                            <tr>
+                                                                                <td align="center" style="padding: 0;" class="padding-copy">
+                                                                                    <table border="0" cellspacing="0" cellpadding="0" class="responsive-table">
+                                                                                        <tr>
+                                                                                            <td align="center">
+                                                                                            <a href="" target="_blank" style="display: inline-block;font-size: 15px; font-family: Helvetica, Arial, sans-serif; font-weight: normal; color: #3F3D33; text-decoration: none; background-color: #EDE8DA; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 20px; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-bottom:3px solid #C3B384; -ko-border-bottom:@[buttonintenseStyle.shadow]px solid @[Color.getBrightness(buttonintenseStyle.buttonColor) lt 40 ? Color.lighten(buttonintenseStyle.buttonColor,25) : Color.darken(buttonintenseStyle.buttonColor,12)]; -ko-font-size: @[buttonintenseStyle.size]px; -ko-font-family: @buttonintenseStyle.face;  -ko-color: @buttonintenseStyle.color; -ko-background-color: @buttonintenseStyle.buttonColor;  -ko-border-radius: @[buttonintenseStyle.radius]px; -ko--webkit-border-radius: @[buttonintenseStyle.radius]px; -ko--moz-border-radius: @[buttonintenseStyle.radius]px; -ko-attr-href:@buttonleftLink.url" class="mobile-button" data-ko-editable="buttonleftLink.text">Show More &rarr;</a>
+
+                                                                                        </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <!-- RIGHT COLUMN -->
+                                    <table cellpadding="0" cellspacing="0" border="0" width="47%" align="right" class="responsive-table">
+                                        <tr>
+                                            <td style="padding: 20px 0 20px 0;">
+                                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                    <tr data-ko-display="imageVisible">
+                                                        <td align="center" bgcolor="#9C010F" style="-ko-attr-bgcolor:@backgroundintenseColor;" valign="middle"><a href=""  data-ko-link="imageB.url" target="_blank"><img src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=240%2C130" width="240" height="130" border="0" alt="" style="display: block; padding: 0; color: #3F3D33; text-decoration: none; font-family: Helvetica, Arial, sans-serif; font-size: 16px; width: 240px; height: 130px; -ko-attr-alt:@imageB.alt;-ko-height:@[imageHeight]px;-ko-attr-height:@imageHeight" class="img-max" data-ko-editable="imageB.src"></a></td>
+                                                    </tr>
+                                                    <tr data-ko-display="titleVisible">
+                                                        <td align="center"  bgcolor="#9C010F" style="padding: 15px 0 0 0; font-family:Helvetica, Arial, sans-serif; color: #ffffff; font-size: 20px;-ko-attr-bgcolor:@backgroundintenseColor; -ko-color:@titlesmallintenseStyle.color; -ko-font-family:@titlesmallintenseStyle.face; -ko-font-size:@[titlesmallintenseStyle.size]px" ><span data-ko-wrap="false" data-ko-editable="titlebText">Fluid Structure</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="center" bgcolor="#9C010F" style="text-align:left;padding: 5px 0 0 0; font-family: Helvetica, Arial, sans-serif; color: #ffffff; font-size: 14px; line-height: 20px;-ko-attr-bgcolor:@backgroundintenseColor;-ko-color:@textsmallintenseStyle.color; -ko-font-family:@textsmallintenseStyle.face; -ko-font-size:@[textsmallintenseStyle.size]px;" ><div class="appleBody textsmallintenseStyle" data-ko-editable="textbText"><p style="margin-top:0px">Far far away, behind the word mountains, far from the countries <a href="">Vokalia and Consonantia</a>, there live the blind texts.</p></div></td>
+                                                    </tr>
+                                                    <tr  data-ko-display="buttonVisible">
+                                                        <td style="padding:10px 0px 0px 0px;" align="center" class="padding">
+                                                            <table border="0" cellspacing="0" cellpadding="0" class="mobile-button-container">
+                                                                <tr>
+                                                                    <td align="center">
+                                                                        <!-- BULLETPROOF BUTTON -->
+                                                                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mobile-button-container">
+                                                                            <tr>
+                                                                                <td align="center" style="padding: 0;" class="padding-copy">
+                                                                                    <table border="0" cellspacing="0" cellpadding="0" class="responsive-table">
+                                                                                        <tr>
+                                                                                            <td align="center">
+                                                                                            <a href="" target="_blank" style="display: inline-block;font-size: 15px; font-family: Helvetica, Arial, sans-serif; font-weight: normal; color: #3F3D33; text-decoration: none; background-color: #EDE8DA; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 20px; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;  border-bottom:3px solid #69010A;  -ko-border-bottom:@[buttonintenseStyle.shadow]px solid @[Color.getBrightness(buttonintenseStyle.buttonColor) lt 40 ? Color.lighten(buttonintenseStyle.buttonColor,25) : Color.darken(buttonintenseStyle.buttonColor,12)];-ko-font-size: @[buttonintenseStyle.size]px; -ko-font-family: @buttonintenseStyle.face;  -ko-color: @buttonintenseStyle.color; -ko-background-color: @buttonintenseStyle.buttonColor;  -ko-border-radius: @[buttonintenseStyle.radius]px; -ko--webkit-border-radius: @[buttonintenseStyle.radius]px; -ko--moz-border-radius: @[buttonintenseStyle.radius]px; -ko-attr-href:@buttonrightLink.url" class="mobile-button" data-ko-editable="buttonrightLink.text">Show More &rarr;</a>
+
+                                                                                        </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                
+            </table>
+        </td>
+    </tr>
+
+</table>
+
+<!-- TITLE SECTION -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style=""  data-ko-block="titleBlock">
+    <tr data-ko-display="colorscheme eq 'Intense'" class="row-a">
+        <td bgcolor="#9C010F" align="center" style="padding: 30px 15px 0px 15px; -ko-attr-bgcolor:@backgroundintenseColor;" class="section-padding">
+            <table border="0" cellpadding="0" cellspacing="0" width="500" style="padding:0 0 20px 0;" class="responsive-table">
+                <!-- TITLE -->
+                <tr  >
+                    <td align="center" style="padding: 0 0 10px 0px; font-size: 25px; font-family: Helvetica, Arial, sans-serif; font-weight: normal; color: #ffffff; -ko-color:@titleintenseStyle.color; -ko-font-family:@titleintenseStyle.face; -ko-font-size:@[titleintenseStyle.size]px;" class="padding-copy" colspan="2"><span data-ko-wrap="false" data-ko-editable="titleText">This is a Title</span></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr data-ko-display="colorscheme eq 'Light'" style="display:none" class="row-b">
+        <td bgcolor="#EDE8DA" align="center" style="padding: 30px 15px 0px 15px; -ko-attr-bgcolor:@backgroundlightColor;" class="section-padding">
+            <table border="0" cellpadding="0" cellspacing="0" width="500" style="padding:0 0 20px 0;" class="responsive-table">
+                <!-- TITLE -->
+                <tr  >
+                    <td align="center" style="padding: 0 0 10px 0px; font-size: 25px; font-family: Helvetica, Arial, sans-serif; font-weight: normal; color: #3F3D33; -ko-color:@titlelightStyle.color; -ko-font-family:@titlelightStyle.face; -ko-font-size:@[titlelightStyle.size]px;" class="padding-copy" colspan="2"><span data-ko-wrap="false" data-ko-editable="titleText">This is a Title</span></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<!-- COMPACT ARTICLE SECTION -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style=""  data-ko-block="compactarticleBlock">
+    <tr data-ko-display="colorscheme eq 'Intense'" class="row-a">
+        <td bgcolor="#9C010F" align="center" style="padding: 0px 15px 0px 15px; -ko-attr-bgcolor:@backgroundintenseColor;" class="section-padding">
+            <table border="0" cellpadding="0" cellspacing="0" width="500" style="padding:0 0 20px 0;" class="responsive-table">
+                
+                <tr>
+                    <td valign="top" style="padding: 40px 0 0 0;" class="mobile-hide"><a href="" target="_blank"   data-ko-link="image.url"><img src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=105%2C135" alt="" width="105" data-ko-placeholder-height="135" border="0" style="display: block; font-family: Arial; color: #3F3D33; font-size: 14px; width: 105px; -ko-attr-alt:@image.alt;-ko-width:@[imageWidth]px;-ko-attr-width:@imageWidth;" data-ko-editable="image.src"></a></td>
+                    <td style="padding: 40px 0 0 0;" class="no-padding">
+                        <!-- ARTICLE -->
+                        <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                            <tr data-ko-display="occhielloVisible">
+                                <td align="left" style="padding: 0 0 5px 25px; font-size: 13px; font-family: Helvetica, Arial, sans-serif; font-weight: normal; color: #ffffff;-ko-color:@introtextintenseStyle.color; -ko-font-family:@introtextintenseStyle.face; -ko-font-size:@[introtextintenseStyle.size]px;" class="padding-meta"><span data-ko-wrap="false" data-ko-editable="introText">Little subtitle</span></td>
+                            </tr>
+                            <tr data-ko-display="titleVisible">
+                                <td align="left" style="padding: 0 0 5px 25px; font-size: 22px; font-family: Helvetica, Arial, sans-serif; font-weight: normal; color: #ffffff;-ko-color:@articletitleintenseStyle.color; -ko-font-family:@articletitleintenseStyle.face; -ko-font-size:@[articletitleintenseStyle.size]px;" class="padding-copy"><span data-ko-wrap="false" data-ko-editable="titleText">This is a title</span></td>
+                            </tr>
+                            <tr>
+                                 <td align="left" style="padding: 10px 0 15px 25px; font-size: 16px; line-height: 24px; font-family: Helvetica, Arial, sans-serif; color: #ffffff;-ko-color:@articletextintenseStyle.color; -ko-font-family:@articletextintenseStyle.face; -ko-font-size:@[articletextintenseStyle.size]px;" class="padding-copy articletextintenseStyle"><div data-ko-wrap="false" data-ko-editable="articleText"><p style="margin-top:0px">UFar far away, behind the word mountains, far from the countries <a href="">Vokalia and Consonantia</a>, there live the blind texts.</p></div></td>
+                            </tr>
+                            <tr  data-ko-display="buttonVisible">
+                                <td style="padding:0 0 45px 25px;" align="left" class="padding">
+                                    <table border="0" cellspacing="0" cellpadding="0" class="mobile-button-container">
+                                        <tr>
+                                            <td align="center">
+                                                <!-- BULLETPROOF BUTTON -->
+                                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mobile-button-container">
+                                                    <tr>
+                                                        <td align="center" style="padding: 0;" class="padding-copy">
+                                                            <table border="0" cellspacing="0" cellpadding="0" class="responsive-table">
+                                                                <tr>
+                                                                    <td align="center">
+                                                                    <a href="" target="_blank" style="display: inline-block;font-size: 15px; font-family: Helvetica, Arial, sans-serif; font-weight: normal; color: #3F3D33; text-decoration: none; background-color:#EDE8DA; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 20px; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-bottom:3px solid #69010A;  -ko-border-bottom:@[buttonintenseStyle.shadow]px solid @[Color.getBrightness(buttonintenseStyle.buttonColor) lt 40 ? Color.lighten(buttonintenseStyle.buttonColor,25) : Color.darken(buttonintenseStyle.buttonColor,12)]; -ko-font-size: @[buttonintenseStyle.size]px; -ko-font-family: @buttonintenseStyle.face;  -ko-color: @buttonintenseStyle.color; -ko-background-color: @buttonintenseStyle.buttonColor;  -ko-border-radius: @[buttonintenseStyle.radius]px; -ko--webkit-border-radius: @[buttonintenseStyle.radius]px; -ko--moz-border-radius: @[buttonintenseStyle.radius]px; -ko-attr-href:@buttonLink.url" class="mobile-button" data-ko-editable="buttonLink.text">Show More &rarr;</a>
+
+                                                                </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr data-ko-display="colorscheme eq 'Light'" style="display:none;min-width:500px;" class="row-b">
+        <td bgcolor="#EDE8DA" align="center" style="padding: 0px 15px 0px 15px; -ko-attr-bgcolor:@backgroundlightColor;" class="section-padding">
+            <table border="0" cellpadding="0" cellspacing="0" width="500" style="padding:0 0 20px 0;" class="responsive-table">
+                
+                <tr>
+                    <td valign="top" style="padding: 40px 0 0 0;" class="mobile-hide"><a href="" target="_blank"  data-ko-link="image.url"><img src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=105%2C135" alt="" width="105" data-ko-placeholder-height="135"  border="0" style="display: block; font-family: Arial; color: #3F3D33; font-size: 14px; width: 105px;   -ko-attr-alt:@image.alt; -ko-width:@[imageWidth]px;-ko-attr-width:@imageWidth;" data-ko-editable="image.src"></a></td>
+                    <td style="padding: 40px 0 0 0;" class="no-padding">
+                        <!-- ARTICLE -->
+                        <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                            <tr data-ko-display="occhielloVisible">
+                                <td align="left" style="padding: 0 0 5px 25px; font-size: 13px; font-family: Helvetica, Arial, sans-serif; font-weight: normal; color: #3F3D33;-ko-color:@introtextlightStyle.color; -ko-font-family:@introtextlightStyle.face; -ko-font-size:@[introtextlightStyle.size]px;" class="padding-meta"><span data-ko-wrap="false" data-ko-editable="introText">Little subtitle</span></td>
+                            </tr>
+                            <tr data-ko-display="titleVisible">
+                                <td align="left" style="padding: 0 0 5px 25px; font-size: 22px; font-family: Helvetica, Arial, sans-serif; font-weight: normal; color: #3F3D33;-ko-color:@articletitlelightStyle.color; -ko-font-family:@articletitlelightStyle.face; -ko-font-size:@[articletitlelightStyle.size]px;" class="padding-copy"><span data-ko-wrap="false" data-ko-editable="titleText">This is a title</span></td>
+                            </tr>
+                            <tr>
+                                 <td align="left" style="padding: 10px 0 15px 25px; font-size: 16px; line-height: 24px; font-family: Helvetica, Arial, sans-serif; color: #3F3D33;-ko-color:@articletextlightStyle.color; -ko-font-family:@articletextlightStyle.face; -ko-font-size:@[articletextlightStyle.size]px;" class="padding-copy articletextlightStyle"><div data-ko-wrap="false" data-ko-editable="articleText"><p style="margin-top:0px">Far far away, behind the word mountains, far from the countries <a href="">Vokalia and Consonantia</a>, there live the blind texts.</p></div></td>
+                            </tr>
+                            <tr  data-ko-display="buttonVisible">
+                                <td style="padding:0 0 45px 25px;" align="left" class="padding">
+                                    <table border="0" cellspacing="0" cellpadding="0" class="mobile-button-container">
+                                        <tr>
+                                            <td align="center">
+                                                <!-- BULLETPROOF BUTTON -->
+                                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mobile-button-container">
+                                                    <tr>
+                                                        <td align="center" style="padding: 0;" class="padding-copy">
+                                                            <table border="0" cellspacing="0" cellpadding="0" class="responsive-table">
+                                                                <tr>
+                                                                    <td align="center">
+                                                                    <a href="" target="_blank" style="display: inline-block;font-size: 15px; font-family: Helvetica, Arial, sans-serif; font-weight: normal; color: #ffffff; text-decoration: none; background-color: #9C010F; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 20px; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-bottom:3px solid #69010A;-ko-border-bottom:@[buttonlightStyle.shadow]px solid @[Color.getBrightness(buttonlightStyle.buttonColor) lt 40 ? Color.lighten(buttonlightStyle.buttonColor,25) : Color.darken(buttonlightStyle.buttonColor,12)]; -ko-font-size: @[buttonlightStyle.size]px; -ko-font-family: @buttonlightStyle.face;  -ko-color: @buttonlightStyle.color; -ko-background-color: @buttonlightStyle.buttonColor;  -ko-border-radius: @[buttonlightStyle.radius]px; -ko--webkit-border-radius: @[buttonlightStyle.radius]px; -ko--moz-border-radius: @[buttonlightStyle.radius]px; -ko-attr-href:@buttonLink.url" class="mobile-button" data-ko-editable="buttonLink.text">Show More &rarr;</a>
+
+                                                                </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+
+<!-- COMPACT ARTICLE RIGHT SECTION  -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style=""  data-ko-block="compactarticlerightBlock">
+    
+    <tr data-ko-display="colorscheme eq 'Light'" class="row-a">
+        <td bgcolor="#EDE8DA" align="center" style="padding: 0px 15px 0px 15px; -ko-attr-bgcolor:@backgroundlightColor;" class="section-padding">
+            <table border="0" cellpadding="0" cellspacing="0" width="500" style="padding:0 0 20px 0;" class="responsive-table">
+                
+                <tr>
+                     <td style="padding: 40px 0 0 0;" class="no-padding">
+                        <!-- ARTICLE -->
+                        <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                            <tr data-ko-display="occhielloVisible">
+                                <td align="right" style="padding: 0 25px 5px 0px; font-size: 13px; font-family: Helvetica, Arial, sans-serif; font-weight: normal; color: #3F3D33;-ko-color:@introtextlightStyle.color; -ko-font-family:@introtextlightStyle.face; -ko-font-size:@[introtextlightStyle.size]px;" class="padding-meta"><span data-ko-wrap="false" data-ko-editable="introText">Little subtitle</span></td>
+                            </tr>
+                            <tr data-ko-display="titleVisible">
+                                <td align="right" style="padding: 0 25px 5px 0px; font-size: 22px; font-family: Helvetica, Arial, sans-serif; font-weight: normal; color: #3F3D33;-ko-color:@articletitlelightStyle.color; -ko-font-family:@articletitlelightStyle.face; -ko-font-size:@[articletitlelightStyle.size]px;" class="padding-copy"><span data-ko-wrap="false" data-ko-editable="titleText">This is a title</span></td>
+                            </tr>
+                            <tr>
+                                 <td align="right" style="padding: 10px 25px 15px 0px; font-size: 16px; line-height: 24px; font-family: Helvetica, Arial, sans-serif; color: #3F3D33;-ko-color:@articletextlightStyle.color; -ko-font-family:@articletextlightStyle.face; -ko-font-size:@[articletextlightStyle.size]px;" class="padding-copy articletextlightStyle"><div data-ko-wrap="false" data-ko-editable="articleText"><p style="margin-top:0px">Far far away, behind the word mountains, far from the countries <a href="">Vokalia and Consonantia</a>, there live the blind texts.</p></div></td>
+                            </tr>
+                            <tr  data-ko-display="buttonVisible">
+                                <td style="padding:0 25px 45px 0px;" align="right" class="padding">
+                                    <table border="0" cellspacing="0" cellpadding="0" class="mobile-button-container">
+                                        <tr>
+                                            <td align="center">
+                                                <!-- BULLETPROOF BUTTON -->
+                                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mobile-button-container">
+                                                    <tr>
+                                                        <td align="center" style="padding: 0;" class="padding-copy">
+                                                            <table border="0" cellspacing="0" cellpadding="0" class="responsive-table">
+                                                                <tr>
+                                                                    <td align="center">
+                                                                    <a href="" target="_blank" style="display: inline-block;font-size: 15px; font-family: Helvetica, Arial, sans-serif; font-weight: normal; color: #ffffff; text-decoration: none; background-color:  #9C010F; padding-top: 10px ; padding-bottom: 10px ; padding-left: 20px; padding-right: 20px ; border-radius: 3px;  border-bottom:3px solid #69010A; -ko-border-bottom:@[buttonlightStyle.shadow]px solid @[Color.getBrightness(buttonlightStyle.buttonColor) lt 40 ? Color.lighten(buttonlightStyle.buttonColor,25) : Color.darken(buttonlightStyle.buttonColor,12)];-webkit-border-radius: 3px; -moz-border-radius: 3px; -ko-font-size: @[buttonlightStyle.size]px; -ko-font-family: @buttonlightStyle.face;  -ko-color: @buttonlightStyle.color; -ko-background-color: @buttonlightStyle.buttonColor;  -ko-border-radius: @[buttonlightStyle.radius]px; -ko--webkit-border-radius: @[buttonlightStyle.radius]px; -ko--moz-border-radius: @[buttonlightStyle.radius]px; -ko-attr-href:@buttonLink.url" class="mobile-button" data-ko-editable="buttonLink.text">Show more &rarr;</a>
+                                                                </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td valign="top" style="padding: 40px 0 0 0;" class="mobile-hide"><a href="" target="_blank"   data-ko-link="image.url"><img src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=105%2C135" alt="" width="105" data-ko-placeholder-height="135"  border="0" style="display: block; font-family: Arial; color: #3F3D33; font-size: 14px; width: 105px;   -ko-attr-alt:@image.alt; -ko-width:@[imageWidth]px;-ko-attr-width:@imageWidth;" data-ko-editable="image.src"></a></td>
+                   
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr data-ko-display="colorscheme eq 'Intense'" style="display:none" class="row-b">
+        <td bgcolor="#9C010F" align="center" style="padding: 0px 15px 0px 15px; -ko-attr-bgcolor:@backgroundintenseColor;" class="section-padding">
+            <table border="0" cellpadding="0" cellspacing="0" width="500" style="padding:0 0 20px 0;" class="responsive-table"> 
+                <tr>
+                    <td style="padding: 40px 0 0 0;" class="no-padding">
+                        <!-- ARTICLE -->
+                        <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                            <tr data-ko-display="occhielloVisible">
+                                <td align="right" style="padding: 0 25px 5px 0px; font-size: 13px; font-family: Helvetica, Arial, sans-serif; font-weight: normal; color: #ffffff;-ko-color:@introtextintenseStyle.color; -ko-font-family:@introtextintenseStyle.face; -ko-font-size:@[introtextintenseStyle.size]px;" class="padding-meta"><span data-ko-wrap="false" data-ko-editable="introText">Little subtitle</span></td>
+                            </tr>
+                            <tr data-ko-display="titleVisible">
+                                <td align="right" style="padding: 0 25px 5px 0px; font-size: 22px; font-family: Helvetica, Arial, sans-serif; font-weight: normal; color: #ffffff;-ko-color:@articletitleintenseStyle.color; -ko-font-family:@articletitleintenseStyle.face; -ko-font-size:@[articletitleintenseStyle.size]px;" class="padding-copy"><span data-ko-wrap="false" data-ko-editable="titleText">This is a title</span></td>
+                            </tr>
+                            <tr>
+                                 <td align="right" style="padding: 10px 25px 15px 0px; font-size: 16px; line-height: 24px; font-family: Helvetica, Arial, sans-serif; color: #ffffff;-ko-color:@articletextintenseStyle.color; -ko-font-family:@articletextintenseStyle.face; -ko-font-size:@[articletextintenseStyle.size]px;" class="padding-copy articletextintenseStyle"><div data-ko-wrap="false" data-ko-editable="articleText"><p style="margin-top:0px">Far far away, behind the word mountains, far from the countries <a href="">Vokalia and Consonantia</a>, there live the blind texts.</p></div></td>
+                            </tr>
+                            <tr  data-ko-display="buttonVisible">
+                                <td style="padding:0 25px 45px 0px;" align="right" class="padding">
+                                    <table border="0" cellspacing="0" cellpadding="0" class="mobile-button-container">
+                                        <tr>
+                                            <td align="center">
+                                                <!-- BULLETPROOF BUTTON -->
+                                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mobile-button-container">
+                                                    <tr>
+                                                        <td align="center" style="padding: 0;" class="padding-copy">
+                                                            <table border="0" cellspacing="0" cellpadding="0" class="responsive-table">
+                                                                <tr>
+                                                                    <td align="center">
+                                                                    <a href="" target="_blank" style="display: inline-block;font-size: 15px; font-family: Helvetica, Arial, sans-serif; font-weight: normal; color: #3F3D33; text-decoration: none; background-color: #EDE8DA; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 20px; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-bottom:3px solid #69010A;  -ko-border-bottom:@[buttonintenseStyle.shadow]px solid @[Color.getBrightness(buttonintenseStyle.buttonColor) lt 40 ? Color.lighten(buttonintenseStyle.buttonColor,25) : Color.darken(buttonintenseStyle.buttonColor,12)]; -ko-font-size: @[buttonintenseStyle.size]px; -ko-font-family: @buttonintenseStyle.face;  -ko-color: @buttonintenseStyle.color; -ko-background-color: @buttonintenseStyle.buttonColor;  -ko-border-radius: @[buttonintenseStyle.radius]px; -ko--webkit-border-radius: @[buttonintenseStyle.radius]px; -ko--moz-border-radius: @[buttonintenseStyle.radius]px; -ko-attr-href:@buttonLink.url" class="mobile-button" data-ko-editable="buttonLink.text">Show more &rarr;</a>
+
+                                                                </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td valign="top" style="padding: 40px 0 0 0;" class="mobile-hide"><a href="" target="_blank"   data-ko-link="image.url"><img src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=105%2C135" alt="" width="105" data-ko-placeholder-height="135"  border="0" style="display: block; font-family: Arial; color: #3F3D33; font-size: 14px; width: 105px;  -ko-attr-alt:@image.alt; -ko-width:@[imageWidth]px;-ko-attr-width:@imageWidth;" data-ko-editable="image.src"></a></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<!-- SOCIAL SECTION -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style=""  data-ko-block="socialBlock">
+    <tr data-ko-display="colorscheme eq 'Intense'" class="row-a">
+        <td bgcolor="#9C010F" align="center" style="padding: 10px 15px 0px 15px; -ko-attr-bgcolor:@backgroundintenseColor;" class="section-padding">
+            <table border="0" cellpadding="0" cellspacing="0" width="500" style="padding:0 0 0px 0;" class="responsive-table">
+                <tr>
+                    <td align="center" style="padding: 10 10 10px 10px; font-size: 25px;" class="padding-copy" >
+                    <a  data-ko-display="facebookVisible" href="http://www.facebook.com" style="-ko-attr-href:@facebookLink.url"><img src="img/social/facebook.png" alt="Seguici su facebook" width="48" height="48" style="padding:0 5px 0px 0px;"  ></a>
+                    <a  data-ko-display="twitterVisible" href="http://www.twitter.com" style="-ko-attr-href:@twitterLink.url"><img src="img/social/twitter.png" alt="Seguici su twitter" width="48" height="48" style=";padding:0 5px 0px 5px;"></a>
+                    <a  data-ko-display="googleplusVisible" href="http://plus.google.com" style="-ko-attr-href:@googleplusLink.url"><img src="img/social/google-plus.png" alt="Seguici su G+" width="48" height="48" style=";padding:0 5px 0px 5px;"></a>
+                    <a  data-ko-display="linkedinVisible"href="http://www.linkedin.com" style="-ko-attr-href:@linkedinLink.url"><img src="img/social/linkedin.png" alt="Seguici su linkedin" width="48" height="48" style=";padding:0 5px 0px 5px;"></a>
+                    <a  data-ko-display="instagramVisible" href="http://www.instagram.com" style="-ko-attr-href:@instagramLink.url"><img src="img/social/instagram.png" alt="Seguici su instagram" width="48" height="48" style="padding:0 0px 0px 5px;"></a></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+   <tr data-ko-display="colorscheme eq 'Light'" class="row-b" style="display:none">
+        <td bgcolor="#EDE8DA" align="center" style="padding: 10px 15px 0px 15px; -ko-attr-bgcolor:@backgroundlightColor;" class="section-padding">
+            <table border="0" cellpadding="0" cellspacing="0" width="500" style="padding:0 0 0px 0;" class="responsive-table">
+                <tr>
+                    <td align="center" style="padding: 10 10 10px 10px; font-size: 25px;" class="padding-copy" >
+                    <a  data-ko-display="facebookVisible" href="http://www.facebook.com" style="-ko-attr-href:@facebookLink.url"><img src="img/social/facebook.png" alt="Seguici su facebook" width="48" height="48" style="padding:0 5px 0px 0px;"  ></a>
+                    <a  data-ko-display="twitterVisible" href="http://www.twitter.com" style="-ko-attr-href:@twitterLink.url"><img src="img/social/twitter.png" alt="Seguici su twitter" width="48" height="48" style=";padding:0 5px 0px 5px;"></a>
+                    <a  data-ko-display="googleplusVisible" href="http://plus.google.com" style="-ko-attr-href:@googleplusLink.url"><img src="img/social/google-plus.png" alt="Seguici su G+" width="48" height="48" style=";padding:0 5px 0px 5px;"></a>
+                    <a  data-ko-display="linkedinVisible"href="http://www.linkedin.com" style="-ko-attr-href:@linkedinLink.url"><img src="img/social/linkedin.png" alt="Seguici su linkedin" width="48" height="48" style=";padding:0 5px 0px 5px;"></a>
+                    <a  data-ko-display="instagramVisible" href="http://www.instagram.com" style="-ko-attr-href:@instagramLink.url"><img src="img/social/instagram.png" alt="Seguici su instagram" width="48" height="48" style="padding:0 0px 0px 5px;"></a></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+</div>
+<!-- FOOTER -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style=""  data-ko-block="footerBlock">
+    <tr>
+        <td bgcolor="#ffffff" align="center" style="-ko-attr-bgcolor: @backgroundwhiteColor">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+                <tr>
+                    <td style="padding: 20px 0px 20px 0px;">
+                        <!-- UNSUBSCRIBE COPY -->
+                        <table width="500" border="0" cellspacing="0" cellpadding="0" align="center" class="responsive-table">
+                            <tr>
+                                <td align="center" valign="middle" style="font-size: 12px; line-height: 18px; font-family: Helvetica, Arial, sans-serif; color:#3F3D33; -ko-color:@textfooterStyle.color;-ko-font-family:@textfooterStyle.face;-ko-font-size:@[textfooterStyle.size]px;">
+                                    <span class="appleFooter" style="color:#3F3D33;-ko-color:@textfooterStyle.color" data-ko-editable="addressText">Main address and city</span><br><a class="original-only" style="color: #3F3D33; text-decoration: none;-ko-color:@linksColor" data-ko-editable="unsubscribeaText" href="[profile_link]">Unsubscribe</a><span class="original-only" style="font-family: Arial, sans-serif; font-size: 12px; color: #444444;-ko-font-size:@[textfooterStyle.size]px">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span><a style="color: #3F3D33; -ko-color:@linkColor; text-decoration: none;" data-ko-editable="browserText" href="[show_link]">View on web browser</a>
+                                </td>
+                            </tr>
+                            <tr data-ko-display="_root_.sponsor.visible" style="display: none;text-align:center">
+                            <td>
+                                <a href="#" target="_blank" style="-ko-attr-href: @_root_.sponsor.url;"><img border="0" hspace="0" vspace="0" src="img/sponsor.png" alt="" style="margin:auto;" style="margin-top:10px;-ko-attr-src: @_root_.sponsor.src; -ko-attr-alt: @_root_.sponsor.alt" /></a>
+                            </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
