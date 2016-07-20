@@ -382,7 +382,7 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
 };
 
 function conditional_replace(html) {
-  return html.replace(/<!--\[if ([^\]]*)\]>(?:((?!--)[\s\S])*?)<!\[endif\]-->/g, function(match, condition, body) {
+  return html.replace(/<!--\[if ([^\]]*)\]>((?:(?!--)[\s\S])*?)<!\[endif\]-->/g, function(match, condition, body) {
     var dd = '<!-- cc:start -->';
     dd += body.replace(/<(\/?)([A-Za-z:]*)/g, '<$1cc$2').replace(/<\/([^>]*)>/g,'<!-- cc:before:$1 --></$1><!-- cc:after:$1 -->');
     dd += '<!-- cc:end -->';
