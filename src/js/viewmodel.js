@@ -450,6 +450,7 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
   }
 
   viewModel.exportHTML = function() {
+    console.log('viewModel.exportHTML')
     var id = 'exportframe';
     $('body').append('<iframe id="' + id + '" data-bind="bindIframe: $data"></iframe>');
     var frameEl = global.document.getElementById(id);
@@ -487,6 +488,11 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
     content = content.replace(/ http-equiv="[^"]*"([^>]*) replaced(http-equiv="[^"]*")/gm, '$1 $2');
     content = content.replace(/ replaced(http-equiv="[^"]*")([^>]*) http-equiv="[^"]*"/gm, ' $1$2');
     content = content.replace(/ replaced(http-equiv="[^"]*")/gm, ' $1');
+
+    // BADSENDER: Restore ESP tags
+    // https://github.com/goodenough/mosaico/issues/2
+    content = content.replace(/&lt;%/g, '<%');
+    content = content.replace(/%&gt;/g, '%>');
 
     // We already replace style and http-equiv and we don't need this.
     // content = content.replace(/ replaced([^= ]*=)/gm, ' $1');
