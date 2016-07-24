@@ -125,6 +125,21 @@
   border-color: transparent !important;
 }
 
+// Fix tinymce custom-color button (appeared on white upon white without this)
+.mce-custom-color-btn button {
+  color: black !important;
+  width: 100% !important;
+  text-align: left !important;;
+}
+.mce-custom-color-btn:hover button {
+  color: white !important;
+}
+
+// Fix tinymce color transparent button icon (cross misaligned)
+[data-mce-color=transparent] {
+  line-height: 10px !important;
+}
+
 .mce-menu, .moxman-menu {
   .win();
 }

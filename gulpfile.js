@@ -147,6 +147,7 @@ gulp.task('lib', ['clean-lib'], function () {
     'bower_components/tinymce/plugins/hr/plugin.js',
     'bower_components/tinymce/plugins/lists/plugin.js',
     'bower_components/tinymce/plugins/textcolor/plugin.js',
+    'bower_components/tinymce/plugins/colorpicker/plugin.js',
     'bower_components/tinymce/plugins/code/plugin.js',
   ], { base: 'bower_components/tinymce' })
 

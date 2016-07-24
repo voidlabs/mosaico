@@ -28,8 +28,10 @@ block head-content
         },
         //- TinyMCE
         tinymceConfigFull: {
-          toolbar1: 'bold italic forecolor backcolor hr styleselect removeformat | link unlink | pastetext code',
-          plugins: ["link hr paste lists textcolor code"],
+          toolbar1: 'bold italic forecolor backcolor hr fontsizeselect styleselect removeformat | link unlink | pastetext code',
+          //- add colorpicker
+          //- https://www.tinymce.com/docs/plugins/colorpicker/
+          plugins: ["link hr paste lists textcolor colorpicker code"],
           //- https://www.tinymce.com/docs/configure/content-formatting/#style_formats
           style_formats: [
             {title: 'Inline', items: [
