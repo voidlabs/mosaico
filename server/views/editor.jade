@@ -26,6 +26,29 @@ block head-content
           url: '/editor/#{data.meta.id}/upload',
           // messages??
         },
+        //- TinyMCE
+        tinymceConfigFull: {
+          toolbar1: 'bold italic forecolor backcolor hr styleselect removeformat | link unlink | pastetext code',
+          plugins: ["link hr paste lists textcolor code"],
+          //- https://www.tinymce.com/docs/configure/content-formatting/#style_formats
+          style_formats: [
+            {title: 'Inline', items: [
+              {title: 'Bold'         , icon: "bold"         , inline: 'strong'},
+              {title: 'Italic'       , icon: "italic"       , inline: 'em'},
+              {title: 'Underline'    , icon: "underline"    , inline: 'span', styles: {'text-decoration' : 'underline'}},
+              {title: 'Strikethrough', icon: "strikethrough", inline: 'span', styles: {'text-decoration' : 'line-through'}},
+              {title: 'Superscript'  , icon: "superscript"  , inline: 'sup'},
+              {title: 'Subscript'    , icon: "subscript"    , inline: 'sub'},
+              {title: 'Code'         , icon: "code"         , inline: 'code'}
+            ]},
+            {title: 'Alignment', items: [
+              {title: 'Left'   , icon: "alignleft"   , block: 'div', styles: {'text-align' : 'left'}},
+              {title: 'Center' , icon: "aligncenter" , block: 'div', styles: {'text-align' : 'center'}},
+              {title: 'Right'  , icon: "alignright"  , block: 'div', styles: {'text-align' : 'right'}},
+              {title: 'Justify', icon: "alignjustify", block: 'div', styles: {'text-align' : 'justify'}}
+            ]}
+          ],
+        },
       }, plugins);
       if (!ok) {
         console.error("config not setted properly");
