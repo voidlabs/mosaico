@@ -3,6 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
+    <!--[if !mso]><!-->
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--<![endif]-->
+
+    <!--[if (gte mso 9)|(IE)]>
+    <style type="text/css">
+      table {border-collapse: collapse;}
+    </style>
+    <![endif]-->
 
 
     <style type="text/css">
@@ -23,22 +32,51 @@
             }
         }
     </style>
+
+    <!--[if gte mso 9]><xml>
+      <o:OfficeDocumentSettings>
+        <o:AllowPNG/>
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+      </o:OfficeDocumentSettings>
+    </xml><![endif]-->
 </head>
 
 <body >
 <div id="preface">
-    <h1>This is the Mosaico Tutorial</h1>
+    <h1>This is the test file for conditional comments and ESP tags</h1>
+    <p>Hello <% firstname %></p>
 </div>
 
 <div data-ko-container="main" data-ko-wrap="false">
 
+<!-- HEADER AND TEXT -->
     <div data-ko-block="HeaderAndText">
+
+      <!--[if (gte mso 9)|(IE)]>
+      <table cellpadding="0" cellspacing="0" border="0" width="600" align="center" style="width: 600px;">
+      <tr>
+      <td>
+      <![endif]-->
+
         <h1 data-ko-editable="headerText">this is header</h1>
 
+        <!--[if (gte mso 9)|(IE)]>
+        <div>
+        <![endif]-->
         <div data-ko-editable="bodyText">
             this is text
         </div>
+        <!--[if (gte mso 9)|(IE)]>
+        </div>
+        <![endif]-->
+
+      <!--[if (gte mso 9)|(IE)]>
+      </td>
+      </tr>
+      </table>
+      <![endif]-->
     </div>
+<!-- END HEADER AND TEXT -->
 
 
     <div data-ko-block="fixedlist" style="background-color: #f0f0f0; -ko-background-color: @color;">
@@ -60,7 +98,11 @@
 </div>
 
 <div id="trailer">
-    <h1>This is the end of Mosaico Tutorial</h1>
+  <a href="<%@ include view='MirrorPageUrl' %>" target="_blank" style="color: #aea18e;text-decoration: underline;">
+    Voir la version en ligne
+  </a>
+  <br>
+  Pour vous d&eacute;sinscrire, <a href="<%@ include option='NmsServer_URL' %>/webApp/unsubSushi?id=<%= escapeUrl(recipient.cryptedId)%>" target="_blank" style="color: #aea18e;text-decoration: underline;">veuillez cliquer ici</a>.
 </div>
 
 

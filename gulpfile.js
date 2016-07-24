@@ -59,22 +59,14 @@ gulp.task('clean-css', function (cb) {
 })
 
 gulp.task('css-editor', ['clean-css'], function () {
-
-  var cssColorpicker  = gulp
-  .src(mainBowerFiles({
-    filter: /evol-colorpicker\/css/
-  }))
-
-  var cssEditor = gulp
+  return gulp
   .src('src/css/badsender.less')
   .pipe($.less())
   .pipe($.postcss([
     autoprefixer({ browsers: ['ie 10', 'last 2 versions'], }),
   ]))
   .pipe(cssProd())
-
-  return merge(cssEditor, cssColorpicker)
-  .pipe($.concat('badsender-editor.css'))
+  .pipe($.rename('badsender-editor.css'))
   .pipe($.if(!isDev, $.minifyCss()))
   .pipe(gulp.dest(buildDir))
   .pipe($.if(isDev, reload({stream: true})))

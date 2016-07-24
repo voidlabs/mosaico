@@ -181,8 +181,6 @@ module.exports = function(grunt) {
           'jquery.fileupload-process.js': 'jquery-file-upload/js/jquery.fileupload-process.js',
           'jquery.fileupload-image.js': 'jquery-file-upload/js/jquery.fileupload-image.js',
           'jquery.fileupload-validate.js': 'jquery-file-upload/js/jquery.fileupload-validate.js',
-          'evol.colorpicker.min.css': 'evol-colorpicker/css/evol.colorpicker.min.css',
-          'evol.colorpicker.min.js': 'evol-colorpicker/js/evol.colorpicker.min.js',
           'tinymce.min.js': 'tinymce/tinymce.min.js',
           'themes': 'tinymce/themes',
           'skins': 'tinymce/skins',

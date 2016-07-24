@@ -27,7 +27,6 @@
     "jquery-ui/spinner": "global:jQuery.ui.spinner",
     "jquery-ui/tabs": "global:jQuery.ui.tabs",
     "knockout": "global:ko",
-    "evol-colorpicker": {},
     "knockout-jqueryui": "global:kojqui",
     "tinymce": "global:tinymce"
   },
@@ -73,7 +72,6 @@
     "rand-token": "^0.2.1",
     "rc": "^1.1.6",
     "serve-favicon": "^2.3.0",
-    "styliner": "^0.8.9",
     "validator": "^5.4.0"
   },
   "devDependencies": {
