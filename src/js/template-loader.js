@@ -322,6 +322,9 @@ var templateCompiler = function(performanceAwareCaller, templateUrlConverter, te
     viewModel.metadata.templateversion = templateDef.version;
   }
 
+  // BADSENDER Title edit
+  viewModel = require('./viewmodel-badsender-addons.js')(viewModel)
+
   templateSystem.init();
 
   // everything's ready, start knockout bindings.

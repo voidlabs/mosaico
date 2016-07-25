@@ -226,9 +226,11 @@ var applyBindingOptions = function(options, ko) {
 // FLOW:
 // => init
 // => start
+// in ./template-loader.js
 // => templateLoader: Ajax datas
 // => templateCompiler:
-//    -> Initialize viewmode
+//    -> Initialize viewmodel (./viewmodel.js)
+//    -> Add server datas
 //    -> apply plugins (server-storage, setEditorIcon + mosaico defined)
 
 var init = function(opts, customExtensions) {

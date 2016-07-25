@@ -27,10 +27,13 @@ block head-content
           // messages??
         },
         //- TinyMCE
+        //- https://github.com/goodenough/mosaico/issues/6
         tinymceConfigFull: {
           toolbar1: 'bold italic forecolor backcolor hr fontsizeselect styleselect removeformat | link unlink | pastetext code',
           //- add colorpicker
           //- https://www.tinymce.com/docs/plugins/colorpicker/
+          //- and font-size select
+          //- https://www.tinymce.com/docs/configure/content-formatting/#fontsize_formats
           plugins: ["link hr paste lists textcolor colorpicker code"],
           //- https://www.tinymce.com/docs/configure/content-formatting/#style_formats
           style_formats: [

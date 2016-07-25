@@ -32,10 +32,6 @@
   padding: 1px 5px;
 }
 
-#toolbar {
-  padding: 1px 5px;
-}
-
 @button-background-color: @link-color;
 @button-border-color: transparent;
 
@@ -385,6 +381,21 @@
   .ui-icon {
     color: @button-text-color;
   }
+}
+
+////////
+// TOOLBAR
+////////
+
+#toolbar {
+  padding: 1px 5px;
+  display: flex;
+}
+
+.creation-name {
+  flex: 1 1 auto;
+  display: flex;
+  padding-right: 7px;
 }
 
 ////////

@@ -290,12 +290,16 @@ CreationSchema.virtual('changed').get(function () {
   return this.updatedAt.getTime()
 })
 
-CreationSchema.virtual('url').get(function () {
+function creationUrls(creationId) {
   return {
-    update:     `/editor/${this._id}`,
-    delete:     `/editor/${this._id}/delete`,
-    duplicate:  `/editor/${this._id}/duplicate`,
+    update:     `/editor/${creationId}`,
+    delete:     `/editor/${creationId}/delete`,
+    duplicate:  `/editor/${creationId}/duplicate`,
   }
+}
+
+CreationSchema.virtual('url').get(function () {
+  return creationUrls(this._id)
 })
 
 CreationSchema.virtual('mosaico').get(function () {
@@ -303,7 +307,9 @@ CreationSchema.virtual('mosaico').get(function () {
     meta: {
       id:           this._id,
       _wireframe:   this._wireframe,
+      name:         this.name,
       template:     wireframeLoadingUrl(this._wireframe),
+      url:          creationUrls(this._id),
     },
     data: this.data,
   }

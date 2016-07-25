@@ -21,6 +21,18 @@
     icons: { primary: 'fa fa-fw fa-picture-o', secondary: null }, text: true, label: $root.t('Gallery') }"><label title="Show image gallery" for="showGallery" data-bind="attr: { title: $root.t('Show image gallery') }">show gallery</label></input>
     </span>
 
+    <!-- CREATION NAME -->
+    <div class="creation-name">
+      <!-- ko if: $root.titleMode() == 'edit' || $root.titleMode() == 'saving' -->
+      <input type="text" data-bind="value: $root.metadata.name, disable: $root.titleMode() == 'saving'"/>
+      <button data-bind="click: cancelEditCreationName, disable: $root.titleMode() == 'saving'">cancel</button>
+      <button data-bind="click: saveEditCreationName, disable: $root.titleMode() == 'saving'">save</button>
+      <!-- /ko -->
+      <!-- ko if: $root.titleMode() == 'show' -->
+      <p data-bind="text: $root.creationName, event: { dblclick: enableEditCreationName }"></p>
+      <!-- /ko -->
+    </div>
+
     <input id="previewFrameToggle" type="checkbox" data-bind="checked: $root.showPreviewFrame, button: { refreshOn: $root.showPreviewFrame, icons: { primary: 'fa fa-fw fa-tablet', secondary: null }, text: false, label: $root.t('Preview') }"><label title="Show live preview" for="previewFrameToggle" data-bind="attr: { title: $root.t('Show live preview') }">PREVIEW</label></input>
 
     <!-- ko if: $root.debug -->
