@@ -11,8 +11,8 @@ var Wireframes  = DB.Wireframes
 var Creations   = DB.Creations
 
 var translations = {
-  en: JSON.stringify(require('../res/lang/mosaico-en.json')),
-  fr: JSON.stringify(require('../res/lang/mosaico-fr.json')),
+  en: JSON.stringify(_.assign({}, require('../res/lang/mosaico-en.json'), require('../res/lang/badsender-en'))),
+  fr: JSON.stringify(_.assign({}, require('../res/lang/mosaico-fr.json'), require('../res/lang/badsender-fr'))),
 }
 
 function list(req, res, next) {

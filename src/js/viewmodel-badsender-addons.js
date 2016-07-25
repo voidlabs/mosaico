@@ -10,7 +10,7 @@ function handleCreationName(viewModel) {
   viewModel.metadata.name     = ko.observable(viewModel.metadata.name)
 
   viewModel.creationName      = ko.computed(function() {
-    return viewModel.metadata.name() || 'no name'
+    return viewModel.metadata.name() || viewModel.t('title-empty')
   }, viewModel)
 
   viewModel.enableEditCreationName  = function (data, event) {
@@ -29,7 +29,7 @@ function handleCreationName(viewModel) {
   viewModel.saveEditCreationName  = function (data, event) {
     console.log('saveEditCreationName', viewModel.metadata.name())
     viewModel.titleMode('saving')
-    viewModel.notifier.info('changing name…')
+    viewModel.notifier.info(viewModel.t('edit-title-ajax-pending'))
 
     $.ajax({
       method: 'PUT',
@@ -38,13 +38,10 @@ function handleCreationName(viewModel) {
         name: viewModel.metadata.name(),
       },
       success: function () {
-        // viewModel.notifier.info(viewModel.t('New block added at the model bottom (__pos__)', {
-        //   pos: pos
-        // }));
-        viewModel.notifier.success('Name changed')
+        viewModel.notifier.success(viewModel.t('edit-title-ajax-success'))
       },
       error: function () {
-        viewModel.notifier.error('Unable to save new name')
+        viewModel.notifier.error(viewModel.t('edit-title-ajax-fail'))
       },
       complete: function () {
         originalValue = ''

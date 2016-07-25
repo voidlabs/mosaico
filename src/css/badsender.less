@@ -395,7 +395,28 @@
 .creation-name {
   flex: 1 1 auto;
   display: flex;
-  padding-right: 7px;
+  margin-right: 7px;
+  border: solid rgba(255, 255, 255, 0.3);
+  border-width: 0 1px;
+
+  .ui-button {
+    margin-right: 0;
+    text-align: left;
+  }
+
+  input {
+    font: inherit;
+    color: @tab-text-color;
+    background: none;
+    padding-left: 7px;
+    border: 0;
+    outline: 0;
+  }
+
+  p,
+  input {
+    flex: 1 1 auto;
+  }
 }
 
 ////////

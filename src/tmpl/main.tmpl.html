@@ -25,11 +25,16 @@
     <div class="creation-name">
       <!-- ko if: $root.titleMode() == 'edit' || $root.titleMode() == 'saving' -->
       <input type="text" data-bind="value: $root.metadata.name, disable: $root.titleMode() == 'saving'"/>
-      <button data-bind="click: cancelEditCreationName, disable: $root.titleMode() == 'saving'">cancel</button>
-      <button data-bind="click: saveEditCreationName, disable: $root.titleMode() == 'saving'">save</button>
+      <button data-bind="click: cancelEditCreationName, clickBubble: false, disable: $root.titleMode() == 'saving',
+      button: { refreshOn: $root.showPreviewFrame, icons: { primary: 'fa fa-fw fa-times', secondary: null }, text: false, label: $root.t('edit-title-cancel') }">cancel</button>
+      <button data-bind="click: saveEditCreationName, clickBubble: false, disable: $root.titleMode() == 'saving',
+        button: { refreshOn: $root.showPreviewFrame, icons: { primary: 'fa fa-fw fa-check-circle', secondary: null }, text: false, label: $root.t('edit-title-save') }">save</button>
       <!-- /ko -->
       <!-- ko if: $root.titleMode() == 'show' -->
-      <p data-bind="text: $root.creationName, event: { dblclick: enableEditCreationName }"></p>
+      <p class="ui-button" data-bind="event: { dblclick: enableEditCreationName }, dblclickBubble: false,
+        attr: { title: $root.t('edit-title-double-click') }">
+        <span class="ui-button-text" data-bind="text: $root.creationName"></span>
+      </p>
       <!-- /ko -->
     </div>
 
