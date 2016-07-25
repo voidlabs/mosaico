@@ -257,6 +257,8 @@ var init = function(opts, customExtensions) {
     if (/\]$/.test(url)) return null
     // handle absolute url: http
     if (/^http/.test(url)) return null
+    // handle ESP tags: in URL <%
+    if (/<%/.test(url)) return null
     // handle other urls: img/social_def/twitter_ok.png
     // as it is done, all files are flatten in asset folder (uploads or S3)
     url = /([^\/]*)$/.exec(url)[1]
