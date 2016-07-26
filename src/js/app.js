@@ -201,8 +201,7 @@ var init = function(opts, customExtensions) {
   // editor.jade script need a return value
   if (!hasDatas) return false;
 
-  // Extend ViewModel & Knockout
-  badsenderExt.pushPlugins(opts, customExtensions)
+  badsenderExt.extendViewModel(opts, customExtensions)
   badsenderExt.extendKnockout(opts)
 
   start(opts, void(0), opts.metadata, opts.data, customExtensions)

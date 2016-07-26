@@ -131,10 +131,6 @@ var _templateUrlConverter = function(basePath, url) {
   }
 };
 
-}
-
-if (process.env.MOSAICO) {
-
 var templateLoader = function(performanceAwareCaller, templateFileName, templateMetadata, jsorjson, extensions, galleryUrl) {
   var templateFile = typeof templateFileName == 'string' ? templateFileName : templateMetadata.template;
   var templatePath = "./";

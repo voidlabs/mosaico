@@ -18,7 +18,7 @@ function setEditorIcon(viewModel) {
   viewModel.logoAlt   = 'Badsender'
 }
 
-function pushPlugins(opts, customExtensions) {
+function extendViewModel(opts, customExtensions) {
   customExtensions.push(serverStorage)
   customExtensions.push(setEditorIcon)
   customExtensions.push(editTitle)
@@ -131,6 +131,6 @@ function extendKnockout(opts) {
 }
 
 module.exports = {
-  pushPlugins:    pushPlugins,
-  extendKnockout: extendKnockout,
+  extendViewModel:  extendViewModel,
+  extendKnockout:   extendKnockout,
 }
