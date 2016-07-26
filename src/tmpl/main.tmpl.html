@@ -24,7 +24,7 @@
     <!-- CREATION NAME -->
     <!-- ko if: $root.titleMode() == 'edit' || $root.titleMode() == 'saving' -->
     <form class="creation-name" data-bind="submit: saveEditCreationName, submitBubble: false">
-      <input type="text" data-bind="value: $root.metadata.name, disable: $root.titleMode() == 'saving'"/>
+      <input type="text" data-bind="value: $root.metadata.name, disable: $root.titleMode() == 'saving', hasFocus: $root.titleMode() == 'edit'"/>
       <button type="button" data-bind="click: cancelEditCreationName, clickBubble: false, disable: $root.titleMode() == 'saving',
       button: { refreshOn: $root.showPreviewFrame, icons: { primary: 'fa fa-fw fa-times', secondary: null }, text: false, label: $root.t('edit-title-cancel') }">cancel</button>
       <button type="submit" data-bind="disable: $root.titleMode() == 'saving',
