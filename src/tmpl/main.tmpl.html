@@ -22,21 +22,23 @@
     </span>
 
     <!-- CREATION NAME -->
-    <div class="creation-name">
-      <!-- ko if: $root.titleMode() == 'edit' || $root.titleMode() == 'saving' -->
+    <!-- ko if: $root.titleMode() == 'edit' || $root.titleMode() == 'saving' -->
+    <form class="creation-name" data-bind="submit: saveEditCreationName, submitBubble: false">
       <input type="text" data-bind="value: $root.metadata.name, disable: $root.titleMode() == 'saving'"/>
-      <button data-bind="click: cancelEditCreationName, clickBubble: false, disable: $root.titleMode() == 'saving',
+      <button type="button" data-bind="click: cancelEditCreationName, clickBubble: false, disable: $root.titleMode() == 'saving',
       button: { refreshOn: $root.showPreviewFrame, icons: { primary: 'fa fa-fw fa-times', secondary: null }, text: false, label: $root.t('edit-title-cancel') }">cancel</button>
-      <button data-bind="click: saveEditCreationName, clickBubble: false, disable: $root.titleMode() == 'saving',
+      <button type="submit" data-bind="disable: $root.titleMode() == 'saving',
         button: { refreshOn: $root.showPreviewFrame, icons: { primary: 'fa fa-fw fa-check-circle', secondary: null }, text: false, label: $root.t('edit-title-save') }">save</button>
-      <!-- /ko -->
-      <!-- ko if: $root.titleMode() == 'show' -->
+    </form>
+    <!-- /ko -->
+    <!-- ko if: $root.titleMode() == 'show' -->
+    <div class="creation-name">
       <p class="ui-button" data-bind="event: { dblclick: enableEditCreationName }, dblclickBubble: false,
         attr: { title: $root.t('edit-title-double-click') }">
         <span class="ui-button-text" data-bind="text: $root.creationName"></span>
       </p>
-      <!-- /ko -->
     </div>
+    <!-- /ko -->
 
     <input id="previewFrameToggle" type="checkbox" data-bind="checked: $root.showPreviewFrame, button: { refreshOn: $root.showPreviewFrame, icons: { primary: 'fa fa-fw fa-tablet', secondary: null }, text: false, label: $root.t('Preview') }"><label title="Show live preview" for="previewFrameToggle" data-bind="attr: { title: $root.t('Show live preview') }">PREVIEW</label></input>
 

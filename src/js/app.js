@@ -191,7 +191,6 @@ var applyBindingOptions = $.noop
 //    -> Add server datas
 //    -> apply plugins (server-storage, setEditorIcon + mosaico defined)
 
-
 var badsenderExt = require('./ext/badsender-extensions')
 
 var init = function(opts, customExtensions) {
