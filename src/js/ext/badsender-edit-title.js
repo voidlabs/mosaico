@@ -1,8 +1,8 @@
 'use strict'
 
-var $       = require("jquery")
-var ko      = require("knockout")
-var console = require("console")
+var $       = require('jquery')
+var ko      = require('knockout')
+var console = require('console')
 
 function handleCreationName(viewModel) {
   var originalValue
@@ -49,14 +49,6 @@ function handleCreationName(viewModel) {
       },
     })
   }
-
-  return viewModel
-
 }
 
-function enhance(viewModel) {
-  viewModel = handleCreationName(viewModel)
-  return viewModel
-}
-
-module.exports = enhance
+module.exports = handleCreationName

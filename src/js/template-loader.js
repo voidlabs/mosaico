@@ -168,10 +168,9 @@ var templateLoader = function(performanceAwareCaller, templateFileName, template
 // keep function signatures
 var templateLoader = function(performanceAwareCaller, templateFileName, templateMetadata, jsorjson, extensions, galleryUrl) {
   console.info('TEMPLATE LOADER')
-  console.log(templateMetadata)
 
-  // Url converter is used only for preview images on left bar
-  var templateUrlConverter = templateMetadata.urlConverter;
+  // see ext/badsender-extensions.js#templateUrlConverter
+  var templateUrlConverter = ko.bindingHandlers.wysiwygSrc.templateUrlConverter;
 
   var metadata  = templateMetadata;
 
@@ -321,9 +320,6 @@ var templateCompiler = function(performanceAwareCaller, templateUrlConverter, te
     }
     viewModel.metadata.templateversion = templateDef.version;
   }
-
-  // BADSENDER Title edit
-  viewModel = require('./viewmodel-badsender-addons.js')(viewModel)
 
   templateSystem.init();
 
