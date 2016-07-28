@@ -6,3 +6,10 @@ uploads/**
 !.tmp/README.md
 build
 dist
+
+#Templates data (Bower loaded)
+res/vendor/skins/main/**
+!res/vendor/skins/main/README.md
+
+#Build with Grunt
+index.html
