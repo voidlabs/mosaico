@@ -9,6 +9,7 @@
     "tests"
   ],
   "dependencies": {
+    "mosaico-templates": "git@github.alittlecorp.com:alittlemarket/mosaico_alm.git#etsyfr-hw_define-mosaico-almTpl-as-bower-package",
     "knockout-sortable": "~0.11.0",
     "jqueryui-touch-punch": "*",
     "jquery-file-upload": "~9.8.0",
