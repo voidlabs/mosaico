@@ -126,7 +126,7 @@ function extendKnockout(opts) {
   ko.bindingHandlers.wysiwygSrc.placeholderUrl = function(width, height, text) {
     console.info('PLACEHOLDER URL')
     console.log(width, height, text)
-    return options.imgProcessorBackend + "?method=" + 'placeholder' + "&params=" + width + encodeURIComponent(",") + height
+    return opts.imgProcessorBackend + "?method=" + 'placeholder' + "&params=" + width + encodeURIComponent(",") + height
   }
 }
 
