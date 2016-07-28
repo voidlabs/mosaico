@@ -1,0 +1,92 @@
+body {
+    font-family: "trebuchet ms",arial,sans-serif;
+    font-size: 13.6px;
+}
+
+a, a:link, a:visited {
+    color: #A00000;
+    text-decoration: none;
+}
+.template {
+    margin: 10px;
+    display: inline-block;
+    vertical-align: top;
+}
+.template a {
+    display: block;
+    outline: 2px solid #333332;
+    padding: 2px;
+    width: 340px;
+    height: 500px;
+    overflow-y: auto;
+}
+.template a:hover {
+    outline: 5px solid #900000;
+    transition: outline .2s;
+}
+#savedTable tbody tr:nth-child(odd) td {
+    background-color: white;
+}
+#savedTable td {
+    padding: 2px 5px ;
+}
+.operationButton, .resumeButton {
+    background-color: #333332;
+    color: white !important;
+    padding: 5px 8px;
+    border-radius: 5px;
+    display: inline-block;
+}
+.operationButton i {
+    color: white;
+}
+.ribbon {
+    background-color: #900000;
+    color: white;
+    display: inline-block;
+    padding: 3px 10px;
+    margin: 6px;
+    position: relative;
+    z-index: 10;
+    outline: 1px solid #600000;
+}
+/* outline su firefox viene fuori dal content */
+@-moz-document url-prefix() {
+    .ribbon {
+        outline-color: transparent;
+    }
+}
+.ribbon:before, .ribbon:after {
+    z-index: -4;
+    content: ' ';
+    position: absolute;
+    width: 5px;
+    top: 7px;
+    height: 0;
+    border-width: 12px 12px;
+    border-style: solid;
+    border-color: #900000;
+}
+.ribbon:before {
+    left: -20px;
+    border-left-color: transparent;
+}
+.ribbon:after {
+    right: -20px;
+    border-right-color: transparent;
+}
+
+@media screen and (max-width: 1400px) {
+    .disclaimer {
+        left: 0 !important; right: 0 !important;
+        top: 0 !important;
+        width: auto !important;
+        border: none !important;
+    }
+    body { padding-top: 40px !important; }
+}
+
+@media screen and (max-width: 900px) {
+    .byTable { display: none; }
+    .byRibbon { display: inline !important; }
+}
