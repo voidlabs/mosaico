@@ -9,8 +9,8 @@ module.exports = function(grunt) {
 
     makeThumbs: {
       main: {
-        templates: './templates/*/*.html',
-        template: './templates/%/*.html',
+        templates: './res/vendor/skins/main/templates/*/*.html',
+        template: './res/vendor/skins/main/templates/%/*.html',
         outputFolder: 'edres',
         renderWidth: 680,
         outputWidth: 340
@@ -34,7 +34,6 @@ module.exports = function(grunt) {
         sub: true,
         jshintrc: true,
         browserify: true
-
       }
     },
 
@@ -82,10 +81,12 @@ module.exports = function(grunt) {
           browserifyOptions: {
             standalone: 'Mosaico'
           },
+          transform: ['browserify-data'],
           watch: true,
         },
         files: {
-          'build/mosaico.js': ['./src/js/app.js', './build/templates.js']
+          'build/mosaico.js': ['./src/js/app.js', './build/templates.js'],
+          'build/home/app.js': ['./src/js/home/app.js']
         }
       },
       main: {
@@ -95,11 +96,12 @@ module.exports = function(grunt) {
             fullPaths: false,
             standalone: 'Mosaico'
           },
-          transform: ['uglifyify'],
+          transform: ['browserify-data', 'uglifyify'],
           watch: true,
         },
         files: {
-          'build/mosaico.debug.js': ['./src/js/app.js', './build/templates.js']
+          'build/mosaico.debug.js': ['./src/js/app.js', './build/templates.js'],
+          'build/home/app.debug.js': ['./src/js/home/app.js']
         }
       }
     },
@@ -159,6 +161,46 @@ module.exports = function(grunt) {
         cwd: 'res',
         src: '**',
         dest: 'dist/'
+      },
+      logo: {
+        expand: true,
+        flatten: true,
+        cwd: 'src/js/home',
+        src: 'logo.js',
+        dest: 'dist/'
+      },
+      css: {
+        expand: true,
+        flatten: true,
+        cwd: 'src/css/home/',
+        src: '**',
+        dest: 'dist/home/'
+      },
+      templates: {
+        expand: true,
+        cwd: 'bower_components/mosaico-templates/templates',
+        src: '**',
+        dest: 'res/vendor/skins/main/templates'
+      },
+      includes: {
+        expand: true,
+        flatten: true,
+        cwd: 'bower_components/mosaico-templates/includes',
+        src: '**',
+        dest: 'res/vendor/skins/main/includes'
+      }
+    },
+
+    processhtml: {
+      dist: {
+        files: {
+          'index.html': ['src/home.html']
+        }
+      },
+      dev: {
+        files: {
+          'index.html': ['src/home.html']
+        }
       }
     },
 
@@ -233,6 +275,7 @@ module.exports = function(grunt) {
   grunt.registerTask('css', ['less', 'postcss']);
   grunt.registerTask('server', ['express', 'watch', 'express-keepalive']);
   grunt.registerTask('build', ['bowercopy', 'copy', 'jshint', 'js', 'css']);
-  grunt.registerTask('default', ['build', 'server']);
+  grunt.registerTask('default', ['processhtml:dev', 'build', 'server']);
+  grunt.registerTask('dist', ['processhtml:dist', 'build', 'makeThumbs']);
   grunt.registerTask('test', ['jasmine_node']);
 };
