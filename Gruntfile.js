@@ -185,6 +185,8 @@ module.exports = function(grunt) {
           'tinymce.min.js': 'tinymce/tinymce.min.js',
           'jszip.min.js': 'jszip/dist/jszip.min.js',
           'FileSaver.js': 'jszip/vendor/FileSaver.js',
+          'toastr.min.js': 'toastr/toastr.min.js',
+          'toastr.min.css': 'toastr/toastr.min.css',
           'themes': 'tinymce/themes',
           'skins': 'tinymce/skins',
           'plugins': 'tinymce/plugins',
