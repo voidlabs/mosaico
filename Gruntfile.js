@@ -183,6 +183,8 @@ module.exports = function(grunt) {
           'jquery.fileupload-image.js': 'jquery-file-upload/js/jquery.fileupload-image.js',
           'jquery.fileupload-validate.js': 'jquery-file-upload/js/jquery.fileupload-validate.js',
           'tinymce.min.js': 'tinymce/tinymce.min.js',
+          'jszip.min.js': 'jszip/dist/jszip.min.js',
+          'FileSaver.js': 'jszip/vendor/FileSaver.js',
           'themes': 'tinymce/themes',
           'skins': 'tinymce/skins',
           'plugins': 'tinymce/plugins',

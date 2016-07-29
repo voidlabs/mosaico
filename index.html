@@ -25,32 +25,12 @@
 
     <script src="dist/vendor/knockout.js"></script>
     <script src="dist/vendor/jquery.min.js"></script>
+    <script src="dist/vendor/jszip.min.js"></script>
+    <script src="dist/vendor/FileSaver.js"></script>
     <script>
-      var initialEdits = [];
-      if (localStorage.getItem('edits')) {
-        var editKeys = JSON.parse(localStorage.getItem('edits'));
-        var md;
-        for (var i = 0; i < editKeys.length; i++) {
-          md = localStorage.getItem('metadata-'+editKeys[i]);
-          if (typeof md == 'string') {
-            initialEdits.push(JSON.parse(md));
-          } else {
-            console.log("Ignoring saved key", editKeys[i], "type", typeof md, md);
-          }
-        }
-
-        initialEdits.sort(function(a, b) {
-          var lastA = a.changed ? a.changed : a.created;
-          var lastB = b.changed ? b.changed : b.created;
-          if (lastA < lastB) return 1;
-          if (lastA > lastB) return -1;
-          return 0;
-        });
-      }
-
       var viewModel = {
         showSaved: ko.observable(false),
-        edits: ko.observableArray(initialEdits),
+        edits: ko.observableArray(readEdits()),
         templates: [{
           name: 'versafix-1', desc: 'The versatile template'
         },{
@@ -116,6 +96,176 @@
           } else {
             console.log("ls ", key, localStorage.getItem(key));
           }
+        }
+      };
+
+      /**
+       * Extract Zip, read content and call 'importEdit'
+       *
+       * @param {File} f
+       */
+      function handleFile(f) {
+        var editId = getEditIdFromFilename(f.name);
+        if (editId !== false) {
+
+          var deferred = {
+            metadata: $.Deferred(),
+            template: $.Deferred()
+          };
+
+          $.when(deferred.metadata, deferred.template).then(function(file1, file2) {
+            if (arguments.length !== 2) {
+              alert('Invalid file');
+              return;
+            }
+            if (importEdit(editId, file1, file2)) {
+              var editsData = readEdits();
+              viewModel.edits.removeAll();
+              viewModel.edits.push.apply(viewModel.edits, editsData);
+            }
+          });
+
+          JSZip.loadAsync(f)
+                  .then(function(zip) {
+                    zip.forEach(function(relativePath, zipEntry) {
+                      var def;
+
+                      if (zipEntry.name.indexOf('metadata') === 0){
+                        def = deferred.metadata;
+                      } else if (zipEntry.name.indexOf('template') === 0) {
+                        def = deferred.template;
+                      } else {
+                        console.error('Invalid Zip content')
+                      }
+
+                      zipEntry.async("string").then(function success(content) {
+                        def.resolve(content);
+                      }, function error(e) {
+                        def.reject(e);
+                      });
+                    });
+                  }, function(e) {
+                    console.error(f.name, e.message);
+                  });
+
+          return;
+        }
+
+        alert('Invalid file');
+      }
+
+      /**
+       * Check filename is like mosaico_{id}.zip
+       * Return {id}
+       *
+       * @param {string} filename
+       * @returns {string|false}
+       */
+      function getEditIdFromFilename(filename) {
+        var temp = filename.split('.');
+        if (temp.length===2) {
+          var parts = temp[0].split('_');
+          if (parts[0] === 'mosaico') {
+            return parts[1];
+          }
+        }
+        return false;
+      }
+
+      /**
+       * Transform edits localstorage into Ko ready array
+       *
+       * @returns {Array}
+       */
+      function readEdits() {
+
+        var edits = [];
+        if (localStorage.getItem('edits')) {
+          var editKeys = JSON.parse(localStorage.getItem('edits'));
+          var md;
+
+          for (var i = 0; i < editKeys.length; i++) {
+            md = localStorage.getItem('metadata-' + editKeys[i]);
+            if (typeof md == 'string') {
+              edits.push(JSON.parse(md));
+            } else {
+              console.log("Ignoring saved key", editKeys[i], "type", typeof md, md);
+            }
+          }
+
+          edits.sort(function (a, b) {
+            var lastA = a.changed ? a.changed : a.created;
+            var lastB = b.changed ? b.changed : b.created;
+            if (lastA < lastB) return 1;
+            if (lastA > lastB) return -1;
+            return 0;
+          });
+        }
+        return edits;
+      }
+
+      /**
+       *
+       * @param id
+       * @param metadata
+       * @param template
+       */
+      function importEdit(id, metadata, template) {
+        var editKeys = JSON.parse(localStorage.getItem('edits'));
+
+        if (editKeys.indexOf(id) === -1) {
+          editKeys.push(id);
+          localStorage.setItem('edits', JSON.stringify(editKeys));
+          localStorage.setItem("metadata-" + id, metadata);
+          localStorage.setItem("template-" + id, template);
+          return true;
+        }
+
+        alert("Oops, config " + id + " already loaded");
+        return false;
+      }
+
+      /**
+       * Get data from localstorage and output a zip to the browser
+       *
+       * @param {String} index Edit id
+       */
+      viewModel.exportEdit = function(index) {
+
+        var editId              = viewModel.edits()[index].key,
+                metadataFilename    = 'metadata-'+editId,
+                templateFilename    = 'template-'+editId,
+                metadataContent     = localStorage.getItem(metadataFilename),
+                templateContent     = localStorage.getItem(templateFilename);
+
+        if (metadataContent === null || templateContent === null) {
+          alert('Ooops, can\'t find NL ' + editId);
+          return false;
+        }
+
+        var zip = new JSZip();
+        zip.file(metadataFilename + '.json', metadataContent);
+        zip.file(templateFilename + '.json', templateContent);
+        zip.generateAsync({type:"blob"})
+                .then(function (blob) {
+                  saveAs(blob, "mosaico_"+editId+".zip");
+                }, function (err) {
+                  throw err;
+                });
+
+        return false;
+      };
+
+      /**
+       * Event handler to the input file change event
+       *
+       * @param {Object} data
+       * @param {Event} event Change event
+       */
+      viewModel.fileSelected = function(data, event) {
+        var files = event.target.files;
+        for (var i = 0, f; f = files[i]; i++) {
+          handleFile(f);
         }
       };
 
@@ -322,9 +472,16 @@ $(function() {
         <a class="operationButton" href="#" data-bind="attr: { href: 'editor.html#'+key }" title="edit"><i class="fa fa-pencil"></i></a>
         <!--(<a href="#" data-bind="click: $root.renameEdit.bind(undefined, $index())" title="rinomina"><i class="fa fa-trash-o"></i></a>)-->
         <a class="operationButton" href="#" data-bind="click: $root.deleteEdit.bind(undefined, $index())" title="delete"><i class="fa fa-trash-o"></i></a>
+        <a class="operationButton" href="#" data-bind="if: (window.FileReader && window.ArrayBuffer), click: $root.exportEdit.bind(undefined, $index())" title="Export"><i class="fa fa-save"></i></a>
         </td>
       </tr>
     </tbody>
+    <tfoot data-bind="if: (window.FileReader && window.ArrayBuffer)">
+    <tr>
+      <th colspan="4">Import</th>
+      <th><input type="file" name="import_config" accept="application/zip, .zip" data-bind="event:{ 'change': $root.fileSelected}" /></th>
+    </tr>
+    </tfoot>
     </table>
     <!-- /ko -->
     </div>
