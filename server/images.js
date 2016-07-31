@@ -51,23 +51,30 @@ function getResized(req, res, next) {
       // on resize imageName seems to be double urlencoded
       var ir = gm(streamImage(imageName));
       ir.format({bufferStream: true}, function (err, format) {
+        // console.log('resize', format, width == 'null' ? null : width, height == 'null' ? null : height)
         if (!err) res.set('Content-Type', 'image/'+format.toLowerCase());
-        ir.autoOrient()
-          .resize(width == 'null' ? null : width, height == 'null' ? null : height)
-          .stream(streamToResponse);
-
+        // Gif frames with differents size can be buggy to resize
+        // http://stackoverflow.com/questions/12293832/problems-when-resizing-cinemagraphs-animated-gifs
+        ir
+        .autoOrient()
+        .coalesce()
+        .resize(width == 'null' ? null : width, height == 'null' ? null : height)
+        .stream(streamToResponse)
       });
       break;
     case 'cover':
       var ic = gm(streamImage(imageName));
+      // console.log('resize', width, height + '>')
       ic
-        .format({bufferStream: true}, function (err, format) {
-          if (!err) res.set('Content-Type', 'image/' + format.toLowerCase());
-          ic.autoOrient()
-            .resize(width, height + '^')
-            .gravity('Center')
-            .extent(width, height + '>')
-            .stream(streamToResponse);
+      .format({bufferStream: true}, function (err, format) {
+        if (!err) res.set('Content-Type', 'image/' + format.toLowerCase());
+        ic
+        .autoOrient()
+        .coalesce()
+        .resize(width, height + '^')
+        .gravity('Center')
+        .extent(width, height + '>')
+        .stream(streamToResponse);
       });
       break;
     default:

@@ -40,6 +40,7 @@
     "prod": "npm run build && npm start",
     "dev": "gulp dev --watch",
     "release": "./bin/dist.sh",
+    "deploy": "npm run release",
     "build-release-dev": "npm run build-dev && gulp bump",
     "build-release": "npm run build && gulp bump"
   },
