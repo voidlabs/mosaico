@@ -64,7 +64,7 @@ function getResized(req, res, next) {
       break;
     case 'cover':
       var ic = gm(streamImage(imageName));
-      // console.log('resize', width, height + '>')
+      // console.log('cover', width, height + '>')
       ic
       .format({bufferStream: true}, function (err, format) {
         if (!err) res.set('Content-Type', 'image/' + format.toLowerCase());
@@ -98,6 +98,7 @@ function getCover(req, res, next) {
   function onFormat(err, format) {
     if (!err) res.set('Content-Type', 'image/' + format.toLowerCase());
     ic.autoOrient()
+    .coalesce()
     .resize(width, height + '^')
     .gravity('Center')
     .extent(width, height + '>')
