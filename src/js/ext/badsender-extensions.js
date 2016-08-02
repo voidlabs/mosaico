@@ -28,10 +28,11 @@ function extendViewModel(opts, customExtensions) {
 
 var tinymceConfigFull = {
   toolbar1: 'bold italic forecolor backcolor hr fontsizeselect styleselect removeformat | link unlink | pastetext code',
+  //- font-size select
+  //- https://www.tinymce.com/docs/configure/content-formatting/#fontsize_formats
+  fontsize_formats: '8px 10px 12px 14px 18px 24px 36px',
   //- add colorpicker
   //- https://www.tinymce.com/docs/plugins/colorpicker/
-  //- and font-size select
-  //- https://www.tinymce.com/docs/configure/content-formatting/#fontsize_formats
   plugins: ["link hr paste lists textcolor colorpicker code"],
   //- https://www.tinymce.com/docs/configure/content-formatting/#style_formats
   style_formats: [
