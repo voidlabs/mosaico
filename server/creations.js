@@ -41,6 +41,10 @@ function show(req, res, next) {
   Creations
   .findById(req.params.creationId)
   .then(function (creation) {
+    if (!creation) {
+      res.status(404)
+      return next()
+    }
     res.render('editor', { data: _.assign({}, data, creation.mosaico) })
   })
   .catch(next)
