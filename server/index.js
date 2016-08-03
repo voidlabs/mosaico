@@ -134,6 +134,18 @@ app.use(function(req, res, next) {
   next()
 })
 
+//----- PARAMS CHECK
+
+// regexp for checking valid mongoDB Ids
+// http://expressjs.com/en/api.html#app.param
+// http://stackoverflow.com/questions/20988446/regex-for-mongodb-objectid#20988824
+app.param(['creationId', 'userId', 'wireId'], checkMongoId)
+function checkMongoId(req, res, next, mongoId) {
+  if (/^[a-f\d]{24}$/i.test(mongoId)) return next()
+  console.log('test mongoId INVALID', mongoId)
+  next({status: 404})
+}
+
 //----- ADMIN
 
 // connection
@@ -207,8 +219,8 @@ app.use(function (req, res, next) {
 })
 
 app.use(function (err, req, res, next) {
-  console.log('error handling')
   var status = err.status || err.statusCode || (err.status = 500)
+  console.log('error handling', status)
   if (status !== 404) {
     console.log(err)
     console.trace(err)
@@ -218,7 +230,7 @@ app.use(function (err, req, res, next) {
   res.status(status)
   // different formating
   if (req.xhr) return res.send(err)
-  if (status === 400) return res.render('error-404')
+  if (status === 404) return res.render('error-404')
   if (!err.stacktrace) err.stacktrace = err.stack || new Error(err).stack
   return res.render('error-default', err)
 })
