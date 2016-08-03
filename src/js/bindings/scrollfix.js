@@ -22,7 +22,10 @@ var render = function() {
     }
 
     tinymce.activeEditor.nodeChanged();
-    tinymce.activeEditor.theme.panel.visible(true);
+    // Don't force tinymce to be visible on scrolls
+    // If setteed, This will show the tinymce controls event when non are selected
+    // https://github.com/goodenough/mosaico/issues/7#issuecomment-236853305
+    // tinymce.activeEditor.theme.panel.visible(true);
     if (tinymce.activeEditor.theme.panel.layoutRect().y <= 40)
       tinymce.activeEditor.theme.panel.moveBy(0, 40 - tinymce.activeEditor.theme.panel.layoutRect().y);
 
