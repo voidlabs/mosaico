@@ -37,8 +37,7 @@ compile and run a local webserver (http://127.0.0.1:9006) with incremental build
   grunt
 ```
 *IMPORTANT* in order to use image uploading/processing feature in Node you need imageMagick installed in your environment.
-e.g. running "convert" and "identify" on the command line should output imageMagick command line help.
-
+e.g. running "convert" and "identify" on the command line should output imageMagick command line help (if you are on Windows and install imageMagick 7.x then make sure to install "legacy utilities" too: aheckmann/gm#559 ).
 
 If you create your own template you can generate the needed "thumbnails"/"block thumbnails" by running:
 ```
