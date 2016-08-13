@@ -5,6 +5,7 @@ var dialogPolyfill  = require('dialog-polyfill')
 
 var dialogRename    = $('.js-dialog-rename')[0]
 var dialogDelete    = $('.js-dialog-delete')[0]
+var notif           = $('#notification')[0]
 // https://github.com/GoogleChrome/dialog-polyfill
 if (!dialogRename.showModal) {
   console.log('dialogPolyfill.registerDialog')
@@ -12,14 +13,13 @@ if (!dialogRename.showModal) {
   dialogPolyfill.registerDialog(dialogDelete)
 }
 
-var route   = false
-var $name   = false
-var $input  = $('#name-field')
-var notif   = $('#notification')[0]
-
 //////
 // RENAME CREATION
 //////
+
+var route   = false
+var $name   = false
+var $input  = $('#name-field')
 
 $('.js-rename').on('click', function (e) {
   e.preventDefault()
@@ -69,15 +69,44 @@ function closeRenameDialog() {
 // DELETE CREATION
 //////
 
+var deleteRoute = false
+var $deleteRow  = false
+
 $('.js-delete').on('click', function (e) {
   e.preventDefault()
   var $target = $(e.currentTarget)
-  console.log('delete')
+  deleteRoute = $target.attr('href')
+  $deleteRow  = $target.parents('tr')
   dialogDelete.showModal()
 })
 
 $('.js-close-delete-dialog').on('click', closeDeleteDialog)
+$('.js-delete-confirm').on('click', removeCreation)
+
+function removeCreation(e) {
+  console.log('removeCreation', deleteRoute, $deleteRow)
+  if (!deleteRoute || !$deleteRow ) return
+  console.log('delete', deleteRoute, $deleteRow)
+  $.ajax({
+    method: 'GET',
+    url:    deleteRoute,
+  })
+  .then(function () {
+    $deleteRow.remove()
+    notif.MaterialSnackbar.showSnackbar({
+      message: 'Mailing is deleted',
+    })
+    closeDeleteDialog()
+  })
+  .catch(function () {
+    notif.MaterialSnackbar.showSnackbar({
+      message: 'error in supression',
+    })
+  })
+}
 
 function closeDeleteDialog() {
+  deleteRoute = false
+  $deleteRow  = false
   dialogDelete.close()
 }
