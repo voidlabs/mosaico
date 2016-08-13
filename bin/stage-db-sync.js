@@ -7,6 +7,7 @@ var c             = require('chalk')
 
 var config        = require('../server/config')
 var dbFrom        = config.stageDb.from
+var dbTo          = config.stageDb.to
 var tmpFolder, dumpFolder ,dumpCmd
 
 config.setup.then(cleanTmpDir)
@@ -39,7 +40,9 @@ function copyDB(error, stdout, stderr) {
     return console.log(error)
   }
   console.log(c.green('dump done'))
-  var copyCmd = `mongorestore --drop --host localhost:27017 --db bandsenderdump ${dumpFolder}`
+  // NTH making a prod copy on a local db should be done with command arguments
+  // var copyCmd = `mongorestore --drop --host localhost:27017 --db bandsenderdump ${dumpFolder}`
+  var copyCmd = `mongorestore --drop --host ${dbTo.host} --db ${dbTo.folder} -u ${dbTo.user} -p ${dbTo.password} ${dumpFolder}`
   console.log(c.blue('copying'), c.gray(copyCmd))
   var dbCopy = exec(copyCmd, onCopy)
   dbCopy.stderr.on('data', console.log)

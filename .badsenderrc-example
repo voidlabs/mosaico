@@ -8,14 +8,14 @@
   "emailTransport": {
     "host": "yoursmtpserver",
     "port": "25",
-    "auth": { "user": "####", pass: "####" }
+    "auth": { "user": "####", "pass": "####" }
   },
 
   //----- OR use https://github.com/nodemailer/nodemailer-wellknown
 
   "emailTransport": {
     "provider": "GandiMail",
-    "auth": { "user": "####", pass: "####" }
+    "auth": { "user": "####", "pass": "####" }
   },
 
   //----- complementary informations
@@ -49,9 +49,9 @@
   //----- complementary informations
 
   "images": {
-    "tmpDir":     "/tmp"
+    "tmpDir":     "/tmp",
     // in case case of local storage
-    "uploadDir": "/uploads",
+    "uploadDir": "/uploads"
   },
 
   //////
@@ -70,4 +70,23 @@
 
   "database": "mongodb://localhost/my_database",
 
+  //////
+  // DB COPY (see ./bin/stage-db-sync)
+  //////
+
+  "stageDb": {
+    "from": {
+      "host": "localhost:27017",
+      // folder is DB name…
+      "folder": "badsender_source",
+      "user": "####",
+      "password": "####"
+    },
+    "to": {
+      "host": "localhost:27017",
+      "folder": "badsender_copy",
+      "user": "####",
+      "password": "####"
+    }
+  }
 }
