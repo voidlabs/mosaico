@@ -19,6 +19,7 @@
   - [Build and start a *production* server](#build-and-start-a-production-server)
   - [Build and start a *development* server](#build-and-start-a-development-server)
   - [Make a release](#make-a-release)
+    - [syncing the *stage DB* with the *prod DB*](#syncing-the-stage-db-with-the-prod-db)
   - [Generating templates preview images](#generating-templates-preview-images)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -187,8 +188,17 @@ on your current branch
 npm run release
 ```
 
-The release will be pushed in the branch you have chosen (dev/prod)  
+The release will be pushed in the branch you have chosen (dev/stage/prod)  
 Automatic deploy is configured in heroku. So **pushing to dev or prod branch will automatically been deployed to heroku**
+
+
+#### syncing the *stage DB* with the *prod DB*
+
+```
+npm run sync-stage-db
+```
+
+`.badsenderrc` should be provided with *stageDb* infos. See `.badsenderrc-example` for more informations
 
 ### Generating templates preview images
 

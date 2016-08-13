@@ -43,7 +43,8 @@
     "deploy": "npm run release",
     "build-release-dev": "npm run build-dev && gulp bump",
     "build-release": "npm run build && gulp bump",
-    "sync-stage-db": "node ./bin/stage-db-sync.js"
+    "sync-stage-db": "node ./bin/stage-db-sync.js",
+    "toc": "gulp toc"
   },
   "dependencies": {
     "aws-sdk": "^2.4.0",

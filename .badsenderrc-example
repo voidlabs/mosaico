@@ -71,7 +71,7 @@
   "database": "mongodb://localhost/my_database",
 
   //////
-  // DB COPY (see ./bin/stage-db-sync)
+  // DB COPY (only used for stage copy, see ./bin/stage-db-sync)
   //////
 
   "stageDb": {
