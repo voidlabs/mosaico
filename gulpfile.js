@@ -321,7 +321,7 @@ gulp.task('build', function (cb) {
 });
 
 var nodemonOptions = {
-  script: 'server/index.js',
+  script: 'server/workers.js',
   ext: 'js json',
   watch: ['server/**/*.js', '.badsenderrc', 'index.js'],
 };

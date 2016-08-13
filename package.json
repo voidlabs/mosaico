@@ -36,7 +36,7 @@
     "test": "grunt jasmine_node",
     "build": "npm run deps && gulp build --prod",
     "build-dev": "npm run deps && gulp build",
-    "start": "export NODE_ENV=production && node server/index.js",
+    "start": "export NODE_ENV=production && node server/workers.js",
     "prod": "npm run build && npm start",
     "dev": "gulp dev --watch",
     "release": "./bin/dist.sh",
@@ -73,6 +73,7 @@
     "rand-token": "^0.2.1",
     "rc": "^1.1.6",
     "serve-favicon": "^2.3.0",
+    "throng": "^4.0.0",
     "validator": "^5.4.0"
   },
   "devDependencies": {
