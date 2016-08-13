@@ -50,6 +50,11 @@
 			"dialog-name": "name",
 			"dialog-confirm": "Rename",
 			"dialog-cancel": "Cancel"
+		},
+		"snackbar": {
+			"deleteMessage": "Your mailing has been deleted",
+			"renameMessage": "Your mailing has been rename",
+			"errorMessage": "An error has occured. Action aborted"
 		}
 	},
 	"layout": {

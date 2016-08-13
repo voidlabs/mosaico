@@ -46,7 +46,7 @@ $('.js-post').on('click', function () {
   .then(function () {
     $name.text(name)
     notif.MaterialSnackbar.showSnackbar({
-      message: 'Name changed',
+      message: window.badesenderI18n.snackbarRenameMessage,
     })
     closeRenameDialog()
   })
@@ -94,13 +94,13 @@ function removeCreation(e) {
   .then(function () {
     $deleteRow.remove()
     notif.MaterialSnackbar.showSnackbar({
-      message: 'Mailing is deleted',
+      message: window.badesenderI18n.snackbarDeleteMessage,
     })
     closeDeleteDialog()
   })
   .catch(function () {
     notif.MaterialSnackbar.showSnackbar({
-      message: 'error in supression',
+      message: window.badesenderI18n.snackbarError,
     })
   })
 }

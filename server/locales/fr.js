@@ -51,7 +51,12 @@
 			"dialog-name": "Nom",
 			"dialog-confirm": "Renommer",
 			"dialog-cancel": "Annuler"
-		}
+		},
+    "snackbar": {
+      "deleteMessage": "Votre mailing a été supprimé",
+      "renameMessage": "Votre mailing a été renommé",
+      "errorMessage": "Une erreur est survenue"
+    }
 	},
 	"layout": {
 		"title": "Éditeur de templates email responsive par \"glissé/déposé\" - Une solution Badsender.com",

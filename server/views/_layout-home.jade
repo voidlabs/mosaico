@@ -57,4 +57,11 @@ html(lang=getLocale())
       .mdl-snackbar__text
       .mdl-snackbar__action(type="button")
 
+    //- Put some i18n here to be accessible for home JS application
+    script.
+      window.badesenderI18n = {
+        snackbarDeleteMessage: '!{__('home.snackbar.deleteMessage')}',
+        snackbarRenameMessage: '!{__('home.snackbar.renameMessage')}',
+        snackbarError: '!{__('home.snackbar.errorMessage')}',
+      };
     script(defer src="/badsender-home.js")
