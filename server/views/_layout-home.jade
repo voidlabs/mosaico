@@ -49,22 +49,12 @@ html(lang=getLocale())
           pre= JSON.stringify(data, null, '  ')
           pre= _debug
 
-    //- should be a child of <body>
+    //- dialogs box should be a child of <body>
     //- https://github.com/GoogleChrome/dialog-polyfill#limitations
-    dialog.mdl-dialog
-      h4.mdl-dialog__title= __('home.saved.new-name')
-      .mdl-dialog__content
-        .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-          input.mdl-textfield__input#name-field(type="text" name="name" required)
-          label.mdl-textfield__label(for="name-field") name
-      .mdl-dialog__actions
-        button(type="button").mdl-button.js-post Rename
-        button(type="button").mdl-button.js-close cancel
+    block dialog
 
     #notification.mdl-js-snackbar.mdl-snackbar
       .mdl-snackbar__text
       .mdl-snackbar__action(type="button")
 
     script(defer src="/badsender-home.js")
-
-

@@ -39,7 +39,19 @@
 		"no": {
 			"wireframes": "Il n'y a pas encore de templates accessibles"
 		},
-		"welcome": "bienvenue"
+		"welcome": "bienvenue",
+		"delete": {
+			"dialog-title": "Supprimer un mailing",
+			"dialog-content": "La suppression d'une création est définitive",
+			"dialog-confirm": "Supprimer",
+			"dialog-cancel": "Annuler"
+		},
+		"rename": {
+			"dialog-title": "Renommer un mailing",
+			"dialog-name": "Nom",
+			"dialog-confirm": "Renommer",
+			"dialog-cancel": "Annuler"
+		}
 	},
 	"layout": {
 		"title": "Éditeur de templates email responsive par \"glissé/déposé\" - Une solution Badsender.com",

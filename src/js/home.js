@@ -3,17 +3,23 @@
 var $               = require('jquery')
 var dialogPolyfill  = require('dialog-polyfill')
 
-var dialog   = $('.mdl-dialog')[0]
+var dialogRename    = $('.js-dialog-rename')[0]
+var dialogDelete    = $('.js-dialog-delete')[0]
 // https://github.com/GoogleChrome/dialog-polyfill
-if (!dialog.showModal) {
+if (!dialogRename.showModal) {
   console.log('dialogPolyfill.registerDialog')
-  dialogPolyfill.registerDialog(dialog)
+  dialogPolyfill.registerDialog(dialogRename)
+  dialogPolyfill.registerDialog(dialogDelete)
 }
 
 var route   = false
 var $name   = false
 var $input  = $('#name-field')
 var notif   = $('#notification')[0]
+
+//////
+// RENAME CREATION
+//////
 
 $('.js-rename').on('click', function (e) {
   e.preventDefault()
@@ -25,7 +31,7 @@ $('.js-rename').on('click', function (e) {
   setTimeout(function () {
     componentHandler.upgradeElement($input.parent()[0])
   }, 10)
-  dialog.showModal()
+  dialogRename.showModal()
 })
 
 $('.js-post').on('click', function () {
@@ -42,7 +48,7 @@ $('.js-post').on('click', function () {
     notif.MaterialSnackbar.showSnackbar({
       message: 'Name changed',
     })
-    closeDialog()
+    closeRenameDialog()
   })
   .catch(function () {
     notif.MaterialSnackbar.showSnackbar({
@@ -51,10 +57,27 @@ $('.js-post').on('click', function () {
   })
 })
 
-$('.js-close').on('click', closeDialog)
+$('.js-close-rename-dialog').on('click', closeRenameDialog)
 
-function closeDialog() {
+function closeRenameDialog() {
   $name = false
   route = false
-  dialog.close()
+  dialogRename.close()
+}
+
+//////
+// DELETE CREATION
+//////
+
+$('.js-delete').on('click', function (e) {
+  e.preventDefault()
+  var $target = $(e.currentTarget)
+  console.log('delete')
+  dialogDelete.showModal()
+})
+
+$('.js-close-delete-dialog').on('click', closeDeleteDialog)
+
+function closeDeleteDialog() {
+  dialogDelete.close()
 }

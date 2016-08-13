@@ -38,7 +38,19 @@
 		"no": {
 			"wireframes": "No accessible templates yet"
 		},
-		"welcome": "Welcome"
+		"welcome": "Welcome",
+		"delete": {
+			"dialog-title": "Delete a creation",
+			"dialog-confirm": "Confirm deletion",
+			"dialog-cancel": "cancel",
+			"dialog-content": "This will remove"
+		},
+		"rename": {
+			"dialog-title": "Rename a mailing",
+			"dialog-name": "name",
+			"dialog-confirm": "Rename",
+			"dialog-cancel": "Cancel"
+		}
 	},
 	"layout": {
 		"title": "Email template editor by “drag & drop” - A Badsender.com solution",

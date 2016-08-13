@@ -53,7 +53,23 @@ block list
               a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href=creation.url.update title="edit"):  i.material-icons mode_edit
             td.mdl-data-table__cell--action
               a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href=creation.url.duplicate title="duplicate"):  i.material-icons content_copy
-            td.mdl-data-table__cell--action
+            td.js-delete.mdl-data-table__cell--action
               a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href=creation.url.delete title="delete"): i.material-icons delete
 
-
+block dialog
+  dialog.js-dialog-rename.mdl-dialog
+    h4.mdl-dialog__title= __('home.rename.dialog-title')
+    .mdl-dialog__content
+      .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+        input.mdl-textfield__input#name-field(type="text" name="name" required)
+        label.mdl-textfield__label(for="name-field")= __('home.rename.dialog-name')
+    .mdl-dialog__actions
+      button(type="button").js-post.mdl-button.mdl-button--accent.mdl-js-button= __('home.rename.dialog-confirm')
+      button(type="button").js-close-rename-dialog.mdl-button= __('home.rename.dialog-cancel')
+  dialog.js-dialog-delete.mdl-dialog
+    h4.mdl-dialog__title= __('home.delete.dialog-title')
+    .mdl-dialog__content
+      p= __('home.delete.dialog-content')
+    .mdl-dialog__actions
+      button(type="button").js-delete-confirm.mdl-button.mdl-button--accent.mdl-js-button= __('home.delete.dialog-confirm')
+      button(type="button").js-close-delete-dialog.mdl-button= __('home.delete.dialog-cancel')
