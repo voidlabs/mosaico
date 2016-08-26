@@ -1,14 +1,13 @@
 'use strict';
 
-var fs          = require('fs');
-var url         = require('url');
+var fs          = require('fs')
+var url         = require('url')
 var path        = require('path');
-var gm          = require('gm').subClass({imageMagick: true});
+var gm          = require('gm').subClass({imageMagick: true})
 
 var config      = require('./config')
 var filemanager = require('./filemanager')
 var streamImage = filemanager.streamImage
-
 
 // this is the entry point for any images assets
 // - generate a placeholder
@@ -82,7 +81,41 @@ function getResized(req, res, next) {
   }
 }
 
-function getCover(req, res, next) {
+function getSizes(sizes) {
+  var sizes     = sizes.split('x')
+  var width     = sizes[0]
+  var height    = sizes[1]
+  return { width: width, height: height }
+}
+
+
+function resize(req, res, next) {
+  var imageName = req.params.imageName
+  var sizes     = getSizes(req.params.sizes)
+  var width     = sizes.width
+  var height    = sizes.height
+  // on resize imageName seems to be double urlencoded
+  var ir        = gm(streamImage(imageName))
+  ir.format({bufferStream: true}, onFormat)
+
+  function streamToResponse (err, stdout, stderr) {
+    if (err) return next(err)
+    stdout.pipe(res)
+  }
+
+  function onFormat(err, format) {
+    if (!err) res.set('Content-Type', 'image/'+format.toLowerCase());
+    // Gif frames with differents size can be buggy to resize
+    // http://stackoverflow.com/questions/12293832/problems-when-resizing-cinemagraphs-animated-gifs
+    ir
+    .autoOrient()
+    .coalesce()
+    .resize(width == 'null' ? null : width, height == 'null' ? null : height)
+    .stream(streamToResponse)
+  }
+}
+
+function cover(req, res, next) {
   var imageName = req.params.imageName
   var sizes     = req.params.sizes ? req.params.sizes.split('x') : [0, 0]
   var width     = sizes[0]
@@ -104,10 +137,36 @@ function getCover(req, res, next) {
     .extent(width, height + '>')
     .stream(streamToResponse)
   }
+}
 
+
+
+function placeholder(req, res, next) {
+  var sizes   = /(\d+)x(\d+)\.png/.exec(req.params.imageName)
+  var width   = ~~sizes[1]
+  var height  = ~~sizes[2]
+  console.log('placeholder', req.params.imageName, width, height)
+  var out     = gm(width, height, '#707070')
+  res.set('Content-Type', 'image/png')
+  var x = 0, y = 0
+  var size = 40
+  // stripes
+  while (y < height) {
+      out = out
+        .fill('#808080')
+        .drawPolygon([x, y], [x + size, y], [x + size*2, y + size], [x + size*2, y + size*2])
+        .drawPolygon([x, y + size], [x + size, y + size*2], [x, y + size*2])
+      x = x + size * 2
+      if (x > width) { x = 0; y = y + size*2 }
+  }
+  // text
+  out = out.fill('#B0B0B0').fontSize(20).drawText(0, 0, width + ' x ' + height, 'center')
+  return out.stream('png').pipe(res);
 }
 
 module.exports = {
   getResized:   getResized,
-  getCover:     getCover,
+  cover:        cover,
+  resize:       resize,
+  placeholder:  placeholder,
 }

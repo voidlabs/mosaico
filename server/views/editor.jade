@@ -19,6 +19,7 @@ block head-content
         data:                   !{ data.data ? printJS(data.data) : printJS('{}')},
         imgProcessorBackend:    basePath + '/img/',
         emailProcessorBackend:  basePath + '/dl/',
+        basePath:               basePath,
         titleToken:             'BADSENDER Responsive Email Designer',
         fileuploadConfig: {
           //- don't prepend basePath

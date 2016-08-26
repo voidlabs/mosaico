@@ -109,25 +109,18 @@ function extendKnockout(opts) {
 
   // push "convertedUrl" method to the wysiwygSrc binding
   ko.bindingHandlers.wysiwygSrc.convertedUrl = function(src, method, width, height) {
-    console.info('CONVERTED URL')
-    console.log(src, method, width, height)
-    return url.format({
-      protocol: imgProcessorBackend.protocol,
-      host:     imgProcessorBackend.host,
-      pathname: imgProcessorBackend.pathname,
-      query: {
-        method: method,
-        params: width + "," + height,
-        src:    url.parse(src).pathname,
-      }
-    })
+    var imageName = url.parse(src).pathname
+    if (!imageName) console.warn('no pathname for image', src)
+    console.info('CONVERTED URL', imageName, method, width, height)
+    imageName     = imageName.replace('/img/', '')
+    var path      = opts.basePath + '/' + method
+    path          = path + '/' + width + 'x' + height + '/' + imageName
+    return path
   }
 
-  // TODO should be querying a placeholder route
   ko.bindingHandlers.wysiwygSrc.placeholderUrl = function(width, height, text) {
-    console.info('PLACEHOLDER URL')
-    console.log(width, height, text)
-    return opts.imgProcessorBackend + "?method=" + 'placeholder' + "&params=" + width + encodeURIComponent(",") + height
+    // console.info('PLACEHOLDER URL', width, height, text)
+    return opts.basePath + '/placeholder/' + width + 'x' + height + '.png'
   }
 }
 

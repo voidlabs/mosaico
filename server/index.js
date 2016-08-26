@@ -190,10 +190,9 @@ module.exports = function () {
 
   app.get('/logout',                        session.logout)
   app.get('/img/:imageName',                filemanager.read)
-  // NTH additional routes for handling live resize
-  // app.get('/placeholder',        images.getOriginal)
-  // app.get('/resize/:imageName',  images.getOriginal)
-  app.get('/cover/:imageName/:sizes',       images.getCover)
+  app.get('/placeholder/:imageName',        images.placeholder)
+  app.get('/resize/:sizes/:imageName',      images.resize)
+  app.get('/cover/:sizes/:imageName',       images.cover)
   app.get('/img/',                          images.getResized)
 
   //----- USER
