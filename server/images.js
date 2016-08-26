@@ -9,6 +9,11 @@ var config      = require('./config')
 var filemanager = require('./filemanager')
 var streamImage = filemanager.streamImage
 
+
+//////
+// OLD IMAGE HANDLING: should be removed in november
+//////
+
 // this is the entry point for any images assets
 // - generate a placeholder
 // - or retrieve any uploaded images and apply a resize
@@ -81,13 +86,16 @@ function getResized(req, res, next) {
   }
 }
 
+//////
+// NEW IMAGE HANDLING
+//////
+
 function getSizes(sizes) {
   var sizes     = sizes.split('x')
   var width     = sizes[0]
   var height    = sizes[1]
   return { width: width, height: height }
 }
-
 
 function resize(req, res, next) {
   var imageName = req.params.imageName
@@ -138,8 +146,6 @@ function cover(req, res, next) {
     .stream(streamToResponse)
   }
 }
-
-
 
 function placeholder(req, res, next) {
   var sizes   = /(\d+)x(\d+)\.png/.exec(req.params.imageName)

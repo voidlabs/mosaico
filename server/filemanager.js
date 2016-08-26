@@ -7,6 +7,7 @@ var path        = require('path')
 var AWS         = require('aws-sdk')
 var chalk       = require('chalk')
 var formidable  = require('formidable')
+var getSlug     = require('speakingurl')
 var denodeify   = require('denodeify')
 var readFile    = denodeify(fs.readFile)
 var readDir     = denodeify(fs.readdir)
@@ -32,7 +33,7 @@ function formatFilenameForFront(filename) {
     name:         filename,
     url:          '/img/' + filename,
     deleteUrl:    '/img/' + filename,
-    thumbnailUrl: `/cover/${filename}/150x150`,
+    thumbnailUrl: `/cover/150x150/${filename}`,
   }
 }
 
@@ -213,12 +214,11 @@ function parseMultipart(req, options) {
       if (name === 'markup') return
       // put all other files in the right place (S3 \\ local)
       console.log('on file', chalk.green(name))
-      file.name = options.prefix + '-' + file.name
+      file.name = options.prefix + '-' + getSlug(file.name, {lang: 'fr'})
       uploads.push(write(file))
     }
   })
 }
-
 
 //----- WIREFRAME FILEUPLOAD
 
@@ -280,7 +280,7 @@ function handleEditorUpload(fields, files, resolve) {
   file      = _.assign({}, file, {
     url:          '/img/' + file.name,
     deleteUrl:    '/img/' + file.name,
-    thumbnailUrl: `/cover/${file.name}/150x150`,
+    thumbnailUrl: `/cover/150x150/${file.name}`,
   })
   resolve({ files: [file] , })
 }

@@ -75,6 +75,7 @@
     "rand-token": "^0.2.1",
     "rc": "^1.1.6",
     "serve-favicon": "^2.3.0",
+    "speakingurl": "^9.0.0",
     "throng": "^4.0.0",
     "validator": "^5.4.0"
   },
