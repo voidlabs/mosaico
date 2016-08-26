@@ -214,7 +214,12 @@ function parseMultipart(req, options) {
       if (name === 'markup') return
       // put all other files in the right place (S3 \\ local)
       console.log('on file', chalk.green(name))
-      file.name = options.prefix + '-' + getSlug(file.name, {lang: 'fr'})
+      // take care of not slugging file extension
+      var fileName  = file.name
+      var ext       = path.extname(file.name)
+      fileName      = fileName.replace(ext, '')
+      fileName      = getSlug(fileName) + ext
+      file.name     = options.prefix + '-' + fileName
       uploads.push(write(file))
     }
   })

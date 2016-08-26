@@ -2,7 +2,7 @@
 
 var fs          = require('fs')
 var url         = require('url')
-var path        = require('path');
+var path        = require('path')
 var gm          = require('gm').subClass({imageMagick: true})
 
 var config      = require('./config')
