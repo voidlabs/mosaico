@@ -1,18 +1,18 @@
 'use strict'
 
-var _           = require('lodash')
-var fs          = require('fs-extra')
-var url         = require('url')
-var path        = require('path')
-var AWS         = require('aws-sdk')
-var chalk       = require('chalk')
-var formidable  = require('formidable')
-var getSlug     = require('speakingurl')
-var denodeify   = require('denodeify')
-var readFile    = denodeify(fs.readFile)
-var readDir     = denodeify(fs.readdir)
+var _             = require('lodash')
+var fs            = require('fs-extra')
+var url           = require('url')
+var path          = require('path')
+var AWS           = require('aws-sdk')
+var chalk         = require('chalk')
+var formidable    = require('formidable')
+var denodeify     = require('denodeify')
+var readFile      = denodeify(fs.readFile)
+var readDir       = denodeify(fs.readdir)
 
-var config      = require('./config')
+var config        = require('./config')
+var slugFilename  = require('../shared/slug-filename.js')
 var streamImage
 var writeStream
 var listImages
@@ -214,11 +214,9 @@ function parseMultipart(req, options) {
       if (name === 'markup') return
       // put all other files in the right place (S3 \\ local)
       console.log('on file', chalk.green(name))
-      // take care of not slugging file extension
-      var fileName  = file.name
-      var ext       = path.extname(file.name)
-      fileName      = fileName.replace(ext, '')
-      fileName      = getSlug(fileName) + ext
+      // slug every uploaded file name
+      // user may put accent and/or spaces…
+      var fileName  = slugFilename(file.name)
       file.name     = options.prefix + '-' + fileName
       uploads.push(write(file))
     }

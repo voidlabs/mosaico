@@ -1,7 +1,8 @@
 'use strict'
 
-var ko  = require('knockout')
-var url = require('url')
+var ko            = require('knockout')
+var url           = require('url')
+var slugFilename  = require('../../../shared/slug-filename.js')
 
 // https://github.com/voidlabs/mosaico/wiki/Mosaico-Plugins
 
@@ -70,6 +71,12 @@ function templateUrlConverter(opts) {
     // handle other urls: img/social_def/twitter_ok.png
     // as it is done, all files are flatten in asset folder (uploads or S3)
     url = /([^\/]*)$/.exec(url)[1]
+    // All images at upload are slugged
+    //    block thumbnails are based on html block ID
+    //    we need to retreive the file url by slugging the id
+    // The same applies for uploaded resources images:
+    //    html img src may differ from uploaded names
+    url = slugFilename(url)
     url = opts.imgProcessorBackend + opts.metadata._wireframe  + '-' + url
     return url
   }

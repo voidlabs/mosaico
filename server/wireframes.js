@@ -6,6 +6,7 @@ var chalk                   = require('chalk')
 var config                  = require('./config')
 var filemanager             = require('./filemanager')
 var DB                      = require('./database')
+var slugFilename            = require('../shared/slug-filename.js')
 var Wireframes              = DB.Wireframes
 var Creations               = DB.Creations
 var handleValidatorsErrors  = DB.handleValidatorsErrors
@@ -92,6 +93,9 @@ function update(req, res, next) {
         ? wireframe.images.concat(body.images)
         : body.images
       wireframe.images = _.compact( _.uniq(wireframe.images) ).sort()
+      // form image name may differ from uploaded image name
+      // make it coherent
+      wireframe.images = wireframe.images.map( img => slugFilename(img) )
       return wireframe.save()
     })
     .then(function (wireframe) {

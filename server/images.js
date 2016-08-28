@@ -9,7 +9,6 @@ var config      = require('./config')
 var filemanager = require('./filemanager')
 var streamImage = filemanager.streamImage
 
-
 //////
 // OLD IMAGE HANDLING: should be removed in november
 //////
