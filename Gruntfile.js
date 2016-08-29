@@ -40,7 +40,7 @@ module.exports = function(grunt) {
 
     less: {
       options: {
-        sourceMap: true,
+        sourceMap: false,
         sourceMapRootpath: '../',
         /* sourceMapFilename: 'build/mosaico.css.map' */
         sourceMapFileInline: true

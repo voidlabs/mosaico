@@ -142,7 +142,7 @@ ko.bindingHandlers.wysiwygImg = {
       var isWysiwygMode = (typeof bindingContext.templateMode != 'undefined' && bindingContext.templateMode == 'wysiwyg');
 
       var modelValue = valueAccessor(),
-        unwrappedValue = ko.utils.peekObservable(modelValue); // Unwrap without setting a dependency here
+          unwrappedValue = ko.utils.peekObservable(modelValue); // Unwrap without setting a dependency here
 
       // If unwrappedValue.data is the array, preserve all relevant options and unwrap again value so we get updates
       ko.utils.unwrapObservable(modelValue);
@@ -176,7 +176,7 @@ ko.bindingHandlers.wysiwyg = {
     plugins: ["link hr paste lists textcolor code"],
     // valid_elements: 'strong/b,em/i,*[*]',
     // extended_valid_elements: 'strong/b,em/i,*[*]',
-    // Removed: image fullscreen contextmenu 
+    // Removed: image fullscreen contextmenu
     // download custom:
     // jquery version con legacyoutput, anchor, code, importcss, link, paste, textcolor, hr, lists
   },
@@ -249,13 +249,13 @@ ko.bindingHandlers.wysiwyg = {
         });
 
         /* NOTE: disabling "ENTER" in tiny editor, not a good thing but may be needed to work around contenteditable issues
-        if (!fullEditor) {
-          // se non abbiamo il "full Editor", disabilitiamo l'invio. (vari bug)
-          editor.on('keydown', function(e) {
-            if (e.keyCode == 13) { e.preventDefault(); }
-          });
-        }
-        */
+         if (!fullEditor) {
+         // se non abbiamo il "full Editor", disabilitiamo l'invio. (vari bug)
+         editor.on('keydown', function(e) {
+         if (e.keyCode == 13) { e.preventDefault(); }
+         });
+         }
+         */
 
         thisEditor = editor;
 
