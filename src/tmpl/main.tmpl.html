@@ -1,3 +1,151 @@
+<style>
+  .saveArea{
+    height: 40px;
+    width: 100%;
+    background-color: white;
+    position: absolute;
+    z-index: 999999 !important;
+  }
+  .rightArea{
+    float: right;
+    padding-right: 20px;
+
+  }
+  .myButton {
+    background-color:#58b1f0;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:Arial;
+    font-size:17px;
+    padding: 4px 9px;
+    text-decoration:none;
+  }
+  .myButton:hover {
+    background-color:#71b9f0;
+  }
+  .myButton:active {
+    padding: 5px 10px;
+  }
+
+  .leftArea{
+    float: left;
+  }
+
+  .leftArea label{
+    color: gray;
+    font-family: 'Roboto', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  .leftArea input{
+    font-size: 1em;
+    font-family: 'Open Sans', sans-serif;
+    color: gray;
+    border: 2px solid #c3c3c3;
+    padding: 0.3em 0.8em;
+    outline: none;
+    text-align: left;
+    -webkit-appearance: none;
+    transition: 0.5s ease;
+    -o-transition: 0.5s ease;
+    -webkit-transition: 0.5s ease;
+  }
+
+  .leftArea input:focus {
+    border: 2px solid #4bacc6;
+  }
+
+  /* middle Area */
+  .middleArea{
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+    width: 250px;
+  }
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+    top: 6px;
+  }
+
+  .switch input {display:none;}
+  .switch_label{
+    font-family: 'Roboto', "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: gray;
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 5px;
+    bottom: 3px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+
+  input:checked + .slider {
+    background-color: #4bacc6;
+  }
+
+  input:focus + .slider {
+    box-shadow: 0 0 1px #4bacc6;
+  }
+
+  input:checked + .slider:before {
+    -webkit-transform: translateX(16px);
+    -ms-transform: translateX(16px);
+    transform: translateX(16px);
+  }
+
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+</style>
+<div class="saveArea">
+  <form onsubmit="return false;" id="downloadForm" action="#" method="POST" target='_parent'>
+    <div class="leftArea">
+      <label data-bind="text: $root.t($root.save.label)+': '" for="template_name"/>
+      <input data-bind="value: $root.save.title" name="template_name" id="template_name" type="text">
+    </div>
+    <div class="rightArea">
+      <!-- ko if: typeof $root.save !== 'undefined' -->
+        <input type="hidden" name="action" value="download" />
+        <input type="hidden" name="filename" value="email.html" />
+        <input type="hidden" name="html" id="downloadHtmlTextarea" />
+      <a class="myButton" href="javascript:void(0)" data-bind="click: $root.save.execute, clickBubble: false, button: { disabled: !$root.save.enabled(), label: $root.t($root.save.name), text: true }">SALVA</a>
+      <!-- /ko -->
+    </div>
+    <div class="middleArea">
+      <label class="switch_label">auto save</label>
+      <label class="switch">
+        <input type="checkbox" data-bind="click: $root.saveAuto.execute, checked: $root.saveAuto.enabled" >
+        <div class="slider round"></div>
+      </label>
+    </div>
+  </form>
+</div>
 <div id="page" style="display: none;" data-bind="visible: true, css: { withToolbox: $root.showToolbox, withPreviewFrame: showPreviewFrame }">
   <div id="main-edit-area" data-bind="click: function(obj, evt) { $root.selectBlock(null); return true; }, clickBubble: false">
     <!-- ko withProperties: { templateMode: 'wysiwyg', templateModeFallback: 'show' } -->
@@ -5,59 +153,12 @@
     <!-- /ko -->
   </div>
 
-  <div id="toolbar" class="mo" data-bind="tooltips: {}">
-    <!-- ko if: typeof $root.undo != 'undefined' -->
-    <span data-bind="buttonset: { }" class="leftButtons">
-    <a title="Undo last operation" href="javascript:void(0)" data-bind="attr: { title: $root.t('Undo last operation') }, click: $root.undo.execute, clickBubble: false, button: { disabled: !$root.undo.enabled(), icons: { primary: 'fa fa-reply' }, label: $root.undo.name, text: true }">UNDO</a>
-    <a title="Redo last operation" href="javascript:void(0)" data-bind="attr: { title: $root.t('Redo last operation') }, click: $root.redo.execute, clickBubble: false, button: { disabled: !$root.redo.enabled(), icons: { primary: 'fa fa-share' }, label: $root.redo.name, text: true }">REDO</a>
-    </span>
-    <!-- ko if: $root.debug -->
-    <a href="javascript:void(0)" data-bind="click: $root.undoReset, clickBubble: false, button: { disabled: !$root.undo.enabled() && !$root.redo.enabled(), label: 'reset', text: true }">RESET</a>
-    <!-- /ko -->
-    <!-- /ko -->
-
-    <span>
-    <input id="showGallery" type="checkbox" data-bind="checked: $root.showGallery, button: { refreshOn: $root.showGallery, 
-    icons: { primary: 'fa fa-fw fa-picture-o', secondary: null }, text: true, label: $root.t('Gallery') }"><label title="Show image gallery" for="showGallery" data-bind="attr: { title: $root.t('Show image gallery') }">show gallery</label></input>
-    </span>
-
-    <input id="previewFrameToggle" type="checkbox" data-bind="checked: $root.showPreviewFrame, button: { refreshOn: $root.showPreviewFrame, icons: { primary: 'fa fa-fw fa-tablet', secondary: null }, text: false, label: $root.t('Preview') }"><label title="Show live preview" for="previewFrameToggle" data-bind="attr: { title: $root.t('Show live preview') }">PREVIEW</label></input>
-
-    <!-- ko if: $root.debug -->
-    <a href="javascript:void(0)" data-bind="click: $root.export, clickBubble: false, button: { label: 'export', text: true }">EXPORT</a>
-    <input type="checkbox" data-bind="checked: $root.debug" /> debug
-    <a href="javascript:void(0)" data-bind="click: $root.loadDefaultBlocks, clickBubble: false, button: { icons: { primary: 'fa fa-fw fa-upload' }, label: 'Default', text: true }">LOAD BLOCKS</a>
-    [<a id="subscriptionsCount" href="javascript:viewModel.loopSubscriptionsCount()">subs</a>]
-    <!-- /ko -->
-
-    <span data-bind="visible: false">
-    <input type="checkbox" data-bind="checked: $root.showToolbox" /> toolbox
-    </span>
-
-    <div class="rightButtons">
-    <!-- ko if: typeof $root.save !== 'undefined' -->
-    <a title="Save template" href="javascript:void(0)" data-bind="attr: { title: $root.t('Save template') }, click: $root.save.execute, clickBubble: false, button: { disabled: !$root.save.enabled(), icons: { primary: 'fa fa-fw fa-cloud-upload' }, label: $root.t($root.save.name), text: true }">SALVA</a>
-    <!-- /ko -->
-    <!-- ko if: typeof $root.test !== 'undefined' -->
-    <a title="Show preview and send test" href="javascript:void(0)" data-bind="attr: { title: $root.t('Show preview and send test') }, click: $root.test.execute, clickBubble: false, button: { disabled: !$root.test.enabled(), icons: { primary: 'fa fa-fw fa-paper-plane' }, label: $root.t($root.test.name), text: true }">TEST</a>
-    <!-- /ko -->
-    <!-- ko if: typeof $root.download !== 'undefined' -->
-    <form id="downloadForm" action="#" method="POST">
-    <input type="hidden" name="action" value="download" />
-    <input type="hidden" name="filename" value="email.html" />
-    <input type="hidden" name="html" id="downloadHtmlTextarea" />
-    <a title="Download template" href="javascript:void(0)" data-bind="attr: { title: $root.t('Download template') }, click: $root.download.execute, clickBubble: false, button: { disabled: !$root.download.enabled(), icons: { primary: 'fa fa-fw fa-download' }, label: $root.t($root.download.name), text: true }">DOWNLOAD</a>
-    </form>
-    <!-- /ko -->
-    </div>
-  </div>
-
   <!-- ko if: $root.showToolbox -->
   <div id="main-toolbox" class="mo" data-bind="scrollable: true, withProperties: { templateMode: 'edit' }">
     <div data-bind="template: { name: 'toolbox' }"></div>
   </div>
   <!-- /ko -->
-  
+
   <div id="main-preview" class="mo" data-bind="scrollable: true, if: $root.showPreviewFrame">
     <div id="preview-toolbar">
       <div data-bind="visible: $root.showPreviewFrame, buttonset: { }" style="display: inline-block">
@@ -94,9 +195,4 @@
 
 </div>
 
-<!-- ko if: $root.logoPath -->
-<div id="loading" class="loading" style="display: block; width: 300px; text-align: center; height: 32px; position: absolute; top:0; bottom: 0; left: 0; right: 0;  margin: auto;" data-bind="attr: { style: 'position: absolute; top: 5px; left: 6px; z-index: 150;'}, css: { loading: false }">
-  <a href="/" data-bind="attr: { href: $root.logoUrl, alt: $root.logoAlt }"><img data-bind="attr: { src: $root.logoPath }" width="32" height="32" alt="mosaico" border="0" /></a>
-  <div style="opacity: 0" data-bind="visible: false">Oppps... !!</div>
-</div>
 <!-- /ko -->

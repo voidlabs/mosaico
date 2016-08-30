@@ -12,8 +12,8 @@ var addUndoStackExtensionMaker = function(performanceAwareCaller) {
     // TODO the labels should be computed observables (needs changes in undomanager projects)
     var undoRedoStack = undoManager(viewModel.content, {
       levels: 100,
-      undoLabel: ko.computed(function() { return viewModel.t("Undo (#COUNT#)"); }),
-      redoLabel: ko.computed(function() { return viewModel.t("Redo"); })
+      undoLabel: ko.computed(function() { return viewModel.t(""); }),
+      redoLabel: ko.computed(function() { return viewModel.t(""); })
     });
     viewModel.undo = undoRedoStack.undoCommand;
     viewModel.undo.execute = performanceAwareCaller.bind(viewModel, 'undo', viewModel.undo.execute);

@@ -738,6 +738,8 @@
   .block-list {
     // suppongo che le immagini siano create per i 340px
     max-width: 346px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   // mette i blocchi al 100%
@@ -880,10 +882,6 @@
     overflow: auto;
   }
 }
-.mo-standalone #main-toolbox #tooltabs.ui-tabs > .ui-tabs-nav {
-  padding-left: 40px;
-}
-
 /****************************************************************************************************************************
  * IMAGES GALLERY
  ***************************************************************************************************************************/
@@ -992,7 +990,7 @@
   padding: 3px 10px;
   text-align: center;
   position: absolute;
-  bottom: 0;
+  top: 40px;
   right: 0;
   left: 0;
   z-index: 200;
@@ -1000,8 +998,8 @@
 
 #main-preview #frame-container {
   position: absolute;
-  top: @topbar-height;
-  bottom: 40px;
+  top: 80px;
+  bottom: 0px;
   left: 0;
   right: 0;
   background-color: @mosaico-background-color;

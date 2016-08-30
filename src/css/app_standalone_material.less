@@ -1,16 +1,16 @@
 @import 'app_standalone.less';
 
-@accent-color: #900000; // #A01020; // #ff9800;
+@accent-color: #4bacc6; // #A01020; // #ff9800;
 @background-color: #eeeeee;
 // @link-color: #ff9800;
 // @link-color: #ff5722; // #ea1c0d;
-@link-color: #ff5722; // #ea1c0d;
+@link-color: #8FB06C; // #ea1c0d;
 
 @font-family: "Noto Sans", "Helvetica Neue", Helvetica, Arial, "Nimbus Sans L", "Liberation Sans", Arimo, sans-serif;
 @standard-border-radius: 2px;
 @info-border-radius: @standard-border-radius;
 @button-border-radius: @standard-border-radius;
-@large-balloon-border-radius: 2px; 
+@large-balloon-border-radius: 2px;
 
 @object-background-color: #DDDDDD;
 // @mosaico-object-shadow: 1px 1px 2px lighten(@shadow-color, 30%);
@@ -22,6 +22,12 @@
 
 #main-preview #preview-toolbar {
   padding: 1px 5px;
+  text-align: left !important;
+  background-color: @accent-color;
+  .ui-icon{
+    overflow: visible !important;
+  }
+
 }
 
 #toolbar {
@@ -33,7 +39,7 @@
 
 @ui-tabs-panel-padding: 0;
 
-// @button-hover-background-color: 
+// @button-hover-background-color:
 
 .button-style() {
   text-transform: uppercase;
@@ -64,7 +70,38 @@
       color: mix(@mosaico-ui-background-color, @button-text-color);
     }
   }
-} 
+}
+
+
+.groupButton {
+  .ui-button {
+    padding-top: 7px !important;
+    padding-bottom: 7px !important;
+    line-height: 22px;
+    display: inline !important;
+
+
+    background-color: transparent !important;
+    &:hover, &.pressed {
+      background-color: lighten(@mosaico-ui-background-color, 10%) !important;
+      border-bottom: 3px solid #72bed2 !important;
+    }
+    &.selected, &.ui-state-active {
+      border-bottom: 2px solid @button-text-color;
+      border-top: 0;
+    }
+    &.ui-button-disabled, &.ui-button-disabled .ui-icon, &.ui-button-disabled .ui-button-text {
+      color: mix(@mosaico-ui-background-color, @button-text-color);
+    }
+  }
+  .ui-button.ui-state-active {
+     text-decoration: none;
+     background-color: @mosaico-ui-background-color !important;
+  }
+  .ui-button.ui-button-icon-only .ui-icon {
+    margin-right: 6px;
+  }
+}
 
 #main-toolbox #tooltabs.ui-tabs > .ui-tabs-nav {
   box-shadow: 0 0 10px @shadow-color;
@@ -76,7 +113,8 @@
 
 #main-toolbox #tooltabs.ui-tabs {
   .ui-tabs-nav {
-    font-size: 1em;
+    font-size: 0.9em;
+    background-color: @sidebar-background-color;
     li {
       margin: 1px 1px 0 0;
       line-height: @topbar-height - 4px;
@@ -97,11 +135,11 @@
     background-color: transparent;
   }
   li > a when (@buttonstyle) {
-    background-color: transparent; 
+    background-color: transparent;
     &:hover {
       background-color: lighten(@mosaico-ui-background-color, 10%);
       border-bottom: 3px solid lighten(@mosaico-ui-background-color, 10%);
-    } 
+    }
   }
 
   li@{activeclass} a {
@@ -109,7 +147,7 @@
       background-color: transparent;
       color: @button-text-color;
       border-bottom: 3px solid @button-text-color;
-    } 
+    }
   }
 }
 
@@ -207,9 +245,9 @@
 
 .mo .ui-button.ui-spinner-button {
   background-color: transparent;
-  // color: lighten(@text-color, 30%); 
+  // color: lighten(@text-color, 30%);
   .ui-button-text .ui-icon {
-    color: lighten(@text-color, 30%); 
+    color: lighten(@text-color, 30%);
   }
 }
 
@@ -273,11 +311,11 @@
 
 & when(true) {
   .mo .objEdit.level1 {
-      background-color: white;
-      box-shadow: 1px 1px 3px #888;
-      border-top: 0;
-      padding: 6px;
-      padding-top: .5em;
+    background-color: white;
+    box-shadow: 1px 1px 3px #888;
+    border-top: 0;
+    padding: 6px;
+    padding-top: .5em;
   }
 
   .mo #toolstyles, .mo #tooltheme {
@@ -291,18 +329,18 @@
   }
 
   .mo .objPreview {
-      border-width: 0;
-      box-shadow: inset 1px 1px 4px rgba(0,0,0,.3);
-      top: 4px;
-      left: 4px;
+    border-width: 0;
+    box-shadow: inset 1px 1px 4px rgba(0,0,0,.3);
+    top: 4px;
+    left: 4px;
   }
 
   .mo #toolstyles .objLabel.level1, .mo #tooltheme .objLabel.level1 {
     padding-left: 60px;
   }
 
-  .mo .propInput input[type=text], 
-  .mo .propInput input[type=number], 
+  .mo .propInput input[type=text],
+  .mo .propInput input[type=number],
   .mo .propInput input[type=url],
   .mo .propInput select,
   .mo .propInput .data-select select,
@@ -345,4 +383,4 @@
   .ui-icon {
     color: @button-text-color;
   }
-} 
+}
