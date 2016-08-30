@@ -17,7 +17,7 @@ function postDownload(req, res, next) {
     filename      = filename.replace(/\.[0-9a-z]+$/, '')
     filename      = `${getSlug(filename)}.html`
     res.setHeader('Content-disposition', `attachment; filename=${filename}`)
-    res.setHeader('Content-type', 'text/html')
+    res.setHeader('Content-type', 'text/html; charset=UTF-8')
     res.write(html)
     return res.end()
   }
