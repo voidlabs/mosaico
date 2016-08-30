@@ -7,6 +7,8 @@ var mail          = require('./mail')
 
 function postDownload(req, res, next) {
   var html  = req.body.html
+  // replace all tabs by spaces so `he` don't replace them by `&#x9;`
+  html      = html.replace(/\t/g, ' ')
   html      = htmlEntities.encode(html, {
     useNamedReferences: true,
     allowUnsafeSymbols: true,
