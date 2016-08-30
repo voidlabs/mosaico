@@ -1,13 +1,22 @@
 'use strict'
 
-var mail        = require('./mail')
+var htmlEntities  = require('he')
+var getSlug       = require('speakingurl')
+
+var mail          = require('./mail')
 
 function postDownload(req, res, next) {
-
-  var html = req.body.html
+  var html  = req.body.html
+  html      = htmlEntities.encode(html, {
+    useNamedReferences: true,
+    allowUnsafeSymbols: true,
+  })
 
   if (req.body.action === 'download') {
-    res.setHeader('Content-disposition', 'attachment; filename=' + req.body.filename)
+    let filename  = req.body.filename
+    filename      = filename.replace(/\.[0-9a-z]+$/, '')
+    filename      = `${getSlug(filename)}.html`
+    res.setHeader('Content-disposition', `attachment; filename=${filename}`)
     res.setHeader('Content-type', 'text/html')
     res.write(html)
     return res.end()
