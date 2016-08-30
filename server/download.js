@@ -13,7 +13,7 @@ function postDownload(req, res, next) {
   })
 
   if (req.body.action === 'download') {
-    let filename  = req.body.filename
+    let filename  = req.body.filename || 'email'
     filename      = filename.replace(/\.[0-9a-z]+$/, '')
     filename      = `${getSlug(filename)}.html`
     res.setHeader('Content-disposition', `attachment; filename=${filename}`)
