@@ -73,10 +73,13 @@ function downloadZip(req, res, next) {
     $el.attr('src', `${imagesFolder}/${getImageName(src)}`)
   })
 
-
   archive.on('error', next)
+
   //on stream closed we can end the request
-  archive.on('end', () => { console.log('Archive wrote %d bytes', archive.pointer()) })
+  archive.on('end', () => {
+    console.log('Archive wrote %d bytes', archive.pointer())
+    res.end()
+  })
 
   //set the archive name
   res.attachment(`${name}.zip`)
