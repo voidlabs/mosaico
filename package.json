@@ -77,6 +77,7 @@
     "passport-local": "^1.0.0",
     "rand-token": "^0.2.1",
     "rc": "^1.1.6",
+    "request": "^2.74.0",
     "serve-favicon": "^2.3.0",
     "speakingurl": "^9.0.0",
     "throng": "^4.0.0",

@@ -8,7 +8,7 @@ var validator     = require('validator')
 var randtoken     = require('rand-token')
 var bcrypt        = require('bcryptjs')
 var mongoose      = require('mongoose')
-var tmpl          = require("blueimp-tmpl")
+var tmpl          = require('blueimp-tmpl')
 // Use native promises
 mongoose.Promise = global.Promise
 
