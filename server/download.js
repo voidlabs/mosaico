@@ -49,27 +49,32 @@ function sendByMail(req, res, next) {
 
 //----- DOWNLOAD
 
+const imagesFolder = 'images'
+// for doc see:
+// https://github.com/archiverjs/node-archiver/blob/master/examples/express.js
+
 function downloadZip(req, res, next) {
   const archive = archiver('zip')
   let html      = secureHtml(req.body.html)
   let $         = cheerio.load(html)
   let name      = getName(req.body.filename)
 
-  console.log('downloadZip', name)
+  console.log('download zip', name)
 
+  // We only take care of images in the HTML
+  // No <style> CSS parsing for now. May be implemented later
   let $images   = $('img')
+  // will be used to download images
   let imgUrls   = $images.map( (i, el) => $(el).attr('src')).get()
+  // make a relative path
   $images.each( (i, el) => {
     let $el = $(el)
     let src = $el.attr('src')
-    $el.attr('src', `img/${getImageName(src)}`)
+    $el.attr('src', `${imagesFolder}/${getImageName(src)}`)
   })
 
-  // https://github.com/archiverjs/node-archiver/blob/master/examples/express.js
 
-  // archive.on('error', err => res.status(500).send({ error: err.message }) )
   archive.on('error', next)
-
   //on stream closed we can end the request
   archive.on('end', () => { console.log('Archive wrote %d bytes', archive.pointer()) })
 
@@ -79,18 +84,18 @@ function downloadZip(req, res, next) {
   //this is the streaming magic
   archive.pipe(res)
 
-
-  //
+  // Add html with relatives url
   archive.append($.html(), {
     name:   `${name}.html`,
     prefix: `${name}/`,
   })
 
+  // Pipe all images
   imgUrls.forEach( (imageUrl, index) => {
     let imageName = getImageName(imageUrl)
     archive.append(request(imageUrl), {
       name:   imageName,
-      prefix: `${name}/img/`
+      prefix: `${name}/${imagesFolder}/`
     })
   })
 
