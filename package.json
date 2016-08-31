@@ -78,7 +78,8 @@
     "serve-favicon": "^2.3.0",
     "speakingurl": "^9.0.0",
     "throng": "^4.0.0",
-    "validator": "^5.4.0"
+    "validator": "^5.4.0",
+    "zip-stream": "^1.1.0"
   },
   "devDependencies": {
     "aliasify": "^2.0.0",
