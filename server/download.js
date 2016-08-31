@@ -4,6 +4,7 @@ var htmlEntities  = require('he')
 var getSlug       = require('speakingurl')
 var packer        = require('zip-stream')
 var cheerio       = require('cheerio')
+var archiver      = require('archiver')
 
 var mail          = require('./mail')
 
@@ -46,13 +47,28 @@ function sendByMail(req, res, next) {
 //----- DOWNLOAD
 
 function downloadZip(req, res, next) {
-  const archive = new packer()
+  const archive = archiver('zip')
   let html      = secureHtml(req.body.html)
   let name      = getName(req.body.filename)
-  res.setHeader('Content-disposition', `attachment; filename=${name}.html`)
-  res.setHeader('Content-type', 'text/html; charset=UTF-8')
-  res.write(html)
-  return res.end()
+  console.log('downloadZip', name)
+
+  // https://github.com/archiverjs/node-archiver/blob/master/examples/express.js
+
+  archive.on('error', err => res.status(500).send({ error: err.message }) )
+
+  //on stream closed we can end the request
+  archive.on('end', () => { console.log('Archive wrote %d bytes', archive.pointer()) })
+
+  //set the archive name
+  res.attachment(`${name}.zip`)
+
+  //this is the streaming magic
+  archive.pipe(res)
+
+  //
+  archive
+  .append(html, { name: `${name}.html` })
+  .finalize()
 }
 
 function getName(name) {

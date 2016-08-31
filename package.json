@@ -47,11 +47,13 @@
     "toc": "gulp toc"
   },
   "dependencies": {
+    "archiver": "^1.1.0",
     "aws-sdk": "^2.4.0",
     "bcryptjs": "^2.3.0",
     "blueimp-tmpl": "^3.4.0",
     "body-parser": "^1.15.2",
     "chalk": "^1.1.1",
+    "cheerio": "^0.22.0",
     "compression": "^1.6.2",
     "connect-mongo": "^1.2.0",
     "cookie-parser": "^1.4.3",
@@ -78,8 +80,7 @@
     "serve-favicon": "^2.3.0",
     "speakingurl": "^9.0.0",
     "throng": "^4.0.0",
-    "validator": "^5.4.0",
-    "zip-stream": "^1.1.0"
+    "validator": "^5.4.0"
   },
   "devDependencies": {
     "aliasify": "^2.0.0",
@@ -91,7 +92,6 @@
     "browser-sync": "^2.13.0",
     "browserify": "^13.0.1",
     "browserify-shim": "^3.8.12",
-    "cheerio": "^0.20.0",
     "connect-livereload": "0.5.3",
     "csswring": "^4.2.1",
     "deamdify": "0.1.1",
