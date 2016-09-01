@@ -22,6 +22,7 @@ module.exports = function () {
 
   var app = express()
 
+  app.set('trust proxy', true)
   app.use(bodyParser.json({
     limit: '5mb'
   }))
@@ -66,23 +67,23 @@ module.exports = function () {
 
   function logRequest(tokens, req, res) {
     if (/\/img\//.test(req.path)) return
-    var method  = tokens.method(req, res)
-    var url     = tokens.url(req, res)
-    return chalk.blue(method) + ' ' + chalk.grey(url)
+    var method  = chalk.blue(tokens.method(req, res))
+    var ips     = chalk.grey(`[${req.ips.join(' ')}]`)
+    var url     = chalk.grey(tokens.url(req, res))
+    return `${method} ${ips} ${url}`
   }
 
   function logResponse(tokens, req, res) {
-    var method      = tokens.method(req, res)
+    var method      = chalk.blue(tokens.method(req, res))
+    var ips         = chalk.grey(`[${req.ips.join(' ')}]`)
+    var url         = chalk.grey(tokens.url(req, res))
     var status      = tokens.status(req, res)
-    var url         = tokens.url(req, res)
     var statusColor = status >= 500
       ? 'red' : status >= 400
       ? 'yellow' : status >= 300
       ? 'cyan' : 'green';
     if (/\/img\//.test(req.path) && status < 400) return
-    return chalk.blue(method) + ' '
-      + chalk.grey(url) + ' '
-      + chalk[statusColor](status)
+    return `${method} ${ips} ${url} ${chalk[statusColor](status)}`
   }
   app.use(morgan(logRequest, {immediate: true}))
   app.use(morgan(logResponse))
