@@ -10,7 +10,7 @@ var toastr = require("toastr");
 toastr.options = {
   "closeButton": false,
   "debug": false,
-  "positionClass": "toast-bottom-full-width",
+  "positionClass": "toast-top-full-width",
   "target": "#mo-body",
   "onclick": null,
   "showDuration": "300",
