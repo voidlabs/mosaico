@@ -63,7 +63,7 @@
     <!-- ko if: typeof $root.download !== 'undefined' -->
     <form id="downloadForm" action="#" method="POST">
     <input type="hidden" name="action" value="download" />
-    <input type="hidden" name="filename" value="email.html" />
+    <input type="hidden" name="filename" value="email.html" id="downloadHtmlFilename" />
     <input type="hidden" name="html" id="downloadHtmlTextarea" />
     <a title="Download template" href="javascript:void(0)" data-bind="attr: { title: $root.t('Download template') }, click: $root.download.execute, clickBubble: false, button: { disabled: !$root.download.enabled(), icons: { primary: 'fa fa-fw fa-download' }, label: $root.t($root.download.name), text: true }">DOWNLOAD</a>
     </form>

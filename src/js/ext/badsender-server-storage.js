@@ -117,6 +117,7 @@ var loader = function (viewModel) {
     downloadCmd.enabled(false)
     viewModel.notifier.info(viewModel.t("Downloading..."))
     viewModel.exportHTMLtoTextarea('#downloadHtmlTextarea')
+    $('#downloadHtmlFilename').val(viewModel.metadata.name())
     $('#downloadForm')
     .attr('action', '/dl/')
     .submit()
