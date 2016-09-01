@@ -1,5 +1,6 @@
 'use strict'
 
+const _             = require('lodash')
 const url           = require('url')
 const path          = require('path')
 const htmlEntities  = require('he')
@@ -55,7 +56,7 @@ const imagesFolder = 'images'
 
 function downloadZip(req, res, next) {
   const archive = archiver('zip')
-  let html      = secureHtml(req.body.html)
+  let html      = req.body.html
   let $         = cheerio.load(html)
   let name      = getName(req.body.filename)
 
@@ -67,10 +68,11 @@ function downloadZip(req, res, next) {
   // will be used to download images
   let imgUrls   = $images.map( (i, el) => $(el).attr('src')).get()
   // make a relative path
-  $images.each( (i, el) => {
-    let $el = $(el)
-    let src = $el.attr('src')
-    $el.attr('src', `${imagesFolder}/${getImageName(src)}`)
+  // Don't use Cheerio as when exporting some mess are donne with ESP tags
+  let imgBases  = _.uniq(imgUrls.map(getImageUrlWithoutName))
+  imgBases.forEach( (imgBase) => {
+    let search  = new RegExp(`src="${imgBase}`, 'g')
+    html        = html.replace(search, `src="${imagesFolder}/`)
   })
 
   archive.on('error', next)
@@ -88,7 +90,7 @@ function downloadZip(req, res, next) {
   archive.pipe(res)
 
   // Add html with relatives url
-  archive.append($.html(), {
+  archive.append(secureHtml(html), {
     name:   `${name}.html`,
     prefix: `${name}/`,
   })
@@ -112,6 +114,10 @@ function getName(name) {
 
 function getImageName(imageUrl) {
   return path.basename( url.parse(imageUrl).pathname )
+}
+
+function getImageUrlWithoutName(imageUrl) {
+  return imageUrl.replace(getImageName(imageUrl), '')
 }
 
 module.exports = {
