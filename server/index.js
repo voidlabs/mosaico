@@ -163,9 +163,12 @@ module.exports = function () {
   }))
   app.get('/admin/login',                       render.adminLogin)
   app.get('/admin',                             guard('admin'), companies.list)
-
-  app.all('/users*',                            guard('admin'))
+  // companies
+  app.all('/companies*',                        guard('admin'))
+  app.get('/companies/:companyId?',             companies.show)
+  app.post('/companies/:companyId?',            companies.update)
   // users' wireframes
+  app.all('/users*',                            guard('admin'))
   app.get('/users/:userId/wireframe/:wireId?',  wireframes.show)
   app.post('/users/:userId/wireframe/:wireId?', wireframes.update)
   // users

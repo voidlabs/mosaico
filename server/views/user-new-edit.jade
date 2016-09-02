@@ -24,17 +24,17 @@ block content
           //- if user._id
           //-   ul
           //-     li status: #{user.status}
-          .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+          .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(class= errors.email ? 'is-invalid' : '')
             input.mdl-textfield__input#email-field(type="email" name="email" required value=user.email)
             label.mdl-textfield__label(for="email-field") email
             if errors.email
               span.mdl-textfield__error= errors.email.message
 
-          .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+          .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(class= errors.name ? 'is-invalid' : '')
             input.mdl-textfield__input#name-field(type="text" name="name" value=user.name)
             label.mdl-textfield__label(for="name-field") name
-            if errors.email
-              span.mdl-textfield__error= errors.email.message
+            if errors.name
+              span.mdl-textfield__error= errors.name.message
 
           .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
             select.mdl-textfield__input#lang-field(name="lang")

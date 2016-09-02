@@ -336,12 +336,28 @@ CreationSchema.methods.duplicate = function duplicate() {
 }
 
 //////
+// COMPANIES
+//////
+
+var CompanySchema    = Schema({
+  name: {
+    type: String,
+    required: [true, 'A name is required'],
+    // http://mongoosejs.com/docs/api.html#schematype_SchemaType-unique
+    // from mongoose doc:
+    // violating the constraint returns an E11000 error from MongoDB when saving, not a Mongoose validation error.
+    unique:   true,
+  },
+}, { timestamps: true })
+
+//////
 // COMPILE SCHEMAS
 //////
 
 var UserModel       = mongoose.model('User', UserSchema)
 var WireframeModel  = mongoose.model('Wireframe', WireframeSchema)
 var CreationModel   = mongoose.model('Creation', CreationSchema)
+var CompanyModel    = mongoose.model('Company', CompanySchema)
 
 //////
 // ERRORS HANDLING
@@ -388,6 +404,7 @@ module.exports    = {
   Users:                  UserModel,
   Wireframes:             WireframeModel,
   Creations:              CreationModel,
+  Companies:              CompanyModel,
   handleValidationErrors: handleValidationErrors,
   handleValidatorsErrors: handleValidatorsErrors,
 }

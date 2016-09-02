@@ -5,6 +5,26 @@ block vars
 
 block content
   .page-content
-    h4.home-subtitle companies list
-    a.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored(href="#/companies")
+    if !data.companies.length
+      h4.home-subtitle no companies yet
+    else
+      table.mdl-data-table.mdl-js-data-table.mdl-shadow--2dp
+        thead
+          tr
+            if _config.debug
+              th.mdl-data-table__cell--non-numeric id
+            th.mdl-data-table__cell--non-numeric company name
+            th.mdl-data-table__cell--non-numeric created at
+            th.mdl-data-table__cell--action delete
+        tbody
+          each company in data.companies
+            tr
+              if _config.debug
+                td.mdl-data-table__cell--non-numeric: a(href=`/companies/${company._id}`)= company._id
+              td.mdl-data-table__cell--non-numeric: a(href=`/companies/${company._id}`)= company.name
+              td.mdl-data-table__cell--non-numeric= formatDate(company.createdAt)
+              td.mdl-data-table__cell--action: form(action='/companies/' + company._id + '/delete' method="post")
+                button.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(type="submit")
+                  i.material-icons delete
+    a.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored(href="/companies")
       i.material-icons group_add
