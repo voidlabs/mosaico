@@ -147,6 +147,13 @@ UserSchema.virtual('hasCompany').get(function () {
   return typeof this._company !== 'undefined'
 })
 
+UserSchema.virtual('url').get(function () {
+  let return = {
+    show:   `/users/${this._id}`,
+    delete: `/users/${this._id}/delete`,
+  }
+})
+
 // TODO: take care of good email send
 UserSchema.methods.resetPassword = function resetPassword(lang, type) {
   var user      = this
@@ -232,7 +239,7 @@ var WireframeSchema    = Schema({
   _user: {
     type:       ObjectId,
     ref:        'User',
-    required:   [true, 'user is required'],
+    // required:   [true, 'user is required'],
   },
   markup: {
     type:       String,
@@ -251,6 +258,7 @@ WireframeSchema.virtual('hasMarkup').get(function () {
 })
 
 WireframeSchema.virtual('url').get(function () {
+  // read should be `/companies/${this._company}/wireframs/${this._id}`
   return {
     read:       `/users/${this._user}/wireframe/${this._id}`,
     delete:     `/wireframes/${this._id}/delete`,
@@ -365,6 +373,15 @@ var CompanySchema    = Schema({
     unique:   true,
   },
 }, { timestamps: true })
+
+CompanySchema.virtual('url').get(function () {
+  return {
+    show:         `/companies/${this._id}`,
+    delete:       `/companies/${this._id}/delete`,
+    newUser:      `/companies/${this._id}/new-user`,
+    newWireframe: `/companies/${this._id}/new-wireframe`,
+  }
+})
 
 //////
 // COMPILE SCHEMAS

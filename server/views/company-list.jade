@@ -20,10 +20,10 @@ block content
           each company in data.companies
             tr
               if _config.debug
-                td.mdl-data-table__cell--non-numeric: a(href=`/companies/${company._id}`)= company._id
-              td.mdl-data-table__cell--non-numeric: a(href=`/companies/${company._id}`)= company.name
+                td.mdl-data-table__cell--non-numeric: a(href=company.url.show)= company._id
+              td.mdl-data-table__cell--non-numeric: a(href=company.url.show)= company.name
               td.mdl-data-table__cell--non-numeric= formatDate(company.createdAt)
-              td.mdl-data-table__cell--action: form(action='/companies/' + company._id + '/delete' method="post")
+              td.mdl-data-table__cell--action: form(action=company.url.delete method="post")
                 button.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(type="submit")
                   i.material-icons delete
     a.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored(href="/companies")

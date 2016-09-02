@@ -23,7 +23,19 @@ function list(req, res, next) {
 
 function show(req, res, next) {
   var userId        = req.params.userId
-  if (!userId) return res.render('user-new-edit')
+  var companyId     = req.params.companyId
+
+  if (!userId) {
+    return Companies
+    .findById(companyId)
+    .then(function (company) {
+      res.render('user-new-edit', {data: {
+        company: company,
+      }})
+    })
+    .catch(next)
+  }
+
   var getUser       = Users.findById(userId).populate('_company')
   var getCompanies  = Companies.find({})
   var getWireframes = Wireframes.find({_user: userId})

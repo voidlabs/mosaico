@@ -165,6 +165,7 @@ module.exports = function () {
   app.get('/admin',                             guard('admin'), companies.list)
   // companies
   app.all('/companies*',                        guard('admin'))
+  app.get('/companies/:companyId/new-user',     users.show)
   app.get('/companies/:companyId?',             companies.show)
   app.post('/companies/:companyId?',            companies.update)
   // app.post('/users/:userId/delete',             companies.delete)
@@ -176,7 +177,7 @@ module.exports = function () {
   app.post('/users/:userId/delete',             users.delete)
   app.post('/users/reset',                      users.adminResetPassword)
   app.get('/users/list',                        users.list)
-  app.get('/users/:userId?',                    users.show)
+  app.get('/users/:userId',                     users.show)
   app.post('/users/:userId?',                   users.update)
 
   app.get('/wireframes/:wireId/delete',         guard('admin'), wireframes.remove)

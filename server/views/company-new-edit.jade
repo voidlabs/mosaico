@@ -6,7 +6,7 @@ block vars
   - var pageTitle = isEdit ? 'company: ' + company.name : 'new company'
 
 block content
-  - var company      = data && data.company ? data.company : {};
+  - var company   = data && data.company ? data.company : {};
   - var isEdit    = company._id
   - var action    = isEdit ? `/companies/${company._id}` : `/companies`;
   - var hasError  = messages.error && messages.error.length;
@@ -65,7 +65,7 @@ block content
                       a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href=deleteUrl)
                         i.material-icons delete_forever
           .mdl-card__actions(class=data.wireframes.length ? '' : 'mdl-card--border')
-            a.mdl-button.mdl-button--accent.mdl-js-button.mdl-js-ripple-effect(href='/company/' + company._id + '/wireframe')
+            a.mdl-button.mdl-button--accent.mdl-js-button.mdl-js-ripple-effect(href=company.url.newWireframe)
               | new wireframe
 
         .mdl-cell.mdl-cell--12-col.mdl-cell--top.mdl-card.mdl-shadow--2dp
@@ -79,8 +79,8 @@ block content
                 tr
                   if _config.debug
                     th.mdl-data-table__cell--non-numeric id
-                  th.mdl-data-table__cell--non-numeric user name
                   th.mdl-data-table__cell--non-numeric email
+                  th.mdl-data-table__cell--non-numeric user name
                   th.mdl-data-table__cell--non-numeric(colspan="2") status
                   th.mdl-data-table__cell--action language
                   th.mdl-data-table__cell--non-numeric created at
@@ -90,9 +90,9 @@ block content
                 each user in data.users
                   tr
                     if _config.debug
-                      td.mdl-data-table__cell--non-numeric: a(href=`/users/${user._id}`)= user._id
-                    td.mdl-data-table__cell--non-numeric: a(href=`/users/${user._id}`)=user.name ? user.name : 'new user'
-                    td.mdl-data-table__cell--non-numeric= user.email
+                      td.mdl-data-table__cell--non-numeric: a(href=user.url.show)= user._id
+                    td.mdl-data-table__cell--non-numeric: a(href=user.url.show)= user.email
+                    td.mdl-data-table__cell--non-numeric=user.name ? user.name : 'new user'
                     td.mdl-data-table__cell--non-numeric
                       if user.status === 'confirmed'
                         i.material-icons check
@@ -110,5 +110,5 @@ block content
                       button.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(type="submit")
                         i.material-icons delete
           .mdl-card__actions(class=data.users.length ? '' : 'mdl-card--border')
-            a.mdl-button.mdl-button--accent.mdl-js-button.mdl-js-ripple-effect(href='#/company/' + company._id + '/wireframe')
+            a.mdl-button.mdl-button--accent.mdl-js-button.mdl-js-ripple-effect(href=company.url.newUser)
               | new user

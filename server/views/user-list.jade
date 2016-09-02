@@ -13,9 +13,9 @@ block content
           tr
             if _config.debug
               th.mdl-data-table__cell--non-numeric id
+            th.mdl-data-table__cell--non-numeric email
             th.mdl-data-table__cell--non-numeric user name
             th.mdl-data-table__cell--non-numeric from company
-            th.mdl-data-table__cell--non-numeric email
             th.mdl-data-table__cell--non-numeric(colspan="2") status
             th.mdl-data-table__cell--action language
             th.mdl-data-table__cell--non-numeric created at
@@ -25,14 +25,14 @@ block content
           each user in data.users
             tr
               if _config.debug
-                td.mdl-data-table__cell--non-numeric: a(href=`/users/${user._id}`)= user._id
-              td.mdl-data-table__cell--non-numeric: a(href=`/users/${user._id}`)=user.name ? user.name : 'new user'
+                td.mdl-data-table__cell--non-numeric: a(href=user.url.show)= user._id
+              td.mdl-data-table__cell--non-numeric: a(href=user.url.show)= user.email
+              td.mdl-data-table__cell--non-numeric= user.name ? user.name : 'new user'
               td.mdl-data-table__cell--non-numeric
                 if user.hasCompany
                   a(href=`/companies/${user._company.id}`) #{user._company.name}
                 else
                   i.material-icons.is-invalid error
-              td.mdl-data-table__cell--non-numeric= user.email
               td.mdl-data-table__cell--non-numeric
                 if user.status === 'confirmed'
                   i.material-icons check

@@ -8,7 +8,7 @@ block vars
 block content
   - var user      = data && data.user ? data.user : {};
   - var isEdit    = user._id
-  - var action    = isEdit ? `/users/${user._id}` : `/users`;
+  - var action    = isEdit ? user.url.show : `/users`;
   - var hasError  = messages.error && messages.error.length;
   - var errors    = hasError ? messages.error[0] : {};
 
@@ -18,6 +18,8 @@ block content
       form.mdl-cell.mdl-cell--6-col.mdl-cell--top.mdl-card.mdl-shadow--2dp(action=action method="post" class=isEdit ? '' : 'mdl-cell--3-offset-desktop')
         if user._id
           input(type="hidden" name="id" value=user._id)
+        if !isEdit
+          input(type="hidden" name="_company" value=data.company._id)
         .mdl-card__title
           .mdl-card__title-text informations
         fieldset.mdl-card__supporting-text
@@ -33,18 +35,28 @@ block content
             if errors.name
               span.mdl-textfield__error= errors.name.message
 
+          if isEdit
+            if !user.hasCompany
+              .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+                select.mdl-textfield__input#company-field(name="_company")
+                  each company in data.companies
+                    option(value=company._id)= company.name
+                label.mdl-textfield__label.mdl-textfield__label--fixed(for="company-field") company
+            else
+              .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+                p.mdl-textfield__input= user._company.name
+                label.mdl-textfield__label.mdl-textfield__label--fixed company
+          else
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+              p.mdl-textfield__input= data.company.name
+              label.mdl-textfield__label.mdl-textfield__label--fixed company
+
           .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
             select.mdl-textfield__input#lang-field(name="lang")
               option(value="en" selected=user.lang==='en') english
               option(value="fr" selected=user.lang==='fr') french
             label.mdl-textfield__label.mdl-textfield__label--fixed(for="lang-field") default language
 
-          if !user.hasCompany
-            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-              select.mdl-textfield__input#company-field(name="_company")
-                each company in data.companies
-                  option(value=company._id)= company.name
-              label.mdl-textfield__label.mdl-textfield__label--fixed(for="company-field") company
 
         button(type="submit").mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored
           i.material-icons save
