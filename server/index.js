@@ -68,14 +68,16 @@ module.exports = function () {
   function logRequest(tokens, req, res) {
     if (/\/img\//.test(req.path)) return
     var method  = chalk.blue(tokens.method(req, res))
-    var ips     = chalk.grey(`- ${req.ip.split(':')[0]} -`)
+    var ips     = req.ip.split(':')[0]
+    ips         = ips ? chalk.grey(`- ${ips} -`) : ''
     var url     = chalk.grey(tokens.url(req, res))
     return `${method} ${ips} ${url}`
   }
 
   function logResponse(tokens, req, res) {
     var method      = chalk.blue(tokens.method(req, res))
-    var ips         = chalk.grey(`- ${req.ip.split(':')[0]} -`)
+    var ips         = req.ip.split(':')[0]
+    ips             = ips ? chalk.grey(`- ${ips} -`) : ''
     var url         = chalk.grey(tokens.url(req, res))
     var status      = tokens.status(req, res)
     var statusColor = status >= 500
