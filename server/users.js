@@ -6,11 +6,13 @@ var config                  = require('./config')
 var DB                      = require('./database')
 var Users                   = DB.Users
 var Wireframes              = DB.Wireframes
+var Companies               = DB.Companies
 var handleValidatorsErrors  = DB.handleValidatorsErrors
 
 function list(req, res, next) {
   Users
   .find({})
+  .populate('_company')
   .then(function onUsers(users) {
     return res.render('user-list', {
       data: { users: users, }
@@ -22,17 +24,20 @@ function list(req, res, next) {
 function show(req, res, next) {
   var userId        = req.params.userId
   if (!userId) return res.render('user-new-edit')
-  var getUser       = Users.findById(userId)
+  var getUser       = Users.findById(userId).populate('_company')
+  var getCompanies  = Companies.find({})
   var getWireframes = Wireframes.find({_user: userId})
 
   Promise
-  .all([getUser, getWireframes])
+  .all([getUser, getCompanies, getWireframes])
   .then(function (dbResponse) {
     var user        = dbResponse[0]
-    var wireframes  = dbResponse[1]
+    var companies   = dbResponse[1]
+    var wireframes  = dbResponse[2]
     if (!user) return res.status(404).end()
     res.render('user-new-edit', {data: {
       user:       user,
+      companies:  companies,
       wireframes: wireframes,
     }})
   })

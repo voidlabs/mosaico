@@ -7,6 +7,8 @@ var config                  = require('./config')
 var DB                      = require('./database')
 var handleValidatorsErrors  = DB.handleValidatorsErrors
 var Companies               = DB.Companies
+var Users                   = DB.Users
+var Wireframes              = DB.Wireframes
 
 function list(req, res, next) {
   Companies
@@ -20,20 +22,23 @@ function list(req, res, next) {
 }
 
 function show(req, res, next) {
-  var companyId        = req.params.companyId
+  var companyId     = req.params.companyId
   if (!companyId) return res.render('company-new-edit')
-  var getCompany       = Companies.findById(companyId)
-  // var getWireframes = Wireframes.find({_user: userId})
+  var getCompany    = Companies.findById(companyId)
+  var getUsers      = Users.find({_company: companyId})
+  var getWireframes = Wireframes.find({_company: companyId})
 
   Promise
-  .all([getCompany])
+  .all([getCompany, getUsers, getWireframes])
   .then(function (dbResponse) {
-    var company        = dbResponse[0]
-    // var wireframes  = dbResponse[1]
+    var company     = dbResponse[0]
+    var users       = dbResponse[1]
+    var wireframes  = dbResponse[2]
     if (!company) return res.status(404).end()
     res.render('company-new-edit', {data: {
-      company:       company,
-      // wireframes: wireframes,
+      company:    company,
+      users:      users,
+      wireframes: wireframes,
     }})
   })
   .catch(next)
@@ -47,7 +52,7 @@ function update(req, res, next) {
 
   dbRequest
   .then(function (company) {
-    res.redirect(`/company/${company._id}`)
+    res.redirect(`/companies/${company._id}`)
   })
   .catch(err => handleValidatorsErrors(err, req, res, next) )
 }

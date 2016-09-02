@@ -14,6 +14,7 @@ block content
             if _config.debug
               th.mdl-data-table__cell--non-numeric id
             th.mdl-data-table__cell--non-numeric user name
+            th.mdl-data-table__cell--non-numeric from company
             th.mdl-data-table__cell--non-numeric email
             th.mdl-data-table__cell--non-numeric(colspan="2") status
             th.mdl-data-table__cell--action language
@@ -26,6 +27,11 @@ block content
               if _config.debug
                 td.mdl-data-table__cell--non-numeric: a(href=`/users/${user._id}`)= user._id
               td.mdl-data-table__cell--non-numeric: a(href=`/users/${user._id}`)=user.name ? user.name : 'new user'
+              td.mdl-data-table__cell--non-numeric
+                if user.hasCompany
+                  a(href=`/companies/${user._company.id}`) #{user._company.name}
+                else
+                  i.material-icons.is-invalid error
               td.mdl-data-table__cell--non-numeric= user.email
               td.mdl-data-table__cell--non-numeric
                 if user.status === 'confirmed'
@@ -44,6 +50,6 @@ block content
                 button.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(type="submit")
                   i.material-icons delete
 
-    a.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored(href="/users")
-      i.material-icons person_add
+    //- a.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored(href="/users")
+    //-   i.material-icons person_add
 

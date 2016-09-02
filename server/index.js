@@ -167,6 +167,7 @@ module.exports = function () {
   app.all('/companies*',                        guard('admin'))
   app.get('/companies/:companyId?',             companies.show)
   app.post('/companies/:companyId?',            companies.update)
+  // app.post('/users/:userId/delete',             companies.delete)
   // users' wireframes
   app.all('/users*',                            guard('admin'))
   app.get('/users/:userId/wireframe/:wireId?',  wireframes.show)

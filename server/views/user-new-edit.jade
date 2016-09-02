@@ -21,9 +21,6 @@ block content
         .mdl-card__title
           .mdl-card__title-text informations
         fieldset.mdl-card__supporting-text
-          //- if user._id
-          //-   ul
-          //-     li status: #{user.status}
           .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(class= errors.email ? 'is-invalid' : '')
             input.mdl-textfield__input#email-field(type="email" name="email" required value=user.email)
             label.mdl-textfield__label(for="email-field") email
@@ -41,6 +38,13 @@ block content
               option(value="en" selected=user.lang==='en') english
               option(value="fr" selected=user.lang==='fr') french
             label.mdl-textfield__label.mdl-textfield__label--fixed(for="lang-field") default language
+
+          if !user.hasCompany
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+              select.mdl-textfield__input#company-field(name="_company")
+                each company in data.companies
+                  option(value=company._id)= company.name
+              label.mdl-textfield__label.mdl-textfield__label--fixed(for="company-field") company
 
         button(type="submit").mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored
           i.material-icons save
@@ -82,4 +86,3 @@ block content
           .mdl-card__actions(class=data.wireframes.length ? '' : 'mdl-card--border')
             a.mdl-button.mdl-button--accent.mdl-js-button.mdl-js-ripple-effect(href='/users/' + user._id + '/wireframe')
               | new wireframe
-

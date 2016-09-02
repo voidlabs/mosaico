@@ -91,10 +91,10 @@ var UserSchema    = Schema({
   name: {
     type:     String,
   },
-  role: {
-    type:     String,
-    default:  'company',
-  },
+  // role: {
+  //   type:     String,
+  //   default:  'company',
+  // },
   email: {
     type:     String,
     required: [true, 'Email address is required'],
@@ -106,6 +106,12 @@ var UserSchema    = Schema({
       validator: function checkValidEmail(value) { return validator.isEmail(value) },
       message:  '{VALUE} is not a valid email address',
     }],
+  },
+  _company: {
+    type:       ObjectId,
+    ref:        'Company',
+    // Should be required after migration
+    // required:   [true, 'user is required'],
   },
   password:   {
     type:     String,
@@ -135,6 +141,10 @@ UserSchema.virtual('isReseted').get(function () {
   if (this.password)  return false
   if (this.token)     return true
   return false
+})
+
+UserSchema.virtual('hasCompany').get(function () {
+  return typeof this._company !== 'undefined'
 })
 
 // TODO: take care of good email send
@@ -212,6 +222,12 @@ var WireframeSchema    = Schema({
   },
   description: {
     type: String
+  },
+  _company: {
+    type:       ObjectId,
+    ref:        'Company',
+    // Should be required after migration
+    // required:   [true, 'user is required'],
   },
   _user: {
     type:       ObjectId,
