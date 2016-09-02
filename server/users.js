@@ -22,8 +22,8 @@ function list(req, res, next) {
 }
 
 function show(req, res, next) {
-  var userId        = req.params.userId
   var companyId     = req.params.companyId
+  var userId        = req.params.userId
 
   if (!userId) {
     return Companies

@@ -22,7 +22,7 @@ html(lang=getLocale())
           nav.mdl-navigation
             if _user.isAdmin
               a.mdl-navigation__link(href="/admin" title="companies"): i.material-icons group
-              a.mdl-navigation__link(href="/users/list" title="users"): i.material-icons person
+              a.mdl-navigation__link(href="/users" title="users"): i.material-icons person
               a.mdl-navigation__link(href="/wireframes" title="wireframes"): i.material-icons web
 
             if getLocale() === 'en'

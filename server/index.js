@@ -161,28 +161,30 @@ module.exports = function () {
     failureFlash:     true,
     successFlash:     true,
   }))
-  app.get('/admin/login',                       render.adminLogin)
-  app.get('/admin',                             guard('admin'), companies.list)
+  app.get('/admin/login',                         render.adminLogin)
+  app.get('/admin',                               guard('admin'), companies.list)
   // companies
-  app.all('/companies*',                        guard('admin'))
-  app.get('/companies/:companyId/new-user',     users.show)
-  app.get('/companies/:companyId?',             companies.show)
-  app.post('/companies/:companyId?',            companies.update)
-  // app.post('/users/:userId/delete',             companies.delete)
+  app.all('/companies*',                          guard('admin'))
+  app.get('/companies/:companyId/new-user',       users.show)
+  app.get('/companies/:companyId/new-wireframe',  wireframes.show)
+  app.get('/companies/:companyId?',               companies.show)
+  app.post('/companies/:companyId?',              companies.update)
+  // app.post('/users/:userId/delete',               companies.delete)
   // users' wireframes
-  app.all('/users*',                            guard('admin'))
-  app.get('/users/:userId/wireframe/:wireId?',  wireframes.show)
-  app.post('/users/:userId/wireframe/:wireId?', wireframes.update)
+  app.all('/users*',                              guard('admin'))
+  app.get('/users/:userId/wireframe/:wireId?',    wireframes.show)
   // users
-  app.post('/users/:userId/delete',             users.delete)
-  app.post('/users/reset',                      users.adminResetPassword)
-  app.get('/users/list',                        users.list)
-  app.get('/users/:userId',                     users.show)
-  app.post('/users/:userId?',                   users.update)
+  app.post('/users/:userId/delete',               users.delete)
+  app.post('/users/reset',                        users.adminResetPassword)
+  app.get('/users/:userId',                       users.show)
+  app.post('/users/:userId?',                     users.update)
+  app.get('/users',                               users.list)
 
-  app.get('/wireframes/:wireId/delete',         guard('admin'), wireframes.remove)
-  app.get('/wireframes/:wireId/markup',         guard('user'), wireframes.getMarkup)
-  app.get('/wireframes',                        guard('admin'), wireframes.list)
+  app.get('/wireframes/:wireId/delete',           guard('admin'), wireframes.remove)
+  app.get('/wireframes/:wireId/markup',           guard('user'), wireframes.getMarkup)
+  app.get('/wireframes/:wireId',                  guard('admin'), wireframes.show)
+  app.post('/wireframes/:wireId?',                guard('admin'), wireframes.update)
+  app.get('/wireframes',                          guard('admin'), wireframes.list)
 
   //----- PUBLIC
 

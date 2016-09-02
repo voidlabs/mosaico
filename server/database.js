@@ -148,7 +148,7 @@ UserSchema.virtual('hasCompany').get(function () {
 })
 
 UserSchema.virtual('url').get(function () {
-  let return = {
+  return {
     show:   `/users/${this._id}`,
     delete: `/users/${this._id}/delete`,
   }
@@ -258,12 +258,20 @@ WireframeSchema.virtual('hasMarkup').get(function () {
 })
 
 WireframeSchema.virtual('url').get(function () {
+  let userId      = this._user && this._user._id ? this._user._id : this._user
+  let userUrl     = this._user ? `/users/${userId}` : '/users'
+  let companyId   = this._company && this._company._id ? this._company._id : this._company
+  let companyUrl  = this._company ? `/companies/${companyId}` : '/companies'
   // read should be `/companies/${this._company}/wireframs/${this._id}`
   return {
-    read:       `/users/${this._user}/wireframe/${this._id}`,
-    delete:     `/wireframes/${this._id}/delete`,
-    markup:     `/wireframes/${this._id}/markup`,
-    imgCover:   `/img/${this._id}-_full.png`,
+    read:      `/users/${this._user}/wireframe/${this._id}`,
+    show:      `/wireframes/${this._id}`,
+    backTo:    this._company ? companyUrl : userUrl,
+    user:      userUrl,
+    company:   companyUrl,
+    delete:    `/wireframes/${this._id}/delete`,
+    markup:    `/wireframes/${this._id}/markup`,
+    imgCover:  `/img/${this._id}-_full.png`,
   }
 })
 

@@ -8,6 +8,7 @@ var filemanager             = require('./filemanager')
 var DB                      = require('./database')
 var slugFilename            = require('../shared/slug-filename.js')
 var Wireframes              = DB.Wireframes
+var Companies               = DB.Companies
 var Creations               = DB.Creations
 var handleValidatorsErrors  = DB.handleValidatorsErrors
 
@@ -15,6 +16,7 @@ function list(req, res, next) {
   Wireframes
   .find({})
   .populate('_user')
+  .populate('_company')
   .then(function (wireframes) {
     res.render('wireframe-list', {
       data: { wireframes: wireframes, }
@@ -24,15 +26,24 @@ function list(req, res, next) {
 }
 
 function show(req, res, next) {
-  var data = { _user: req.params.userId }
+  var companyId = req.params.companyId
+  var wireId    = req.params.wireId
+
+  if (!wireId) {
+    return Companies
+    .findById(companyId)
+    .then( (company) => {
+      res.render('wireframe-new-edit', { data: { company: company, }} )
+    })
+    .catch(next)
+  }
+
   Wireframes
   .findById(req.params.wireId)
   .populate('_user')
-  .then(function (wireframe) {
-    if (wireframe) {
-      data.wireframe = wireframe
-    }
-    res.render('wireframe-new-edit', { data: data })
+  .populate('_company')
+  .then( (wireframe) => {
+    res.render('wireframe-new-edit', { data: { wireframe: wireframe, }} )
   })
   .catch(next)
 }
@@ -100,7 +111,7 @@ function update(req, res, next) {
     })
     .then(function (wireframe) {
       req.flash('success', wireId ? 'updated' : 'created')
-      return res.redirect(`/users/${userId}/wireframe/${wireframe._id}`)
+      return res.redirect(wireframe.url.backTo)
     })
     .catch(err => handleValidatorsErrors(err, req, res, next))
   }

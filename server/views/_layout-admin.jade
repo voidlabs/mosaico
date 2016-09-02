@@ -21,7 +21,7 @@ html(lang=getLocale())
           nav.mdl-navigation.mdl-layout--large-screen-only
             if _user.isAdmin
               a.mdl-navigation__link(href="/admin" title="companies"): i.material-icons group
-              a.mdl-navigation__link(href="/users/list" title="users"): i.material-icons person
+              a.mdl-navigation__link(href="/users" title="users"): i.material-icons person
               a.mdl-navigation__link(href="/wireframes" title="wireframes"): i.material-icons web
 
             a.mdl-navigation__link(href="/"): i.material-icons home
@@ -32,7 +32,7 @@ html(lang=getLocale())
         nav.mdl-navigation
           if _user.isAdmin
             a.mdl-navigation__link(href="/admin") companies
-            a.mdl-navigation__link(href="/users/list") users
+            a.mdl-navigation__link(href="/users") users
             a.mdl-navigation__link(href="/wireframes") wireframes
           a.mdl-navigation__link(href="/logout") logout
           a.mdl-navigation__link(href="/") home

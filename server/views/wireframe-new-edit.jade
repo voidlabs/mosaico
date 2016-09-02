@@ -4,25 +4,26 @@ block vars
   - var isEdit    = data.wireframe != null;
   - var wireframe = data.wireframe || {};
   - var pageTitle = isEdit ? 'wireframe: ' + wireframe.name : 'new wireframe'
-  - pageTitle     = isEdit ? pageTitle + ' — user: ' + wireframe._user.name : pageTitle
   - var pageClass = 'wireframe-new-edit'
 
 block content
   - var hasError  = messages.error && messages.error.length;
   - var errors    = hasError ? messages.error[0] : {};
   - var isEdit    = data.wireframe != null;
-  - var action    = '/users/' + data._user + '/wireframe';
   - var wireframe = data.wireframe || {};
-  - action        = isEdit ? action + '/' + wireframe._id : action;
+  - var action    = isEdit ? wireframe.url.show : '/wireframes';
 
   //- .mdl-grid.mdl-grid--no-spacing
 
   if isEdit
     .mdl-cell.mdl-cell--2-col.mdl-color--accent-contrast.mdl-shadow--4dp
       ul.mdl-list
-        li.mdl-list__item: a.mdl-list__item-primary-content(href='/users/' + data._user)
+        li.mdl-list__item: a.mdl-list__item-primary-content(href=wireframe.url.backTo)
           .material-icons.mdl-list__item-icon person
-          | back to user
+          if (wireframe.hasCompany)
+            | back to company
+          else
+            | back to user
         li.mdl-list__item: a.mdl-list__item-primary-content(href='/editor?wireframeId=' + wireframe._id)
           .material-icons.mdl-list__item-icon library_add
           | create mailing
@@ -31,7 +32,7 @@ block content
             .material-icons.mdl-list__item-icon report_problem
             | NO MARKUP
         li.mdl-list__item: span.mdl-list__item-primary-content deleting a wireframe will also remove every creations using this one
-        - var deleteUrl = wireframe.url.delete + '?redirect=/users/' + data._user
+        - var deleteUrl = wireframe.url.delete + '?redirect=' + wireframe.url.backTo
         li.mdl-list__item: a.mdl-list__item-primary-content(href=deleteUrl)
           .material-icons.mdl-list__item-icon delete_forever
           | delete
@@ -43,7 +44,6 @@ block content
 
 
   form(action=action method="post" enctype="multipart/form-data" class=isEdit ? 'mdl-cell--10-col' : 'mdl-cell--12-col').mdl-cell
-    input(name="_user" type="hidden" value=data._user)
     .mdl-grid
       fieldset.mdl-cell.mdl-cell--6-col.mdl-card.mdl-shadow--2dp(class=isEdit ? '' : 'mdl-cell--3-offset-desktop')
         .mdl-card__title: .mdl-card__title-text meta
@@ -56,6 +56,18 @@ block content
           .mdl-textfield.mdl-js-textfield
             textarea.mdl-textfield__input#description-field(type="text" rows="1" name="description")=wireframe.description
             label.mdl-textfield__label(for="description-field") Description
+
+          if isEdit
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+              p.mdl-textfield__input= wireframe._company.name
+              label.mdl-textfield__label.mdl-textfield__label--fixed company
+          else
+            input(type="hidden" name="_company" value=data.company._id)
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+              p.mdl-textfield__input= data.company.name
+              label.mdl-textfield__label.mdl-textfield__label--fixed company
+
+
       if isEdit
         fieldset.mdl-cell.mdl-cell--6-col.mdl-card.mdl-shadow--2dp
           .mdl-card__title: .mdl-card__title-text files
