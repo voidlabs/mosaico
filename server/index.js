@@ -98,6 +98,7 @@ module.exports = function () {
   var images      = require('./images')
   var render      = require('./render')
   var users       = require('./users')
+  var companies   = require('./companies')
   var wireframes  = require('./wireframes')
   var creations   = require('./creations')
   var filemanager = require('./filemanager')
@@ -161,7 +162,7 @@ module.exports = function () {
     successFlash:     true,
   }))
   app.get('/admin/login',                       render.adminLogin)
-  app.get('/admin',                             guard('admin'), users.list)
+  app.get('/admin',                             guard('admin'), companies.list)
 
   app.all('/users*',                            guard('admin'))
   // users' wireframes

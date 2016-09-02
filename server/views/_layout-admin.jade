@@ -20,8 +20,9 @@ html(lang=getLocale())
           //- Navigation. We hide it in small screens
           nav.mdl-navigation.mdl-layout--large-screen-only
             if _user.isAdmin
-              a.mdl-navigation__link(href="/admin"): i.material-icons people
-              a.mdl-navigation__link(href="/wireframes"): i.material-icons web
+              a.mdl-navigation__link(href="/admin" title="companies"): i.material-icons group
+              a.mdl-navigation__link(href="/users/list" title="users"): i.material-icons person
+              a.mdl-navigation__link(href="/wireframes" title="wireframes"): i.material-icons web
 
             a.mdl-navigation__link(href="/"): i.material-icons home
             a.mdl-navigation__link(href="/logout"): i.material-icons power_settings_new
@@ -30,7 +31,8 @@ html(lang=getLocale())
         span.mdl-layout-title= title
         nav.mdl-navigation
           if _user.isAdmin
-            a.mdl-navigation__link(href="/admin") users
+            a.mdl-navigation__link(href="/admin") companies
+            a.mdl-navigation__link(href="/users/list") users
             a.mdl-navigation__link(href="/wireframes") wireframes
           a.mdl-navigation__link(href="/logout") logout
           a.mdl-navigation__link(href="/") home
