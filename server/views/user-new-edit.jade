@@ -57,7 +57,6 @@ block content
               option(value="fr" selected=user.lang==='fr') french
             label.mdl-textfield__label.mdl-textfield__label--fixed(for="lang-field") default language
 
-
         button(type="submit").mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored
           i.material-icons save
 
@@ -95,3 +94,31 @@ block content
                     td.mdl-data-table__cell--action
                       a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href=deleteUrl)
                         i.material-icons delete_forever
+        //- CREATIONS
+        .mdl-cell.mdl-cell--12-col.mdl-cell--top.mdl-card.mdl-shadow--2dp
+          .mdl-card__title
+            .mdl-card__title-text associated creations
+
+          if !data.creations.length
+            .mdl-card__supporting-text: p no creations yet
+          else
+            table.mdl-data-table.mdl-js-data-table
+              thead: tr
+                if _config.debug
+                  th.mdl-data-table__cell--non-numeric Id
+                th.mdl-data-table__cell--non-numeric= __('home.saved.name')
+                th.mdl-data-table__cell--non-numeric= __('home.saved.wireframe-name')
+                th.mdl-data-table__cell--non-numeric= __('home.saved.created')
+                th.mdl-data-table__cell--non-numeric= __('home.saved.last-change')
+              tbody
+                each creation in data.creations
+                  tr
+                    if _config.debug
+                      td.mdl-data-table__cell--non-numeric
+                        a(href=creation.url.update)= creation._id
+                    td.mdl-data-table__cell--non-numeric
+                      a(href=creation.url.update).js-name= creation.name || __('home.saved.noname')
+                    td.mdl-data-table__cell--non-numeric: span= creation._wireframe.name
+                    td.mdl-data-table__cell--non-numeric: span= formatDate(creation.createdAt)
+                    td.mdl-data-table__cell--non-numeric: span= formatDate(creation.updatedAt)
+

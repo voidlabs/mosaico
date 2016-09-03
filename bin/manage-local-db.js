@@ -21,7 +21,7 @@ var dbLocal       = {
 }
 
 if (!isSaving && !isRestoring) {
-  console.log(c.green('short notice'))
+  console.log(c.green('short notice:'))
   console.log('save:    npm run local-db -- --save')
   console.log('restore: npm run local-db -- --restore')
   return
