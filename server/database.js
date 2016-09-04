@@ -148,9 +148,11 @@ UserSchema.virtual('hasCompany').get(function () {
 })
 
 UserSchema.virtual('url').get(function () {
+  let companyId   = this._company && this._company._id ? this._company._id : this._company
   return {
-    show:   `/users/${this._id}`,
-    delete: `/users/${this._id}/delete`,
+    show:     `/users/${this._id}`,
+    delete:   `/users/${this._id}/delete`,
+    company:  `/companies/${companyId}`,
   }
 })
 
@@ -255,6 +257,10 @@ WireframeSchema.virtual('imgPath').get(function () {
 
 WireframeSchema.virtual('hasMarkup').get(function () {
   return this.markup != null
+})
+
+WireframeSchema.virtual('hasCompany').get(function () {
+  return typeof this._company !== 'undefined'
 })
 
 WireframeSchema.virtual('url').get(function () {

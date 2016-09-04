@@ -4,7 +4,7 @@ block vars
   - var isEdit    = data.wireframe != null;
   - var wireframe = data.wireframe || {};
   - var pageTitle = isEdit ? 'wireframe: ' + wireframe.name : 'new wireframe'
-  - var pageClass = 'wireframe-new-edit'
+  - var pageClass = 'full-width-layout'
 
 block content
   - var hasError  = messages.error && messages.error.length;
@@ -16,13 +16,14 @@ block content
   //- .mdl-grid.mdl-grid--no-spacing
 
   if isEdit
-    .mdl-cell.mdl-cell--2-col.mdl-color--accent-contrast.mdl-shadow--4dp
+    .mdl-cell.mdl-cell--3-col.mdl-color--accent-contrast.mdl-shadow--4dp
       ul.mdl-list
         li.mdl-list__item: a.mdl-list__item-primary-content(href=wireframe.url.backTo)
-          .material-icons.mdl-list__item-icon person
           if (wireframe.hasCompany)
-            | back to company
+            .material-icons.mdl-list__item-icon group
+            | #{wireframe._company.name}
           else
+            .material-icons.mdl-list__item-icon person
             | back to user
         li.mdl-list__item: a.mdl-list__item-primary-content(href='/editor?wireframeId=' + wireframe._id)
           .material-icons.mdl-list__item-icon library_add
@@ -43,7 +44,7 @@ block content
           img(src=wireframe.url.imgCover style="width: 100%; height: auto;")
 
 
-  form(action=action method="post" enctype="multipart/form-data" class=isEdit ? 'mdl-cell--10-col' : 'mdl-cell--12-col').mdl-cell
+  form(action=action method="post" enctype="multipart/form-data" class=isEdit ? 'mdl-cell--9-col' : 'mdl-cell--12-col').mdl-cell
     .mdl-grid
       fieldset.mdl-cell.mdl-cell--6-col.mdl-card.mdl-shadow--2dp(class=isEdit ? '' : 'mdl-cell--3-offset-desktop')
         .mdl-card__title: .mdl-card__title-text meta
@@ -57,15 +58,16 @@ block content
             textarea.mdl-textfield__input#description-field(type="text" rows="1" name="description")=wireframe.description
             label.mdl-textfield__label(for="description-field") Description
 
-          if isEdit
-            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-              p.mdl-textfield__input= wireframe._company.name
-              label.mdl-textfield__label.mdl-textfield__label--fixed company
-          else
-            input(type="hidden" name="_company" value=data.company._id)
-            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-              p.mdl-textfield__input= data.company.name
-              label.mdl-textfield__label.mdl-textfield__label--fixed company
+          if wireframe.hasCompany
+            if isEdit
+              .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+                p.mdl-textfield__input= wireframe._company.name
+                label.mdl-textfield__label.mdl-textfield__label--fixed company
+            else
+              input(type="hidden" name="_company" value=data.company._id)
+              .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+                p.mdl-textfield__input= data.company.name
+                label.mdl-textfield__label.mdl-textfield__label--fixed company
 
 
       if isEdit

@@ -26,8 +26,9 @@ function show(req, res, next) {
   var companyId     = req.params.companyId
   var userId        = req.params.userId
 
+  // create
   if (!userId) {
-    return Companies
+    Companies
     .findById(companyId)
     .then(function (company) {
       res.render('user-new-edit', {data: {
@@ -35,8 +36,10 @@ function show(req, res, next) {
       }})
     })
     .catch(next)
+    return
   }
 
+  // update
   var getUser       = Users.findById(userId).populate('_company')
   var getCompanies  = Companies.find({})
   var getWireframes = Wireframes.find( { _user: userId } )

@@ -15,7 +15,7 @@ block content
   .page-content
 
     .mdl-grid
-      form.mdl-cell.mdl-cell--6-col.mdl-cell--top.mdl-card.mdl-shadow--2dp(action=action method="post" class=isEdit ? '' : 'mdl-cell--3-offset-desktop')
+      form.mdl-cell.mdl-cell--6-col.mdl-card.mdl-shadow--2dp(action=action method="post" class=isEdit ? '' : 'mdl-cell--3-offset-desktop')
         if company._id
           input(type="hidden" name="id" value=company._id)
         .mdl-card__title
@@ -51,7 +51,7 @@ block content
                   - var deleteUrl = wireframe.url.delete + '?redirect=/company/' + wireframe._company
                   tr
                     td.mdl-data-table__cell--non-numeric
-                      a(href=wireframe.url.read)= wireframe._id
+                      a(href=wireframe.url.show)= wireframe._id
                     td.mdl-data-table__cell--non-numeric= wireframe.name
                     td.mdl-data-table__cell--action
                       if wireframe.hasMarkup
@@ -59,7 +59,7 @@ block content
                       else
                         i.material-icons report_problem
                     td.mdl-data-table__cell--action
-                      a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href=wireframe.url.read)
+                      a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href=wireframe.url.show)
                         i.material-icons mode_edit
                     td.mdl-data-table__cell--action
                       a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href=deleteUrl)

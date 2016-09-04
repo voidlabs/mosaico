@@ -37,7 +37,7 @@ html(lang=getLocale())
           a.mdl-navigation__link(href="/logout") logout
           a.mdl-navigation__link(href="/") home
 
-      main.mdl-layout__content(class=page === 'wireframe-new-edit' ? 'mdl-grid mdl-grid--no-spacing' : '' )
+      main.mdl-layout__content(class=page === 'full-width-layout' ? 'mdl-grid mdl-grid--no-spacing' : '' )
         block content
         if _config.debug
           footer(style="background: #eee")
