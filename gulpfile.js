@@ -302,6 +302,8 @@ gulp.task('assets', ['fonts']);
 // DEV
 ////////
 
+gulp.task('clean-tmp', cb => del(['tmp/upload_*'], cb) )
+
 gulp.task('toc', function() {
   return gulp.src('./BADSENDER.md')
   .pipe($.doctoc({

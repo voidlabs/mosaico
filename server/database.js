@@ -91,10 +91,10 @@ var UserSchema    = Schema({
   name: {
     type:     String,
   },
-  // role: {
-  //   type:     String,
-  //   default:  'company',
-  // },
+  role: {
+    type:     String,
+    // default:  'company',
+  },
   email: {
     type:     String,
     required: [true, 'Email address is required'],

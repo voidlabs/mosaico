@@ -13,9 +13,17 @@ block content
   - var errors    = hasError ? messages.error[0] : {};
 
   .page-content
-
     .mdl-grid
-      form.mdl-cell.mdl-cell--6-col.mdl-cell--top.mdl-card.mdl-shadow--2dp(action=action method="post" class=isEdit ? '' : 'mdl-cell--3-offset-desktop')
+      if isEdit && !user.hasCompany
+        .mdl-cell.mdl-cell--12-col.mdl-card.mdl-shadow--2dp
+          .mdl-card__title
+            .mdl-card__title-text You are about to assign a company to this user.
+          .mdl-card__supporting-text
+            p
+              span(style="color: red;") This operation can't be undone.
+              br
+              | all <b>wireframes</b> and <b>creations</b> will be assigned to the company
+      form.mdl-cell.mdl-cell--6-col.mdl-card.mdl-shadow--2dp(action=action method="post" class=isEdit ? '' : 'mdl-cell--3-offset-desktop')
         if user._id
           input(type="hidden" name="id" value=user._id)
         if !isEdit
@@ -37,6 +45,7 @@ block content
 
           if isEdit
             if !user.hasCompany
+              input(type="hidden" name="assigncompagny" value="true")
               .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
                 select.mdl-textfield__input#company-field(name="_company")
                   each company in data.companies

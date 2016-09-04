@@ -61,7 +61,9 @@ function show(req, res, next) {
 }
 
 function update(req, res, next) {
-  var userId = req.params.userId
+  var userId                = req.params.userId
+  var isAffectingToCompany  = req.body.assigncompagny
+  if (isAffectingToCompany) return affectToCompany(req, res, next)
   var dbRequest = userId ?
     Users.findByIdAndUpdate(userId, req.body, {runValidators: true})
     : new Users(req.body).save()
@@ -70,6 +72,43 @@ function update(req, res, next) {
   .then(function (user) {
     res.redirect(`/users/${user._id}`)
   })
+  .catch(err => handleValidatorsErrors(err, req, res, next) )
+}
+
+function affectToCompany(req, res, next) {
+  console.log('affect to company')
+  var userId        = req.params.userId
+  var companyId     = req.body._company
+
+  var userReq       = Users.findByIdAndUpdate(userId, {
+    $set: {
+      _company: companyId,
+    },
+    $unset: {
+      role:  1,
+    },
+  }, { runValidators: true })
+  var creationsReq  = Creations.update(
+    { userId:     userId, },
+    { _company:   companyId, },
+    { multi:      true, }
+  ).exec()
+  var wireframesReq = Wireframes.update(
+    { _user:    userId, },
+    {
+      $set: {
+        _company: companyId,
+      },
+      $unset: {
+        _user: 1,
+      },
+    },
+    { multi:    true, }
+  ).exec()
+
+  Promise
+  .all([userReq, creationsReq, wireframesReq])
+  .then(() => res.redirect(`/users/${userId}`))
   .catch(err => handleValidatorsErrors(err, req, res, next) )
 }
 
