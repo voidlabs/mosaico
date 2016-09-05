@@ -13,8 +13,7 @@ block content
   - var wireframe = data.wireframe || {};
   - var action    = isEdit ? wireframe.url.show : '/wireframes';
 
-  //- .mdl-grid.mdl-grid--no-spacing
-
+  //- LEFT COLUMN
   if isEdit
     .mdl-cell.mdl-cell--3-col.mdl-color--accent-contrast.mdl-shadow--4dp
       ul.mdl-list
@@ -58,17 +57,12 @@ block content
             textarea.mdl-textfield__input#description-field(type="text" rows="1" name="description")=wireframe.description
             label.mdl-textfield__label(for="description-field") Description
 
-          if wireframe.hasCompany
-            if isEdit
-              .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-                p.mdl-textfield__input= wireframe._company.name
-                label.mdl-textfield__label.mdl-textfield__label--fixed company
-            else
+          if !isEdit
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
               input(type="hidden" name="_company" value=data.company._id)
               .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
                 p.mdl-textfield__input= data.company.name
                 label.mdl-textfield__label.mdl-textfield__label--fixed company
-
 
       if isEdit
         fieldset.mdl-cell.mdl-cell--6-col.mdl-card.mdl-shadow--2dp

@@ -65,10 +65,14 @@ module.exports = function () {
   // LOGGING
   //////
 
+  function getIp(req) {
+    return req.ip ? /([\d\.]+)$/.exec(req.ip)[1] : ''
+  }
+
   function logRequest(tokens, req, res) {
     if (/\/img\//.test(req.path)) return
     var method  = chalk.blue(tokens.method(req, res))
-    var ips     = req.ip.split(':')[0]
+    var ips     = getIp(req)
     ips         = ips ? chalk.grey(`- ${ips} -`) : ''
     var url     = chalk.grey(tokens.url(req, res))
     return `${method} ${ips} ${url}`
@@ -76,7 +80,7 @@ module.exports = function () {
 
   function logResponse(tokens, req, res) {
     var method      = chalk.blue(tokens.method(req, res))
-    var ips         = /([\d\.]+)$/.exec(req.ip)[1]
+    var ips         = getIp(req)
     ips             = ips ? chalk.grey(`- ${ips} -`) : ''
     var url         = chalk.grey(tokens.url(req, res))
     var status      = tokens.status(req, res)
@@ -102,6 +106,7 @@ module.exports = function () {
   var wireframes  = require('./wireframes')
   var creations   = require('./creations')
   var filemanager = require('./filemanager')
+  var homeUser    = require('./home-user')
   var guard       = session.guard
 
   //----- EXPOSE DATAS TO VIEWS
@@ -218,7 +223,7 @@ module.exports = function () {
   app.post('/editor/:creationId',           creations.update)
   app.put('/editor/:creationId',            creations.rename)
   app.get('/editor',                        creations.create)
-  app.get('/',                              guard('user'), creations.list)
+  app.get('/',                              guard('user'), homeUser.show)
 
   //////
   // ERROR HANDLING

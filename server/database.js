@@ -302,6 +302,12 @@ var CreationSchema    = Schema({
     required: true,
     ref:      'Wireframe',
   },
+  _company: {
+    type:       ObjectId,
+    ref:        'Company',
+    // Should be required after migration
+    // required:   true,
+  },
   // http://mongoosejs.com/docs/schematypes.html#mixed
   data: { },
 

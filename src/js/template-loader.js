@@ -172,11 +172,22 @@ var templateLoader = function(performanceAwareCaller, templateFileName, template
 
   // Keep XHR to load template.
   // Don't want to output all the html in initialization
-  // Should handle errors
-  $.get(templateFileName, function(templatecode) {
+  $.ajax({
+    url:      templateFileName,
+    method:   'GET',
+    success:  onSuccess,
+    error:    onError,
+  });
+
+  function onSuccess(templatecode, textStatus, jqXHR) {
     var res = templateCompiler(performanceAwareCaller, templateUrlConverter, "template", templatecode, jsorjson, metadata, extensions, galleryUrl);
     res.init();
-  });
+  }
+
+  function onError(jqXHR, textStatus, errorThrown) {
+    console.error('cannot retrieve HTML data from template');
+    $('.mo-standalone').html('<h1>error</h1><h2>' + errorThrown + '</h2>');
+  }
 };
 
 }

@@ -15,25 +15,6 @@ var translations = {
   fr: JSON.stringify(_.assign({}, require('../res/lang/mosaico-fr.json'), require('../res/lang/badsender-fr'))),
 }
 
-function list(req, res, next) {
-  var isAdmin           = req.user.isAdmin
-  // _user => for wireframe we have a relation
-  var wireframesRequest = Wireframes.find(isAdmin ? {} : {_user: req.user.id})
-  // userId => for creation not
-  var creationsRequest  = Creations.find({userId: req.user.id}).populate('_wireframe')
-
-  Promise.all([wireframesRequest, creationsRequest])
-  .then(function (datas) {
-    res.render('home', {
-      data: {
-        wireframes: datas[0],
-        creations:  datas[1],
-      }
-    })
-  })
-  .catch(next)
-}
-
 function show(req, res, next) {
   var data = {
     translations: translations[req.getLocale()],
@@ -63,10 +44,17 @@ function create(req, res, next) {
       res.status(404)
       return next()
     }
-    new Creations({
-      userId:       req.user.id,
-      _wireframe:   wireframe._id,
-    })
+    var initParameters = {
+      userId:     req.user.id,
+      _wireframe: wireframe._id,
+    }
+
+    // Keep this: Admin will never have a company
+    if (req.user._company) {
+      initParameters._company = req.user._company
+    }
+
+    new Creations(initParameters)
     .save()
     .then(function (creation) {
       res.redirect('/editor/' + creation._id)
@@ -183,7 +171,6 @@ function duplicate(req, res, next) {
 }
 
 module.exports = {
-  list:       list,
   show:       show,
   update:     update,
   remove:     remove,

@@ -49,13 +49,19 @@ function show(req, res, next) {
 }
 
 function getMarkup(req, res, next) {
+  var hasCompany = req.user._company != null
+
   Wireframes
   .findById(req.params.wireId)
   .then(onWireframe)
   .catch(next)
 
   function onWireframe(wireframe) {
-    var isAuthorized = req.user.isAdmin || wireframe._user.toString() === req.user.id
+    // TODO – remove hasCompany when refactor is done
+    var isAuthorized = req.user.isAdmin || ( hasCompany ?
+      wireframe._company.toString() === req.user._company.toString()
+      : wireframe._user.toString() === req.user.id )
+
     if (!isAuthorized) {
       return res.sendStatus(401)
     }

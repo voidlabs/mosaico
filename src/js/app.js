@@ -177,7 +177,7 @@ if (process.env.BADSENDER) {
 // don't replace mosaico code for better merging
 
 // Keep an empty function for not breaking start function
-// Event is applyBindingOptions can be surcharged,
+// Even if applyBindingOptions can be surcharged,
 // it's better to remove this not necessary piece of code
 var applyBindingOptions = $.noop
 
