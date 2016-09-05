@@ -43,8 +43,9 @@
     "deploy": "npm run release",
     "build-release-dev": "npm run build-dev && gulp bump",
     "build-release": "npm run build && gulp bump",
-    "sync-stage-db": "node ./bin/stage-db-sync.js",
-    "local-db": "node ./bin/manage-local-db.js",
+    "sync-db": "node ./bin/db-sync.js",
+    "backup-production": "node ./bin/db-backup-production.js",
+    "local-db": "node ./bin/db-manage-local.js",
     "toc": "gulp toc"
   },
   "dependencies": {

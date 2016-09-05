@@ -74,6 +74,19 @@
   // DB COPY (only used for stage copy, see ./bin/stage-db-sync)
   //////
 
+  "dbConfigs": {
+    "local": {
+      "host": "localhost:27017",
+      "folder": "badsender"
+    },
+    "test": {
+      "host": "localhost:27017",
+      "folder": "badsender_copy",
+      "user": "####",
+      "password": "####"
+    }
+  },
+
   "stageDb": {
     "from": {
       "host": "localhost:27017",

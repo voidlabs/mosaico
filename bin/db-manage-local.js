@@ -11,12 +11,9 @@ var c             = require('chalk')
 var inquirer      = require('inquirer')
 
 var config        = require('../server/config')
-
+var dbLocal       = config.dbConfigs.local
 var tmpFolder, dumpFolder, dumpCmd
-var dbLocal       = {
-  host:   'localhost:27017',
-  folder: 'badsender',
-}
+
 
 var action        = inquirer.prompt({
   type:     'list',
@@ -38,7 +35,7 @@ Promise
 })
 
 function logData(data) {
-  if (data) console.log(data)
+  if (data) console.log(data.replace(/\n$/, ''))
 }
 
 ////////
