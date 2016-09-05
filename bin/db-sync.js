@@ -8,7 +8,9 @@ var inquirer      = require('inquirer')
 
 var config        = require('../server/config')
 var db            = config.dbConfigs
-var tmpFolder, dumpFolder, dumpCmd, promptConf
+var tmpFolder, dumpFolder, dbFrom, dbTo
+
+//----- SETUP
 
 let selectDb = inquirer.prompt([
   {
@@ -28,68 +30,79 @@ let selectDb = inquirer.prompt([
 Promise
 .all([selectDb, config.setup])
 .then( (results) => {
-  promptConf  = results[0]
-  let conf    = results[1]
+  let promptConf  = results[0]
+  let conf        = results[1]
+  tmpFolder       = conf.images.tmpDir
+  dbFrom          = db[promptConf.source]
+  dbTo            = db[promptConf.destination]
+  dumpFolder      = `${tmpFolder}/${dbFrom.folder}`
   return inquirer.prompt({
     type:     'confirm',
     default:  false,
     name:     'continue',
     message:  `you are going to copy:
     ${c.green(promptConf.source)} => ${c.magenta(promptConf.destination)}`,
-    // choices:  Object.keys(db),
   }).then(onConfirmation)
 })
+
+//----- CLEAN OLD COPY
 
 function onConfirmation(results) {
   if (results.continue === false) {
     console.log('operation aborted')
     return process.exit(0)
   }
+  var RemoveOldCopyCmd = `rm -rf ${dumpFolder}`
+  exec(RemoveOldCopyCmd, dumpDB)
 }
 
-// config.setup.then(cleanTmpDir)
+//----- DUMP DB
 
-// // Remove old copy
-// function cleanTmpDir(conf) {
-//   // store some datas
-//   tmpFolder   = conf.images.tmpDir
-//   dumpFolder  = `${tmpFolder}/${dbFrom.folder}`
-//   dumpCmd     = `mongodump --host ${dbFrom.host} -d ${dbFrom.folder} -u ${dbFrom.user} -p ${dbFrom.password} -o ${tmpFolder}`
-//   // remove old folder
-//   var rmCmd = `rm -rf ${dumpFolder}`
-//   console.log(c.blue('cleaning tmp folder'), c.gray(rmCmd))
-//   exec(rmCmd, dumpDB)
-// }
+function dumpDB(error, stdout, stderr) {
+  if (error) return console.log(c.red('error in cleaning'))
+  console.log(c.green('cleaning done'))
+  let dumpCmd   = `mongodump ${setDbParams(dbFrom)} -o ${tmpFolder}`
+  console.log(c.blue('dumping'), c.gray(dumpCmd))
+  var dbDump    = exec(dumpCmd, replicateDB)
+  dbDump.stderr.on('data', logData)
+}
 
-// // Dump DB
-// function dumpDB(error, stdout, stderr) {
-//   if (error) return console.log(c.red('error in cleaning'))
-//   console.log(c.green('cleaning done'))
-//   console.log(c.blue('dumping'), c.gray(dumpCmd))
-//   var dbDump = exec(dumpCmd, copyDB)
-//   dbDump.stderr.on('data', console.log)
-// }
+//----- REPLICATE DB
 
-// // Copy to stage DB
-// function copyDB(error, stdout, stderr) {
-//   if (error !== null) {
-//     console.log(c.red('error in dumping'))
-//     return console.log(error)
-//   }
-//   console.log(c.green('dump done'))
-//   // NTH making a prod copy on a local db should be done with command arguments
-//   // var copyCmd = `mongorestore --drop --host localhost:27017 --db bandsenderdump ${dumpFolder}`
-//   var copyCmd = `mongorestore --drop --host ${dbTo.host} --db ${dbTo.folder} -u ${dbTo.user} -p ${dbTo.password} ${dumpFolder}`
-//   console.log(c.blue('copying'), c.gray(copyCmd))
-//   var dbCopy = exec(copyCmd, onCopy)
-//   dbCopy.stderr.on('data', console.log)
-// }
+function replicateDB(error, stdout, stderr) {
+  if (error !== null) return logErrorAndExit(error, 'error in dumping')
+  console.log(c.green('dump done'))
+  let replicateCmd  = `mongorestore --drop ${setDbParams(dbTo)} ${dumpFolder}`
+  console.log(c.blue('copying'), c.gray(replicateCmd))
+  let dbReplicate   = exec(replicateCmd, endProcess)
+  dbReplicate.stderr.on('data', logData)
+}
 
-// // The end!
-// function onCopy(error, stdout, stderr) {
-//   console.log(c.green('copy done'))
-//   if (error !== null) {
-//     console.log(c.red('error in copying'))
-//     return console.log(error)
-//   }
-// }
+//----- END
+
+function endProcess(error, stdout, stderr) {
+  if (error !== null) return logErrorAndExit(error, 'error in replication')
+  console.log(c.green('replication done!'))
+  process.exit(0)
+}
+
+//////
+// UTILS
+//////
+
+function setDbParams(dbParams) {
+  let params  = `--host ${dbParams.host} --db ${dbParams.folder}`
+  if (dbParams.user == null) return params
+  params      = `${params} -u ${dbParams.user} -p ${dbParams.password}`
+  return params
+}
+
+function logData(data) {
+  if (data) console.log(data.replace(/\n$/, ''))
+}
+
+function logErrorAndExit(error, message) {
+  console.log(c.red(message))
+  console.log(error)
+  return process.exit(1)
+}
