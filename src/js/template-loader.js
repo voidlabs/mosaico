@@ -280,7 +280,7 @@ var templateCompiler = function(performanceAwareCaller, templateUrlConverter, te
 
   viewModel.metadata = metadata;
   // let's run some version check on template and editor used to build the model being loaded.
-  var editver = '0.14.0';
+  var editver = '0.15.0';
   if (typeof viewModel.metadata.editorversion !== 'undefined' && viewModel.metadata.editorversion !== editver) {
     console.warn("The model being loaded has been created with an older editor version", viewModel.metadata.editorversion, "vs", editver);
   }
