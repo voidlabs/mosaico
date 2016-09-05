@@ -8,31 +8,32 @@
 var exec          = require('child_process').exec
 var path          = require('path')
 var c             = require('chalk')
-var args          = require('yargs').argv
+var inquirer      = require('inquirer')
 
 var config        = require('../server/config')
 
-var isSaving      = args.save === true
-var isRestoring   = args.restore === true
 var tmpFolder, dumpFolder, dumpCmd
 var dbLocal       = {
   host:   'localhost:27017',
   folder: 'badsender',
 }
 
-if (!isSaving && !isRestoring) {
-  console.log(c.green('short notice:'))
-  console.log('save:    npm run local-db -- --save')
-  console.log('restore: npm run local-db -- --restore')
-  return
-}
+var action        = inquirer.prompt({
+  type:     'list',
+  name:     'action',
+  message:  `Choose an action:`,
+  default:  1,
+  choices:  [ 'save', 'restore', ],
+})
 
-config.setup.then( (conf) => {
-  // store some datas
-  tmpFolder   = conf.images.tmpDir
-  dumpFolder  = `${tmpFolder}/local-db-snapshot`
-
-  if (isSaving) return makeSnapshot()
+Promise
+.all([action, config.setup])
+.then( (results) => {
+  let choosenAction   = results[0].action
+  let conf            = results[1]
+  tmpFolder           = conf.images.tmpDir
+  dumpFolder          = `${tmpFolder}/local-db-snapshot`
+  if (choosenAction === 'save') return makeSnapshot()
   return restoreSnapshot()
 })
 
@@ -57,9 +58,11 @@ function dumpdone(error, stdout, stderr) {
   if (error !== null) {
     console.log(c.red('error in dumping'))
     return console.log(error)
+    process.exit(1)
   }
   exec(`mv ${tmpFolder}/badsender ${dumpFolder}`, () => {
     console.log(c.green('dump done'))
+    process.exit(0)
   })
 }
 
@@ -78,7 +81,9 @@ function restoreSnapshot() {
 function onRestore(error, stdout, stderr) {
   if (error !== null) {
     console.log(c.red('error in restoring'))
-    return console.log(error)
+    console.log(error)
+    process.exit(1)
   }
   console.log(c.green('snapshot restored!'))
+  process.exit(0)
 }
