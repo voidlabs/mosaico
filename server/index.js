@@ -145,7 +145,7 @@ module.exports = function () {
   // regexp for checking valid mongoDB Ids
   // http://expressjs.com/en/api.html#app.param
   // http://stackoverflow.com/questions/20988446/regex-for-mongodb-objectid#20988824
-  app.param(['creationId', 'userId', 'wireId'], checkMongoId)
+  app.param(['companyId', 'userId', 'wireId', 'creationId'], checkMongoId)
   function checkMongoId(req, res, next, mongoId) {
     if (/^[a-f\d]{24}$/i.test(mongoId)) return next()
     console.log('test mongoId INVALID', mongoId)

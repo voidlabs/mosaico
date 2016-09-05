@@ -74,7 +74,6 @@ function getMarkup(req, res, next) {
 
 function update(req, res, next) {
   var wireId    = req.params.wireId
-  var userId    = req.params.userId
 
   filemanager
   .parseMultipart(req, {
@@ -110,8 +109,9 @@ function update(req, res, next) {
       return wireframe.save()
     })
     .then(function (wireframe) {
+      console.log('wireframe success', wireId ? 'updated' : 'created')
       req.flash('success', wireId ? 'updated' : 'created')
-      return res.redirect(wireframe.url.backTo)
+      return res.redirect(wireframe.url.show)
     })
     .catch(err => handleValidatorsErrors(err, req, res, next))
   }

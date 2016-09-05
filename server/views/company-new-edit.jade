@@ -2,20 +2,34 @@ extends _layout-admin.jade
 
 block vars
   - var company   = data && data.company ? data.company : {};
-  - var isEdit    = company._id
-  - var pageTitle = isEdit ? 'company: ' + company.name : 'new company'
+  - var isEdit    = company._id;
+  - var pageTitle = isEdit ? 'company: ' + company.name : 'new company';
+  - var pageClass = 'full-width-layout';
 
 block content
   - var company   = data && data.company ? data.company : {};
-  - var isEdit    = company._id
+  - var isEdit    = company._id;
   - var action    = isEdit ? `/companies/${company._id}` : `/companies`;
   - var hasError  = messages.error && messages.error.length;
   - var errors    = hasError ? messages.error[0] : {};
 
-  .page-content
+  //- LEFT COLUMN
+  if isEdit
+    .mdl-cell.mdl-cell--3-col.mdl-color--accent-contrast.mdl-shadow--4dp
+      ul.mdl-list
+        li.mdl-list__item: a.mdl-list__item-primary-content(href=company.url.newWireframe)
+          .material-icons.mdl-list__item-icon web
+          | New Wireframe
+        li.mdl-list__item: a.mdl-list__item-primary-content(href=company.url.newUser)
+          .material-icons.mdl-list__item-icon person_add
+          | New User
 
+  //- MAIN CONTENT
+  .mdl-cell(class= isEdit ? 'mdl-cell--9-col' : 'mdl-cell--6-col mdl-cell--3-offset')
     .mdl-grid
-      form.mdl-cell.mdl-cell--6-col.mdl-card.mdl-shadow--2dp(action=action method="post" class=isEdit ? '' : 'mdl-cell--3-offset-desktop')
+
+      //- INFO FORM
+      form(action=action method="post").mdl-cell.mdl-cell--12-col.mdl-card.mdl-shadow--2dp
         if company._id
           input(type="hidden" name="id" value=company._id)
         .mdl-card__title
@@ -31,7 +45,8 @@ block content
           i.material-icons save
 
       if isEdit
-        .mdl-cell.mdl-cell--6-col.mdl-cell--top.mdl-card.mdl-shadow--2dp
+        //- WIREFRAME
+        .mdl-cell.mdl-cell--12-col.mdl-cell--top.mdl-card.mdl-shadow--2dp
           .mdl-card__title
             .mdl-card__title-text associated wireframes
 
@@ -64,10 +79,8 @@ block content
                     td.mdl-data-table__cell--action
                       a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href=deleteUrl)
                         i.material-icons delete_forever
-          .mdl-card__actions(class=data.wireframes.length ? '' : 'mdl-card--border')
-            a.mdl-button.mdl-button--accent.mdl-js-button.mdl-js-ripple-effect(href=company.url.newWireframe)
-              | new wireframe
 
+        //- USERS
         .mdl-cell.mdl-cell--12-col.mdl-cell--top.mdl-card.mdl-shadow--2dp
           .mdl-card__title
             .mdl-card__title-text associated users
@@ -109,6 +122,4 @@ block content
                     td.mdl-data-table__cell--action: form(action='/users/' + user._id + '/delete' method="post")
                       button.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(type="submit")
                         i.material-icons delete
-          .mdl-card__actions(class=data.users.length ? '' : 'mdl-card--border')
-            a.mdl-button.mdl-button--accent.mdl-js-button.mdl-js-ripple-effect(href=company.url.newUser)
-              | new user
+
