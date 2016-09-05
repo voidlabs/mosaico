@@ -4,11 +4,48 @@
 var exec          = require('child_process').exec
 var path          = require('path')
 var c             = require('chalk')
+var inquirer      = require('inquirer')
 
 var config        = require('../server/config')
-var dbFrom        = config.stageDb.from
-var dbTo          = config.stageDb.to
-var tmpFolder, dumpFolder ,dumpCmd
+var db            = config.dbConfigs
+var tmpFolder, dumpFolder, dumpCmd, promptConf
+
+let selectDb = inquirer.prompt([
+  {
+    type:     'list',
+    name:     'source',
+    message:  `Choose ${c.green('source')} DB`,
+    choices:  Object.keys(db).reverse(),
+  },
+  {
+    type:     'list',
+    name:     'destination',
+    message:  `Choose ${c.magenta('destination')} DB`,
+    choices:  Object.keys(db),
+  },
+])
+
+Promise
+.all([selectDb, config.setup])
+.then( (results) => {
+  promptConf  = results[0]
+  let conf    = results[1]
+  return inquirer.prompt({
+    type:     'confirm',
+    default:  false,
+    name:     'continue',
+    message:  `you are going to copy:
+    ${c.green(promptConf.source)} => ${c.magenta(promptConf.destination)}`,
+    // choices:  Object.keys(db),
+  }).then(onConfirmation)
+})
+
+function onConfirmation(results) {
+  if (results.continue === false) {
+    console.log('operation aborted')
+    return process.exit(0)
+  }
+}
 
 // config.setup.then(cleanTmpDir)
 
