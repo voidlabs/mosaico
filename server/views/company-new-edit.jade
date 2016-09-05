@@ -25,11 +25,14 @@ block content
           | New User
 
   //- MAIN CONTENT
-  .mdl-cell(class= isEdit ? 'mdl-cell--9-col' : 'mdl-cell--6-col mdl-cell--3-offset')
+  form(action=action method="post").mdl-cell(class= isEdit ? 'mdl-cell--9-col' : 'mdl-cell--6-col mdl-cell--3-offset')
+    button(type="submit").mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored
+      i.material-icons save
+
     .mdl-grid
 
       //- INFO FORM
-      form(action=action method="post").mdl-cell.mdl-cell--12-col.mdl-card.mdl-shadow--2dp
+      .mdl-cell.mdl-cell--12-col.mdl-card.mdl-shadow--2dp
         if company._id
           input(type="hidden" name="id" value=company._id)
         .mdl-card__title
@@ -41,8 +44,6 @@ block content
             if errors.name
               span.mdl-textfield__error= errors.name.message
 
-        button(type="submit").mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored
-          i.material-icons save
 
       if isEdit
         //- WIREFRAME
