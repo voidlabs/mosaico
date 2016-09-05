@@ -7,12 +7,14 @@ block vars
   - var pageClass = 'full-width-layout'
 
 block content
-  - var user      = data && data.user ? data.user : {};
-  - var isEdit    = user._id
-  - var action    = isEdit ? user.url.show : `/users`;
-  - var hasError  = messages.error && messages.error.length;
-  - var errors    = hasError ? messages.error[0] : {};
+  - var user        = data && data.user ? data.user : {};
+  - var isEdit      = user._id
+  - var action      = isEdit ? user.url.show : `/users`;
+  - var hasError    = messages.error && messages.error.length;
+  - var errors      = hasError ? messages.error[0] : {};
+  - var isAffecting = isEdit && !user.hasCompany
 
+  //- LEFT COLUMN
   .mdl-cell.mdl-cell--3-col.mdl-color--accent-contrast.mdl-shadow--4dp
     ul.mdl-list
       if isEdit
@@ -32,9 +34,7 @@ block content
             .material-icons.mdl-list__item-icon group
             | #{data.company.name}
 
-
-
-
+  //- MAIN CONTENT
   form(action=action method="post").mdl-cell.mdl-cell--9-col
     .mdl-grid
       fieldset.mdl-cell.mdl-cell--12-col.mdl-card.mdl-shadow--2dp
@@ -47,18 +47,18 @@ block content
         .mdl-card__supporting-text: .mdl-grid
           .mdl-cell.mdl-cell--6-col
             .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(class= errors.email ? 'is-invalid' : '')
-              input.mdl-textfield__input#email-field(type="email" name="email" required value=user.email)
+              input.mdl-textfield__input#email-field(type="email" name="email" required value=user.email disabled=isAffecting)
               label.mdl-textfield__label(for="email-field") email
               if errors.email
                 span.mdl-textfield__error= errors.email.message
           .mdl-cell.mdl-cell--6-col
             .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(class= errors.name ? 'is-invalid' : '')
-              input.mdl-textfield__input#name-field(type="text" name="name" value=user.name)
+              input.mdl-textfield__input#name-field(type="text" name="name" value=user.name disabled=isAffecting)
               label.mdl-textfield__label(for="name-field") name
               if errors.name
                 span.mdl-textfield__error= errors.name.message
 
-          if isEdit && !user.hasCompany
+          if isAffecting
             .mdl-cell.mdl-cell--6-col
               input(type="hidden" name="assigncompagny" value="true")
               .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
@@ -69,7 +69,7 @@ block content
 
           .mdl-cell.mdl-cell--6-col
             .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-              select.mdl-textfield__input#lang-field(name="lang")
+              select.mdl-textfield__input#lang-field(name="lang" disabled=isAffecting)
                 option(value="en" selected=user.lang==='en') english
                 option(value="fr" selected=user.lang==='fr') french
               label.mdl-textfield__label.mdl-textfield__label--fixed(for="lang-field") default language

@@ -132,7 +132,7 @@ function adminResetPassword(req, res, next) {
   })
   .then(function (user) {
     console.log(user)
-    res.redirect('/admin')
+    res.redirect('/users')
   })
   .catch(next)
 }
