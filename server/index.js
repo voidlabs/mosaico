@@ -76,7 +76,7 @@ module.exports = function () {
 
   function logResponse(tokens, req, res) {
     var method      = chalk.blue(tokens.method(req, res))
-    var ips         = req.ip.split(':')[0]
+    var ips         = /([\d\.]+)$/.exec(req.ip)[1]
     ips             = ips ? chalk.grey(`- ${ips} -`) : ''
     var url         = chalk.grey(tokens.url(req, res))
     var status      = tokens.status(req, res)
