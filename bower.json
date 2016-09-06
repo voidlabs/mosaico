@@ -18,7 +18,7 @@
     "blueimp-canvas-to-blob": "~2.1.1",
     "knockoutjs-reactor": "ZiadJ/knockoutjs-reactor#273d140ce28e7cecf0f573a605d259e22cbfc319",
     "knockout-jqueryui": "bago/knockout-jqueryui#9452901885186c94f97b34535374cbe31405a882",
-    "mensch": "brettstimmerman/mensch#9387ba571194bb1fb924032e9513fcec6a6dff6b",
+    "mensch": "brettstimmerman/mensch#v0.3.3",
     "toastr": "~2.1.0",
     "knockout-undomanager": "bago/knockout-undomanager#v0.2.1",
     "knockout.wrap": "bago/knockout.wrap#mosaico",
@@ -30,8 +30,7 @@
     "blueimp-file-upload": "~9.9.3",
     "evol-colorpicker": "bago/colorpicker#mosaico",
     "jsep": "~0.3.0",
-    "juice": "bago/juice#abstract-dom",
-    "slick": "shashankmehta/slick.js#ce20afabd1898e002c4a5a9b0c21281a2592889d",
+    "juice": "Automattic/juice#a927828",
     "tinycolor": "~1.2.1",
     "webfont-notosans": "~0.1.0"
   },
