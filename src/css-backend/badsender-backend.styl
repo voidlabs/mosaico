@@ -1,6 +1,8 @@
 @import "../../node_modules/material-design-lite/dist/material.orange-blue.min.css";
 @import "../../node_modules/dialog-polyfill/dialog-polyfill.css";
 
+$accent =  #ff9f00;
+
 ////////
 // HOME
 ////////
@@ -49,7 +51,7 @@
 
 
 .ribbon {
-  background-color: @accent;
+  background-color: $accent;
   color: white;
   display: inline-block;
   padding: 3px 10px;
@@ -68,7 +70,7 @@
     height: 0;
     border-width: 12px 12px;
     border-style: solid;
-    border-color: @accent;
+    border-color: $accent;
   }
   &::before {
     left: -20px;
@@ -118,7 +120,7 @@
 }
 
 .subscribe {
-  background-color: @accent;
+  background-color: $accent;
   color: white;
   padding: 2em .5em;
 
@@ -133,7 +135,7 @@
     text-decoration: none;
 
     &:hover {
-      color: @accent;
+      color: $accent;
       background: white;
     }
   }
