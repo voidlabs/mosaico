@@ -1,10 +1,5 @@
-// @accent: #f5a316;
-@accent: #ff9f00;
-@grey: #333332;
-@accent-color: @accent;
-
-@import (inline) "../../node_modules/material-design-lite/dist/material.orange-blue.min.css";
-@import (inline) "../../node_modules/dialog-polyfill/dialog-polyfill.css";
+@import "../../node_modules/material-design-lite/dist/material.orange-blue.min.css";
+@import "../../node_modules/dialog-polyfill/dialog-polyfill.css";
 
 ////////
 // HOME
@@ -85,7 +80,7 @@
   }
 
 }
-/* outline su firefox viene fuori dal content */
+// outline su firefox viene fuori dal content
 @-moz-document url-prefix() {
   .ribbon {
      outline-color: transparent;
