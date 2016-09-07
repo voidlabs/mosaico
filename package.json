@@ -44,7 +44,7 @@
     "build-release-dev": "npm run build-dev && gulp bump",
     "build-release": "npm run build && gulp bump",
     "sync-db": "node ./bin/db-sync.js",
-    "backup-production": "node ./bin/db-backup-production.js",
+    "backup-db": "node ./bin/db-backup.js",
     "local-db": "node ./bin/db-manage-local.js",
     "toc": "gulp toc"
   },

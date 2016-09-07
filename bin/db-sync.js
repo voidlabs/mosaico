@@ -7,6 +7,7 @@ var c             = require('chalk')
 var inquirer      = require('inquirer')
 
 var config        = require('../server/config')
+var u             = require('./_db-utils')
 var db            = config.dbConfigs
 var tmpFolder, dumpFolder, dbFrom, dbTo
 
@@ -61,48 +62,27 @@ function onConfirmation(results) {
 function dumpDB(error, stdout, stderr) {
   if (error) return console.log(c.red('error in cleaning'))
   console.log(c.green('cleaning done'))
-  let dumpCmd   = `mongodump ${setDbParams(dbFrom)} -o ${tmpFolder}`
+  let dumpCmd   = `mongodump ${u.setDbParams(dbFrom)} -o ${tmpFolder}`
   console.log(c.blue('dumping'), c.gray(dumpCmd))
   var dbDump    = exec(dumpCmd, replicateDB)
-  dbDump.stderr.on('data', logData)
+  dbDump.stderr.on('data', u.logData)
 }
 
 //----- REPLICATE DB
 
 function replicateDB(error, stdout, stderr) {
-  if (error !== null) return logErrorAndExit(error, 'error in dumping')
+  if (error !== null) return u.logErrorAndExit(error, 'error in dumping')
   console.log(c.green('dump done'))
-  let replicateCmd  = `mongorestore --drop ${setDbParams(dbTo)} ${dumpFolder}`
+  let replicateCmd  = `mongorestore --drop ${u.setDbParams(dbTo)} ${dumpFolder}`
   console.log(c.blue('copying'), c.gray(replicateCmd))
   let dbReplicate   = exec(replicateCmd, endProcess)
-  dbReplicate.stderr.on('data', logData)
+  dbReplicate.stderr.on('data', u.logData)
 }
 
 //----- END
 
 function endProcess(error, stdout, stderr) {
-  if (error !== null) return logErrorAndExit(error, 'error in replication')
+  if (error !== null) return u.logErrorAndExit(error, 'error in replication')
   console.log(c.green('replication done!'))
   process.exit(0)
-}
-
-//////
-// UTILS
-//////
-
-function setDbParams(dbParams) {
-  let params  = `--host ${dbParams.host} --db ${dbParams.folder}`
-  if (dbParams.user == null) return params
-  params      = `${params} -u ${dbParams.user} -p ${dbParams.password}`
-  return params
-}
-
-function logData(data) {
-  if (data) console.log(data.replace(/\n$/, ''))
-}
-
-function logErrorAndExit(error, message) {
-  console.log(c.red(message))
-  console.log(error)
-  return process.exit(1)
 }
