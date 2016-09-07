@@ -3,6 +3,8 @@
 // http://krasimirtsonev.com/blog/article/Nodejs-managing-child-processes-starting-stopping-exec-spawn
 var exec          = require('child_process').exec
 var path          = require('path')
+const util        = require('util')
+const fs          = require('fs-extra')
 var c             = require('chalk')
 var inquirer      = require('inquirer')
 
@@ -18,7 +20,7 @@ let selectDb = inquirer.prompt([
     type:     'list',
     name:     'source',
     message:  `Choose ${c.green('source')} DB`,
-    choices:  Object.keys(db).reverse(),
+    choices:  Object.keys(db).reverse().concat(['local_folder']),
   },
   {
     type:     'list',
@@ -34,8 +36,21 @@ Promise
   let promptConf  = results[0]
   let conf        = results[1]
   tmpFolder       = conf.images.tmpDir
-  dbFrom          = db[promptConf.source]
   dbTo            = db[promptConf.destination]
+  if (promptConf.source === 'local_folder') return getLocalCopies(promptConf)
+  confirmRemoteDump(promptConf)
+})
+.catch( (e) => {
+  console.log(util.inspect(e))
+  process.exit(1)
+})
+
+////////
+// FROM REMOTE DB
+////////
+
+function confirmRemoteDump(promptConf) {
+  dbFrom          = db[promptConf.source]
   dumpFolder      = `${tmpFolder}/${dbFrom.folder}`
   return inquirer.prompt({
     type:     'confirm',
@@ -44,7 +59,29 @@ Promise
     message:  `you are going to copy:
     ${c.green(promptConf.source)} => ${c.magenta(promptConf.destination)}`,
   }).then(onConfirmation)
-})
+}
+
+////////
+// FROM LOCAL FOLDER
+////////
+
+function getLocalCopies(promptConf) {
+  console.log('local copies')
+  let backups = fs
+    .readdirSync(tmpFolder)
+    .filter( name => /^backup-/.test(name))
+  return inquirer.prompt({
+    type:     'list',
+    name:     'folder',
+    message:  `Please select a backup`,
+    choices:  backups,
+  }).then(onSelectFolder)
+}
+
+function onSelectFolder(promptConf) {
+  console.log(promptConf.folder)
+  process.exit(0)
+}
 
 //----- CLEAN OLD COPY
 
