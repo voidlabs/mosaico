@@ -106,7 +106,7 @@ module.exports = function () {
   var wireframes  = require('./wireframes')
   var creations   = require('./creations')
   var filemanager = require('./filemanager')
-  var homeUser    = require('./home-user')
+  // var homeUser    = require('./home-user')
   var guard       = session.guard
 
   //----- EXPOSE DATAS TO VIEWS
@@ -223,7 +223,8 @@ module.exports = function () {
   app.post('/editor/:creationId',           creations.update)
   app.put('/editor/:creationId',            creations.rename)
   app.get('/editor',                        creations.create)
-  app.get('/',                              guard('user'), homeUser.show)
+  app.get('/new-creation',                  guard('user'), wireframes.customerList)
+  app.get('/',                              guard('user'), creations.customerList)
 
   //////
   // ERROR HANDLING

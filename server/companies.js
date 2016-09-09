@@ -13,6 +13,7 @@ var Wireframes              = DB.Wireframes
 function list(req, res, next) {
   Companies
   .find({})
+  .sort({ createdAt: -1 })
   .then(function onCompany(companies) {
     return res.render('company-list', {
       data: { companies: companies, }

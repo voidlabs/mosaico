@@ -15,6 +15,28 @@ var translations = {
   fr: JSON.stringify(_.assign({}, require('../res/lang/mosaico-fr.json'), require('../res/lang/badsender-fr'))),
 }
 
+function customerList(req, res, next) {
+  var isAdmin           = req.user.isAdmin
+  var hasCompany        = req.user._company
+  var companyFilter     = { _company: req.user._company }
+  // for creations 'userId' =>  no relations
+  // admin doesn't have a real ID nor a real COMPANY
+  var creationsRequest  = Creations
+  .find(hasCompany ? companyFilter : {userId: req.user.id})
+  .populate('_wireframe')
+
+  creationsRequest
+  .sort({ updatedAt: -1 })
+  .then(function (creations) {
+    res.render('customer-home', {
+      data: {
+        creations:  creations,
+      }
+    })
+  })
+  .catch(next)
+}
+
 function show(req, res, next) {
   var data = {
     translations: translations[req.getLocale()],
@@ -171,12 +193,13 @@ function duplicate(req, res, next) {
 }
 
 module.exports = {
-  show:       show,
-  update:     update,
-  remove:     remove,
-  rename:     rename,
-  create:     create,
-  upload:     upload,
-  listImages: listImages,
-  duplicate:  duplicate,
+  customerList: customerList,
+  show:         show,
+  update:       update,
+  remove:       remove,
+  rename:       rename,
+  create:       create,
+  upload:       upload,
+  listImages:   listImages,
+  duplicate:    duplicate,
 }

@@ -25,6 +25,26 @@ function list(req, res, next) {
   .catch(next)
 }
 
+function customerList(req, res, next) {
+  var isAdmin           = req.user.isAdmin
+  var hasCompany        = req.user._company
+  var companyFilter     = { _company: req.user._company }
+  // for wireframe '_user; =>  we have a relation
+  var wireframesRequest = Wireframes
+  .find(isAdmin ? {} : hasCompany ? companyFilter : {_user: req.user.id})
+
+  wireframesRequest
+  .sort({ name: 1 })
+  .then(function (wireframes) {
+    res.render('customer-wireframe', {
+      data: {
+        wireframes: wireframes,
+      }
+    })
+  })
+  .catch(next)
+}
+
 function show(req, res, next) {
   var companyId = req.params.companyId
   var wireId    = req.params.wireId
@@ -145,9 +165,10 @@ function remove(req, res, next) {
 }
 
 module.exports = {
-  list:       list,
-  show:       show,
-  update:     update,
-  remove:     remove,
-  getMarkup:  getMarkup,
+  list:         list,
+  customerList: customerList,
+  show:         show,
+  update:       update,
+  remove:       remove,
+  getMarkup:    getMarkup,
 }
