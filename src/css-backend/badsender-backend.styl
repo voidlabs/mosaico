@@ -3,6 +3,12 @@
 
 $accent =  #ff9f00;
 
+// fix left column not expanding to bottom when content > viewport
+.mdl-layout {
+  height: auto;
+  min-height: 100%;
+}
+
 ////////
 // HOME
 ////////
@@ -48,7 +54,6 @@ $accent =  #ff9f00;
   padding:  0 10px 10px;
   position: relative;
 }
-
 
 .ribbon {
   background-color: $accent;
