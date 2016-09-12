@@ -1,0 +1,51 @@
+doctype html
+
+block vars
+
+- var title = pageTitle ? 'Badsender Builder - ' + pageTitle : 'Badsender Builder'
+
+html(lang="en")
+  head
+    title=title
+    meta(http-equiv="Content-Type", content="text/html; charset=UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    meta(name="Title", content=title)
+    meta(property="og:title", content="Badsender Email Builder")
+    meta(property="og:image", content="http://agence.badsender.com/wp-content/uploads/2014/09/logo_badsender_154x118.png")
+    meta(property="og:description", content="Editeur graphique de templates email par Badsender")
+    meta(property="og:url", content="http://agence.badsender.com")
+    meta(property="og:type", content="website")
+
+  style.
+    html, body { margin: 0; padding: 0; background: #ff9f00; color: #616161; font-family: Helvetica, Arial, Sans-serif; text-align: center; }
+    html { height: 100%; }
+    body { min-height: 100%; }
+    main { display: block; width: 100%; padding: 0 1em; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+    h1 { font-weight: 200; margin-top: 0; }
+    h1 a { display: inline-block; }
+    h2 { font-weight: 200; font-size: 2em; }
+    a { color: currentColor; font-weight: 700; }
+    a:hover { text-decoration: none; }
+    .fr::before { content: ''; width: 100px; border-top: 1px solid #616161; display: inline-block; }
+
+body
+  main(role="main")
+    h1
+      a(href="http://agence.badsender.com/")
+        include _logo.jade
+
+    .en
+      block en
+      p.contact
+        | For all information or support queries,
+        br
+        | please use the&ensp;
+        a(href="http://agence.badsender.com/contact/") contact form
+
+    .fr
+      block fr
+      p.contact
+        | pour toute demande d'information ou d'assistance,
+        br
+        | merci d'utiliser le&ensp;
+        a(href="http://agence.badsender.com/contact/") formulaire de contact

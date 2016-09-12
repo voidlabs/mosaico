@@ -2,6 +2,7 @@ bower_components
 node_modules
 /tmp/**
 /uploads/**
+/server/maintenance-pages/*.html
 build
 dist
 .badsenderrc

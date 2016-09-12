@@ -122,6 +122,7 @@
     "gulp-doctoc": "^0.1.4",
     "gulp-filter": "^4.0.0",
     "gulp-if": "^2.0.1",
+    "gulp-jade": "^1.1.0",
     "gulp-less": "^3.1.0",
     "gulp-load-plugins": "^1.2.4",
     "gulp-minify-css": "^1.2.3",
