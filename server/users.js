@@ -45,7 +45,7 @@ function show(req, res, next) {
   var getUser       = Users.findById(userId).populate('_company')
   var getCompanies  = Companies.find({})
   var getWireframes = Wireframes.find( { _user: userId } )
-  var getCreations  = Creations.find( { userId: userId } ).populate('_wireframe')
+  var getCreations  = Creations.find( { _user: userId } ).populate('_wireframe')
 
   Promise
   .all([getUser, getCompanies, getWireframes, getCreations])
