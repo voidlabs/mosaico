@@ -289,11 +289,16 @@ var CreationSchema    = Schema({
   name: {
     type: String,
   },
+  _user: {
+    type:     ObjectId,
+    ref:      'User',
+  },
   // no ref for user
   // => admin doesn't exist in DB
+  // TODO remove
   userId: {
     type:     'string',
-    required: true,
+    // required: true,
   },
   // should use populate
   // http://mongoosejs.com/docs/populate.html
@@ -303,8 +308,8 @@ var CreationSchema    = Schema({
     ref:      'Wireframe',
   },
   _company: {
-    type:       ObjectId,
-    ref:        'Company',
+    type:     ObjectId,
+    ref:      'Company',
     // Should be required after migration
     // required:   true,
   },

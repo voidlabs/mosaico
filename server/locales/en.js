@@ -14,7 +14,8 @@
 			"duplicate": "duplicate",
 			"delete": "delete",
 			"noname": "untitled",
-			"wireframe-name": "wireframe used"
+			"wireframe-name": "wireframe used",
+			"created-by": "created by"
 		},
 		"more-info": "more info about the builder",
 		"footer": {

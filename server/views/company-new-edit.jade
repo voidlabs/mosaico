@@ -15,7 +15,7 @@ block content
 
   //- LEFT COLUMN
   if isEdit
-    .mdl-cell.mdl-cell--3-col.mdl-color--accent-contrast.mdl-shadow--4dp
+    .mdl-cell.mdl-cell--2-col.mdl-color--accent-contrast.mdl-shadow--4dp
       ul.mdl-list
         li.mdl-list__item: a.mdl-list__item-primary-content(href=company.url.newWireframe)
           .material-icons.mdl-list__item-icon web
@@ -25,14 +25,13 @@ block content
           | New User
 
   //- MAIN CONTENT
-  form(action=action method="post").mdl-cell(class= isEdit ? 'mdl-cell--9-col' : 'mdl-cell--6-col mdl-cell--3-offset')
-    button(type="submit").mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored
+  .mdl-cell(class= isEdit ? 'mdl-cell--10-col' : 'mdl-cell--6-col mdl-cell--3-offset')
+    //- button is placed here for z-index issues
+    button(type="submit" form="info").mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored
       i.material-icons save
-
     .mdl-grid
-
       //- INFO FORM
-      .mdl-cell.mdl-cell--12-col.mdl-card.mdl-shadow--2dp
+      form#info.mdl-cell.mdl-cell--12-col.mdl-card.mdl-shadow--2dp(action=action method="post")
         if company._id
           input(type="hidden" name="id" value=company._id)
         .mdl-card__title

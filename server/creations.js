@@ -24,6 +24,7 @@ function customerList(req, res, next) {
   var creationsRequest  = Creations
   .find(hasCompany ? companyFilter : {userId: req.user.id})
   .populate('_wireframe')
+  .populate('_user')
 
   creationsRequest
   .sort({ updatedAt: -1 })
@@ -66,11 +67,9 @@ function create(req, res, next) {
       res.status(404)
       return next()
     }
-    var initParameters = {
-      userId:     req.user.id,
-      _wireframe: wireframe._id,
-    }
-
+    var initParameters = { _wireframe: wireframe._id, }
+    // admin doesn't have valid user id
+    if (!req.user.isAdmin) initParameters._user = req.user.id
     // Keep this: Admin will never have a company
     if (req.user._company) {
       initParameters._company = req.user._company

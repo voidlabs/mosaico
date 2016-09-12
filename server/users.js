@@ -23,15 +23,17 @@ function list(req, res, next) {
 }
 
 function show(req, res, next) {
+  // company is for member creation…
   var companyId     = req.params.companyId
+  // …userId when it's created :)
   var userId        = req.params.userId
 
   // create
-  if (!userId) {
+  if (companyId) {
     Companies
     .findById(companyId)
     .then(function (company) {
-      res.render('user-new-edit', {data: {
+      res.render('user-new-edit', { data: {
         company: company,
       }})
     })
@@ -53,7 +55,7 @@ function show(req, res, next) {
     var wireframes  = dbResponse[2]
     var creations   = dbResponse[3]
     if (!user) return res.status(404).end()
-    res.render('user-new-edit', {data: {
+    res.render('user-new-edit', { data: {
       user:       user,
       companies:  companies,
       wireframes: wireframes,
@@ -93,7 +95,15 @@ function affectToCompany(req, res, next) {
   }, { runValidators: true })
   var creationsReq  = Creations.update(
     { userId:     userId, },
-    { _company:   companyId, },
+    {
+      $set: {
+        _company: companyId,
+        _user:    userId,
+      },
+      $unset: {
+        userId:   1,
+      },
+    },
     { multi:      true, }
   ).exec()
   var wireframesReq = Wireframes.update(
@@ -132,6 +142,8 @@ function adminResetPassword(req, res, next) {
   })
   .then(function (user) {
     console.log(user)
+    // TODO clean after companies
+    if (user.hasCompany) return  res.redirect(user.url.company)
     res.redirect('/users')
   })
   .catch(next)

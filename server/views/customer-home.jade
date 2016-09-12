@@ -6,6 +6,7 @@ block create
     .ribbon Badsender Email Builder
 
 block list
+  - var isAdmin = _user.isAdmin
   if data.creations.length
     h4.home-subtitle= __('home.saved.caption')
     table#savedTable.mdl-data-table.mdl-js-data-table.mdl-shadow--2dp
@@ -14,6 +15,8 @@ block list
           th.mdl-data-table__cell--non-numeric Id
         th.mdl-data-table__cell--non-numeric= __('home.saved.name')
         th.mdl-data-table__cell--non-numeric= __('home.saved.wireframe-name')
+        if (!isAdmin)
+          th.mdl-data-table__cell--non-numeric= __('home.saved.created-by')
         th.mdl-data-table__cell--non-numeric= __('home.saved.created')
         th.mdl-data-table__cell--non-numeric= __('home.saved.last-change')
         th.mdl-data-table__cell--action= __('home.saved.rename')
@@ -30,6 +33,12 @@ block list
             td.mdl-data-table__cell--non-numeric
               a(href=creation.url.update).js-name= creation.name || __('home.saved.noname')
             td.mdl-data-table__cell--non-numeric: span= creation._wireframe.name
+            if (!isAdmin)
+              td.mdl-data-table__cell--non-numeric: span
+                if (creation._user)
+                  | #{creation._user.name ? creation._user.name : creation._user.email }
+                else
+                  | -
             td.mdl-data-table__cell--non-numeric: span= formatDate(creation.createdAt)
             td.mdl-data-table__cell--non-numeric: span= formatDate(creation.updatedAt)
             td.mdl-data-table__cell--action
@@ -45,6 +54,11 @@ block list
                 i.material-icons delete
       a.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored(href="/new-creation")
         i.material-icons add
+  else
+    p(style="text-align: center; padding-top: 4em;")
+      a.mdl-button--accent.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect(href="/new-creation")
+        | Make a new mailing
+
 
 block dialog
   dialog.js-dialog-rename.mdl-dialog
