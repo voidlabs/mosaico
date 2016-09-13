@@ -28,6 +28,15 @@
 
 @mosaico-selection-color: @link-color;
 
+
+// --------------- PAGE ---------------
+//              |       toolbar
+// main-toolbox |       main-edit-area
+//  tooltabs    |
+//  toolimages  |
+//  tooldebug   |
+//  tooltheme   |
+
 #main-preview #preview-toolbar {
   padding: 1px 5px;
 }
@@ -434,6 +443,29 @@
     a {
       padding-left: 1em;
       padding-right: 1em;
+    }
+  }
+}
+
+
+////////
+// COLORPICKER
+////////
+
+// As a reminder
+// .mo .propInput .evo-pointer {
+//   z-index: 5;
+// }
+
+.evo-pop {
+  z-index: 10;
+
+  .evo-palette {
+    td {
+      height: 24px;
+    }
+    th {
+      background: white;
     }
   }
 }

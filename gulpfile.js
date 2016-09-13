@@ -60,7 +60,7 @@ gulp.task('clean-css', function (cb) {
 
 gulp.task('css-editor', ['clean-css'], function () {
   return gulp
-  .src('src/css/badsender.less')
+  .src('src/css/badsender-editor.less')
   .pipe($.less())
   .pipe($.postcss([
     autoprefixer({ browsers: ['ie 10', 'last 2 versions'], }),
@@ -74,10 +74,12 @@ gulp.task('css-editor', ['clean-css'], function () {
 
 gulp.task('css-app', ['clean-css'], function () {
   return gulp
-  .src('src/css/badsender-home.less')
+  .src('src/css-backend/badsender-backend.styl')
   .pipe($.if(isDev, $.plumber(onError)))
   .pipe($.sourcemaps.init())
-  .pipe($.less())
+  .pipe($.stylus({
+    'include css': true,
+  }))
   .pipe($.postcss([
     autoprefixer({ browsers: ['ie 10', 'last 2 versions'], }),
   ]))
@@ -347,7 +349,9 @@ gulp.task('dev', ['build', 'nodemon'], function () {
   })
 
   gulp.watch(['server/views/*.jade', 'dist/*.js']).on('change', reload)
-  gulp.watch('src/css/**/*.less',     ['css'])
+  gulp.watch([
+    'src/css/**/*.less',
+    'src/css-backend/*.styl'],        ['css'])
   gulp.watch('src/tmpl/*.html',       ['templates'])
 })
 
