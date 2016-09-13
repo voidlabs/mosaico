@@ -42,27 +42,46 @@ function show(req, res, next) {
   }
 
   // update
-  var getUser       = Users.findById(userId).populate('_company')
-  var getCompanies  = Companies.find({})
-  var getWireframes = Wireframes.find( { _user: userId } )
-  var getCreations  = Creations.find( { _user: userId } ).populate('_wireframe')
-
-  Promise
-  .all([getUser, getCompanies, getWireframes, getCreations])
-  .then(function (dbResponse) {
-    var user        = dbResponse[0]
-    var companies   = dbResponse[1]
-    var wireframes  = dbResponse[2]
-    var creations   = dbResponse[3]
-    if (!user) return res.status(404).end()
-    res.render('user-new-edit', { data: {
-      user:       user,
-      companies:  companies,
-      wireframes: wireframes,
-      creations:  creations,
-    }})
-  })
+  Users
+  .findById(userId)
+  .populate('_company')
+  .then(onUser)
   .catch(next)
+
+  function onUser(user) {
+    if (!user) return next({status: 404})
+    if (user.hasCompany) {
+      return Creations
+      .find( { _user: userId } )
+      .populate('_wireframe')
+      .then( (creations) => {
+        res.render('user-new-edit', { data: {
+          user:       user,
+          creations:  creations,
+        }})
+      })
+      .catch(next)
+    }
+
+    var getCompanies  = Companies.find({})
+    var getWireframes = Wireframes.find( { _user: userId } )
+    var getCreations  = Creations.find( { userId: userId } ).populate('_wireframe')
+
+    Promise
+    .all([getCompanies, getWireframes, getCreations])
+    .then(function (dbResponse) {
+      var companies   = dbResponse[0]
+      var wireframes  = dbResponse[1]
+      var creations   = dbResponse[2]
+      res.render('user-new-edit', { data: {
+        user:       user,
+        companies:  companies,
+        wireframes: wireframes,
+        creations:  creations,
+      }})
+    })
+    .catch(next)
+  }
 }
 
 function update(req, res, next) {

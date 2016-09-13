@@ -4,10 +4,6 @@ block vars
   - var pageClass = 'customer-wireframe';
 
 block create
-  //- header.home-badsender-header
-  //-   div: img(src="/media/logo_badsender_154x118.png")
-  //-   .ribbon Badsender Email Builder
-  //-   h6= __('home.make-creation')
 
   if !data.wireframes.length
     h4.home-subtitle= __('home.no.wireframes')
@@ -22,7 +18,8 @@ block create
               img(src=wireframe.imgPath + '_full.png' width="100%" alt="xx")
             .mdl-card__title: h2.mdl-card__title-text: div(style="text-align: center;")
               | #{wireframe.name}
-              if _user.isAdmin
+              //- TODO remove && wireframe._company
+              if _user.isAdmin && wireframe._company
                 br
                 small — #{wireframe._company.name} —
             if wireframe.description

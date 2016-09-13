@@ -16,6 +16,7 @@ block content
             if _config.debug
               th.mdl-data-table__cell--non-numeric id
             th.mdl-data-table__cell--non-numeric wireframe name
+            //- TODO remove after migration
             th.mdl-data-table__cell--non-numeric created by
             th.mdl-data-table__cell--non-numeric of company
             th.mdl-data-table__cell--action markup?
@@ -29,6 +30,7 @@ block content
                   a(href=wireframe.url.show)= wireframe._id
               td.mdl-data-table__cell--non-numeric
                   a(href=wireframe.url.show)= wireframe.name
+              //- TODO remove after migration
               td.mdl-data-table__cell--non-numeric
                 if wireframe._user
                   a(href=wireframe.url.user)

@@ -133,7 +133,7 @@ function encodePassword(password) {
 
 UserSchema.virtual('status').get(function () {
   if (this.password)  return 'confirmed'
-  if (this.token)     return 'password mail send'
+  if (this.token)     return 'password mail sent'
   return 'to be initialized'
 })
 

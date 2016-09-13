@@ -9,6 +9,7 @@ var handleValidatorsErrors  = DB.handleValidatorsErrors
 var Companies               = DB.Companies
 var Users                   = DB.Users
 var Wireframes              = DB.Wireframes
+var Creations               = DB.Creations
 
 function list(req, res, next) {
   Companies
@@ -28,18 +29,25 @@ function show(req, res, next) {
   var getCompany    = Companies.findById(companyId)
   var getUsers      = Users.find({_company: companyId}).sort({ createdAt: -1 })
   var getWireframes = Wireframes.find({_company: companyId}).sort({ createdAt: -1 })
+  var getCreations  = Creations
+  .find({_company: companyId, }, '_id name _user _wireframe createdAt updatedAt')
+  .populate('_user', '_id name email')
+  .populate('_wireframe', '_id name')
+  .sort({ updatedAt: -1})
 
   Promise
-  .all([getCompany, getUsers, getWireframes])
+  .all([getCompany, getUsers, getWireframes, getCreations])
   .then(function (dbResponse) {
     var company     = dbResponse[0]
+    if (!company) return next({status: 404})
     var users       = dbResponse[1]
     var wireframes  = dbResponse[2]
-    if (!company) return res.status(404).end()
+    var creations   = dbResponse[3]
     res.render('company-new-edit', {data: {
       company:    company,
       users:      users,
       wireframes: wireframes,
+      creations:  creations,
     }})
   })
   .catch(next)

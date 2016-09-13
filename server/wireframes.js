@@ -42,6 +42,7 @@ function customerList(req, res, next) {
     // http://stackoverflow.com/questions/19428471/node-mongoose-3-6-sort-query-with-populated-field/19450541#19450541
     if (isAdmin) {
       wireframes = wireframes.sort( (a, b) => {
+        if (!a._company || !b._company) return 0
         let nameA = a._company.name.toLowerCase()
         let nameB = b._company.name.toLowerCase()
         if (nameA < nameB) return -1
@@ -76,6 +77,7 @@ function show(req, res, next) {
   .populate('_user')
   .populate('_company')
   .then( (wireframe) => {
+    if (!wireframe) return next({status: 404})
     res.render('wireframe-new-edit', { data: { wireframe: wireframe, }} )
   })
   .catch(next)

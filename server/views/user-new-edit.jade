@@ -14,7 +14,10 @@ block content
   - var errors      = hasError ? messages.error[0] : {};
   - var isAffecting = isEdit && !user.hasCompany
 
+  //- /////////
   //- LEFT COLUMN
+  //- /////////
+
   .mdl-cell.mdl-cell--3-col.mdl-color--accent-contrast.mdl-shadow--4dp
     ul.mdl-list
       if isEdit
@@ -34,7 +37,10 @@ block content
             .material-icons.mdl-list__item-icon group
             | #{data.company.name}
 
+  //- /////////
   //- MAIN CONTENT
+  //- /////////
+
   form(action=action method="post").mdl-cell.mdl-cell--9-col
     .mdl-grid
       fieldset.mdl-cell.mdl-cell--12-col.mdl-card.mdl-shadow--2dp
@@ -79,7 +85,11 @@ block content
 
 
       if isEdit
+
+        //- /////////
         //- WIREFRAMES
+        //- /////////
+
         //- (To be removed after company migration)
         if !user.hasCompany
           .mdl-cell.mdl-cell--12-col.mdl-card.mdl-shadow--2dp
@@ -115,7 +125,10 @@ block content
                       td.mdl-data-table__cell--action
                         a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href=deleteUrl)
                           i.material-icons delete_forever
+        //- /////////
         //- CREATIONS
+        //- /////////
+
         .mdl-cell.mdl-cell--12-col.mdl-cell--top.mdl-card.mdl-shadow--2dp
           .mdl-card__title
             .mdl-card__title-text own creations
