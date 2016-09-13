@@ -26,104 +26,109 @@ block content
 
   //- MAIN CONTENT
   .mdl-cell(class= isEdit ? 'mdl-cell--10-col' : 'mdl-cell--6-col mdl-cell--3-offset')
-    //- button is placed here for z-index issues
-    button(type="submit" form="info").mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored
-      i.material-icons save
-    .mdl-grid
-      //- INFO FORM
-      form#info.mdl-cell.mdl-cell--12-col.mdl-card.mdl-shadow--2dp(action=action method="post")
-        if company._id
-          input(type="hidden" name="id" value=company._id)
-        .mdl-card__title
-          .mdl-card__title-text informations
-        fieldset.mdl-card__supporting-text
-          .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(class= errors.name ? 'is-invalid' : '')
-            input.mdl-textfield__input#name-field(type="text" name="name" value=company.name)
-            label.mdl-textfield__label(for="name-field") name
-            if errors.name
-              span.mdl-textfield__error= errors.name.message
+    .mdl-tabs.mdl-js-tabs.mdl-js-ripple-effect
+      if isEdit
+        .mdl-tabs__tab-bar
+          a.mdl-tabs__tab(href="#info-panel" class= isEdit ? '' : 'is-active') Informations
+          a.mdl-tabs__tab.is-active(href="#wireframe-panel") Wireframes
+          a.mdl-tabs__tab(href="#user-panel") Users
 
+      #info-panel.mdl-tabs__panel(class= isEdit ? '' : 'is-active'): .mdl-grid
+        form.mdl-cell.mdl-cell--12-col.mdl-card.mdl-shadow--2dp(action=action method="post")
+          if company._id
+            input(type="hidden" name="id" value=company._id)
+          .mdl-card__title
+            .mdl-card__title-text informations
+          fieldset.mdl-card__supporting-text
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(class= errors.name ? 'is-invalid' : '')
+              input.mdl-textfield__input#name-field(type="text" name="name" value=company.name)
+              label.mdl-textfield__label(for="name-field") name
+              if errors.name
+                span.mdl-textfield__error= errors.name.message
+          .mdl-card__actions.mdl-card--border
+            button(type="submit").mdl-button.mdl-button--accent.mdl-js-button.mdl-js-ripple-effect save
 
       if isEdit
         //- WIREFRAME
-        .mdl-cell.mdl-cell--12-col.mdl-cell--top.mdl-card.mdl-shadow--2dp
-          .mdl-card__title
-            .mdl-card__title-text associated wireframes
+        #wireframe-panel.mdl-tabs__panel.is-active: .mdl-grid
+          .mdl-cell.mdl-cell--12-col.mdl-cell--top.mdl-card.mdl-shadow--2dp
+            .mdl-card__title
+              .mdl-card__title-text associated wireframes
 
-          if !data.wireframes.length
-            .mdl-card__supporting-text: p no wireframes yet
-          else
-            table.mdl-data-table.mdl-js-data-table
-              thead
-                tr
-                  th.mdl-data-table__cell--non-numeric id
-                  th.mdl-data-table__cell--non-numeric name
-                  th.mdl-data-table__cell--action markup?
-                  th.mdl-data-table__cell--non-numeric created at
-                  //- th.mdl-data-table__cell--non-numeric updated at
-                  th.mdl-data-table__cell--action edit
-                  th.mdl-data-table__cell--action delete
-              tbody
-                each wireframe in data.wireframes
-                  - var deleteUrl = wireframe.url.delete + '?redirect=/company/' + wireframe._company
+            if !data.wireframes.length
+              .mdl-card__supporting-text: p no wireframes yet
+            else
+              table.mdl-data-table.mdl-js-data-table
+                thead
                   tr
-                    td.mdl-data-table__cell--non-numeric
-                      a(href=wireframe.url.show)= wireframe._id
-                    td.mdl-data-table__cell--non-numeric= wireframe.name
-                    td.mdl-data-table__cell--action
-                      if wireframe.hasMarkup
-                        i.material-icons check
-                      else
-                        i.material-icons report_problem
-                    td.mdl-data-table__cell--non-numeric= formatDate(wireframe.createdAt)
-                    //- td.mdl-data-table__cell--non-numeric= formatDate(wireframe.updatedAt)
-                    td.mdl-data-table__cell--action
-                      a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href=wireframe.url.show)
-                        i.material-icons mode_edit
-                    td.mdl-data-table__cell--action
-                      a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href=deleteUrl)
-                        i.material-icons delete_forever
+                    th.mdl-data-table__cell--non-numeric id
+                    th.mdl-data-table__cell--non-numeric name
+                    th.mdl-data-table__cell--action markup?
+                    th.mdl-data-table__cell--non-numeric created at
+                    //- th.mdl-data-table__cell--non-numeric updated at
+                    th.mdl-data-table__cell--action edit
+                    th.mdl-data-table__cell--action delete
+                tbody
+                  each wireframe in data.wireframes
+                    - var deleteUrl = wireframe.url.delete + '?redirect=/company/' + wireframe._company
+                    tr
+                      td.mdl-data-table__cell--non-numeric
+                        a(href=wireframe.url.show)= wireframe._id
+                      td.mdl-data-table__cell--non-numeric= wireframe.name
+                      td.mdl-data-table__cell--action
+                        if wireframe.hasMarkup
+                          i.material-icons check
+                        else
+                          i.material-icons report_problem
+                      td.mdl-data-table__cell--non-numeric= formatDate(wireframe.createdAt)
+                      //- td.mdl-data-table__cell--non-numeric= formatDate(wireframe.updatedAt)
+                      td.mdl-data-table__cell--action
+                        a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href=wireframe.url.show)
+                          i.material-icons mode_edit
+                      td.mdl-data-table__cell--action
+                        a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href=deleteUrl)
+                          i.material-icons delete_forever
 
         //- USERS
-        .mdl-cell.mdl-cell--12-col.mdl-cell--top.mdl-card.mdl-shadow--2dp
-          .mdl-card__title
-            .mdl-card__title-text associated users
-          if !data.users.length
-            .mdl-card__supporting-text: p no users yet
-          else
-            table.mdl-data-table.mdl-js-data-table
-              thead
-                tr
-                  if _config.debug
-                    th.mdl-data-table__cell--non-numeric id
-                  th.mdl-data-table__cell--non-numeric email
-                  th.mdl-data-table__cell--non-numeric user name
-                  th.mdl-data-table__cell--non-numeric(colspan="2") status
-                  th.mdl-data-table__cell--action language
-                  th.mdl-data-table__cell--non-numeric created at
-                  th.mdl-data-table__cell--action password mail
-                  //- th.mdl-data-table__cell--action delete
-              tbody
-                each user in data.users
+        #user-panel.mdl-tabs__panel: .mdl-grid
+          .mdl-cell.mdl-cell--12-col.mdl-cell--top.mdl-card.mdl-shadow--2dp
+            .mdl-card__title
+              .mdl-card__title-text associated users
+            if !data.users.length
+              .mdl-card__supporting-text: p no users yet
+            else
+              table.mdl-data-table.mdl-js-data-table
+                thead
                   tr
                     if _config.debug
-                      td.mdl-data-table__cell--non-numeric: a(href=user.url.show)= user._id
-                    td.mdl-data-table__cell--non-numeric: a(href=user.url.show)= user.email
-                    td.mdl-data-table__cell--non-numeric= user.safename
-                    td.mdl-data-table__cell--non-numeric
-                      if user.status === 'confirmed'
-                        i.material-icons check
-                      if user.status === 'to be initialized'
-                        i.material-icons report_problem
-                      if user.status === 'password mail send'
-                        i.material-icons schedule
-                    td.mdl-data-table__cell--non-numeric= user.status
-                    td.mdl-data-table__cell--action= user.lang
-                    td.mdl-data-table__cell--non-numeric= formatDate(user.createdAt)
-                    td.mdl-data-table__cell--action: form(action='/users/reset' method="post")
-                      button.mdl-button.mdl-js-button.mdl-button--accent(type="submit" name="id" value=user._id)
-                        | send
-                    //- td.mdl-data-table__cell--action: form(action==user.url.delete method="post")
-                    //-   button.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(type="submit")
-                    //-     i.material-icons delete
-
+                      th.mdl-data-table__cell--non-numeric id
+                    th.mdl-data-table__cell--non-numeric email
+                    th.mdl-data-table__cell--non-numeric user name
+                    th.mdl-data-table__cell--non-numeric(colspan="2") status
+                    th.mdl-data-table__cell--action language
+                    th.mdl-data-table__cell--non-numeric created at
+                    th.mdl-data-table__cell--action password mail
+                    //- th.mdl-data-table__cell--action delete
+                tbody
+                  each user in data.users
+                    tr
+                      if _config.debug
+                        td.mdl-data-table__cell--non-numeric: a(href=user.url.show)= user._id
+                      td.mdl-data-table__cell--non-numeric: a(href=user.url.show)= user.email
+                      td.mdl-data-table__cell--non-numeric= user.safename
+                      td.mdl-data-table__cell--non-numeric
+                        if user.status === 'confirmed'
+                          i.material-icons check
+                        if user.status === 'to be initialized'
+                          i.material-icons report_problem
+                        if user.status === 'password mail send'
+                          i.material-icons schedule
+                      td.mdl-data-table__cell--non-numeric= user.status
+                      td.mdl-data-table__cell--action= user.lang
+                      td.mdl-data-table__cell--non-numeric= formatDate(user.createdAt)
+                      td.mdl-data-table__cell--action: form(action='/users/reset' method="post")
+                        button.mdl-button.mdl-js-button.mdl-button--accent(type="submit" name="id" value=user._id)
+                          | send
+                      //- td.mdl-data-table__cell--action: form(action==user.url.delete method="post")
+                      //-   button.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(type="submit")
+                      //-     i.material-icons delete
