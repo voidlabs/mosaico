@@ -5,7 +5,8 @@
 #
 
 echo "Choose environment:"
-select env in dev stage prod;
+# select env in dev stage prod;
+select env in dev stage;
 do
   echo $env
   break
