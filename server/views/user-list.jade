@@ -27,7 +27,7 @@ block content
               if _config.debug
                 td.mdl-data-table__cell--non-numeric: a(href=user.url.show)= user._id
               td.mdl-data-table__cell--non-numeric: a(href=user.url.show)= user.email
-              td.mdl-data-table__cell--non-numeric= user.name ? user.name : 'new user'
+              td.mdl-data-table__cell--non-numeric= user.safename
               td.mdl-data-table__cell--non-numeric
                 if user.hasCompany
                   a(href=`/companies/${user._company.id}`) #{user._company.name}
@@ -44,6 +44,7 @@ block content
               td.mdl-data-table__cell--action= user.lang
               td.mdl-data-table__cell--non-numeric= formatDate(user.createdAt)
               td.mdl-data-table__cell--action: form(action='/users/reset' method="post")
+                input(type="hidden" name="redirect" value="/users")
                 button.mdl-button.mdl-js-button.mdl-button--accent(type="submit" name="id" value=user._id)
                   | send
               //- td.mdl-data-table__cell--action: form(action=user.url.delete method="post")

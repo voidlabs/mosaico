@@ -137,6 +137,14 @@ UserSchema.virtual('status').get(function () {
   return 'to be initialized'
 })
 
+UserSchema.virtual('fullname').get(function () {
+  return this.name ? `${this.name} (${this.email})` : this.email
+})
+
+UserSchema.virtual('safename').get(function () {
+  return this.name ? this.name : '—'
+})
+
 UserSchema.virtual('isReseted').get(function () {
   if (this.password)  return false
   if (this.token)     return true

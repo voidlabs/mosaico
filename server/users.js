@@ -142,6 +142,7 @@ function adminResetPassword(req, res, next) {
   })
   .then(function (user) {
     console.log(user)
+    if (req.body.redirect) return res.redirect(req.body.redirect)
     // TODO clean after companies
     if (user.hasCompany) return  res.redirect(user.url.company)
     res.redirect('/users')
