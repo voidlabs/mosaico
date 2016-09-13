@@ -1,9 +1,12 @@
 extends _layout-customer.jade
 
+block vars
+  - var pageClass = 'customer-home';
+
 block create
   header.home-badsender-header
     div: img(src="/media/logo_badsender_154x118.png")
-    .ribbon Badsender Email Builder
+    .ribbon: span Badsender Email Builder
 
 block list
   - var isAdmin = _user.isAdmin
@@ -52,13 +55,10 @@ block list
             td.mdl-data-table__cell--action
               a.js-delete.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(href=creation.url.delete title="delete")
                 i.material-icons delete
-      a.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored(href="/new-creation")
-        i.material-icons add
   else
     p(style="text-align: center; padding-top: 4em;")
       a.mdl-button--accent.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect(href="/new-creation")
         | Make a new mailing
-
 
 block dialog
   dialog.js-dialog-rename.mdl-dialog

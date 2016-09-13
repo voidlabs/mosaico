@@ -20,7 +20,8 @@ html(lang=getLocale())
           .mdl-layout-spacer
           //- Navigation. We hide it in small screens
           nav.mdl-navigation
-            a.mdl-navigation__link(href="/"): i.material-icons home
+            a.mdl-navigation__link.navigation--creations(href="/") mailings
+            a.mdl-navigation__link.navigation--wireframes(href="/new-creation") templates
             if _user.isAdmin
               a.mdl-navigation__link(href="/admin" title="companies"): i.material-icons group
               a.mdl-navigation__link(href="/users" title="users"): i.material-icons person
