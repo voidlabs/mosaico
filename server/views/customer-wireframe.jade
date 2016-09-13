@@ -20,6 +20,10 @@ block create
           a(href='/editor?wireframeId=' + wireframe._id class=push).mdl-cell.mdl-card.mdl-shadow--4dp.wireframe-card
             .mdl-card__media.mdl-color--primary
               img(src=wireframe.imgPath + '_full.png' width="100%" alt="xx")
-            .mdl-card__title: h2.mdl-card__title-text= wireframe.name
+            .mdl-card__title: h2.mdl-card__title-text: div(style="text-align: center;")
+              | #{wireframe.name}
+              if _user.isAdmin
+                br
+                small — #{wireframe._company.name} —
             if wireframe.description
               .mdl-card__supporting-text= wireframe.description

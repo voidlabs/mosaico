@@ -32,10 +32,23 @@ function customerList(req, res, next) {
   // for wireframe '_user; =>  we have a relation
   var wireframesRequest = Wireframes
   .find(isAdmin ? {} : hasCompany ? companyFilter : {_user: req.user.id})
+  // Admin as a customer should see which template is coming from which company
+  if (isAdmin) wireframesRequest.populate('_company')
 
   wireframesRequest
   .sort({ name: 1 })
   .then(function (wireframes) {
+    // can't sort populated fields
+    // http://stackoverflow.com/questions/19428471/node-mongoose-3-6-sort-query-with-populated-field/19450541#19450541
+    if (isAdmin) {
+      wireframes = wireframes.sort( (a, b) => {
+        let nameA = a._company.name.toLowerCase()
+        let nameB = b._company.name.toLowerCase()
+        if (nameA < nameB) return -1
+        if (nameA > nameB) return 1
+        return 0;
+      })
+    }
     res.render('customer-wireframe', {
       data: {
         wireframes: wireframes,
