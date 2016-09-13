@@ -15,7 +15,7 @@ block content
               th.mdl-data-table__cell--non-numeric id
             th.mdl-data-table__cell--non-numeric company name
             th.mdl-data-table__cell--non-numeric created at
-            th.mdl-data-table__cell--action delete
+            //- th.mdl-data-table__cell--action delete
         tbody
           each company in data.companies
             tr
@@ -23,8 +23,8 @@ block content
                 td.mdl-data-table__cell--non-numeric: a(href=company.url.show)= company._id
               td.mdl-data-table__cell--non-numeric: a(href=company.url.show)= company.name
               td.mdl-data-table__cell--non-numeric= formatDate(company.createdAt)
-              td.mdl-data-table__cell--action: form(action=company.url.delete method="post")
-                button.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(type="submit")
-                  i.material-icons delete
+              //- td.mdl-data-table__cell--action: form(action=company.url.delete method="post")
+              //-   button.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent(type="submit")
+              //-     i.material-icons delete
     a.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored(href="/companies")
       i.material-icons group_add
