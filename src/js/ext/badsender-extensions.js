@@ -69,8 +69,14 @@ function templateUrlConverter(opts) {
     // handle ESP tags: in URL <%
     if (/<%/.test(url)) return null
     // handle other urls: img/social_def/twitter_ok.png
+    var urlRegexp       = /([^\/]*)$/
+    var extentionRegexp = /\.[0-9a-z]+$/
     // as it is done, all files are flatten in asset folder (uploads or S3)
-    url = /([^\/]*)$/.exec(url)[1]
+    url = urlRegexp.exec(url)[1]
+    // handle every other case:
+    //   *|UNSUB|*
+    //   #pouic
+    if (!extentionRegexp.test(url)) return null
     // All images at upload are slugged
     //    block thumbnails are based on html block ID
     //    we need to retreive the file url by slugging the id
