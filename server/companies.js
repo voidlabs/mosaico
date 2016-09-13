@@ -26,8 +26,8 @@ function show(req, res, next) {
   var companyId     = req.params.companyId
   if (!companyId) return res.render('company-new-edit')
   var getCompany    = Companies.findById(companyId)
-  var getUsers      = Users.find({_company: companyId})
-  var getWireframes = Wireframes.find({_company: companyId})
+  var getUsers      = Users.find({_company: companyId}).sort({ createdAt: -1 })
+  var getWireframes = Wireframes.find({_company: companyId}).sort({ createdAt: -1 })
 
   Promise
   .all([getCompany, getUsers, getWireframes])
