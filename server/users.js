@@ -28,7 +28,7 @@ function show(req, res, next) {
   // …userId when it's created :)
   var userId        = req.params.userId
 
-  // create
+  // CREATE
   if (companyId) {
     Companies
     .findById(companyId)
@@ -41,107 +41,33 @@ function show(req, res, next) {
     return
   }
 
-  // update
-  Users
-  .findById(userId)
-  .populate('_company')
-  .then(onUser)
-  .catch(next)
+  const getUser       = Users.findById(userId).populate('_company')
+  const getCreations  = Creations.find( { _user: userId } ).populate('_wireframe')
 
-  function onUser(user) {
+  // UPDATE
+  Promise
+  .all([getUser, getCreations])
+  .then( (dbResponse) => {
+    const user      = dbResponse[0]
+    const creations = dbResponse[1]
     if (!user) return next({status: 404})
-    if (user.hasCompany) {
-      return Creations
-      .find( { _user: userId } )
-      .populate('_wireframe')
-      .then( (creations) => {
-        res.render('user-new-edit', { data: {
-          user:       user,
-          creations:  creations,
-        }})
-      })
-      .catch(next)
-    }
-
-    var getCompanies  = Companies.find({})
-    var getWireframes = Wireframes.find( { _user: userId } )
-    var getCreations  = Creations.find( { userId: userId } ).populate('_wireframe')
-
-    Promise
-    .all([getCompanies, getWireframes, getCreations])
-    .then(function (dbResponse) {
-      var companies   = dbResponse[0]
-      var wireframes  = dbResponse[1]
-      var creations   = dbResponse[2]
-      res.render('user-new-edit', { data: {
-        user:       user,
-        companies:  companies,
-        wireframes: wireframes,
-        creations:  creations,
-      }})
-    })
-    .catch(next)
-  }
+    res.render('user-new-edit', { data: {
+      user:       user,
+      creations:  creations,
+    }})
+  })
+  .catch(next)
 }
 
 function update(req, res, next) {
-  var userId                = req.params.userId
-  var isAffectingToCompany  = req.body.assigncompagny
-  if (isAffectingToCompany) return affectToCompany(req, res, next)
-  var dbRequest = userId ?
+  const userId    = req.params.userId
+  const dbRequest = userId ?
     Users.findByIdAndUpdate(userId, req.body, {runValidators: true})
     : new Users(req.body).save()
 
   dbRequest
-  .then(function (user) {
-    res.redirect(`/users/${user._id}`)
-  })
-  .catch(err => handleValidatorsErrors(err, req, res, next) )
-}
-
-function affectToCompany(req, res, next) {
-  console.log('affect to company')
-  var userId        = req.params.userId
-  var companyId     = req.body._company
-
-  var userReq       = Users.findByIdAndUpdate(userId, {
-    $set: {
-      _company: companyId,
-    },
-    $unset: {
-      role:  1,
-    },
-  }, { runValidators: true })
-  var creationsReq  = Creations.update(
-    { userId:     userId, },
-    {
-      $set: {
-        _company: companyId,
-        _user:    userId,
-      },
-      $unset: {
-        userId:   1,
-      },
-    },
-    { multi:      true, }
-  ).exec()
-  var wireframesReq = Wireframes.update(
-    { _user:    userId, },
-    {
-      $set: {
-        _company: companyId,
-      },
-      $unset: {
-        _user: 1,
-      },
-    },
-    { multi:    true, }
-  ).exec()
-
-  Promise
-  .all([userReq, creationsReq, wireframesReq])
-  .then(() => res.redirect(`/users/${userId}`))
-  .catch(err => handleValidatorsErrors(err, req, res, next) )
+  .then( user => res.redirect( user.url.show ) )
+  .catch( err => handleValidatorsErrors(err, req, res, next) )
 }
 
 function remove(req, res, next) {
@@ -154,17 +80,15 @@ function remove(req, res, next) {
 
 function adminResetPassword(req, res, next) {
   var id = req.body.id
+  // TODO should resolve to a 404 if no user
   Users
   .findById(id)
-  .then(function (user) {
-    return user.resetPassword(user.lang, 'admin')
-  })
-  .then(function (user) {
-    console.log(user)
+  .then( user => user.resetPassword(user.lang, 'admin') )
+  .then( (user) => {
+    // reset from elsewhere
     if (req.body.redirect) return res.redirect(req.body.redirect)
-    // TODO clean after companies
-    if (user.hasCompany) return  res.redirect(user.url.company)
-    res.redirect('/users')
+    // reset from company page
+    res.redirect(user.url.company)
   })
   .catch(next)
 }
@@ -184,7 +108,7 @@ function userResetPassword(req, res, next) {
     }
     user
     .resetPassword(req.getLocale(), 'user')
-    .then(function(user) {
+    .then( (user) => {
       req.flash('success', 'password has been reseted. You should receive an email soon')
       res.redirect('/forgot')
     })
