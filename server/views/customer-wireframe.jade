@@ -1,0 +1,26 @@
+extends _layout-customer.jade
+
+block vars
+  - var pageClass = 'customer-wireframe';
+
+block create
+
+  if !data.wireframes.length
+    h4.home-subtitle= __('home.no.wireframes')
+  else
+    h4.home-subtitle= __('home.make-creation')
+    .mdl-grid
+      each wireframe, index in data.wireframes
+        - var push = data.wireframes.length === 1 && index === 0 ? 'mdl-cell--4-offset-desktop' : data.wireframes.length === 2 & index === 0 ? 'mdl-cell--2-offset-desktop' : '';
+        if (wireframe.hasMarkup)
+          a(href='/editor?wireframeId=' + wireframe._id class=push).mdl-cell.mdl-card.mdl-shadow--4dp.wireframe-card
+            .mdl-card__media.mdl-color--primary
+              img(src=wireframe.imgPath + '_full.png' width="100%" alt="xx")
+            .mdl-card__title: h2.mdl-card__title-text: div(style="text-align: center;")
+              | #{wireframe.name}
+              //- TODO remove && wireframe._company
+              if _user.isAdmin && wireframe._company
+                br
+                small — #{wireframe._company.name} —
+            if wireframe.description
+              .mdl-card__supporting-text= wireframe.description

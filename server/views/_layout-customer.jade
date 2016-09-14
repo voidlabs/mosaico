@@ -20,9 +20,12 @@ html(lang=getLocale())
           .mdl-layout-spacer
           //- Navigation. We hide it in small screens
           nav.mdl-navigation
+            a.mdl-navigation__link.navigation--creations(href="/") mailings
+            a.mdl-navigation__link.navigation--wireframes(href="/new-creation") templates
             if _user.isAdmin
-              a.mdl-navigation__link(href="/admin"): i.material-icons people
-              a.mdl-navigation__link(href="/wireframes"): i.material-icons web
+              a.mdl-navigation__link(href="/admin" title="companies"): i.material-icons group
+              a.mdl-navigation__link(href="/users" title="users"): i.material-icons person
+              a.mdl-navigation__link(href="/wireframes" title="wireframes"): i.material-icons web
 
             if getLocale() === 'en'
               a.mdl-navigation__link(href="/?lang=fr") version française

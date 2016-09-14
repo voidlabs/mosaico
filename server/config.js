@@ -71,8 +71,8 @@ config.setup    = new Promise(function (resolve, reject) {
 
 // if (!config.isProd) {
 config.setup.then(function (config) {
-  console.log('config is')
-  console.log(_.omit(config, ['_', 'config', '_configs', 'configs', 'setup']))
+  // console.log('config is')
+  // console.log(_.omit(config, ['_', 'config', '_configs', 'configs', 'setup']))
 })
 
 // }

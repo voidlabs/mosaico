@@ -30,7 +30,7 @@ var loader = function (viewModel) {
     // force JSON for bodyparser to catch up
     // => keep types server side
     $.ajax({
-      url: window.location.href,
+      url:          window.location.href,
       method:       'POST',
       contentType:  'application/json',
       data:         JSON.stringify(data),

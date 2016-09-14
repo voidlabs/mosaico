@@ -65,17 +65,23 @@ module.exports = function () {
   // LOGGING
   //////
 
+  function getIp(req) {
+    return req.ip ? /([\d\.]+)$/.exec(req.ip)[1] : ''
+  }
+
   function logRequest(tokens, req, res) {
     if (/\/img\//.test(req.path)) return
     var method  = chalk.blue(tokens.method(req, res))
-    var ips     = chalk.grey(`- ${req.ip.split(':')[0]} -`)
+    var ips     = getIp(req)
+    ips         = ips ? chalk.grey(`- ${ips} -`) : ''
     var url     = chalk.grey(tokens.url(req, res))
     return `${method} ${ips} ${url}`
   }
 
   function logResponse(tokens, req, res) {
     var method      = chalk.blue(tokens.method(req, res))
-    var ips         = chalk.grey(`- ${req.ip.split(':')[0]} -`)
+    var ips         = getIp(req)
+    ips             = ips ? chalk.grey(`- ${ips} -`) : ''
     var url         = chalk.grey(tokens.url(req, res))
     var status      = tokens.status(req, res)
     var statusColor = status >= 500
@@ -96,9 +102,11 @@ module.exports = function () {
   var images      = require('./images')
   var render      = require('./render')
   var users       = require('./users')
+  var companies   = require('./companies')
   var wireframes  = require('./wireframes')
   var creations   = require('./creations')
   var filemanager = require('./filemanager')
+  // var homeUser    = require('./home-user')
   var guard       = session.guard
 
   //----- EXPOSE DATAS TO VIEWS
@@ -142,7 +150,7 @@ module.exports = function () {
   // regexp for checking valid mongoDB Ids
   // http://expressjs.com/en/api.html#app.param
   // http://stackoverflow.com/questions/20988446/regex-for-mongodb-objectid#20988824
-  app.param(['creationId', 'userId', 'wireId'], checkMongoId)
+  app.param(['companyId', 'userId', 'wireId', 'creationId'], checkMongoId)
   function checkMongoId(req, res, next, mongoId) {
     if (/^[a-f\d]{24}$/i.test(mongoId)) return next()
     console.log('test mongoId INVALID', mongoId)
@@ -158,23 +166,30 @@ module.exports = function () {
     failureFlash:     true,
     successFlash:     true,
   }))
-  app.get('/admin/login',                       render.adminLogin)
-  app.get('/admin',                             guard('admin'), users.list)
-
-  app.all('/users*',                            guard('admin'))
+  app.get('/admin/login',                         render.adminLogin)
+  app.get('/admin',                               guard('admin'), companies.list)
+  // companies
+  app.all('/companies*',                          guard('admin'))
+  app.get('/companies/:companyId/new-user',       users.show)
+  app.get('/companies/:companyId/new-wireframe',  wireframes.show)
+  app.get('/companies/:companyId?',               companies.show)
+  app.post('/companies/:companyId?',              companies.update)
+  // app.post('/users/:userId/delete',               companies.delete)
   // users' wireframes
-  app.get('/users/:userId/wireframe/:wireId?',  wireframes.show)
-  app.post('/users/:userId/wireframe/:wireId?', wireframes.update)
+  app.all('/users*',                              guard('admin'))
+  app.get('/users/:userId/wireframe/:wireId?',    wireframes.show)
   // users
-  app.post('/users/:userId/delete',             users.delete)
-  app.post('/users/reset',                      users.adminResetPassword)
-  app.get('/users/list',                        users.list)
-  app.get('/users/:userId?',                    users.show)
-  app.post('/users/:userId?',                   users.update)
+  app.post('/users/:userId/delete',               users.delete)
+  app.post('/users/reset',                        users.adminResetPassword)
+  app.get('/users/:userId',                       users.show)
+  app.post('/users/:userId?',                     users.update)
+  app.get('/users',                               users.list)
 
-  app.get('/wireframes/:wireId/delete',         guard('admin'), wireframes.remove)
-  app.get('/wireframes/:wireId/markup',         guard('user'), wireframes.getMarkup)
-  app.get('/wireframes',                        guard('admin'), wireframes.list)
+  app.get('/wireframes/:wireId/delete',           guard('admin'), wireframes.remove)
+  app.get('/wireframes/:wireId/markup',           guard('user'), wireframes.getMarkup)
+  app.get('/wireframes/:wireId',                  guard('admin'), wireframes.show)
+  app.post('/wireframes/:wireId?',                guard('admin'), wireframes.update)
+  app.get('/wireframes',                          guard('admin'), wireframes.list)
 
   //----- PUBLIC
 
@@ -208,7 +223,8 @@ module.exports = function () {
   app.post('/editor/:creationId',           creations.update)
   app.put('/editor/:creationId',            creations.rename)
   app.get('/editor',                        creations.create)
-  app.get('/',                              guard('user'), creations.list)
+  app.get('/new-creation',                  guard('user'), wireframes.customerList)
+  app.get('/',                              guard('user'), creations.customerList)
 
   //////
   // ERROR HANDLING

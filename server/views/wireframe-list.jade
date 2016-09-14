@@ -16,7 +16,9 @@ block content
             if _config.debug
               th.mdl-data-table__cell--non-numeric id
             th.mdl-data-table__cell--non-numeric wireframe name
-            th.mdl-data-table__cell--non-numeric user
+            //- TODO remove after migration
+            th.mdl-data-table__cell--non-numeric created by
+            th.mdl-data-table__cell--non-numeric of company
             th.mdl-data-table__cell--action markup?
             th.mdl-data-table__cell--action create new mailing
             th.mdl-data-table__cell--action delete
@@ -25,12 +27,19 @@ block content
             tr
               if _config.debug
                 td.mdl-data-table__cell--non-numeric
-                  a(href='/users/' + wireframe._user._id + '/wireframe/' + wireframe._id)= wireframe._id
+                  a(href=wireframe.url.show)= wireframe._id
               td.mdl-data-table__cell--non-numeric
-                  a(href='/users/' + wireframe._user._id + '/wireframe/' + wireframe._id)= wireframe.name
+                  a(href=wireframe.url.show)= wireframe.name
+              //- TODO remove after migration
               td.mdl-data-table__cell--non-numeric
-                a(href='/users/' + wireframe._user._id )
-                  | #{wireframe._user.name} (#{wireframe._user.email})
+                if wireframe._user
+                  a(href=wireframe.url.user)
+                    | #{wireframe._user.name} (#{wireframe._user.email})
+              td.mdl-data-table__cell--non-numeric
+                if wireframe.hasCompany
+                  a(href=wireframe.url.company)= wireframe._company.name
+                else
+                  i.material-icons.is-invalid error
               td.mdl-data-table__cell--action
                 if wireframe.hasMarkup
                   i.material-icons check

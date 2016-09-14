@@ -192,13 +192,13 @@ The release will be pushed in the branch you have chosen (dev/stage/prod)
 Automatic deploy is configured in heroku. So **pushing to dev or prod branch will automatically been deployed to heroku**
 
 
-#### syncing the *stage DB* with the *prod DB*
+#### syncing DBs
 
 ```
-npm run sync-stage-db
+npm run sync-db
 ```
 
-`.badsenderrc` should be provided with *stageDb* infos. See `.badsenderrc-example` for more informations
+`.badsenderrc` should be provided with *dbConfigs* infos. See `.badsenderrc-example` for more informations
 
 ### Generating templates preview images
 

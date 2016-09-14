@@ -15,19 +15,23 @@ var translations = {
   fr: JSON.stringify(_.assign({}, require('../res/lang/mosaico-fr.json'), require('../res/lang/badsender-fr'))),
 }
 
-function list(req, res, next) {
+function customerList(req, res, next) {
   var isAdmin           = req.user.isAdmin
-  // _user => for wireframe we have a relation
-  var wireframesRequest = Wireframes.find(isAdmin ? {} : {_user: req.user.id})
-  // userId => for creation not
-  var creationsRequest  = Creations.find({userId: req.user.id}).populate('_wireframe')
+  var hasCompany        = req.user._company
+  var companyFilter     = { _company: req.user._company }
+  // for creations 'userId' =>  no relations
+  // admin doesn't have a real ID nor a real COMPANY
+  var creationsRequest  = Creations
+  .find(hasCompany ? companyFilter : {userId: req.user.id})
+  .populate('_wireframe')
+  .populate('_user')
 
-  Promise.all([wireframesRequest, creationsRequest])
-  .then(function (datas) {
-    res.render('home', {
+  creationsRequest
+  .sort({ updatedAt: -1 })
+  .then(function (creations) {
+    res.render('customer-home', {
       data: {
-        wireframes: datas[0],
-        creations:  datas[1],
+        creations:  creations,
       }
     })
   })
@@ -41,10 +45,7 @@ function show(req, res, next) {
   Creations
   .findById(req.params.creationId)
   .then(function (creation) {
-    if (!creation) {
-      res.status(404)
-      return next()
-    }
+    if (!creation) return next({status: 404})
     res.render('editor', { data: _.assign({}, data, creation.mosaico) })
   })
   .catch(next)
@@ -63,10 +64,15 @@ function create(req, res, next) {
       res.status(404)
       return next()
     }
-    new Creations({
-      userId:       req.user.id,
-      _wireframe:   wireframe._id,
-    })
+    var initParameters = { _wireframe: wireframe._id, }
+    // admin doesn't have valid user id
+    if (!req.user.isAdmin) initParameters._user = req.user.id
+    // Keep this: Admin will never have a company
+    if (req.user._company) {
+      initParameters._company = req.user._company
+    }
+
+    new Creations(initParameters)
     .save()
     .then(function (creation) {
       res.redirect('/editor/' + creation._id)
@@ -183,13 +189,13 @@ function duplicate(req, res, next) {
 }
 
 module.exports = {
-  list:       list,
-  show:       show,
-  update:     update,
-  remove:     remove,
-  rename:     rename,
-  create:     create,
-  upload:     upload,
-  listImages: listImages,
-  duplicate:  duplicate,
+  customerList: customerList,
+  show:         show,
+  update:       update,
+  remove:       remove,
+  rename:       rename,
+  create:       create,
+  upload:       upload,
+  listImages:   listImages,
+  duplicate:    duplicate,
 }

@@ -71,22 +71,32 @@
   "database": "mongodb://localhost/my_database",
 
   //////
-  // DB COPY (only used for stage copy, see ./bin/stage-db-sync)
+  // DB COPY (only used for syncing DBs, see ./bin/db-sync)
   //////
 
-  "stageDb": {
-    "from": {
+  "dbConfigs": {
+    "local": {
       "host": "localhost:27017",
-      // folder is DB name…
-      "folder": "badsender_source",
+      "folder": "badsender"
+    },
+    "dev": {
+      "host": "localhost:27017",
+      "folder": "badsender_copy",
       "user": "####",
       "password": "####"
     },
-    "to": {
+    "stage": {
+      "host": "localhost:27017",
+      "folder": "badsender_copy",
+      "user": "####",
+      "password": "####"
+    },
+    "production": {
       "host": "localhost:27017",
       "folder": "badsender_copy",
       "user": "####",
       "password": "####"
     }
   }
+
 }

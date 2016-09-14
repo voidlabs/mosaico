@@ -93,7 +93,7 @@ var UserSchema    = Schema({
   },
   role: {
     type:     String,
-    default:  'company',
+    // default:  'company',
   },
   email: {
     type:     String,
@@ -106,6 +106,12 @@ var UserSchema    = Schema({
       validator: function checkValidEmail(value) { return validator.isEmail(value) },
       message:  '{VALUE} is not a valid email address',
     }],
+  },
+  _company: {
+    type:       ObjectId,
+    ref:        'Company',
+    // Should be required after migration
+    // required:   [true, 'user is required'],
   },
   password:   {
     type:     String,
@@ -127,14 +133,35 @@ function encodePassword(password) {
 
 UserSchema.virtual('status').get(function () {
   if (this.password)  return 'confirmed'
-  if (this.token)     return 'password mail send'
+  if (this.token)     return 'password mail sent'
   return 'to be initialized'
+})
+
+UserSchema.virtual('fullname').get(function () {
+  return this.name ? `${this.name} (${this.email})` : this.email
+})
+
+UserSchema.virtual('safename').get(function () {
+  return this.name ? this.name : '—'
 })
 
 UserSchema.virtual('isReseted').get(function () {
   if (this.password)  return false
   if (this.token)     return true
   return false
+})
+
+UserSchema.virtual('hasCompany').get(function () {
+  return typeof this._company !== 'undefined'
+})
+
+UserSchema.virtual('url').get(function () {
+  let companyId   = this._company && this._company._id ? this._company._id : this._company
+  return {
+    show:     `/users/${this._id}`,
+    delete:   `/users/${this._id}/delete`,
+    company:  `/companies/${companyId}`,
+  }
 })
 
 // TODO: take care of good email send
@@ -213,10 +240,16 @@ var WireframeSchema    = Schema({
   description: {
     type: String
   },
+  _company: {
+    type:       ObjectId,
+    ref:        'Company',
+    // Should be required after migration
+    // required:   [true, 'user is required'],
+  },
   _user: {
     type:       ObjectId,
     ref:        'User',
-    required:   [true, 'user is required'],
+    // required:   [true, 'user is required'],
   },
   markup: {
     type:       String,
@@ -234,12 +267,25 @@ WireframeSchema.virtual('hasMarkup').get(function () {
   return this.markup != null
 })
 
+WireframeSchema.virtual('hasCompany').get(function () {
+  return typeof this._company !== 'undefined'
+})
+
 WireframeSchema.virtual('url').get(function () {
+  let userId      = this._user && this._user._id ? this._user._id : this._user
+  let userUrl     = this._user ? `/users/${userId}` : '/users'
+  let companyId   = this._company && this._company._id ? this._company._id : this._company
+  let companyUrl  = this._company ? `/companies/${companyId}` : '/companies'
+  // read should be `/companies/${this._company}/wireframs/${this._id}`
   return {
-    read:       `/users/${this._user}/wireframe/${this._id}`,
-    delete:     `/wireframes/${this._id}/delete`,
-    markup:     `/wireframes/${this._id}/markup`,
-    imgCover:   `/img/${this._id}-_full.png`,
+    read:      `/users/${this._user}/wireframe/${this._id}`,
+    show:      `/wireframes/${this._id}`,
+    backTo:    this._company ? companyUrl : userUrl,
+    user:      userUrl,
+    company:   companyUrl,
+    delete:    `/wireframes/${this._id}/delete`,
+    markup:    `/wireframes/${this._id}/markup`,
+    imgCover:  `/img/${this._id}-_full.png`,
   }
 })
 
@@ -251,11 +297,16 @@ var CreationSchema    = Schema({
   name: {
     type: String,
   },
+  _user: {
+    type:     ObjectId,
+    ref:      'User',
+  },
   // no ref for user
   // => admin doesn't exist in DB
+  // TODO remove
   userId: {
     type:     'string',
-    required: true,
+    // required: true,
   },
   // should use populate
   // http://mongoosejs.com/docs/populate.html
@@ -263,6 +314,12 @@ var CreationSchema    = Schema({
     type:     ObjectId,
     required: true,
     ref:      'Wireframe',
+  },
+  _company: {
+    type:     ObjectId,
+    ref:      'Company',
+    // Should be required after migration
+    // required:   true,
   },
   // http://mongoosejs.com/docs/schematypes.html#mixed
   data: { },
@@ -336,12 +393,37 @@ CreationSchema.methods.duplicate = function duplicate() {
 }
 
 //////
+// COMPANIES
+//////
+
+var CompanySchema    = Schema({
+  name: {
+    type: String,
+    required: [true, 'A name is required'],
+    // http://mongoosejs.com/docs/api.html#schematype_SchemaType-unique
+    // from mongoose doc:
+    // violating the constraint returns an E11000 error from MongoDB when saving, not a Mongoose validation error.
+    unique:   true,
+  },
+}, { timestamps: true })
+
+CompanySchema.virtual('url').get(function () {
+  return {
+    show:         `/companies/${this._id}`,
+    delete:       `/companies/${this._id}/delete`,
+    newUser:      `/companies/${this._id}/new-user`,
+    newWireframe: `/companies/${this._id}/new-wireframe`,
+  }
+})
+
+//////
 // COMPILE SCHEMAS
 //////
 
 var UserModel       = mongoose.model('User', UserSchema)
 var WireframeModel  = mongoose.model('Wireframe', WireframeSchema)
 var CreationModel   = mongoose.model('Creation', CreationSchema)
+var CompanyModel    = mongoose.model('Company', CompanySchema)
 
 //////
 // ERRORS HANDLING
@@ -388,6 +470,7 @@ module.exports    = {
   Users:                  UserModel,
   Wireframes:             WireframeModel,
   Creations:              CreationModel,
+  Companies:              CompanyModel,
   handleValidationErrors: handleValidationErrors,
   handleValidatorsErrors: handleValidatorsErrors,
 }

@@ -6,11 +6,14 @@ var config                  = require('./config')
 var DB                      = require('./database')
 var Users                   = DB.Users
 var Wireframes              = DB.Wireframes
+var Companies               = DB.Companies
+var Creations               = DB.Creations
 var handleValidatorsErrors  = DB.handleValidatorsErrors
 
 function list(req, res, next) {
   Users
   .find({})
+  .populate('_company')
   .then(function onUsers(users) {
     return res.render('user-list', {
       data: { users: users, }
@@ -20,27 +23,71 @@ function list(req, res, next) {
 }
 
 function show(req, res, next) {
+  // company is for member creation…
+  var companyId     = req.params.companyId
+  // …userId when it's created :)
   var userId        = req.params.userId
-  if (!userId) return res.render('user-new-edit')
-  var getUser       = Users.findById(userId)
-  var getWireframes = Wireframes.find({_user: userId})
 
-  Promise
-  .all([getUser, getWireframes])
-  .then(function (dbResponse) {
-    var user        = dbResponse[0]
-    var wireframes  = dbResponse[1]
-    if (!user) return res.status(404).end()
-    res.render('user-new-edit', {data: {
-      user:       user,
-      wireframes: wireframes,
-    }})
-  })
+  // create
+  if (companyId) {
+    Companies
+    .findById(companyId)
+    .then(function (company) {
+      res.render('user-new-edit', { data: {
+        company: company,
+      }})
+    })
+    .catch(next)
+    return
+  }
+
+  // update
+  Users
+  .findById(userId)
+  .populate('_company')
+  .then(onUser)
   .catch(next)
+
+  function onUser(user) {
+    if (!user) return next({status: 404})
+    if (user.hasCompany) {
+      return Creations
+      .find( { _user: userId } )
+      .populate('_wireframe')
+      .then( (creations) => {
+        res.render('user-new-edit', { data: {
+          user:       user,
+          creations:  creations,
+        }})
+      })
+      .catch(next)
+    }
+
+    var getCompanies  = Companies.find({})
+    var getWireframes = Wireframes.find( { _user: userId } )
+    var getCreations  = Creations.find( { userId: userId } ).populate('_wireframe')
+
+    Promise
+    .all([getCompanies, getWireframes, getCreations])
+    .then(function (dbResponse) {
+      var companies   = dbResponse[0]
+      var wireframes  = dbResponse[1]
+      var creations   = dbResponse[2]
+      res.render('user-new-edit', { data: {
+        user:       user,
+        companies:  companies,
+        wireframes: wireframes,
+        creations:  creations,
+      }})
+    })
+    .catch(next)
+  }
 }
 
 function update(req, res, next) {
-  var userId = req.params.userId
+  var userId                = req.params.userId
+  var isAffectingToCompany  = req.body.assigncompagny
+  if (isAffectingToCompany) return affectToCompany(req, res, next)
   var dbRequest = userId ?
     Users.findByIdAndUpdate(userId, req.body, {runValidators: true})
     : new Users(req.body).save()
@@ -49,6 +96,51 @@ function update(req, res, next) {
   .then(function (user) {
     res.redirect(`/users/${user._id}`)
   })
+  .catch(err => handleValidatorsErrors(err, req, res, next) )
+}
+
+function affectToCompany(req, res, next) {
+  console.log('affect to company')
+  var userId        = req.params.userId
+  var companyId     = req.body._company
+
+  var userReq       = Users.findByIdAndUpdate(userId, {
+    $set: {
+      _company: companyId,
+    },
+    $unset: {
+      role:  1,
+    },
+  }, { runValidators: true })
+  var creationsReq  = Creations.update(
+    { userId:     userId, },
+    {
+      $set: {
+        _company: companyId,
+        _user:    userId,
+      },
+      $unset: {
+        userId:   1,
+      },
+    },
+    { multi:      true, }
+  ).exec()
+  var wireframesReq = Wireframes.update(
+    { _user:    userId, },
+    {
+      $set: {
+        _company: companyId,
+      },
+      $unset: {
+        _user: 1,
+      },
+    },
+    { multi:    true, }
+  ).exec()
+
+  Promise
+  .all([userReq, creationsReq, wireframesReq])
+  .then(() => res.redirect(`/users/${userId}`))
   .catch(err => handleValidatorsErrors(err, req, res, next) )
 }
 
@@ -69,7 +161,10 @@ function adminResetPassword(req, res, next) {
   })
   .then(function (user) {
     console.log(user)
-    res.redirect('/admin')
+    if (req.body.redirect) return res.redirect(req.body.redirect)
+    // TODO clean after companies
+    if (user.hasCompany) return  res.redirect(user.url.company)
+    res.redirect('/users')
   })
   .catch(next)
 }

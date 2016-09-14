@@ -292,17 +292,34 @@ gulp.task('js', ['js-editor', 'js-home'])
 // ASSETS
 ////////
 
-gulp.task('fonts', function (cb) {
+//----- FONTS
+
+gulp.task('fonts', () => {
   return gulp
-    .src(mainBowerFiles({filter: /font-awesome\/fonts/}))
-    .pipe(gulp.dest('res/fa/fonts'));
-});
+  .src(mainBowerFiles({filter: /font-awesome\/fonts/}))
+  .pipe(gulp.dest('res/fa/fonts'))
+})
+
+//----- MAINTENANCE
+
+let maintenanceFolder = 'server/maintenance-pages'
+
+gulp.task('clean-maintenance', cb => del([`${maintenanceFolder}/*.html`], cb) )
+
+gulp.task('maintenance', ['clean-maintenance'], () => {
+  return gulp
+  .src([`${maintenanceFolder}/*.jade`, `!${maintenanceFolder}/_*.jade`])
+  .pipe($.jade())
+  .pipe(gulp.dest(maintenanceFolder))
+})
 
 gulp.task('assets', ['fonts']);
 
 ////////
 // DEV
 ////////
+
+gulp.task('clean-tmp', cb => del(['tmp/upload_*'], cb) )
 
 gulp.task('toc', function() {
   return gulp.src('./BADSENDER.md')

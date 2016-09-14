@@ -1,7 +1,8 @@
 @import "../../node_modules/material-design-lite/dist/material.orange-blue.min.css";
 @import "../../node_modules/dialog-polyfill/dialog-polyfill.css";
 
-$accent =  #ff9f00;
+$primary  =  #ff9f00;
+$accent   = rgb(68,138,255);
 
 // fix left column not expanding to bottom when content > viewport
 .mdl-layout {
@@ -46,6 +47,11 @@ $accent =  #ff9f00;
   margin-bottom: 3em;
 }
 
+.customer-home .navigation--creations,
+.customer-wireframe .navigation--wireframes  {
+  box-shadow: inset 0 -3px 0 0 $accent;
+}
+
 ////////
 // HEADER
 ////////
@@ -56,14 +62,21 @@ $accent =  #ff9f00;
 }
 
 .ribbon {
-  background-color: $accent;
+  background-color: $primary;
   color: white;
   display: inline-block;
-  padding: 3px 10px;
-  margin: 6px;
   position: relative;
   z-index: 10;
-  outline: 1px solid white;
+  margin: 6px;
+
+  span {
+    display: inline-block;
+    padding: 3px 10px;
+
+    border: 1px solid white;
+    position: relative;
+    z-index: 2;
+  }
 
   &::before,
   &::after {
@@ -75,7 +88,7 @@ $accent =  #ff9f00;
     height: 0;
     border-width: 12px 12px;
     border-style: solid;
-    border-color: $accent;
+    border-color: $primary;
   }
   &::before {
     left: -20px;
@@ -84,13 +97,6 @@ $accent =  #ff9f00;
   &::after {
     right: -20px;
     border-right-color: transparent;
-  }
-
-}
-// outline su firefox viene fuori dal content
-@-moz-document url-prefix() {
-  .ribbon {
-     outline-color: transparent;
   }
 }
 
@@ -125,7 +131,7 @@ $accent =  #ff9f00;
 }
 
 .subscribe {
-  background-color: $accent;
+  background-color: $primary;
   color: white;
   padding: 2em .5em;
 
@@ -140,7 +146,7 @@ $accent =  #ff9f00;
     text-decoration: none;
 
     &:hover {
-      color: $accent;
+      color: $primary;
       background: white;
     }
   }
@@ -163,10 +169,12 @@ $accent =  #ff9f00;
   max-width: 1280px;
   padding-top: 2em;
 }
+.full-width-layout .page-content,
 .wireframe-new-edit .page-content {
   max-width: none;
   padding-top: 0;
 }
+.full-width-layout .page-content > .mdl-grid,
 .wireframe-new-edit .page-content > .mdl-grid {
   min-height: calc(100vh - 64px)
 }
@@ -276,4 +284,8 @@ details {
   text-align: center;
   width: 1%;
   white-space: nowrap;
+}
+
+.material-icons.is-invalid {
+  color: #d50000;
 }

@@ -8,6 +8,7 @@ var filemanager             = require('./filemanager')
 var DB                      = require('./database')
 var slugFilename            = require('../shared/slug-filename.js')
 var Wireframes              = DB.Wireframes
+var Companies               = DB.Companies
 var Creations               = DB.Creations
 var handleValidatorsErrors  = DB.handleValidatorsErrors
 
@@ -15,6 +16,7 @@ function list(req, res, next) {
   Wireframes
   .find({})
   .populate('_user')
+  .populate('_company')
   .then(function (wireframes) {
     res.render('wireframe-list', {
       data: { wireframes: wireframes, }
@@ -23,28 +25,78 @@ function list(req, res, next) {
   .catch(next)
 }
 
+function customerList(req, res, next) {
+  var isAdmin           = req.user.isAdmin
+  var hasCompany        = req.user._company
+  var companyFilter     = { _company: req.user._company }
+  // for wireframe '_user; =>  we have a relation
+  var wireframesRequest = Wireframes
+  .find(isAdmin ? {} : hasCompany ? companyFilter : {_user: req.user.id})
+  // Admin as a customer should see which template is coming from which company
+  if (isAdmin) wireframesRequest.populate('_company')
+
+  wireframesRequest
+  .sort({ name: 1 })
+  .then(function (wireframes) {
+    // can't sort populated fields
+    // http://stackoverflow.com/questions/19428471/node-mongoose-3-6-sort-query-with-populated-field/19450541#19450541
+    if (isAdmin) {
+      wireframes = wireframes.sort( (a, b) => {
+        if (!a._company || !b._company) return 0
+        let nameA = a._company.name.toLowerCase()
+        let nameB = b._company.name.toLowerCase()
+        if (nameA < nameB) return -1
+        if (nameA > nameB) return 1
+        return 0;
+      })
+    }
+    res.render('customer-wireframe', {
+      data: {
+        wireframes: wireframes,
+      }
+    })
+  })
+  .catch(next)
+}
+
 function show(req, res, next) {
-  var data = { _user: req.params.userId }
+  var companyId = req.params.companyId
+  var wireId    = req.params.wireId
+
+  if (!wireId) {
+    return Companies
+    .findById(companyId)
+    .then( (company) => {
+      res.render('wireframe-new-edit', { data: { company: company, }} )
+    })
+    .catch(next)
+  }
+
   Wireframes
   .findById(req.params.wireId)
   .populate('_user')
-  .then(function (wireframe) {
-    if (wireframe) {
-      data.wireframe = wireframe
-    }
-    res.render('wireframe-new-edit', { data: data })
+  .populate('_company')
+  .then( (wireframe) => {
+    if (!wireframe) return next({status: 404})
+    res.render('wireframe-new-edit', { data: { wireframe: wireframe, }} )
   })
   .catch(next)
 }
 
 function getMarkup(req, res, next) {
+  var hasCompany = req.user._company != null
+
   Wireframes
   .findById(req.params.wireId)
   .then(onWireframe)
   .catch(next)
 
   function onWireframe(wireframe) {
-    var isAuthorized = req.user.isAdmin || wireframe._user.toString() === req.user.id
+    // TODO – remove hasCompany when refactor is done
+    var isAuthorized = req.user.isAdmin || ( hasCompany ?
+      wireframe._company.toString() === req.user._company.toString()
+      : wireframe._user.toString() === req.user.id )
+
     if (!isAuthorized) {
       return res.sendStatus(401)
     }
@@ -63,7 +115,6 @@ function getMarkup(req, res, next) {
 
 function update(req, res, next) {
   var wireId    = req.params.wireId
-  var userId    = req.params.userId
 
   filemanager
   .parseMultipart(req, {
@@ -99,8 +150,9 @@ function update(req, res, next) {
       return wireframe.save()
     })
     .then(function (wireframe) {
+      console.log('wireframe success', wireId ? 'updated' : 'created')
       req.flash('success', wireId ? 'updated' : 'created')
-      return res.redirect(`/users/${userId}/wireframe/${wireframe._id}`)
+      return res.redirect(wireframe.url.show)
     })
     .catch(err => handleValidatorsErrors(err, req, res, next))
   }
@@ -128,9 +180,10 @@ function remove(req, res, next) {
 }
 
 module.exports = {
-  list:       list,
-  show:       show,
-  update:     update,
-  remove:     remove,
-  getMarkup:  getMarkup,
+  list:         list,
+  customerList: customerList,
+  show:         show,
+  update:       update,
+  remove:       remove,
+  getMarkup:    getMarkup,
 }

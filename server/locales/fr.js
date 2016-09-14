@@ -14,7 +14,8 @@
 			"new-name": "Nouveau nom",
 			"noname": "sans titre",
 			"duplicate": "dupliquer",
-			"wireframe-name": "modèle utilisé"
+			"wireframe-name": "modèle utilisé",
+			"created-by": "créé par"
 		},
 		"more-info": "en savoir plus à propos de l'éditeur",
 		"footer": {
@@ -52,11 +53,11 @@
 			"dialog-confirm": "Renommer",
 			"dialog-cancel": "Annuler"
 		},
-    "snackbar": {
-      "deleteMessage": "Votre mailing a été supprimé",
-      "renameMessage": "Votre mailing a été renommé",
-      "errorMessage": "Une erreur est survenue"
-    }
+		"snackbar": {
+			"deleteMessage": "Votre mailing a été supprimé",
+			"renameMessage": "Votre mailing a été renommé",
+			"errorMessage": "Une erreur est survenue"
+		}
 	},
 	"layout": {
 		"title": "Éditeur de templates email responsive par \"glissé/déposé\" - Une solution Badsender.com",
