@@ -91,10 +91,6 @@ var UserSchema    = Schema({
   name: {
     type:     String,
   },
-  role: {
-    type:     String,
-    // default:  'company',
-  },
   email: {
     type:     String,
     required: [true, 'Email address is required'],
@@ -149,10 +145,6 @@ UserSchema.virtual('isReseted').get(function () {
   if (this.password)  return false
   if (this.token)     return true
   return false
-})
-
-UserSchema.virtual('hasCompany').get(function () {
-  return typeof this._company !== 'undefined'
 })
 
 UserSchema.virtual('url').get(function () {
@@ -267,10 +259,6 @@ WireframeSchema.virtual('hasMarkup').get(function () {
   return this.markup != null
 })
 
-WireframeSchema.virtual('hasCompany').get(function () {
-  return typeof this._company !== 'undefined'
-})
-
 WireframeSchema.virtual('url').get(function () {
   let userId      = this._user && this._user._id ? this._user._id : this._user
   let userUrl     = this._user ? `/users/${userId}` : '/users'
@@ -301,13 +289,6 @@ var CreationSchema    = Schema({
     type:     ObjectId,
     ref:      'User',
   },
-  // no ref for user
-  // => admin doesn't exist in DB
-  // TODO remove
-  userId: {
-    type:     'string',
-    // required: true,
-  },
   // should use populate
   // http://mongoosejs.com/docs/populate.html
   _wireframe: {
@@ -318,7 +299,7 @@ var CreationSchema    = Schema({
   _company: {
     type:     ObjectId,
     ref:      'Company',
-    // Should be required after migration
+    // Can;t be required: admin doesn't have a _company
     // required:   true,
   },
   // http://mongoosejs.com/docs/schematypes.html#mixed

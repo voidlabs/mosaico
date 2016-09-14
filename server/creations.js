@@ -16,19 +16,17 @@ var translations = {
 }
 
 function customerList(req, res, next) {
-  var isAdmin           = req.user.isAdmin
-  var hasCompany        = req.user._company
-  var companyFilter     = { _company: req.user._company }
-  // for creations 'userId' =>  no relations
-  // admin doesn't have a real ID nor a real COMPANY
-  var creationsRequest  = Creations
-  .find(hasCompany ? companyFilter : {userId: req.user.id})
+  const isAdmin = req.user.isAdmin
+  // admin doesn't have a company
+  const filter  = { _company: isAdmin ? { $exists: false } : req.user._company }
+  const creationsRequest  = Creations
+  .find( filter )
   .populate('_wireframe')
   .populate('_user')
 
   creationsRequest
   .sort({ updatedAt: -1 })
-  .then(function (creations) {
+  .then( (creations) => {
     res.render('customer-home', {
       data: {
         creations:  creations,
@@ -82,11 +80,8 @@ function create(req, res, next) {
 }
 
 function update(req, res, next) {
-  if (!req.xhr) {
-    res.status(501) // Not Implemented
-    return next()
-  }
-  var creationId  = req.params.creationId
+  if (!req.xhr) next( { status: 501 } ) // Not Implemented
+  const creationId  = req.params.creationId
 
   Creations
   .findById(creationId)
@@ -116,7 +111,7 @@ function update(req, res, next) {
 }
 
 function remove(req, res, next) {
-  var creationId  = req.params.creationId
+  const creationId  = req.params.creationId
   Creations
   .findByIdAndRemove(creationId)
   .then( function () { res.redirect('/')} )
@@ -124,12 +119,10 @@ function remove(req, res, next) {
 }
 
 function rename(req, res, next) {
-  var creationId  = req.params.creationId
+  const creationId  = req.params.creationId
   Creations
   .findByIdAndUpdate(creationId, req.body)
-  .then(function (creation) {
-    res.json(creation)
-  })
+  .then( creation => res.json(creation) )
   .catch(next)
 }
 
@@ -153,7 +146,7 @@ function upload(req, res, next) {
 function listImages(req, res, next) {
   filemanager
   .list(req.params.creationId)
-  .then(function (images) {
+  .then( (images) => {
     res.json({
       files: images,
     })

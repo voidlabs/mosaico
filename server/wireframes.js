@@ -17,7 +17,7 @@ function list(req, res, next) {
   .find({})
   .populate('_user')
   .populate('_company')
-  .then(function (wireframes) {
+  .then( (wireframes) => {
     res.render('wireframe-list', {
       data: { wireframes: wireframes, }
     })
@@ -26,23 +26,19 @@ function list(req, res, next) {
 }
 
 function customerList(req, res, next) {
-  var isAdmin           = req.user.isAdmin
-  var hasCompany        = req.user._company
-  var companyFilter     = { _company: req.user._company }
-  // for wireframe '_user; =>  we have a relation
-  var wireframesRequest = Wireframes
-  .find(isAdmin ? {} : hasCompany ? companyFilter : {_user: req.user.id})
+  const isAdmin           = req.user.isAdmin
+  const filter            = isAdmin ? {} : { _company: req.user._company }
+  const getWireframes     = Wireframes.find( filter )
   // Admin as a customer should see which template is coming from which company
-  if (isAdmin) wireframesRequest.populate('_company')
+  if (isAdmin) getWireframes.populate('_company')
 
-  wireframesRequest
+  getWireframes
   .sort({ name: 1 })
-  .then(function (wireframes) {
+  .then( (wireframes) => {
     // can't sort populated fields
     // http://stackoverflow.com/questions/19428471/node-mongoose-3-6-sort-query-with-populated-field/19450541#19450541
     if (isAdmin) {
       wireframes = wireframes.sort( (a, b) => {
-        if (!a._company || !b._company) return 0
         let nameA = a._company.name.toLowerCase()
         let nameB = b._company.name.toLowerCase()
         if (nameA < nameB) return -1
@@ -60,9 +56,10 @@ function customerList(req, res, next) {
 }
 
 function show(req, res, next) {
-  var companyId = req.params.companyId
-  var wireId    = req.params.wireId
+  const companyId = req.params.companyId
+  const wireId    = req.params.wireId
 
+  // CREATE
   if (!wireId) {
     return Companies
     .findById(companyId)
@@ -72,6 +69,7 @@ function show(req, res, next) {
     .catch(next)
   }
 
+  // UPDATE
   Wireframes
   .findById(req.params.wireId)
   .populate('_user')
@@ -84,29 +82,21 @@ function show(req, res, next) {
 }
 
 function getMarkup(req, res, next) {
-  var hasCompany = req.user._company != null
-
   Wireframes
   .findById(req.params.wireId)
   .then(onWireframe)
   .catch(next)
 
   function onWireframe(wireframe) {
-    // TODO – remove hasCompany when refactor is done
-    var isAuthorized = req.user.isAdmin || ( hasCompany ?
-      wireframe._company.toString() === req.user._company.toString()
-      : wireframe._user.toString() === req.user.id )
+    const isAdmin       = req.user.isAdmin
+    const isFromCompany = wireframe._company.toString() === req.user._company.toString()
+    const isAuthorized  = isAdmin || isFromCompany
 
-    if (!isAuthorized) {
-      return res.sendStatus(401)
-    }
-    if (!wireframe.markup) {
-      res.status(404)
-      return next()
-    }
+    if (!isAuthorized) return next( {status: 401} )
+    if (!wireframe.markup) return next( {status: 404 })
     if (req.xhr) return res.send(wireframe.markup)
     // let download content
-    res.setHeader('Content-disposition', 'attachment; filename=' + wireframe.name + '.html')
+    res.setHeader('Content-disposition', `attachment; filename=${wireframe.name}.html`)
     res.setHeader('Content-type', 'text/html')
     res.write(wireframe.markup)
     return res.end()
@@ -134,7 +124,7 @@ function update(req, res, next) {
       : Promise.resolve(new Wireframes())
 
     dbRequest
-    .then(function (wireframe) {
+    .then( (wireframe) => {
       // custom update function
       wireframe         = _.assignIn(wireframe, _.omit(body, ['images']))
       // merge images array
@@ -149,7 +139,7 @@ function update(req, res, next) {
       wireframe.images = wireframe.images.map( img => slugFilename(img) )
       return wireframe.save()
     })
-    .then(function (wireframe) {
+    .then( (wireframe) => {
       console.log('wireframe success', wireId ? 'updated' : 'created')
       req.flash('success', wireId ? 'updated' : 'created')
       return res.redirect(wireframe.url.show)
@@ -163,19 +153,13 @@ function remove(req, res, next) {
   console.log('REMOVE WIREFRAME', wireframeId)
   Creations
   .find({_wireframe: wireframeId})
-  .then(function (creations) {
+  .then( (creations) => {
     console.log(creations.length, 'to remove')
-    creations = creations.map(function (creation) {
-      creation.remove()
-    })
+    creations = creations.map( creation => creation.remove() )
     return Promise.all(creations)
   })
-  .then(function (deletedCreations) {
-    return Wireframes.findByIdAndRemove(wireframeId)
-  })
-  .then(function (deletedWireframe) {
-    res.redirect(req.query.redirect)
-  })
+  .then( (deletedCreations) =>  Wireframes.findByIdAndRemove(wireframeId) )
+  .then( (deletedWireframe) => res.redirect(req.query.redirect) )
   .catch(next)
 }
 

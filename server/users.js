@@ -32,7 +32,7 @@ function show(req, res, next) {
   if (companyId) {
     Companies
     .findById(companyId)
-    .then(function (company) {
+    .then( (company) => {
       res.render('user-new-edit', { data: {
         company: company,
       }})
@@ -74,7 +74,7 @@ function remove(req, res, next) {
   var userId = req.params.userId
   Users
   .findByIdAndRemove(userId)
-  .then( function () { res.redirect('/admin')} )
+  .then( () => res.redirect('/admin') )
   .catch(next)
 }
 
@@ -122,7 +122,7 @@ function setPassword(req, res, next) {
     token: req.params.token,
     email: req.body.username,
   })
-  .then(function (user) {
+  .then( (user) => {
     console.log(user)
     if (!user) {
       req.flash('error', {message: 'no token or bad email address'})
@@ -131,7 +131,7 @@ function setPassword(req, res, next) {
     }
     return user.setPassword(req.body.password, req.getLocale())
   })
-  .then(function (user) {
+  .then( (user) => {
     console.log(user)
     if (!user) return
     res.redirect('/login')

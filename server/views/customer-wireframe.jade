@@ -18,8 +18,7 @@ block create
               img(src=wireframe.imgPath + '_full.png' width="100%" alt="xx")
             .mdl-card__title: h2.mdl-card__title-text: div(style="text-align: center;")
               | #{wireframe.name}
-              //- TODO remove && wireframe._company
-              if _user.isAdmin && wireframe._company
+              if _user.isAdmin
                 br
                 small — #{wireframe._company.name} —
             if wireframe.description

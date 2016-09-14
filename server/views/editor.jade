@@ -8,11 +8,8 @@ block head-content
         alert('Update your browser!');
         return;
       }
-      // var basePath = window.location.href.substr(0, window.location.href.lastIndexOf('/')).substr(window.location.href.indexOf('/','https://'.length));
       var basePath  = window.location.protocol + '//' + '#{_config.host}';
       var plugins   = [];
-      // A basic plugin that expose the "viewModel" object as a global variable.
-      // plugins = [function(vm) {window.viewModel = vm;}];
       var ok = Badsender.init({
         strings:                !{data.translations},
         metadata:               !{printJS(data.meta)},
