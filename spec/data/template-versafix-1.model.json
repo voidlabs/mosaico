@@ -5,11 +5,10 @@
   "titleText": "TITLE",
   "preheaderBlock": {
     "type": "preheaderBlock",
-    "preheaderText": "Headertext",
     "customStyle": false,
     "id": "",
-    "backgroundColor": "#eeece1",
-    "externalBackgroundColor": "#eeece1",
+    "backgroundColor": null,
+    "preheaderText": "",
     "linkStyle": {
       "type": "linkStyle",
       "face": null,
@@ -17,7 +16,7 @@
       "size": null,
       "decoration": null
     },
-    "preheaderLinkOption": "none",
+    "preheaderLinkOption": "[unsubscribe_link]",
     "longTextStyle": {
       "type": "longTextStyle",
       "face": null,
@@ -26,12 +25,11 @@
       "linksColor": null
     },
     "unsubscribeText": "Unsubscribe",
-    "nameText": "Name",
     "webversionText": "View in your browser"
   },
   "sponsor": {
     "type": "sponsor",
-    "visible": false,
+    "visible": true,
     "src": "img/sponsor.gif",
     "url": "",
     "alt": "sponsor"
@@ -47,8 +45,7 @@
       "linksColor": null
     },
     "id": "",
-    "backgroundColor": "#eeece1",
-    "externalBackgroundColor": "#eeece1",
+    "backgroundColor": null,
     "linkStyle": {
       "type": "linkStyle",
       "face": null,
@@ -56,7 +53,7 @@
       "size": null,
       "decoration": null
     },
-    "longText": "<p>Email sent to <a href=\"mailto:[Email]\">[Email]</a></p>",
+    "longText": "<p>Email sent to <a href=\"mailto:[mail]\">[mail]</a></p>",
     "disiscrivitiText": "Unsubscribe"
   },
   "mainBlocks": {
@@ -67,8 +64,7 @@
     "type": "theme",
     "frameTheme": {
       "type": "frameTheme",
-      "backgroundColor": "#eeece1",
-      "externalBackgroundColor": "#eeece1",
+      "backgroundColor": "#3f3f3f",
       "longTextStyle": {
         "type": "longTextStyle",
         "face": "Arial, Helvetica, sans-serif",
@@ -79,7 +75,7 @@
       "linkStyle": {
         "type": "linkStyle",
         "face": "Arial, Helvetica, sans-serif",
-        "color": "#3f3f3f",
+        "color": "#ffffff",
         "size": "13",
         "decoration": "underline"
       }
@@ -93,14 +89,14 @@
         "size": "13",
         "linksColor": "#3f3f3f"
       },
-      "externalBackgroundColor": "#eeece1",
-      "backgroundSocialBlockColor": "#ddd9c3",
+      "externalBackgroundColor": "#bfbfbf",
       "externalTextStyle": {
         "type": "textStyle",
         "face": "Arial, Helvetica, sans-serif",
         "color": "#f3f3f3",
         "size": "18"
       },
+      "backgroundColor": "#ffffff",
       "titleTextStyle": {
         "type": "textStyle",
         "face": "Arial, Helvetica, sans-serif",
@@ -112,7 +108,7 @@
         "face": "Arial, Helvetica, sans-serif",
         "color": "#3f3f3f",
         "size": "13",
-        "buttonColor": "#92cddc",
+        "buttonColor": "#bfbfbf",
         "radius": "4"
       },
       "bigTitleStyle": {
@@ -133,14 +129,8 @@
         "face": "Arial, Helvetica, sans-serif",
         "color": "#3f3f3f",
         "size": "22",
-        "buttonColor": "#92cddc",
+        "buttonColor": "#bfbfbf",
         "radius": "4"
-      },
-      "borderStyle": {
-        "type": "borderStyle",
-        "color": "#3f3f3f",
-        "typeBorder": "none",
-        "hrHeight": "1"
       }
     }
   }

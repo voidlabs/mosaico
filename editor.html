@@ -20,10 +20,9 @@
     <script src="dist/vendor/jquery.fileupload-image.js"></script>
     <script src="dist/vendor/jquery.fileupload-validate.js"></script>
     <script src="dist/vendor/knockout-jqueryui.min.js"></script>
-    <script src="dist/vendor/evol.colorpicker.min.js"></script>
     <script src="dist/vendor/tinymce.min.js"></script>
 
-    <script src="dist/mosaico.min.js?v=0.14"></script>
+    <script src="dist/mosaico.min.js?v=0.15"></script>
     <script>
 $(function() {
   if (!Mosaico.isCompatible()) {
@@ -31,7 +30,10 @@ $(function() {
     return;
   }
   // var basePath = window.location.href.substr(0, window.location.href.lastIndexOf('/')).substr(window.location.href.indexOf('/','https://'.length));
-  var basePath = window.location.href.substr(0, window.location.href.lastIndexOf('/'));
+  var basePath = window.location.href;
+  if (basePath.lastIndexOf('#') > 0) basePath = basePath.substr(0, basePath.lastIndexOf('#'));
+  if (basePath.lastIndexOf('?') > 0) basePath = basePath.substr(0, basePath.lastIndexOf('?'));
+  if (basePath.lastIndexOf('/') > 0) basePath = basePath.substr(0, basePath.lastIndexOf('/'));
   var plugins;
   // A basic plugin that expose the "viewModel" object as a global variable.
   // plugins = [function(vm) {window.viewModel = vm;}];
@@ -53,7 +55,6 @@ $(function() {
     
     <link rel="stylesheet" href="dist/mosaico-material.min.css?v=0.10" />
     <link rel="stylesheet" href="dist/vendor/notoregular/stylesheet.css" />
-    <link rel="stylesheet" href="dist/vendor/evol.colorpicker.min.css" /> <!-- 2k -->
   </head>
   <body class="mo-standalone">
 

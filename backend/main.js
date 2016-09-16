@@ -112,10 +112,7 @@ app.get('/img/', function(req, res) {
 });
 
 app.post('/dl/', function(req, res) {
-    var Styliner = require('styliner');
-    var styliner = new Styliner(__dirname, { keepinvalid: true });
-
-    styliner.processHTML(req.body.html).then(function(source) {
+    var response = function(source) {
         
         if (req.body.action == 'download') {
             res.setHeader('Content-disposition', 'attachment; filename=' + req.body.filename);
@@ -144,7 +141,14 @@ app.post('/dl/', function(req, res) {
             });
         }
         
-    });
+    };
+
+    /*
+    var Styliner = require('styliner');
+    var styliner = new Styliner(__dirname, { keepinvalid: true });
+    styliner.processHTML(req.body.html).then(response);
+    */
+    response(req.body.html);
 });
 
 module.exports = app;

@@ -1,7 +1,7 @@
 <div data-bind="foreach: items.currentPageData">
   <div class="draggable-item" data-bind="if: typeof thumbnailUrl != 'undefined'">
     <div class="draggable image" data-bind="click: $root.addImage, extdraggable: { data: $data, dropContainer: '#main-wysiwyg-area', dragging: $root.draggingImage, 'options': { 'appendTo': '#page' } }, style: { backgroundImage: 'url(\\'' + thumbnailUrl + '\\')' }">
-      <img border="0" hspace="0" vspace="0" width="166" class="mobile-full" title="Drag this image and drop it on any template image placeholder" style="display: block;" data-bind="tooltips: {}, attr: { src: thumbnailUrl, 'title': $root.t('Drag this image and drop it on any template image placeholder') }"/>
+      <img title="Drag this image and drop it on any template image placeholder" style="display: block;" data-bind="tooltips: {}, attr: { src: thumbnailUrl, 'title': $root.t('Drag this image and drop it on any template image placeholder') }"/>
     </div>
   </div>
 </div>

@@ -439,70 +439,66 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
 
   function conditional_restore(html) {
     return html.replace(/<replacedcc[^>]* condition="([^"]*)"[^>]*>([\s\S]*?)<\/replacedcc>/g, function(match, condition, body) {
-      var dd = '<!--[if '+condition+']>';
-      dd += body.replace(/<!-- cc:before:([^ ]*) --><!-- cc:after:\1 -->/g, '</$1>')
-            .replace(/^.*<!-- cc:start -->/,'')
-            .replace(/<!-- cc:end -->.*$/,'')
-            .replace(/<(\/?)cc([A-Za-z]*)/g, '<$1$2');
+      var dd = '<!--[if '+condition.replace(/&amp;/, '&')+']>';
+      dd += body.replace(/<!-- cc:bc:([A-Za-z:]*) -->(<\/cc>)?<!-- cc:ac:\1 -->/g, '</$1>') // restore closing tags (including lost tags)
+            .replace(/><\/cc><!-- cc:sc -->/g, '/>') // restore selfclosing tags
+            .replace(/<!-- cc:bo:([A-Za-z:]*) --><cc/g, '<$1') // restore open tags
+            .replace(/^.*<!-- cc:start -->/,'') // remove content before start
+            .replace(/<!-- cc:end -->.*$/,''); // remove content after end
       dd += '<![endif]-->';
       return dd;
     });
   }
 
-  viewModel.exportHTML = function() {
+viewModel.exportHTML = function() {
     var id = 'exportframe';
     $('body').append('<iframe id="' + id + '" data-bind="bindIframe: $data"></iframe>');
     var frameEl = global.document.getElementById(id);
-    var oldConvertedUrl = ko.bindingHandlers.wysiwygSrc.convertedUrl;
-    ko.bindingHandlers.wysiwygSrc.convertedUrl = function(src, method, width, height) {
-      return src;
-    };
-    try {
-        ko.applyBindings(viewModel, frameEl);
-        // Obsolete method didn't work on IE11 when using "HTML5 doctype":
-        // var docType = new XMLSerializer().serializeToString(global.document.doctype);
-        var node = frameEl.contentWindow.document.doctype;
-        var docType = "<!DOCTYPE " + node.name +
-          (node.publicId ? ' PUBLIC "' + node.publicId + '"' : '') +
-          (!node.publicId && node.systemId ? ' SYSTEM' : '') +
-          (node.systemId ? ' "' + node.systemId + '"' : '') + '>';
-        var content = docType + "\n" + frameEl.contentWindow.document.documentElement.outerHTML;
-        ko.cleanNode(frameEl);
-        ko.removeNode(frameEl);
+    ko.applyBindings(viewModel, frameEl);
 
-        content = content.replace(/<script ([^>]* )?type="text\/html"[^>]*>[\s\S]*?<\/script>/gm, '');
-        // content = content.replace(/<!-- ko .*? -->/g, ''); // sometimes we have expressions like (<!-- ko var > 2 -->)
-        content = content.replace(/<!-- ko ((?!--).)*? -->/g, ''); // this replaces the above with a more formal (but slower) solution
-        content = content.replace(/<!-- \/ko -->/g, '');
-        // Remove data-bind/data-block attributes
-        content = content.replace(/ data-bind="[^"]*"/gm, '');
-        // Remove trash leftover by TinyMCE
-        content = content.replace(/ data-mce-(href|src)="[^"]*"/gm, '');
+    ko.cleanNode(frameEl);
+    if (viewModel.inline) viewModel.inline(frameEl.contentWindow.document);
 
-        // Replace "replacedstyle" to "style" attributes (chrome puts replacedstyle after style)
-        content = content.replace(/ style="[^"]*"([^>]*) replaced(style="[^"]*")/gm, '$1 $2');
-        // Replace "replacedstyle" to "style" attributes (ie/ff have reverse order)
-        content = content.replace(/ replaced(style="[^"]*")([^>]*) style="[^"]*"/gm, ' $1$2');
-        content = content.replace(/ replaced(style="[^"]*")/gm, ' $1');
+    // Obsolete method didn't work on IE11 when using "HTML5 doctype":
+    // var docType = new XMLSerializer().serializeToString(global.document.doctype);
+    var node = frameEl.contentWindow.document.doctype;
+    var docType = "<!DOCTYPE " + node.name +
+      (node.publicId ? ' PUBLIC "' + node.publicId + '"' : '') +
+      (!node.publicId && node.systemId ? ' SYSTEM' : '') +
+      (node.systemId ? ' "' + node.systemId + '"' : '') + '>';
+    var content = docType + "\n" + frameEl.contentWindow.document.documentElement.outerHTML;
+    ko.removeNode(frameEl);
 
-        // same as style, but for http-equiv (some browser break it if we don't replace, but then we find it duplicated)
-        content = content.replace(/ http-equiv="[^"]*"([^>]*) replaced(http-equiv="[^"]*")/gm, '$1 $2');
-        content = content.replace(/ replaced(http-equiv="[^"]*")([^>]*) http-equiv="[^"]*"/gm, ' $1$2');
-        content = content.replace(/ replaced(http-equiv="[^"]*")/gm, ' $1');
+    content = content.replace(/<script ([^>]* )?type="text\/html"[^>]*>[\s\S]*?<\/script>/gm, '');
+    // content = content.replace(/<!-- ko .*? -->/g, ''); // sometimes we have expressions like (<!-- ko var > 2 -->)
+    content = content.replace(/<!-- ko ((?!--).)*? -->/g, ''); // this replaces the above with a more formal (but slower) solution
+    content = content.replace(/<!-- \/ko -->/g, '');
+    // Remove data-bind/data-block attributes
+    content = content.replace(/ data-bind="[^"]*"/gm, '');
+    // Remove trash leftover by TinyMCE
+    content = content.replace(/ data-mce-(href|src)="[^"]*"/gm, '');
 
-        // We already replace style and http-equiv and we don't need this.
-        // content = content.replace(/ replaced([^= ]*=)/gm, ' $1');
-        // Restore conditional comments
-        content = conditional_restore(content);
-        var trash = content.match(/ data-[^ =]+(="[^"]+")? /) || content.match(/ replaced([^= ]*=)/);
-        if (trash) {
-          console.warn("Output HTML contains unexpected data- attributes or replaced attributes", trash);
-        }
+    // Replace "replacedstyle" to "style" attributes (chrome puts replacedstyle after style)
+    content = content.replace(/ style="[^"]*"([^>]*) replaced(style="[^"]*")/gm, '$1 $2');
+    // Replace "replacedstyle" to "style" attributes (ie/ff have reverse order)
+    content = content.replace(/ replaced(style="[^"]*")([^>]*) style="[^"]*"/gm, ' $1$2');
+    content = content.replace(/ replaced(style="[^"]*")/gm, ' $1');
 
-        return content;
-    } finally {
-        ko.bindingHandlers.wysiwygSrc.convertedUrl = oldConvertedUrl;
+    // same as style, but for http-equiv (some browser break it if we don't replace, but then we find it duplicated)
+    content = content.replace(/ http-equiv="[^"]*"([^>]*) replaced(http-equiv="[^"]*")/gm, '$1 $2');
+    content = content.replace(/ replaced(http-equiv="[^"]*")([^>]*) http-equiv="[^"]*"/gm, ' $1$2');
+    content = content.replace(/ replaced(http-equiv="[^"]*")/gm, ' $1');
+
+    // We already replace style and http-equiv and we don't need this.
+    // content = content.replace(/ replaced([^= ]*=)/gm, ' $1');
+    // Restore conditional comments
+    content = conditional_restore(content);
+    var trash = content.match(/ data-[^ =]+(="[^"]+")? /) || content.match(/ replaced([^= ]*=)/);
+    if (trash) {
+      console.warn("Output HTML contains unexpected data- attributes or replaced attributes", trash);
     }
+
+    return content;
   };
 
   viewModel.exportHTMLtoTextarea = function(textareaid) {

@@ -185,9 +185,13 @@
       margin-left: 20px;
       background-color: @button-background-color;
     }
+    & + .checkbox-replacer:after,
     & + .checkbox-replacer:before {
       content: " ";
       display: block;
+      transition: margin-left .2s, background-color .2s;
+    }
+    & + .checkbox-replacer:before {
       width: 20px;
       height: 20px;
       background-color: white;
@@ -199,8 +203,6 @@
       background-color: lighten(@button-background-color, 20%);
     }
     & + .checkbox-replacer:after {
-      content: " ";
-      display: block;
       width: 34px;
       height: 14px;
       margin: -16px 2px 0 2px;

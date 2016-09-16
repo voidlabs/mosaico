@@ -1,6 +1,6 @@
 {
   "name": "mosaico",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "description": "Free Email Template Editor",
   "main": "./src/js/app.js",
   "directories": {
@@ -27,7 +27,6 @@
     "jquery-ui/spinner": "global:jQuery.ui.spinner",
     "jquery-ui/tabs": "global:jQuery.ui.tabs",
     "knockout": "global:ko",
-    "evol-colorpicker": {},
     "knockout-jqueryui": "global:kojqui",
     "tinymce": "global:tinymce"
   },
@@ -70,7 +69,6 @@
     "morgan": "1.6.1",
     "nodemailer": "1.4.0",
     "phantomjs": "1.9.16",
-    "styliner": "0.8.9",
     "uglifyify": "3.0.1",
     "watchify": "3.3.1"
   },

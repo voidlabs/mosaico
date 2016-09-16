@@ -6,7 +6,7 @@ module.exports = function(grunt) {
   	// var files = grunt.file.expand(this.data.src);
   	var async = require('async');
   	var data = this.data;
-  	var script = this.data.script || './tasks/phantom-thumbnailer-editor.js';
+  	var script = this.data.script || './tasks/lib/phantom-thumbnailer-editor.js';
   	var done = this.async();
   	var tmplsDir;
   	if (typeof templateName != 'undefined') {
@@ -55,9 +55,9 @@ module.exports = function(grunt) {
 	          'Please submit an issue providing as much detail as possible at: ' +
 	          'https://github.com/gruntjs/grunt-lib-phantomjs/issues'
 	        );
-	        grunt.warn('PhantomJS not found.', failCode);
+	        grunt.warn('PhantomJS not found.', code);
 	      } else {
-	        grunt.warn('PhantomJS exited unexpectedly with exit code ' + code + '.', failCode);
+	        grunt.warn('PhantomJS exited unexpectedly with exit code ' + code + '.');
 	      }
 	      // callback();
 	  	});
