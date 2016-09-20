@@ -514,10 +514,6 @@ viewModel.exportHTML = function() {
   };
 
   viewModel.exportHTMLtoTextarea = function(textareaid) {
-    $(textareaid).val(viewModel.exportHTML());
-  };
-
-  viewModel.exportHTMLtoTextareaSafe = function(textareaid) {
     $(textareaid).val(viewModel.exportHTMLSafe());
   };
 
