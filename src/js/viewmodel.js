@@ -501,8 +501,24 @@ viewModel.exportHTML = function() {
     return content;
   };
 
+  viewModel.exportHTMLSafe = function() {
+    var oldConvertedUrl = ko.bindingHandlers.wysiwygSrc.convertedUrl;
+    ko.bindingHandlers.wysiwygSrc.convertedUrl = function(src, method, width, height) {
+        return src;
+    };
+    try {
+        return viewModel.exportHTML();
+    } finally {
+        ko.bindingHandlers.wysiwygSrc.convertedUrl = oldConvertedUrl;
+    }
+  };
+
   viewModel.exportHTMLtoTextarea = function(textareaid) {
     $(textareaid).val(viewModel.exportHTML());
+  };
+
+  viewModel.exportHTMLtoTextareaSafe = function(textareaid) {
+    $(textareaid).val(viewModel.exportHTMLSafe());
   };
 
   viewModel.exportJSONtoTextarea = function(textareaid) {
