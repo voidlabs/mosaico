@@ -43,10 +43,10 @@
       socialIconType { label: Icon Version;widget: select; options:bw=Black and White|colors=Colors; }
 
       preheaderLinkOption {
-        label: Unsubscribe Link;
+        label: Header text;
         widget: select;
-        options: [profile]=Profile|[unsubscribe]=Unsubscribe|none=None;
-        help: If -None- is selected, preHeader text will be shown;
+        options: none=None|[Name, fallback&#61]=Profile|[unsubscribe]=Unsubscribe;
+        help: If -None- is selected, header text will be shown;
       }
 
       hrStyle { label: Separator Style;properties:color hrWidth hrHeight; }
@@ -431,12 +431,15 @@
                         <td width="100%" valign="top" align="left" style="font-weight: normal; text-align:left; font-size: 13px;
                           font-family: Arial, Helvetica, sans-serif; color: #ffffff;
                           -ko-font-size: @[linkStyle.size]px; -ko-color: @linkStyle.color; -ko-font-family: @linkStyle.face">
-                          <a data-ko-display="preheaderLinkOption neq 'none'" data-ko-editable="unsubscribeText" href="[unsubscribe]"
-                             style="text-decoration: underline; color: #ffffff; -ko-attr-href: @preheaderLinkOption;
-                             -ko-color: @linkStyle.color; -ko-text-decoration: @linkStyle.decoration">Unsubscribe</a>
-                          <span data-ko-display="preheaderLinkOption eq 'none'" data-ko-editable="preheaderText" style="font-size: 13px;color: #3f3f3f; font-weight: normal; text-align:center;
-                            font-family: Arial, Helvetica, sans-serif; -ko-font-size: @[longTextStyle.size]px; -ko-color: @longTextStyle.color;
-                            -ko-font-family: @longTextStyle.face; display: none"></span>
+                           <span data-ko-display="preheaderLinkOption neq '[unsubscribe]' & preheaderLinkOption neq '[Name, fallback&#61]'" data-ko-editable="preheaderText" style="font-size: 13px;color: #3f3f3f; font-weight: normal; text-align:center;
+                          font-family: Arial, Helvetica, sans-serif; -ko-font-size: @[longTextStyle.size]px; -ko-color: @longTextStyle.color;
+                          -ko-font-family: @longTextStyle.face;  ">Header text</span>
+                          <a data-ko-display="preheaderLinkOption eq '[unsubscribe]'" data-ko-editable="unsubscribeText"
+                             style="text-decoration: underline; color: #ffffff;-ko-attr-href: @preheaderLinkOption;
+                          -ko-color: @linkStyle.color; -ko-text-decoration: @linkStyle.decoration">Unsubscribe</a>
+                          <a data-ko-display="preheaderLinkOption eq '[Name, fallback&#61]'" data-ko-editable="nameText"
+                             style="text-decoration: underline; color: #ffffff;-ko-attr-href: @preheaderLinkOption;
+                          -ko-color: @linkStyle.color; -ko-text-decoration: @linkStyle.decoration">[Name, fallback=]</a>
                         </td>
                       </tr>
                     </table>
