@@ -253,8 +253,8 @@
     .vb-outer { min-width: 0 !important; }
     .RMsgBdy, .ExternalClass {
       width: 100%;
-      background-color: #3f3f3f;
-      -ko-background-color: @[_theme_.frameTheme.backgroundColor]
+      background-color: #bfbfbf;
+      -ko-background-color: @[_theme_.contentTheme.externalBackgroundColor]
     }
 
     /* outlook */
@@ -396,10 +396,11 @@
     }
   </style>
 </head>
-<body bgcolor="#3f3f3f" text="#919191" alink="#cccccc" vlink="#cccccc" style="background-color: #3f3f3f; color: #919191;
-  -ko-background-color: @_theme_.frameTheme.backgroundColor; -ko-attr-bgcolor: @_theme_.frameTheme.backgroundColor; -ko-color: @_theme_.frameTheme.longTextStyle.color;
-  -ko-attr-text: @_theme_.frameTheme.longTextStyle.color; -ko-attr-alink: @_theme_.frameTheme.longTextStyle.linksColor;
-  -ko-attr-vlink: @_theme_.frameTheme.longTextStyle.linksColor">
+
+<body bgcolor="#bfbfbf" text="#3f3f3f" alink="#3f3f3f" vlink="#3f3f3f" style="background-color: #bfbfbf; color: #3f3f3f;
+  -ko-background-color: @_theme_.contentTheme.externalBackgroundColor; -ko-attr-bgcolor: @_theme_.contentTheme.externalBackgroundColor; -ko-color: @_theme_.contentTheme.longTextStyle.color;
+  -ko-attr-text: @_theme_.contentTheme.longTextStyle.color; -ko-attr-alink: @_theme_.contentTheme.longTextStyle.linksColor;
+  -ko-attr-vlink: @_theme_.contentTheme.longTextStyle.linksColor">
 
   <center>
 
