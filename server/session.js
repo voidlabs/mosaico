@@ -1,10 +1,11 @@
 'use strict'
 
-var passport      = require('passport')
-var LocalStrategy = require('passport-local').Strategy
-var session       = require('express-session')
-var flash         = require('express-flash')
-var MongoStore    = require('connect-mongo')(session)
+const passport      = require('passport')
+const LocalStrategy = require('passport-local').Strategy
+const session       = require('express-session')
+const flash         = require('express-flash')
+const MongoStore    = require('connect-mongo')(session)
+const createError   = require('http-errors')
 
 var config        = require('./config')
 var DB            = require('./database')
@@ -40,23 +41,19 @@ passport.use(new LocalStrategy(
   }
 ))
 
-passport.serializeUser(function(user, done) {
+passport.serializeUser( (user, done) => {
   console.log('serializeUser')
   console.log(user)
   // if (user.id === -1) return done(null, adminUser)
   done(null, user.id)
 })
 
-passport.deserializeUser(function(id, done) {
+passport.deserializeUser( (id, done) => {
   if (id === config.admin.id) return done(null, adminUser)
   Users
   .findById(id)
-  .then(function (user) {
-    done(null, user)
-  })
-  .catch(function (err) {
-    return done(null, false, err)
-  })
+  .then( user  => done(null, user) )
+  .catch( err => done(null, false, err) )
 })
 
 function init(app) {
@@ -80,12 +77,12 @@ function guard(role) {
     if (role === 'no-session') {
       if (user) return user.isAdmin ? res.redirect('/admin') : res.redirect('/')
     } else {
-        // non connected user shouldn't acces those pages
+      // non connected user shouldn't acces those pages
       if (!user) {
         return isAdminRoute ? res.redirect('/admin/login') : res.redirect('/login')
       }
       // non admin user shouldn't acces those pages
-      if (isAdminRoute && !user.isAdmin) return res.sendStatus(401)
+      if (isAdminRoute && !user.isAdmin) return next(createError(401))
     }
     next()
   }

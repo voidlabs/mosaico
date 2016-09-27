@@ -1,7 +1,8 @@
 'use strict'
 
-var _                       = require('lodash')
-var chalk                   = require('chalk')
+const _                     = require('lodash')
+const chalk                 = require('chalk')
+const createError           = require('http-errors')
 
 var config                  = require('./config')
 var filemanager             = require('./filemanager')
@@ -11,6 +12,7 @@ var Wireframes              = DB.Wireframes
 var Companies               = DB.Companies
 var Creations               = DB.Creations
 var handleValidatorsErrors  = DB.handleValidatorsErrors
+const isFromCompany         = DB.isFromCompany
 
 function list(req, res, next) {
   Wireframes
@@ -75,7 +77,7 @@ function show(req, res, next) {
   .populate('_user')
   .populate('_company')
   .then( (wireframe) => {
-    if (!wireframe) return next({status: 404})
+    if (!wireframe) return next(createError(404))
     res.render('wireframe-new-edit', { data: { wireframe: wireframe, }} )
   })
   .catch(next)
@@ -88,12 +90,8 @@ function getMarkup(req, res, next) {
   .catch(next)
 
   function onWireframe(wireframe) {
-    const isAdmin       = req.user.isAdmin
-    const isFromCompany = wireframe._company.toString() === req.user._company.toString()
-    const isAuthorized  = isAdmin || isFromCompany
-
-    if (!isAuthorized) return next( {status: 401} )
-    if (!wireframe.markup) return next( {status: 404 })
+    if (!isFromCompany(req.user, wireframe._company)) return next(createError(401))
+    if (!wireframe.markup) return next(createError(404))
     if (req.xhr) return res.send(wireframe.markup)
     // let download content
     res.setHeader('Content-disposition', `attachment; filename=${wireframe.name}.html`)

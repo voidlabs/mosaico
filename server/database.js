@@ -147,6 +147,11 @@ UserSchema.virtual('isReseted').get(function () {
   return false
 })
 
+// for better session handling
+UserSchema.virtual('isAdmin').get(function () {
+  return false
+})
+
 UserSchema.virtual('url').get(function () {
   let companyId   = this._company && this._company._id ? this._company._id : this._company
   return {
@@ -443,6 +448,18 @@ function handleValidatorsErrors(err, req, res, next) {
 }
 
 //////
+// HELPERS
+//////
+
+function isFromCompany(user, companyId) {
+  if (!user) return false
+  if (user.isAdmin) return true
+  // creations from admin doesn't gave a companyId
+  if (!companyId) return false
+  return user._company.toString() === companyId.toString()
+}
+
+//////
 // EXPORTS
 //////
 
@@ -454,4 +471,5 @@ module.exports    = {
   Companies:              CompanyModel,
   handleValidationErrors: handleValidationErrors,
   handleValidatorsErrors: handleValidatorsErrors,
+  isFromCompany:          isFromCompany,
 }

@@ -39,6 +39,7 @@ function send(options) {
     .catch(function (err) {
       console.log(chalk.red('email error'))
       // normalize nodemailer errors
+      // TODO should be made by http-errors
       err.reason      = 'email error'
       err.status      = 500
       err.stacktrace  = new Error().stack

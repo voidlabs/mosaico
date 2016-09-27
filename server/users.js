@@ -1,6 +1,7 @@
 'use strict'
 
-var chalk                   = require('chalk')
+const chalk                 = require('chalk')
+const createError           = require('http-errors')
 
 var config                  = require('./config')
 var DB                      = require('./database')
@@ -50,7 +51,7 @@ function show(req, res, next) {
   .then( (dbResponse) => {
     const user      = dbResponse[0]
     const creations = dbResponse[1]
-    if (!user) return next({status: 404})
+    if (!user) return next(createError(404))
     res.render('user-new-edit', { data: {
       user:       user,
       creations:  creations,
