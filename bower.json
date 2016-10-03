@@ -18,7 +18,7 @@
     "blueimp-canvas-to-blob": "~2.1.1",
     "knockoutjs-reactor": "ZiadJ/knockoutjs-reactor#273d140ce28e7cecf0f573a605d259e22cbfc319",
     "knockout-jqueryui": "bago/knockout-jqueryui#9452901885186c94f97b34535374cbe31405a882",
-    "mensch": "brettstimmerman/mensch#v0.3.3",
+    "mensch": "~0.3.3",
     "toastr": "~2.1.0",
     "knockout-undomanager": "bago/knockout-undomanager#v0.2.1",
     "knockout.wrap": "bago/knockout.wrap#mosaico",
