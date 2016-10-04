@@ -9,6 +9,7 @@ const packer        = require('zip-stream')
 const cheerio       = require('cheerio')
 const archiver      = require('archiver')
 const request       = require('request')
+const createError   = require('http-errors')
 
 var mail            = require('./mail')
 
@@ -16,7 +17,7 @@ function postDownload(req, res, next) {
   let action = req.body.action
   if (action === 'download')  return downloadZip(req, res, next)
   if (action === 'email')     return sendByMail(req, res, next)
-  return next({ status: 404 })
+  return next(createError(404))
 }
 
 //----- UTILS

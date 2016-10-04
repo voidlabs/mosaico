@@ -37,11 +37,7 @@ block list
               a(href=creation.url.update).js-name= creation.name || __('home.saved.noname')
             td.mdl-data-table__cell--non-numeric: span= creation._wireframe.name
             if (!isAdmin)
-              td.mdl-data-table__cell--non-numeric: span
-                if (creation._user)
-                  | #{creation._user.fullname}
-                else
-                  | -
+              td.mdl-data-table__cell--non-numeric: span= creation._user.safename
             td.mdl-data-table__cell--non-numeric: span= formatDate(creation.createdAt)
             td.mdl-data-table__cell--non-numeric: span= formatDate(creation.updatedAt)
             td.mdl-data-table__cell--action

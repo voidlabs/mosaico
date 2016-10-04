@@ -1,7 +1,8 @@
 'use strict'
 
-var _                       = require('lodash')
-var chalk                   = require('chalk')
+const _                     = require('lodash')
+const chalk                 = require('chalk')
+const createError           = require('http-errors')
 
 var config                  = require('./config')
 var DB                      = require('./database')
@@ -39,7 +40,7 @@ function show(req, res, next) {
   .all([getCompany, getUsers, getWireframes, getCreations])
   .then(function (dbResponse) {
     var company     = dbResponse[0]
-    if (!company) return next({status: 404})
+    if (!company) return next(createError(404))
     var users       = dbResponse[1]
     var wireframes  = dbResponse[2]
     var creations   = dbResponse[3]

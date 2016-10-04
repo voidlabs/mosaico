@@ -1,15 +1,16 @@
 'use strict'
 
-var path          = require('path')
-var chalk         = require('chalk')
-var express       = require('express')
-var bodyParser    = require('body-parser')
-var compression   = require('compression')
-var morgan        = require('morgan')
-var favicon       = require('serve-favicon')
-var cookieParser  = require('cookie-parser')
-var i18n          = require('i18n')
-var moment        = require('moment')
+const path          = require('path')
+const chalk         = require('chalk')
+const express       = require('express')
+const bodyParser    = require('body-parser')
+const compression   = require('compression')
+const morgan        = require('morgan')
+const favicon       = require('serve-favicon')
+const cookieParser  = require('cookie-parser')
+const i18n          = require('i18n')
+const moment        = require('moment')
+const util          = require('util')
 
 module.exports = function () {
 
@@ -239,8 +240,8 @@ module.exports = function () {
   app.use(function (err, req, res, next) {
     var status = err.status || err.statusCode || (err.status = 500)
     console.log('error handling', status)
-    if (status !== 404) {
-      console.log(err)
+    if (status >= 500) {
+      console.log(util.inspect(err, {showHidden: true}))
       console.trace(err)
     }
 
@@ -250,7 +251,7 @@ module.exports = function () {
     if (req.xhr) return res.send(err)
     if (status === 404) return res.render('error-404')
     if (!err.stacktrace) err.stacktrace = err.stack || new Error(err).stack
-    return res.render('error-default', err)
+    return res.render('error-default', {err})
   })
 
   //////

@@ -91,10 +91,6 @@ var UserSchema    = Schema({
   name: {
     type:     String,
   },
-  role: {
-    type:     String,
-    // default:  'company',
-  },
   email: {
     type:     String,
     required: [true, 'Email address is required'],
@@ -151,8 +147,9 @@ UserSchema.virtual('isReseted').get(function () {
   return false
 })
 
-UserSchema.virtual('hasCompany').get(function () {
-  return typeof this._company !== 'undefined'
+// for better session handling
+UserSchema.virtual('isAdmin').get(function () {
+  return false
 })
 
 UserSchema.virtual('url').get(function () {
@@ -267,10 +264,6 @@ WireframeSchema.virtual('hasMarkup').get(function () {
   return this.markup != null
 })
 
-WireframeSchema.virtual('hasCompany').get(function () {
-  return typeof this._company !== 'undefined'
-})
-
 WireframeSchema.virtual('url').get(function () {
   let userId      = this._user && this._user._id ? this._user._id : this._user
   let userUrl     = this._user ? `/users/${userId}` : '/users'
@@ -301,13 +294,6 @@ var CreationSchema    = Schema({
     type:     ObjectId,
     ref:      'User',
   },
-  // no ref for user
-  // => admin doesn't exist in DB
-  // TODO remove
-  userId: {
-    type:     'string',
-    // required: true,
-  },
   // should use populate
   // http://mongoosejs.com/docs/populate.html
   _wireframe: {
@@ -318,7 +304,7 @@ var CreationSchema    = Schema({
   _company: {
     type:     ObjectId,
     ref:      'Company',
-    // Should be required after migration
+    // Can;t be required: admin doesn't have a _company
     // required:   true,
   },
   // http://mongoosejs.com/docs/schematypes.html#mixed
@@ -462,6 +448,18 @@ function handleValidatorsErrors(err, req, res, next) {
 }
 
 //////
+// HELPERS
+//////
+
+function isFromCompany(user, companyId) {
+  if (!user) return false
+  if (user.isAdmin) return true
+  // creations from admin doesn't gave a companyId
+  if (!companyId) return false
+  return user._company.toString() === companyId.toString()
+}
+
+//////
 // EXPORTS
 //////
 
@@ -473,4 +471,5 @@ module.exports    = {
   Companies:              CompanyModel,
   handleValidationErrors: handleValidationErrors,
   handleValidatorsErrors: handleValidatorsErrors,
+  isFromCompany:          isFromCompany,
 }

@@ -18,12 +18,8 @@ block content
     .mdl-cell.mdl-cell--3-col.mdl-color--accent-contrast.mdl-shadow--4dp
       ul.mdl-list
         li.mdl-list__item: a.mdl-list__item-primary-content(href=wireframe.url.backTo)
-          if (wireframe.hasCompany)
-            .material-icons.mdl-list__item-icon group
-            | #{wireframe._company.name}
-          else
-            .material-icons.mdl-list__item-icon person
-            | back to user
+          .material-icons.mdl-list__item-icon group
+          | #{wireframe._company.name}
         li.mdl-list__item: a.mdl-list__item-primary-content(href='/editor?wireframeId=' + wireframe._id)
           .material-icons.mdl-list__item-icon library_add
           | create mailing
