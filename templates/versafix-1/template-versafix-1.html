@@ -109,7 +109,6 @@
 
       template { label: Page; theme: frameTheme ;properties:  preheaderVisible=true; version: 1.0.5; }
 
-      footerBlock unsubscribeLinkStyle { label: Unsubscribe;  }
       footerBlock { label: Unsubscribe Block; theme: frameTheme }
       
       socialBlock fbVisible { label: Facebook; }
@@ -158,19 +157,16 @@
 
       imageBlock longTextStyle {
         label: Alternative Text;
-        help: Some Email Clients will show this text if automatical download of images is disabled;
       }
       imageBlock { label: Image; properties: gutterVisible=false; variant: gutterVisible; theme: contentTheme }
 
       doubleImageBlock longTextStyle {
         label: Alternative Text;
-        help: Some Email Clients will show this text if automatical download of images is disabled;
       }
       doubleImageBlock { label: Two Image Gallery Block; properties: gutterVisible=false; variant: gutterVisible; theme: contentTheme }
 
       tripleImageBlock longTextStyle {
         label: Alternative Text;
-        help: Some Email Clients will show this text if automatical download of images is disabled;
       }
       tripleImageBlock { label: Three Image Gallery Block;properties:gutterVisible=false;variant:gutterVisible; theme: contentTheme}
 
@@ -1511,10 +1507,12 @@
             <td style="text-align: center;">
               <a style="text-decoration: underline; color: #ffffff; text-align: center; font-size: 13px; 
                 font-weight: normal; font-family: Arial, Helvetica, sans-serif;
-                -ko-text-decoration: @linkStyle.decoration; -ko-color: @linkStyle.color; -ko-font-size: @[linkStyle.size]px; -ko-font-family: @linkStyle.face"
+                -ko-text-decoration: @linkStyle.decoration; -ko-color: @[Color.readability(linkStyle.color, backgroundColor) gt 2 ? linkStyle.color : 
+                (Color.isReadable('#ffffff', backgroundColor) ? '#ffffff' : '#000000')]; -ko-font-size: @[linkStyle.size]px; -ko-font-family: @linkStyle.face"
                 href="[unsubscribe_link]"><span data-ko-editable="disiscrivitiText">Unsubscribe</span></a>
             </td>
           </tr>
+
           <tr data-ko-display="_root_.sponsor.visible" style="display: none;text-align:center">
             <td align="center">
                 <a href="" style="-ko-attr-href: @_root_.sponsor.url;"><img border="0" hspace="0" vspace="0" src="img/sponsor.gif" alt="sponsor"
