@@ -24,6 +24,8 @@ Subscribe to our newsletter to get updates: http://mosaico.voxmail.it/user/regis
 
 ### Build/Run  [![Build Status](https://travis-ci.org/voidlabs/mosaico.svg)](https://travis-ci.org/voidlabs/mosaico)
 
+You need NodeJS v6.0 or higher + ImageMagick
+
 this may raise warnings about Knockout, ignore them. It will probably fail on some colorpicker dependency, just run it again and will work:
 ```
   npm install
