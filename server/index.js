@@ -67,7 +67,12 @@ module.exports = function () {
   //////
 
   function getIp(req) {
-    return req.ip ? /([\d\.]+)$/.exec(req.ip)[1] : ''
+    if (req.ip) {
+      var ip = /([\d\.]+)$/.exec(req.ip)
+      if (!Array.isArray(ip)) return ''
+      return ip[1]
+    }
+    return ''
   }
 
   function logRequest(tokens, req, res) {
