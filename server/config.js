@@ -13,17 +13,17 @@ var config  = rc('badsender', {
     type: 'local',
   },
   images: {
-    uploadDir: 'uploads',
-    tmpDir:    'tmp',
+    uploadDir:  'uploads',
+    tmpDir:     'tmp',
   },
   admin: {
-    id: '576b90a441ceadc005124896'
+    id:         '576b90a441ceadc005124896',
+    username:   'badsender-admin',
   }
 })
 
 config.NODE_ENV       = config.NODE_ENV || process.env.NODE_ENV || 'development'
 config.PORT           = process.env.PORT || 3000
-config.admin.username = 'badsender-admin'
 
 config.isDev      = config.NODE_ENV === 'development'
 config.isProd     = config.NODE_ENV === 'production'
