@@ -17,7 +17,7 @@
     "blueimp-load-image": "~2.6.2",
     "blueimp-canvas-to-blob": "~3.3.0",
     "knockoutjs-reactor": "ZiadJ/knockoutjs-reactor#273d140ce28e7cecf0f573a605d259e22cbfc319",
-    "knockout-jqueryui": "bago/knockout-jqueryui#9452901885186c94f97b34535374cbe31405a882",
+    "knockout-jqueryui": "gvas/knockout-jqueryui#~2.2.3",
     "mensch": "~0.3.3",
     "toastr": "~2.1.0",
     "knockout-undomanager": "~0.2.1",
