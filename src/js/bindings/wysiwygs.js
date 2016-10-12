@@ -20,7 +20,7 @@ ko.bindingHandlers.wysiwygOrHtml = {
     var isNotWysiwygMode = (typeof bindingContext.templateMode == 'undefined' || bindingContext.templateMode != 'wysiwyg');
     if (isNotWysiwygMode)
       return ko.bindingHandlers['virtualHtml'].update(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext);
-    //else 
+    //else
     //  return ko.bindingHandlers.wysiwyg.update(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext);
   }
 };
@@ -203,6 +203,7 @@ ko.bindingHandlers.wysiwyg = {
     var isSubscriberChange = false;
     var thisEditor;
     var isEditorChange = false;
+    var placeholder = '&nbsp;';
 
     var options = {
       selector: '#' + selectorId,
@@ -229,9 +230,10 @@ ko.bindingHandlers.wysiwyg = {
             // we failed with other ways to do this:
             // value($(element).html());
             // value(element.innerHTML);
-            value(editor.getContent({
+            var content = editor.getContent({
               format: 'raw'
-            }));
+            }).trim();
+            value(content == placeholder ? '' : content);
             isEditorChange = false;
           }
         });
@@ -284,7 +286,7 @@ ko.bindingHandlers.wysiwyg = {
               format: 'raw'
             });
           } else {
-            ko.utils.setHtml(element, content);
+            ko.utils.setHtml(element, content ? content : placeholder);
           }
         } catch (e) {
           console.log("TODO exception setting content to editable element", typeof thisEditor, e);
