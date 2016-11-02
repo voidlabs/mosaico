@@ -32,7 +32,7 @@ ko.bindingHandlers.wysiwygHref = {
       var v = valueAccessor();
 
       var isNotWysiwygMode = (typeof bindingContext.templateMode == 'undefined' || bindingContext.templateMode != 'wysiwyg');
-      // console.log("XXX", bindingContext.templateMode, isNotWysiwygMode, element.getAttribute("href"));
+      // //console.log("XXX", bindingContext.templateMode, isNotWysiwygMode, element.getAttribute("href"));
       if (isNotWysiwygMode) {
         element.setAttribute('target', '_new');
       } else {
@@ -71,7 +71,7 @@ ko.virtualElements.allowedBindings['wysiwygHref'] = true;
 ko.bindingHandlers.wysiwygSrc = {
   convertedUrl: function(src, method, width, height) {
     var res = src + "?method=" + method + "&width=" + width + (height !== null ? "&height=" + height : '');
-    console.log("basic converterUrl", res);
+    //console.log("basic converterUrl", res);
     return res;
   },
   placeholderUrl: function(plwidth, plheight, pltext) {
@@ -199,7 +199,10 @@ ko.bindingHandlers.wysiwyg = {
       element.setAttribute('id', selectorId);
     }
 
+    console.log("addinghandlers to element", element.tagName);
+
     var fullEditor = element.tagName == 'DIV' || element.tagName == 'TD';
+    var linkEditor = element.tagName == 'A';
     var isSubscriberChange = false;
     var thisEditor;
     var isEditorChange = false;
@@ -264,8 +267,11 @@ ko.bindingHandlers.wysiwyg = {
       }
     };
 
+    //ko.utils.extend(options, ko.bindingHandlers.wysiwyg.standardOptions);
+
     ko.utils.extend(options, ko.bindingHandlers.wysiwyg.standardOptions);
-    if (fullEditor) ko.utils.extend(options, ko.bindingHandlers.wysiwyg.fullOptions);
+    if (!linkEditor) ko.utils.extend(options, ko.bindingHandlers.wysiwyg.fullOptions);
+
 
     // we have to put initialization in a settimeout, otherwise switching from "1" to "2" columns blocks
     // will start the new editors before disposing the old ones and IDs get temporarily duplicated.
@@ -289,7 +295,7 @@ ko.bindingHandlers.wysiwyg = {
             ko.utils.setHtml(element, content ? content : placeholder);
           }
         } catch (e) {
-          console.log("TODO exception setting content to editable element", typeof thisEditor, e);
+          //console.log("TODO exception setting content to editable element", typeof thisEditor, e);
         }
         isSubscriberChange = false;
       }
