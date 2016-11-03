@@ -199,7 +199,7 @@ ko.bindingHandlers.wysiwyg = {
       element.setAttribute('id', selectorId);
     }
 
-    console.log("addinghandlers to element", element.tagName);
+    //console.log("addinghandlers to element", element.tagName);
 
     var fullEditor = element.tagName == 'DIV' || element.tagName == 'TD';
     var linkEditor = element.tagName == 'A';

@@ -5,6 +5,7 @@
   <meta name="viewport" content="initial-scale=1.0" />
   <meta name="format-detection" content="telephone=no" />
   <title style="-ko-bind-text: @titleText">TITLE</title>
+  <!-- model structure -->
   <style type="text/css">
     @supports -ko-blockdefs {
       id { widget: id }
@@ -52,6 +53,7 @@
       hrStyle { label: Separator Style;properties:color hrWidth hrHeight; }
       hrStyle:preview { height: 200%; width: 200%; bottom: 20px; -ko-border-bottom: @[hrHeight]px solid @color; }
       preheaderVisible { label: Show Preheader; extend: visible; help: Preheader block is the first one on the top of the page. It contains web version link and optionally unsubscribe link or a preheader text that will be shown as a preview on some email clients; }
+      sponsorVisible { label: Show Sponsor; extend: visible; help: You have a payed account, so you can remove the sponsored by / powered by section from your template; }
 
       /* content types */
       blocks { label: Blocks; properties: blocks[]; }
@@ -110,7 +112,7 @@
       template { label: Page; theme: frameTheme ;properties:  preheaderVisible=true; version: 1.0.5; }
 
       footerBlock unsubscribeLinkStyle { label: Unsubscribe;  }
-      footerBlock { label: Unsubscribe Block; theme: contentTheme }
+      footerBlock { label: Footer Block; theme: contentTheme }
 
       socialBlock fbVisible { label: Facebook; }
       socialBlock twVisible { label: Twitter }
@@ -418,7 +420,7 @@
         <table width="570" border="0" cellpadding="0" cellspacing="0" class="vb-row halfpad" bgcolor="#ffffff"
           style="width: 100%; max-width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
           <tr>
-            <td align="center" valign="top" bgcolor="#ffffff" style="font-size: 0; background-color: #ffffff;
+            <td align="center" valign="top" bgcolor="#ffffff" style="font-size: 0; background-color: #ffffff;padding:20px 0 10px 0;
               -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor" align="left">
 
 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="552"><tr><![endif]-->
@@ -1377,7 +1379,7 @@
         <table width="570" border="0" cellpadding="0" cellspacing="0" class="vb-row halfpad" bgcolor="#ffffff"
           style="width: 100%; max-width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
           <tr>
-            <td align="center" valign="top" bgcolor="#ffffff" style="font-size: 0; background-color: #ffffff;
+            <td align="center" valign="middle" bgcolor="#ffffff" style="font-size: 0; background-color: #ffffff;padding:16px 0;
               -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor" align="left">
 
 
@@ -1385,11 +1387,11 @@
 <!--[if (gte mso 9)|(lte ie 8)]><td align="left" valign="top" width="276"><![endif]-->
 <div style="display:inline-block; max-width:276px; vertical-align:top; width:100%;" class="mobile-full">
 
-                    <table class="vb-content" border="0" cellspacing="9" cellpadding="0" width="276" style="width: 100%" align="left">
+                    <table class="vb-content" border="0" cellspacing="9" cellpadding="0" width="276" style="width: 100%;height:100%;" align="left">
                       <tr>
                         <td valign="middle" align="left"
                           style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f; text-align:left;
-                          -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color"
+                          -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color;height:100%;"
                           data-ko-editable="longText" class="long-text links-color mobile-textcenter">
                           <p>Address and <a href="">Contacts</a></p>
                         </td>
@@ -1499,38 +1501,55 @@
   </div>
 
   <!-- footerBlock -->
-  <table class="vb-outer" width="100%" cellpadding="0" border="0" cellspacing="0" bgcolor="#bfbfbf"
-    style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor" data-ko-block="footerBlock">
+  <table class="vb-outer" width="100%" cellpadding="0" border="0" cellspacing="0" bgcolor="transparent" data-ko-block="footerBlock">
     <tr>
-      <td class="vb-outer" align="center" valign="top" bgcolor="#bfbfbf"
-        style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
+      <td>
+        <table class="vb-outer" width="100%" cellpadding="0" border="0" cellspacing="0" bgcolor="#bfbfbf"
+          style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
+          <tr>
+            <td class="vb-outer" align="center" valign="top" bgcolor="#bfbfbf"
+              style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
 
-<!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
-        <div class="oldwebkit">
-        <table width="570" border="0" cellpadding="0" cellspacing="0" class="vb-container halfpad" bgcolor="#ffffff" align="center"
-          style="width: 100%; max-width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
-          <tr>
-            <td data-ko-editable="longText" class="long-text links-color"
-                style="text-align:center; font-size: 13px;color: #3f3f3f; font-weight: normal; text-align:center; font-family: Arial, Helvetica, sans-serif;
-                -ko-font-size: @[longTextStyle.size]px; -ko-color: @longTextStyle.color; -ko-font-family: @longTextStyle.face"><p>Email sent to <a href="mailto:[mail]">[mail]</a></p></td>
-          </tr>
-          <tr>
-            <td style="text-align: center;">
-              <a style="text-decoration: underline; color: #ffffff; text-align: center; font-size: 13px;
-                font-weight: normal; font-family: Arial, Helvetica, sans-serif;
-                -ko-text-decoration: @linkStyle.decoration; -ko-color: @linkStyle.color; -ko-font-size: @[linkStyle.size]px; -ko-font-family: @linkStyle.face"
-                href="[unsubscribe]"><span data-ko-editable="disiscrivitiText">Unsubscribe</span></a>
-            </td>
-          </tr>
-          <tr data-ko-display="_root_.sponsor.visible" style="display: none;text-align:center">
-            <td align="center">
-                <a href="" style="-ko-attr-href: @_root_.sponsor.url;"><img border="0" hspace="0" vspace="0" src="img/sponsor.gif" alt="sponsor"
-                  style="Margin:auto;display:inline !important; -ko-attr-src: @_root_.sponsor.src; -ko-attr-alt: @_root_.sponsor.alt" /></a>
+      <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
+              <div class="oldwebkit">
+              <table width="570" border="0" cellpadding="0" cellspacing="0" class="vb-container halfpad" bgcolor="#ffffff" align="center"
+                style="width: 100%; max-width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
+                <tr>
+                  <td data-ko-editable="longText" class="long-text links-color" align="left" valign="top"
+                      style="width:50%;text-align:left; font-size: 13px;color: #3f3f3f; font-weight: normal; font-family: Arial, Helvetica, sans-serif;
+                      -ko-font-size: @[longTextStyle.size]px; -ko-color: @longTextStyle.color; -ko-font-family: @longTextStyle.face"><p>Email sent to <a href="mailto:[mail]">[mail]</a></p>
+                  </td>
+                  <td style="width:50%;text-align: right;" align="right" valign="top">
+                    <a style="text-decoration: underline; color: #ffffff; text-align: center; font-size: 13px;
+                      font-weight: normal; font-family: Arial, Helvetica, sans-serif;
+                      -ko-text-decoration: @linkStyle.decoration; -ko-color: @linkStyle.color; -ko-font-size: @[linkStyle.size]px; -ko-font-family: @linkStyle.face"
+                      href="[unsubscribe]"><span data-ko-editable="disiscrivitiText">Unsubscribe</span></a>
+                  </td>
+                </tr>
+              </table>
+              </div>
+      <!--[if (gte mso 9)|(lte ie 8)]></td></tr></table><![endif]-->
             </td>
           </tr>
         </table>
-        </div>
-<!--[if (gte mso 9)|(lte ie 8)]></td></tr></table><![endif]-->
+        <table cellspacing="0" cellpadding="0" data-ko-display="sponsorVisible | _root_.sponsor.visible" style="display: none;text-align:center;width:100%;" class="vb-outer">
+          <tr>
+            <td align="center" style="padding:20px;background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor" class="vb-outer">
+                <table width="570" border="0" cellpadding="0" cellspacing="0" align="center" valign="top" style="padding:0 20px;">
+                  <tr>
+                    <td cellpadding="0" cellspacing="0" align="center" valign="top" style="padding:20px 0;width:100%;border-top:1px solid #e8e8e8;">
+                      <span style="font-family:'Helvetica',sans-serif;font-weight:normal;font-size:13px;color:#272727;opacity:.5;width:100%;text-align:center; display:block;">
+                        This e-mail is powered by Hugo events,<br/>
+                        Ensuring a great experience ...
+                      </span>
+                      <a href="" style="padding:16px 0;display:block;width:100%;text-align:center;-ko-attr-href: @_root_.sponsor.url;"><img border="0" hspace="0" vspace="0" src="img/sponsor.gif" alt="sponsor"
+                        style="Margin:auto;display:inline !important; -ko-attr-src: @_root_.sponsor.src; -ko-attr-alt: @_root_.sponsor.alt" target="_blank" /></a>
+                    </td>
+                  </tr>
+                </table>
+            </td>
+          </tr>
+        </table>
       </td>
     </tr>
   </table>
