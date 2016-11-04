@@ -8,85 +8,259 @@
   <!-- model structure -->
   <style type="text/css">
     @supports -ko-blockdefs {
-      id { widget: id }
-      size { label: Size; widget: select; options: 8|9|10|11|12|13|14|15|16|18|20|22|25|28|31; }
-      visible { label: Visible?; widget: boolean }
-      color { label: Color; widget: color }
+      id {
+        widget: id
+      }
+      size {
+        label: Size;
+        widget: select;
+        options: 8|9|10|11|12|13|14|15|16|18|20|22|25|28|31;
+      }
+      visible {
+        label: Visible?;
+        widget: boolean
+      }
+      color {
+        label: Color;
+        widget: color
+      }
       radius {
         label: Corner Radius;
         widget: integer;
         max: 20;
         help: Attention - this property is not supported on all email clients (i.e. Outlook)
       }
-      face { label: Font; widget: select; options: Arial, Helvetica, sans-serif=Arial|Arial Black, Arial Black, Gadget, sans-serif=Arial Black|Comic Sans MS, Comic Sans MS5, cursive=Comic Sans|Courier New, Courier New, monospace=Courier|Georgia, serif=Georgia|Impact, sans-serif=Impact|Lucida Console, Monaco, monospace=Lucida Console|Lucida Sans Unicode, Lucida Grande, sans-serif=Lucida Sans Unicode|Times New Roman, Times, serif=Times New Roman|Verdana, Geneva, sans-serif=Verdana}
-      decoration { label: Decoration; widget: select; options: none=None|underline=Underline }
-      linksColor { label: Link Color; extend: color }
-      linksDecoration { label: Underlined Links?; extend: decoration }
-      buttonColor { label: Button Color; extend: color }
-      text { label: Paragraph; widget: text }
-      url { label: Link; widget: url }
-      src { label: Image; widget: src }
-      hrWidth { label: Width; widget: select; options:10|20|30|40|50|60|70|80|90|100; }
-      hrHeight { label: Line height; widget: integer; max: 80; }
+      face {
+        label: Font;
+        widget: select;
+        options: Arial, Helvetica, sans-serif=Arial|Arial Black, Arial Black, Gadget, sans-serif=Arial Black|Comic Sans MS, Comic Sans MS5, cursive=Comic Sans|Courier New, Courier New, monospace=Courier|Georgia, serif=Georgia|Impact, sans-serif=Impact|Lucida Console, Monaco, monospace=Lucida Console|Lucida Sans Unicode, Lucida Grande, sans-serif=Lucida Sans Unicode|Times New Roman, Times, serif=Times New Roman|Verdana, Geneva, sans-serif=Verdana
+      }
+      decoration {
+        label: Decoration;
+        widget: select;
+        options: none=None|underline=Underline;
+      }
+      linksColor {
+        label: Link Color;
+        extend: color;
+      }
+      linksDecoration {
+        label: Underlined Links?;
+        extend: decoration
+      }
+      buttonColor {
+        label: Button Color;
+        extend: color
+      }
+      text {
+        label: Paragraph;
+        widget: text
+      }
+      url {
+        label: Link;
+        widget: url
+      }
+      src {
+        label: Image;
+        widget: src
+      }
+      hrWidth {
+        label: Width;
+        widget: select;
+        options:10|20|30|40|50|60|70|80|90|100;
+      }
+      hrHeight {
+        label: Line height;
+        widget: integer;
+        max: 80;
+      }
 
-      height { label: Height; widget: integer }
-      imageHeight { label: Image Height; extend: height; }
-      spacerSize { label: Height; widget: integer; max: 90; min: 4; }
-      align { label: Alignment; widget: select; options:left=Left|right=Right|center=Center}
+      height {
+        label: Height;
+        widget: integer
+      }
+      imageHeight {
+        label: Image Height;
+        extend: height;
+      }
+      spacerSize {
+        label: Height;
+        widget: integer;
+        max: 90;
+        min: 4;
+      }
+      align {
+        label: Alignment;
+        widget: select;
+        options: left=Left|right=Right|center=Center
+      }
       alt {
         label: Alternative Text;
         widget: text;
         help: Alternative text will be shown on email clients that does not download image automatically;
       }
-      sponsor { label: Sponsor; properties: visible=true src url alt; category: hidden }
-      titleText {label:Title Text;category: hidden;}
-      gutterVisible { label: Show Gutter; extend: visible }
-      socialIconType { label: Icon Version;widget: select; options:bw=Black and White|colors=Colors|white=White; }
+
+      paddingTop {
+        label: Padding Top;
+        widget: integer;
+      }
+      paddingBottom {
+        label: Padding Bottom;
+        widget: integer;
+      }
+      paddingLeft {
+        label: Padding Left;
+        widget: integer;
+      }
+      paddingRight {
+        label: Padding Right;
+        widget: integer;
+      }
+
+      sponsor {
+        label: Sponsor;
+        properties: visible=true src url alt;
+        category: hidden
+      }
+
+      titleText {
+        label: Title Text;
+        category: hidden;
+      }
+      gutterVisible {
+        label: Show Gutter;
+        extend: visible
+      }
+      socialIconType {
+        label: Icon Version;
+        widget: select;
+        options: bw=Black and White|colors=Colors|white=White
+      }
 
       preheaderLinkOption {
         label: Header text;
         widget: select;
-        options: none=None|[Name, fallback&#61]=Profile|[unsubscribe]=Unsubscribe;
+        options:none=None|[Name, fallback&#61]=Profile|[unsubscribe]=Unsubscribe;
         help: If -None- is selected, header text will be shown;
       }
 
-      hrStyle { label: Separator Style;properties:color hrWidth hrHeight; }
-      hrStyle:preview { height: 200%; width: 200%; bottom: 20px; -ko-border-bottom: @[hrHeight]px solid @color; }
-      preheaderVisible { label: Show Preheader; extend: visible; help: Preheader block is the first one on the top of the page. It contains web version link and optionally unsubscribe link or a preheader text that will be shown as a preview on some email clients; }
-      sponsorVisible { label: Show Sponsor; extend: visible; help: You have a payed account, so you can remove the sponsored by / powered by section from your template; }
+      hrStyle {
+        label: Separator Style;
+        properties: color hrWidth hrHeight;
+      }
+
+      hrStyle: preview { height: 200%; width: 200%; bottom: 20px; -ko-border-bottom: @[hrHeight]px solid @color; }
+
+      preheaderVisible {
+        label: Show Preheader;
+        extend: visible;
+        help: Preheader block is the first one on the top of the page. It contains web version link and optionally unsubscribe link or a preheader text that will be shown as a preview on some email clients;
+      }
+
+      addressSocialVisible {
+        label: Show Contact and Address;
+        extend: visible;
+      }
+
+      sponsorVisible {
+        label: Show Powered By Hugo;
+        extend: visible;
+        help: You have a payed account, so you can remove the sponsored by / powered by section from your template;
+      }
+
+      unsubscribeVisible {
+        label: Show Unsubscribe;
+        extend: visible;
+        help: If you are sending a direct e-mail, without any marketing motive, you are allowed to remove the Unsubscribe Link;
+      }
 
       /* content types */
-      blocks { label: Blocks; properties: blocks[]; }
-      link { label: Link; properties: text url }
-      image { label: Image; properties: src url alt }
-      backgroundColor { label: Background Color; extend: color }
-      buttonLink { label: Button; extend: link }
+      blocks {
+        label: Blocks;
+        properties: blocks[];
+      }
+      link {
+        label: Link;
+        properties: text url;
+      }
+      image {
+        label: Image;
+        properties: src url alt;
+      }
+
+      backgroundColor {
+        label: Background Color;
+        extend: color
+      }
+      buttonLink {
+        label: Button;
+        extend: link
+      }
 
       /* texts and links */
-      textStyle { label: Text; properties: face color size }
+      textStyle {
+        label: Text;
+        properties: face color size
+      }
+
       textStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
+
       linkStyle { label: Link; properties: face color size decoration=none }
       linkStyle:preview { -ko-bind-text: @['Link']; -ko-font-size: @[size]px; -ko-font-family: @face; -ko-color: @color; -ko-text-decoration: @[decoration] }
+
       longTextStyle { label: Paragraph; properties: face color size linksColor   }
       longTextStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
+
+      footerTextStyle { label: Paragraph; properties: face color size linksColor }
+      footerTextStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
+
       bigButtonStyle { label: Big Button; extend: buttonStyle }
       titleTextStyle { label: Title; extend: textStyle }
+
       /* background */
       externalBackgroundColor { label: External Background; extend: color }
-
       externalTextStyle { label: Alternative Text; extend: textStyle }
       externalTextStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
-
       bigTitleStyle { label: Title; properties: face color size align}
       bigTitleStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
+
       /* buttons */
       buttonStyle color { label: Text Color; extend: color }
       buttonStyle size { label: Text Size; extend: size }
       buttonStyle { label: Button; properties: face color size buttonColor radius }
       buttonStyle:preview { -ko-bind-text: @['Button']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; -ko-background-color: @buttonColor; padding-left: 5px; -ko-border-radius: @[radius]px; }
 
+      /* padding */
+      paddingStyle { label: Padding; properties: paddingTop paddingRight paddingBottom paddingLeft}
+      paddingHeight { label: Padding Top and Bottom; properties: paddingTop paddingBottom}
+
       /* contents */
-      preheaderText {label: PreHeader Text; extend:text; help: This text will be shown on some email clients as a preview of the email contents;}
+      preheaderBlock {
+        label: Preheader Block;
+        theme: contentTheme
+      }
+
+      preheaderText {
+        label: PreHeader Text;
+        extend:text;
+        help: This text will be shown on some email clients as a preview of the email contents;
+      }
+
+      footerText {
+        label: Unsubscription Text;
+        extend:text;
+      }
+
+      template preheaderText {
+        label: Preheader;
+      }
+
+      template {
+        label:Page;
+        theme:frameTheme;
+        properties:preheaderVisible=true;version:1.0.5;
+      }
+
       leftImage { label: Left Image; extend: image }
       leftLongText { label: Left Text; extend: text }
       leftButtonLink { label: Left Button; extend: buttonLink }
@@ -107,11 +281,7 @@
       contentTheme:preview { -ko-background-color: @[backgroundColor] }
       frameTheme { label: Frame Style; }
       frameTheme:preview { -ko-background-color: @[backgroundColor] }
-      template preheaderText { label: Preheader; }
 
-      template { label: Page; theme: frameTheme ;properties:  preheaderVisible=true; version: 1.0.5; }
-
-      footerBlock unsubscribeLinkStyle { label: Unsubscribe;  }
       footerBlock { label: Footer Block; theme: contentTheme }
 
       socialBlock fbVisible { label: Facebook; }
@@ -139,8 +309,6 @@
         theme: contentTheme
       }
 
-      preheaderBlock { label:Preheader Block;  theme: contentTheme}
-
       sideArticleBlock imagePos {label:Image position;widget:select; options: left=Left|right=Right; }
       sideArticleBlock imageWidth { label: Image Size; widget: select; options: 120=Small|166=Medium|258=Big; }
       sideArticleBlock { label: Image+Text Block; properties: backgroundColor titleVisible=true buttonVisible=true imageWidth=166 imagePos=left titleTextStyle longTextStyle buttonStyle  image  longText buttonLink; variant:imagePos; theme: contentTheme }
@@ -162,27 +330,46 @@
         label: Alternative Text;
         help: Some Email Clients will show this text if automatical download of images is disabled;
       }
-      imageBlock { label: Image; properties: gutterVisible=false; variant: gutterVisible; theme: contentTheme }
+      imageBlock {
+        label: Image;
+        properties: gutterVisible=false; variant: gutterVisible; theme: contentTheme
+      }
 
       doubleImageBlock longTextStyle {
         label: Alternative Text;
         help: Some Email Clients will show this text if automatical download of images is disabled;
       }
-      doubleImageBlock { label: Two Image Gallery Block; properties: gutterVisible=false; variant: gutterVisible; theme: contentTheme }
+      doubleImageBlock {
+        label: Two Image Gallery Block;
+        properties: gutterVisible=false; variant: gutterVisible; theme: contentTheme
+      }
 
       tripleImageBlock longTextStyle {
         label: Alternative Text;
         help: Some Email Clients will show this text if automatical download of images is disabled;
       }
-      tripleImageBlock { label: Three Image Gallery Block;properties:gutterVisible=false;variant:gutterVisible; theme: contentTheme}
 
-      buttonBlock { label: Button Block; theme: contentTheme}
-      hrBlock { label: Separator Block;  theme: contentTheme}
-      spacerBlock { label: Spacer Block;  theme: contentTheme}
+      tripleImageBlock {
+        label: Three Image Gallery Block;
+        properties: gutterVisible=false; variant:gutterVisible=true;
+        theme: contentTheme
+      }
 
-      spacerBlock:preview,
-      logoBlock:preview { -ko-background-color: @[externalBackgroundColor] }
-
+      buttonBlock {
+        label: Button Block;
+        theme: contentTheme
+      }
+      hrBlock {
+        label: Separator Block;
+        theme: contentTheme
+      }
+      spacerBlock {
+        label: Spacer Block;
+        theme: contentTheme
+      }
+      /* preview block */
+      spacerBlock: preview,
+      logoBlock: preview { -ko-background-color: @[externalBackgroundColor] }
       preheaderBlock:preview,
       hrBlock:preview,
       sideArticleBlock:preview,
@@ -420,12 +607,12 @@
         <table width="570" border="0" cellpadding="0" cellspacing="0" class="vb-row halfpad" bgcolor="#ffffff"
           style="width: 100%; max-width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
           <tr>
-            <td align="center" valign="top" bgcolor="#ffffff" style="font-size: 0; background-color: #ffffff;padding:20px 0 10px 0;
+            <td align="center" valign="top" bgcolor="#ffffff" style="font-size: 0; background-color: #ffffff;padding:20px 0 5px 0;
               -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor" align="left">
 
 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="552"><tr><![endif]-->
 <!--[if (gte mso 9)|(lte ie 8)]><td align="left" valign="top" width="276"><![endif]-->
-<div style="display:inline-block; max-width:276px; vertical-align:top; width:100%;" class="mobile-full">
+<div style="display:inline-block; max-width:275px; vertical-align:top; width:50%;" class="mobile-full">
                     <table class="vb-content" border="0" cellspacing="9" cellpadding="0" width="276" style="width: 100%;" align="left">
                       <tr>
                         <td width="100%" valign="top" align="left" style="font-weight: normal; text-align:left; font-size: 13px;
@@ -445,9 +632,9 @@
                     </table>
 </div><!--[if (gte mso 9)|(lte ie 8)]>
 </td><td align="left" valign="top" width="276">
-<![endif]--><div style="display:inline-block; max-width:276px; vertical-align:top; width:100%;" class="mobile-full mobile-hide">
+<![endif]--><div style="display:inline-block; max-width:275px; vertical-align:top; width:50%;" class="mobile-full mobile-hide">
 
-                    <table class="vb-content" border="0" cellspacing="9" cellpadding="0" width="276" style="width: 100%; text-align: right;" align="left">
+                    <table class="vb-content" border="0" cellspacing="9" cellpadding="0" width="276" style="width: 100%; text-align: right;" align="right">
                       <tr>
                         <td width="100%" valign="top" style="font-weight: normal;  font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #ffffff;
                       -ko-font-size: @[linkStyle.size]px; -ko-color: @linkStyle.color; -ko-font-family: @linkStyle.face">
@@ -661,7 +848,7 @@
             </tr>
             <tr data-ko-display="buttonVisible">
               <td valign="top">
-                <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full">
+                <table cellpadding="0" border="0" align="center" cellspacing="0" class="mobile-full">
                   <tr>
                     <td width="auto" valign="middle" bgcolor="#bfbfbf" align="center" height="26"
                       style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; text-align:center; color: #3f3f3f; font-weight: normal;
@@ -1387,7 +1574,7 @@
 <!--[if (gte mso 9)|(lte ie 8)]><td align="left" valign="top" width="276"><![endif]-->
 <div style="display:inline-block; max-width:570px; vertical-align:top; width:100%;" class="mobile-full">
 
-                    <table class="vb-content" border="0" cellspacing="9" cellpadding="0" width="100%" style="width: 100%;height:100%;" align="center">
+                    <table data-ko-display="addressSocialVisible" class="vb-content" border="0" cellspacing="9" cellpadding="0" width="100%" style="display:none;width: 100%;height:100%;" align="center">
                       <tr>
                         <td valign="middle" align="center"
                           style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f; text-align:center;
@@ -1413,7 +1600,7 @@
 
                           <span data-ko-display="ggVisible" data-ko-wrap="false">&nbsp;</span>
                           <a data-ko-display="ggVisible" href="" style="-ko-attr-href: @ggUrl">
-                            <img src="img/social_def/google+_modern.png" alt="Google+" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
+                            <img src="img/social_def/google_modern.png" alt="Google+" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
                           </a>
 
                           <span data-ko-display="webVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
@@ -1459,7 +1646,7 @@
                           </a>
                           <span data-ko-display="ggVisible" data-ko-wrap="false">&nbsp;</span>
                           <a data-ko-display="ggVisible" href="" style="-ko-attr-href: @ggUrl">
-                            <img src="img/social_def/google+_bw_modern.png" alt="Google+" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
+                            <img src="img/social_def/google_bw_modern.png" alt="Google+" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
                           </a>
                           <span data-ko-display="webVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="webVisible" href="" style="-ko-attr-href: @webUrl; display: none">
@@ -1498,7 +1685,7 @@
                           </a>
                           <span data-ko-display="ggVisible" data-ko-wrap="false">&nbsp;</span>
                           <a data-ko-display="ggVisible" href="" style="-ko-attr-href: @ggUrl">
-                            <img src="img/social_def/google+_white_modern.png" alt="Google+" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
+                            <img src="img/social_def/google_white_modern.png" alt="Google+" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
                           </a>
                           <span data-ko-display="webVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="webVisible" href="" style="-ko-attr-href: @webUrl; display: none">
@@ -1556,21 +1743,34 @@
 
       <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
               <div class="oldwebkit">
-              <table width="570" border="0" cellpadding="0" cellspacing="0" class="vb-container halfpad" bgcolor="#ffffff" align="center"
-                style="width: 100%; max-width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
+
+              <table width="570" data-ko-display="!unsubscribeVisible" border="0" cellpadding="0" cellspacing="0" class="vb-container halfpad" bgcolor="#ffffff" align="center"
+                style="display:none;width: 100%; max-width: 570px; background-color: #ffffff;text-align:center; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
                 <tr>
-                  <td data-ko-editable="longText" class="long-text links-color" align="left" valign="top"
-                      style="width:50%;text-align:left; font-size: 13px;color: #3f3f3f; font-weight: normal; font-family: Arial, Helvetica, sans-serif;
+                  <td data-ko-editable="longText" class="long-text links-color" align="center" valign="top"
+                      style="width:100%;text-align:center; font-size: 13px;color: #3f3f3f; font-weight: normal; font-family: Arial, Helvetica, sans-serif;
                       -ko-font-size: @[longTextStyle.size]px; -ko-color: @longTextStyle.color; -ko-font-family: @longTextStyle.face"><p>Email sent to <a href="mailto:[mail]">[mail]</a></p>
-                  </td>
-                  <td style="width:50%;text-align: right;" align="right" valign="top">
-                    <a style="text-decoration: underline; color: #ffffff; text-align: center; font-size: 13px;
-                      font-weight: normal; font-family: Arial, Helvetica, sans-serif;
-                      -ko-text-decoration: @linkStyle.decoration; -ko-color: @linkStyle.color; -ko-font-size: @[linkStyle.size]px; -ko-font-family: @linkStyle.face"
-                      href="[unsubscribe]"><span data-ko-editable="disiscrivitiText">Unsubscribe</span></a>
                   </td>
                 </tr>
               </table>
+
+              <table width="570" data-ko-display="unsubscribeVisible" border="0" cellpadding="0" cellspacing="0" class="vb-container halfpad" bgcolor="#ffffff" align="center"
+                style="display:none;width: 100%; max-width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
+                <tr>
+                  <td data-ko-editable="longText" class="long-text links-color" align="center" valign="top"
+                      style="width:100%;text-align:center; font-size: 13px;color: #3f3f3f; font-weight: normal; font-family: Arial, Helvetica, sans-serif;
+                      -ko-font-size: @[longTextStyle.size]px; -ko-color: @longTextStyle.color; -ko-font-family: @longTextStyle.face"><p>Email sent to <a href="mailto:[mail]">[mail]</a></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td data-ko-editable="footerText" class="long-text links-color" align="center" valign="top"
+                      style="width:100%;text-align:center; font-size: 13px;color: #3f3f3f; font-weight: normal; font-family: Arial, Helvetica, sans-serif;
+                      -ko-font-size: @[footerTextStyle.size]px; -ko-color: @footerTextStyle.color; -ko-font-family: @footerTextStyle.face">
+                      <p>No longer wish to receive this e-mail? You can <a href="[unsubscribe]">Unsubscribe Here</a></p>
+                  </td>
+                </tr>
+              </table>
+
               </div>
       <!--[if (gte mso 9)|(lte ie 8)]></td></tr></table><![endif]-->
             </td>
@@ -1583,8 +1783,8 @@
                   <tr>
                     <td cellpadding="0" cellspacing="0" align="center" valign="top" style="padding:20px 0;width:100%;border-top:1px solid #e8e8e8;">
                       <span style="font-family:'Helvetica',sans-serif;font-weight:normal;font-size:13px;color:#272727;opacity:.5;width:100%;text-align:center; display:block;">
-                        This e-mail is powered by Hugo events,<br/>
-                        Ensuring a great experience ...
+                        This e-mail is powered by Hugo,<br/>
+                        Ensuring a great experience
                       </span>
                       <a href="" style="padding:16px 0;display:block;width:100%;text-align:center;-ko-attr-href: @_root_.sponsor.url;"><img border="0" hspace="0" vspace="0" src="img/sponsor.gif" alt="sponsor"
                         style="Margin:auto;display:inline !important; -ko-attr-src: @_root_.sponsor.src; -ko-attr-alt: @_root_.sponsor.alt" target="_blank" /></a>
