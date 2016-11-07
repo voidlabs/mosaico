@@ -476,18 +476,22 @@ viewModel.exportHTML = function() {
     // Remove data-bind/data-block attributes
     content = content.replace(/ data-bind="[^"]*"/gm, '');
     // Remove trash leftover by TinyMCE
-    content = content.replace(/ data-mce-(href|src)="[^"]*"/gm, '');
+    content = content.replace(/ data-mce-(href|src|style)="[^"]*"/gm, '');
 
     // Replace "replacedstyle" to "style" attributes (chrome puts replacedstyle after style)
-    content = content.replace(/ style="[^"]*"([^>]*) replaced(style="[^"]*")/gm, '$1 $2');
+    // content.replace(/ style="([^"]*)"([^>]*) replaced(style="[^"]*)"/gm, '$2 $3 $1"'); use this in case you want to overwrite any defaults
+    content = content.replace(/( style="[^"]*)"([^>]*) replacedstyle="([^"]*)"/gm, '$1$3" $2');
+
     // Replace "replacedstyle" to "style" attributes (ie/ff have reverse order)
-    content = content.replace(/ replaced(style="[^"]*")([^>]*) style="[^"]*"/gm, ' $1$2');
+    //content = content.replace(/ replaced(style="[^"]*")([^>]*) style="([^"]*)"/gm, ' $1$2$3'); use this in case you want to overwrite any defaults
+    content = content.replace(/ replaced(style="[^"]*)"([^>]*) style="([^"]*")/gm, ' $1$2$3');
     content = content.replace(/ replaced(style="[^"]*")/gm, ' $1');
 
     // same as style, but for http-equiv (some browser break it if we don't replace, but then we find it duplicated)
     content = content.replace(/ http-equiv="[^"]*"([^>]*) replaced(http-equiv="[^"]*")/gm, '$1 $2');
     content = content.replace(/ replaced(http-equiv="[^"]*")([^>]*) http-equiv="[^"]*"/gm, ' $1$2');
     content = content.replace(/ replaced(http-equiv="[^"]*")/gm, ' $1');
+
 
     // We already replace style and http-equiv and we don't need this.
     // content = content.replace(/ replaced([^= ]*=)/gm, ' $1');
