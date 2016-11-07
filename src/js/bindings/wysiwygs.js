@@ -236,6 +236,8 @@ ko.bindingHandlers.wysiwyg = {
             var content = editor.getContent({
               format: 'raw'
             }).trim();
+            console.log('setup:',content);
+
             value(content == placeholder ? '' : content);
             isEditorChange = false;
           }
@@ -292,8 +294,10 @@ ko.bindingHandlers.wysiwyg = {
               format: 'raw'
             });
           } else {
+            console.log('computed:',content);
             ko.utils.setHtml(element, content ? content : placeholder);
           }
+
         } catch (e) {
           //console.log("TODO exception setting content to editable element", typeof thisEditor, e);
         }
