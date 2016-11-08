@@ -19,6 +19,7 @@ var _declarationValueLookup = function(declarations, propertyname, templateUrlCo
 };
 
 var _propToCamelCase = function(propName) {
+  //console.log('propName = ' + propName);
   return propName.replace(/-([a-z])/g, function(match, contents, offset, s) {
     return contents.toUpperCase();
   });

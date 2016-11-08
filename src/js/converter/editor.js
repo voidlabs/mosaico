@@ -135,7 +135,7 @@ var _propEditor = function(withBindingProvider, widgets, templateUrlConverter, m
   if (typeof level == 'undefined') level = 0;
 
   if (typeof prop !== 'undefined' && typeof model == 'object' && model !== null && typeof model._usecount === 'undefined') {
-    console.log("TODO EDITOR ignoring", path, "property because it is not used by the template", "prop:", prop, "type:", editType, "level:", level, withBindingProvider._templateName);
+    //console.log("TODO EDITOR ignoring", path, "property because it is not used by the template", "prop:", prop, "type:", editType, "level:", level, withBindingProvider._templateName);
     return "";
   }
 
@@ -149,7 +149,7 @@ var _propEditor = function(withBindingProvider, widgets, templateUrlConverter, m
   var ifSubsThreshold = 1;
 
   // The visibility handling is a PITA
-  // 
+  //
   // Here are some "edge cases" to test whenever we change something here:
   // LM social footer: removing shareVisibile must be reflected in the booleans sub-checks
   // FLUID social block: multiple clicks on the "wand" should not make the editor invisible
@@ -164,7 +164,7 @@ var _propEditor = function(withBindingProvider, widgets, templateUrlConverter, m
   }
 
   // NOTE baseThreshold is added only when globalStyle is not defined because when we have globalStyle
-  // we're going to bind the computed values and not the original and this way we don't add ourserf to the dependency 
+  // we're going to bind the computed values and not the original and this way we don't add ourserf to the dependency
   // tracking (subscriptionCount)
   // NOTE baseThreshold is an "expression" and not a fixed number, so this is a concatenation
   if (typeof globalStyleProp == 'undefined' && typeof baseThreshold !== 'undefined') ifSubsThreshold += baseThreshold;
@@ -175,10 +175,10 @@ var _propEditor = function(withBindingProvider, widgets, templateUrlConverter, m
 
   if (typeof prop != 'undefined' && (model === null || typeof model._name == 'undefined')) {
     // TODO throw exception?
-    console.log("TODO WARN Missing label for property ", prop);
+    //console.log("TODO WARN Missing label for property ", prop);
   }
   if (typeof prop == 'undefined' && model !== null && typeof model._name == 'undefined') {
-    console.log("TODO WARN Missing label for object ", model.type /*, model */ );
+    //console.log("TODO WARN Missing label for object ", model.type /*, model */ );
   }
 
   if (typeof model == 'object' && model !== null && typeof model._widget == 'undefined') {
@@ -201,7 +201,7 @@ var _propEditor = function(withBindingProvider, widgets, templateUrlConverter, m
       if (typeof themeModel !== 'undefined' && themeModel !== null && typeof themeModel._name !== 'undefined') {
         themeSectionName = themeModel._name;
       } else {
-        console.log("TODO missing label for theme section ", prop, model !== null ? model.type : '-');
+        //console.log("TODO missing label for theme section ", prop, model !== null ? model.type : '-');
       }
 
       modelName = '<span class="blockSelectionMethod" data-bind="text: customStyle() ? $root.ut(\'template\', \'' + utils.addSlashes(modelName) + '\') : $root.ut(\'template\', \'' + utils.addSlashes(themeSectionName) + '\')">Block</span>';

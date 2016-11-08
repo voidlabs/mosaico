@@ -5,86 +5,262 @@
   <meta name="viewport" content="initial-scale=1.0" />
   <meta name="format-detection" content="telephone=no" />
   <title style="-ko-bind-text: @titleText">TITLE</title>
+  <!-- model structure -->
   <style type="text/css">
     @supports -ko-blockdefs {
-      id { widget: id }
-      size { label: Size; widget: select; options: 8|9|10|11|12|13|14|15|16|18|20|22|25|28|31; }
-      visible { label: Visible?; widget: boolean }
-      color { label: Color; widget: color }
+      id {
+        widget: id
+      }
+      size {
+        label: Size;
+        widget: select;
+        options: 8|9|10|11|12|13|14|15|16|18|20|22|25|28|31;
+      }
+      visible {
+        label: Visible?;
+        widget: boolean
+      }
+      color {
+        label: Color;
+        widget: color
+      }
       radius {
         label: Corner Radius;
         widget: integer;
         max: 20;
         help: Attention - this property is not supported on all email clients (i.e. Outlook)
       }
-      face { label: Font; widget: select; options: Arial, Helvetica, sans-serif=Arial|Arial Black, Arial Black, Gadget, sans-serif=Arial Black|Comic Sans MS, Comic Sans MS5, cursive=Comic Sans|Courier New, Courier New, monospace=Courier|Georgia, serif=Georgia|Impact, sans-serif=Impact|Lucida Console, Monaco, monospace=Lucida Console|Lucida Sans Unicode, Lucida Grande, sans-serif=Lucida Sans Unicode|Times New Roman, Times, serif=Times New Roman|Verdana, Geneva, sans-serif=Verdana}
-      decoration { label: Decoration; widget: select; options: none=None|underline=Underline }
-      linksColor { label: Link Color; extend: color }
-      linksDecoration { label: Underlined Links?; extend: decoration }
-      buttonColor { label: Button Color; extend: color }
-      text { label: Paragraph; widget: text }
-      url { label: Link; widget: url }
-      src { label: Image; widget: src }
-      hrWidth { label: Width; widget: select; options:10|20|30|40|50|60|70|80|90|100; }
-      hrHeight { label: Line height; widget: integer; max: 80; }
+      face {
+        label: Font;
+        widget: select;
+        options: Arial, Helvetica, sans-serif=Arial|Arial Black, Arial Black, Gadget, sans-serif=Arial Black|Comic Sans MS, Comic Sans MS5, cursive=Comic Sans|Courier New, Courier New, monospace=Courier|Georgia, serif=Georgia|Impact, sans-serif=Impact|Lucida Console, Monaco, monospace=Lucida Console|Lucida Sans Unicode, Lucida Grande, sans-serif=Lucida Sans Unicode|Times New Roman, Times, serif=Times New Roman|Verdana, Geneva, sans-serif=Verdana
+      }
+      decoration {
+        label: Decoration;
+        widget: select;
+        options: none=None|underline=Underline;
+      }
+      linksColor {
+        label: Link Color;
+        extend: color;
+      }
+      linksDecoration {
+        label: Underlined Links?;
+        extend: decoration
+      }
+      buttonColor {
+        label: Button Color;
+        extend: color
+      }
+      text {
+        label: Paragraph;
+        widget: text
+      }
+      url {
+        label: Link;
+        widget: url
+      }
+      src {
+        label: Image;
+        widget: src
+      }
+      hrWidth {
+        label: Width;
+        widget: select;
+        options:10|20|30|40|50|60|70|80|90|100;
+      }
+      hrHeight {
+        label: Line height;
+        widget: integer;
+        max: 80;
+      }
 
-      height { label: Height; widget: integer }
-      imageHeight { label: Image Height; extend: height; }
-      spacerSize { label: Height; widget: integer; max: 90; min: 4; }
-      align { label: Alignment; widget: select; options:left=Left|right=Right|center=Center}
+      height {
+        label: Height;
+        widget: integer
+      }
+      imageHeight {
+        label: Image Height;
+        extend: height;
+      }
+      spacerSize {
+        label: Height;
+        widget: integer;
+        max: 90;
+        min: 4;
+      }
+      align {
+        label: Alignment;
+        widget: select;
+        options: left=Left|right=Right|center=Center
+      }
       alt {
         label: Alternative Text;
         widget: text;
         help: Alternative text will be shown on email clients that does not download image automatically;
       }
-      sponsor { label: Sponsor; properties: visible=true src url alt; category: hidden }
-      titleText {label:Title Text;category: hidden;}
-      gutterVisible { label: Show Gutter; extend: visible }
-      socialIconType { label: Icon Version;widget: select; options:bw=Black and White|colors=Colors; }
+
+      paddingTop {
+        label: Padding Top;
+        widget: integer;
+      }
+      paddingBottom {
+        label: Padding Bottom;
+        widget: integer;
+      }
+      paddingLeft {
+        label: Padding Left;
+        widget: integer;
+      }
+      paddingRight {
+        label: Padding Right;
+        widget: integer;
+      }
+
+      sponsor {
+        label: Sponsor;
+        properties: visible=true src url alt;
+        category: hidden
+      }
+
+      titleText {
+        label: Title Text;
+        category: hidden;
+      }
+      gutterVisible {
+        label: Show Gutter;
+        extend: visible
+      }
+      socialIconType {
+        label: Icon Version;
+        widget: select;
+        options: bw=Black and White|colors=Colors|white=White
+      }
 
       preheaderLinkOption {
         label: Header text;
         widget: select;
-        options: none=None|[Name, fallback&#61]=Profile|[unsubscribe]=Unsubscribe;
+        options:none=None|[Name, fallback&#61]=Profile|[unsubscribe]=Unsubscribe;
         help: If -None- is selected, header text will be shown;
       }
 
-      hrStyle { label: Separator Style;properties:color hrWidth hrHeight; }
-      hrStyle:preview { height: 200%; width: 200%; bottom: 20px; -ko-border-bottom: @[hrHeight]px solid @color; }
-      preheaderVisible { label: Show Preheader; extend: visible; help: Preheader block is the first one on the top of the page. It contains web version link and optionally unsubscribe link or a preheader text that will be shown as a preview on some email clients; }
+      hrStyle {
+        label: Separator Style;
+        properties: color hrWidth hrHeight;
+      }
+
+      hrStyle: preview { height: 200%; width: 200%; bottom: 20px; -ko-border-bottom: @[hrHeight]px solid @color; }
+
+      preheaderVisible {
+        label: Show Preheader;
+        extend: visible;
+        help: Preheader block is the first one on the top of the page. It contains web version link and optionally unsubscribe link or a preheader text that will be shown as a preview on some email clients;
+      }
+
+      addressSocialVisible {
+        label: Show Contact and Address;
+        extend: visible;
+      }
+
+      sponsorVisible {
+        label: Show Powered By Hugo;
+        extend: visible;
+        help: You have a payed account, so you can remove the sponsored by / powered by section from your template;
+      }
+
+      unsubscribeVisible {
+        label: Show Unsubscribe;
+        extend: visible;
+        help: If you are sending a direct e-mail, without any marketing motive, you are allowed to remove the Unsubscribe Link;
+      }
 
       /* content types */
-      blocks { label: Blocks; properties: blocks[]; }
-      link { label: Link; properties: text url }
-      image { label: Image; properties: src url alt }
-      backgroundColor { label: Background Color; extend: color }
-      buttonLink { label: Button; extend: link }
+      blocks {
+        label: Blocks;
+        properties: blocks[];
+      }
+      link {
+        label: Link;
+        properties: text url;
+      }
+      image {
+        label: Image;
+        properties: src url alt;
+      }
+
+      backgroundColor {
+        label: Background Color;
+        extend: color
+      }
+      buttonLink {
+        label: Button;
+        extend: link
+      }
 
       /* texts and links */
-      textStyle { label: Text; properties: face color size }
+      textStyle {
+        label: Text;
+        properties: face color size
+      }
+
       textStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
+
       linkStyle { label: Link; properties: face color size decoration=none }
       linkStyle:preview { -ko-bind-text: @['Link']; -ko-font-size: @[size]px; -ko-font-family: @face; -ko-color: @color; -ko-text-decoration: @[decoration] }
-      longTextStyle { label: Paragraph; properties: face color size linksColor   }
+
+      longTextStyle { label: Paragraph; properties: face color size linksColor}
       longTextStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
+
+      footerTextStyle { label: Paragraph; properties: face color size linksColor }
+      footerTextStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
+
       bigButtonStyle { label: Big Button; extend: buttonStyle }
       titleTextStyle { label: Title; extend: textStyle }
+
       /* background */
       externalBackgroundColor { label: External Background; extend: color }
-
       externalTextStyle { label: Alternative Text; extend: textStyle }
       externalTextStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
-
       bigTitleStyle { label: Title; properties: face color size align}
       bigTitleStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
+
       /* buttons */
       buttonStyle color { label: Text Color; extend: color }
       buttonStyle size { label: Text Size; extend: size }
       buttonStyle { label: Button; properties: face color size buttonColor radius }
       buttonStyle:preview { -ko-bind-text: @['Button']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; -ko-background-color: @buttonColor; padding-left: 5px; -ko-border-radius: @[radius]px; }
 
+      /* padding */
+      paddingStyle { label: Padding; properties: paddingTop paddingRight paddingBottom paddingLeft}
+      paddingHeight { label: Padding Top and Bottom; properties: paddingTop paddingBottom}
+
       /* contents */
-      preheaderText {label: PreHeader Text; extend:text; help: This text will be shown on some email clients as a preview of the email contents;}
+      preheaderBlock {
+        label: Preheader Block;
+        theme: contentTheme
+      }
+
+      preheaderText {
+        label: PreHeader Text;
+        extend:text;
+        help: This text will be shown on some email clients as a preview of the email contents;
+      }
+
+      footerText {
+        label: Unsubscription Text;
+        extend:text;
+      }
+
+      template preheaderText {
+        label: Preheader;
+      }
+
+      template {
+        label:Page;
+        theme:frameTheme;
+        properties:preheaderVisible=true;version:1.0.5;
+      }
+
       leftImage { label: Left Image; extend: image }
       leftLongText { label: Left Text; extend: text }
       leftButtonLink { label: Left Button; extend: buttonLink }
@@ -105,12 +281,8 @@
       contentTheme:preview { -ko-background-color: @[backgroundColor] }
       frameTheme { label: Frame Style; }
       frameTheme:preview { -ko-background-color: @[backgroundColor] }
-      template preheaderText { label: Preheader; }
 
-      template { label: Page; theme: frameTheme ;properties:  preheaderVisible=true; version: 1.0.5; }
-
-      footerBlock unsubscribeLinkStyle { label: Unsubscribe;  }
-      footerBlock { label: Unsubscribe Block; theme: contentTheme }
+      footerBlock { label: Footer Block; theme: contentTheme }
 
       socialBlock fbVisible { label: Facebook; }
       socialBlock twVisible { label: Twitter }
@@ -132,12 +304,10 @@
       socialBlock youUrl { label: YouTube Link}
       socialBlock {
         label: Social Block;
-        properties: socialIconType=colors fbVisible=true fbUrl twVisible=true twUrl ggVisible=true ggUrl webVisible=false webUrl inVisible=false inUrl flVisible=false flUrl viVisible=false viUrl instVisible=false instUrl youVisible=false youUrl longTextStyle longText backgroundColor;
+        properties: socialIconType=bw fbVisible=true fbUrl twVisible=true twUrl ggVisible=true ggUrl webVisible=false webUrl inVisible=false inUrl flVisible=false flUrl viVisible=false viUrl instVisible=false instUrl youVisible=false youUrl longTextStyle longText backgroundColor;
         variant:socialIconType;
         theme: contentTheme
       }
-
-      preheaderBlock { label:Preheader Block;  theme: contentTheme}
 
       sideArticleBlock imagePos {label:Image position;widget:select; options: left=Left|right=Right; }
       sideArticleBlock imageWidth { label: Image Size; widget: select; options: 120=Small|166=Medium|258=Big; }
@@ -160,27 +330,46 @@
         label: Alternative Text;
         help: Some Email Clients will show this text if automatical download of images is disabled;
       }
-      imageBlock { label: Image; properties: gutterVisible=false; variant: gutterVisible; theme: contentTheme }
+      imageBlock {
+        label: Image;
+        properties: gutterVisible=false; variant: gutterVisible; theme: contentTheme
+      }
 
       doubleImageBlock longTextStyle {
         label: Alternative Text;
         help: Some Email Clients will show this text if automatical download of images is disabled;
       }
-      doubleImageBlock { label: Two Image Gallery Block; properties: gutterVisible=false; variant: gutterVisible; theme: contentTheme }
+      doubleImageBlock {
+        label: Two Image Gallery Block;
+        properties: gutterVisible=false; variant: gutterVisible; theme: contentTheme
+      }
 
       tripleImageBlock longTextStyle {
         label: Alternative Text;
         help: Some Email Clients will show this text if automatical download of images is disabled;
       }
-      tripleImageBlock { label: Three Image Gallery Block;properties:gutterVisible=false;variant:gutterVisible; theme: contentTheme}
 
-      buttonBlock { label: Button Block; theme: contentTheme}
-      hrBlock { label: Separator Block;  theme: contentTheme}
-      spacerBlock { label: Spacer Block;  theme: contentTheme}
+      tripleImageBlock {
+        label: Three Image Gallery Block;
+        properties: gutterVisible=false; variant:gutterVisible=true;
+        theme: contentTheme
+      }
 
-      spacerBlock:preview,
-      logoBlock:preview { -ko-background-color: @[externalBackgroundColor] }
-
+      buttonBlock {
+        label: Button Block;
+        theme: contentTheme
+      }
+      hrBlock {
+        label: Separator Block;
+        theme: contentTheme
+      }
+      spacerBlock {
+        label: Spacer Block;
+        theme: contentTheme
+      }
+      /* preview block */
+      spacerBlock: preview,
+      logoBlock: preview { -ko-background-color: @[externalBackgroundColor] }
       preheaderBlock:preview,
       hrBlock:preview,
       sideArticleBlock:preview,
@@ -208,7 +397,7 @@
       display: inline-block;
       vertical-align: top;
       padding-bottom: 0px;
-      border-radius: 100%;
+      border-radius: 0px;
     }
     .oldwebkit { max-width: 570px; }
     td.vb-outer { padding-left: 9px; padding-right: 9px; }
@@ -418,18 +607,18 @@
         <table width="570" border="0" cellpadding="0" cellspacing="0" class="vb-row halfpad" bgcolor="#ffffff"
           style="width: 100%; max-width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
           <tr>
-            <td align="center" valign="top" bgcolor="#ffffff" style="font-size: 0; background-color: #ffffff;
+            <td align="center" valign="top" bgcolor="#ffffff" style="font-size: 0; background-color: #ffffff;padding:20px 0 5px 0;
               -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor" align="left">
 
 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="552"><tr><![endif]-->
 <!--[if (gte mso 9)|(lte ie 8)]><td align="left" valign="top" width="276"><![endif]-->
-<div style="display:inline-block; max-width:276px; vertical-align:top; width:100%;" class="mobile-full">
+<div style="display:inline-block; max-width:275px; vertical-align:top; width:50%;" class="mobile-full">
                     <table class="vb-content" border="0" cellspacing="9" cellpadding="0" width="276" style="width: 100%;" align="left">
                       <tr>
                         <td width="100%" valign="top" align="left" style="font-weight: normal; text-align:left; font-size: 13px;
                           font-family: Arial, Helvetica, sans-serif; color: #ffffff;
                           -ko-font-size: @[linkStyle.size]px; -ko-color: @linkStyle.color; -ko-font-family: @linkStyle.face">
-                           <span data-ko-display="preheaderLinkOption eq 'none'" data-ko-editable="preheaderText" style="font-size: 13px;color: #3f3f3f; font-weight: normal; text-align:center;
+                           <span data-ko-display="preheaderLinkOption eq 'none'" data-ko-editable="preheaderText" style="font-size: 13px;color: #3f3f3f; font-weight: normal;text-align:left;
                           font-family: Arial, Helvetica, sans-serif; -ko-font-size: @[longTextStyle.size]px; -ko-color: @longTextStyle.color;
                           -ko-font-family: @longTextStyle.face;  ">Header text</span>
                           <a data-ko-display="preheaderLinkOption eq '[unsubscribe]'" data-ko-editable="unsubscribeText"
@@ -443,9 +632,9 @@
                     </table>
 </div><!--[if (gte mso 9)|(lte ie 8)]>
 </td><td align="left" valign="top" width="276">
-<![endif]--><div style="display:inline-block; max-width:276px; vertical-align:top; width:100%;" class="mobile-full mobile-hide">
+<![endif]--><div style="display:inline-block; max-width:275px; vertical-align:top; width:50%;" class="mobile-full mobile-hide">
 
-                    <table class="vb-content" border="0" cellspacing="9" cellpadding="0" width="276" style="width: 100%; text-align: right;" align="left">
+                    <table class="vb-content" border="0" cellspacing="9" cellpadding="0" width="276" style="width: 100%; text-align: right;" align="right">
                       <tr>
                         <td width="100%" valign="top" style="font-weight: normal;  font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #ffffff;
                       -ko-font-size: @[linkStyle.size]px; -ko-color: @linkStyle.color; -ko-font-family: @linkStyle.face">
@@ -558,10 +747,10 @@
                         </td>
                       </tr>
                       <tr>
-                        <td align="left" style="text-align: left; font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;
-                          -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color"
+                        <td align="left" style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;text-align:left;
+                          -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color;"
                           data-ko-editable="longText" class="long-text links-color">
-                          <p>Far far away, behind the word mountains, far from the countries <a href="">Vokalia and Consonantia</a>, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                          <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
                         </td>
                       </tr>
                       <tr data-ko-display="buttonVisible">
@@ -637,21 +826,19 @@
           </tr>
           <tr><td><table align="left" border="0" cellpadding="0" cellspacing="0" width="100%">
             <tr data-ko-display="titleVisible">
-              <td style="font-size: 18px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f; text-align:left;
-                -ko-font-size: @[titleTextStyle.size]px; -ko-font-family: @titleTextStyle.face; -ko-color: @titleTextStyle.color">
-                <span style="color: #3f3f3f; -ko-color: @titleTextStyle.color" data-ko-editable="text">
-               Section Title
-                </span>
+              <td style="width:100%;font-size: 18px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f; text-align:left;
+                -ko-font-size: @[titleTextStyle.size]px; -ko-font-family: @titleTextStyle.face; -ko-color: @titleTextStyle.color" data-ko-editable="text">
+                Section Title
               </td>
             </tr>
             <tr data-ko-display="titleVisible">
               <td height="9" style="font-size:1px; line-height: 1px;">&nbsp;</td>
             </tr>
             <tr>
-              <td align="left" style="text-align: left; font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;
-                -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color"
+              <td align="left" style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;
+                -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color;"
                 data-ko-editable="longText" class="long-text links-color">
-                <p>Far far away, behind the word mountains, far from the countries <a href="">Vokalia and Consonantia</a>, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
               </td>
             </tr>
             <tr data-ko-display="buttonVisible">
@@ -659,7 +846,7 @@
             </tr>
             <tr data-ko-display="buttonVisible">
               <td valign="top">
-                <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full">
+                <table cellpadding="0" border="0" align="center" cellspacing="0" class="mobile-full">
                   <tr>
                     <td width="auto" valign="middle" bgcolor="#bfbfbf" align="center" height="26"
                       style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; text-align:center; color: #3f3f3f; font-weight: normal;
@@ -722,10 +909,10 @@
         <table width="570" border="0" cellpadding="0" cellspacing="18" class="vb-container fullpad" bgcolor="#ffffff"
           style="width: 100%; max-width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
           <tr>
-            <td align="left" style="text-align: left; font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;
-              -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color"
+            <td align="left" style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;text-align:left;
+              -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color;"
               data-ko-editable="longText" class="long-text links-color">
-              <p>Far far away, behind the word mountains, far from the countries <a href="">Vokalia and Consonantia</a>, there live the blind texts.</p>
+              <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
               <p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
             </td>
           </tr>
@@ -774,10 +961,10 @@
                         </td>
                       </tr>
                       <tr>
-                        <td align="left" style="text-align: left; font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;
-                          -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color"
+                        <td align="left" style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;text-align:left;
+                          -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color;"
                           data-ko-editable="leftLongText" class="long-text links-color">
-                          <p>Far far away, behind the word mountains, far from the countries <a href="">Vokalia and Consonantia</a>, there live the blind texts. </p>
+                          <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. </p>
                         </td>
                       </tr>
                       <tr data-ko-display="buttonVisible">
@@ -823,10 +1010,10 @@
                         </td>
                       </tr>
                       <tr>
-                        <td align="left" style="text-align: left; font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;
-                          -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color"
+                        <td align="left" style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;text-align:left;
+                          -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color;"
                           data-ko-editable="middleLongText" class="long-text links-color">
-                          <p>Far far away, behind the word mountains, far from the countries <a href="">Vokalia and Consonantia</a>, there live the blind texts. </p>
+                          <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. </p>
                         </td>
                       </tr>
                       <tr data-ko-display="buttonVisible">
@@ -872,10 +1059,10 @@
                         </td>
                       </tr>
                       <tr>
-                        <td align="left" style="text-align: left; font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;
-                          -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color"
+                        <td align="left" style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;text-align:left;
+                          -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color;"
                           data-ko-editable="rightLongText" class="long-text links-color">
-                          <p>Far far away, behind the word mountains, far from the countries <a href="">Vokalia and Consonantia</a>, there live the blind texts. </p>
+                          <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. </p>
                         </td>
                       </tr>
                       <tr data-ko-display="buttonVisible">
@@ -949,10 +1136,10 @@
                         </td>
                       </tr>
                       <tr>
-                        <td align="left" style="text-align: left; font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;
-                          -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color"
+                        <td align="left" style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;text-align:left;
+                          -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color;"
                           data-ko-editable="leftLongText" class="long-text links-color">
-                          <p>Far far away, behind the word mountains, far from the countries <a href="">Vokalia and Consonantia</a>, there live the blind texts. </p>
+                          <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. </p>
                         </td>
                       </tr>
                       <tr data-ko-display="buttonVisible">
@@ -998,10 +1185,10 @@
                         </td>
                       </tr>
                       <tr>
-                        <td align="left" style="text-align: left; font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;
-                          -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color"
+                        <td align="left" style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;text-align:left;
+                          -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color;"
                           data-ko-editable="rightLongText" class="long-text links-color">
-                          <p>Far far away, behind the word mountains, far from the countries <a href="">Vokalia and Consonantia</a>, there live the blind texts.</p>
+                          <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
                         </td>
                       </tr>
                       <tr data-ko-display="buttonVisible">
@@ -1377,106 +1564,150 @@
         <table width="570" border="0" cellpadding="0" cellspacing="0" class="vb-row halfpad" bgcolor="#ffffff"
           style="width: 100%; max-width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
           <tr>
-            <td align="center" valign="top" bgcolor="#ffffff" style="font-size: 0; background-color: #ffffff;
+            <td align="center" valign="middle" bgcolor="#ffffff" style="font-size: 0; background-color: #ffffff;padding:16px 0;
               -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor" align="left">
 
 
 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="552"><tr><![endif]-->
 <!--[if (gte mso 9)|(lte ie 8)]><td align="left" valign="top" width="276"><![endif]-->
-<div style="display:inline-block; max-width:276px; vertical-align:top; width:100%;" class="mobile-full">
+<div style="display:inline-block; max-width:570px; vertical-align:top; width:100%;" class="mobile-full">
 
-                    <table class="vb-content" border="0" cellspacing="9" cellpadding="0" width="276" style="width: 100%" align="left">
+                    <table data-ko-display="addressSocialVisible" class="vb-content" border="0" cellspacing="9" cellpadding="0" width="100%" style="display:none;width: 100%;height:100%;" align="center">
                       <tr>
-                        <td valign="middle" align="left"
-                          style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f; text-align:left;
-                          -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color"
+                        <td valign="middle" align="center"
+                          style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;text-align:left;
+                          -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color;height:100%;"
                           data-ko-editable="longText" class="long-text links-color mobile-textcenter">
-                          <p>Address and <a href="">Contacts</a></p>
+                          <p>Address and Contacts</p>
                         </td>
                       </tr>
                     </table>
 
-</div><!--[if (gte mso 9)|(lte ie 8)]></td>
-<td align="left" valign="top" width="276">
-<![endif]--><div style="display:inline-block; max-width:276px; vertical-align:top; width:100%;" class="mobile-full">
-
-                    <table class="vb-content" border="0" cellspacing="9" cellpadding="0" width="276" style="width: 100%" align="right">
+                    <table class="vb-content" border="0" cellspacing="9" cellpadding="0" width="100%" style="width:100%;padding:20px 0;" align="center">
                       <tr>
-                        <td align="right" valign="middle" class="links-color socialLinks mobile-textcenter" data-ko-display="socialIconType eq 'colors'">
+                        <td align="center" valign="middle" class="links-color socialLinks mobile-textcenter" data-ko-display="socialIconType eq 'colors'">
                           <span data-ko-display="fbVisible" data-ko-wrap="false">&nbsp;</span>
                           <a data-ko-display="fbVisible" href="" style="-ko-attr-href: @fbUrl">
-                            <img src="img/social_def/facebook_ok.png" alt="Facebook" border="0" class="socialIcon" />
+                            <img src="img/social_def/facebook_modern.png" alt="Facebook" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
                           </a>
+
                           <span data-ko-display="twVisible" data-ko-wrap="false">&nbsp;</span>
                           <a data-ko-display="twVisible" href="" style="-ko-attr-href: @twUrl">
-                            <img src="img/social_def/twitter_ok.png" alt="Twitter" border="0" class="socialIcon" />
+                            <img src="img/social_def/twitter_modern.png" alt="Twitter" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
                           </a>
+
                           <span data-ko-display="ggVisible" data-ko-wrap="false">&nbsp;</span>
                           <a data-ko-display="ggVisible" href="" style="-ko-attr-href: @ggUrl">
-                            <img src="img/social_def/google+_ok.png" alt="Google+" border="0" class="socialIcon" />
+                            <img src="img/social_def/google_modern.png" alt="Google+" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
                           </a>
+
                           <span data-ko-display="webVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="webVisible" href="" style="-ko-attr-href: @webUrl; display: none">
-                            <img src="img/social_def/web_ok.png" alt="Web" border="0" class="socialIcon" />
+                            <img src="img/social_def/web_modern.png" alt="Web" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
                           </a>
+
                           <span data-ko-display="inVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="inVisible" href="" style="-ko-attr-href: @inUrl; display: none">
-                            <img src="img/social_def/linkedin_ok.png" alt="Linkedin" border="0" class="socialIcon" />
+                            <img src="img/social_def/linkedin_modern.png" alt="Linkedin" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
                           </a>
+
                           <span data-ko-display="flVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="flVisible" href="" style="-ko-attr-href: @flUrl; display: none">
-                            <img src="img/social_def/flickr_ok.png" alt="Flickr" border="0" class="socialIcon" />
+                            <img src="img/social_def/flickr_modern.png" alt="Flickr" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
                           </a>
+
                           <span data-ko-display="viVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="viVisible" href="" style="-ko-attr-href: @viUrl; display: none">
-                            <img src="img/social_def/vimeo_ok.png" alt="Vimeo" border="0" class="socialIcon" />
+                            <img src="img/social_def/vimeo_modern.png" alt="Vimeo" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
                           </a>
+
                           <span data-ko-display="instVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="instVisible" href="" style="-ko-attr-href: @instUrl; display: none">
-                            <img src="img/social_def/instagram_ok.png" alt="Instagram" border="0"  class="socialIcon" />
+                            <img src="img/social_def/instagram_modern.png" alt="Instagram" border="0"  class="socialIcon" style="display:block;margin:0 3px;"/>
                           </a>
+
                           <span data-ko-display="youVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="youVisible" href="" style="-ko-attr-href: @youUrl; display: none">
-                            <img src="img/social_def/youtube_ok.png" alt="Youtube" border="0" class="socialIcon" />
+                            <img src="img/social_def/youtube_modern.png" alt="Youtube" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
                           </a>
+
                         </td>
-                        <td align="right" valign="middle" class="links-color socialLinks mobile-textcenter" data-ko-display="socialIconType eq 'bw'"
+                        <td align="center" valign="middle" class="links-color socialLinks mobile-textcenter" data-ko-display="socialIconType eq 'bw'"
                           style="display: none">
                           <span data-ko-display="fbVisible" data-ko-wrap="false">&nbsp;</span>
                           <a data-ko-display="fbVisible" href="" style="-ko-attr-href: @fbUrl">
-                            <img src="img/social_def/facebook_bw_ok.png" alt="Facebook" border="0" class="socialIcon" />
+                            <img src="img/social_def/facebook_bw_modern.png" alt="Facebook" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
                           </a>
                           <span data-ko-display="twVisible" data-ko-wrap="false">&nbsp;</span>
                           <a data-ko-display="twVisible" href="" style="-ko-attr-href: @twUrl">
-                            <img src="img/social_def/twitter_bw_ok.png" alt="Twitter" border="0" class="socialIcon" />
+                            <img src="img/social_def/twitter_bw_modern.png" alt="Twitter" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
                           </a>
                           <span data-ko-display="ggVisible" data-ko-wrap="false">&nbsp;</span>
                           <a data-ko-display="ggVisible" href="" style="-ko-attr-href: @ggUrl">
-                            <img src="img/social_def/google+_bw_ok.png" alt="Google+" border="0" class="socialIcon" />
+                            <img src="img/social_def/google_bw_modern.png" alt="Google+" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
                           </a>
                           <span data-ko-display="webVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="webVisible" href="" style="-ko-attr-href: @webUrl; display: none">
-                            <img src="img/social_def/web_bw_ok.png" alt="Web" border="0" class="socialIcon" />
+                            <img src="img/social_def/web_bw_modern.png" alt="Web" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
                           </a>
                           <span data-ko-display="inVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="inVisible" href="" style="-ko-attr-href: @inUrl; display: none">
-                            <img src="img/social_def/linkedin_bw_ok.png" alt="Linkedin" border="0" class="socialIcon" />
+                            <img src="img/social_def/linkedin_bw_modern.png" alt="Linkedin" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
                           </a>
                           <span data-ko-display="flVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="flVisible" href="" style="-ko-attr-href: @flUrl; display: none">
-                            <img src="img/social_def/flickr_bw_ok.png" alt="Flickr" border="0" class="socialIcon" />
+                            <img src="img/social_def/flickr_bw_modern.png" alt="Flickr" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
                           </a>
                           <span data-ko-display="viVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="viVisible" href="" style="-ko-attr-href: @viUrl; display: none">
-                            <img src="img/social_def/vimeo_bw_ok.png" alt="Vimeo" border="0" class="socialIcon" />
+                            <img src="img/social_def/vimeo_bw_modern.png" alt="Vimeo" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
                           </a>
                           <span data-ko-display="instVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="instVisible" href="" style="-ko-attr-href: @instUrl; display: none">
-                            <img src="img/social_def/instagram_bw_ok.png" alt="Instagram" border="0"  class="socialIcon" />
+                            <img src="img/social_def/instagram_bw_modern.png" alt="Instagram" border="0"  class="socialIcon" style="display:block;margin:0 3px;"/>
                           </a>
                           <span data-ko-display="youVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="youVisible" href="" style="-ko-attr-href: @youUrl; display: none">
-                            <img src="img/social_def/youtube_bw_ok.png" alt="Youtube" border="0" class="socialIcon" />
+                            <img src="img/social_def/youtube_bw_modern.png" alt="Youtube" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
+                          </a>
+                        </td>
+                        <td align="center" valign="middle" class="links-color socialLinks mobile-textcenter" data-ko-display="socialIconType eq 'white'"
+                          style="display: none">
+                          <span data-ko-display="fbVisible" data-ko-wrap="false">&nbsp;</span>
+                          <a data-ko-display="fbVisible" href="" style="-ko-attr-href: @fbUrl">
+                            <img src="img/social_def/facebook_white_modern.png" alt="Facebook" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
+                          </a>
+                          <span data-ko-display="twVisible" data-ko-wrap="false">&nbsp;</span>
+                          <a data-ko-display="twVisible" href="" style="-ko-attr-href: @twUrl">
+                            <img src="img/social_def/twitter_white_modern.png" alt="Twitter" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
+                          </a>
+                          <span data-ko-display="ggVisible" data-ko-wrap="false">&nbsp;</span>
+                          <a data-ko-display="ggVisible" href="" style="-ko-attr-href: @ggUrl">
+                            <img src="img/social_def/google_white_modern.png" alt="Google+" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
+                          </a>
+                          <span data-ko-display="webVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
+                          <a data-ko-display="webVisible" href="" style="-ko-attr-href: @webUrl; display: none">
+                            <img src="img/social_def/web_white_modern.png" alt="Web" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
+                          </a>
+                          <span data-ko-display="inVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
+                          <a data-ko-display="inVisible" href="" style="-ko-attr-href: @inUrl; display: none">
+                            <img src="img/social_def/linkedin_white_modern.png" alt="Linkedin" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
+                          </a>
+                          <span data-ko-display="flVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
+                          <a data-ko-display="flVisible" href="" style="-ko-attr-href: @flUrl; display: none">
+                            <img src="img/social_def/flickr_white_modern.png" alt="Flickr" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
+                          </a>
+                          <span data-ko-display="viVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
+                          <a data-ko-display="viVisible" href="" style="-ko-attr-href: @viUrl; display: none">
+                            <img src="img/social_def/vimeo_white_modern.png" alt="Vimeo" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
+                          </a>
+                          <span data-ko-display="instVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
+                          <a data-ko-display="instVisible" href="" style="-ko-attr-href: @instUrl; display: none">
+                            <img src="img/social_def/instagram_white_modern.png" alt="Instagram" border="0"  class="socialIcon" style="display:block;margin:0 3px;"/>
+                          </a>
+                          <span data-ko-display="youVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
+                          <a data-ko-display="youVisible" href="" style="-ko-attr-href: @youUrl; display: none">
+                            <img src="img/social_def/youtube_white_modern.png" alt="Youtube" border="0" class="socialIcon" style="display:block;margin:0 3px;"/>
                           </a>
                         </td>
                       </tr>
@@ -1499,38 +1730,68 @@
   </div>
 
   <!-- footerBlock -->
-  <table class="vb-outer" width="100%" cellpadding="0" border="0" cellspacing="0" bgcolor="#bfbfbf"
-    style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor" data-ko-block="footerBlock">
+  <table class="vb-outer" width="100%" cellpadding="0" border="0" cellspacing="0" bgcolor="transparent" data-ko-block="footerBlock">
     <tr>
-      <td class="vb-outer" align="center" valign="top" bgcolor="#bfbfbf"
-        style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
+      <td>
+        <table class="vb-outer" width="100%" cellpadding="0" border="0" cellspacing="0" bgcolor="#bfbfbf"
+          style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
+          <tr>
+            <td class="vb-outer" align="center" valign="top" bgcolor="#bfbfbf"
+              style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
 
-<!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
-        <div class="oldwebkit">
-        <table width="570" border="0" cellpadding="0" cellspacing="0" class="vb-container halfpad" bgcolor="#ffffff" align="center"
-          style="width: 100%; max-width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
-          <tr>
-            <td data-ko-editable="longText" class="long-text links-color"
-                style="text-align:center; font-size: 13px;color: #3f3f3f; font-weight: normal; text-align:center; font-family: Arial, Helvetica, sans-serif;
-                -ko-font-size: @[longTextStyle.size]px; -ko-color: @longTextStyle.color; -ko-font-family: @longTextStyle.face"><p>Email sent to <a href="mailto:[mail]">[mail]</a></p></td>
-          </tr>
-          <tr>
-            <td style="text-align: center;">
-              <a style="text-decoration: underline; color: #ffffff; text-align: center; font-size: 13px;
-                font-weight: normal; font-family: Arial, Helvetica, sans-serif;
-                -ko-text-decoration: @linkStyle.decoration; -ko-color: @linkStyle.color; -ko-font-size: @[linkStyle.size]px; -ko-font-family: @linkStyle.face"
-                href="[unsubscribe]"><span data-ko-editable="disiscrivitiText">Unsubscribe</span></a>
-            </td>
-          </tr>
-          <tr data-ko-display="_root_.sponsor.visible" style="display: none;text-align:center">
-            <td align="center">
-                <a href="" style="-ko-attr-href: @_root_.sponsor.url;"><img border="0" hspace="0" vspace="0" src="img/sponsor.gif" alt="sponsor"
-                  style="Margin:auto;display:inline !important; -ko-attr-src: @_root_.sponsor.src; -ko-attr-alt: @_root_.sponsor.alt" /></a>
+      <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
+              <div class="oldwebkit">
+
+              <table width="570" data-ko-display="!unsubscribeVisible" border="0" cellpadding="0" cellspacing="0" class="vb-container halfpad" bgcolor="#ffffff" align="center"
+                style="display:none;width: 100%; max-width: 570px; background-color: #ffffff;text-align:center; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
+                <tr>
+                  <td data-ko-editable="longText" class="long-text links-color" align="center" valign="top"
+                      style="width:100%;font-size: 13px;color: #3f3f3f; font-weight: normal; font-family: Arial, Helvetica, sans-serif;text-align:left;
+                      -ko-font-size: @[longTextStyle.size]px; -ko-color: @longTextStyle.color; -ko-font-family: @longTextStyle.face;"><p>Email sent to <a href="mailto:[mail]">[mail]</a></p>
+                  </td>
+                </tr>
+              </table>
+
+              <table width="570" data-ko-display="unsubscribeVisible" border="0" cellpadding="0" cellspacing="0" class="vb-container halfpad" bgcolor="#ffffff" align="center"
+                style="display:none;width: 100%; max-width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
+                <tr>
+                  <td data-ko-editable="longText" class="long-text links-color" align="center" valign="top"
+                      style="width:100%;font-size: 13px;color: #3f3f3f; font-weight: normal; font-family: Arial, Helvetica, sans-serif;text-align:center;
+                      -ko-font-size: @[longTextStyle.size]px; -ko-color: @longTextStyle.color; -ko-font-family: @longTextStyle.face;"><p>Email sent to <a href="mailto:[mail]">[mail]</a></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td data-ko-editable="footerText" class="long-text links-color" align="center" valign="top"
+                      style="width:100%;font-size: 13px;color: #3f3f3f; font-weight: normal; font-family: Arial, Helvetica, sans-serif;text-align:center;
+                      -ko-font-size: @[footerTextStyle.size]px; -ko-color: @footerTextStyle.color; -ko-font-family: @footerTextStyle.face;">
+                      <p>No longer wish to receive this e-mail? You can <a href="[unsubscribe]">Unsubscribe Here</a></p>
+                  </td>
+                </tr>
+              </table>
+
+              </div>
+      <!--[if (gte mso 9)|(lte ie 8)]></td></tr></table><![endif]-->
             </td>
           </tr>
         </table>
-        </div>
-<!--[if (gte mso 9)|(lte ie 8)]></td></tr></table><![endif]-->
+        <table cellspacing="0" cellpadding="0" data-ko-display="sponsorVisible | _root_.sponsor.visible" style="display: none;text-align:center;width:100%;" class="vb-outer">
+          <tr>
+            <td align="center" style="padding:20px;background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor" class="vb-outer">
+                <table width="570" border="0" cellpadding="0" cellspacing="0" align="center" valign="top" style="padding:0 20px;">
+                  <tr>
+                    <td cellpadding="0" cellspacing="0" align="center" valign="top" style="padding:20px 0;width:100%;border-top:1px solid #e8e8e8;">
+                      <span style="font-family:'Helvetica',sans-serif;font-weight:normal;font-size:13px;color:#272727;opacity:.5;width:100%;text-align:center; display:block;">
+                        This e-mail is powered by Hugo,<br/>
+                        Ensuring a great experience
+                      </span>
+                      <a href="" style="padding:16px 0;display:block;width:100%;text-align:center;-ko-attr-href: @_root_.sponsor.url;"><img border="0" hspace="0" vspace="0" src="img/sponsor.gif" alt="sponsor"
+                        style="Margin:auto;display:inline !important; -ko-attr-src: @_root_.sponsor.src; -ko-attr-alt: @_root_.sponsor.alt" target="_blank" /></a>
+                    </td>
+                  </tr>
+                </table>
+            </td>
+          </tr>
+        </table>
       </td>
     </tr>
   </table>
