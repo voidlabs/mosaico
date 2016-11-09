@@ -304,7 +304,7 @@
       socialBlock youUrl { label: YouTube Link}
       socialBlock {
         label: Social Block;
-        properties: socialIconType=bw fbVisible=true fbUrl twVisible=true twUrl ggVisible=true ggUrl webVisible=false webUrl inVisible=false inUrl flVisible=false flUrl viVisible=false viUrl instVisible=false instUrl youVisible=false youUrl longTextStyle longText backgroundColor;
+        properties: socialIconType=bw addressSocialVisible=true fbVisible=true fbUrl twVisible=true twUrl ggVisible=true ggUrl webVisible=false webUrl inVisible=false inUrl flVisible=false flUrl viVisible=false viUrl instVisible=false instUrl youVisible=false youUrl longTextStyle longText backgroundColor;
         variant:socialIconType;
         theme: contentTheme
       }
@@ -1578,7 +1578,7 @@
                           style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;text-align:left;
                           -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color;height:100%;"
                           data-ko-editable="longText" class="long-text links-color mobile-textcenter">
-                          <p>Address and Contacts</p>
+                          <p style="text-align: center;">Contacts and Address</p>
                         </td>
                       </tr>
                     </table>
