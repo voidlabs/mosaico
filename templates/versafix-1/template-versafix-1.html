@@ -601,8 +601,11 @@
             <td class="vb-outer" align="center" valign="top" bgcolor="#bfbfbf" cellpadding="0" cellspacing="0"
                 style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
 
+                <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
+                <div class="oldwebkit">
+
                 <table width="570" border="0" cellpadding="0" cellspacing="0" class="vb-row halfpad" bgcolor="#ffffff"
-                style="width: 100%; max-width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
+                style="width:100%; width:570px; max-width:570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
                     <tr>
                         <td align="center" valign="top" bgcolor="#ffffff" style="font-size: 0; background-color: #ffffff;padding:20px 0 5px 0;
                         -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor" align="center">
@@ -636,6 +639,10 @@
                         </td>
                     </tr>
                 </table>
+
+                </div>
+                <!--[if (gte mso 9)|(lte ie 8)]></td></tr></table><![endif]-->
+
             </td>
         </tr>
     </table>
@@ -1543,7 +1550,7 @@
         <table width="570" border="0" cellpadding="0" cellspacing="0" class="vb-row halfpad" bgcolor="#ffffff"
             style="width: 100%; max-width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
             <tr>
-            <td align="center" valign="middle" bgcolor="#ffffff" style="font-size: 0; background-color: #ffffff;padding:16px 0;
+            <td align="center" valign="middle" bgcolor="#ffffff" style="font-size: 0; background-color: #ffffff;padding:16px 0;width:100%; max-width:570px;
                 -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor" align="left">
 
 
@@ -1562,9 +1569,9 @@
                         </tr>
                     </table>
 
-                    <table class="vb-content" border="0" cellspacing="9" cellpadding="0" width="100%" style="width:100%;padding:20px 0;" align="center">
+                    <table class="vb-content" border="0" cellspacing="9" cellpadding="0" width="100%" style="width:100%;max-width:570px;padding:20px 0;" align="center">
                         <tr>
-                        <td align="center" valign="middle" class="links-color socialLinks mobile-textcenter" data-ko-display="socialIconType eq 'colors'">
+                        <td align="center" valign="middle" class="links-color socialLinks mobile-textcenter" data-ko-display="socialIconType eq 'colors'" style="width:100%;">
                             <span data-ko-display="fbVisible" data-ko-wrap="false">&nbsp;</span>
                             <a data-ko-display="fbVisible" href="" style="-ko-attr-href: @fbUrl">
                             <img src="img/social_def/facebook_modern.png" alt="Facebook" border="0" class="socialIcon" style=""/>
@@ -1612,7 +1619,7 @@
 
                         </td>
                         <td align="center" valign="middle" class="links-color socialLinks mobile-textcenter" data-ko-display="socialIconType eq 'bw'"
-                            style="display: none">
+                            style="display: none;width:100%;">
                             <span data-ko-display="fbVisible" data-ko-wrap="false">&nbsp;</span>
                             <a data-ko-display="fbVisible" href="" style="-ko-attr-href: @fbUrl">
                             <img src="img/social_def/facebook_bw_modern.png" alt="Facebook" border="0" class="socialIcon" style=""/>
@@ -1651,7 +1658,7 @@
                             </a>
                         </td>
                         <td align="center" valign="middle" class="links-color socialLinks mobile-textcenter" data-ko-display="socialIconType eq 'white'"
-                            style="display: none">
+                            style="display: none;width:100%;">
                             <span data-ko-display="fbVisible" data-ko-wrap="false">&nbsp;</span>
                             <a data-ko-display="fbVisible" href="" style="-ko-attr-href: @fbUrl">
                             <img src="img/social_def/facebook_white_modern.png" alt="Facebook" border="0" class="socialIcon" style=""/>
@@ -1709,10 +1716,11 @@
     </div>
 
     <!-- footerBlock -->
-    <table class="vb-outer" width="100%" cellpadding="0" border="0" cellspacing="0" bgcolor="transparent" data-ko-block="footerBlock">
+<div style="display:inline-block; width:100%; max-width:570px; vertical-align:top;" class="mobile-full">
+    <table class="vb-outer" width="100%" align="center" valign="top" cellpadding="0" border="0" cellspacing="0" bgcolor="transparent" data-ko-block="footerBlock">
     <tr>
         <td>
-        <table class="vb-outer" width="100%" cellpadding="0" border="0" cellspacing="0" bgcolor="#bfbfbf"
+        <table class="vb-outer" align="center" valign="top" width="100%" cellpadding="0" border="0" cellspacing="0" bgcolor="#bfbfbf"
             style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
             <tr>
             <td class="vb-outer" align="center" valign="top" bgcolor="#bfbfbf"
@@ -1721,7 +1729,7 @@
         <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
                 <div class="oldwebkit">
 
-                <table width="570" data-ko-display="!unsubscribeVisible" border="0" cellpadding="0" cellspacing="0" class="vb-container halfpad" bgcolor="#ffffff" align="center"
+                <table width="570" data-ko-display="!unsubscribeVisible" border="0" cellpadding="0" cellspacing="0" class="vb-container" bgcolor="#ffffff" align="center"
                 style="display:none;width: 100%; max-width: 570px; background-color: #ffffff;text-align:center; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
                 <tr>
                     <td data-ko-editable="longText" class="long-text links-color" align="center" valign="top"
@@ -1731,11 +1739,11 @@
                 </tr>
                 </table>
 
-                <table width="570" data-ko-display="unsubscribeVisible" border="0" cellpadding="0" cellspacing="0" class="vb-container halfpad" bgcolor="#ffffff" align="center"
+                <table width="570" data-ko-display="unsubscribeVisible" border="0" cellpadding="0" cellspacing="0" class="vb-container" bgcolor="#ffffff" align="center"
                 style="display:none;width: 100%; max-width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
                 <tr>
                     <td data-ko-editable="longText" class="long-text links-color" align="center" valign="top"
-                        style="width:100%;font-size: 13px;color: #3f3f3f; font-weight: normal; font-family: Arial, Helvetica, sans-serif;text-align:center;
+                        style="width:100%;font-size: 13px;color: #3f3f3f; font-weight: normal; font-family: Arial, Helvetica, sans-serif;text-align:center;padding-top:20px;
                         -ko-font-size: @[longTextStyle.size]px; -ko-color: @longTextStyle.color; -ko-font-family: @longTextStyle.face;"><p>Email sent to <a href="mailto:[mail]">[mail]</a></p>
                     </td>
                 </tr>
@@ -1749,16 +1757,21 @@
                 </table>
 
                 </div>
+
         <!--[if (gte mso 9)|(lte ie 8)]></td></tr></table><![endif]-->
             </td>
             </tr>
         </table>
-        <table cellspacing="0" cellpadding="0" data-ko-display="sponsorVisible | _root_.sponsor.visible" style="display: none;text-align:center;width:100%;" class="vb-outer">
+        <table cellspacing="0" cellpadding="0" data-ko-display="sponsorVisible | _root_.sponsor.visible" style="display: none;text-align:center;width:100%;max-width:570px;" class="vb-outer">
             <tr>
             <td align="center" style="padding:20px;background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor" class="vb-outer">
-                <table width="570" border="0" cellpadding="0" cellspacing="0" align="center" valign="top" style="padding:0 20px;">
+
+        <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
+                <div class="oldwebkit">
+
+                <table width="570" border="0" cellpadding="0" cellspacing="0" align="center" valign="top" style="width:100%;max-width:570px;box-sizing:border-box;padding:0;">
                     <tr>
-                    <td cellpadding="0" cellspacing="0" align="center" valign="top" style="padding:20px 0 0 0;width:100%;border-top:1px solid #e8e8e8;">
+                    <td cellpadding="0" cellspacing="0" align="center" valign="top" style="padding:20px 0 0 0;width:90%;max-width:530px;border-top:1px solid #e8e8e8;">
                         <span style="font-family:'Helvetica',sans-serif;font-weight:normal;font-size:13px;color:#272727;opacity:.5;width:100%;text-align:center; display:block;">
                         This e-mail is powered by Hugo,<br/>
                         Ensuring a great experience
@@ -1774,12 +1787,17 @@
                     </td>
                     </tr>
                 </table>
+
+                </div>
+        <!--[if (gte mso 9)|(lte ie 8)]></td></tr></table><![endif]-->
+
             </td>
             </tr>
         </table>
         </td>
     </tr>
     </table>
+</div>
     <!-- /footerBlock -->
 
     </center>
