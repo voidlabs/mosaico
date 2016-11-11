@@ -457,6 +457,7 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
     ko.applyBindings(viewModel, frameEl);
 
     ko.cleanNode(frameEl);
+
     if (viewModel.inline) viewModel.inline(frameEl.contentWindow.document);
 
     // Obsolete method didn't work on IE11 when using "HTML5 doctype":
@@ -476,7 +477,7 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
     // Remove data-bind/data-block attributes
     content = content.replace(/ data-bind="[^"]*"/gm, '');
     // Remove trash leftover by TinyMCE
-    content = content.replace(/ data-mce-(href|src)="[^"]*"/gm, '');
+    content = content.replace(/ data-mce-(href|src|style)="[^"]*"/gm, '');
 
     // Replace "replacedstyle" to "style" attributes (chrome puts replacedstyle after style)
     content = content.replace(/ style="[^"]*"([^>]*) replaced(style="[^"]*")/gm, '$1 $2');
