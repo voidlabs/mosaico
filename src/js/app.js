@@ -34,17 +34,17 @@ var applyBindingOptions = function(options, ko) {
     var srcMatch = src.match(/^(https?:\/\/[^\/]*\/).*$/);
     if (backEndMatch === null || (srcMatch !== null && backEndMatch[1] == srcMatch[1])) {
       var serializedProcessorBackendUrl = imgProcessorBackend + "?src=" + src + "&method=" + method + "&params=" + width + "," + height;
-      return encodeURIComponent(serializedProcessorBackendUrl);
+      return serializedProcessorBackendUrl;
     } else {
       console.log("Cannot apply backend image resizing to non-local resources ", src, method, width, height, backEndMatch, srcMatch);
       var serializedUrl = src + "?method=" + method + "&width=" + width + (height !== null ? "&height=" + height : '');
-      return encodeURIComponent(serializedUrl);
+      return serializedUrl;
     }
   };
 
   ko.bindingHandlers.wysiwygSrc.placeholderUrl = function(width, height, text) {
-    var serializedPlaceholderUrl = options.imgProcessorBackend + "?method=" + 'placeholder' + "&params=" + width + encodeURIComponent(",") + height;
-    return encodeURIComponent(serializedPlaceholderUrl);
+    var serializedPlaceholderUrl = options.imgProcessorBackend + "?method=" + 'placeholder' + "&params=" + width + "," + height;
+    return serializedPlaceholderUrl;
   };
 
   // pushes custom tinymce configurations from options to the binding
