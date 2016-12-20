@@ -14,4 +14,3 @@ RUN npm install
 EXPOSE 9006
 
 CMD ["grunt", "test", "default"]
-
