@@ -40,7 +40,7 @@ ko.utils.domNodeDisposal.addDisposeCallback = function(node, callback) {
     try {
       callback(node);
     } catch (e) {
-      console.log("cought dispose callback exception", e);
+      console.log("caught dispose callback exception", e);
     }
   };
   origDisposeCallback(node, newCallback);
