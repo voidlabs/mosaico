@@ -24,7 +24,7 @@
     "knockout.wrap": "bago/knockout.wrap#mosaico",
     "jquery.iframe-transport": "~1.0.0",
     "tinymce": "~4.4.3",
-    "knockout": "~3.4.0",
+    "knockout": "3.4.0 - 3.4.1",
     "console-browserify": "~1.0.3",
     "font-awesome": "~4.6.3",
     "blueimp-file-upload": "~9.12.5",
@@ -71,6 +71,6 @@
     }
   },
   "resolutions": {
-    "knockout": "~3.4.0"
+    "knockout": "3.4.1"
   }
 }
