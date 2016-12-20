@@ -145,7 +145,7 @@ module.exports = function(grunt) {
         options: {
           port: 9006,
           showStack: true,
-          hostname: '127.0.0.1',
+          hostname: '0.0.0.0',
           open: true,
           bases: ['.'],
           server: 'backend/main.js'
