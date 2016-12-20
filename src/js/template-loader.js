@@ -40,7 +40,7 @@ ko.utils.domNodeDisposal.addDisposeCallback = function(node, callback) {
     try {
       callback(node);
     } catch (e) {
-      console.log("cought dispose callback exception", e);
+      console.warn("Caught unexpected dispose callback exception", e);
     }
   };
   origDisposeCallback(node, newCallback);
@@ -52,7 +52,7 @@ var bindingPluginMaker = function(performanceAwareCaller) {
       try {
         performanceAwareCaller('applyBindings', ko.applyBindings.bind(undefined, viewModel));
       } catch (err) {
-        console.log(err, err.stack);
+        console.warn(err, err.stack);
         throw err;
       }
     },
@@ -60,7 +60,7 @@ var bindingPluginMaker = function(performanceAwareCaller) {
       try {
         performanceAwareCaller('unapplyBindings', ko.cleanNode.bind(this, global.document.body));
       } catch (err) {
-        console.log(err, err.stack);
+        console.warn(err, err.stack);
         throw err;
       }
     }
@@ -392,8 +392,8 @@ var checkBadBrowserExtensions = function() {
   var expected2 = "<!DOCTYPE html>\n<html><head><title>A</title>\n</head>\n<body><p style=\"color: red;\" data-bind=\"style: { color: 'red' }\" align=\"right\">B</p><div data-bind=\"text: content\">dummy content</div>\n\n</body></html>";
   var expected3 = "<!DOCTYPE html>\n<html><head><title>A</title>\n</head>\n<body><p style=\"color: red;\" align=\"right\" data-bind=\"style: { color: 'red' }\">B</p><div data-bind=\"text: content\">dummy content</div>\n\n</body></html>";
   if (expected !== content && expected2 !== content && expected3 !== content) {
-    console.log("BadBrowser.FrameContentCheck", content.length, expected.length, expected2.length, expected3.length, content == expected, content == expected2, content == expected3);
-    console.log(content);
+    console.info("BadBrowser.FrameContentCheck", content.length, expected.length, expected2.length, expected3.length, content == expected, content == expected2, content == expected3);
+    console.info(content);
     throw "Unexpected frame content. Misbehaving browser: "+content.length+"/"+expected.length+"/"+expected2.length+"/"+expected3.length;
   }
 };
