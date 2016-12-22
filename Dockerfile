@@ -9,7 +9,7 @@ RUN npm install grunt-cli -g
 RUN mkdir -p /usr/src/mosaico
 COPY . /usr/src/mosaico
 WORKDIR /usr/src/mosaico
-RUN npm install --verbose
+RUN npm install
 
 EXPOSE 9006
 
