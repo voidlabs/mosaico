@@ -1,17 +1,13 @@
-FROM centos:centos7
+FROM node:7
 
-RUN yum clean all
-RUN yum -y install epel-release; yum clean all
-RUN yum -y install bzip2 tar git nodejs npm ImageMagick; yum clean all
+RUN apt-get install -y ImageMagick
 
-RUN npm install grunt-cli -g
-
-ADD package.json /tmp/package.json
-RUN cd /tmp && npm install
-RUN mkdir -p /opt/mosaico && cp -a /tmp/node_modules /opt/mosaico/
-
-WORKDIR /opt/mosaico
 ADD . /opt/mosaico
+WORKDIR /opt/mosaico
+
+RUN  npm install grunt-cli -g \
+ && npm install \
+ && npm cache clear
 
 EXPOSE 9006
 
