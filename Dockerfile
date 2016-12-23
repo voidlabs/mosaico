@@ -6,13 +6,11 @@ RUN yum -y install bzip2 tar git nodejs npm ImageMagick; yum clean all
 
 RUN npm install grunt-cli -g
 
-ADD package.json /tmp/package.json
-RUN cd /tmp && npm install
-RUN mkdir -p /opt/mosaico && cp -a /tmp/node_modules /opt/mosaico/
-
-WORKDIR /opt/mosaico
+RUN mkdir -p /opt/mosaico
 ADD . /opt/mosaico
+RUN cd /opt/mosaico && npm install --unsafe-perm
 
 EXPOSE 9006
 
+WORKDIR /opt/mosaico
 CMD ["grunt", "test", "default"]
