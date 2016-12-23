@@ -1,7 +1,5 @@
 FROM node:7
 
-RUN apt-get install -y ImageMagick
-
 ADD . /opt/mosaico
 WORKDIR /opt/mosaico
 
