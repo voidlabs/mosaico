@@ -143,12 +143,15 @@ module.exports = function(grunt) {
     express: {
       dev: {
         options: {
-          port: 9006,
+          /*
           showStack: true,
           hostname: '127.0.0.1',
           open: true,
           bases: ['.'],
-          server: 'backend/main.js'
+          */
+          script: 'backend/main.js',
+          background: true,
+          port: 9006,
         }
       }
     },
@@ -231,7 +234,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('js', ['combineKOTemplates', 'browserify', 'exorcise']);
   grunt.registerTask('css', ['less', 'postcss']);
-  grunt.registerTask('server', ['express', 'watch', 'express-keepalive']);
+  grunt.registerTask('server', ['express', 'watch', 'keepalive']);
   grunt.registerTask('build', ['bowercopy', 'copy', 'jshint', 'js', 'css']);
   grunt.registerTask('default', ['build', 'server']);
   grunt.registerTask('test', ['jasmine_node']);

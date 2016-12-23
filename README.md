@@ -48,6 +48,15 @@ grunt makeThumbs:main:yourtemplatename
 
 *NOTE* we have reports that default Ubuntu node package have issues with building Mosaico via Grunt. If you see a ```Fatal error: watch ENOSPC``` then have a look at https://github.com/voidlabs/mosaico/issues/82
 
+### Docker
+
+We bundle a small Dockerfile based on centos7 to test mosaico with no need to install dependencies.
+```
+docker build -t mosaico/mosaico .
+docker run -p 9006:9006 mosaico/mosaico
+```
+then open a browser to point to the port 9006 of your docker machine IP.
+
 ### Serving via Apache PHP or Django?
 First you have to build it using grunt, then you can read (https://github.com/voidlabs/mosaico/wiki/Serving-Mosaico).
 
