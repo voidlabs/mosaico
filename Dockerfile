@@ -8,7 +8,7 @@ RUN npm install grunt-cli -g
 
 ADD package.json /tmp/package.json
 RUN cd /tmp && npm install
-RUN mkdir -p /opt/mosaico && cp -a /tmp/node_modules /opt/mosaico/
+RUN mkdir -p /opt/mosaico && cp -a /tmp/node_modules /tmp/bower_components /opt/mosaico/
 
 WORKDIR /opt/mosaico
 ADD . /opt/mosaico
