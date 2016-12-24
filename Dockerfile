@@ -18,4 +18,4 @@ ADD . /opt/mosaico
 
 EXPOSE 9006
 
-CMD ["grunt", "test", "default"]
+CMD ["grunt", "default"]
