@@ -10,7 +10,7 @@ RUN npm install grunt-cli -g
 ADD package.json /tmp/package.json
 # also add bower because package.json post-install needs it.
 ADD bower.json /tmp/bower.json
-RUN cd /tmp && npm install
+RUN cd /tmp && npm install --unsafe-perm
 RUN mkdir -p /opt/mosaico && cp -a /tmp/node_modules /tmp/bower_components /opt/mosaico/
 
 WORKDIR /opt/mosaico
