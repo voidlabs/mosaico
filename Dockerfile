@@ -1,5 +1,6 @@
 FROM node:7
 
+
 ADD . /opt/mosaico
 WORKDIR /opt/mosaico
 
@@ -9,4 +10,5 @@ RUN  npm install grunt-cli -g \
 
 EXPOSE 9006
 
-CMD ["grunt", "test", "default"]
+CMD ["grunt", "default"]
+

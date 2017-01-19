@@ -1,6 +1,6 @@
 {
   "name": "mosaico",
-  "version": "0.15.0",
+  "version": "0.16.0",
   "description": "Free Email Template Editor",
   "main": "./src/js/app.js",
   "directories": {
@@ -81,8 +81,8 @@
   "author": "Stefano Bagnara",
   "license": "GPL-3.0",
   "scripts": {
-    "postinstall": "bower-npm-install --non-interactive",
-    "deps": "bower-npm-install --non-interactive",
+    "postinstall": "./node_modules/bower-npm-install/bin/bower-npm-install --non-interactive",
+    "deps": "./node_modules/bower-npm-install/bin/bower-npm-install --non-interactive",
     "test": "grunt jasmine_node"
   },
   "engine": "node >= 6.0.0"
