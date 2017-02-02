@@ -384,207 +384,216 @@
         socialshareBlock:preview { -ko-background-color: @[backgroundColor] }
     }
     </style>
-    <style type="text/css" data-inline="true">
-    body { Margin: 0; padding: 0; }
-    img { border: 0px; display: block; }
 
-    .socialLinks { font-size: 6px; }
-    .socialLinks a {
-        display: inline-block;
-    }
-    .socialIcon {
-        display: inline-block;
-        vertical-align: top;
-        padding-bottom: 0px;
-        border-radius: 0px;
-    }
-    .oldwebkit { max-width: 570px; }
-    td.vb-outer { padding-left: 9px; padding-right: 9px; }
-    table.vb-container, table.vb-row, table.vb-content {
-        border-collapse: separate;
-    }
-    table.vb-row {
-        border-spacing: 9px;
-    }
-    table.vb-row.halfpad {
-        border-spacing: 0;
-        padding-left: 9px;
-        padding-right: 9px;
-    }
-    table.vb-row.fullwidth {
-        border-spacing: 0;
-        padding: 0;
-    }
-    table.vb-container {
-        padding-left: 18px;
-        padding-right: 18px;
-    }
-    table.vb-container.fullpad {
-        border-spacing: 18px;
-        padding-left: 0;
-        padding-right: 0;
-    }
-    table.vb-container.halfpad {
-        border-spacing: 9px;
-        padding-left: 9px;
-        padding-right: 9px;
-    }
-    table.vb-container.fullwidth {
-        padding-left: 0;
-        padding-right: 0;
-    }
+    <style type="text/css" data-inline="true">
+        body { margin: 0; padding: 0; }
+        img { border: 0; display: block; }
+
+        .socialLinks { font-size: 6px; }
+        .socialLinks a {
+            display: inline-block;
+        }
+        .socialIcon {
+            display: inline-block;
+            vertical-align: top;
+            padding-bottom: 0px;
+            border-radius: 0px;
+        }
+        .oldwebkit { max-width: 570px; }
+        td.vb-outer { padding-left: 9px; padding-right: 9px; }
+        table.vb-container,
+        table.vb-row,
+        table.vb-content {
+            border-collapse: separate;
+        }
+        table.vb-row {
+            border-spacing: 9px;
+        }
+        table.vb-row.halfpad {
+            border-spacing: 0;
+            padding-left: 9px;
+            padding-right: 9px;
+        }
+        table.vb-row.fullwidth {
+            border-spacing: 0;
+            padding: 0;
+        }
+        table.vb-container {
+            padding-left: 18px;
+            padding-right: 18px;
+        }
+        table.vb-container.fullpad {
+            border-spacing: 18px;
+            padding-left: 0;
+            padding-right: 0;
+        }
+        table.vb-container.halfpad {
+            border-spacing: 9px;
+            padding-left: 9px;
+            padding-right: 9px;
+        }
+        table.vb-container.fullwidth {
+            padding-left: 0;
+            padding-right: 0;
+        }
     </style>
+
     <style type="text/css">
-    /* yahoo, hotmail */
-    .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div { line-height: 100%; }
-    .yshortcuts a { border-bottom: none !important; }
-    .vb-outer { min-width: 0 !important; }
-    .RMsgBdy, .ExternalClass {
-        width: 100%;
-        background-color: #bfbfbf;
-        -ko-background-color: @[_theme_.contentTheme.externalBackgroundColor]
-    }
-
-    /* outlook */
-    table { mso-table-rspace: 0pt; mso-table-lspace: 0pt; }
-    #outlook a { padding: 0; }
-    img { outline: none; text-decoration: none; border: none; -ms-interpolation-mode: bicubic; }
-    a img { border: none; }
-
-    @media screen and (max-device-width: 600px), screen and (max-width: 600px) {
-        table.vb-container, table.vb-row {
-        width: 95% !important;
+        /* yahoo, hotmail */
+        .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div { line-height: 100%; }
+        .yshortcuts a { border-bottom: none !important; }
+        .vb-outer { min-width: 0 !important; }
+        .RMsgBdy, .ExternalClass {
+            width: 100%;
+            background-color: #bfbfbf;
+            -ko-background-color: @[_theme_.contentTheme.externalBackgroundColor]
         }
 
-        .mobile-hide { display: none !important; }
-        .mobile-textcenter { text-align: center !important; }
+        /* outlook */
+        table { mso-table-rspace: 0pt; mso-table-lspace: 0pt; }
+        #outlook a { padding: 0; }
+        img { outline: none; text-decoration: none; border: none; -ms-interpolation-mode: bicubic; }
+        a img { border: none; }
 
-        .mobile-full {
-        float: none !important;
-        width: 100% !important;
-        max-width: none !important;
-        padding-right: 0 !important;
-        padding-left: 0 !important;
+        @media screen and (max-device-width: 600px), screen and (max-width: 600px) {
+            table.vb-container,
+            table.vb-row {
+              width: 95% !important;
+            }
+            table.vb-content {
+              width: 100% !important;
+            }
+
+            .mobile-hide { display: none !important; }
+            .mobile-textcenter { text-align: center !important; }
+
+            .mobile-full {
+                float: none !important;
+                width: 100% !important;
+                max-width: none !important;
+                padding-right: 0 !important;
+                padding-left: 0 !important;
+            }
+            img.mobile-full {
+                width: 100% !important;
+                max-width: none !important;
+                height: auto !important;
+            }
+            .inline {
+                display: inline-block;
+            }
         }
-        img.mobile-full {
-        width: 100% !important;
-        max-width: none !important;
-        height: auto !important;
-        }
-        .inline {
-          display: inline-block;
-        }
-    }
     </style>
+
     <style type="text/css" data-inline="true">
-    [data-ko-block=tripleArticleBlock] .links-color a,
-    [data-ko-block=tripleArticleBlock] .links-color a:link,
-    [data-ko-block=tripleArticleBlock] .links-color a:visited,
-    [data-ko-block=tripleArticleBlock] .links-color a:hover {
-        color: #3f3f3f;
-        -ko-color: @longTextStyle.linksColor;
-        text-decoration: underline;
-    }
-    [data-ko-block=tripleArticleBlock] .long-text p { Margin: 1em 0px; }
-    [data-ko-block=tripleArticleBlock] .long-text p:last-child { Margin-bottom: 0px; }
-    [data-ko-block=tripleArticleBlock] .long-text p:first-child { Margin-top: 0px; }
+        [data-ko-block=tripleArticleBlock] .links-color a,
+        [data-ko-block=tripleArticleBlock] .links-color a:link,
+        [data-ko-block=tripleArticleBlock] .links-color a:visited,
+        [data-ko-block=tripleArticleBlock] .links-color a:hover {
+            color: #3f3f3f;
+            -ko-color: @longTextStyle.linksColor;
+            text-decoration: underline;
+        }
+        [data-ko-block=tripleArticleBlock] .long-text p { Margin: 1em 0px; }
+        [data-ko-block=tripleArticleBlock] .long-text p:last-child { Margin-bottom: 0px; }
+        [data-ko-block=tripleArticleBlock] .long-text p:first-child { Margin-top: 0px; }
 
-    [data-ko-block=doubleArticleBlock] .links-color a,
-    [data-ko-block=doubleArticleBlock] .links-color a:link,
-    [data-ko-block=doubleArticleBlock] .links-color a:visited,
-    [data-ko-block=doubleArticleBlock] .links-color a:hover {
-        color: #3f3f3f;
-        -ko-color: @longTextStyle.linksColor;
-        text-decoration: underline;
-    }
-    [data-ko-block=doubleArticleBlock] .long-text p { Margin: 1em 0px; }
-    [data-ko-block=doubleArticleBlock] .long-text p:last-child { Margin-bottom: 0px; }
-    [data-ko-block=doubleArticleBlock] .long-text p:first-child { Margin-top: 0px; }
+        [data-ko-block=doubleArticleBlock] .links-color a,
+        [data-ko-block=doubleArticleBlock] .links-color a:link,
+        [data-ko-block=doubleArticleBlock] .links-color a:visited,
+        [data-ko-block=doubleArticleBlock] .links-color a:hover {
+            color: #3f3f3f;
+            -ko-color: @longTextStyle.linksColor;
+            text-decoration: underline;
+        }
+        [data-ko-block=doubleArticleBlock] .long-text p { Margin: 1em 0px; }
+        [data-ko-block=doubleArticleBlock] .long-text p:last-child { Margin-bottom: 0px; }
+        [data-ko-block=doubleArticleBlock] .long-text p:first-child { Margin-top: 0px; }
 
-    [data-ko-block=singleArticleBlock] .links-color a,
-    [data-ko-block=singleArticleBlock] .links-color a:link,
-    [data-ko-block=singleArticleBlock] .links-color a:visited,
-    [data-ko-block=singleArticleBlock] .links-color a:hover {
-        color: #3f3f3f;
-        -ko-color: @longTextStyle.linksColor;
-        text-decoration: underline;
-    }
-    [data-ko-block=singleArticleBlock] .long-text p { Margin: 1em 0px; }
-    [data-ko-block=singleArticleBlock] .long-text p:last-child { Margin-bottom: 0px; }
-    [data-ko-block=singleArticleBlock] .long-text p:first-child { Margin-top: 0px; }
+        [data-ko-block=singleArticleBlock] .links-color a,
+        [data-ko-block=singleArticleBlock] .links-color a:link,
+        [data-ko-block=singleArticleBlock] .links-color a:visited,
+        [data-ko-block=singleArticleBlock] .links-color a:hover {
+            color: #3f3f3f;
+            -ko-color: @longTextStyle.linksColor;
+            text-decoration: underline;
+        }
+        [data-ko-block=singleArticleBlock] .long-text p { Margin: 1em 0px; }
+        [data-ko-block=singleArticleBlock] .long-text p:last-child { Margin-bottom: 0px; }
+        [data-ko-block=singleArticleBlock] .long-text p:first-child { Margin-top: 0px; }
 
-    [data-ko-block=textBlock] .links-color a,
-    [data-ko-block=textBlock] .links-color a:link,
-    [data-ko-block=textBlock] .links-color a:visited,
-    [data-ko-block=textBlock] .links-color a:hover {
-        color: #3f3f3f;
-        -ko-color: @longTextStyle.linksColor;
-        text-decoration: underline;
-    }
-    [data-ko-block=textBlock] .long-text p { Margin: 1em 0px; }
-    [data-ko-block=textBlock] .long-text p:last-child { Margin-bottom: 0px; }
-    [data-ko-block=textBlock] .long-text p:first-child { Margin-top: 0px; }
+        [data-ko-block=textBlock] .links-color a,
+        [data-ko-block=textBlock] .links-color a:link,
+        [data-ko-block=textBlock] .links-color a:visited,
+        [data-ko-block=textBlock] .links-color a:hover {
+            color: #3f3f3f;
+            -ko-color: @longTextStyle.linksColor;
+            text-decoration: underline;
+        }
+        [data-ko-block=textBlock] .long-text p { Margin: 1em 0px; }
+        [data-ko-block=textBlock] .long-text p:last-child { Margin-bottom: 0px; }
+        [data-ko-block=textBlock] .long-text p:first-child { Margin-top: 0px; }
 
-    [data-ko-block=sideArticleBlock] .links-color a,
-    [data-ko-block=sideArticleBlock] .links-color a:link,
-    [data-ko-block=sideArticleBlock] .links-color a:visited,
-    [data-ko-block=sideArticleBlock] .links-color a:hover {
-        color: #3f3f3f;
-        -ko-color: @longTextStyle.linksColor;
-        text-decoration: underline;
-    }
-    [data-ko-block=sideArticleBlock] .long-text p { Margin: 1em 0px; }
-    [data-ko-block=sideArticleBlock] .long-text p:last-child { Margin-bottom: 0px; }
-    [data-ko-block=sideArticleBlock] .long-text p:first-child { Margin-top: 0px; }
+        [data-ko-block=sideArticleBlock] .links-color a,
+        [data-ko-block=sideArticleBlock] .links-color a:link,
+        [data-ko-block=sideArticleBlock] .links-color a:visited,
+        [data-ko-block=sideArticleBlock] .links-color a:hover {
+            color: #3f3f3f;
+            -ko-color: @longTextStyle.linksColor;
+            text-decoration: underline;
+        }
+        [data-ko-block=sideArticleBlock] .long-text p { Margin: 1em 0px; }
+        [data-ko-block=sideArticleBlock] .long-text p:last-child { Margin-bottom: 0px; }
+        [data-ko-block=sideArticleBlock] .long-text p:first-child { Margin-top: 0px; }
 
-    [data-ko-block=socialBlock] .links-color a,
-    [data-ko-block=socialBlock] .links-color a:link,
-    [data-ko-block=socialBlock] .links-color a:visited,
-    [data-ko-block=socialBlock] .links-color a:hover {
-        color: #3f3f3f;
-        -ko-color: @longTextStyle.linksColor;
-        text-decoration: underline;
-    }
-    [data-ko-block=socialBlock] .long-text p { Margin: 1em 0px; }
-    [data-ko-block=socialBlock] .long-text p:last-child { Margin-bottom: 0px; }
-    [data-ko-block=socialBlock] .long-text p:first-child { Margin-top: 0px; }
+        [data-ko-block=socialBlock] .links-color a,
+        [data-ko-block=socialBlock] .links-color a:link,
+        [data-ko-block=socialBlock] .links-color a:visited,
+        [data-ko-block=socialBlock] .links-color a:hover {
+            color: #3f3f3f;
+            -ko-color: @longTextStyle.linksColor;
+            text-decoration: underline;
+        }
+        [data-ko-block=socialBlock] .long-text p { Margin: 1em 0px; }
+        [data-ko-block=socialBlock] .long-text p:last-child { Margin-bottom: 0px; }
+        [data-ko-block=socialBlock] .long-text p:first-child { Margin-top: 0px; }
 
-    [data-ko-block=footerBlock] .links-color a,
-    [data-ko-block=footerBlock] .links-color a:link,
-    [data-ko-block=footerBlock] .links-color a:visited,
-    [data-ko-block=footerBlock] .links-color a:hover {
-        color: #3f3f3f;
-        -ko-color: @longTextStyle.linksColor;
-        text-decoration: underline;
-    }
-    [data-ko-block=footerBlock] .long-text p { Margin: 1em 0px; }
-    [data-ko-block=footerBlock] .long-text p:last-child { Margin-bottom: 0px; }
-    [data-ko-block=footerBlock] .long-text p:first-child { Margin-top: 0px; }
+        [data-ko-block=footerBlock] .links-color a,
+        [data-ko-block=footerBlock] .links-color a:link,
+        [data-ko-block=footerBlock] .links-color a:visited,
+        [data-ko-block=footerBlock] .links-color a:hover {
+            color: #3f3f3f;
+            -ko-color: @longTextStyle.linksColor;
+            text-decoration: underline;
+        }
+        [data-ko-block=footerBlock] .long-text p { Margin: 1em 0px; }
+        [data-ko-block=footerBlock] .long-text p:last-child { Margin-bottom: 0px; }
+        [data-ko-block=footerBlock] .long-text p:first-child { Margin-top: 0px; }
 
-    [data-ko-block=doubleImageBlock] a,
-    [data-ko-block=doubleImageBlock] a:link,
-    [data-ko-block=doubleImageBlock] a:visited,
-    [data-ko-block=doubleImageBlock] a:hover {
-        color: #3f3f3f;
-        -ko-color: @longTextStyle.linksColor;
-        text-decoration: underline;
-    }
-    [data-ko-block=tripleImageBlock] a,
-    [data-ko-block=tripleImageBlock] a:link,
-    [data-ko-block=tripleImageBlock] a:visited,
-    [data-ko-block=tripleImageBlock] a:hover {
-        color: #3f3f3f;
-        -ko-color: @longTextStyle.linksColor;
-        text-decoration: underline;
-    }
-    [data-ko-block=imageBlock] a,
-    [data-ko-block=imageBlock] a:link,
-    [data-ko-block=imageBlock] a:visited,
-    [data-ko-block=imageBlock] a:hover {
-        color: #3f3f3f;
-        -ko-color: @longTextStyle.linksColor;
-        text-decoration: underline;
-    }
+        [data-ko-block=doubleImageBlock] a,
+        [data-ko-block=doubleImageBlock] a:link,
+        [data-ko-block=doubleImageBlock] a:visited,
+        [data-ko-block=doubleImageBlock] a:hover {
+            color: #3f3f3f;
+            -ko-color: @longTextStyle.linksColor;
+            text-decoration: underline;
+        }
+        [data-ko-block=tripleImageBlock] a,
+        [data-ko-block=tripleImageBlock] a:link,
+        [data-ko-block=tripleImageBlock] a:visited,
+        [data-ko-block=tripleImageBlock] a:hover {
+            color: #3f3f3f;
+            -ko-color: @longTextStyle.linksColor;
+            text-decoration: underline;
+        }
+        [data-ko-block=imageBlock] a,
+        [data-ko-block=imageBlock] a:link,
+        [data-ko-block=imageBlock] a:visited,
+        [data-ko-block=imageBlock] a:hover {
+            color: #3f3f3f;
+            -ko-color: @longTextStyle.linksColor;
+            text-decoration: underline;
+        }
     </style>
 </head>
 
@@ -667,7 +676,7 @@
             <td valign="top" align="center">
 
 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="258" style="-ko-attr-width: @[imageWidth]"><tr><td align="center" valign="top"><![endif]-->
-<div style="display:inline-block; max-width:258px; -ko-max-width: @[imageWidth]px; vertical-align:top; width:100%;" class="mobile-full">
+<div class="mobile-full" style="display:inline-block; max-width:258px; -ko-max-width: @[imageWidth]px; vertical-align:top; width:100%">
                     <a data-ko-link="image.url" href="" style="font-size: 18px; font-family: Arial, Helvetica, sans-serif; color: #f3f3f3;
                         text-decoration: none; -ko-font-size: @[externalTextStyle.size]px;
                         -ko-font-family: @externalTextStyle.face; -ko-color: @externalTextStyle.color"><img
@@ -703,9 +712,9 @@
             <td align="center" class="mobile-row" valign="top" style="font-size: 0;">
 
 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="552"><tr><![endif]-->
-<div data-ko-display="imagePos eq 'left'" data-ko-wrap="false" style="width: 100%; max-width:184px; -ko-max-width:@[18 + Math.round(imageWidth)]px; display:inline-block" class="mobile-full">
+<div data-ko-display="imagePos eq 'left'" data-ko-wrap="false" class="mobile-full" style="width: 100%; max-width:184px; -ko-max-width:@[18 + Math.round(imageWidth)]px; display:inline-block">
 <!--[if (gte mso 9)|(lte ie 8)]><td align="left" valign="top" width="184" style="-ko-attr-width: @[18 + Math.round(imageWidth)]"><![endif]-->
-<div style="display:inline-block; max-width:184px; -ko-max-width:@[18 + Math.round(imageWidth)]px; vertical-align:top; width:100%;" class="mobile-full">
+<div class="mobile-full" style="display:inline-block; max-width:184px; -ko-max-width:@[18 + Math.round(imageWidth)]px; vertical-align:top; width:100%">
 
                     <table class="vb-content" border="0" cellspacing="9" cellpadding="0" width="184" style="width: 100%; -ko-attr-width: @[18 + Math.round(imageWidth)]" align="left">
                         <tr>
@@ -723,7 +732,7 @@
 </div><!--[if (gte mso 9)|(lte ie 8)]></td>
 <![endif]--></div><!--[if (gte mso 9)|(lte ie 8)]>
 <td align="left" valign="top" width="368" style="-ko-attr-width: @[570 - 2 * 18 - Math.round(imageWidth)]">
-<![endif]--><div style="display:inline-block; max-width:368px; -ko-max-width: @[570 - 2 * 18 - Math.round(imageWidth)]px; vertical-align:top; width:100%;" class="mobile-full">
+<![endif]--><div class="mobile-full" style="display:inline-block; max-width:368px; -ko-max-width: @[570 - 2 * 18 - Math.round(imageWidth)]px; vertical-align:top; width:100%">
 
                     <table class="vb-content" border="0" cellspacing="9" cellpadding="0" width="368" style="width: 100%; -ko-attr-width: @[570 - 2 * 18 - Math.round(imageWidth)]" align="left">
                         <tr data-ko-display="titleVisible">
@@ -760,16 +769,16 @@
                         </tr>
                     </table>
 </div><!--[if (gte mso 9)|(lte ie 8)]></td>
-<![endif]--><div data-ko-display="imagePos eq 'right'" data-ko-wrap="false" style="width: 100%; max-width:184px; -ko-max-width:@[18 + Math.round(imageWidth)]px; display:inline-block; display: none;" class="mobile-full"><!--[if (gte mso 9)|(lte ie 8)]>
+<![endif]--><div class="mobile-full" data-ko-display="imagePos eq 'right'" data-ko-wrap="false" style="width: 100%; max-width:184px; -ko-max-width:@[18 + Math.round(imageWidth)]px; display:inline-block; display: none;"><!--[if (gte mso 9)|(lte ie 8)]>
 <td data-ko-display="imagePos eq 'right'" align="left" valign="top" width="184" style="display: none; -ko-attr-width: @[18 + Math.round(imageWidth)]">
-<![endif]--><div style="display:inline-block; max-width:184px; -ko-max-width:@[18 + Math.round(imageWidth)]px; vertical-align:top; width:100%;" class="mobile-full">
+<![endif]--><div class="mobile-full" style="display:inline-block; max-width:184px; -ko-max-width:@[18 + Math.round(imageWidth)]px; vertical-align:top; width:100%">
 
                     <table class="vb-content" border="0" cellspacing="9" cellpadding="0" width="184" style="width: 100%; -ko-attr-width: @[18 + Math.round(imageWidth)]" align="left">
                         <tr>
                         <td width="100%" valign="top" align="left" class="links-color">
                             <a data-ko-link="image.url" href="">
                             <img data-ko-editable="image.src" border="0" hspace="0" vspace="0" width="166" data-ko-placeholder-height="130" class="mobile-full"
-                                src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=166%2C130" class="mobile-full"
+                                src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=166%2C130"
                                 alt="" style="vertical-align:top; width: 100%; height: auto; -ko-attr-width: @imageWidth; max-width: 166px; -ko-max-width: @[imageWidth]px; -ko-attr-alt: @image.alt" />
                             </a>
                         </td>
@@ -1338,14 +1347,14 @@
 
 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><![endif]-->
 <!--[if (gte mso 9)|(lte ie 8)]><td align="left" valign="top" width="285"><![endif]-->
-<div style="display:inline-block; max-width:285px; vertical-align:top; width:100%; width:100%" class="mobile-full">
+<div class="mobile-full" style="display:inline-block; max-width:285px; vertical-align:top; width:100%">
                 <a data-ko-link="leftImage.url" href="" style="text-decoration: none;"><img data-ko-editable="leftImage.src"
                     hspace="0" align="left" border="0" vspace="0" width="285" data-ko-placeholder-height="180" class="mobile-full"
                     src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=285%2C180"
                     alt="" style="display: block; border-radius: 0px; width: 285px; height: auto; -ko-attr-alt: @leftImage.alt;" /></a>
 </div><!--[if (gte mso 9)|(lte ie 8)]></td>
 <td align="left" valign="top" width="285">
-<![endif]--><div style="display:inline-block; max-width:285px; vertical-align:top; width:100%; width:100%; " class="mobile-full">
+<![endif]--><div class="mobile-full" style="display:inline-block; max-width:285px; vertical-align:top; width:100%">
                 <a data-ko-link="rightImage.url" href="" style="text-decoration: none;"><img data-ko-editable="rightImage.src"
                     hspace="0" align="right" border="0" vspace="0" width="285" data-ko-placeholder-height="180" class="mobile-full"
                     src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=285%2C180"
@@ -1363,7 +1372,7 @@
 
 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="552"><tr><![endif]-->
 <!--[if (gte mso 9)|(lte ie 8)]><td align="left" valign="top" width="276"><![endif]-->
-<div style="display:inline-block; max-width:276px; vertical-align:top; width:100%;" class="mobile-full">
+<div class="mobile-full" style="display:inline-block; max-width:276px; vertical-align:top; width:100%;">
 
                 <table class="vb-content" width="276" style="width: 100%" border="0" cellpadding="0" cellspacing="9" align="left">
                 <tr>
@@ -1381,7 +1390,7 @@
 
 </div><!--[if (gte mso 9)|(lte ie 8)]></td>
 <td align="left" valign="top" width="276">
-<![endif]--><div style="display:inline-block; max-width:276px; vertical-align:top; width:100%;" class="mobile-full">
+<![endif]--><div class="mobile-full" style="display:inline-block; max-width:276px; vertical-align:top; width:100%;">
 
                 <table class="vb-content" width="276" style="width: 100%" border="0" cellpadding="0" cellspacing="9" align="right">
                 <tr>
@@ -1424,21 +1433,21 @@
 
 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><![endif]-->
 <!--[if (gte mso 9)|(lte ie 8)]><td align="left" valign="top" width="190"><![endif]-->
-<div style="display:inline-block; max-width:190px; vertical-align:top; width:100%; " class="mobile-full">
+<div class="mobile-full" style="display:inline-block; max-width:190px; vertical-align:top; width:100%">
                 <a data-ko-link="leftImage.url" href="" style="text-decoration: none;"><img data-ko-editable="leftImage.src"
                     hspace="0" align="left" border="0" vspace="0" width="190" data-ko-placeholder-height="160" class="mobile-full"
                     src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=190%2C160"
                     alt="" style="display: block; border-radius: 0px; width: 190px; height: auto; -ko-attr-alt: @leftImage.alt;" /></a>
 </div><!--[if (gte mso 9)|(lte ie 8)]></td>
 <td align="left" valign="top" width="190">
-<![endif]--><div style="display:inline-block; max-width:190px; vertical-align:top; width:100%; " class="mobile-full">
+<![endif]--><div class="mobile-full" style="display:inline-block; max-width:190px; vertical-align:top; width:100%">
                 <a data-ko-link="middleImage.url" href="" style="text-decoration: none;"><img data-ko-editable="middleImage.src"
                     hspace="0" align="left" border="0" vspace="0" width="190" data-ko-placeholder-height="160" class="mobile-full"
                     src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=190%2C160"
                     alt="" style="display: block; border-radius: 0px; width: 190px; height: auto; -ko-attr-alt: @middleImage.alt;" /></a>
 </div><!--[if (gte mso 9)|(lte ie 8)]></td>
 <td align="left" valign="top" width="190">
-<![endif]--><div style="display:inline-block; max-width:190px; vertical-align:top; width:100%; " class="mobile-full">
+<![endif]--><div class="mobile-full" style="display:inline-block; max-width:190px; vertical-align:top; width:100%">
                 <a data-ko-link="rightImage.url" href="" style="text-decoration: none;"><img data-ko-editable="rightImage.src"
                     hspace="0" align="right" border="0" vspace="0" width="190" data-ko-placeholder-height="160" class="mobile-full"
                     src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=190%2C160"
@@ -1456,7 +1465,7 @@
 
 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="552"><tr><![endif]-->
 <!--[if (gte mso 9)|(lte ie 8)]><td align="left" valign="top" width="184"><![endif]-->
-<div style="display:inline-block; max-width:184px; vertical-align:top; width:100%;" class="mobile-full">
+<div class="mobile-full" style="display:inline-block; max-width:184px; vertical-align:top; width:100%">
 
                 <table class="vb-content" width="184" style="width: 100%" border="0" cellpadding="0" cellspacing="9" align="left">
                 <tr>
@@ -1473,7 +1482,7 @@
 
 </div><!--[if (gte mso 9)|(lte ie 8)]></td>
 <td align="left" valign="top" width="184">
-<![endif]--><div style="display:inline-block; max-width:184px; vertical-align:top; width:100%;" class="mobile-full">
+<![endif]--><div class="mobile-full" style="display:inline-block; max-width:184px; vertical-align:top; width:100%">
 
                 <table class="vb-content" width="184" style="width: 100%" border="0" cellpadding="0" cellspacing="9" align="left">
                 <tr>
@@ -1490,7 +1499,7 @@
 
 </div><!--[if (gte mso 9)|(lte ie 8)]></td>
 <td align="left" valign="top" width="184">
-<![endif]--><div style="display:inline-block; max-width:184px; vertical-align:top; width:100%;" class="mobile-full">
+<![endif]--><div class="mobile-full" style="display:inline-block; max-width:184px; vertical-align:top; width:100%">
 
                 <table class="vb-content" width="184" style="width: 100%" border="0" cellpadding="0" cellspacing="9" align="right">
                 <tr>
@@ -1548,7 +1557,7 @@
 
 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="552"><tr><![endif]-->
 <!--[if (gte mso 9)|(lte ie 8)]><td align="left" valign="top" width="276"><![endif]-->
-<div style="display:inline-block; max-width:570px; vertical-align:top; width:100%;" class="mobile-full">
+<div class="mobile-full" style="display:inline-block; max-width:570px; vertical-align:top; width:100%">
 
                     <table data-ko-display="addressSocialVisible" class="vb-content" border="0" cellspacing="9" cellpadding="0" width="100%" style="display:none;width: 100%;height:100%;" align="center">
                         <tr>
@@ -1708,7 +1717,7 @@
     </div>
 
     <!-- footerBlock -->
-<div style="display:inline-block; width:100%; vertical-align:top;text-align:center;" class="mobile-full">
+<div class="mobile-full" style="display:inline-block; width:100%; vertical-align:top;text-align:center">
     <table class="vb-outer" width="100%" align="center" valign="top" cellpadding="0" border="0" cellspacing="0" bgcolor="transparent" data-ko-block="footerBlock">
     <tr>
         <td>
