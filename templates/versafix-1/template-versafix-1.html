@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="format-detection" content="telephone=no" />
     <title style="-ko-bind-text: @titleText">TITLE</title>
     <!-- model structure -->
@@ -455,7 +455,8 @@
         img { outline: none; text-decoration: none; border: none; -ms-interpolation-mode: bicubic; }
         a img { border: none; }
 
-        @media screen and (max-device-width: 600px), screen and (max-width: 600px) {
+        /* Mobile styles: show as mobile layout if viewport <769px */
+        @media screen and (max-width: 768px) {
             table.vb-container,
             table.vb-row {
               width: 95% !important;
