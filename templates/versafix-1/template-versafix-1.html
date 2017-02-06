@@ -386,7 +386,10 @@
     </style>
 
     <style type="text/css" data-inline="true">
-        body { margin: 0; padding: 0; }
+        html, body {
+          min-width: 100%;
+        }
+        body { margin: 0; padding: 0 }
         img { border: 0; display: block; }
 
         .socialLinks { font-size: 6px; }
@@ -455,8 +458,8 @@
         img { outline: none; text-decoration: none; border: none; -ms-interpolation-mode: bicubic; }
         a img { border: none; }
 
-        /* Mobile styles: show as mobile layout if viewport <769px */
-        @media screen and (max-width: 550px) {
+        /* Mobile styles: show as mobile layout if viewport less than 600px (email wrapper width) */
+        @media screen and (max-width: 600px) {
             table.vb-container,
             table.vb-row {
               width: 95% !important;
@@ -938,7 +941,7 @@
 
 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="552"><tr><![endif]-->
 <!--[if (gte mso 9)|(lte ie 8)]><td align="left" valign="top" width="184"><![endif]-->
-<div class="mobile-full" style="display:inline-block; max-width:184px; vertical-align:top">
+<div class="mobile-full" style="display:inline-block; float: left; max-width:184px; vertical-align:top">
 
                     <table class="vb-content" border="0" cellspacing="9" cellpadding="0" width="184" style="width: 184px" align="left">
                         <tr data-ko-display="imageVisible">
@@ -986,7 +989,7 @@
 
 </div><!--[if (gte mso 9)|(lte ie 8)]></td>
 <td align="left" valign="top" width="184">
-<![endif]--><div class="mobile-full" style="display:inline-block; max-width:184px; vertical-align:top">
+<![endif]--><div class="mobile-full" style="display:inline-block; float: left; max-width:184px; vertical-align:top">
 
                     <table class="vb-content" border="0" cellspacing="9" cellpadding="0" width="184" style="width: 184px" align="left">
                         <tr data-ko-display="imageVisible">
@@ -1035,7 +1038,7 @@
 
 </div><!--[if (gte mso 9)|(lte ie 8)]></td>
 <td align="left" valign="top" width="184">
-<![endif]--><div class="mobile-full" style="display:inline-block; max-width:184px; vertical-align:top">
+<![endif]--><div class="mobile-full" style="display:inline-block; float: left; max-width:184px; vertical-align:top">
 
                     <table class="vb-content" border="0" cellspacing="9" cellpadding="0" width="184" style="width: 184px" align="right">
                         <tr data-ko-display="imageVisible">
@@ -1112,7 +1115,7 @@
 
 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="552"><tr><![endif]-->
 <!--[if (gte mso 9)|(lte ie 8)]><td align="left" valign="top" width="276"><![endif]-->
-<div class="mobile-full" style="display:inline-block; max-width:276px; vertical-align:top">
+<div class="mobile-full" style="display:inline-block; float: left; max-width:276px; vertical-align:top">
 
                     <table class="vb-content" border="0" cellspacing="9" cellpadding="0" width="276" style="width: 276px" align="left">
                         <tr data-ko-display="imageVisible">
@@ -1161,7 +1164,7 @@
 
 </div><!--[if (gte mso 9)|(lte ie 8)]></td>
 <td align="left" valign="top" width="276">
-<![endif]--><div class="mobile-full" style="display:inline-block; max-width:276px; vertical-align:top">
+<![endif]--><div class="mobile-full" style="display:inline-block; float: left; max-width:276px; vertical-align:top">
 
                     <table class="vb-content" border="0" cellspacing="9" cellpadding="0" width="276" style="width: 276px" align="right">
                         <tr data-ko-display="imageVisible">
@@ -1334,35 +1337,36 @@
     <!-- imageBlock -->
 
     <!-- doubleImageBlock -->
-    <table class="vb-outer" width="100%" cellpadding="0" border="0" cellspacing="0" bgcolor="#bfbfbf" style="background-color: #bfbfbf;
-    -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor" data-ko-block="doubleImageBlock">
+    <table class="vb-outer" width="100%" cellpadding="0" border="0" cellspacing="0" bgcolor="#bfbfbf"
+           style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor" data-ko-block="doubleImageBlock">
     <tr>
         <td class="vb-outer" align="center" valign="top" bgcolor="#bfbfbf"
-        style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
+            style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
         <div class="oldwebkit">
         <table data-ko-display="gutterVisible eq false" width="570" class="vb-container fullwidth" cellpadding="0" border="0" bgcolor="#ffffff" align="center"
             cellspacing="0" style="width: 100%; max-width: 570px; background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;">
             <tr>
-            <td valign="top" align="center" class="mobile-row" style="font-size: 0">
+            <td valign="top" align="center" class="mobile-row" style="font-size: 0px;">
 
-<!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><![endif]-->
-<!--[if (gte mso 9)|(lte ie 8)]><td align="left" valign="top" width="285"><![endif]-->
-<div class="mobile-full" style="display:inline-block; max-width:285px; vertical-align:top; width:100%">
-                <a data-ko-link="leftImage.url" href="" style="text-decoration: none;"><img data-ko-editable="leftImage.src"
-                    hspace="0" align="left" border="0" vspace="0" width="285" data-ko-placeholder-height="180" class="mobile-full"
-                    src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=285%2C180"
-                    alt="" style="display: block; border-radius: 0px; width: 285px; height: auto; -ko-attr-alt: @leftImage.alt;" /></a>
-</div><!--[if (gte mso 9)|(lte ie 8)]></td>
-<td align="left" valign="top" width="285">
-<![endif]--><div class="mobile-full" style="display:inline-block; max-width:285px; vertical-align:top; width:100%">
-                <a data-ko-link="rightImage.url" href="" style="text-decoration: none;"><img data-ko-editable="rightImage.src"
-                    hspace="0" align="right" border="0" vspace="0" width="285" data-ko-placeholder-height="180" class="mobile-full"
-                    src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=285%2C180"
-                    alt="" style="display: block; border-radius: 0px; width: 285px; height: auto; -ko-attr-alt: @rightImage.alt;" /></a>
-</div>
-<!--[if (gte mso 9)|(lte ie 8)]></td><![endif]-->
-<!--[if (gte mso 9)|(lte ie 8)]></tr></table><![endif]-->
+                <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><![endif]-->
+                <!--[if (gte mso 9)|(lte ie 8)]><td align="left" valign="top" width="285"><![endif]-->
+                <div class="mobile-full" style="display:inline-block; float: left; max-width:285px; vertical-align:top; width:100%;">
+                                <a data-ko-link="leftImage.url" href="" style="text-decoration: none;"><img data-ko-editable="leftImage.src"
+                                    hspace="0" align="left" border="0" vspace="0" width="285" height="180" data-ko-placeholder-height="180" class="mobile-full"
+                                    src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=285%2C180"
+                                    alt="" style="display: inline-block; border-radius: 0px; width: 100%; height: auto; -ko-attr-alt: @leftImage.alt;" /></a>
+                </div><!--[if (gte mso 9)|(lte ie 8)]></td>
+                <td align="left" valign="top" width="285">
+                <![endif]--><div class="mobile-full" style="display:inline-block; float: left; max-width:285px; vertical-align:top; width:100%;">
+                                <a data-ko-link="rightImage.url" href="" style="text-decoration: none;"><img data-ko-editable="rightImage.src"
+                                    hspace="0" align="right" border="0" vspace="0" width="285" height="180" data-ko-placeholder-height="180" class="mobile-full"
+                                    src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=285%2C180"
+                                    alt="" style="display: inline-block; border-radius: 0px; width: 100%; height: auto; -ko-attr-alt: @rightImage.alt;" /></a>
+                </div>
+                <!--[if (gte mso 9)|(lte ie 8)]></td><![endif]-->
+                <!--[if (gte mso 9)|(lte ie 8)]></tr></table><![endif]-->
+
             </td>
             </tr>
         </table>
@@ -1434,21 +1438,21 @@
 
 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><![endif]-->
 <!--[if (gte mso 9)|(lte ie 8)]><td align="left" valign="top" width="190"><![endif]-->
-<div class="mobile-full" style="display:inline-block; max-width:190px; vertical-align:top; width:100%">
+<div class="mobile-full" style="display:inline-block; float: left; max-width:190px; vertical-align:top; width:100%">
                 <a data-ko-link="leftImage.url" href="" style="text-decoration: none;"><img data-ko-editable="leftImage.src"
                     hspace="0" align="left" border="0" vspace="0" width="190" data-ko-placeholder-height="160" class="mobile-full"
                     src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=190%2C160"
                     alt="" style="display: block; border-radius: 0px; width: 190px; height: auto; -ko-attr-alt: @leftImage.alt;" /></a>
 </div><!--[if (gte mso 9)|(lte ie 8)]></td>
 <td align="left" valign="top" width="190">
-<![endif]--><div class="mobile-full" style="display:inline-block; max-width:190px; vertical-align:top; width:100%">
+<![endif]--><div class="mobile-full" style="display:inline-block; float: left; max-width:190px; vertical-align:top; width:100%">
                 <a data-ko-link="middleImage.url" href="" style="text-decoration: none;"><img data-ko-editable="middleImage.src"
                     hspace="0" align="left" border="0" vspace="0" width="190" data-ko-placeholder-height="160" class="mobile-full"
                     src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=190%2C160"
                     alt="" style="display: block; border-radius: 0px; width: 190px; height: auto; -ko-attr-alt: @middleImage.alt;" /></a>
 </div><!--[if (gte mso 9)|(lte ie 8)]></td>
 <td align="left" valign="top" width="190">
-<![endif]--><div class="mobile-full" style="display:inline-block; max-width:190px; vertical-align:top; width:100%">
+<![endif]--><div class="mobile-full" style="display:inline-block; float: left; max-width:190px; vertical-align:top; width:100%">
                 <a data-ko-link="rightImage.url" href="" style="text-decoration: none;"><img data-ko-editable="rightImage.src"
                     hspace="0" align="right" border="0" vspace="0" width="190" data-ko-placeholder-height="160" class="mobile-full"
                     src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=190%2C160"
