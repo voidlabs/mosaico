@@ -295,6 +295,7 @@
         titleVisible { label: Show Title; extend: visible; }
         buttonVisible { label: Show Button; extend: visible; }
         imageVisible { label: Show Image; extend: visible; }
+        contentVisible { label: Show Content; extend: visible; }
 
         contentTheme { label: Main Style; }
         contentTheme:preview { -ko-background-color: @[backgroundColor] }
@@ -338,15 +339,15 @@
 
         sideArticleBlock imagePos {label:Image position;widget:select; options: left=Left|right=Right; }
         sideArticleBlock imageWidth { label: Image Size; widget: select; options: 120=Small|166=Medium|258=Big; }
-        sideArticleBlock { label: Image+Text Block; properties: backgroundColor titleVisible=true buttonVisible=true imageWidth=166 imagePos=left titleTextStyle longTextStyle buttonStyle  image  longText buttonLink; variant:imagePos; theme: contentTheme }
+        sideArticleBlock { label: Image+Text Block; properties: backgroundColor titleVisible=true buttonVisible=true contentVisible=true imageWidth=166 imagePos=left titleTextStyle longTextStyle buttonStyle  image  longText buttonLink; variant:imagePos; theme: contentTheme }
 
         textBlock { label: Text Block; properties: backgroundColor longTextStyle longText; theme: contentTheme}
 
-        singleArticleBlock { label: Image/Text Block; properties: backgroundColor titleVisible=true buttonVisible=true imageVisible=true titleTextStyle longTextStyle buttonStyle  image  longText buttonLink;theme: contentTheme}
+        singleArticleBlock { label: Image/Text Block; properties: backgroundColor titleVisible=true buttonVisible=true contentVisible=true imageVisible=true titleTextStyle longTextStyle buttonStyle  image  longText buttonLink;theme: contentTheme}
 
-        doubleArticleBlock { label: 2 Columns Block; properties: backgroundColor titleVisible=true buttonVisible=true imageVisible=true titleTextStyle longTextStyle buttonStyle  leftImage  leftLongText leftButtonLink rightImage  rightLongText rightButtonLink; theme: contentTheme}
+        doubleArticleBlock { label: 2 Columns Block; properties: backgroundColor titleVisible=true buttonVisible=true contentVisible=true imageVisible=true titleTextStyle longTextStyle buttonStyle  leftImage  leftLongText leftButtonLink rightImage  rightLongText rightButtonLink; theme: contentTheme}
 
-        tripleArticleBlock { label: 3 Columns Block; properties: backgroundColor titleVisible=true buttonVisible=true imageVisible=true titleTextStyle longTextStyle buttonStyle  leftImage  leftLongText leftButtonLink middleImage  middleLongText middleButtonLink rightImage  rightLongText rightButtonLink; theme: contentTheme}
+        tripleArticleBlock { label: 3 Columns Block; properties: backgroundColor titleVisible=true buttonVisible=true contentVisible=true imageVisible=true titleTextStyle longTextStyle buttonStyle  leftImage  leftLongText leftButtonLink middleImage  middleLongText middleButtonLink rightImage  rightLongText rightButtonLink; theme: contentTheme}
 
         logoBlock imageWidth { label: Image Size; widget: select; options: 166=Small|258=Medium|350=Big; variant:imageWidth;}
         logoBlock { label: Logo Block; properties: image imageWidth=258; variant: imageWidth; theme: contentTheme}
@@ -794,7 +795,7 @@
                                 </span>
                             </td>
                         </tr>
-                        <tr>
+                        <tr data-ko-display="contentVisible">
                             <td class="long-text links-color" align="left"
                                 data-ko-editable="longText"
                                 style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;text-align:left;
@@ -802,7 +803,7 @@
                                 <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
                             </td>
                         </tr>
-                        <tr data-ko-display="buttonVisible">
+                        <tr data-ko-display="contentVisible">
                             <td valign="top">
                                 <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full" style="padding-top: 4px">
                                     <tr>
@@ -889,7 +890,7 @@
             <tr data-ko-display="titleVisible">
                 <td height="9" style="font-size:1px; line-height: 1px;">&nbsp;</td>
             </tr>
-            <tr>
+            <tr data-ko-display="contentVisible">
                 <td align="left" style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;
                 -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color;"
                 data-ko-editable="longText" class="long-text links-color">
@@ -1015,7 +1016,7 @@
                                 <span style="color: #3f3f3f; -ko-color: @titleTextStyle.color" data-ko-editable="leftTitleText">Title</span>
                             </td>
                         </tr>
-                        <tr>
+                        <tr data-ko-display="contentVisible">
                             <td align="left" data-ko-editable="leftLongText" class="long-text links-color"
                                 style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;text-align:left;
                                        -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color;">
@@ -1064,7 +1065,7 @@
                             <span data-ko-editable="middleTitleText" style="color: #3f3f3f; -ko-color: @titleTextStyle.color">Title</span>
                         </td>
                         </tr>
-                        <tr>
+                        <tr data-ko-display="contentVisible">
                         <td align="left" class="long-text links-color"
                             data-ko-editable="middleLongText"
                             style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;text-align:left;
@@ -1117,7 +1118,7 @@
                                 </span>
                             </td>
                         </tr>
-                        <tr>
+                        <tr data-ko-display="contentVisible">
                             <td align="left" style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;text-align:left;
                                 -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color;"
                                 data-ko-editable="rightLongText" class="long-text links-color">
@@ -1199,7 +1200,7 @@
                             </span>
                         </td>
                         </tr>
-                        <tr>
+                        <tr data-ko-display="contentVisible">
                         <td align="left" style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;text-align:left;
                             -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color;"
                             data-ko-editable="leftLongText" class="long-text links-color">
@@ -1246,11 +1247,11 @@
                         <td style="font-size: 18px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f; text-align:left;
                             -ko-font-size: @[titleTextStyle.size]px; -ko-font-family: @titleTextStyle.face; -ko-color: @titleTextStyle.color">
                             <span style="color: #3f3f3f; -ko-color: @titleTextStyle.color" data-ko-editable="rightTitleText">
-                         Title
+                                Title
                             </span>
                         </td>
                         </tr>
-                        <tr>
+                        <tr data-ko-display="contentVisible">
                         <td align="left" style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;text-align:left;
                             -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color;"
                             data-ko-editable="rightLongText" class="long-text links-color">
