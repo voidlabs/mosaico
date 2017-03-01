@@ -102,6 +102,15 @@
         help: Alternative text will be shown on email clients that does not download image automatically;
         }
 
+        marginTop {
+        label: Margin Top;
+        widget: integer;
+        }
+        marginBottom {
+        label: Margin Bottom;
+        widget: integer;
+        }
+
         paddingTop {
         label: Padding Top;
         widget: integer;
@@ -229,7 +238,7 @@
         /* buttons */
         buttonStyle color { label: Text Color; extend: color }
         buttonStyle size { label: Text Size; extend: size }
-        buttonStyle { label: Button; properties: face color size buttonColor radius }
+        buttonStyle { label: Button; properties: face color size buttonColor radius marginTop marginBottom }
         buttonStyle:preview { -ko-bind-text: @['Button']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; -ko-background-color: @buttonColor; padding-left: 5px; -ko-border-radius: @[radius]px; }
 
         /* padding */
