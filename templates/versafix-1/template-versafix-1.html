@@ -122,10 +122,12 @@
         paddingTop {
         label: Padding Top;
         widget: integer;
+        max: 99; /* must be less than 100 to have step=1 */
         }
         paddingBottom {
         label: Padding Bottom;
         widget: integer;
+        max: 99; /* must be less than 100 to have step=1 */
         }
         paddingLeft {
         label: Padding Left;
@@ -1957,7 +1959,7 @@
     <tr>
         <td>
         <table class="vb-outer" align="center" width="100%" cellpadding="0" border="0" cellspacing="0" bgcolor="#bfbfbf"
-            style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
+               style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
             <tr>
             <td class="vb-outer" align="center" valign="top" bgcolor="#bfbfbf"
                 style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
