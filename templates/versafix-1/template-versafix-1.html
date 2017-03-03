@@ -259,16 +259,11 @@
             label: Border Color;
             extend: color;
         }
-        borderStyle {
-            label: Border Style;
-            properties: borderWidth borderType borderColor radius;
-        }
 
         /* block styles */
         blockStyle {
             label: Block Styles;
-            extend: borderStyle;
-            properties: paddingTop paddingBottom borderStyle;
+            properties: paddingTop paddingBottom borderWidth borderType borderColor radius;
         }
 
         /* buttons */
@@ -411,12 +406,9 @@
         }
 
         /* buttonBlock */
-        buttonBlock blockStyle {
-            label: Button Block Styles;
-        }
         buttonBlock {
             label: Button Block;
-            properties: blockStyle;
+            theme: contentTheme
         }
 
         hrBlock {
@@ -696,8 +688,15 @@
                 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
                 <div class="oldwebkit">
 
-                <table class="vb-row halfpad" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
-                       width="570" style="width:570px; max-width:570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
+                <table class="vb-row halfpad" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff" width="570"
+                       style="width:570px; max-width:570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
+                       padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
+                       padding-bottom: 0px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;
+                       border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+                       border-style: none; -ko-border-style: @[blockStyle.borderType];
+                       border-color: transparent; -ko-border-color: @[blockStyle.borderColor];
+                       border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
+                       ">
                     <tr>
                         <td align="center" valign="top" bgcolor="#ffffff"
                             style="font-size: 0; background-color: #ffffff;padding:20px 0 5px 0; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor">
@@ -752,15 +751,15 @@
         <td class="vb-outer" align="center" valign="top" >
 
 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
-        <div class="oldwebkit">
+        <div class="oldwebkit"
+             style="border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+             border-style: none; -ko-border-style: @[blockStyle.borderType];
+             border-color: transparent; -ko-border-color: @[blockStyle.borderColor];
+             border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;">
         <table border="0" cellpadding="0" cellspacing="18" class="vb-container fullwidth"
                width="570" style="width: 570px; background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
                padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
                padding-bottom: 0px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;
-               border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
-               border-style: none; -ko-border-style: @[blockStyle.borderType];
-               border-color: transparent; -ko-border-color: @[blockStyle.borderColor];
-               border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
                ">
             <tr>
             <td valign="top" align="center">
@@ -796,9 +795,16 @@
             style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
 
         <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
-        <div class="oldwebkit">
+        <div class="oldwebkit"
+             style="border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+             border-style: none; -ko-border-style: @[blockStyle.borderType];
+             border-color: transparent; -ko-border-color: @[blockStyle.borderColor];
+             border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;">
         <table width="570" border="0" cellpadding="0" cellspacing="9" class="vb-row fullpad" bgcolor="#ffffff"
-               style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
+               style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
+               padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
+               padding-bottom: 0px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;
+               ">
             <tr>
             <td align="center" valign="top" class="mobile-row" style="font-size: 0">
 
@@ -911,9 +917,16 @@
             style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
 
 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
-        <div class="oldwebkit">
+        <div class="oldwebkit"
+             style="border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+             border-style: none; -ko-border-style: @[blockStyle.borderType];
+             border-color: transparent; -ko-border-color: @[blockStyle.borderColor];
+             border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;">
         <table width="570" border="0" cellpadding="0" cellspacing="18" class="vb-container fullpad" bgcolor="#ffffff"
-              style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
+              style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
+              padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
+              padding-bottom: 0px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;
+              ">
             <tr data-ko-display="imageVisible">
             <td width="100%" valign="top" align="left" class="links-color">
                 <a data-ko-link="image.url" href="">
@@ -979,9 +992,16 @@
                 style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
 
                 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
-                <div class="oldwebkit">
+                <div class="oldwebkit"
+                     style="border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+                     border-style: none; -ko-border-style: @[blockStyle.borderType];
+                     border-color: transparent; -ko-border-color: @[blockStyle.borderColor];
+                     border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;">
                     <table width="570" border="0" cellpadding="0" cellspacing="9" class="vb-container halfpad" bgcolor="#ffffff"
-                           style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
+                           style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
+                           padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
+                           padding-bottom: 0px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;
+                           ">
                         <tr>
                             <td bgcolor="#ffffff" align="center"
                                 style="background-color: #ffffff; font-size: 22px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f; text-align: center;
@@ -1006,20 +1026,19 @@
         style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
 
 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
-        <div class="oldwebkit">
+        <div class="oldwebkit"
+             style="border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+             border-style: none; -ko-border-style: @[blockStyle.borderType];
+             border-color: transparent; -ko-border-color: @[blockStyle.borderColor];
+             border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;">
         <table width="570" border="0" cellpadding="0" cellspacing="18" class="vb-container fullpad" bgcolor="#ffffff"
-            style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
-            padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
-            padding-bottom: 0px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;
-            border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
-            border-style: none; -ko-border-style: @[blockStyle.borderType];
-            border-color: transparent; -ko-border-color: @[blockStyle.borderColor];
-            border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
-            ">
+               style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
+               padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
+               padding-bottom: 0px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;">
             <tr>
-            <td align="left" style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;text-align:left;
-                -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color;"
-                data-ko-editable="longText" class="long-text links-color">
+            <td align="left" data-ko-editable="longText" class="long-text links-color"
+                style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;text-align:left;
+                -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color;">
                 <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
                 <p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
             </td>
@@ -1041,9 +1060,15 @@
             style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
 
         <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
-        <div class="oldwebkit">
+        <div class="oldwebkit"
+             style="border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+             border-style: none; -ko-border-style: @[blockStyle.borderType];
+             border-color: transparent; -ko-border-color: @[blockStyle.borderColor];
+             border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;">
         <table width="570" border="0" cellpadding="0" cellspacing="9" class="vb-row fullpad" bgcolor="#ffffff"
-               style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
+               style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
+               padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
+               padding-bottom: 0px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;">
             <tr>
             <td align="center" valign="top" class="mobile-row" style="font-size: 0">
 
@@ -1221,9 +1246,15 @@
              style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
 
 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
-        <div class="oldwebkit">
+        <div class="oldwebkit"
+             style="border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+             border-style: none; -ko-border-style: @[blockStyle.borderType];
+             border-color: transparent; -ko-border-color: @[blockStyle.borderColor];
+             border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;">
         <table width="570" border="0" cellpadding="0" cellspacing="9" class="vb-row fullpad" bgcolor="#ffffff"
-            style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
+               style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
+               padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
+               padding-bottom: 0px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;">
             <tr>
             <td align="center" valign="top" style="font-size: 0">
 
@@ -1348,12 +1379,18 @@
     style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor" data-ko-block="hrBlock">
     <tr>
         <td class="vb-outer" align="center" valign="top" bgcolor="#bfbfbf"
-        style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
+            style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
 
 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
-        <div class="oldwebkit">
+        <div class="oldwebkit"
+             style="border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+             border-style: none; -ko-border-style: @[blockStyle.borderType];
+             border-color: transparent; -ko-border-color: @[blockStyle.borderColor];
+             border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;">
         <table width="570" border="0" cellpadding="0" cellspacing="9" class="vb-container halfpad" bgcolor="#ffffff"
-               style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
+               style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
+               padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
+               padding-bottom: 0px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;">
             <tr>
             <td valign="top" bgcolor="#ffffff" style="background-color: #ffffff;
                 -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor" align="center">
@@ -1383,15 +1420,15 @@
             style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
 
 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
-        <div class="oldwebkit">
+        <div class="oldwebkit"
+             style="border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+             border-style: none; -ko-border-style: @[blockStyle.borderType];
+             border-color: transparent; -ko-border-color: @[blockStyle.borderColor];
+             border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;">
         <table width="570" border="0" cellpadding="0" cellspacing="18" class="vb-container fullpad" bgcolor="#ffffff"
                style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
                padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
                padding-bottom: 0px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;
-               border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
-               border-style: none; -ko-border-style: @[blockStyle.borderType];
-               border-color: transparent; -ko-border-color: @[blockStyle.borderColor];
-               border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
                ">
             <tr>
             <td valign="top" bgcolor="#ffffff" align="center"
@@ -1429,10 +1466,16 @@
         <td class="vb-outer" valign="top" align="center">
 
 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
-        <div class="oldwebkit">
+        <div class="oldwebkit"
+             style="border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+             border-style: none; -ko-border-style: @[blockStyle.borderType];
+             border-color: transparent; -ko-border-color: @[blockStyle.borderColor];
+             border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;">
         <table class="vb-container fullwidth" cellpadding="0" border="0" bgcolor="#ffffff" align="center" cellspacing="0"
-               data-ko-display="gutterVisible eq false"
-               width="570" style="width: 570px; background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;">
+               width="570" data-ko-display="gutterVisible eq false"
+               style="width: 570px; background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
+               padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
+               padding-bottom: 0px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;">
             <tr>
             <td valign="top" align="center">
                 <a data-ko-link="image.url" href="" style="text-decoration: none;"><img data-ko-editable="image.src"
@@ -1472,10 +1515,16 @@
         <td class="vb-outer" align="center" valign="top" bgcolor="#bfbfbf"
             style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
-        <div class="oldwebkit">
+        <div class="oldwebkit"
+             style="border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+             border-style: none; -ko-border-style: @[blockStyle.borderType];
+             border-color: transparent; -ko-border-color: @[blockStyle.borderColor];
+             border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;">
         <table class="vb-container fullwidth" cellspacing="0" cellpadding="0" border="0" bgcolor="#ffffff" align="center"
-               data-ko-display="gutterVisible eq false"
-               width="570" style="width: 570px; background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;">
+               width="570" data-ko-display="gutterVisible eq false"
+               style="width: 570px; background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
+               padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
+               padding-bottom: 0px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;">
             <tr>
             <td valign="top" align="center" class="mobile-row" style="font-size: 0px;">
 
@@ -1559,15 +1608,21 @@
     <!-- /doubleImageBlock -->
 
     <!--  tripleImageBlock -->
-    <table class="vb-outer" width="100%" cellpadding="0" border="0" cellspacing="0" bgcolor="#bfbfbf" style="background-color: #bfbfbf;
-    -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor" data-ko-block="tripleImageBlock">
+    <table class="vb-outer" width="100%" cellpadding="0" border="0" cellspacing="0" bgcolor="#bfbfbf"
+           style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor" data-ko-block="tripleImageBlock">
     <tr>
         <td class="vb-outer" valign="top" align="center" style="">
 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
-        <div class="oldwebkit">
+        <div class="oldwebkit"
+             style="border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+             border-style: none; -ko-border-style: @[blockStyle.borderType];
+             border-color: transparent; -ko-border-color: @[blockStyle.borderColor];
+             border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;">
         <table width="570" class="vb-container fullwidth" cellspacing="0" cellpadding="0" border="0" bgcolor="#ffffff" align="center"
                data-ko-display="gutterVisible eq false"
-               style="width: 570px; background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;">
+               style="width: 570px; background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
+               padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
+               padding-bottom: 0px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;">
             <tr>
             <td valign="top" align="center" class="mobile-row" style="font-size: 0">
 
@@ -1671,26 +1726,33 @@
 
     <!-- spacerBlock -->
     <table class="vb-outer" width="100%" cellpadding="0" border="0" cellspacing="0" bgcolor="#bfbfbf"
-    style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor" data-ko-block="spacerBlock">
-    <tr>
-        <td class="vb-outer" valign="top" align="center" bgcolor="#bfbfbf" height="24"
-        style="-ko-attr-height: @spacerSize; height: 24px; -ko-height: @[spacerSize]px; background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor;
-        -ko-attr-bgcolor: @externalBackgroundColor; font-size:1px; line-height: 1px;">&nbsp;</td>
-    </tr>
+           data-ko-block="spacerBlock"
+           style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor;">
+        <tr>
+            <td class="vb-outer" valign="top" align="center" bgcolor="#bfbfbf" height="24"
+                style="-ko-attr-height: @spacerSize; height: 24px; -ko-height: @[spacerSize]px; background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor;
+                -ko-attr-bgcolor: @externalBackgroundColor; font-size:1px; line-height: 1px;">&nbsp;</td>
+        </tr>
     </table>
     <!-- /spacerBlock -->
 
     <!-- socialBlock -->
     <table class="vb-outer" width="100%" cellpadding="0" border="0" cellspacing="0" bgcolor="#bfbfbf"
-    style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor" data-ko-block="socialBlock">
+           style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor" data-ko-block="socialBlock">
     <tr>
         <td class="vb-outer" align="center" valign="top" bgcolor="#bfbfbf"
-        style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
+            style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
 
 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
-        <div class="oldwebkit">
+        <div class="oldwebkit"
+             style="border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+             border-style: none; -ko-border-style: @[blockStyle.borderType];
+             border-color: transparent; -ko-border-color: @[blockStyle.borderColor];
+             border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;">
         <table width="570" border="0" cellpadding="0" cellspacing="0" class="vb-row halfpad" bgcolor="#ffffff"
-               style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
+               style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
+               padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
+               padding-bottom: 0px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;">
             <tr>
             <td align="center" valign="middle" bgcolor="#ffffff" style="font-size: 0; background-color: #ffffff;padding:16px 0;width:100%; max-width:570px;
                 -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor" align="left">
@@ -2022,10 +2084,16 @@
                 style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
 
         <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
-                <div class="oldwebkit">
+                <div class="oldwebkit"
+                     style="border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+                     border-style: none; -ko-border-style: @[blockStyle.borderType];
+                     border-color: transparent; -ko-border-color: @[blockStyle.borderColor];
+                     border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;">
 
                 <table width="570" data-ko-display="!unsubscribeVisible" border="0" cellpadding="0" cellspacing="0" class="vb-container" bgcolor="#ffffff" align="center"
-                       style="display:none;width: 570px; background-color: #ffffff;text-align:center; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
+                       style="display:none;width: 570px; background-color: #ffffff;text-align:center; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
+                       padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
+                       padding-bottom: 0px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;">
                 <tr>
                     <td data-ko-editable="longText" class="long-text links-color" align="center" valign="top"
                         style="width:100%;font-size: 13px;color: #3f3f3f; font-weight: normal; font-family: Arial, Helvetica, sans-serif;text-align:left;
