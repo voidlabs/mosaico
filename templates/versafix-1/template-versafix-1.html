@@ -259,16 +259,11 @@
             label: Border Color;
             extend: color;
         }
-        borderStyle {
-            label: Border Style;
-            properties: borderWidth borderType borderColor radius;
-        }
 
         /* block styles */
         blockStyle {
             label: Block Styles;
-            extend: borderStyle;
-            properties: paddingTop paddingBottom borderStyle;
+            properties: paddingTop paddingBottom borderWidth borderType borderColor radius;
         }
 
         /* buttons */
@@ -411,12 +406,9 @@
         }
 
         /* buttonBlock */
-        buttonBlock blockStyle {
-            label: Button Block Styles;
-        }
         buttonBlock {
             label: Button Block;
-            properties: blockStyle;
+            theme: contentTheme
         }
 
         hrBlock {
