@@ -11,217 +11,217 @@
     <style type="text/css">
     @supports -ko-blockdefs {
         id {
-        widget: id
+            widget: id
         }
         size {
-        label: Size;
-        widget: select;
-        options: 8|9|10|11|12|13|14|15|16|18|20|22|25|28|31;
+            label: Size;
+            widget: select;
+            options: 8|9|10|11|12|13|14|15|16|18|20|22|25|28|31;
         }
         visible {
-        label: Visible?;
-        widget: boolean
+            label: Visible?;
+            widget: boolean
         }
         color {
-        label: Color;
-        widget: color
+            label: Color;
+            widget: color
         }
         radius {
-        label: Corner Radius;
-        widget: integer;
-        max: 20;
-        help: Attention - this property is not supported on all email clients (i.e. Outlook)
+            label: Corner Radius;
+            widget: integer;
+            max: 20;
+            help: Attention - this property is not supported on all email clients (i.e. Outlook)
         }
         face {
-        label: Font;
-        widget: select;
-        options: Arial, Helvetica, sans-serif=Arial|Arial Black, Arial Black, Gadget, sans-serif=Arial Black|Comic Sans MS, Comic Sans MS5, cursive=Comic Sans|Courier New, Courier New, monospace=Courier|Georgia, serif=Georgia|Impact, sans-serif=Impact|Lucida Console, Monaco, monospace=Lucida Console|Lucida Sans Unicode, Lucida Grande, sans-serif=Lucida Sans Unicode|Montserrat, sans-serif=Montserrat (only Apple supported)|Times New Roman, Times, serif=Times New Roman|Verdana, Geneva, sans-serif=Verdana
+            label: Font;
+            widget: select;
+            options: Arial, Helvetica, sans-serif=Arial|Arial Black, Arial Black, Gadget, sans-serif=Arial Black|Comic Sans MS, Comic Sans MS5, cursive=Comic Sans|Courier New, Courier New, monospace=Courier|Georgia, serif=Georgia|Impact, sans-serif=Impact|Lucida Console, Monaco, monospace=Lucida Console|Lucida Sans Unicode, Lucida Grande, sans-serif=Lucida Sans Unicode|Montserrat, sans-serif=Montserrat (only Apple supported)|Times New Roman, Times, serif=Times New Roman|Verdana, Geneva, sans-serif=Verdana
         }
         decoration {
-        label: Decoration;
-        widget: select;
-        options: none=None|underline=Underline;
+            label: Decoration;
+            widget: select;
+            options: none=None|underline=Underline;
         }
         linksColor {
-        label: Link Color;
-        extend: color;
+            label: Link Color;
+            extend: color;
         }
         linksDecoration {
-        label: Underlined Links?;
-        extend: decoration
+            label: Underlined Links?;
+            extend: decoration
         }
         buttonColor {
-        label: Button Color;
-        extend: color
+            label: Button Color;
+            extend: color
         }
         text {
-        label: Paragraph;
-        widget: text
+            label: Paragraph;
+            widget: text
         }
         url {
-        label: Link;
-        widget: url
+            label: Link;
+            widget: url
         }
         src {
-        label: Image;
-        widget: src
+            label: Image;
+            widget: src
         }
         hrWidth {
-        label: Width;
-        widget: select;
-        options:10|20|30|40|50|60|70|80|90|100;
+            label: Width;
+            widget: select;
+            options:10|20|30|40|50|60|70|80|90|100;
         }
         hrHeight {
-        label: Line height;
-        widget: integer;
-        max: 80;
+            label: Line height;
+            widget: integer;
+            max: 80;
         }
 
         height {
-        label: Height;
-        widget: integer
+            label: Height;
+            widget: integer
         }
         imageHeight {
-        label: Image Height;
-        extend: height;
+            label: Image Height;
+            extend: height;
         }
         spacerSize {
-        label: Height;
-        widget: integer;
-        max: 90;
-        min: 4;
+            label: Height;
+            widget: integer;
+            max: 90;
+            min: 4;
         }
         align {
-        label: Alignment;
-        widget: select;
-        options: left=Left|right=Right|center=Center
+            label: Alignment;
+            widget: select;
+            options: left=Left|right=Right|center=Center
         }
         alt {
-        label: Alternative Text;
-        widget: text;
-        help: Alternative text will be shown on email clients that does not download image automatically;
+            label: Alternative Text;
+            widget: text;
+            help: Alternative text will be shown on email clients that does not download image automatically;
         }
 
         marginTop {
-        label: Margin Top;
-        widget: integer;
+            label: Margin Top;
+            widget: integer;
         }
         marginBottom {
-        label: Margin Bottom;
-        widget: integer;
+            label: Margin Bottom;
+            widget: integer;
         }
         marginLeft {
-        label: Margin Left;
-        widget: integer;
+            label: Margin Left;
+            widget: integer;
         }
         marginRight {
-        label: Margin Right;
-        widget: integer;
+            label: Margin Right;
+            widget: integer;
         }
 
         paddingTop {
-        label: Padding Top;
-        widget: integer;
-        max: 99; /* must be less than 100 to have step=1 */
+            label: Padding Top;
+            widget: integer;
+            max: 99; /* must be less than 100 to have step=1 */
         }
         paddingBottom {
-        label: Padding Bottom;
-        widget: integer;
-        max: 99; /* must be less than 100 to have step=1 */
+            label: Padding Bottom;
+            widget: integer;
+            max: 99; /* must be less than 100 to have step=1 */
         }
         paddingLeft {
-        label: Padding Left;
-        widget: integer;
+            label: Padding Left;
+            widget: integer;
         }
         paddingRight {
-        label: Padding Right;
-        widget: integer;
+            label: Padding Right;
+            widget: integer;
         }
 
         sponsor {
-        label: Sponsor;
-        properties: visible=true src url alt;
-        category: hidden
+            label: Sponsor;
+            properties: visible=true src url alt;
+            category: hidden
         }
 
         titleText {
-        label: Title Text;
-        category: hidden;
+            label: Title Text;
+            category: hidden;
         }
         gutterVisible {
-        label: Show Gutter;
-        extend: visible
+            label: Show Gutter;
+            extend: visible
         }
         socialIconType {
-        label: Icon Version;
-        widget: select;
-        options: gray=Gray|bw=Black and White|colors=Colors|white=White
+            label: Icon Version;
+            widget: select;
+            options: gray=Gray|bw=Black and White|colors=Colors|white=White
         }
 
         preheaderLinkOption {
-        label: Header text;
-        widget: select;
-        options:none=None|[Name, fallback&#61]=Profile|[unsubscribe]=Unsubscribe;
-        help: If -None- is selected, header text will be shown;
+            label: Header text;
+            widget: select;
+            options:none=None|[Name, fallback&#61]=Profile|[unsubscribe]=Unsubscribe;
+            help: If -None- is selected, header text will be shown;
         }
 
         hrStyle {
-        label: Separator Style;
-        properties: color hrWidth hrHeight;
+            label: Separator Style;
+            properties: color hrWidth hrHeight;
         }
 
         hrStyle: preview { height: 200%; width: 200%; bottom: 20px; -ko-border-bottom: @[hrHeight]px solid @color; }
 
         preheaderVisible {
-        label: Show Preheader;
-        extend: visible;
-        help: Preheader block is the first one on the top of the page. It contains web version link and optionally unsubscribe link or a preheader text that will be shown as a preview on some email clients;
+            label: Show Preheader;
+            extend: visible;
+            help: Preheader block is the first one on the top of the page. It contains web version link and optionally unsubscribe link or a preheader text that will be shown as a preview on some email clients;
         }
 
         addressSocialVisible {
-        label: Show Contact and Address;
-        extend: visible;
+            label: Show Contact and Address;
+            extend: visible;
         }
 
         sponsorVisible {
-        label: Show Powered By Hugo;
-        extend: visible;
-        help: You have a payed account, so you can remove the sponsored by / powered by section from your template;
+            label: Show Powered By Hugo;
+            extend: visible;
+            help: You have a payed account, so you can remove the sponsored by / powered by section from your template;
         }
 
         unsubscribeVisible {
-        label: Show Unsubscribe;
-        extend: visible;
-        help: If you are sending a direct e-mail, without any marketing motive, you are allowed to remove the Unsubscribe Link;
+            label: Show Unsubscribe;
+            extend: visible;
+            help: If you are sending a direct e-mail, without any marketing motive, you are allowed to remove the Unsubscribe Link;
         }
 
         /* content types */
         blocks {
-        label: Blocks;
-        properties: blocks[];
+            label: Blocks;
+            properties: blocks[];
         }
         link {
-        label: Link;
-        properties: text url;
+            label: Link;
+            properties: text url;
         }
         image {
-        label: Image;
-        properties: src url alt;
+            label: Image;
+            properties: src url alt;
         }
 
         backgroundColor {
-        label: Background Color;
-        extend: color
+          label: Background Color;
+          extend: color
         }
         buttonLink {
-        label: Button;
-        extend: link
+            label: Button;
+            extend: link
         }
 
         /* texts and links */
         textStyle {
-        label: Text;
-        properties: face color size
+            label: Text;
+            properties: face color size
         }
 
         textStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
@@ -245,11 +245,36 @@
         bigTitleStyle { label: Title; properties: face color size align}
         bigTitleStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
 
+        borderWidth {
+          label: Border Width;
+          widget: integer;
+          max: 99;
+        }
+        borderType {
+            label: Border Style;
+            widget: select;
+            options: none|solid|dotted|dashed|double|ridge|inset|outset;
+        }
+        borderColor {
+            label: Border Color;
+            extend: color;
+        }
+
         /* buttons */
         buttonStyle color { label: Text Color; extend: color }
         buttonStyle size { label: Text Size; extend: size }
         buttonStyle { label: Button; properties: face color size buttonColor radius paddingTop paddingBottom }
         buttonStyle:preview { -ko-bind-text: @['Button']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; -ko-background-color: @buttonColor; padding-left: 5px; -ko-border-radius: @[radius]px }
+
+        buttonBlockStyle {
+            label: Button Block Styles;
+            properties: paddingTop paddingBottom borderWidth borderType borderColor radius;
+        }
+        buttonBlock {
+            label: Button Block;
+            /*theme: contentTheme;*/
+            properties:  buttonBlockStyles;
+        }
 
         /* padding */
         paddingStyle { label: Padding; properties: paddingTop paddingRight paddingBottom paddingLeft}
@@ -257,29 +282,29 @@
 
         /* contents */
         preheaderBlock {
-        label: Preheader Block;
-        theme: contentTheme
+            label: Preheader Block;
+            theme: contentTheme
         }
 
         preheaderText {
-        label: PreHeader Text;
-        extend:text;
-        help: This text will be shown on some email clients as a preview of the email contents;
+            label: PreHeader Text;
+            extend:text;
+            help: This text will be shown on some email clients as a preview of the email contents;
         }
 
         footerText {
-        label: Unsubscription Text;
-        extend:text;
+            label: Unsubscription Text;
+            extend:text;
         }
 
         template preheaderText {
-        label: Preheader;
+            label: Preheader;
         }
 
         template {
-        label:Page;
-        theme:frameTheme;
-        properties:preheaderVisible=true;version:1.0.5;
+            label:Page;
+            theme:frameTheme;
+            properties:preheaderVisible=true;version:1.0.5;
         }
 
         leftImage { label: Left Image; extend: image }
@@ -333,10 +358,10 @@
         socialBlock soundclUrl { label: SoundCloud Link }
         socialBlock itunUrl { label: iTunes Link }
         socialBlock {
-        label: Social Block;
-        properties: socialIconType=bw addressSocialVisible=true fbVisible=true fbUrl twVisible=true twUrl ggVisible=true ggUrl webVisible=false webUrl inVisible=false inUrl flVisible=false flUrl viVisible=false viUrl instVisible=false instUrl youVisible=false youUrl spotVisible=false spotUrl twitchVisible=false twitchUrl soundclVisible=false soundclUrl itunVisible=false itunUrl longTextStyle longText backgroundColor;
-        variant:socialIconType;
-        theme: contentTheme
+            label: Social Block;
+            properties: socialIconType=bw addressSocialVisible=true fbVisible=true fbUrl twVisible=true twUrl ggVisible=true ggUrl webVisible=false webUrl inVisible=false inUrl flVisible=false flUrl viVisible=false viUrl instVisible=false instUrl youVisible=false youUrl spotVisible=false spotUrl twitchVisible=false twitchUrl soundclVisible=false soundclUrl itunVisible=false itunUrl longTextStyle longText backgroundColor;
+            variant:socialIconType;
+            theme: contentTheme
         }
 
         sideArticleBlock imagePos {label:Image position;widget:select; options: left=Left|right=Right; }
@@ -357,48 +382,54 @@
         titleBlock { label: Title; theme: contentTheme}
 
         imageBlock longTextStyle {
-        label: Alternative Text;
-        help: Some Email Clients will show this text if automatical download of images is disabled;
+            label: Alternative Text;
+            help: Some Email Clients will show this text if automatical download of images is disabled;
         }
         imageBlock {
-        label: Image;
-        properties: gutterVisible=false; variant: gutterVisible; theme: contentTheme
+            label: Image;
+            properties: gutterVisible=false; variant: gutterVisible; theme: contentTheme
         }
 
         doubleImageBlock longTextStyle {
-        label: Alternative Text;
-        help: Some Email Clients will show this text if automatical download of images is disabled;
+            label: Alternative Text;
+            help: Some Email Clients will show this text if automatical download of images is disabled;
         }
         doubleImageBlock {
-        label: Two Image Gallery Block;
-        properties: gutterVisible=false; variant: gutterVisible; theme: contentTheme
+            label: Two Image Gallery Block;
+            properties: gutterVisible=false; variant: gutterVisible; theme: contentTheme
         }
 
         tripleImageBlock longTextStyle {
-        label: Alternative Text;
-        help: Some Email Clients will show this text if automatical download of images is disabled;
+            label: Alternative Text;
+            help: Some Email Clients will show this text if automatical download of images is disabled;
         }
 
         tripleImageBlock {
-        label: Three Image Gallery Block;
-        properties: gutterVisible=false; variant:gutterVisible; theme: contentTheme
+            label: Three Image Gallery Block;
+            properties: gutterVisible=false; variant:gutterVisible; theme: contentTheme
         }
 
-        buttonBlock {
-        label: Button Block;
-        theme: contentTheme
-        }
+        /*buttonBlock {
+            label: Button Block;
+            theme: contentTheme;
+            properties: borderWidth borderStyle borderColor radius paddingTop paddingBottom;
+        }*/
+        /*buttonBlockStyle:preview {
+            -ko-border-width: color: @color; -ko-font-size: @[size]px; -ko-background-color: @buttonColor; padding-left: 5px; -ko-border-radius: @[radius]px
+        }*/
         hrBlock {
-        label: Separator Block;
-        theme: contentTheme
+            label: Separator Block;
+            theme: contentTheme
         }
         spacerBlock {
-        label: Spacer Block;
-        theme: contentTheme
+            label: Spacer Block;
+            theme: contentTheme
         }
         /* preview block */
         spacerBlock: preview,
-        logoBlock: preview { -ko-background-color: @[externalBackgroundColor] }
+        logoBlock: preview {
+            -ko-background-color: @[externalBackgroundColor]
+        }
         preheaderBlock:preview,
         hrBlock:preview,
         sideArticleBlock:preview,
@@ -411,7 +442,9 @@
         socialBlock:preview,
         buttonBlock:preview,
         titleBlock:preview,
-        socialshareBlock:preview { -ko-background-color: @[backgroundColor] }
+        socialshareBlock:preview {
+            -ko-background-color: @[backgroundColor]
+        }
     }
     </style>
 
@@ -719,7 +752,14 @@
 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
         <div class="oldwebkit">
         <table border="0" cellpadding="0" cellspacing="18" class="vb-container fullwidth"
-               width="570" style="width: 570px; background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;">
+               width="570" style="width: 570px; background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
+               padding-top: 0px; -ko-padding-top: @[buttonBlockStyle.paddingTop]px;
+               padding-bottom: 0px; -ko-padding-bottom: @[buttonBlockStyle.paddingBottom]px;
+               border-width: 0px; -ko-border-width: @[buttonBlockStyle.borderWidth]px;
+               border-style: none; -ko-border-style: @[buttonBlockStyle.borderType];
+               border-color: transparent; -ko-border-color: @[buttonBlockStyle.borderColor];
+               border-radius: 0px; -ko-border-radius: @[buttonBlockStyle.radius]px;
+               ">
             <tr>
             <td valign="top" align="center">
 
@@ -966,7 +1006,14 @@
 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
         <div class="oldwebkit">
         <table width="570" border="0" cellpadding="0" cellspacing="18" class="vb-container fullpad" bgcolor="#ffffff"
-            style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
+            style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
+            padding-top: 0px; -ko-padding-top: @[buttonBlockStyle.paddingTop]px;
+            padding-bottom: 0px; -ko-padding-bottom: @[buttonBlockStyle.paddingBottom]px;
+            border-width: 0px; -ko-border-width: @[buttonBlockStyle.borderWidth]px;
+            border-style: none; -ko-border-style: @[buttonBlockStyle.borderType];
+            border-color: transparent; -ko-border-color: @[buttonBlockStyle.borderColor];
+            border-radius: 0px; -ko-border-radius: @[buttonBlockStyle.radius]px;
+            ">
             <tr>
             <td align="left" style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;text-align:left;
                 -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color;"
@@ -1327,18 +1374,26 @@
 
     <!-- buttonBlock -->
     <table class="vb-outer" width="100%" cellpadding="0" border="0" cellspacing="0" bgcolor="#bfbfbf"
-           style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor"  data-ko-block="buttonBlock">
+           data-ko-block="buttonBlock"
+           style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor; ">
     <tr>
         <td class="vb-outer" align="center" valign="top" bgcolor="#bfbfbf"
-        style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
+            style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
 
 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
         <div class="oldwebkit">
         <table width="570" border="0" cellpadding="0" cellspacing="18" class="vb-container fullpad" bgcolor="#ffffff"
-               style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
+               style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
+               padding-top: 0px; -ko-padding-top: @[buttonBlockStyle.paddingTop]px;
+               padding-bottom: 0px; -ko-padding-bottom: @[buttonBlockStyle.paddingBottom]px;
+               border-width: 0px; -ko-border-width: @[buttonBlockStyle.borderWidth]px;
+               border-style: none; -ko-border-style: @[buttonBlockStyle.borderType];
+               border-color: transparent; -ko-border-color: @[buttonBlockStyle.borderColor];
+               border-radius: 0px; -ko-border-radius: @[buttonBlockStyle.radius]px;
+               ">
             <tr>
-            <td valign="top" bgcolor="#ffffff" style="background-color: #ffffff;
-                -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor" align="center">
+            <td valign="top" bgcolor="#ffffff" align="center"
+                style="background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor">
 
                 <table cellpadding="0" border="0" align="center" cellspacing="0" class="mobile-full">
                 <tr>
@@ -1349,8 +1404,8 @@
                     -ko-attr-bgcolor: @bigButtonStyle.buttonColor; -ko-background-color: @bigButtonStyle.buttonColor;
                     -ko-border-radius: @[bigButtonStyle.radius]px;
                     -ko-font-size: @[bigButtonStyle.size]px; -ko-font-family: @bigButtonStyle.face; -ko-color: @bigButtonStyle.color; ">
-                    <a data-ko-link="link.url" data-ko-editable="link.text" href="" style="text-decoration: none; color: #3f3f3f; font-weight: normal;
-                        -ko-color: @bigButtonStyle.color;">BUTTON</a>
+                    <a data-ko-link="link.url" data-ko-editable="link.text" href=""
+                       style="text-decoration: none; color: #3f3f3f; font-weight: normal; -ko-color: @bigButtonStyle.color;">BUTTON</a>
                     </td>
                 </tr>
                 </table>
