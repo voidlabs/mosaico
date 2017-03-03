@@ -251,7 +251,7 @@
           max: 99;
         }
         borderType {
-            label: Border Style;
+            label: Border Line Type;
             widget: select;
             options: none|solid|dotted|dashed|double|ridge|inset|outset;
         }
@@ -259,22 +259,23 @@
             label: Border Color;
             extend: color;
         }
+        borderStyle {
+            label: Border Style;
+            properties: borderWidth borderType borderColor radius;
+        }
+
+        /* block styles */
+        blockStyle {
+            label: Block Styles;
+            extend: borderStyle;
+            properties: paddingTop paddingBottom borderStyle;
+        }
 
         /* buttons */
         buttonStyle color { label: Text Color; extend: color }
         buttonStyle size { label: Text Size; extend: size }
         buttonStyle { label: Button; properties: face color size buttonColor radius paddingTop paddingBottom }
         buttonStyle:preview { -ko-bind-text: @['Button']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; -ko-background-color: @buttonColor; padding-left: 5px; -ko-border-radius: @[radius]px }
-
-        buttonBlockStyle {
-            label: Button Block Styles;
-            properties: paddingTop paddingBottom borderWidth borderType borderColor radius;
-        }
-        buttonBlock {
-            label: Button Block;
-            /*theme: contentTheme;*/
-            properties:  buttonBlockStyles;
-        }
 
         /* padding */
         paddingStyle { label: Padding; properties: paddingTop paddingRight paddingBottom paddingLeft}
@@ -409,14 +410,15 @@
             properties: gutterVisible=false; variant:gutterVisible; theme: contentTheme
         }
 
-        /*buttonBlock {
+        /* buttonBlock */
+        buttonBlock blockStyle {
+            label: Button Block Styles;
+        }
+        buttonBlock {
             label: Button Block;
-            theme: contentTheme;
-            properties: borderWidth borderStyle borderColor radius paddingTop paddingBottom;
-        }*/
-        /*buttonBlockStyle:preview {
-            -ko-border-width: color: @color; -ko-font-size: @[size]px; -ko-background-color: @buttonColor; padding-left: 5px; -ko-border-radius: @[radius]px
-        }*/
+            properties: blockStyle;
+        }
+
         hrBlock {
             label: Separator Block;
             theme: contentTheme
@@ -753,12 +755,12 @@
         <div class="oldwebkit">
         <table border="0" cellpadding="0" cellspacing="18" class="vb-container fullwidth"
                width="570" style="width: 570px; background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
-               padding-top: 0px; -ko-padding-top: @[buttonBlockStyle.paddingTop]px;
-               padding-bottom: 0px; -ko-padding-bottom: @[buttonBlockStyle.paddingBottom]px;
-               border-width: 0px; -ko-border-width: @[buttonBlockStyle.borderWidth]px;
-               border-style: none; -ko-border-style: @[buttonBlockStyle.borderType];
-               border-color: transparent; -ko-border-color: @[buttonBlockStyle.borderColor];
-               border-radius: 0px; -ko-border-radius: @[buttonBlockStyle.radius]px;
+               padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
+               padding-bottom: 0px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;
+               border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+               border-style: none; -ko-border-style: @[blockStyle.borderType];
+               border-color: transparent; -ko-border-color: @[blockStyle.borderColor];
+               border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
                ">
             <tr>
             <td valign="top" align="center">
@@ -1007,12 +1009,12 @@
         <div class="oldwebkit">
         <table width="570" border="0" cellpadding="0" cellspacing="18" class="vb-container fullpad" bgcolor="#ffffff"
             style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
-            padding-top: 0px; -ko-padding-top: @[buttonBlockStyle.paddingTop]px;
-            padding-bottom: 0px; -ko-padding-bottom: @[buttonBlockStyle.paddingBottom]px;
-            border-width: 0px; -ko-border-width: @[buttonBlockStyle.borderWidth]px;
-            border-style: none; -ko-border-style: @[buttonBlockStyle.borderType];
-            border-color: transparent; -ko-border-color: @[buttonBlockStyle.borderColor];
-            border-radius: 0px; -ko-border-radius: @[buttonBlockStyle.radius]px;
+            padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
+            padding-bottom: 0px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;
+            border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+            border-style: none; -ko-border-style: @[blockStyle.borderType];
+            border-color: transparent; -ko-border-color: @[blockStyle.borderColor];
+            border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
             ">
             <tr>
             <td align="left" style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;text-align:left;
@@ -1384,12 +1386,12 @@
         <div class="oldwebkit">
         <table width="570" border="0" cellpadding="0" cellspacing="18" class="vb-container fullpad" bgcolor="#ffffff"
                style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
-               padding-top: 0px; -ko-padding-top: @[buttonBlockStyle.paddingTop]px;
-               padding-bottom: 0px; -ko-padding-bottom: @[buttonBlockStyle.paddingBottom]px;
-               border-width: 0px; -ko-border-width: @[buttonBlockStyle.borderWidth]px;
-               border-style: none; -ko-border-style: @[buttonBlockStyle.borderType];
-               border-color: transparent; -ko-border-color: @[buttonBlockStyle.borderColor];
-               border-radius: 0px; -ko-border-radius: @[buttonBlockStyle.radius]px;
+               padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
+               padding-bottom: 0px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;
+               border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+               border-style: none; -ko-border-style: @[blockStyle.borderType];
+               border-color: transparent; -ko-border-color: @[blockStyle.borderColor];
+               border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
                ">
             <tr>
             <td valign="top" bgcolor="#ffffff" align="center"
