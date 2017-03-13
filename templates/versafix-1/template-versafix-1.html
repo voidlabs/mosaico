@@ -703,7 +703,7 @@
     -ko-attr-vlink: @_theme_.contentTheme.longTextStyle.linksColor">
 
 <center>
-
+<p>123</p>
 <!-- preheaderBlock -->
 <div data-ko-display="preheaderVisible" data-ko-wrap="false">
 
@@ -1084,40 +1084,57 @@
     <table class="vb-outer titleBlock" width="100%" cellpadding="0" border="0" cellspacing="0" bgcolor="#bfbfbf"
            style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor" data-ko-block="titleBlock">
         <tr>
-            <td class="vb-outer" align="center" valign="top" bgcolor="#bfbfbf"
-                style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
+            <td class="vb-outer" align="center" valign="top">
 
                 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
                 <div class="oldwebkit">
+
                     <table data-ko-display="blockStyle.marginTop gt '0'" class="table-spacer" border="0" cellpadding="0" cellspacing="0" align="center"><tbody><tr><td
                            style="font-size: 1px; line-height: 1px; padding-top:0px; -ko-padding-top: @[blockStyle.marginTop]px;">&nbsp;</td></tr></tbody></table>
-                    <table border="0" cellpadding="0" cellspacing="0" align="center" class="block-border-wrapper"
-                           style="border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
-                                  border-style: none; -ko-border-style: @[blockStyle.borderType];
-                                  border-color: #ff0000; -ko-border-color: @[blockStyle.borderColor];
-                                  border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
-                                  "><tbody><tr><td valign="top" align="center">
 
-                    <table width="570" border="0" cellpadding="0" cellspacing="9" class="vb-container halfpad" bgcolor="#ffffff"
-                           style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
-                                  padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
-                                  padding-bottom: 10px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;
-                                  ">
+                    <!-- Block container table -->
+                    <table class="vb-container fullwidth" border="1" cellpadding="0" cellspacing="0" width="570"
+                           style="width: 570px;">
                         <tr>
-                            <td bgcolor="#ffffff" align="center"
-                                style="background-color: #ffffff; font-size: 22px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f; text-align: center;
-                                -ko-attr-align: @bigTitleStyle.align; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
-                                -ko-font-size: @[bigTitleStyle.size]px; -ko-font-family: @bigTitleStyle.face; -ko-color: @bigTitleStyle.color; -ko-text-align: @bigTitleStyle.align">
-                                <span data-ko-editable="text">Section Title</span>
-                            </td>
-                        </tr>
-                    </table>
+                            <td align="center" valign="top">
 
-                  </td></tr></tbody></table>
-                  <table data-ko-display="blockStyle.marginBottom gt '0'" class="table-spacer" border="0" cellpadding="0" cellspacing="0" align="center"><tbody><tr><td
-                         style="font-size: 1px; line-height: 1px; padding-top:0px; -ko-padding-top: @[blockStyle.marginBottom]px;">&nbsp;</td></tr></tbody></table>
-              </div>
-              <!--[if (gte mso 9)|(lte ie 8)]></td></tr></table><![endif]-->
+                                <!-- Border table wrapper -->
+                                <table border="0" cellpadding="0" cellspacing="0" align="center" class="block-border-wrapper-inner"
+                                       style="padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
+                                              padding-bottom: 10px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;
+                                              background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
+                                              border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+                                              border-style: none; -ko-border-style: @[blockStyle.borderType];
+                                              border-color: #ff0000; -ko-border-color: @[blockStyle.borderColor];
+                                              border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
+                                              "><tbody><tr><td valign="top" align="center">
+
+                                      <table width="570" border="0" cellpadding="0" cellspacing="9" class="vb-container halfpad" bgcolor="#ffffff"
+                                             style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
+                                                    padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
+                                                    padding-bottom: 10px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;
+                                                    ">
+                                          <tr>
+                                              <td bgcolor="#ffffff" align="center"
+                                                  style="background-color: #ffffff; font-size: 22px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f; text-align: center;
+                                                  -ko-attr-align: @bigTitleStyle.align; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
+                                                  -ko-font-size: @[bigTitleStyle.size]px; -ko-font-family: @bigTitleStyle.face; -ko-color: @bigTitleStyle.color; -ko-text-align: @bigTitleStyle.align">
+                                                  <span data-ko-editable="text">Section Title</span>
+                                              </td>
+                                          </tr>
+                                      </table>
+
+                                  </td></tr></tbody></table>
+
+                              </td>
+                          </tr>
+                      </table>
+
+                      <table data-ko-display="blockStyle.marginBottom gt '0'" class="table-spacer" border="0" cellpadding="0" cellspacing="0" align="center"><tbody><tr><td
+                             style="font-size: 1px; line-height: 1px; padding-top:0px; -ko-padding-top: @[blockStyle.marginBottom]px;">&nbsp;</td></tr></tbody></table>
+
+                  </div>
+                  <!--[if (gte mso 9)|(lte ie 8)]></td></tr></table><![endif]-->
 
             </td>
         </tr>
@@ -1133,33 +1150,53 @@
 
                 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
                 <div class="oldwebkit">
+
+                    <!-- Margin table -->
                     <table data-ko-display="blockStyle.marginTop gt '0'" class="table-spacer" border="0" cellpadding="0" cellspacing="0" align="center"><tbody><tr><td
                            style="font-size: 1px; line-height: 1px; padding-top:0px; -ko-padding-top: @[blockStyle.marginTop]px;">&nbsp;</td></tr></tbody></table>
-                    <table border="0" cellpadding="0" cellspacing="0" align="center" class="block-border-wrapper"
-                           style="border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
-                                  border-style: none; -ko-border-style: @[blockStyle.borderType];
-                                  border-color: #ff0000; -ko-border-color: @[blockStyle.borderColor];
-                                  border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
-                                  "><tbody><tr><td valign="top" align="center">
 
-                        <table width="570" border="0" cellpadding="0" cellspacing="18" class="vb-container fullpad" bgcolor="#ffffff"
-                               style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
-                                      padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
-                                      padding-bottom: 10px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;
-                                      ">
-                            <tr>
-                            <td align="left" data-ko-editable="longText" class="long-text links-color"
-                                style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;text-align:left;
-                                -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color;">
-                                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                                <p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-                            </td>
-                            </tr>
-                        </table>
+                    <!-- Block container table -->
+                    <table class="vb-container fullwidth" border="1" cellpadding="0" cellspacing="0" width="570"
+                           style="width: 570px;">
+                        <tr>
+                            <td align="center" valign="top">
 
-                    </td></tr></tbody></table>
-                    <table data-ko-display="blockStyle.marginBottom gt '0'" class="table-spacer" border="0" cellpadding="0" cellspacing="0" align="center"><tbody><tr><td
-                           style="font-size: 1px; line-height: 1px; padding-top:0px; -ko-padding-top: @[blockStyle.marginBottom]px;">&nbsp;</td></tr></tbody></table>
+                                <!-- Border table wrapper -->
+                                <table border="0" cellpadding="0" cellspacing="0" align="center" class="block-border-wrapper-inner"
+                                       style="padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
+                                              padding-bottom: 10px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;
+                                              background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
+                                              border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+                                              border-style: none; -ko-border-style: @[blockStyle.borderType];
+                                              border-color: #ff0000; -ko-border-color: @[blockStyle.borderColor];
+                                              border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
+                                              "><tbody><tr><td valign="top" align="center">
+
+                                    <table width="570" border="0" cellpadding="0" cellspacing="18" class="vb-container fullpad" bgcolor="#ffffff"
+                                           style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
+                                                  padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
+                                                  padding-bottom: 10px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;
+                                                  ">
+                                        <tr>
+                                            <td align="left" data-ko-editable="longText" class="long-text links-color"
+                                                style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f;text-align:left;
+                                                -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color;">
+                                                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                                                <p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                  </td></tr></tbody></table>
+
+                              </td>
+                          </tr>
+                      </table>
+
+                      <!-- Margin table -->
+                      <table data-ko-display="blockStyle.marginTop gt '0'" class="table-spacer" border="0" cellpadding="0" cellspacing="0" align="center"><tbody><tr><td
+                             style="font-size: 1px; line-height: 1px; padding-top:0px; -ko-padding-top: @[blockStyle.marginBottom]px">&nbsp;</td></tr></tbody></table>
+
                 </div>
                 <!--[if (gte mso 9)|(lte ie 8)]></td></tr></table><![endif]-->
 
