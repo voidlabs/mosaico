@@ -703,7 +703,7 @@
     -ko-attr-vlink: @_theme_.contentTheme.longTextStyle.linksColor">
 
 <center>
-<p>123</p>
+
 <!-- preheaderBlock -->
 <div data-ko-display="preheaderVisible" data-ko-wrap="false">
 
@@ -1579,36 +1579,57 @@
 
                 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
                 <div class="oldwebkit">
+
+                    <!-- Margin table -->
                     <table data-ko-display="blockStyle.marginTop gt '0'" class="table-spacer" border="0" cellpadding="0" cellspacing="0" align="center"><tbody><tr><td
                            style="font-size: 1px; line-height: 1px; padding-top:0px; -ko-padding-top: @[blockStyle.marginTop]px;">&nbsp;</td></tr></tbody></table>
-                    <table border="0" cellpadding="0" cellspacing="0" align="center" class="block-border-wrapper"
-                           style="border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
-                                  border-style: none; -ko-border-style: @[blockStyle.borderType];
-                                  border-color: #ff0000; -ko-border-color: @[blockStyle.borderColor];
-                                  border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
-                                  "><tbody><tr><td valign="top" align="center">
 
-                        <table width="570" border="0" cellpadding="0" cellspacing="9" class="vb-container halfpad" bgcolor="#ffffff"
-                               style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
-                               padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
-                               padding-bottom: 10px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;">
-                            <tr>
-                            <td valign="top" bgcolor="#ffffff" style="background-color: #ffffff;
-                                -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor" align="center">
-                                <table width="100%" cellspacing="0" cellpadding="0" border="0"
-                                style="width:100%; -ko-width: @[hrStyle.hrWidth]%; -ko-attr-width: @[hrStyle.hrWidth]%">
-                                <tr>
-                                    <td width="100%" height="1" style="font-size:1px; line-height: 1px; width: 100%; background-color: #3f3f3f;
-                                    -ko-background-color: @hrStyle.color; -ko-attr-height: @hrStyle.hrHeight; -ko-line-height: @[hrStyle.hrHeight]px">&nbsp;</td>
-                                </tr>
-                                </table>
-                            </td>
-                            </tr>
-                          </table>
+                    <!-- Block container table -->
+                    <table class="vb-container fullwidth" border="1" cellpadding="0" cellspacing="0" width="570"
+                           style="width: 570px;">
+                        <tr>
+                            <td align="center" valign="top">
 
-                      </td></tr></tbody></table>
-                      <table data-ko-display="blockStyle.marginBottom gt '0'" class="table-spacer" border="0" cellpadding="0" cellspacing="0" align="center"><tbody><tr><td
-                             style="font-size: 1px; line-height: 1px; padding-top:0px; -ko-padding-top: @[blockStyle.marginBottom]px;">&nbsp;</td></tr></tbody></table>
+                                <!-- Border table wrapper -->
+                                <table border="0" cellpadding="0" cellspacing="0" align="center" class="block-border-wrapper-inner"
+                                       style="padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
+                                              padding-bottom: 10px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;
+                                              background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
+                                              border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+                                              border-style: none; -ko-border-style: @[blockStyle.borderType];
+                                              border-color: #ff0000; -ko-border-color: @[blockStyle.borderColor];
+                                              border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
+                                              "><tbody><tr><td valign="top" align="center">
+
+
+                                    <table width="570" border="0" cellpadding="0" cellspacing="9" class="vb-container halfpad" bgcolor="#ffffff"
+                                           style="width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
+                                           padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
+                                           padding-bottom: 10px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;">
+                                        <tr>
+                                            <td valign="top" bgcolor="#ffffff" style="background-color: #ffffff;
+                                                -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor" align="center">
+                                                <table width="100%" cellspacing="0" cellpadding="0" border="0"
+                                                style="width:100%; -ko-width: @[hrStyle.hrWidth]%; -ko-attr-width: @[hrStyle.hrWidth]%">
+                                                <tr>
+                                                    <td width="100%" height="1" style="font-size:1px; line-height: 1px; width: 100%; background-color: #3f3f3f;
+                                                    -ko-background-color: @hrStyle.color; -ko-attr-height: @hrStyle.hrHeight; -ko-line-height: @[hrStyle.hrHeight]px">&nbsp;</td>
+                                                </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                  </td></tr></tbody></table>
+
+                              </td>
+                          </tr>
+                      </table>
+
+                      <!-- Margin table -->
+                      <table data-ko-display="blockStyle.marginTop gt '0'" class="table-spacer" border="0" cellpadding="0" cellspacing="0" align="center"><tbody><tr><td
+                             style="font-size: 1px; line-height: 1px; padding-top:0px; -ko-padding-top: @[blockStyle.marginBottom]px">&nbsp;</td></tr></tbody></table>
+
                   </div>
                   <!--[if (gte mso 9)|(lte ie 8)]></td></tr></table><![endif]-->
 
