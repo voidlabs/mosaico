@@ -1712,7 +1712,7 @@
     </table>
     <!-- /buttonBlock -->
 
-    <!-- padding-bottom: 0px; -koock  -->
+    <!-- imageBlock  -->
     <table class="vb-outer imageBlock" width="100%" cellpadding="0" border="0" cellspacing="0" bgcolor="#bfbfbf"
            style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor"
            data-ko-block="imageBlock">
@@ -1741,12 +1741,18 @@
                                       ">
                             <tr>
                                 <td valign="top" align="center">
-                                    <a data-ko-link="image.url" href="" style="text-decoration: none;"><img data-ko-editable="image.src"
-                                        hspace="0" border="0" vspace="0" width="570" data-ko-placeholder-height="200"
-                                        src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=570%2C200" class="mobile-full"
-                                        alt="" style="max-width: 570px; display: block; border-radius: 0px; width: 100%; height: auto; font-size: 13px;
-                                        font-family: Arial, Helvetica, sans-serif; color: #3f3f3f; -ko-font-size: @[longTextStyle.size]px;
-                                        -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color; -ko-attr-alt: @image.alt;" /></a>
+                                    <a data-ko-link="image.url" href="" style="text-decoration: none;"><img
+                                        class="mobile-full"
+                                        data-ko-editable="image.src"
+                                        hspace="0" border="0" vspace="0" alt=""
+                                        data-ko-placeholder-height="200"
+                                        src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=570%2C200"
+                                        width="0"
+                                        style="width: 0px; -ko-width: @[570 - (blockStyle.borderWidth*2)]px; -ko-attr-width: @[570 - (blockStyle.borderWidth*2)];
+                                               display: block; border-radius: 0; height: auto; font-size: 13px;
+                                               font-family: Arial, Helvetica, sans-serif; color: #3f3f3f; -ko-font-size: @[longTextStyle.size]px;
+                                               -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color; -ko-attr-alt: @image.alt;
+                                               " /></a>
                                 </td>
                             </tr>
                         </table>
