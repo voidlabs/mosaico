@@ -399,7 +399,6 @@
         }
         imageBlock {
             label: Image;
-            properties: gutterVisible=false; variant: gutterVisible; theme: contentTheme
         }
 
         doubleImageBlock longTextStyle {
@@ -1740,63 +1739,60 @@
                 <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
                 <div class="oldwebkit">
 
+                    <!-- Margin table -->
                     <table data-ko-display="blockStyle.marginTop gt '0'" class="table-spacer" border="0" cellpadding="0" cellspacing="0" align="center"><tbody><tr><td
                            style="font-size: 1px; line-height: 1px; padding-top:0px; -ko-padding-top: @[blockStyle.marginTop]px;">&nbsp;</td></tr></tbody></table>
 
-                    <table border="0" cellpadding="0" cellspacing="0" align="center" class="block-border-wrapper"
-                           style="background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
-                                  border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
-                                  border-style: none; -ko-border-style: @[blockStyle.borderType];
-                                  border-color: #ff0000; -ko-border-color: @[blockStyle.borderColor];
-                                  border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
-                                  "><tbody><tr><td valign="top" align="center">
-
-                        <table class="vb-container fullwidth" cellpadding="0" border="0" bgcolor="#ffffff" align="center" cellspacing="0"
-                               width="100%"
-                               data-ko-display="gutterVisible eq false"
-                               style="width: 100%; max-width: 570px; background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
-                                      border-collapse: collapse;
-                                      ">
+                    <!-- Block container table -->
+                    <table class="vb-container fullwidth" width="570" border="0" cellpadding="0" cellspacing="0" align="center"
+                           style="width: 570px">
+                        <tbody>
                             <tr>
                                 <td valign="top" align="center">
-                                    <a data-ko-link="image.url" href="" style="text-decoration: none;"><img
-                                        class="mobile-full"
-                                        data-ko-editable="image.src"
-                                        hspace="0" border="0" vspace="0" alt=""
-                                        data-ko-placeholder-height="200"
-                                        src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=570%2C200"
-                                        width="0"
-                                        style="width: 0px; -ko-width: @[570 - (blockStyle.borderWidth*2)]px; -ko-attr-width: @[570 - (blockStyle.borderWidth*2)];
-                                               display: block; border-radius: 0; height: auto; font-size: 13px;
-                                               font-family: Arial, Helvetica, sans-serif; color: #3f3f3f; -ko-font-size: @[longTextStyle.size]px;
-                                               -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color; -ko-attr-alt: @image.alt;
-                                               " /></a>
+
+                                    <!-- Border table wrapper -->
+                                    <table border="0" cellpadding="0" cellspacing="0" align="center" class="block-border-wrapper-inner"
+                                           style="background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
+                                                  border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+                                                  border-style: none; -ko-border-style: @[blockStyle.borderType];
+                                                  border-color: #ff0000; -ko-border-color: @[blockStyle.borderColor];
+                                                  border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
+                                                  "><tbody><tr><td valign="top" align="center">
+
+
+                                        <table class="vb-container fullwidth" cellpadding="0" border="0" bgcolor="#ffffff" align="center" cellspacing="0"
+                                               width="100%"
+                                               style="width: 100%; max-width: 570px; background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
+                                                      border-collapse: collapse;
+                                                      ">
+                                            <tr>
+                                                <td valign="top" align="center">
+                                                    <a data-ko-link="image.url" href="" style="text-decoration: none;"><img
+                                                        class="mobile-full"
+                                                        data-ko-editable="image.src"
+                                                        hspace="0" border="0" vspace="0" alt=""
+                                                        data-ko-placeholder-height="200"
+                                                        src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=570%2C200"
+                                                        width="0"
+                                                        style="width: 0px; -ko-width: @[570 - (blockStyle.borderWidth*2)]px; -ko-attr-width: @[570 - (blockStyle.borderWidth*2)];
+                                                               display: block; border-radius: 0; height: auto; font-size: 13px;
+                                                               font-family: Arial, Helvetica, sans-serif; color: #3f3f3f; -ko-font-size: @[longTextStyle.size]px;
+                                                               -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color; -ko-attr-alt: @image.alt;
+                                                               " /></a>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                    </td></tr></tbody></table>
+
                                 </td>
                             </tr>
-                        </table>
+                        </tbody>
+                    </table>
 
-                        <table class="vb-container fullpad" cellpadding="0" cellspacing="18" border="0" bgcolor="#ffffff" align="center"
-                               width="100%"
-                               data-ko-display="gutterVisible"
-                               style="width: 100%; max-width: 570px; background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
-                                      border-collapse: collapse;
-                                      display: none;">
-                            <tr>
-                                <td valign="top" align="center">
-                                    <a data-ko-link="image.url" href="" style="text-decoration: none;"><img data-ko-editable="image.src"
-                                        hspace="0" border="0" vspace="0" width="534" data-ko-placeholder-height="280"
-                                        src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=534%2C280" class="mobile-full" alt=""
-                                        style="max-width: 534px; display: block; border-radius: 0px; width: 100%; height: auto; font-size: 13px;
-                                        font-family: Arial, Helvetica, sans-serif; color: #3f3f3f; -ko-font-size: @[longTextStyle.size]px;
-                                        -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color; -ko-attr-alt: @image.alt;" /></a>
-                                </td>
-                            </tr>
-                        </table>
-
-                    </td></tr></tbody></table>
-
+                    <!-- Margin table -->
                     <table data-ko-display="blockStyle.marginBottom gt '0'" class="table-spacer" border="0" cellpadding="0" cellspacing="0" align="center"><tbody><tr><td
-                           style="font-size: 1px; line-height: 1px; padding-top:0px; -ko-padding-top: @[blockStyle.marginBottom]px;">&nbsp;</td></tr></tbody></table>
+                           style="font-size: 1px; line-height: 1px; padding-top:0px; -ko-padding-top: @[blockStyle.marginBottom]px">&nbsp;</td></tr></tbody></table>
 
                 </div>
                 <!--[if (gte mso 9)|(lte ie 8)]></td></tr></table><![endif]-->
