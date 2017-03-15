@@ -2013,7 +2013,8 @@
 
     <!-- tripleImageBlock -->
     <table class="vb-outer tripleImageBlock" width="100%" cellpadding="0" border="0" cellspacing="0" bgcolor="#bfbfbf"
-           style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor" data-ko-block="tripleImageBlock">
+           style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor"
+           data-ko-block="tripleImageBlock">
         <tbody>
             <tr>
                 <td class="vb-outer" valign="top" align="center">
@@ -2041,7 +2042,8 @@
                                                       border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
                                                       "><tbody><tr><td valign="top" align="center">
 
-                                            <table data-ko-display="gutterVisible" width="570" class="vb-row fullpad" border="0" cellpadding="0" cellspacing="9" bgcolor="#ffffff"
+                                            <table width="570" class="vb-container fullwidth" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+                                                   data-ko-display="gutterVisible eq false"
                                                    style="width: 100%; max-width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor; display: none;">
                                                 <tr>
                                                     <td valign="top" align="center" class="mobile-row" style="font-size: 0px;">
@@ -2050,32 +2052,32 @@
                                                         <!--[if (gte mso 9)|(lte ie 8)]><td align="left" valign="top" width="190"><![endif]-->
                                                         <div class="mobile-full"
                                                              style="display: inline-block; float: left; vertical-align: top;
-                                                                    width: 0px; -ko-width: @[Math.round((570 - blockStyle.borderWidth*2) / 3)]px;">
+                                                                    width: 0px; -ko-width: @[Math.floor((570 - blockStyle.borderWidth*2) / 3)]px;">
                                                             <a data-ko-link="leftImage.url" href="" style="text-decoration: none;"><img data-ko-editable="leftImage.src"
                                                                 hspace="0" align="left" border="0" vspace="0" width="190" data-ko-placeholder-height="160" class="mobile-full"
                                                                 src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=190%2C160" alt=""
                                                                 style="display: inline-block; border-radius: 0px; height: auto; -ko-attr-alt: @rightImage.alt;
-                                                                       width: 0px; -ko-width: @[Math.round((570 - blockStyle.borderWidth*2) / 3)]px; -ko-attr-width: @[Math.round((570 - blockStyle.borderWidth*2) / 3)];" /></a>
+                                                                       width: 0px; -ko-width: @[Math.floor((570 - blockStyle.borderWidth*2) / 3)]px; -ko-attr-width: @[Math.floor((570 - blockStyle.borderWidth*2) / 3)];" /></a>
                                                         </div><!--[if (gte mso 9)|(lte ie 8)]></td>
                                                         <td align="left" valign="top" width="190">
                                                         <![endif]--><div class="mobile-full"
                                                         style="display: inline-block; float: left; vertical-align: top;
-                                                               width: 0px; -ko-width: @[Math.round((570 - blockStyle.borderWidth*2) / 3)]px;">
+                                                               width: 0px; -ko-width: @[Math.floor((570 - blockStyle.borderWidth*2) / 3)]px;">
                                                             <a data-ko-link="middleImage.url" href="" style="text-decoration: none;"><img data-ko-editable="middleImage.src"
                                                                 hspace="0" align="left" border="0" vspace="0" width="190" data-ko-placeholder-height="160" class="mobile-full"
                                                                 src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=190%2C160" alt=""
                                                                 style="display: inline-block; border-radius: 0px; height: auto; -ko-attr-alt: @rightImage.alt;
-                                                                       width: 0px; -ko-width: @[Math.round((570 - blockStyle.borderWidth*2) / 3)]px; -ko-attr-width: @[Math.round((570 - blockStyle.borderWidth*2) / 3)];" /></a>
+                                                                       width: 0px; -ko-width: @[Math.floor((570 - blockStyle.borderWidth*2) / 3)]px; -ko-attr-width: @[Math.floor((570 - blockStyle.borderWidth*2) / 3)];" /></a>
                                                         </div><!--[if (gte mso 9)|(lte ie 8)]></td>
                                                         <td align="left" valign="top" width="190">
                                                         <![endif]--><div class="mobile-full"
                                                         style="display: inline-block; float: left; vertical-align: top;
-                                                               width: 0px; -ko-width: @[Math.round((570 - blockStyle.borderWidth*2) / 3)]px;">
+                                                               width: 0px; -ko-width: @[Math.floor((570 - blockStyle.borderWidth*2) / 3)]px;">
                                                             <a data-ko-link="rightImage.url" href="" style="text-decoration: none;"><img data-ko-editable="rightImage.src"
                                                                 hspace="0" align="right" border="0" vspace="0" width="190" data-ko-placeholder-height="160" class="mobile-full"
                                                                 src="http://mosaico.io/srv/f-default/img?method=placeholder&amp;params=190%2C160" alt=""
                                                                 style="display: inline-block; border-radius: 0px; height: auto; -ko-attr-alt: @rightImage.alt;
-                                                                       width: 0px; -ko-width: @[Math.round((570 - blockStyle.borderWidth*2) / 3)]px; -ko-attr-width: @[Math.round((570 - blockStyle.borderWidth*2) / 3)];" /></a>
+                                                                       width: 0px; -ko-width: @[Math.floor((570 - blockStyle.borderWidth*2) / 3)]px; -ko-attr-width: @[Math.floor((570 - blockStyle.borderWidth*2) / 3)];" /></a>
                                                         </div>
                                                         <!--[if (gte mso 9)|(lte ie 8)]></td><![endif]-->
                                                         <!--[if (gte mso 9)|(lte ie 8)]></tr></table><![endif]-->
