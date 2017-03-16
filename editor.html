@@ -1,63 +1,338 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=1024, initial-scale=1">
-
-    <link rel="canonical" href="http://mosaico.io" />
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-
-    <script src="dist/vendor/jquery.min.js"></script>
-    <script src="dist/vendor/knockout.js"></script>
-    <script src="dist/vendor/jquery-ui.min.js"></script>
-    <script src="dist/vendor/jquery.ui.touch-punch.min.js"></script>
-    <script src="dist/vendor/load-image.all.min.js"></script>
-    <script src="dist/vendor/canvas-to-blob.min.js"></script>
-    <script src="dist/vendor/jquery.iframe-transport.js"></script>
-    <script src="dist/vendor/jquery.fileupload.js"></script>
-    <script src="dist/vendor/jquery.fileupload-process.js"></script>
-    <script src="dist/vendor/jquery.fileupload-image.js"></script>
-    <script src="dist/vendor/jquery.fileupload-validate.js"></script>
-    <script src="dist/vendor/knockout-jqueryui.min.js"></script>
-    <script src="dist/vendor/tinymce.min.js"></script>
-
-    <script src="dist/mosaico.min.js?v=0.15"></script>
-    <script>
-$(function() {
-  if (!Mosaico.isCompatible()) {
-    alert('Update your browser!');
-    return;
-  }
-  // var basePath = window.location.href.substr(0, window.location.href.lastIndexOf('/')).substr(window.location.href.indexOf('/','https://'.length));
-  var basePath = window.location.href;
-  if (basePath.lastIndexOf('#') > 0) basePath = basePath.substr(0, basePath.lastIndexOf('#'));
-  if (basePath.lastIndexOf('?') > 0) basePath = basePath.substr(0, basePath.lastIndexOf('?'));
-  if (basePath.lastIndexOf('/') > 0) basePath = basePath.substr(0, basePath.lastIndexOf('/'));
-  var plugins;
-  // A basic plugin that expose the "viewModel" object as a global variable.
-  // plugins = [function(vm) {window.viewModel = vm;}];
-  var ok = Mosaico.init({
-    imgProcessorBackend: basePath+'/img/',
-    emailProcessorBackend: basePath+'/dl/',
-    titleToken: "MOSAICO Responsive Email Designer",
-    fileuploadConfig: {
-      url: basePath+'/upload/',
-      // messages??
+    <head>
+        <title>Mosaico Email Editor</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=1024, initial-scale=1">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <script src="mosaico/dist/vendor/jquery.min.js"></script>
+        <script>jQuery.noConflict();</script>
+        <script src="mosaico/dist/vendor/knockout.js"></script>
+        <script src="mosaico/dist/vendor/jquery-ui.min.js"></script>
+        <script src="mosaico/dist/vendor/jquery.ui.touch-punch.min.js"></script>
+        <script src="mosaico/dist/vendor/load-image.all.min.js"></script>
+        <script src="mosaico/dist/vendor/canvas-to-blob.min.js"></script>
+        <script src="mosaico/dist/vendor/jquery.iframe-transport.js"></script>
+        <script src="mosaico/dist/vendor/jquery.fileupload.js"></script>
+        <script src="mosaico/dist/vendor/jquery.fileupload-process.js"></script>
+        <script src="mosaico/dist/vendor/jquery.fileupload-image.js"></script>
+        <script src="mosaico/dist/vendor/jquery.fileupload-validate.js"></script>
+        <script src="mosaico/dist/vendor/knockout-jqueryui.min.js"></script>
+        <script src="mosaico/dist/vendor/tinymce.min.js"></script>
+        <script src="mosaico/dist/mosaico.min.js?v=0.15"></script>		
+        <script src="mosaico/dist/custom/mycustom.js"></script>
+        <script src="mosaico/dist/custom/jquery-fieldselection.js"></script>
+        <link rel="stylesheet" href="mosaico/dist/mosaico-material.min.css?v=0.10" />
+        <link rel="stylesheet" href="mosaico/dist/vendor/notoregular/stylesheet.css" />
+        <link rel="stylesheet" href="mosaico/dist/dialog.min.css" />
+        <link rel="stylesheet" href="mosaico/dist/tables.min.css" />
+        <link rel="stylesheet" href="mosaico/dist/profitcenter.min.css" />
+        <style>		
+            #toast-container {
+                margin-top:40px;
+            }
+            
+            #toast-container > div {
+                opacity:0.9
+            }
+            
+            #toolbar { 
+                background-color:#00ACEC
+            }
+            
+            #toolbar .ui-button {
+                background-color:#00ACEC
+            }
+            
+            /*
+            #toolbar .ui-button.ui-button-disabled .ui-button-text {
+                color: #797C80
+            } 
+            */
+            #toolbar .ui-button.ui-button-disabled {
+                color: #797C80
+            } 
+            
+            #toolbar .ui-button.ui-button-disabled .ui-icon {
+                color: #797C80
+            }
+            
+            #toolbar .ui-button:hover {
+                background-color: #EF8204;               
+            }
+            
+            .mo .ui-tabs.tabs_horizontal.button_color > ul li > a:hover { 
+                background-color: #EF8204;
+                border-bottom: 3px solid #FFF;
+            }
+            
+            .mo .ui-button .ui-button-text, .mo .ui-button .ui-icon {
+                //color: #FFF;
+            }
+			
+            m-block {
+              border: 1px dashed #FF0000;
+              font-weight: bold;
+              color: #000;
+              background: #DBE4FD url(mosaico/dist/img/mblock.png) repeat;
+              display: block;
+              font-size: 20px;
+              text-align: center;
+              box-sizing:border-box;
+			  -moz-box-sizing: border-box;
+              width: 100%;
+            }
+			
+    .midtoolsMBlock {
+      z-index: 30;
+      position: absolute;
+      bottom: 16px;      
+      left:15px;
+      text-align: left;
     }
-  }, plugins);
-  if (!ok) {
-    console.log("Missing initialization hash, redirecting to main entrypoint");
-    document.location = ".";
-  }
-});
-    </script>
+        </style>
     
-    <link rel="stylesheet" href="dist/mosaico-material.min.css?v=0.10" />
-    <link rel="stylesheet" href="dist/vendor/notoregular/stylesheet.css" />
-  </head>
-  <body class="mo-standalone">
+	<script>
+        jQuery(function() {
+			if (!Mosaico.isCompatible()) {
+				alert('Update your browser!');
+				return;
+			}
+	  
+            var basePath = window.location.href.substr(0, window.location.href.lastIndexOf('/'));             
+            
+            var idID = '<?php echo $idID;?>';
+            var crID = '<?php echo $crID;?>';
+            var coId = '<?php echo $companyId;?>';                   
+            var pureHtml = ''; 
+            
+            <?php
+            if(!empty($metadata) && !empty($content))
+            {
+            ?>
+               
+            <?php
+            }
+            else
+            {
+            ?>
+               //var metadata = {"template":basePath + "/mosaico/templates/"+coId+"/template-mosaico.html"};
+               //var content  = {};     
+            <?php        
+            }    
+            ?>                    
+            
+            var metadata = '';
+            var htmlcontent  = '';
+            var content = '';
+			
+            jQuery.ajax({
+                url: 'creative_mosaico_editor.php', // path to load the email content
+                type: 'post',
+                data:{'ajax':'getEmail', 'idID':<?php echo $idID;?>, 'crID': <?php echo $crID;?>},
+                dataType: 'JSON',                
+                success: function(data){
+                    metadata = data[0];
+                    htmlcontent = data[2].htmlcontent; //html to restore
+					content = data[1];//json
+					if(content == '') content = null;
+					
+					if(content && content.mainBlocks)
+					{
+						if(typeof(content.mainBlocks.blocks) == "string"){
+							var response=jQuery.parseJSON(content.mainBlocks.blocks);
+							if(typeof response =='object')
+							{
+							  content.mainBlocks.blocks = response;
+							}
+							else
+							{
+								// convert it to JSON
+								//content.mainBlocks.blocks = JSON.parse(content.mainBlocks.blocks); 
+							}						
+						}
+					}
+                    
+                    var plugins = [
+						function(vm) {
+							//assigning viewmodel to windows to allow its global access
+							window.viewModel = vm;
+							vm.customhtmlcontent = htmlcontent;
+							if(htmlcontent && htmlcontent!= '{}')
+							{
+								setTimeout(function(){
+									loadSavedMBlocks(htmlcontent);
+									//jQuery('#main-wysiwyg-area').html(htmlcontent);
+									//ko.cleanNode(jQuery('body')[0]);
+									//ko.applyBindings(vm,jQuery('body')[0]);
+								},1000);
+							}
+						},                
+					 // plugin for integrating save button
+                        function(viewModel) {
+                            console.log('PROCESS PLUGIN');
+                            var saveCmd = {
+                                name: 'Save', // l10n happens in the template
+                                enabled: ko.observable(true)
+                            };
+                            
+                            /*
+                            var downloadCmd = {
+                              name: 'Download', // l10n happens in the template
+                              enabled: ko.observable(true)
+                            };
+                            */
 
+                            var previewCmd = {
+                                name: 'Preview', // l10n happens in the template
+                                enabled: ko.observable(true)
+                            };
 
-  </body>
+                            previewCmd.execute = function() {                                
+                                var contentForPreview = viewModel.getHTMLForPreview();//viewModel.exportHTML();							
+                                window.parent.document.getElementById('htmlMsg').innerHTML = contentForPreview;
+                                top.startPreview('HTML');
+                                return;                        
+                            }
+
+                            saveCmd.execute = function() {  
+                                saveCmd.enabled(false);
+                                viewModel.metadata.changed = Date.now();
+
+                                if(typeof viewModel.metadata.key == 'undefined') {
+                                    var rnd = Math.random().toString(36).substr(2, 7);
+                                    viewModel.metadata.key = rnd;
+                                }
+
+                                // Step 1: Fetch the email content in HTML format with static image URLs
+                                //var htmlcontent = viewModel.getHTMLForSave();
+                                var htmlcontent = viewModel.getHTMLForPreview();
+                                jQuery.ajax({
+                                    url: basePath + '/mosaico/backend/dl/' + idID + '/',  
+                                    type:"POST",
+									data:{'html':htmlcontent,'action':'html'},
+                                    //data:{'html':viewModel.exportHTML(),'action':'html'},
+                                    success:function(data){
+                                        pureHtml = data;                                        
+										
+                                        // Step 2: Save creative
+                                        jQuery.ajax({
+                                            url:"creative_editcode.php", // Path to save file
+                                            type:"POST",
+                                            data:{'ajax':'saveCreative', 'editor':'mos', 'metadata':viewModel.exportMetadata(), 'json_content':viewModel.exportJSON(), 'html_content':viewModel.getHTMLForSave(),'htmldata':pureHtml, 'idID':<?php echo $idID;?>, 'crID': <?php echo $crID;?>},											                                           
+                                            success:function(data){                                                                        
+                                                //viewModel.notifier.success(viewModel.t('Creative saved successfully.'));                                      
+                                                var s = data.split("|");
+                                                var statusObj = window.parent.document.getElementById('creative_editcode_status');
+
+                                                if (s[0]=='OK') {                                       
+                                                    statusObj.className ="success";
+                                                    statusObj.innerHTML  = 'The creative was saved successfully!';
+                                                } else if (s[0]=='WARNINGOK') {
+                                                    var s = '<span style="font-weight:bold;color:#2C9C3B">Please review the following messages:</span>'+s[1];                                        
+                                                    statusObj.className ="warningok";
+                                                    statusObj.innerHTML  = s;
+                                                } else if (s[0]=='WARNINGWARNING') {
+                                                    var s = '<span style="font-weight:bold;color:#FF6000">Please review the following messages:</span>'+s[1];                                        
+                                                    statusObj.className ="warningwarning";
+                                                    statusObj.innerHTML  = s;
+                                                } else if (s[0]=='ERROR') {                                         
+                                                    statusObj.className ="error";
+                                                    if (s[1]!=undefined && s[1]!="") {                                             
+                                                        statusObj.innerHTML  = s[1];
+                                                    } else {                                             
+                                                        statusObj.innerHTML  = 'Unknown error had happened during saving creative.';
+                                                    }
+                                                } else {                                       
+                                                    statusObj.className ="error";
+                                                    statusObj.innerHTML  = data;
+                                                }                                    
+                                            },
+                                            error:function(jqXHR, textStatus, errorMessage){
+                                                viewModel.notifier.error(viewModel.t('Error saving creative.'));
+                                            }
+                                        }).always(function() {
+                                            saveCmd.enabled(true);
+                                        });
+                                    },
+                                    error:function(jqXHR, textStatus, errorMessage){
+                                        viewModel.notifier.error(viewModel.t('Error saving creative - static images.'));
+                                        saveCmd.enabled(true);
+                                    }
+                                });
+
+                            };
+                            
+                            /*
+                            downloadCmd.execute = function() {
+                              var emailProcessorBackend = '/mosaico/backend/dl/' + idID + '/';
+                              downloadCmd.enabled(false);
+                              viewModel.notifier.info(viewModel.t("Downloading..."));
+                              viewModel.exportHTMLtoTextarea('#downloadHtmlTextarea');
+                              var postUrl = emailProcessorBackend;
+                              document.getElementById('downloadForm').setAttribute("action", postUrl);
+                              document.getElementById('downloadForm').submit();
+                              downloadCmd.enabled(true);
+                            };
+                            */
+
+                            viewModel.save = saveCmd;
+                            //viewModel.download = downloadCmd;                        
+                            viewModel.test = previewCmd;
+
+                            // If we want to change the 'toastr' default configuration for showing status messages
+                            viewModel.notifier.options = {
+                                "closeButton": true,
+                                "debug": false,
+                                "positionClass": "toast-top-center",
+                                "target": "#mo-body" 
+                            };
+                        }
+                    ];
+
+                    var ok = Mosaico.start({       
+                        imgProcessorBackend: basePath + '/mosaico/backend/img/' + idID + '/',  
+                        emailProcessorBackend:  basePath + '/mosaico/backend/dl/' + idID + '/',       
+                        titleToken: "Email Editor",
+                        fileuploadConfig: {          
+                          url: basePath + '/mosaico/backend/upload/' + idID + '/',
+                          maxFileSize: 3 * 1024 * 1024, // 3 MB, as per existing restriction from CKEditor
+                          acceptFileTypes: /(\.|\/)(bmp|gif|jpe?g|png)$/i
+                        }
+                    //}, '/mosaico_php/templates/tedc15/template-tedc15.html',metadata,content,plugins);
+                    }, metadata.template, metadata, content, plugins); // By: Ajay Giri
+
+                    if (!ok) {
+                        console.log("Missing initialization hash, redirecting to main entrypoint");
+						//var dataToLoad = jQuery(htmlcontent).find('body div').first().html();
+						//jQuery('#main-wysiwyg-area').html(htmlcontent)
+                    }        
+					
+					getMBlockList();					
+                },
+                error: function( jqXhr, textStatus, errorThrown ){  
+                    alert(errorThrown);
+                }           
+            });
+        });
+</script>
+	
+	</head>
+    <body class="mo-standalone" style="background-color:#00ACEC">
+	  <div id="mBlockListDialog" class="modalDialog">
+		<div>
+		  <a id="btnDialogClose" href="#close" title="Close" class="close">X</a>
+		  <h2>Choose MBlock</h2>
+		  <div style='overflow-y:auto;height:300px'>
+			<ul id="mblockList">
+			  <li>No mBlocks found</li>
+			</ul>
+		  </div>
+		</div>
+	  </div>   
+	<div id="htmlContentWithDatadiv" style="display:none"></div>
+	<div id="maineditareaDiv" style="display:none"></div>
+	<iframe id="exportframe" style="display: none"></iframe>
+    </body>
 </html>
