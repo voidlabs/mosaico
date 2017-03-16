@@ -32,7 +32,7 @@
   "Download template": "Download template",
   "Save template": "Save template",
   "Saved model is obsolete": "The editor has new features!",
-  "<p>The saved model has been created with a previous, non completely compatible version, of the template</p><p>Some content or style in the model <b>COULD BE LOST</b> if you will <b>save</b></p><p>Contact us for more informations!</p>": "<p>Our email editor got some new features! This template is made with an older version of the editor, which can means that some elements have been changed.</p><p>Please check the template carefully before using in a (new) campaign.</p>",
+  "<p>The saved model has been created with a previous, non completely compatible version, of the template</p><p>Some content or style in the model <b>COULD BE LOST</b> if you will <b>save</b></p><p>Contact us for more informations!</p>": "<p>Our email editor got some new features! This template is made with an older version of the editor, which can means that some elements have been changed.</p><p>Please check the template carefully before using it in a (new) campaign.</p>",
   "Blocks": "Blocks",
   "Blocks ready to be added to the template": "Blocks ready to be added to the template",
   "Content": "Content",
