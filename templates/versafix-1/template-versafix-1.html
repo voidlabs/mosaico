@@ -482,6 +482,8 @@
         }
         table.block-border-wrapper-inner {
             width: 100%;
+            display: block;
+            box-sizing: border-box; /* need to round corners */
         }
         table.block-border-wrapper,
         table.block-border-wrapper-inner,
@@ -1296,8 +1298,8 @@
                                                 <tr>
                                                     <td align="center" valign="top" class="mobile-row" style="font-size: 0">
 
-                                                        <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="552"><tr><![endif]-->
-                                                        <!--[if (gte mso 9)|(lte ie 8)]><td align="left" valign="top" width="184"><![endif]-->
+                                                        <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="100%"><tr><![endif]-->
+                                                        <!--[if (gte mso 9)|(lte ie 8)]><td align="left" valign="top" width="0" style="-ko-attr-width: @[Math.floor((570 - blockStyle.borderWidth *2) / 3)]"><![endif]-->
                                                         <div class="mobile-full"
                                                              style="display:inline-block; float: left; vertical-align:top;
                                                                     max-width: 0px; -ko-max-width: @[Math.round((570 - blockStyle.borderWidth *2) / 3) - 9]px; -ko-attr-width: @[Math.round((570 - blockStyle.borderWidth *2) / 3) - 9];">
@@ -1351,7 +1353,7 @@
                                                                 </tr>
                                                             </table>
                                                         </div><!--[if (gte mso 9)|(lte ie 8)]></td>
-                                                        <td align="left" valign="top" width="184">
+                                                        <td align="left" valign="top" width="0" style="-ko-attr-width: @[Math.floor((570 - blockStyle.borderWidth *2) / 3)]">
                                                         <![endif]--><div class="mobile-full"
                                                              style="display:inline-block; float: left; vertical-align:top;
                                                                     max-width: 0px; -ko-max-width: @[(570 - blockStyle.borderWidth *2) / 3 - 9]px; -ko-attr-width: @[570 - (blockStyle.borderWidth*2)];">
@@ -1406,7 +1408,7 @@
                                                                 </tr>
                                                             </table>
                                                         </div><!--[if (gte mso 9)|(lte ie 8)]></td>
-                                                        <td align="left" valign="top" width="184">
+                                                        <td align="left" valign="top" width="0" style="-ko-attr-width: @[Math.floor((570 - blockStyle.borderWidth *2) / 3)]">
                                                         <![endif]--><div class="mobile-full"
                                                              style="display:inline-block; float: left; vertical-align:top;
                                                                     max-width: 0px; -ko-max-width: @[Math.round((570 - blockStyle.borderWidth *2) / 3) - 9]px; -ko-attr-width: @[Math.round((570 - blockStyle.borderWidth *2) / 3) - 9];">
@@ -1528,8 +1530,8 @@
                                                  <tr>
                                                      <td align="center" valign="top" class="mobile-row" style="font-size: 0">
 
-                                                          <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="552"><tr><![endif]-->
-                                                          <!--[if (gte mso 9)|(lte ie 8)]><td align="left" valign="top" width="276"><![endif]-->
+                                                          <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="100%"><tr><![endif]-->
+                                                          <!--[if (gte mso 9)|(lte ie 8)]><td align="left" valign="top" width="0" style="-ko-attr-width: @[Math.floor((570 - blockStyle.borderWidth *2) / 2)]"><![endif]-->
                                                           <div class="mobile-full"
                                                                style="display:inline-block; float: left; vertical-align:top;
                                                                       max-width: 0px; -ko-max-width: @[Math.round((570 - blockStyle.borderWidth *2) / 2) - 9]px; -ko-attr-width: @[Math.round((570 - blockStyle.borderWidth *2) / 2) - 9];
@@ -1586,7 +1588,7 @@
                                                                   </tr>
                                                               </table>
                                                           </div><!--[if (gte mso 9)|(lte ie 8)]></td>
-                                                          <td align="left" valign="top" width="276">
+                                                          <td align="left" valign="top" width="0" style="-ko-attr-width: @[Math.floor((570 - blockStyle.borderWidth *2) / 2)]">
                                                           <![endif]--><div class="mobile-full"
                                                           style="display:inline-block; float: left; vertical-align:top;
                                                                  max-width: 0px; -ko-max-width: @[Math.round((570 - blockStyle.borderWidth *2) / 2) - 9]px; -ko-attr-width: @[Math.round((570 - blockStyle.borderWidth *2) / 2) - 9];
