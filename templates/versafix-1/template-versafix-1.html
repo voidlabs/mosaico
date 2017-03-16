@@ -2604,42 +2604,74 @@
                         <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
                         <div class="oldwebkit">
 
-                          <table width="570" data-ko-display="!unsubscribeVisible" border="0" cellpadding="0" cellspacing="0" class="vb-container" bgcolor="#ffffff" align="center"
-                                 style="display:none;width: 100%; max-width: 570px;
-                                        background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
-                                        padding-top: 10px; -ko-padding-top: @[blockStyle.paddingTop]px;
-                                        padding-bottom: 10px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;
-                                        ">
-                            <tr>
-                                <td data-ko-editable="longText" class="long-text links-color" align="center" valign="top"
-                                    style="width:100%;font-size: 13px;color: #3f3f3f; font-weight: normal; font-family: Arial, Helvetica, sans-serif;text-align:left;
-                                           -ko-font-size: @[longTextStyle.size]px; -ko-color: @longTextStyle.color; -ko-font-family: @longTextStyle.face;">
-                                    <p>Email sent to <a href="mailto:[mail]">[mail]</a></p>
-                                </td>
-                            </tr>
-                          </table>
+                            <!-- Margin table -->
+                            <table data-ko-display="blockStyle.marginTop gt '0'" class="table-spacer" border="0" cellpadding="0" cellspacing="0" align="center"><tbody><tr><td
+                                   style="font-size: 1px; line-height: 1px; padding-top:0px; -ko-padding-top: @[blockStyle.marginTop]px;">&nbsp;</td></tr></tbody></table>
 
-                          <table width="570" data-ko-display="unsubscribeVisible" border="0" cellpadding="0" cellspacing="0" class="vb-container" bgcolor="#ffffff" align="center"
-                               style="display:none;width: 100%; max-width: 570px;
-                                      background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
-                                      padding-top: 10px; -ko-padding-top: @[blockStyle.paddingTop]px;
-                                      padding-bottom: 10px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;
-                                      ">
-                            <tr>
-                                <td data-ko-editable="longText" class="long-text links-color" align="center" valign="top"
-                                    style="width:100%;font-size: 13px;color: #3f3f3f; font-weight: normal; font-family: Arial, Helvetica, sans-serif;text-align:center;padding-top:20px;
-                                           -ko-font-size: @[longTextStyle.size]px; -ko-color: @longTextStyle.color; -ko-font-family: @longTextStyle.face;">
-                                  <p>Email sent to <a href="mailto:[mail]">[mail]</a></p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td data-ko-editable="footerText" class="long-text links-color" align="center" valign="top"
-                                    style="width:100%;font-size: 13px;color: #3f3f3f; font-weight: normal; font-family: Arial, Helvetica, sans-serif;text-align:center;
-                                           -ko-font-size: @[footerTextStyle.size]px; -ko-color: @footerTextStyle.color; -ko-font-family: @footerTextStyle.face;">
-                                    <p>No longer wish to receive this e-mail? You can <a href="[unsubscribe]">Unsubscribe Here</a></p>
-                                </td>
-                            </tr>
-                          </table>
+                            <!-- Block container table -->
+                            <table class="vb-container fullwidth" border="0" cellpadding="0" cellspacing="0" width="570"
+                                   style="width: 570px;">
+                                <tr>
+                                    <td align="center" valign="top">
+
+                                        <!-- Border table wrapper -->
+                                        <table border="0" cellpadding="0" cellspacing="0" align="center" class="block-border-wrapper-inner"
+                                               style="background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
+                                                      border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+                                                      border-style: none; -ko-border-style: @[blockStyle.borderType];
+                                                      border-color: #ff0000; -ko-border-color: @[blockStyle.borderColor];
+                                                      border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
+                                                      "><tbody><tr><td valign="top" align="center"
+                                                        style="padding-top: 10px; -ko-padding-top: @[blockStyle.paddingTop]px;
+                                                               padding-bottom: 10px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;">
+
+                                            <table width="100%" data-ko-display="!unsubscribeVisible" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff" align="center"
+                                                   style="display: none; width: 100%; border-collapse: collapse;
+                                                          background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
+                                                          padding-top: 10px; -ko-padding-top: @[blockStyle.paddingTop]px;
+                                                          padding-bottom: 10px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;
+                                                          ">
+                                              <tr>
+                                                  <td data-ko-editable="longText" class="long-text links-color" align="center" valign="top"
+                                                      style="width:100%;font-size: 13px;color: #3f3f3f; font-weight: normal; font-family: Arial, Helvetica, sans-serif;text-align:left;
+                                                             -ko-font-size: @[longTextStyle.size]px; -ko-color: @longTextStyle.color; -ko-font-family: @longTextStyle.face;">
+                                                      <p>Email sent to <a href="mailto:[mail]">[mail]</a></p>
+                                                  </td>
+                                              </tr>
+                                            </table>
+
+                                            <table width="100%" data-ko-display="unsubscribeVisible" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff" align="center"
+                                                 style="display:none; width: 100%; border-collapse: collapse;
+                                                        background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
+                                                        padding-top: 10px; -ko-padding-top: @[blockStyle.paddingTop]px;
+                                                        padding-bottom: 10px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;
+                                                        ">
+                                              <tr>
+                                                  <td data-ko-editable="longText" class="long-text links-color" align="center" valign="top"
+                                                      style="width:100%;font-size: 13px;color: #3f3f3f; font-weight: normal; font-family: Arial, Helvetica, sans-serif;text-align:center;padding-top:20px;
+                                                             -ko-font-size: @[longTextStyle.size]px; -ko-color: @longTextStyle.color; -ko-font-family: @longTextStyle.face;">
+                                                    <p>Email sent to <a href="mailto:[mail]">[mail]</a></p>
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                  <td data-ko-editable="footerText" class="long-text links-color" align="center" valign="top"
+                                                      style="width:100%;font-size: 13px;color: #3f3f3f; font-weight: normal; font-family: Arial, Helvetica, sans-serif;text-align:center;
+                                                             -ko-font-size: @[footerTextStyle.size]px; -ko-color: @footerTextStyle.color; -ko-font-family: @footerTextStyle.face;">
+                                                      <p>No longer wish to receive this e-mail? You can <a href="[unsubscribe]">Unsubscribe Here</a></p>
+                                                  </td>
+                                              </tr>
+                                            </table>
+
+                                        </td></tr></tbody></table>
+
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Margin table -->
+                            <table data-ko-display="blockStyle.marginBottom gt '0'" class="table-spacer" border="0" cellpadding="0" cellspacing="0" align="center"><tbody><tr><td
+                                   style="font-size: 1px; line-height: 1px; padding-top:0px; -ko-padding-top: @[blockStyle.marginBottom]px">&nbsp;</td></tr></tbody></table>
+
 
                         </div>
                         <!--[if (gte mso 9)|(lte ie 8)]></td></tr></table><![endif]-->
@@ -2652,45 +2684,72 @@
                        data-ko-display="sponsorVisible | _root_.sponsor.visible"
                        style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
                     <tr>
-                    <td class="vb-outer" align="center"
-                        style="text-align:center;padding:20px 0;background-color: #bfbfbf;text-align:center; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor;">
+                        <td class="vb-outer" align="center"
+                            style="text-align:center;padding:20px 0;background-color: #bfbfbf;text-align:center; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor;">
 
-                        <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
+                            <center>
 
-                        <center>
+                                <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
+                                <div class="oldwebkit">
 
-                            <div class="oldwebkit">
-                                <table data-ko-display="blockStyle.marginTop gt '0'" class="table-spacer" border="0" cellpadding="0" cellspacing="0" align="center"><tbody><tr><td
-                                       style="font-size: 1px; line-height: 1px; padding-top:0px; -ko-padding-top: @[blockStyle.marginTop]px;">&nbsp;</td></tr></tbody></table>
-                                <table class="vb-container" border="0" cellpadding="0" cellspacing="0" align="center"
-                                       width="570" style="text-align:center;width:100%;max-width:570px;box-sizing:border-box;padding:0">
-                                    <tr>
-                                        <td align="center" valign="top" style="text-align:center;padding:20px 0 0 0;width:90%;max-width:530px;border-top:1px solid #e8e8e8;">
-                                            <span style="font-family:'Helvetica',sans-serif;font-family: Arial, Helvetica, sans-serif;font-weight:normal;font-size:13px;color:#3f3f3f;opacity:.5;width:100%;text-align:center;display:block;
-                                                -ko-font-size: @[footerTextStyle.size]px; -ko-color: @footerTextStyle.color; -ko-font-family: @footerTextStyle.face;">
-                                                This e-mail is powered by Hugo,<br/>
-                                                Ensuring a great experience
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td align="center" valign="top" style="text-align:center;padding:0 0 20px 0;width:90%;max-width:530px;">
-                                            <a href="" target="_blank" style="padding:16px 0;display:block;width:100%;text-align:center;-ko-attr-href: @_root_.sponsor.url;">
-                                                <img src="img/sponsor.gif" border="0" hspace="0" vspace="0" alt="sponsor"
-                                                     style="margin:auto; display:inline!important; -ko-attr-src: @_root_.sponsor.src; -ko-attr-alt: @_root_.sponsor.alt" />
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <table data-ko-display="blockStyle.marginBottom gt '0'" class="table-spacer" border="0" cellpadding="0" cellspacing="0" align="center"><tbody><tr><td
-                                       style="font-size: 1px; line-height: 1px; padding-top:0px; -ko-padding-top: @[blockStyle.marginBottom]px">&nbsp;</td></tr></tbody></table>
-                            </div>
+                                  <!-- Margin table -->
+                                  <table data-ko-display="blockStyle.marginTop gt '0'" class="table-spacer" border="0" cellpadding="0" cellspacing="0" align="center"><tbody><tr><td
+                                         style="font-size: 1px; line-height: 1px; padding-top:0px; -ko-padding-top: @[blockStyle.marginTop]px;">&nbsp;</td></tr></tbody></table>
 
-                        </center>
+                                  <!-- Block container table -->
+                                  <table class="vb-container fullwidth" border="0" cellpadding="0" cellspacing="0" width="570"
+                                         style="width: 570px;">
+                                      <tr>
+                                          <td align="center" valign="top">
 
-                        <!--[if (gte mso 9)|(lte ie 8)]></td></tr></table><![endif]-->
+                                              <!-- Border table wrapper -->
+                                              <table border="0" cellpadding="0" cellspacing="0" align="center" class="block-border-wrapper-inner"
+                                                     style="background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
+                                                            border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+                                                            border-style: none; -ko-border-style: @[blockStyle.borderType];
+                                                            border-color: #ff0000; -ko-border-color: @[blockStyle.borderColor];
+                                                            border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
+                                                            "><tbody><tr><td valign="top" align="center" style="
+                                                              padding-top: 10px; -ko-padding-top: @[blockStyle.paddingTop]px;
+                                                              padding-bottom: 10px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;">
 
-                    </td>
+                                                    <table border="0" cellpadding="0" cellspacing="0" align="center"
+                                                           width="100%" style="text-align:center;width:100%">
+                                                        <tr>
+                                                            <td align="center" valign="top" style="text-align:center;padding:20px 0 0 0;width:90%;max-width:530px;border-top:1px solid #e8e8e8;">
+                                                                <span style="font-family:'Helvetica',sans-serif;font-family: Arial, Helvetica, sans-serif;font-weight:normal;font-size:13px;color:#3f3f3f;opacity:.5;width:100%;text-align:center;display:block;
+                                                                    -ko-font-size: @[footerTextStyle.size]px; -ko-color: @footerTextStyle.color; -ko-font-family: @footerTextStyle.face;">
+                                                                    This e-mail is powered by Hugo,<br/>
+                                                                    Ensuring a great experience
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="center" valign="top" style="text-align:center;padding:0 0 20px 0;width:90%;max-width:530px;">
+                                                                <a href="" target="_blank" style="padding:16px 0;display:block;width:100%;text-align:center;-ko-attr-href: @_root_.sponsor.url;">
+                                                                    <img src="img/sponsor.gif" border="0" hspace="0" vspace="0" alt="sponsor"
+                                                                         style="margin:auto; display:inline!important; -ko-attr-src: @_root_.sponsor.src; -ko-attr-alt: @_root_.sponsor.alt" />
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+
+                                                </td></tr></tbody></table>
+
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <!-- Margin table -->
+                                    <table data-ko-display="blockStyle.marginBottom gt '0'" class="table-spacer" border="0" cellpadding="0" cellspacing="0" align="center"><tbody><tr><td
+                                           style="font-size: 1px; line-height: 1px; padding-top:0px; -ko-padding-top: @[blockStyle.marginBottom]px">&nbsp;</td></tr></tbody></table>
+
+                                </div>
+                                <!--[if (gte mso 9)|(lte ie 8)]></td></tr></table><![endif]-->
+
+                            </center>
+
+                        </td>
                     </tr>
                 </table>
 
