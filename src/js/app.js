@@ -26,23 +26,37 @@ function _canonicalize(url) {
   return div.firstChild.href;
 }
 
+function _appendUrlParameters(baseUrl, parameters) {
+  var paramSeparator = baseUrl.indexOf('?') == -1 ? '?' : '&';
+  var res = baseUrl;
+  for (var param in parameters) if (parameters.hasOwnProperty(param)) {
+    res += paramSeparator + param + "=" + encodeURIComponent(parameters[param]);
+    paramSeparator = '&';
+  }
+  return res;
+}
+
 var applyBindingOptions = function(options, ko) {
-  // push "convertedUrl" method to the wysiwygSrc binding
+
   ko.bindingHandlers.wysiwygSrc.convertedUrl = function(src, method, width, height) {
+    var queryParamSeparator;
     var imgProcessorBackend = options.imgProcessorBackend ? options.imgProcessorBackend : './upload';
     var backEndMatch = imgProcessorBackend.match(/^(https?:\/\/[^\/]*\/).*$/);
     var srcMatch = src.match(/^(https?:\/\/[^\/]*\/).*$/);
     if (backEndMatch === null || (srcMatch !== null && backEndMatch[1] == srcMatch[1])) {
-      var queryParamSeparator = imgProcessorBackend.indexOf('?') == -1 ? '?' : '&';
-      return imgProcessorBackend + queryParamSeparator + "src=" + encodeURIComponent(src) + "&method=" + encodeURIComponent(method) + "&params=" + encodeURIComponent(width + "," + height);
+      queryParamSeparator = imgProcessorBackend.indexOf('?') == -1 ? '?' : '&';
+      return _appendUrlParameters(imgProcessorBackend, { src: src, method: method, params: width + "," + height });
     } else {
       console.log("Cannot apply backend image resizing to non-local resources ", src, method, width, height, backEndMatch, srcMatch);
-      return src + "?method=" + method + "&width=" + width + (height !== null ? "&height=" + height : '');
+      var params = { method: method, width: width };
+      if (height !== null) params['height'] = height;
+      return _appendUrlParameters(src, params);
     }
   };
 
   ko.bindingHandlers.wysiwygSrc.placeholderUrl = function(width, height, text) {
-    return options.imgProcessorBackend + "?method=" + 'placeholder' + "&params=" + width + encodeURIComponent(",") + height;
+    var imgProcessorBackend = options.imgProcessorBackend ? options.imgProcessorBackend : './upload';
+    return _appendUrlParameters(imgProcessorBackend, { method: 'placeholder', params: width + "," + height });
   };
 
   // pushes custom tinymce configurations from options to the binding
@@ -53,8 +67,6 @@ var applyBindingOptions = function(options, ko) {
 };
 
 var start = function(options, templateFile, templateMetadata, jsorjson, customExtensions) {
-
-
 
   templateLoader.fixPageEvents();
 

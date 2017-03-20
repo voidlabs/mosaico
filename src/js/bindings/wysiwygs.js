@@ -70,8 +70,8 @@ ko.virtualElements.allowedBindings['wysiwygHref'] = true;
 
 ko.bindingHandlers.wysiwygSrc = {
   convertedUrl: function(src, method, width, height) {
-    var res = src + "?method=" + method + "&width=" + width + (height !== null ? "&height=" + height : '');
-    console.log("basic converterUrl", res);
+    var queryParamSeparator = src.indexOf('?') == -1 ? '?' : '&';
+    var res = src + queryParamSeparator + "method=" + method + "&width=" + width + (height !== null ? "&height=" + height : '');
     return res;
   },
   placeholderUrl: function(plwidth, plheight, pltext) {
