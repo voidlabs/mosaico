@@ -1,5 +1,5 @@
 "use strict";
-/* global module: false, console: false, __dirname: false */
+/* global module: false, console: false, __dirname: false, process: false */
 
 var express = require('express');
 var upload = require('jquery-file-upload-middleware');
@@ -94,6 +94,7 @@ app.get('/img/', function(req, res) {
         out.stream('png').pipe(res);
 
     } else if (req.query.method == 'resize') {
+        // NOTE: req.query.src is an URL but gm is ok with URLS: otherwise we would have to urldecode the path part of the URL
         var ir = gm(req.query.src);
         ir.format(function(err,format) {
             if (!err) res.set('Content-Type', 'image/'+format.toLowerCase());
@@ -101,6 +102,7 @@ app.get('/img/', function(req, res) {
         });
 
     } else if (req.query.method == 'cover') {
+        // NOTE: req.query.src is an URL but gm is ok with URLS: otherwise we would have to urldecode the path part of the URL
         var ic = gm(req.query.src);
         ic.format(function(err,format) {
             if (!err) res.set('Content-Type', 'image/'+format.toLowerCase());
@@ -143,12 +145,18 @@ app.post('/dl/', function(req, res) {
         
     };
 
-    /*
-    var Styliner = require('styliner');
-    var styliner = new Styliner(__dirname, { keepinvalid: true });
-    styliner.processHTML(req.body.html).then(response);
-    */
     response(req.body.html);
 });
 
-module.exports = app;
+
+// This is needed with grunt-express-server (while it was not needed with grunt-express)
+
+var PORT = process.env.PORT || 3000;
+
+app.use(express.static(__dirname + '/../'));
+
+var server = app.listen( PORT, function() {
+    console.log('Express server listening on port ' + PORT);
+} );
+
+// module.exports = app;

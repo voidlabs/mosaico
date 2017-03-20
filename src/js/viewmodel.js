@@ -457,6 +457,7 @@ viewModel.exportHTML = function() {
     ko.applyBindings(viewModel, frameEl);
 
     ko.cleanNode(frameEl);
+
     if (viewModel.inline) viewModel.inline(frameEl.contentWindow.document);
 
     // Obsolete method didn't work on IE11 when using "HTML5 doctype":

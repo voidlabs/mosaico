@@ -62,9 +62,11 @@ ko.virtualElements.allowedBindings['ifSubs'] = true;
 // ko.isWritableObservable (without "e") has been introduced in 3.2.0, that is also our min requirement.
 // minimized knockout "obfuscate" the beforeSubscriptionAdd and afterSubscriptionRemove methods that we hack here.
 // so we have to explicitly know that.
+// Note: we used to use ko.DEBUG to detect the debug version of KO, but this was removed in KO 3.4.0+, 
+//       so we switched to ko.subscription function that only exists in DEBUG versions.
 var beforeSubscriptionProp;
 var afterSubscriptionProp;
-if (typeof ko.DEBUG !== 'undefined' && typeof ko.isWritableObservable !== 'undefined') {
+if (typeof ko.subscription == 'function' && typeof ko.isWritableObservable !== 'undefined') {
   beforeSubscriptionProp = 'beforeSubscriptionAdd';
   afterSubscriptionProp = 'afterSubscriptionRemove';
 } else if (ko.version == "3.2.0") {
@@ -76,8 +78,11 @@ if (typeof ko.DEBUG !== 'undefined' && typeof ko.isWritableObservable !== 'undef
 } else if (ko.version.slice(0, 3) == "3.4") {
   beforeSubscriptionProp = 'sa';
   afterSubscriptionProp = 'Ia';
+} else if (ko.version == "3.4.1") {
+  beforeSubscriptionProp = 'sa';
+  afterSubscriptionProp = 'Ia';
 }
-else throw "Unsupported minimized Knockout version " + ko.version + " (supported DEBUG or minimized 3.2.0 ... 3.4.0)";
+else throw "Unsupported minimized Knockout version " + ko.version + " (supported DEBUG or minimized 3.2.0 ... 3.4.1)";
 
 // internally used by ifsubs binding.
 // WARNING this break when used with pureComputed or deferredEvaluated

@@ -4,7 +4,7 @@ Provides the following services:
 
 /dl
   receives a post with the html body and a parameter asking for "download" or "email".
-  it does inlining using Styliner
+  (it does inlining using Styliner) since Mosaico 0.15 CSS inlining happens in the client.
   if asked to send an email it sends it using nodemailer
 
 /upload

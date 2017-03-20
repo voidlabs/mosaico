@@ -21,7 +21,7 @@ module.exports = function(grunt) {
 
 	    // var templateFile = './templates/ml/template-ml.html';
 	    var outFolder = path.join(path.dirname(templateFile),data.outputFolder);
-	  	var phantombin = require('phantomjs').path;
+	  	var phantombin = require('phantomjs-prebuilt').path;
 	  	var args = [];
 	  	args.push(
 	  	  script,

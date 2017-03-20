@@ -33,7 +33,8 @@ var applyBindingOptions = function(options, ko) {
     var backEndMatch = imgProcessorBackend.match(/^(https?:\/\/[^\/]*\/).*$/);
     var srcMatch = src.match(/^(https?:\/\/[^\/]*\/).*$/);
     if (backEndMatch === null || (srcMatch !== null && backEndMatch[1] == srcMatch[1])) {
-      return imgProcessorBackend + "?src=" + encodeURIComponent(src) + "&method=" + encodeURIComponent(method) + "&params=" + encodeURIComponent(width + "," + height);
+      var queryParamSeparator = imgProcessorBackend.indexOf('?') == -1 ? '?' : '&';
+      return imgProcessorBackend + queryParamSeparator + "src=" + encodeURIComponent(src) + "&method=" + encodeURIComponent(method) + "&params=" + encodeURIComponent(width + "," + height);
     } else {
       console.log("Cannot apply backend image resizing to non-local resources ", src, method, width, height, backEndMatch, srcMatch);
       return src + "?method=" + method + "&width=" + width + (height !== null ? "&height=" + height : '');
