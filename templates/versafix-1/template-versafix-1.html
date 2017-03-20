@@ -490,7 +490,10 @@
         table.table-spacer td {
             border-collapse: collapse;
         }
-        td.vb-outer { padding-left: 9px; padding-right: 9px; }
+        td.vb-outer {
+            padding-left: 9px;
+            padding-right: 9px;
+        }
         table.vb-container,
         table.vb-row,
         table.vb-content {
@@ -2620,15 +2623,14 @@
                                                    style="display: none; width: 100%; border-collapse: collapse;
                                                           background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;
                                                           padding-top: 10px; -ko-padding-top: @[blockStyle.paddingTop]px;
-                                                          padding-bottom: 10px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;
-                                                          ">
-                                              <tr>
-                                                  <td data-ko-editable="longText" class="long-text links-color" align="center" valign="top"
-                                                      style="width:100%;font-size: 13px;color: #3f3f3f; font-weight: normal; font-family: Arial, Helvetica, sans-serif;text-align:left;
-                                                             -ko-font-size: @[longTextStyle.size]px; -ko-color: @longTextStyle.color; -ko-font-family: @longTextStyle.face;">
-                                                      <p>Email sent to <a href="mailto:[mail]">[mail]</a></p>
-                                                  </td>
-                                              </tr>
+                                                          padding-bottom: 10px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;">
+                                                <tr>
+                                                    <td data-ko-editable="longText" class="long-text links-color" align="center" valign="top"
+                                                        style="width:100%;font-size: 13px;color: #3f3f3f; font-weight: normal; font-family: Arial, Helvetica, sans-serif;text-align:left;
+                                                               -ko-font-size: @[longTextStyle.size]px; -ko-color: @longTextStyle.color; -ko-font-family: @longTextStyle.face;">
+                                                        <p>Email sent to <a href="mailto:[mail]">[mail]</a></p>
+                                                    </td>
+                                                </tr>
                                             </table>
 
                                             <table width="100%" data-ko-display="unsubscribeVisible" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff" align="center"
@@ -2641,7 +2643,7 @@
                                                   <td data-ko-editable="longText" class="long-text links-color" align="center" valign="top"
                                                       style="width:100%;font-size: 13px;color: #3f3f3f; font-weight: normal; font-family: Arial, Helvetica, sans-serif;text-align:center;padding-top:20px;
                                                              -ko-font-size: @[longTextStyle.size]px; -ko-color: @longTextStyle.color; -ko-font-family: @longTextStyle.face;">
-                                                    <p>Email sent to <a href="mailto:[mail]">[mail]</a></p>
+                                                      <p>Email sent to <a href="mailto:[mail]">[mail]</a></p>
                                                   </td>
                                               </tr>
                                               <tr>
@@ -2676,7 +2678,7 @@
                        style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
                     <tr>
                         <td class="vb-outer" align="center"
-                            style="text-align:center;padding:20px 0;background-color: #bfbfbf;text-align:center; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor;">
+                            style="text-align: center; padding-top: 20px; padding-bottom: 20px; background-color: #bfbfbf; text-align: center; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor;">
 
                             <center>
 
@@ -2705,7 +2707,7 @@
                                                               padding-bottom: 10px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;">
 
                                                     <table border="0" cellpadding="0" cellspacing="0" align="center"
-                                                           width="100%" style="text-align:center;width:100%">
+                                                           width="100%" style="text-align: center; width: 100%">
                                                         <tr>
                                                             <td align="center" valign="top" style="text-align:center;padding:20px 0 0 0;width:90%;max-width:530px;border-top:1px solid #e8e8e8;">
                                                                 <span style="font-family:'Helvetica',sans-serif;font-family: Arial, Helvetica, sans-serif;font-weight:normal;font-size:13px;color:#3f3f3f;opacity:.5;width:100%;text-align:center;display:block;
