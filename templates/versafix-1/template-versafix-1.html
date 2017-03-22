@@ -316,7 +316,7 @@
         template {
             label:Page;
             theme:frameTheme;
-            properties:preheaderVisible=true;version:1.0.5;
+            properties:preheaderVisible=true;version:1.0.6;
         }
 
         leftImage { label: Left Image; extend: image }
@@ -341,7 +341,7 @@
         frameTheme { label: Frame Style; }
         frameTheme:preview { -ko-background-color: @[backgroundColor] }
 
-        footerBlock { label: Footer Block; theme: contentTheme }
+        footerBlock { label: Unsubscribe Block; theme: frameTheme }
 
         socialBlock fbVisible { label: Facebook; }
         socialBlock twVisible { label: Twitter }
@@ -395,7 +395,6 @@
 
         imageBlock longTextStyle {
             label: Alternative Text;
-            help: Some Email Clients will show this text if automatical download of images is disabled;
         }
         imageBlock {
             label: Image;
@@ -404,7 +403,6 @@
 
         doubleImageBlock longTextStyle {
             label: Alternative Text;
-            help: Some Email Clients will show this text if automatical download of images is disabled;
         }
         doubleImageBlock {
             label: Two Image Gallery Block;
@@ -756,7 +754,8 @@
                                                                  -ko-font-family: @longTextStyle.face;">Header text</span>
                                                     <a data-ko-display="preheaderLinkOption eq '[unsubscribe]'" data-ko-editable="unsubscribeText"
                                                          style="text-decoration: underline; color: #ffffff;-ko-attr-href: @preheaderLinkOption;
-                                                                -ko-color: @linkStyle.color; -ko-text-decoration: @linkStyle.decoration">Unsubscribe</a>
+                                                                -ko-color: @[Color.readability(linkStyle.color, backgroundColor) gt 2 ? linkStyle.color : (Color.isReadable('#ffffff', backgroundColor) ? '#ffffff' : '#000000')];
+                                                                -ko-text-decoration: @linkStyle.decoration">Unsubscribe</a>
                                                     <a data-ko-display="preheaderLinkOption eq '[Name, fallback&#61]'" data-ko-editable="nameText"
                                                          style="text-decoration: underline; color: #ffffff;-ko-attr-href: @preheaderLinkOption;
                                                                 -ko-color: @linkStyle.color; -ko-text-decoration: @linkStyle.decoration">[Name, fallback=]</a>
