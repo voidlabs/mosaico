@@ -1,0 +1,219 @@
+{
+  "type": "template",
+  "preheaderVisible": true,
+  "titleText": "TITOLO",
+  "preheaderBlock": {
+    "type": "preheaderBlock",
+    "id": "",
+    "backgroundpreheaderColor": null,
+    "pretextwhiteStyle": {
+      "type": "pretextwhiteStyle",
+      "face": null,
+      "color": null,
+      "size": null,
+      "lineheight": null,
+      "linksColor": null
+    },
+    "text": "pre header text",
+    "unsubscribeText": "Vuoi disiscriverti?",
+    "webversionText": "Guarda la versione web"
+  },
+  "sponsor": {
+    "type": "sponsor",
+    "visible": null,
+    "src": "img/sponsor.png",
+    "url": "#",
+    "alt": "###sender###"
+  },
+  "footerBlock": {
+    "type": "footerBlock",
+    "id": "",
+    "backgroundwhiteColor": null,
+    "textfooterStyle": {
+      "type": "textfooterStyle",
+      "face": null,
+      "color": null,
+      "size": null
+    },
+    "linksColor": null,
+    "linkColor": null,
+    "addressText": "20100 Milano | Corso Diaz 10",
+    "unsubscribeaText": "Clicca qui per disiscriverti",
+    "browserText": "Guarda la mail nel tuo browser"
+  },
+  "mainBlocks": {
+    "type": "blocks",
+    "blocks": []
+  },
+  "theme": {
+    "type": "theme",
+    "bodyTheme": {
+      "type": "bodyTheme",
+      "articletextlightStyle": {
+        "type": "articletextlightStyle",
+        "face": "Helvetica, Arial, sans-serif",
+        "color": "#3F3D33",
+        "size": "16",
+        "linksColor": "#3F3D33",
+        "linksDecoration": "none"
+      },
+      "articletextintenseStyle": {
+        "type": "articletextintenseStyle",
+        "face": "Helvetica, Arial, sans-serif",
+        "color": "#ffffff",
+        "size": "16",
+        "linksColor": "#ffffff",
+        "linksDecoration": "none"
+      },
+      "textsmalllightStyle": {
+        "type": "textsmalllightStyle",
+        "face": "Helvetica, Arial, sans-serif",
+        "color": "#3F3D33",
+        "size": "14",
+        "lineheight": null,
+        "linksColor": "#3F3D33",
+        "linksDecoration": "none"
+      },
+      "textsmallintenseStyle": {
+        "type": "textsmallintenseStyle",
+        "face": "Helvetica, Arial, sans-serif",
+        "color": "#ffffff",
+        "size": "14",
+        "lineheight": null,
+        "linksColor": "#ffffff",
+        "linksDecoration": "none"
+      },
+      "textlightStyle": {
+        "type": "textlightStyle",
+        "face": "Helvetica, Arial, sans-serif",
+        "color": "#3F3D33",
+        "size": "16",
+        "lineheight": null,
+        "linksColor": "#3F3D33",
+        "linksDecoration": "none"
+      },
+      "textintenseStyle": {
+        "type": "textintenseStyle",
+        "face": "Helvetica, Arial, sans-serif",
+        "color": "#ffffff",
+        "size": "16",
+        "lineheight": null,
+        "linksColor": "#ffffff",
+        "linksDecoration": "none"
+      },
+      "backgroundpreheaderColor": "#3F3D33",
+      "pretextwhiteStyle": {
+        "type": "pretextwhiteStyle",
+        "face": "Helvetica, Arial, sans-serif",
+        "color": "#ffffff",
+        "size": "12",
+        "lineheight": null,
+        "linksColor": "#ffffff"
+      },
+      "backgroundwhiteColor": "#ffffff",
+      "textfooterStyle": {
+        "type": "textfooterStyle",
+        "face": "Helvetica, Arial, sans-serif",
+        "color": "#3F3D33",
+        "size": "12"
+      },
+      "linksColor": "#3F3D33",
+      "linkColor": "#3F3D33",
+      "textwhiteStyle": {
+        "type": "textwhiteStyle",
+        "face": "Helvetica, Arial, sans-serif",
+        "color": "#3F3D33",
+        "size": "18",
+        "lineheight": null,
+        "linksColor": null,
+        "linksDecoration": "none"
+      },
+      "backgroundintenseColor": "#9C010F",
+      "backgroundlightColor": "#EDE8DA",
+      "titlelightStyle": {
+        "type": "titlelightStyle",
+        "face": "Helvetica, Arial, sans-serif",
+        "color": "#3F3D33",
+        "size": "25"
+      },
+      "bigbuttonlightStyle": {
+        "type": "bigbuttonlightStyle",
+        "face": "Helvetica, Arial, sans-serif",
+        "color": "#ffffff",
+        "size": "18",
+        "buttonColor": "#9C010F",
+        "radius": "3"
+      },
+      "titleintenseStyle": {
+        "type": "titleintenseStyle",
+        "face": "Helvetica, Arial, sans-serif",
+        "color": "#ffffff",
+        "size": "25"
+      },
+      "bigbuttonintenseStyle": {
+        "type": "bigbuttonintenseStyle",
+        "face": "Helvetica, Arial, sans-serif",
+        "color": "#3F3D33",
+        "size": "18",
+        "buttonColor": "#EDE8DA",
+        "radius": "3"
+      },
+      "titlesmalllightStyle": {
+        "type": "titlesmalllightStyle",
+        "face": "Helvetica, Arial, sans-serif",
+        "color": "#3F3D33",
+        "size": "20"
+      },
+      "buttonlightStyle": {
+        "type": "buttonlightStyle",
+        "face": "Helvetica, Arial, sans-serif",
+        "color": "#ffffff",
+        "size": "15",
+        "buttonColor": "#9C010F",
+        "radius": "3"
+      },
+      "titlesmallintenseStyle": {
+        "type": "titlesmallintenseStyle",
+        "face": "Helvetica, Arial, sans-serif",
+        "color": "#ffffff",
+        "size": "20"
+      },
+      "buttonintenseStyle": {
+        "type": "buttonintenseStyle",
+        "face": "Helvetica, Arial, sans-serif",
+        "color": "#3F3D33",
+        "size": "15",
+        "buttonColor": "#EDE8DA",
+        "radius": "3"
+      },
+      "introtextintenseStyle": {
+        "type": "introtextintenseStyle",
+        "face": "Helvetica, Arial, sans-serif",
+        "color": "#ffffff",
+        "size": "13",
+        "linksColor": null,
+        "linksDecoration": "none"
+      },
+      "articletitleintenseStyle": {
+        "type": "articletitleintenseStyle",
+        "face": "Helvetica, Arial, sans-serif",
+        "color": "#ffffff",
+        "size": "22"
+      },
+      "introtextlightStyle": {
+        "type": "introtextlightStyle",
+        "face": "Helvetica, Arial, sans-serif",
+        "color": "#3F3D33",
+        "size": "13",
+        "linksColor": null,
+        "linksDecoration": "none"
+      },
+      "articletitlelightStyle": {
+        "type": "articletitlelightStyle",
+        "face": "Helvetica, Arial, sans-serif",
+        "color": "#3F3D33",
+        "size": "22"
+      }
+    }
+  }
+}
