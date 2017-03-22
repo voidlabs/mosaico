@@ -69,16 +69,13 @@ var afterSubscriptionProp;
 if (typeof ko.subscription == 'function' && typeof ko.isWritableObservable !== 'undefined') {
   beforeSubscriptionProp = 'beforeSubscriptionAdd';
   afterSubscriptionProp = 'afterSubscriptionRemove';
-} else if (ko.version == "3.2.0") {
+} else if (ko.version.match(/^3\.2\./)) {
   beforeSubscriptionProp = 'va';
   afterSubscriptionProp = 'nb';
-} else if (ko.version == "3.3.0") {
+} else if (ko.version.match(/^3\.3\./)) {
   beforeSubscriptionProp = 'ja';
   afterSubscriptionProp = 'ua';
-} else if (ko.version == "3.4.0") {
-  beforeSubscriptionProp = 'sa';
-  afterSubscriptionProp = 'Ia';
-} else if (ko.version == "3.4.1") {
+} else if (ko.version.match(/^3\.4\./)) {
   beforeSubscriptionProp = 'sa';
   afterSubscriptionProp = 'Ia';
 }
