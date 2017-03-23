@@ -282,6 +282,21 @@
             properties: marginTop marginBottom paddingTop paddingBottom borderWidth borderType borderColor radius;
         }
 
+        /* Global border props and config */
+        globalBorderVisible {
+            label: Show Global Border;
+            extend: visible;
+            help: You may change styles of global border on the Styles tab.
+        }
+        globalBorderStyle borderWidth {
+            max: 5;
+        }
+        globalBorderStyle {
+            label: Global Border Styles;
+            properties: borderWidth borderType borderColor;
+            /*theme: contentTheme;*/
+        }
+
         /* buttons */
         buttonStyle color { label: Text Color; extend: color }
         buttonStyle size { label: Text Size; extend: size }
@@ -314,9 +329,10 @@
         }
 
         template {
-            label:Page;
-            theme:frameTheme;
-            properties:preheaderVisible=true;version:1.0.6;
+            label: Page;
+            theme: frameTheme;
+            properties: preheaderVisible=true globalBorderVisible=true;
+            version: 1.0.6;
         }
 
         leftImage { label: Left Image; extend: image }
@@ -483,6 +499,14 @@
             border-collapse: separate; /* don't change it, need for round corners */
             width: 100%;
         }
+        .global-border-wrapper {
+            width: auto;
+            border-collapse: collapse;
+        }
+        .global-border-wrapper-hidden {
+            width: 100%;
+            border: none!important;
+        }
         table.block-border-wrapper,
         table.table-spacer,
         table.table-spacer td {
@@ -549,10 +573,9 @@
         /* Mobile styles: show as mobile layout if viewport less than 600px (email wrapper width) */
         @media screen and (max-width: 600px) {
             table.vb-container,
-            table.vb-row {
-              width: 95% !important;
-            }
-            table.vb-content {
+            table.vb-row,
+            table.vb-content,
+            table.vb-outer {
               width: 100% !important;
             }
 
@@ -708,11 +731,20 @@
 
 <center>
 
+<!-- global border, wrapper table -->
+<table cellpadding="0" border="0" cellspacing="0"
+       class="global-border-wrapper"
+       style="-ko-attr-class: @[globalBorderVisible ? 'global-border-wrapper' : 'global-border-wrapper global-border-wrapper-hidden'];
+              border-width: 5px; -ko-border-width: @[globalBorderStyle.borderWidth]px;
+              border-style: solid; -ko-border-style: @[globalBorderStyle.borderType];
+              border-color: #ff0000; -ko-border-color: @[globalBorderStyle.borderColor];"><tbody><tr><td>
+
 <!-- preheaderBlock -->
 <div data-ko-display="preheaderVisible" data-ko-wrap="false">
 
     <table class="vb-outer" width="100%" cellpadding="0" border="0" cellspacing="0" bgcolor="#bfbfbf"
-           style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor" data-ko-block="preheaderBlock">
+           style="width: 100%; background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor"
+           data-ko-block="preheaderBlock">
         <tr>
             <td class="vb-outer" align="center" valign="top" bgcolor="#bfbfbf"
                 style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
@@ -796,7 +828,7 @@
 <div data-ko-container="main" data-ko-wrap="false">
 
     <!-- logoBlock -->
-    <table class="vb-outer logoBlock" cellpadding="0" border="0" cellspacing="0" bgcolor="#bfbfbf" width="100%"
+    <table class="vb-outer logoBlock" width="100%" cellpadding="0" border="0" cellspacing="0" bgcolor="#bfbfbf"
            data-ko-block="logoBlock"
            style="background-color: #bfbfbf; -ko-background-color: @externalBackgroundColor; -ko-attr-bgcolor: @externalBackgroundColor">
         <tbody>
@@ -2750,6 +2782,9 @@
     </table>
 </div>
 <!-- /footerBlock -->
+
+<!-- /global border, wrapper table -->
+</td></tr></tbody></table>
 
 </center>
 </body>
