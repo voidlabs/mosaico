@@ -286,7 +286,7 @@
         globalBorderVisible {
             label: Show Global Border;
             extend: visible;
-            help: You may change styles of global border on the Styles tab.
+            help: You should change border width of global border on the Styles tab to see it.
         }
         globalBorderStyle borderWidth {
             max: 5;
@@ -330,7 +330,7 @@
         template {
             label: Page;
             theme: frameTheme;
-            properties: preheaderVisible=true globalBorderVisible=true;
+            properties: preheaderVisible=true globalBorderVisible=false;
             version: 1.0.6;
         }
 
@@ -514,6 +514,10 @@
         td.vb-outer {
             padding-left: 9px;
             padding-right: 9px;
+        }
+        .global-border-wrapper td.vb-outer {
+          padding-left: 0;
+          padding-right: 0;
         }
         table.vb-container,
         table.vb-row,
@@ -734,7 +738,7 @@
 <table cellpadding="0" border="0" cellspacing="0"
        class="global-border-wrapper"
        style="-ko-attr-class: @[globalBorderVisible ? 'global-border-wrapper' : 'global-border-wrapper global-border-wrapper-hidden'];
-              border-width: 5px; -ko-border-width: @[globalBorderStyle.borderWidth]px;
+              border-width: 0px; -ko-border-width: @[globalBorderStyle.borderWidth]px;
               border-style: solid; -ko-border-style: @[globalBorderStyle.borderType];
               border-color: #ff0000; -ko-border-color: @[globalBorderStyle.borderColor];"><tbody><tr><td>
 
