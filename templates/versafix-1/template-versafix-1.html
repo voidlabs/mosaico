@@ -246,7 +246,7 @@
         bigTitleStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
 
         borderWidth {
-          label: Border Width;
+          label: Border Width (px);
           widget: integer;
           max: 10; /* may break layout when more than 15px */
         }
@@ -734,8 +734,8 @@
        class="global-border-wrapper"
        style="-ko-attr-class: @[globalBorderStyle.borderWidth gt 0 ? 'global-border-wrapper' : 'global-border-wrapper global-border-wrapper-hidden'];
               border-width: 0px; -ko-border-width: @[globalBorderStyle.borderWidth]px;
-              border-style: solid; -ko-border-style: @[globalBorderStyle.borderType];
-              border-color: #ff0000; -ko-border-color: @[globalBorderStyle.borderColor];"><tbody><tr><td>
+              border-style: solid; -ko-border-style: @[globalBorderStyle.borderWidth gt 0 ? globalBorderStyle.borderType : ''];
+              border-color: #ff0000; -ko-border-color: @[globalBorderStyle.borderWidth gt 0 ? globalBorderStyle.borderColor : ''];"><tbody><tr><td>
 
 <!-- preheaderBlock -->
 <div data-ko-display="preheaderVisible" data-ko-wrap="false">
