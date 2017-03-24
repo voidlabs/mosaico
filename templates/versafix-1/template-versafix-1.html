@@ -253,7 +253,7 @@
         borderType {
             label: Border Line Type;
             widget: select;
-            options: none|solid|dotted|dashed|double|ridge|inset|outset;
+            options: solid|dotted|dashed|double|ridge|inset|outset;
         }
         borderColor {
             label: Border Color;
@@ -283,11 +283,6 @@
         }
 
         /* Global border props and config */
-        globalBorderVisible {
-            label: Show Global Border;
-            extend: visible;
-            help: You should change border width of global border on the Styles tab to see it.
-        }
         globalBorderStyle borderWidth {
             max: 5;
         }
@@ -330,7 +325,7 @@
         template {
             label: Page;
             theme: frameTheme;
-            properties: preheaderVisible=true globalBorderVisible=false;
+            properties: preheaderVisible=true;
             version: 1.0.6;
         }
 
@@ -501,10 +496,6 @@
         .global-border-wrapper {
             width: auto;
             border-collapse: collapse;
-        }
-        .global-border-wrapper-hidden {
-            width: 100%;
-            border: none!important;
         }
         table.block-border-wrapper,
         table.table-spacer,
@@ -737,10 +728,10 @@
 <!-- global border, wrapper table -->
 <table cellpadding="0" border="0" cellspacing="0"
        class="global-border-wrapper"
-       style="-ko-attr-class: @[globalBorderVisible ? 'global-border-wrapper' : 'global-border-wrapper global-border-wrapper-hidden'];
+       style="width: 100%; -ko-width: @[globalBorderStyle.borderWidth gt 0 ? 'auto' : '100%'];
               border-width: 0px; -ko-border-width: @[globalBorderStyle.borderWidth]px;
-              border-style: solid; -ko-border-style: @[globalBorderStyle.borderType];
-              border-color: #ff0000; -ko-border-color: @[globalBorderStyle.borderColor];"><tbody><tr><td>
+              border-style: solid; -ko-border-style: @[globalBorderStyle.borderWidth gt 0 ? globalBorderStyle.borderType : 'none'];
+              border-color: #ff0000; -ko-border-color: @[globalBorderStyle.borderWidth gt 0 ? globalBorderStyle.borderColor : 'transparent'];"><tbody><tr><td>
 
 <!-- preheaderBlock -->
 <div data-ko-display="preheaderVisible" data-ko-wrap="false">
@@ -767,11 +758,11 @@
 
                                 <!-- Border table wrapper -->
                                 <table border="0" cellpadding="0" cellspacing="0" align="center" class="block-border-wrapper-inner"
-                                       style="background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
-                                              border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
-                                              border-style: none; -ko-border-style: @[blockStyle.borderType];
-                                              border-color: #ff0000; -ko-border-color: @[blockStyle.borderColor];
+                                       style="border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+                                              border-style: solid; -ko-border-style: @[blockStyle.borderWidth gt 0 ? blockStyle.borderType : 'none'];
+                                              border-color: #ff0000; -ko-border-color: @[blockStyle.borderWidth gt 0 ? blockStyle.borderColor : 'transparent'];
                                               border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
+                                              background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
                                               "><tbody><tr><td valign="top" align="center"
                                                 style="padding-top: 10px; -ko-padding-top: @[blockStyle.paddingTop]px;
                                                        padding-bottom: 10px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;">
@@ -854,11 +845,11 @@
 
                                         <!-- Border table wrapper -->
                                         <table border="0" cellpadding="0" cellspacing="0" align="center" class="block-border-wrapper-inner"
-                                               style="background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
-                                                      border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
-                                                      border-style: none; -ko-border-style: @[blockStyle.borderType];
-                                                      border-color: #ff0000; -ko-border-color: @[blockStyle.borderColor];
+                                               style="border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+                                                      border-style: solid; -ko-border-style: @[blockStyle.borderWidth gt 0 ? blockStyle.borderType : 'none'];
+                                                      border-color: #ff0000; -ko-border-color: @[blockStyle.borderWidth gt 0 ? blockStyle.borderColor : 'transparent'];
                                                       border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
+                                                      background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
                                                       "><tbody><tr><td valign="top" align="center" style="
                                                         padding-top: 10px; -ko-padding-top: @[blockStyle.paddingTop]px;
                                                         padding-bottom: 10px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;">
@@ -918,11 +909,11 @@
 
                                         <!-- Block container table -->
                                         <table border="0" cellpadding="0" cellspacing="9" align="center" class="block-border-wrapper-inner"
-                                               style="background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
-                                                      border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
-                                                      border-style: none; -ko-border-style: @[blockStyle.borderType];
-                                                      border-color: #ff0000; -ko-border-color: @[blockStyle.borderColor];
+                                               style="border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+                                                      border-style: solid; -ko-border-style: @[blockStyle.borderWidth gt 0 ? blockStyle.borderType : 'none'];
+                                                      border-color: #ff0000; -ko-border-color: @[blockStyle.borderWidth gt 0 ? blockStyle.borderColor : 'transparent'];
                                                       border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
+                                                      background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
                                                       "><tbody><tr><td valign="top" align="center" style="
                                                         border-collapse: collapse;
                                                         padding-top: 10px; -ko-padding-top: @[blockStyle.paddingTop]px;
@@ -1953,11 +1944,11 @@
 
                                         <!-- Border table wrapper -->
                                         <table border="0" cellpadding="0" cellspacing="0" align="center" class="block-border-wrapper-inner"
-                                               style="background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
-                                                      border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
-                                                      border-style: none; -ko-border-style: @[blockStyle.borderType];
-                                                      border-color: #ff0000; -ko-border-color: @[blockStyle.borderColor];
+                                               style="border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+                                                      border-style: solid; -ko-border-style: @[blockStyle.borderWidth gt 0 ? blockStyle.borderType : 'none'];
+                                                      border-color: #ff0000; -ko-border-color: @[blockStyle.borderWidth gt 0 ? blockStyle.borderColor : 'transparent'];
                                                       border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
+                                                      background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
                                                       "><tbody><tr><td valign="top" align="center" style="
                                                         padding-top: 10px; -ko-padding-top: @[blockStyle.paddingTop]px;
                                                         padding-bottom: 10px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;">
@@ -2016,11 +2007,11 @@
 
                                     <!-- Border table wrapper -->
                                     <table border="0" cellpadding="0" cellspacing="0" align="center" class="block-border-wrapper-inner"
-                                           style="background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
-                                                  border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
-                                                  border-style: none; -ko-border-style: @[blockStyle.borderType];
-                                                  border-color: #ff0000; -ko-border-color: @[blockStyle.borderColor];
+                                           style="border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+                                                  border-style: solid; -ko-border-style: @[blockStyle.borderWidth gt 0 ? blockStyle.borderType : 'none'];
+                                                  border-color: #ff0000; -ko-border-color: @[blockStyle.borderWidth gt 0 ? blockStyle.borderColor : 'transparent'];
                                                   border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
+                                                  background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
                                                   "><tbody><tr><td valign="top" align="center" style="
                                                     padding-top: 10px; -ko-padding-top: @[blockStyle.paddingTop]px;
                                                     padding-bottom: 10px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;">
@@ -2080,11 +2071,11 @@
 
                                 <!-- Border table wrapper -->
                                 <table border="0" cellpadding="0" cellspacing="0" align="center" class="block-border-wrapper-inner"
-                                       style="background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
-                                              border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
-                                              border-style: none; -ko-border-style: @[blockStyle.borderType];
-                                              border-color: #ff0000; -ko-border-color: @[blockStyle.borderColor];
+                                       style="border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+                                              border-style: solid; -ko-border-style: @[blockStyle.borderWidth gt 0 ? blockStyle.borderType : 'none'];
+                                              border-color: #ff0000; -ko-border-color: @[blockStyle.borderWidth gt 0 ? blockStyle.borderColor : 'transparent'];
                                               border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
+                                              background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
                                               "><tbody><tr><td valign="top" align="center" style="
                                                 padding-top: 10px; -ko-padding-top: @[blockStyle.paddingTop]px;
                                                 padding-bottom: 10px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;">
@@ -2148,11 +2139,11 @@
 
                                         <!-- Border table wrapper -->
                                         <table border="0" cellpadding="0" cellspacing="0" align="center" class="block-border-wrapper-inner"
-                                               style="background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
-                                                      border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
-                                                      border-style: none; -ko-border-style: @[blockStyle.borderType];
-                                                      border-color: #ff0000; -ko-border-color: @[blockStyle.borderColor];
+                                               style="border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+                                                      border-style: solid; -ko-border-style: @[blockStyle.borderWidth gt 0 ? blockStyle.borderType : 'none'];
+                                                      border-color: #ff0000; -ko-border-color: @[blockStyle.borderWidth gt 0 ? blockStyle.borderColor : 'transparent'];
                                                       border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
+                                                      background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
                                                       "><tbody><tr><td valign="top" align="center" style="
                                                         padding-top: 10px; -ko-padding-top: @[blockStyle.paddingTop]px;
                                                         padding-bottom: 10px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;">
@@ -2218,11 +2209,11 @@
 
                                         <!-- Border table wrapper -->
                                         <table border="0" cellpadding="0" cellspacing="0" align="center" class="block-border-wrapper-inner"
-                                               style="background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
-                                                      border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
-                                                      border-style: none; -ko-border-style: @[blockStyle.borderType];
-                                                      border-color: #ff0000; -ko-border-color: @[blockStyle.borderColor];
+                                               style="border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+                                                      border-style: solid; -ko-border-style: @[blockStyle.borderWidth gt 0 ? blockStyle.borderType : 'none'];
+                                                      border-color: #ff0000; -ko-border-color: @[blockStyle.borderWidth gt 0 ? blockStyle.borderColor : 'transparent'];
                                                       border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
+                                                      background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
                                                       "><tbody><tr><td valign="top" align="center" style="
                                                         padding-top: 10px; -ko-padding-top: @[blockStyle.paddingTop]px;
                                                         padding-bottom: 10px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;">
@@ -2278,11 +2269,11 @@
 
                                          <!-- Border table wrapper -->
                                          <table border="0" cellpadding="0" cellspacing="0" align="center" class="block-border-wrapper-inner"
-                                                style="background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
-                                                       border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
-                                                       border-style: none; -ko-border-style: @[blockStyle.borderType];
-                                                       border-color: #ff0000; -ko-border-color: @[blockStyle.borderColor];
+                                                style="border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
+                                                       border-style: solid; -ko-border-style: @[blockStyle.borderWidth gt 0 ? blockStyle.borderType : 'none'];
+                                                       border-color: #ff0000; -ko-border-color: @[blockStyle.borderWidth gt 0 ? blockStyle.borderColor : 'transparent'];
                                                        border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
+                                                       background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
                                                        "><tbody><tr><td valign="top" align="center" style="
                                                          padding-top: 10px; -ko-padding-top: @[blockStyle.paddingTop]px;
                                                          padding-bottom: 10px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;">
