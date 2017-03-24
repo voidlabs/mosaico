@@ -283,11 +283,6 @@
         }
 
         /* Global border props and config */
-        globalBorderVisible {
-            label: Show Global Border;
-            extend: visible;
-            help: You should change border width of global border on the Styles tab to see it.
-        }
         globalBorderStyle borderWidth {
             max: 5;
         }
@@ -330,7 +325,7 @@
         template {
             label: Page;
             theme: frameTheme;
-            properties: preheaderVisible=true globalBorderVisible=false;
+            properties: preheaderVisible=true;
             version: 1.0.6;
         }
 
@@ -737,7 +732,7 @@
 <!-- global border, wrapper table -->
 <table cellpadding="0" border="0" cellspacing="0"
        class="global-border-wrapper"
-       style="-ko-attr-class: @[globalBorderVisible ? 'global-border-wrapper' : 'global-border-wrapper global-border-wrapper-hidden'];
+       style="-ko-attr-class: @[globalBorderStyle.borderWidth gt 0 ? 'global-border-wrapper' : 'global-border-wrapper global-border-wrapper-hidden'];
               border-width: 0px; -ko-border-width: @[globalBorderStyle.borderWidth]px;
               border-style: solid; -ko-border-style: @[globalBorderStyle.borderType];
               border-color: #ff0000; -ko-border-color: @[globalBorderStyle.borderColor];"><tbody><tr><td>
