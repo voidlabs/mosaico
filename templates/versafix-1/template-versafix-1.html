@@ -288,7 +288,7 @@
         }
         globalBorderStyle {
             label: Global Border Styles;
-            properties: borderWidth borderType borderColor;
+            properties: borderWidth=0 borderType=solid borderColor=#b2b2b2;
         }
 
         /* buttons */
@@ -731,7 +731,7 @@
        style="width: 100%; -ko-width: @[globalBorderStyle.borderWidth gt 0 ? 'auto' : '100%'];
               border-width: 0px; -ko-border-width: @[globalBorderStyle.borderWidth]px;
               border-style: solid; -ko-border-style: @[globalBorderStyle.borderWidth gt 0 ? globalBorderStyle.borderType : 'none'];
-              border-color: #ff0000; -ko-border-color: @[globalBorderStyle.borderWidth gt 0 ? globalBorderStyle.borderColor : 'transparent'];"><tbody><tr><td>
+              border-color: #b2b2b2; -ko-border-color: @[globalBorderStyle.borderWidth gt 0 ? globalBorderStyle.borderColor : 'transparent'];"><tbody><tr><td>
 
 <!-- preheaderBlock -->
 <div data-ko-display="preheaderVisible" data-ko-wrap="false">
