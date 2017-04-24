@@ -37,19 +37,22 @@ $(function() {
   var plugins;
   // A basic plugin that expose the "viewModel" object as a global variable.
   // plugins = [function(vm) {window.viewModel = vm;}];
-  var ok = Mosaico.init({
-    imgProcessorBackend: basePath+'/img/',
-    emailProcessorBackend: basePath+'/dl/',
-    titleToken: "MOSAICO Responsive Email Designer",
-    fileuploadConfig: {
-      url: basePath+'/upload/',
-      // messages??
+  $.getJSON("dist/lang/mosaico-ru.json", function(res){
+    var ok = Mosaico.init({
+      imgProcessorBackend: basePath+'/img/',
+      emailProcessorBackend: basePath+'/dl/',
+      strings: res,
+      titleToken: "MOSAICO Responsive Email Designer",
+      fileuploadConfig: {
+        url: basePath+'/upload/',
+        // messages??
+      }
+    }, plugins);
+    if (!ok) {
+      console.log("Missing initialization hash, redirecting to main entrypoint");
+      document.location = ".";
     }
-  }, plugins);
-  if (!ok) {
-    console.log("Missing initialization hash, redirecting to main entrypoint");
-    document.location = ".";
-  }
+  });
 });
     </script>
     
