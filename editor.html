@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	  <title>HTML Email Editor</title>
     <meta name="viewport" content="width=1024, initial-scale=1">
-
     <link rel="canonical" href="http://mosaico.io" />
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
-    <script src="dist/vendor/jquery.min.js"></script>
     <script src="dist/vendor/knockout.js"></script>
+    <script src="dist/vendor/jquery.min.js"></script>
     <script src="dist/vendor/jquery-ui.min.js"></script>
     <script src="dist/vendor/jquery.ui.touch-punch.min.js"></script>
     <script src="dist/vendor/load-image.all.min.js"></script>
@@ -20,32 +19,25 @@
     <script src="dist/vendor/jquery.fileupload-image.js"></script>
     <script src="dist/vendor/jquery.fileupload-validate.js"></script>
     <script src="dist/vendor/knockout-jqueryui.min.js"></script>
+    <script src="dist/vendor/evol.colorpicker.min.js"></script>
     <script src="dist/vendor/tinymce.min.js"></script>
 
-    <script src="dist/mosaico.min.js?v=0.16"></script>
+    <script src="dist/mosaico.min.js?v=0.11"></script>
     <script>
 $(function() {
   if (!Mosaico.isCompatible()) {
     alert('Update your browser!');
     return;
   }
-  // var basePath = window.location.href.substr(0, window.location.href.lastIndexOf('/')).substr(window.location.href.indexOf('/','https://'.length));
-  var basePath = window.location.href;
-  if (basePath.lastIndexOf('#') > 0) basePath = basePath.substr(0, basePath.lastIndexOf('#'));
-  if (basePath.lastIndexOf('?') > 0) basePath = basePath.substr(0, basePath.lastIndexOf('?'));
-  if (basePath.lastIndexOf('/') > 0) basePath = basePath.substr(0, basePath.lastIndexOf('/'));
-  var plugins;
-  // A basic plugin that expose the "viewModel" object as a global variable.
-  // plugins = [function(vm) {window.viewModel = vm;}];
   var ok = Mosaico.init({
-    imgProcessorBackend: basePath+'/img/',
-    emailProcessorBackend: basePath+'/dl/',
+    imgProcessorBackend: 'img',
+    emailProcessorBackend: 'dl/',
     titleToken: "MOSAICO Responsive Email Designer",
     fileuploadConfig: {
-      url: basePath+'/upload/',
+      url: 'upload/',
       // messages??
     }
-  }, plugins);
+  });
   if (!ok) {
     console.log("Missing initialization hash, redirecting to main entrypoint");
     document.location = ".";
@@ -55,6 +47,7 @@ $(function() {
     
     <link rel="stylesheet" href="dist/mosaico-material.min.css?v=0.10" />
     <link rel="stylesheet" href="dist/vendor/notoregular/stylesheet.css" />
+    <link rel="stylesheet" href="dist/vendor/evol.colorpicker.min.css" /> <!-- 2k -->
   </head>
   <body class="mo-standalone">
 
