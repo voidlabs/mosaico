@@ -334,27 +334,31 @@
             version: 1.0.6;
         }
 
+        buttonVisible { label: Show Button; extend: visible; }
         leftButtonVisible { label: Show Left Button; extend: visible; }
         middleButtonVisible { label: Show Middle Button; extend: visible; }
         rightButtonVisible { label: Show Right Button; extend: visible; }
 
         leftImage { label: Left Image; extend: image }
-        leftLongText { label: Left Text; extend: text }
-        leftButtonLink { label: Left Button; extend: buttonLink }
-
         middleImage { label: Central Image; extend: image }
-        middleLongText { label: Central Text; extend: text }
-        middleButtonLink { label: Central Button; extend: buttonLink }
-
         rightImage { label: Right Image; extend: image }
+
+        leftLongText { label: Left Text; extend: text }
+        middleLongText { label: Central Text; extend: text }
         rightLongText { label: Right Text; extend: text }
+
+        leftButtonLink { label: Left Button; extend: buttonLink }
+        middleButtonLink { label: Central Button; extend: buttonLink }
         rightButtonLink { label: Right Button; extend: buttonLink }
 
         webversionText{ label: Web Link Text; extend: text;}
         unsubscribeText{ label: Unsubscribe Link; extend: text;}
 
         titleVisible { label: Show Title; extend: visible; }
-        buttonVisible { label: Show Button; extend: visible; }
+        leftTitleVisible { label: Show Left Title; extend: visible; }
+        middleTitleVisible { label: Show Middle Title; extend: visible; }
+        rightTitleVisible { label: Show Right Title; extend: visible; }
+
         imageVisible { label: Show Image; extend: visible; }
         contentVisible { label: Show Content; extend: visible; }
 
