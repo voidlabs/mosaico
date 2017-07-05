@@ -408,12 +408,12 @@
 
         textBlock { label: Text Block; properties: backgroundColor longTextStyle longText; theme: contentTheme}
 
-        singleArticleBlock { label: Image/Text Block; properties: backgroundColor titleVisible=true buttonVisible=true contentVisible=true imageVisible=true titleTextStyle longTextStyle buttonStyle image longText buttonLink;theme: contentTheme }
+        singleArticleBlock { label: Image/Text Block; properties: backgroundColor imageVisible=true titleVisible=true contentVisible=true buttonVisible=true titleTextStyle longTextStyle buttonStyle image longText buttonLink;theme: contentTheme }
         /* TODO: singleArticleBlock buttonStyle { properties: align=center }*/
 
-        doubleArticleBlock { label: 2 Columns Block; properties: backgroundColor imageVisible=true titleVisible=true contentVisible=true titleTextStyle longTextStyle leftButtonVisible=true rightButtonVisible=true leftButtonStyle rightButtonStyle leftImage leftLongText leftButtonLink rightImage rightLongText rightButtonLink; theme: contentTheme }
+        doubleArticleBlock { label: 2 Columns Block; properties: backgroundColor imageVisible=true leftTitleVisible=true rightTitleVisible=true contentVisible=true titleTextStyle longTextStyle leftButtonVisible=true rightButtonVisible=true leftButtonStyle rightButtonStyle leftImage leftLongText leftButtonLink rightImage rightLongText rightButtonLink; theme: contentTheme }
 
-        tripleArticleBlock { label: 3 Columns Block; properties: backgroundColor imageVisible=true titleVisible=true contentVisible=true titleTextStyle longTextStyle leftButtonVisible=true middleButtonVisible=true rightButtonVisible=true leftButtonStyle middleButtonStyle rightButtonStyle leftImage leftLongText leftButtonLink middleImage middleLongText middleButtonLink rightImage rightLongText rightButtonLink; theme: contentTheme }
+        tripleArticleBlock { label: 3 Columns Block; properties: backgroundColor imageVisible=true leftTitleVisible=true middleTitleVisible=true rightTitleVisible=true  contentVisible=true titleTextStyle longTextStyle leftButtonVisible=true middleButtonVisible=true rightButtonVisible=true leftButtonStyle middleButtonStyle rightButtonStyle leftImage leftLongText leftButtonLink middleImage middleLongText middleButtonLink rightImage rightLongText rightButtonLink; theme: contentTheme }
 
         logoBlock imageWidth { label: Image Size; widget: select; options: 166=Small|258=Medium|350=Big; variant:imageWidth;}
         logoBlock { label: Logo Block; properties: image imageWidth=258; variant: imageWidth; theme: contentTheme}
@@ -1234,7 +1234,7 @@
                                                                           </a>
                                                                       </td>
                                                                   </tr>
-                                                                  <tr data-ko-display="titleVisible">
+                                                                  <tr data-ko-display="leftTitleVisible">
                                                                       <td class="section-title"
                                                                           data-ko-editable="leftTitleText"
                                                                           style="font-size: 18px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f; text-align:left;
@@ -1293,7 +1293,7 @@
                                                                           </a>
                                                                       </td>
                                                                   </tr>
-                                                                  <tr data-ko-display="titleVisible">
+                                                                  <tr data-ko-display="rightTitleVisible">
                                                                       <td class="section-title"
                                                                           data-ko-editable="rightTitleText"
                                                                           style="font-size: 18px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f; text-align:left;
@@ -1411,12 +1411,12 @@
                                                                         </a>
                                                                     </td>
                                                                 </tr>
-                                                                <tr data-ko-display="titleVisible">
+                                                                <tr data-ko-display="leftTitleVisible">
                                                                     <td class="section-title"
                                                                         data-ko-editable="leftTitleText"
                                                                         style="font-size: 18px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f; text-align:left;
                                                                                -ko-font-size: @[titleTextStyle.size]px; -ko-font-family: @titleTextStyle.face; -ko-color: @titleTextStyle.color">
-                                                                        Section Title
+                                                                        Left Section Title
                                                                     </td>
                                                                 </tr>
                                                                 <tr data-ko-display="contentVisible">
@@ -1469,12 +1469,12 @@
                                                                         </a>
                                                                     </td>
                                                                 </tr>
-                                                                <tr data-ko-display="titleVisible">
+                                                                <tr data-ko-display="middleTitleVisible">
                                                                     <td class="section-title"
                                                                         data-ko-editable="middleTitleText"
                                                                         style="font-size: 18px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f; text-align:left;
                                                                                -ko-font-size: @[titleTextStyle.size]px; -ko-font-family: @titleTextStyle.face; -ko-color: @titleTextStyle.color">
-                                                                        Section Title
+                                                                        Middle Section Title
                                                                     </td>
                                                                 </tr>
                                                                 <tr data-ko-display="contentVisible">
@@ -1528,12 +1528,12 @@
                                                                         </a>
                                                                     </td>
                                                                 </tr>
-                                                                <tr data-ko-display="titleVisible">
+                                                                <tr data-ko-display="rightTitleVisible">
                                                                     <td class="section-title"
                                                                         data-ko-editable="rightTitleText"
                                                                         style="font-size: 18px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f; text-align:left;
                                                                                -ko-font-size: @[titleTextStyle.size]px; -ko-font-family: @titleTextStyle.face; -ko-color: @titleTextStyle.color">
-                                                                        Section Title
+                                                                        Right Section Title
                                                                     </td>
                                                                 </tr>
                                                                 <tr data-ko-display="contentVisible">
