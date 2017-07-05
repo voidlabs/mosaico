@@ -94,7 +94,7 @@
         align {
             label: Alignment;
             widget: select;
-            options: left=Left|right=Right|center=Center
+            options: left=Left|center=Center|right=Right
         }
         alt {
             label: Alternative Text;
@@ -235,7 +235,6 @@
         footerTextStyle { label: Paragraph; properties: face color size linksColor }
         footerTextStyle:preview { -ko-bind-text: @['AaZz']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; }
 
-        bigButtonStyle { label: Big Button; extend: buttonStyle }
         titleTextStyle { label: Title; extend: textStyle }
 
         /* background */
@@ -292,10 +291,16 @@
         }
 
         /* buttons */
-        buttonStyle color { label: Text Color; extend: color }
-        buttonStyle size { label: Text Size; extend: size }
         buttonStyle { label: Button; properties: face color size buttonColor radius paddingTop paddingBottom borderWidth borderType borderColor }
         buttonStyle:preview { -ko-bind-text: @['Button']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; -ko-background-color: @buttonColor; padding-left: 5px; -ko-border-radius: @[radius]px }
+        buttonStyle color { label: Text Color; extend: color }
+        buttonStyle size { label: Text Size; extend: size }
+
+        bigButtonStyle { label: Big Button; extend: buttonStyle }
+
+        leftButtonStyle { label: Left Button; extend: buttonStyle }
+        middleButtonStyle { label: Middle Button; extend: buttonStyle }
+        rightButtonStyle { label: Right Button; extend: buttonStyle }
 
         /* padding */
         paddingStyle { label: Padding; properties: paddingTop paddingRight paddingBottom paddingLeft}
@@ -482,6 +487,9 @@
             vertical-align: top;
             padding-bottom: 0px;
             border-radius: 0px;
+        }
+        .section-title > p {
+          margin: 0;
         }
         .oldwebkit {
             max-width: 600px;
