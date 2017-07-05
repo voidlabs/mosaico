@@ -334,15 +334,22 @@
             version: 1.0.6;
         }
 
+        leftButtonVisible { label: Show Left Button; extend: visible; }
+        middleButtonVisible { label: Show Middle Button; extend: visible; }
+        rightButtonVisible { label: Show Right Button; extend: visible; }
+
         leftImage { label: Left Image; extend: image }
         leftLongText { label: Left Text; extend: text }
         leftButtonLink { label: Left Button; extend: buttonLink }
+
         middleImage { label: Central Image; extend: image }
         middleLongText { label: Central Text; extend: text }
         middleButtonLink { label: Central Button; extend: buttonLink }
+
         rightImage { label: Right Image; extend: image }
         rightLongText { label: Right Text; extend: text }
         rightButtonLink { label: Right Button; extend: buttonLink }
+
         webversionText{ label: Web Link Text; extend: text;}
         unsubscribeText{ label: Unsubscribe Link; extend: text;}
 
@@ -397,12 +404,12 @@
 
         textBlock { label: Text Block; properties: backgroundColor longTextStyle longText; theme: contentTheme}
 
-        singleArticleBlock { label: Image/Text Block; properties: backgroundColor titleVisible=true buttonVisible=true contentVisible=true imageVisible=true titleTextStyle longTextStyle buttonStyle image longText buttonLink;theme: contentTheme}
+        singleArticleBlock { label: Image/Text Block; properties: backgroundColor titleVisible=true buttonVisible=true contentVisible=true imageVisible=true titleTextStyle longTextStyle buttonStyle image longText buttonLink;theme: contentTheme }
         /* TODO: singleArticleBlock buttonStyle { properties: align=center }*/
 
-        doubleArticleBlock { label: 2 Columns Block; properties: backgroundColor titleVisible=true buttonVisible=true contentVisible=true imageVisible=true titleTextStyle longTextStyle leftButtonStyle rightButtonStyle leftImage leftLongText leftButtonLink rightImage rightLongText rightButtonLink; theme: contentTheme}
+        doubleArticleBlock { label: 2 Columns Block; properties: backgroundColor imageVisible=true titleVisible=true contentVisible=true titleTextStyle longTextStyle leftButtonVisible=true rightButtonVisible=true leftButtonStyle rightButtonStyle leftImage leftLongText leftButtonLink rightImage rightLongText rightButtonLink; theme: contentTheme }
 
-        tripleArticleBlock { label: 3 Columns Block; properties: backgroundColor titleVisible=true buttonVisible=true contentVisible=true imageVisible=true titleTextStyle longTextStyle leftButtonStyle middleButtonStyle rightButtonStyle leftImage leftLongText leftButtonLink middleImage middleLongText middleButtonLink rightImage rightLongText rightButtonLink; theme: contentTheme}
+        tripleArticleBlock { label: 3 Columns Block; properties: backgroundColor imageVisible=true titleVisible=true contentVisible=true titleTextStyle longTextStyle leftButtonVisible=true middleButtonVisible=true rightButtonVisible=true leftButtonStyle middleButtonStyle rightButtonStyle leftImage leftLongText leftButtonLink middleImage middleLongText middleButtonLink rightImage rightLongText rightButtonLink; theme: contentTheme }
 
         logoBlock imageWidth { label: Image Size; widget: select; options: 166=Small|258=Medium|350=Big; variant:imageWidth;}
         logoBlock { label: Logo Block; properties: image imageWidth=258; variant: imageWidth; theme: contentTheme}
@@ -978,7 +985,7 @@
                                                                         <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
                                                                     </td>
                                                                 </tr>
-                                                                <tr data-ko-display="contentVisible">
+                                                                <tr data-ko-display="buttonVisible">
                                                                     <td valign="top">
                                                                         <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full"
                                                                                style="padding-top: 4px; -ko-attr-align: @buttonStyle.align">
@@ -1137,8 +1144,9 @@
                                                                                        border-color: #ff0000; -ko-border-color: @buttonStyle.borderColor;
                                                                                        border-radius: 4px; -ko-border-radius: @[buttonStyle.radius]px;
                                                                                        ">
-                                                                                <a data-ko-editable="buttonLink.text" href="" style="text-decoration: none; color: #3f3f3f; font-weight: normal;
-                                                                                -ko-color: @buttonStyle.color; -ko-attr-href: @buttonLink.url">BUTTON</a>
+                                                                                <a data-ko-editable="buttonLink.text" href=""
+                                                                                   style="text-decoration: none; color: #3f3f3f; font-weight: normal;
+                                                                                          -ko-color: @buttonStyle.color; -ko-attr-href: @buttonLink.url">BUTTON</a>
                                                                             </td>
                                                                         </tr>
                                                                     </table>
@@ -1237,7 +1245,7 @@
                                                                           <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. </p>
                                                                       </td>
                                                                   </tr>
-                                                                  <tr data-ko-display="buttonVisible">
+                                                                  <tr data-ko-display="leftButtonVisible">
                                                                       <td valign="top">
                                                                           <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full"
                                                                                  style="padding-top: 4px; -ko-attr-align: @leftButtonStyle.align">
@@ -1296,7 +1304,7 @@
                                                                           <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
                                                                       </td>
                                                                   </tr>
-                                                                  <tr data-ko-display="buttonVisible">
+                                                                  <tr data-ko-display="rightButtonVisible">
                                                                       <td valign="top">
                                                                           <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full"
                                                                                  style="padding-top: 4px; -ko-attr-align: @rightButtonStyle.align">
@@ -1414,7 +1422,7 @@
                                                                         <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. </p>
                                                                     </td>
                                                                 </tr>
-                                                                <tr data-ko-display="buttonVisible">
+                                                                <tr data-ko-display="leftButtonVisible">
                                                                     <td valign="top">
                                                                         <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full"
                                                                                style="padding-top: 4px; -ko-attr-align: @leftButtonStyle.align">
@@ -1473,7 +1481,7 @@
                                                                         <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. </p>
                                                                     </td>
                                                                 </tr>
-                                                                <tr data-ko-display="buttonVisible">
+                                                                <tr data-ko-display="middleButtonVisible">
                                                                     <td valign="top">
                                                                         <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full"
                                                                                style="padding-top: 4px; -ko-attr-align: @middleButtonStyle.align">
@@ -1531,7 +1539,7 @@
                                                                         <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. </p>
                                                                     </td>
                                                                 </tr>
-                                                                <tr data-ko-display="buttonVisible">
+                                                                <tr data-ko-display="rightButtonVisible">
                                                                     <td valign="top">
                                                                         <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full"
                                                                                style="padding-top: 4px; -ko-attr-align: @rightButtonStyle.align"
