@@ -291,7 +291,7 @@
         }
 
         /* buttons */
-        buttonStyle { label: Button; properties: face color size buttonColor radius paddingTop paddingBottom borderWidth borderType borderColor }
+        buttonStyle { label: Button; properties: align face color size buttonColor radius paddingTop paddingBottom borderWidth borderType borderColor }
         buttonStyle:preview { -ko-bind-text: @['Button']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; -ko-background-color: @buttonColor; padding-left: 5px; -ko-border-radius: @[radius]px }
         buttonStyle color { label: Text Color; extend: color }
         buttonStyle size { label: Text Size; extend: size }
@@ -397,11 +397,12 @@
 
         textBlock { label: Text Block; properties: backgroundColor longTextStyle longText; theme: contentTheme}
 
-        singleArticleBlock { label: Image/Text Block; properties: backgroundColor titleVisible=true buttonVisible=true contentVisible=true imageVisible=true titleTextStyle longTextStyle buttonStyle  image  longText buttonLink;theme: contentTheme}
+        singleArticleBlock { label: Image/Text Block; properties: backgroundColor titleVisible=true buttonVisible=true contentVisible=true imageVisible=true titleTextStyle longTextStyle buttonStyle image longText buttonLink;theme: contentTheme}
+        /* TODO: singleArticleBlock buttonStyle { properties: align=center }*/
 
-        doubleArticleBlock { label: 2 Columns Block; properties: backgroundColor titleVisible=true buttonVisible=true contentVisible=true imageVisible=true titleTextStyle longTextStyle buttonStyle  leftImage  leftLongText leftButtonLink rightImage  rightLongText rightButtonLink; theme: contentTheme}
+        doubleArticleBlock { label: 2 Columns Block; properties: backgroundColor titleVisible=true buttonVisible=true contentVisible=true imageVisible=true titleTextStyle longTextStyle leftButtonStyle rightButtonStyle leftImage leftLongText leftButtonLink rightImage rightLongText rightButtonLink; theme: contentTheme}
 
-        tripleArticleBlock { label: 3 Columns Block; properties: backgroundColor titleVisible=true buttonVisible=true contentVisible=true imageVisible=true titleTextStyle longTextStyle buttonStyle  leftImage  leftLongText leftButtonLink middleImage  middleLongText middleButtonLink rightImage  rightLongText rightButtonLink; theme: contentTheme}
+        tripleArticleBlock { label: 3 Columns Block; properties: backgroundColor titleVisible=true buttonVisible=true contentVisible=true imageVisible=true titleTextStyle longTextStyle leftButtonStyle middleButtonStyle rightButtonStyle leftImage leftLongText leftButtonLink middleImage middleLongText middleButtonLink rightImage rightLongText rightButtonLink; theme: contentTheme}
 
         logoBlock imageWidth { label: Image Size; widget: select; options: 166=Small|258=Medium|350=Big; variant:imageWidth;}
         logoBlock { label: Logo Block; properties: image imageWidth=258; variant: imageWidth; theme: contentTheme}
@@ -966,7 +967,7 @@
                                                                         data-ko-editable="titleText"
                                                                         style="font-size: 18px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f; text-align:left;
                                                                                -ko-font-size: @[titleTextStyle.size]px; -ko-font-family: @titleTextStyle.face; -ko-color: @titleTextStyle.color">
-                                                                        Title
+                                                                        Section Title
                                                                     </td>
                                                                 </tr>
                                                                 <tr data-ko-display="contentVisible">
@@ -979,7 +980,8 @@
                                                                 </tr>
                                                                 <tr data-ko-display="contentVisible">
                                                                     <td valign="top">
-                                                                        <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full" style="padding-top: 4px">
+                                                                        <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full"
+                                                                               style="padding-top: 4px; -ko-attr-align: @buttonStyle.align">
                                                                             <tr>
                                                                                 <td width="auto" valign="middle" bgcolor="#bfbfbf" align="center" height="26"
                                                                                     style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; text-align:center; color: #3f3f3f; font-weight: normal;
@@ -1121,7 +1123,8 @@
                                                             </tr>
                                                             <tr data-ko-display="buttonVisible">
                                                                 <td valign="top">
-                                                                    <table cellpadding="0" border="0" align="center" cellspacing="0" class="mobile-full">
+                                                                    <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full"
+                                                                           style="-ko-attr-align: @buttonStyle.align">
                                                                         <tr>
                                                                             <td width="auto" valign="middle" bgcolor="#bfbfbf" align="center" height="26"
                                                                                 style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; text-align:center; color: #3f3f3f; font-weight: normal;
@@ -1236,22 +1239,23 @@
                                                                   </tr>
                                                                   <tr data-ko-display="buttonVisible">
                                                                       <td valign="top">
-                                                                          <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full" style="padding-top: 4px">
+                                                                          <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full"
+                                                                                 style="padding-top: 4px; -ko-attr-align: @leftButtonStyle.align">
                                                                               <tr>
                                                                                   <td width="auto" valign="middle" bgcolor="#bfbfbf" align="center" height="26"
                                                                                       style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; text-align:center; color: #3f3f3f; font-weight: normal;
                                                                                              padding-left: 18px; padding-right: 18px; background-color: #bfbfbf;
-                                                                                             padding-top: 0px; padding-bottom: 0px; -ko-padding-top: @[buttonStyle.paddingTop]px; -ko-padding-bottom: @[buttonStyle.paddingBottom]px;
-                                                                                             -ko-attr-bgcolor: @buttonStyle.buttonColor; -ko-background-color: @buttonStyle.buttonColor;
-                                                                                             -ko-font-size: @[buttonStyle.size]px; -ko-font-family: @buttonStyle.face; -ko-color: @buttonStyle.color;
-                                                                                             border-width: 0px; -ko-border-width: @[buttonStyle.borderWidth]px;
-                                                                                             border-style: none; -ko-border-style: @buttonStyle.borderType;
-                                                                                             border-color: #ff0000; -ko-border-color: @buttonStyle.borderColor;
-                                                                                             border-radius: 4px; -ko-border-radius: @[buttonStyle.radius]px;
+                                                                                             padding-top: 0px; padding-bottom: 0px; -ko-padding-top: @[leftButtonStyle.paddingTop]px; -ko-padding-bottom: @[leftButtonStyle.paddingBottom]px;
+                                                                                             -ko-attr-bgcolor: @leftButtonStyle.buttonColor; -ko-background-color: @leftButtonStyle.buttonColor;
+                                                                                             -ko-font-size: @[leftButtonStyle.size]px; -ko-font-family: @leftButtonStyle.face; -ko-color: @leftButtonStyle.color;
+                                                                                             border-width: 0px; -ko-border-width: @[leftButtonStyle.borderWidth]px;
+                                                                                             border-style: none; -ko-border-style: @leftButtonStyle.borderType;
+                                                                                             border-color: #ff0000; -ko-border-color: @leftButtonStyle.borderColor;
+                                                                                             border-radius: 4px; -ko-border-radius: @[leftButtonStyle.radius]px;
                                                                                              ">
                                                                                       <a data-ko-editable="leftButtonLink.text" href=""
                                                                                          style="text-decoration: none; color: #3f3f3f; font-weight: normal;
-                                                                                                -ko-color: @buttonStyle.color; -ko-attr-href: @leftButtonLink.url">
+                                                                                                -ko-color: @leftButtonStyle.color; -ko-attr-href: @leftButtonLink.url">
                                                                                           BUTTON
                                                                                       </a>
                                                                                   </td>
@@ -1294,21 +1298,22 @@
                                                                   </tr>
                                                                   <tr data-ko-display="buttonVisible">
                                                                       <td valign="top">
-                                                                          <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full" style="padding-top: 4px">
+                                                                          <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full"
+                                                                                 style="padding-top: 4px; -ko-attr-align: @rightButtonStyle.align">
                                                                               <tr>
                                                                                   <td width="auto" valign="middle" bgcolor="#bfbfbf" align="center" height="26"
                                                                                       style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; text-align:center; color: #3f3f3f; font-weight: normal;
                                                                                              padding-left: 18px; padding-right: 18px; background-color: #bfbfbf;
-                                                                                             padding-top: 0px; padding-bottom: 0px; -ko-padding-top: @[buttonStyle.paddingTop]px; -ko-padding-bottom: @[buttonStyle.paddingBottom]px;
-                                                                                             -ko-attr-bgcolor: @buttonStyle.buttonColor; -ko-background-color: @buttonStyle.buttonColor;
-                                                                                             -ko-font-size: @[buttonStyle.size]px; -ko-font-family: @buttonStyle.face; -ko-color: @buttonStyle.color;
-                                                                                             border-width: 0px; -ko-border-width: @[buttonStyle.borderWidth]px;
-                                                                                             border-style: none; -ko-border-style: @buttonStyle.borderType;
-                                                                                             border-color: #ff0000; -ko-border-color: @buttonStyle.borderColor;
-                                                                                             border-radius: 4px; -ko-border-radius: @[buttonStyle.radius]px;
+                                                                                             padding-top: 0px; padding-bottom: 0px; -ko-padding-top: @[rightButtonStyle.paddingTop]px; -ko-padding-bottom: @[rightButtonStyle.paddingBottom]px;
+                                                                                             -ko-attr-bgcolor: @rightButtonStyle.buttonColor; -ko-background-color: @rightButtonStyle.buttonColor;
+                                                                                             -ko-font-size: @[rightButtonStyle.size]px; -ko-font-family: @rightButtonStyle.face; -ko-color: @rightButtonStyle.color;
+                                                                                             border-width: 0px; -ko-border-width: @[rightButtonStyle.borderWidth]px;
+                                                                                             border-style: none; -ko-border-style: @rightButtonStyle.borderType;
+                                                                                             border-color: #ff0000; -ko-border-color: @rightButtonStyle.borderColor;
+                                                                                             border-radius: 4px; -ko-border-radius: @[rightButtonStyle.radius]px;
                                                                                              ">
                                                                                       <a data-ko-editable="rightButtonLink.text" href="" style="text-decoration: none; color: #3f3f3f; font-weight: normal;
-                                                                                          -ko-color: @buttonStyle.color; -ko-attr-href: @rightButtonLink.url">BUTTON</a>
+                                                                                          -ko-color: @rightButtonStyle.color; -ko-attr-href: @rightButtonLink.url">BUTTON</a>
                                                                                   </td>
                                                                               </tr>
                                                                           </table>
@@ -1399,7 +1404,7 @@
                                                                         data-ko-editable="leftTitleText"
                                                                         style="font-size: 18px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f; text-align:left;
                                                                                -ko-font-size: @[titleTextStyle.size]px; -ko-font-family: @titleTextStyle.face; -ko-color: @titleTextStyle.color">
-                                                                        Title
+                                                                        Section Title
                                                                     </td>
                                                                 </tr>
                                                                 <tr data-ko-display="contentVisible">
@@ -1411,21 +1416,23 @@
                                                                 </tr>
                                                                 <tr data-ko-display="buttonVisible">
                                                                     <td valign="top">
-                                                                        <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full" style="padding-top: 4px">
+                                                                        <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full"
+                                                                               style="padding-top: 4px; -ko-attr-align: @leftButtonStyle.align">
                                                                             <tr>
                                                                                 <td width="auto" valign="middle" bgcolor="#bfbfbf" align="center" height="26"
                                                                                     style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; text-align:center; color: #3f3f3f; font-weight: normal;
                                                                                            padding-left: 18px; padding-right: 18px; background-color: #bfbfbf;
-                                                                                           padding-top: 0px; padding-bottom: 0px; -ko-padding-top: @[buttonStyle.paddingTop]px; -ko-padding-bottom: @[buttonStyle.paddingBottom]px;
-                                                                                           -ko-attr-bgcolor: @buttonStyle.buttonColor; -ko-background-color: @buttonStyle.buttonColor;
-                                                                                           -ko-font-size: @[buttonStyle.size]px; -ko-font-family: @buttonStyle.face; -ko-color: @buttonStyle.color;
-                                                                                           border-width: 0px; -ko-border-width: @[buttonStyle.borderWidth]px;
-                                                                                           border-style: none; -ko-border-style: @buttonStyle.borderType;
-                                                                                           border-color: #ff0000; -ko-border-color: @buttonStyle.borderColor;
-                                                                                           border-radius: 4px; -ko-border-radius: @[buttonStyle.radius]px;
+                                                                                           padding-top: 0px; padding-bottom: 0px; -ko-padding-top: @[leftButtonStyle.paddingTop]px; -ko-padding-bottom: @[leftButtonStyle.paddingBottom]px;
+                                                                                           -ko-attr-bgcolor: @leftButtonStyle.buttonColor; -ko-background-color: @leftButtonStyle.buttonColor;
+                                                                                           -ko-font-size: @[leftButtonStyle.size]px; -ko-font-family: @leftButtonStyle.face; -ko-color: @leftButtonStyle.color;
+                                                                                           border-width: 0px; -ko-border-width: @[leftButtonStyle.borderWidth]px;
+                                                                                           border-style: none; -ko-border-style: @leftButtonStyle.borderType;
+                                                                                           border-color: #ff0000; -ko-border-color: @leftButtonStyle.borderColor;
+                                                                                           border-radius: 4px; -ko-border-radius: @[leftButtonStyle.radius]px;
                                                                                            ">
                                                                                     <a data-ko-editable="leftButtonLink.text" href=""
-                                                                                       style="text-decoration: none; color: #3f3f3f; font-weight: normal; -ko-color: @buttonStyle.color; -ko-attr-href: @leftButtonLink.url">
+                                                                                       style="text-decoration: none; color: #3f3f3f; font-weight: normal;
+                                                                                              -ko-color: @leftButtonStyle.color; -ko-attr-href: @leftButtonLink.url">
                                                                                         BUTTON
                                                                                     </a>
                                                                                 </td>
@@ -1455,7 +1462,7 @@
                                                                         data-ko-editable="middleTitleText"
                                                                         style="font-size: 18px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f; text-align:left;
                                                                                -ko-font-size: @[titleTextStyle.size]px; -ko-font-family: @titleTextStyle.face; -ko-color: @titleTextStyle.color">
-                                                                        Title
+                                                                        Section Title
                                                                     </td>
                                                                 </tr>
                                                                 <tr data-ko-display="contentVisible">
@@ -1468,21 +1475,22 @@
                                                                 </tr>
                                                                 <tr data-ko-display="buttonVisible">
                                                                     <td valign="top">
-                                                                        <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full" style="padding-top: 4px">
+                                                                        <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full"
+                                                                               style="padding-top: 4px; -ko-attr-align: @middleButtonStyle.align">
                                                                             <tr>
                                                                                 <td width="auto" valign="middle" bgcolor="#bfbfbf" align="center" height="26"
                                                                                     style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; text-align:center; color: #3f3f3f; font-weight: normal;
                                                                                            padding-left: 18px; padding-right: 18px; background-color: #bfbfbf;
-                                                                                           padding-top: 0px; padding-bottom: 0px; -ko-padding-top: @[buttonStyle.paddingTop]px; -ko-padding-bottom: @[buttonStyle.paddingBottom]px;
-                                                                                           -ko-attr-bgcolor: @buttonStyle.buttonColor; -ko-background-color: @buttonStyle.buttonColor;
-                                                                                           -ko-font-size: @[buttonStyle.size]px; -ko-font-family: @buttonStyle.face; -ko-color: @buttonStyle.color;
-                                                                                           border-width: 0px; -ko-border-width: @[buttonStyle.borderWidth]px;
-                                                                                           border-style: none; -ko-border-style: @buttonStyle.borderType;
-                                                                                           border-color: #ff0000; -ko-border-color: @buttonStyle.borderColor;
-                                                                                           border-radius: 4px; -ko-border-radius: @[buttonStyle.radius]px;
+                                                                                           padding-top: 0px; padding-bottom: 0px; -ko-padding-top: @[middleButtonStyle.paddingTop]px; -ko-padding-bottom: @[middleButtonStyle.paddingBottom]px;
+                                                                                           -ko-attr-bgcolor: @middleButtonStyle.buttonColor; -ko-background-color: @middleButtonStyle.buttonColor;
+                                                                                           -ko-font-size: @[middleButtonStyle.size]px; -ko-font-family: @middleButtonStyle.face; -ko-color: @middleButtonStyle.color;
+                                                                                           border-width: 0px; -ko-border-width: @[middleButtonStyle.borderWidth]px;
+                                                                                           border-style: none; -ko-border-style: @middleButtonStyle.borderType;
+                                                                                           border-color: #ff0000; -ko-border-color: @middleButtonStyle.borderColor;
+                                                                                           border-radius: 4px; -ko-border-radius: @[middleButtonStyle.radius]px;
                                                                                            ">
                                                                                     <a data-ko-editable="middleButtonLink.text" href=""
-                                                                                       style="text-decoration: none; color: #3f3f3f; font-weight: normal; -ko-color: @buttonStyle.color; -ko-attr-href: @middleButtonLink.url">
+                                                                                       style="text-decoration: none; color: #3f3f3f; font-weight: normal; -ko-color: @middleButtonStyle.color; -ko-attr-href: @middleButtonLink.url">
                                                                                        BUTTON
                                                                                     </a>
                                                                                 </td>
@@ -1513,7 +1521,7 @@
                                                                         data-ko-editable="rightTitleText"
                                                                         style="font-size: 18px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f; text-align:left;
                                                                                -ko-font-size: @[titleTextStyle.size]px; -ko-font-family: @titleTextStyle.face; -ko-color: @titleTextStyle.color">
-                                                                        Title
+                                                                        Section Title
                                                                     </td>
                                                                 </tr>
                                                                 <tr data-ko-display="contentVisible">
@@ -1525,21 +1533,22 @@
                                                                 </tr>
                                                                 <tr data-ko-display="buttonVisible">
                                                                     <td valign="top">
-                                                                        <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full" style="padding-top: 4px">
+                                                                        <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full"
+                                                                               style="padding-top: 4px; -ko-attr-align: @rightButtonStyle.align"
                                                                             <tr>
                                                                                 <td width="auto" valign="middle" bgcolor="#bfbfbf" align="center" height="26"
                                                                                     style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; text-align:center; color: #3f3f3f; font-weight: normal;
                                                                                            padding-left: 18px; padding-right: 18px; background-color: #bfbfbf;
-                                                                                           padding-top: 0px; padding-bottom: 0px; -ko-padding-top: @[buttonStyle.paddingTop]px; -ko-padding-bottom: @[buttonStyle.paddingBottom]px;
-                                                                                           -ko-attr-bgcolor: @buttonStyle.buttonColor; -ko-background-color: @buttonStyle.buttonColor;
-                                                                                           -ko-font-size: @[buttonStyle.size]px; -ko-font-family: @buttonStyle.face; -ko-color: @buttonStyle.color;
-                                                                                           border-width: 0px; -ko-border-width: @[buttonStyle.borderWidth]px;
-                                                                                           border-style: none; -ko-border-style: @buttonStyle.borderType;
-                                                                                           border-color: #ff0000; -ko-border-color: @buttonStyle.borderColor;
-                                                                                           border-radius: 4px; -ko-border-radius: @[buttonStyle.radius]px;
+                                                                                           padding-top: 0px; padding-bottom: 0px; -ko-padding-top: @[rightButtonStyle.paddingTop]px; -ko-padding-bottom: @[rightButtonStyle.paddingBottom]px;
+                                                                                           -ko-attr-bgcolor: @rightButtonStyle.buttonColor; -ko-background-color: @rightButtonStyle.buttonColor;
+                                                                                           -ko-font-size: @[rightButtonStyle.size]px; -ko-font-family: @rightButtonStyle.face; -ko-color: @rightButtonStyle.color;
+                                                                                           border-width: 0px; -ko-border-width: @[rightButtonStyle.borderWidth]px;
+                                                                                           border-style: none; -ko-border-style: @rightButtonStyle.borderType;
+                                                                                           border-color: #ff0000; -ko-border-color: @rightButtonStyle.borderColor;
+                                                                                           border-radius: 4px; -ko-border-radius: @[rightButtonStyle.radius]px;
                                                                                            ">
                                                                                     <a data-ko-editable="rightButtonLink.text" href=""
-                                                                                       style="text-decoration: none; color: #3f3f3f; font-weight: normal; -ko-color: @buttonStyle.color; -ko-attr-href: @rightButtonLink.url">
+                                                                                       style="text-decoration: none; color: #3f3f3f; font-weight: normal; -ko-color: @rightButtonStyle.color; -ko-attr-href: @rightButtonLink.url">
                                                                                        BUTTON
                                                                                     </a>
                                                                                 </td>
