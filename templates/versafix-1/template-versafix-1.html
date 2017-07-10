@@ -584,11 +584,17 @@
         img { outline: none; text-decoration: none; border: none; -ms-interpolation-mode: bicubic; }
         a img { border: none; }
 
-        .mobile-gutter {
-            display: inline-block;
-            height: 1px;
+        .gutter {
+            display: block;
+            height: 10px;
             font-size: 0px;
+            overflow: hidden;
         }
+        table.gutterVisible .gutter,
+        table.gutterVisible .mobile-full-with-gutter {
+            float: left;
+        }
+
 
         /* Mobile styles: show as mobile layout if viewport less than 600px (email wrapper width) */
         @media screen and (max-width: 600px) {
@@ -604,7 +610,7 @@
 
             .mobile-full,
             .mobile-full-with-gutter,
-            .mobile-gutter {
+            .gutter {
                 float: none !important;
                 width: 100% !important;
                 max-width: none !important;
@@ -617,7 +623,7 @@
                 padding-left: 10px !important;
                 padding-right: 10px !important;
             }
-            .mobile-gutter {
+            .gutter {
                 height: 10px !important;
             }
             img.mobile-full {
@@ -1750,14 +1756,14 @@
                                         </table>
 
                                         <table data-ko-display="gutterVisible"
-                                               class="vb-content" width="570" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+                                               class="vb-content gutterVisible" width="570" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
                                                style="width: 100%; max-width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor; display: none;">
                                             <tr>
-                                                <td align="center" valign="top" bgcolor="#ffffff" style="background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor; font-size: 0">
+                                                <td align="center" valign="top" bgcolor="#ffffff" style="background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor">
 
                                                     <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><![endif]-->
 
-                                                        <!--[if (gte mso 9)|(lte ie 8)]><td width="9"><![endif]--><div class="mobile-gutter" style="width: 9px"><!-- --></div><!--[if (gte mso 9)|(lte ie 8)]></td><![endif]-->
+                                                        <!--[if (gte mso 9)|(lte ie 8)]><td width="9"><![endif]--><div class="gutter" style="width: 9px"><!-- --></div><!--[if (gte mso 9)|(lte ie 8)]></td><![endif]-->
                                                         <!--[if (gte mso 9)|(lte ie 8)]><td align="left" valign="top" width="270"><![endif]-->
                                                             <div class="mobile-full-with-gutter" style="display:inline-block; max-width:270px; vertical-align:top; width:100%;">
                                                                 <table class="vb-content" border="0" cellpadding="0" cellspacing="0" align="left"
@@ -1777,7 +1783,7 @@
                                                                 </table>
                                                             </div>
                                                         <!--[if (gte mso 9)|(lte ie 8)]></td><![endif]-->
-                                                        <!--[if (gte mso 9)|(lte ie 8)]><td width="2"><![endif]--><div class="mobile-gutter" style="width: 12px"><!-- --></div><!--[if (gte mso 9)|(lte ie 8)]></td><![endif]-->
+                                                        <!--[if (gte mso 9)|(lte ie 8)]><td width="2"><![endif]--><div class="gutter" style="width: 12px"><!-- --></div><!--[if (gte mso 9)|(lte ie 8)]></td><![endif]-->
                                                         <!--[if (gte mso 9)|(lte ie 8)]><td align="left" valign="top" width="270"><![endif]-->
                                                             <div class="mobile-full-with-gutter" style="display:inline-block; max-width:270px; vertical-align:top; width:100%;">
                                                                 <table class="vb-content" border="0" cellpadding="0" cellspacing="0" align="right"
@@ -1796,7 +1802,7 @@
                                                                 </table>
                                                             </div>
                                                         <!--[if (gte mso 9)|(lte ie 8)]></td><![endif]-->
-                                                        <!--[if (gte mso 9)|(lte ie 8)]><td width="9"><![endif]--><div class="mobile-gutter" style="width: 9px"><!-- --></div><!--[if (gte mso 9)|(lte ie 8)]></td><![endif]-->
+                                                        <!--[if (gte mso 9)|(lte ie 8)]><td width="9"><![endif]--><div class="gutter" style="width: 9px"><!-- --></div><!--[if (gte mso 9)|(lte ie 8)]></td><![endif]-->
 
                                                     <!--[if (gte mso 9)|(lte ie 8)]></tr></table><![endif]-->
 
@@ -1852,8 +1858,9 @@
                                                         padding-top: 10px; -ko-padding-top: @[blockStyle.paddingTop]px;
                                                         padding-bottom: 10px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;">
 
-                                            <table class="vb-content" width="570" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
-                                                   data-ko-display="gutterVisible eq false"
+                                            <table data-ko-display="gutterVisible eq false"
+                                                   class="vb-content"
+                                                   width="570" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
                                                    style="width: 100%; max-width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor; display: none;">
                                                 <tr>
                                                     <td valign="top" align="center" class="mobile-row" style="font-size: 0px;">
@@ -1897,13 +1904,14 @@
                                             </table>
 
                                             <table data-ko-display="gutterVisible"
-                                                   width="570" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff" class="vb-content"
+                                                   class="vb-content gutterVisible"
+                                                   width="570" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
                                                    style="width: 100%; max-width: 570px; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor; display: none;">
                                                 <tr>
                                                     <td align="center" valign="top" bgcolor="#ffffff" style="font-size: 0; background-color: #ffffff; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor">
 
                                                         <!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><![endif]-->
-                                                        <!--[if (gte mso 9)|(lte ie 8)]><td width="9"><![endif]--><div class="mobile-gutter" style="width: 9px"><!-- --></div><!--[if (gte mso 9)|(lte ie 8)]></td><![endif]-->
+                                                        <!--[if (gte mso 9)|(lte ie 8)]><td width="9"><![endif]--><div class="gutter" style="width: 9px"><!-- --></div><!--[if (gte mso 9)|(lte ie 8)]></td><![endif]-->
                                                         <!--[if (gte mso 9)|(lte ie 8)]><td align="left" valign="top" width="178"><![endif]-->
                                                         <div class="mobile-full-with-gutter" style="display:inline-block; max-width:178px; vertical-align:top; width:100%">
 
@@ -1923,7 +1931,7 @@
 
                                                         </div>
                                                         <!--[if (gte mso 9)|(lte ie 8)]></td><![endif]-->
-                                                        <!--[if (gte mso 9)|(lte ie 8)]><td width="9"><![endif]--><div class="mobile-gutter" style="width: 9px"><!-- --></div><!--[if (gte mso 9)|(lte ie 8)]></td><![endif]-->
+                                                        <!--[if (gte mso 9)|(lte ie 8)]><td width="9"><![endif]--><div class="gutter" style="width: 9px"><!-- --></div><!--[if (gte mso 9)|(lte ie 8)]></td><![endif]-->
                                                         <!--[if (gte mso 9)|(lte ie 8)]><td align="left" valign="top" width="178"><![endif]-->
                                                         <div class="mobile-full-with-gutter" style="display:inline-block; max-width:178px; vertical-align:top; width:100%">
 
@@ -1943,7 +1951,7 @@
 
                                                         </div>
                                                         <!--[if (gte mso 9)|(lte ie 8)]></td><![endif]-->
-                                                        <!--[if (gte mso 9)|(lte ie 8)]><td width="9"><![endif]--><div class="mobile-gutter" style="width: 9px"><!-- --></div><!--[if (gte mso 9)|(lte ie 8)]></td><![endif]-->
+                                                        <!--[if (gte mso 9)|(lte ie 8)]><td width="9"><![endif]--><div class="gutter" style="width: 9px"><!-- --></div><!--[if (gte mso 9)|(lte ie 8)]></td><![endif]-->
                                                         <!--[if (gte mso 9)|(lte ie 8)]><td align="left" valign="top" width="178"><![endif]-->
                                                         <div class="mobile-full-with-gutter" style="display:inline-block; max-width:178px; vertical-align:top; width:100%">
 
@@ -1963,7 +1971,7 @@
 
                                                         </div>
                                                         <!--[if (gte mso 9)|(lte ie 8)]></td><![endif]-->
-                                                        <!--[if (gte mso 9)|(lte ie 8)]><td width="9"><![endif]--><div class="mobile-gutter" style="width: 9px"><!-- --></div><!--[if (gte mso 9)|(lte ie 8)]></td><![endif]-->
+                                                        <!--[if (gte mso 9)|(lte ie 8)]><td width="9"><![endif]--><div class="gutter" style="width: 9px"><!-- --></div><!--[if (gte mso 9)|(lte ie 8)]></td><![endif]-->
                                                         <!--[if (gte mso 9)|(lte ie 8)]></tr></table><![endif]-->
 
                                                     </td>
