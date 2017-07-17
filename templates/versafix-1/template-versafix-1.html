@@ -252,7 +252,7 @@
         borderType {
             label: Border Line Type;
             widget: select;
-            options: none|solid|dotted|dashed|double|ridge|inset|outset;
+            options: solid|dotted|dashed|double|ridge|inset|outset;
         }
         borderColor {
             label: Border Color;
@@ -2717,8 +2717,8 @@
                                         <table border="0" cellpadding="0" cellspacing="0" align="center" class="block-border-wrapper-inner"
                                                style="background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
                                                       border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
-                                                      border-style: none; -ko-border-style: @[blockStyle.borderType];
-                                                      border-color: #ff0000; -ko-border-color: @[blockStyle.borderColor];
+                                                      border-style: none; -ko-border-style: @[blockStyle.borderWidth gt 0 ? blockStyle.borderType : 'none'];
+                                                      border-color: #ff0000; -ko-border-color: @[blockStyle.borderWidth gt 0 ? blockStyle.borderColor : 'transparent'];
                                                       border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
                                                       "><tbody><tr><td valign="top" align="center"
                                                         style="padding-top: 10px; -ko-padding-top: @[blockStyle.paddingTop]px;
@@ -2804,8 +2804,8 @@
                                               <table border="0" cellpadding="0" cellspacing="0" align="center" class="block-border-wrapper-inner"
                                                      style="background-color: #ffffff; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor;
                                                             border-width: 0px; -ko-border-width: @[blockStyle.borderWidth]px;
-                                                            border-style: none; -ko-border-style: @[blockStyle.borderType];
-                                                            border-color: #ff0000; -ko-border-color: @[blockStyle.borderColor];
+                                                            border-style: none; -ko-border-style: @[blockStyle.borderWidth gt 0 ? blockStyle.borderType : 'none'];
+                                                            border-color: #ff0000; -ko-border-color: @[blockStyle.borderWidth gt 0 ? blockStyle.borderColor : 'transparent'];
                                                             border-radius: 0px; -ko-border-radius: @[blockStyle.radius]px;
                                                             "><tbody><tr><td valign="top" align="center" style="
                                                               padding-top: 10px; -ko-padding-top: @[blockStyle.paddingTop]px;
