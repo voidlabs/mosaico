@@ -33,7 +33,7 @@ var lsCommandPluginFactory = function(md, emailProcessorBackend) {
       saveCmd.enabled(false);
       viewModel.metadata.changed = Date.now();
       if (typeof viewModel.metadata.key == 'undefined') {
-        console.warn("Unable to find ket in metadata object...", viewModel.metadata);
+        console.warn("Unable to find key in metadata object...", viewModel.metadata);
         viewModel.metadata.key = mdkey;
       }
       global.localStorage.setItem("metadata-" + mdkey, viewModel.exportMetadata());
