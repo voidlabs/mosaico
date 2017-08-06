@@ -98,6 +98,7 @@ app.get('/img/', function(req, res) {
         var ir = gm(req.query.src);
         ir.format(function(err,format) {
             if (!err) res.set('Content-Type', 'image/'+format.toLowerCase());
+            else console.log(`Error while finding the format of the image ${req.query.src}. See the error below. \n${err}`)
             ir.autoOrient().resize(params[0] == 'null' ? null : params[0], params[1] == 'null' ? null : params[1]).stream().pipe(res);
         });
 
@@ -106,6 +107,7 @@ app.get('/img/', function(req, res) {
         var ic = gm(req.query.src);
         ic.format(function(err,format) {
             if (!err) res.set('Content-Type', 'image/'+format.toLowerCase());
+            else console.log(`Error while finding the format of the image ${req.query.src}. See the error below. \n${err}`)
             ic.autoOrient().resize(params[0],params[1]+'^').gravity('Center').extent(params[0], params[1]+'>').stream().pipe(res);
         });
 
