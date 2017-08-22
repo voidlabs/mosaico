@@ -29,7 +29,7 @@
     "font-awesome": "~4.6.3",
     "blueimp-file-upload": "~9.12.5",
     "evol-colorpicker": "bago/colorpicker#mosaico",
-    "jsep": "~0.3.0",
+    "jsep": "~0.3.1",
     "juice": "Automattic/juice#~3.0.1",
     "slick": "kamicane/slick#~1.12.2",
     "tinycolor": "~1.4.1",
@@ -54,9 +54,6 @@
         "js/jquery.fileupload-validate.js",
         "js/jquery.fileupload-image.js"
       ]
-    },
-    "jsep": {
-      "main": "src/jsep.js"
     },
     "knockout-sortable": {
       "dependencies": {
