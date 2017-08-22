@@ -11,6 +11,7 @@ var gmagic = require('gm');
 var gm = gmagic.subClass({imageMagick: true});
 var config = require('../server-config.js');
 var extend = require('util')._extend;
+var url = require('url');
 
 app.use(require('connect-livereload')({ ignore: [/^\/dl/, /^\/img/] }));
 // app.use(require('morgan')('dev'));
@@ -93,27 +94,23 @@ app.get('/img/', function(req, res) {
         // text
         out.fill('#B0B0B0').fontSize(20).drawText(0, 0, params[0] + ' x ' + params[1], 'center').stream('png').pipe(res);
 
-    } else if (req.query.method == 'resize') {
-        // NOTE: req.query.src is an URL but gm is ok with URLS: otherwise we would have to urldecode the path part of the URL
-        var ir = gm(req.query.src);
+    } else if (req.query.method == 'resize' || req.query.method == 'cover') {
+        // NOTE: req.query.src is an URL but gm is ok with URLS.
+        // We do parse it to localpath to avoid strict "securityPolicy" found in some ImageMagick install to prevent the manipulation
+        var urlparsed = url.parse(req.query.src);
+        var src = "./"+decodeURI(urlparsed.pathname);
+
+        var ir = gm(src);
         ir.format(function(err,format) {
             if (!err) {
                 res.set('Content-Type', 'image/'+format.toLowerCase());
-                ir.autoOrient().resize(params[0] == 'null' ? null : params[0], params[1] == 'null' ? null : params[1]).stream().pipe(res);
+                if (req.query.method == 'resize') {
+                    ir.autoOrient().resize(params[0] == 'null' ? null : params[0], params[1] == 'null' ? null : params[1]).stream().pipe(res);
+                } else {
+                    ir.autoOrient().resize(params[0],params[1]+'^').gravity('Center').extent(params[0], params[1]+'>').stream().pipe(res);
+                }
             } else {
-                console.error("ImageMagick failed to detect image format for", req.query.src, ". Error:", err);
-            }
-        });
-
-    } else if (req.query.method == 'cover') {
-        // NOTE: req.query.src is an URL but gm is ok with URLS: otherwise we would have to urldecode the path part of the URL
-        var ic = gm(req.query.src);
-        ic.format(function(err,format) {
-            if (!err) {
-                res.set('Content-Type', 'image/'+format.toLowerCase());
-                ic.autoOrient().resize(params[0],params[1]+'^').gravity('Center').extent(params[0], params[1]+'>').stream().pipe(res);
-            } else {
-                console.error("ImageMagick failed to detect image format for", req.query.src, ". Error:", err);
+                console.error("ImageMagick failed to detect image format for", src, ". Error:", err);
             }
         });
 
