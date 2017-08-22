@@ -7,11 +7,12 @@ var bodyParser = require('body-parser');
 var fs = require('fs');
 var _ = require('lodash');
 var app = express();
-var gm = require('gm').subClass({imageMagick: true});
+var gmagic = require('gm');
+var gm = gmagic.subClass({imageMagick: true});
 var config = require('../server-config.js');
 var extend = require('util')._extend;
 
-app.use(require('connect-livereload')({ ignore: [/^\/dl/] }));
+app.use(require('connect-livereload')({ ignore: [/^\/dl/, /^\/img/] }));
 // app.use(require('morgan')('dev'));
 
 app.use(bodyParser.json({limit: '5mb'}));
@@ -90,23 +91,30 @@ app.get('/img/', function(req, res) {
             if (x > params[0]) { x = 0; y = y + size*2; }
         }
         // text
-        out = out.fill('#B0B0B0').fontSize(20).drawText(0, 0, params[0] + ' x ' + params[1], 'center');
-        out.stream('png').pipe(res);
+        out.fill('#B0B0B0').fontSize(20).drawText(0, 0, params[0] + ' x ' + params[1], 'center').stream('png').pipe(res);
 
     } else if (req.query.method == 'resize') {
         // NOTE: req.query.src is an URL but gm is ok with URLS: otherwise we would have to urldecode the path part of the URL
         var ir = gm(req.query.src);
         ir.format(function(err,format) {
-            if (!err) res.set('Content-Type', 'image/'+format.toLowerCase());
-            ir.autoOrient().resize(params[0] == 'null' ? null : params[0], params[1] == 'null' ? null : params[1]).stream().pipe(res);
+            if (!err) {
+                res.set('Content-Type', 'image/'+format.toLowerCase());
+                ir.autoOrient().resize(params[0] == 'null' ? null : params[0], params[1] == 'null' ? null : params[1]).stream().pipe(res);
+            } else {
+                console.error("ImageMagick failed to detect image format for", req.query.src, ". Error:", err);
+            }
         });
 
     } else if (req.query.method == 'cover') {
         // NOTE: req.query.src is an URL but gm is ok with URLS: otherwise we would have to urldecode the path part of the URL
         var ic = gm(req.query.src);
         ic.format(function(err,format) {
-            if (!err) res.set('Content-Type', 'image/'+format.toLowerCase());
-            ic.autoOrient().resize(params[0],params[1]+'^').gravity('Center').extent(params[0], params[1]+'>').stream().pipe(res);
+            if (!err) {
+                res.set('Content-Type', 'image/'+format.toLowerCase());
+                ic.autoOrient().resize(params[0],params[1]+'^').gravity('Center').extent(params[0], params[1]+'>').stream().pipe(res);
+            } else {
+                console.error("ImageMagick failed to detect image format for", req.query.src, ". Error:", err);
+            }
         });
 
     }
@@ -156,6 +164,10 @@ var PORT = process.env.PORT || 3000;
 app.use(express.static(__dirname + '/../'));
 
 var server = app.listen( PORT, function() {
+    var check = gm(100, 100, '#000000');
+    check.format(function (err, format) {
+        if (err) console.error("ImageMagick failed to run self-check image format detection. Error:", err);
+    });
     console.log('Express server listening on port ' + PORT);
 } );
 
