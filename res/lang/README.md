@@ -13,7 +13,7 @@ You can even force mosaico to run the internal translation tool for the template
   };
 ```
 
-Please get in touch with us by sending an email to info on the mosaico.io domain including your email and the language you'd like to contribute.
+Please get in touch with us by sending an email to feedback at mosaico.io including your email and the language you'd like to contribute.
 
 Thanks to translators:
 it (Italian): Mosaico Team
@@ -22,5 +22,6 @@ es (Spanish): Carlos Jacobs
 fr (French): Jonathan Loriaux
 nl (Dutch): Pieter Emeis
 sv (Swedish): P-H Westman
+sr_RS (Serbian): Đorđe Kolaković
 
 Sign-up to Transifex if you want to collaborate or suggest changes to the current languages!
