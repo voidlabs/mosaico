@@ -63,10 +63,6 @@ var strings = {
   'Saved model is obsolete': 'Modello salvato obsoleto',
   '<p>The saved model has been created with a previous, non completely compatible version, of the template</p><p>Some content or style in the model <b>COULD BE LOST</b> if you will <b>save</b></p><p>Contact us for more informations!</p>': '<p>Il modello salvato è stato creato con una versione precedente del template non del tutto compatibile</p><p>Alcuni contenuti o stili del modello <b>POTREBBERO ESSERE PERSI</b> se procederai e deciderai di <b>salvare</b></p><p>Contattaci se hai dei dubbi!</p>',
 
-  // TODO this cannot be done in knockout as with uncompatible browsers we don't initialize
-  // 'Usupported browser': 'Browser non compatibile', 
-  // '<p>Your browser is not supported.</p><p>Use a different browser or try updaring your browser.</p><p>Supported browsers: <ul><li>Internet Explorer &gt;= 10</li><li>Google Chrome &gt;= 30</li><li>Apple Safari &gt;= 5</li><li>Mozilla Firefix &gt;= 20</li></ul></p>': '<p>Il tuo browser non è supportato.</p><p>Accedi con un browser differente o prova ad aggiornare il tuo browser.</p><p>Browser supportati: <ul><li>Internet Explorer &gt;= 10</li><li>Google Chrome &gt;= 30</li><li>Apple Safari &gt;= 5</li><li>Mozilla Firefix &gt;= 20</li></ul></p>',
-
   // toolbox
   'Blocks': 'Blocchi',
   'Blocks ready to be added to the template': 'Elenco contenuti aggiungibili al messaggio',
