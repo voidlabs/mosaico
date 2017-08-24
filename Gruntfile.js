@@ -7,16 +7,6 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
 
-    makeThumbs: {
-      main: {
-        templates: './templates/*/*.html',
-        template: './templates/%/*.html',
-        outputFolder: 'edres',
-        renderWidth: 680,
-        outputWidth: 340
-      }
-    },
-
     combineKOTemplates: {
       main: {
         src: "src/tmpl/*.tmpl.html",
@@ -82,7 +72,7 @@ module.exports = function(grunt) {
           browserifyOptions: {
             standalone: 'Mosaico'
           },
-          watch: true,
+          cacheFile: 'build/debug-incremental.bin',
         },
         files: {
           'build/mosaico.js': ['./src/js/app.js', './build/templates.js']
@@ -96,7 +86,7 @@ module.exports = function(grunt) {
             standalone: 'Mosaico'
           },
           transform: ['uglifyify'],
-          watch: true,
+          cacheFile: 'build/main-incremental.bin',
         },
         files: {
           'build/mosaico.debug.js': ['./src/js/app.js', './build/templates.js']
@@ -124,6 +114,10 @@ module.exports = function(grunt) {
         files: ['src/tmpl/*.tmpl.html'],
         tasks: ['combineKOTemplates']
       },
+      browserify: {
+        files: ['src/js/**/*.js', 'build/templates.js'],
+        tasks: ['browserify', 'exorcise']
+      },
       exorcise: {
         files: ['build/mosaico.debug.js'],
         tasks: ['exorcise']
@@ -143,12 +137,6 @@ module.exports = function(grunt) {
     express: {
       dev: {
         options: {
-          /*
-          showStack: true,
-          hostname: '127.0.0.1',
-          open: true,
-          bases: ['.'],
-          */
           script: 'backend/main.js',
           background: true,
           port: 9006,
