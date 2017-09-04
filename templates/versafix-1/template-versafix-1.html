@@ -148,10 +148,12 @@
         paddingLeft {
             label: Padding Left;
             widget: integer;
+            max: 99; /* must be less than 100 to have step=1 */
         }
         paddingRight {
             label: Padding Right;
             widget: integer;
+            max: 99; /* must be less than 100 to have step=1 */
         }
 
         sponsor {
@@ -307,12 +309,12 @@
         }
 
         /* buttons */
-        buttonStyle { label: Button; properties: align face color size buttonColor radius paddingTop paddingBottom borderWidth=0 borderType=solid borderColor=#ff0000 }
+        buttonStyle { label: Button; properties: align face color size buttonColor radius paddingTop paddingBottom borderWidth borderType borderColor }
         buttonStyle:preview { -ko-bind-text: @['Button']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; -ko-background-color: @buttonColor; padding-left: 5px; -ko-border-radius: @[radius]px }
         buttonStyle color { label: Text Color; extend: color }
         buttonStyle size { label: Text Size; extend: size }
 
-        bigButtonStyle { label: Big Button; extend: buttonStyle }
+        bigButtonStyle { label: Big Button; properties: align face color size buttonColor radius paddingTop paddingRight paddingBottom paddingLeft borderWidth borderType borderColor }
 
         leftButtonStyle { label: Left Button; extend: buttonStyle }
         middleButtonStyle { label: Middle Button; extend: buttonStyle }
@@ -2249,10 +2251,11 @@
                                                 <tr>
                                                     <td width="auto" valign="middle" bgcolor="#bfbfbf" align="center" height="60"
                                                         style="font-size:22px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3f; font-weight: normal;
-                                                               padding-left: 40px; padding-right: 40px; background-color: #bfbfbf;
-                                                               padding-top: 0px; padding-bottom: 0px; -ko-padding-top: @[bigButtonStyle.paddingTop]px; -ko-padding-bottom: @[bigButtonStyle.paddingBottom]px;
-                                                               -ko-attr-bgcolor: @bigButtonStyle.buttonColor; -ko-background-color: @bigButtonStyle.buttonColor;
                                                                -ko-font-size: @[bigButtonStyle.size]px; -ko-font-family: @bigButtonStyle.face; -ko-color: @bigButtonStyle.color;
+                                                               padding-left: 40px; padding-right: 40px; -ko-padding-left: @[bigButtonStyle.paddingLeft]px; -ko-padding-right: @[bigButtonStyle.paddingRight]px;
+                                                               padding-top: 0px; padding-bottom: 0px; -ko-padding-top: @[bigButtonStyle.paddingTop]px; -ko-padding-bottom: @[bigButtonStyle.paddingBottom]px;
+                                                               background-color: #bfbfbf;
+                                                               -ko-attr-bgcolor: @bigButtonStyle.buttonColor; -ko-background-color: @bigButtonStyle.buttonColor;
                                                                border-width: 0px; -ko-border-width: @[bigButtonStyle.borderWidth]px;
                                                                border-style: none; -ko-border-style: @[bigButtonStyle.borderWidth gt 0 ? bigButtonStyle.borderType : 'none'];
                                                                border-color: #ff0000; -ko-border-color: @[bigButtonStyle.borderWidth gt 0 ? bigButtonStyle.borderColor : 'transparent'];
