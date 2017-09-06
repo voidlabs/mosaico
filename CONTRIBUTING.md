@@ -34,4 +34,4 @@ Open an Issue, first, and coordinate with us.
 
 ### Contact Us
 
-Please contact us if you have ideas, suggestions or, even better, you want to collaborate on this project or you need COMMERCIAL support: info@mosaico.io . Please DON'T write to this email to get free support: use Git issues for that.
+Please contact us at feedback@mosaico.io if you have ideas, suggestions or, even better, you want to collaborate on this project. Write to sales@mosaico.io if you need COMMERCIAL offer/support. Please DON'T write us to get free support: use Git issues for that.
