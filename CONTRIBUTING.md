@@ -31,7 +31,3 @@ if your problem is not with the building then when you open a GitHub issue:
 ### Want to contribute code?
 
 Open an Issue, first, and coordinate with us.
-
-### Contact Us
-
-Please contact us at feedback@mosaico.io if you have ideas, suggestions or, even better, you want to collaborate on this project. Write to sales@mosaico.io if you need COMMERCIAL offer/support. Please DON'T write us to get free support: use Git issues for that.
