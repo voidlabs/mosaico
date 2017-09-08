@@ -1,4 +1,4 @@
-This files are not yet directly used by mosaico.
+﻿These files are not yet directly used by mosaico.
 
 You can use ```Mosaico.init({ strings: #thecontentofoneofthisfiles# })``` to initialize mosaico in a given language.
 
@@ -24,6 +24,7 @@ Thanks to translators:
 - nl (Dutch): Pieter Emeis
 - sv (Swedish): P-H Westman
 - sr_RS (Serbian): Đorđe Kolaković
+- ru (Russian): Andrey ANM
 
 Sign-up to POEditor if you want to collaborate or suggest changes to the current languages, or provide PR for full new complete languages.
 
