@@ -13,7 +13,7 @@ COPY package.json /tmp/package.json
 # also add bower because package.json post-install needs it.
 COPY bower.json /tmp/bower.json
 RUN cd /tmp && npm install --unsafe-perm
-RUN mkdir -p /opt/mosaico && cp -a /tmp/node_modules /tmp/bower_components /opt/mosaico/
+RUN mkdir -p /opt/mosaico && cp -a /tmp/node_modules /tmp/bower_components /opt/mosaico/ && rm -rf /tmp/node_modules /tmp/bower_components
 
 WORKDIR /opt/mosaico
 COPY . /opt/mosaico
