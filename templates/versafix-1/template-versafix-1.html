@@ -509,8 +509,8 @@
         img { border: 0; display: block; }
 
         /* emoji must be as inline images */
-        td > a > img,
-        td > p > img {
+        table.button-wrapper td > a > img,
+        p > img {
             display: inline !important;
             vertical-align: middle;
         }
@@ -606,8 +606,8 @@
         /* gmail */
         /* fix for Emoji (goomoji) rendered as <img goomoji="..." data-goomoji="..."> with inline display:block */
         /* for titles, text emoji, buttons using cascade, because gmail dropped support of attribute selectors, just img[goomoji] won't work */
-        td > a > img,
-        td > p > img {
+        table.button-wrapper td > a > img,
+        p > img {
             display: inline !important;
             vertical-align: middle;
         }
@@ -629,9 +629,8 @@
             float: left;
         }
 
-        /* fix emoji displaying for wysiwyg editor */
-        [contenteditable] a > img,
-        [contenteditable] p > img {
+        /* fix emoji displaying for wysiwyg editor and preview page */
+        img[src*="smiley"] {
             display: inline !important;
             vertical-align: middle;
         }
@@ -1054,7 +1053,7 @@
                                                                 </tr>
                                                                 <tr data-ko-display="buttonVisible">
                                                                     <td valign="top">
-                                                                        <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full"
+                                                                        <table cellpadding="0" border="0" align="left" cellspacing="0" class="button-wrapper mobile-full"
                                                                                style="padding-top: 4px; -ko-attr-align: @buttonStyle.align">
                                                                             <tr>
                                                                                 <td width="auto" valign="middle" bgcolor="#bfbfbf" align="center" height="26"
@@ -1198,7 +1197,7 @@
                                                             </tr>
                                                             <tr data-ko-display="buttonVisible">
                                                                 <td valign="top">
-                                                                    <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full"
+                                                                    <table cellpadding="0" border="0" align="left" cellspacing="0" class="button-wrapper mobile-full"
                                                                            style="-ko-attr-align: @buttonStyle.align">
                                                                         <tr>
                                                                             <td width="auto" valign="middle" bgcolor="#bfbfbf" align="center" height="26"
@@ -1318,7 +1317,7 @@
                                                                   </tr>
                                                                   <tr data-ko-display="leftButtonVisible">
                                                                       <td valign="top">
-                                                                          <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full"
+                                                                          <table cellpadding="0" border="0" align="left" cellspacing="0" class="button-wrapper mobile-full"
                                                                                  style="padding-top: 4px; -ko-attr-align: @leftButtonStyle.align">
                                                                               <tr>
                                                                                   <td width="auto" valign="middle" bgcolor="#bfbfbf" align="center" height="26"
@@ -1375,7 +1374,7 @@
                                                                   </tr>
                                                                   <tr data-ko-display="rightButtonVisible">
                                                                       <td valign="top">
-                                                                          <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full"
+                                                                          <table cellpadding="0" border="0" align="left" cellspacing="0" class="button-wrapper mobile-full"
                                                                                  style="padding-top: 4px; -ko-attr-align: @rightButtonStyle.align">
                                                                               <tr>
                                                                                   <td width="auto" valign="middle" bgcolor="#bfbfbf" align="center" height="26"
@@ -1493,7 +1492,7 @@
                                                                 </tr>
                                                                 <tr data-ko-display="leftButtonVisible">
                                                                     <td valign="top">
-                                                                        <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full"
+                                                                        <table cellpadding="0" border="0" align="left" cellspacing="0" class="button-wrapper mobile-full"
                                                                                style="padding-top: 4px; -ko-attr-align: @leftButtonStyle.align">
                                                                             <tr>
                                                                                 <td width="auto" valign="middle" bgcolor="#bfbfbf" align="center" height="26"
@@ -1552,7 +1551,7 @@
                                                                 </tr>
                                                                 <tr data-ko-display="middleButtonVisible">
                                                                     <td valign="top">
-                                                                        <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full"
+                                                                        <table cellpadding="0" border="0" align="left" cellspacing="0" class="button-wrapper mobile-full"
                                                                                style="padding-top: 4px; -ko-attr-align: @middleButtonStyle.align">
                                                                             <tr>
                                                                                 <td width="auto" valign="middle" bgcolor="#bfbfbf" align="center" height="26"
@@ -1610,7 +1609,7 @@
                                                                 </tr>
                                                                 <tr data-ko-display="rightButtonVisible">
                                                                     <td valign="top">
-                                                                        <table cellpadding="0" border="0" align="left" cellspacing="0" class="mobile-full"
+                                                                        <table cellpadding="0" border="0" align="left" cellspacing="0" class="button-wrapper mobile-full"
                                                                                style="padding-top: 4px; -ko-attr-align: @rightButtonStyle.align">
                                                                             <tr>
                                                                                 <td width="auto" valign="middle" bgcolor="#bfbfbf" align="center" height="26"
@@ -2268,7 +2267,7 @@
                                                         padding-top: 0px; -ko-padding-top: @[blockStyle.paddingTop]px;
                                                         padding-bottom: 0px; -ko-padding-bottom: @[blockStyle.paddingBottom]px;">
 
-                                            <table cellpadding="0" cellspacing="14" border="0" align="center" class="mobile-full"
+                                            <table cellpadding="0" cellspacing="14" border="0" align="center" class="button-wrapper mobile-full"
                                                    style="-ko-attr-align: @bigButtonStyle.align">
                                                 <tr>
                                                     <td width="auto" valign="middle" bgcolor="#bfbfbf" align="center" height="60"
