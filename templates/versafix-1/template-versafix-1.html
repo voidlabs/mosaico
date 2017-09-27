@@ -508,6 +508,13 @@
         body { margin: 0; padding: 0 }
         img { border: 0; display: block; }
 
+        /* emoji must be as inline images */
+        td > a > img,
+        td > p > img {
+            display: inline !important;
+            vertical-align: middle;
+        }
+
         .socialLinks { font-size: 6px; }
         .socialLinks a {
             display: inline-block;
@@ -519,7 +526,7 @@
             border-radius: 0px;
         }
         .section-title > p {
-          margin: 0;
+            margin: 0;
         }
         .oldwebkit {
             max-width: 600px;
@@ -545,8 +552,8 @@
             padding-right: 9px;
         }
         .global-border-wrapper td.vb-outer {
-          padding-left: 0;
-          padding-right: 0;
+            padding-left: 0;
+            padding-right: 0;
         }
         table.vb-container,
         table.vb-row,
@@ -596,6 +603,15 @@
             -ko-background-color: @[_theme_.contentTheme.externalBackgroundColor]
         }
 
+        /* gmail */
+        /* fix for Emoji (goomoji) rendered as <img goomoji="..." data-goomoji="..."> with inline display:block */
+        /* for titles, text emoji, buttons using cascade, because gmail dropped support of attribute selectors, just img[goomoji] won't work */
+        td > a > img,
+        td > p > img {
+            display: inline !important;
+            vertical-align: middle;
+        }
+
         /* outlook */
         table { mso-table-rspace: 0pt; mso-table-lspace: 0pt; }
         #outlook a { padding: 0; }
@@ -613,6 +629,12 @@
             float: left;
         }
 
+        /* fix emoji displaying for wysiwyg editor */
+        [contenteditable] a > img,
+        [contenteditable] p > img {
+            display: inline !important;
+            vertical-align: middle;
+        }
 
         /* Mobile styles: show as mobile layout if viewport less than 600px (email wrapper width) */
         @media screen and (max-width: 600px) {
@@ -620,7 +642,7 @@
             table.vb-row,
             table.vb-content,
             table.vb-outer {
-              width: 100% !important;
+                width: 100% !important;
             }
 
             .mobile-hide { display: none !important; }
