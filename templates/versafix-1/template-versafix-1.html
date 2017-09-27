@@ -509,7 +509,7 @@
         img { border: 0; display: block; }
 
         /* emoji must be as inline images */
-        table.button-wrapper td > a > img,
+        table.button-wrapper img,
         p > img {
             display: inline !important;
             vertical-align: middle;
@@ -606,7 +606,7 @@
         /* gmail */
         /* fix for Emoji (goomoji) rendered as <img goomoji="..." data-goomoji="..."> with inline display:block */
         /* for titles, text emoji, buttons using cascade, because gmail dropped support of attribute selectors, just img[goomoji] won't work */
-        table.button-wrapper td > a > img,
+        table.button-wrapper img,
         p > img {
             display: inline !important;
             vertical-align: middle;
