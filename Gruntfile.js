@@ -200,18 +200,18 @@ module.exports = function(grunt) {
           coverage: {
             reportDir: 'build/coverage',
           },
-          forceExit: false,
-          match: '.',
-          matchAll: false,
-          specFolders: ['spec'],
-          extensions: 'js',
-          specNameMatcher: 'spec',
+          forceExit: true,
           captureExceptions: true,
-          junitreport: {
-            report: false,
-            savePath: './build/jasmine/',
-            useDotNotation: true,
-            consolidate: true
+          jasmine: {
+            reporters: {
+              spec: {},
+              junitXml: {
+                report: false,
+                savePath: './build/jasmine/',
+                useDotNotation: true,
+                consolidate: true
+              }
+            }
           }
         },
         src: ['src/**/*.js']
