@@ -123,7 +123,7 @@ var elaborateDeclarations = function(style, declarations, templateUrlConverter, 
             }
             var bindDefaultValue = propDefaultValue;
 
-            var bindName = _propToCamelCase(propName);
+            var bindName = !isBind && !isAttr ? _propToCamelCase(propName) : (propName.indexOf('-') != -1 ? '\''+propName+'\'' : propName);
 
             try {
               bindValue = converterUtils.expressionBinding(declarations[i].value, bindingProvider, bindDefaultValue);

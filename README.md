@@ -41,11 +41,6 @@ compile and run a local webserver (http://127.0.0.1:9006) with incremental build
 *IMPORTANT* in order to use image uploading/processing feature in Node you need imageMagick installed in your environment.
 e.g. running "convert" and "identify" on the command line should output imageMagick command line help (if you are on Windows and install imageMagick 7.x then make sure to install ["legacy utilities"](https://github.com/aheckmann/gm/issues/559)).
 
-If you create your own template you can generate the needed "thumbnails"/"block thumbnails" by running:
-```
-grunt makeThumbs:main:yourtemplatename
-```
-
 *NOTE* we have reports that default Ubuntu node package have issues with building Mosaico via Grunt. If you see a ```Fatal error: watch ENOSPC``` then have a look at https://github.com/voidlabs/mosaico/issues/82
 
 ### Docker
@@ -70,4 +65,4 @@ See the [CONTRIBUTING file](https://github.com/voidlabs/mosaico/blob/master/CONT
 
 ### Contact Us
 
-Please contact us if you have ideas, suggestions or, even better, you want to collaborate on this project or you need COMMERCIAL support: info@mosaico.io . Please DON'T write to this email to get free support: use Git issues for that.
+Please contact us if you have ideas, suggestions or, even better, you want to collaborate on this project ( feedback at mosaico.io ) or you need COMMERCIAL support ( sales at mosaico.io ) . Please DON'T write to this email to get free support: use Git issues for that.

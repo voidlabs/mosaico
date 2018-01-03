@@ -74,16 +74,9 @@ For sake of simplyicity, we make a very simple HTML - Template.
 
 3.  create the previews
 
-    Now we need to generate the thumbnails for the template. Mosaico
-    provides a grunt task for this which in this case should be
-    restricted to the tutorial template
-
-        grunt makeThumbs  
-
-    would generate thumbnails for all templates. Please restrict to
-    tutorial by using
-
-        grunt makeThumbs:main:tutorial
+    for each block prepare a PNG thumbnail named templatefolder/edres/blockName.png 
+    with a width of 340px. Mosaico "demo" will also read a templatefolder/edres/_full.png
+    as a preview of the master template.
 
 4.  start the local server
 

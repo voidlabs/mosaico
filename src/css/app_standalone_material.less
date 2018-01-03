@@ -372,6 +372,42 @@
     }
   }
 
+  /* evo color specific changes for material-like look */
+  .mo .evo-pop {
+    min-width: 250px;
+
+    &:before {
+      display: block;
+      content: "";
+      background-color: rgba(158, 158, 158, 0.19);
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 43px;
+      bottom: 0;
+    }    
+
+    th.ui-widget-content {
+      text-align: center;
+      font-weight: normal;
+    }
+
+    .evo-more {
+      text-align: right;
+      padding: 7px 5px;
+      a {
+        color: @link-color;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
+    }
+
+    .evo-color {
+      padding: 6px 3px 2px 4px;
+    }
+
+  }
+
   // file manager broser button
   .mo .propInput .ui-textbutton .ui-textbutton-button {
     border-radius: 50%;

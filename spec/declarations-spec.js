@@ -5,10 +5,10 @@
 var mockery = require('mockery');
 mockery.enable();
 mockery.registerAllowables(['../src/js/converter/declarations.js', 'console', './utils.js', './domutils.js', 'console', '../bower_components/mensch']);
-var currentDocument;
-mockery.registerMock('jquery', function() {
-  return currentDocument.apply(currentDocument, arguments);
-});
+
+var cheerio = require('cheerio');
+mockery.registerMock('jquery', cheerio);
+
 mockery.registerMock('jsep', require('../bower_components/jsep/src/jsep.js'));
 mockery.registerMock('mensch/lib/parser.js', function() {
   var parse = require('../bower_components/mensch').parse;
@@ -277,6 +277,13 @@ describe('Style declaration processor', function() {
     }
     expect(result).toEqual(undefined);
     expect(exception).toMatch(/^Cannot find default/);
+  });
+
+  it('should camel case stles but not attributes', function() {
+    var result;
+    var $ = cheerio.load('<a data-attribute="ciao"></a>');
+    result = elaborateDeclarations('-ko-attr-data-attribute: @myvalue; background-color: red; -ko-background-color: @mycolor', undefined, templateUrlConverter, mockedBindingProvider, $('a')[0]);
+    expect("virtualAttr: { 'data-attribute': $myvalue[ciao]() }, virtualAttrStyle: 'background-color: '+($mycolor[red]())+';'+''").toEqual($('a').attr('data-bind'));
   });
 
 });
