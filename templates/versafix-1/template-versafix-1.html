@@ -307,6 +307,13 @@
             label: Global Border Styles;
             properties: borderWidth=0 borderType=solid borderColor=#b2b2b2;
         }
+        externalBackgroundColor { label: External Background; extend: color }
+
+        globalBackgroundImageStyle {
+            label: Background Image;
+            help: Email background image;
+            properties: src;
+        }
 
         /* buttons */
         buttonStyle { label: Button; properties: align face color size buttonColor radius paddingTop paddingBottom borderWidth borderType borderColor }
@@ -348,7 +355,7 @@
         template {
             label: Page;
             theme: frameTheme;
-            properties: preheaderVisible=true;
+            properties: preheaderVisible=true globalBackgroundImageStyle;
             version: 1.0.6;
         }
 
@@ -606,7 +613,7 @@
         .RMsgBdy, .ExternalClass {
             width: 100%;
             background-color: #bfbfbf;
-            -ko-background-color: @[_theme_.contentTheme.externalBackgroundColor]
+            -ko-background-color: @[_theme_.contentTheme.externalBackgroundColor];
         }
 
         /* gmail */
@@ -808,6 +815,10 @@
 
 <body bgcolor="#bfbfbf" text="#3f3f3f" alink="#3f3f3f" vlink="#3f3f3f" style="background-color: #bfbfbf; color: #3f3f3f;
     -ko-background-color: @_theme_.contentTheme.externalBackgroundColor; -ko-attr-bgcolor: @_theme_.contentTheme.externalBackgroundColor; -ko-color: @_theme_.contentTheme.longTextStyle.color;
+    background-repeat: repeat;
+    background-position: top center;
+    background-image: none;
+    -ko-background-image: @[_theme_.frameTheme.globalBackgroundImageStyle.src eq 'none' ? 'none' : 'url(' + _theme_.frameTheme.globalBackgroundImageStyle.src + ')'];
     -ko-attr-text: @_theme_.contentTheme.longTextStyle.color; -ko-attr-alink: @_theme_.contentTheme.longTextStyle.linksColor;
     -ko-attr-vlink: @_theme_.contentTheme.longTextStyle.linksColor">
 
@@ -817,6 +828,7 @@
 <table cellpadding="0" border="0" cellspacing="0"
        class="global-border-wrapper"
        style="width: 100%; -ko-width: @[globalBorderStyle.borderWidth gt 0 ? 'auto' : '100%'];
+              backgnd-image: none; -ko-backgnd-image: @globalBackgroundImageStyle.src;
               border-width: 0px; -ko-border-width: @[globalBorderStyle.borderWidth]px;
               border-style: solid; -ko-border-style: @[globalBorderStyle.borderWidth gt 0 ? globalBorderStyle.borderType : 'none'];
               border-color: #b2b2b2; -ko-border-color: @[globalBorderStyle.borderWidth gt 0 ? globalBorderStyle.borderColor : 'transparent'];"><tbody><tr><td>
