@@ -815,15 +815,25 @@
 
 <body bgcolor="#bfbfbf" text="#3f3f3f" alink="#3f3f3f" vlink="#3f3f3f" style="background-color: #bfbfbf; color: #3f3f3f;
     -ko-background-color: @_theme_.contentTheme.externalBackgroundColor; -ko-attr-bgcolor: @_theme_.contentTheme.externalBackgroundColor; -ko-color: @_theme_.contentTheme.longTextStyle.color;
+    -ko-attr-text: @_theme_.contentTheme.longTextStyle.color; -ko-attr-alink: @_theme_.contentTheme.longTextStyle.linksColor;
+    -ko-attr-vlink: @_theme_.contentTheme.longTextStyle.linksColor">
+
+<!-- global background image, wrapper table -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0"
+    style="
     background-repeat: repeat;
     background-position: top center;
     background-image: none;
     -ko-background-image: @[_theme_.frameTheme.globalBackgroundImageStyle.src eq 'none' ? 'none' : 'url(' + _theme_.frameTheme.globalBackgroundImageStyle.src + ')'];
-    -ko-attr-text: @_theme_.contentTheme.longTextStyle.color; -ko-attr-alink: @_theme_.contentTheme.longTextStyle.linksColor;
-    -ko-attr-vlink: @_theme_.contentTheme.longTextStyle.linksColor">
-
+    -ko-attr-background: @[_theme_.frameTheme.globalBackgroundImageStyle.src];">
+    <tr><td>
+  <!--[if gte mso 9]>
+  <v:background xmlns:v="urn:schemas-microsoft-com:vml" fill="t">
+    <v:fill type="tile"
+        style="-ko-attr-src: @[_theme_.frameTheme.globalBackgroundImageStyle.src];" />
+  </v:background>
+  <![endif]-->
 <center>
-
 <!-- global border, wrapper table -->
 <table cellpadding="0" border="0" cellspacing="0"
        class="global-border-wrapper"
@@ -2981,5 +2991,8 @@
 </td></tr></tbody></table>
 
 </center>
+
+<!-- /global background image, wrapper table -->
+</td></tr></tbody></table>
 </body>
 </html>
