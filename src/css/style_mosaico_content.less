@@ -121,7 +121,8 @@
   opacity: 1;
 }
 
-#main-edit-area .tool {
+#main-edit-area .tool,
+.img-widget .tool {
   .button-style();
 
   display: inline-block;
@@ -143,7 +144,12 @@
     padding-top: 50px;
   }
 }
-#main-edit-area .tool:hover {
+.img-widget .tool {
+  width: auto;
+  height: auto;
+}
+#main-edit-area .tool:hover,
+.img-widget .tool:hover {
   background-color: @mosaico-button-background-color-hover;
 }
 #main-edit-area .tools .tool.handle {
@@ -167,7 +173,8 @@
   margin-right: 16px;
 }
 
-#main-edit-area .midtools {
+#main-edit-area .midtools,
+.img-widget .midtools {
   // display: none;
   visibility: hidden;
   z-index: 30;
@@ -176,12 +183,14 @@
   width: 100%;
   text-align: left;
 }
-#main-edit-area .img-wysiwyg:hover .midtools {
+#main-edit-area .img-wysiwyg:hover .midtools,
+.img-widget:hover .midtools {
   // display: block;
   visibility: visible;
 }
 // nascondo un po' di cose durante l'upload
-#main-edit-area .uploading {
+#main-edit-area .uploading,
+.img-widget .uploading {
   .midtools {
     // display: none !important;
     visibility: hidden !important;
@@ -197,7 +206,8 @@
 }
 
 
-#main-edit-area .img-wysiwyg .img-size {
+#main-edit-area .img-wysiwyg .img-size,
+.img-widget .img-size {
   visibility: hidden;
   position: absolute;
   top: 0;
@@ -209,11 +219,13 @@
   color: white;
 }
 
-#main-edit-area .img-wysiwyg:hover .img-size {
+#main-edit-area .img-wysiwyg:hover .img-size,
+.img-widget:hover .img-size {
   visibility: visible;
 }
 
-#main-edit-area .midtools .tool {
+#main-edit-area .midtools .tool,
+.img-widget .midtools .tool {
   z-index: 20;
   margin-left: 8px;
 }

@@ -68,6 +68,8 @@ var _propInput = function(model, prop, propAccessor, editType, widgets) {
     html += '<span class="checkbox-replacer" ></span>'; /* data-bind="css: { checked: '+propAccessor+' }" */
   } else if (widget == 'color') {
     html += '<input size="7" type="text" data-bind="colorpicker: { color: ' + propAccessor + ', strings: $root.t(\'Theme Colors,Standard Colors,Web Colors,Theme Colors,Back to Palette,History,No history yet.\') }, ' + ', ' + onfocusbinding + '" />';
+  } else if (widget == 'src') {
+    html += '<span data-bind="template: { name: \'img-widget\', data: { _placeholdersrc: \'\', _method: \'\', _width: 100, _height: 100, _src: ' + propAccessor + '} }"></span>';
   } else if (widget == 'select') {
     if (typeof model._options != 'undefined') {
       var opts = _getOptionsObject(model._options);
