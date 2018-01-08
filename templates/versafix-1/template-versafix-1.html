@@ -309,10 +309,10 @@
         }
         externalBackgroundColor { label: External Background; extend: color }
 
-        globalBackgroundImageStyle {
+        globalBackgroundStyle {
             label: Background Image;
             help: Email background image;
-            properties: src;
+            properties: src color;
         }
 
         /* buttons */
@@ -355,7 +355,7 @@
         template {
             label: Page;
             theme: frameTheme;
-            properties: preheaderVisible=true globalBackgroundImageStyle;
+            properties: preheaderVisible=true globalBackgroundStyle;
             version: 1.0.6;
         }
 
@@ -821,16 +821,18 @@
 <!-- global background image, wrapper table -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0"
     style="
+    background-color: #bfbfbf; -ko-background-color: @[_theme_.frameTheme.globalBackgroundStyle.color ? _theme_.frameTheme.globalBackgroundStyle.color : _theme_.contentTheme.externalBackgroundColor];
+    backgnd-image: none; -ko-backgnd-image: @globalBackgroundStyle.src;
     background-repeat: repeat;
     background-position: top center;
     background-image: none;
-    -ko-background-image: @[_theme_.frameTheme.globalBackgroundImageStyle.src eq 'none' ? 'none' : 'url(' + _theme_.frameTheme.globalBackgroundImageStyle.src + ')'];
-    -ko-attr-background: @[_theme_.frameTheme.globalBackgroundImageStyle.src];">
+    -ko-background-image: @[_theme_.frameTheme.globalBackgroundStyle.src eq 'none' ? 'none' : 'url(' + _theme_.frameTheme.globalBackgroundStyle.src + ')'];
+    -ko-attr-background: @[_theme_.frameTheme.globalBackgroundStyle.src];">
     <tbody><tr><td>
   <!--[if gte mso 9]>
   <v:background xmlns:v="urn:schemas-microsoft-com:vml" fill="t">
     <v:fill type="tile"
-        style="-ko-attr-src: @[_theme_.frameTheme.globalBackgroundImageStyle.src];" />
+        style="-ko-attr-src: @[_theme_.frameTheme.globalBackgroundStyle.src];" />
   </v:background>
   <![endif]-->
 <center>
@@ -838,7 +840,6 @@
 <table cellpadding="0" border="0" cellspacing="0"
        class="global-border-wrapper"
        style="width: 100%; -ko-width: @[globalBorderStyle.borderWidth gt 0 ? 'auto' : '100%'];
-              backgnd-image: none; -ko-backgnd-image: @globalBackgroundImageStyle.src;
               border-width: 0px; -ko-border-width: @[globalBorderStyle.borderWidth]px;
               border-style: solid; -ko-border-style: @[globalBorderStyle.borderWidth gt 0 ? globalBorderStyle.borderType : 'none'];
               border-color: #b2b2b2; -ko-border-color: @[globalBorderStyle.borderWidth gt 0 ? globalBorderStyle.borderColor : 'transparent'];"><tbody><tr><td>
