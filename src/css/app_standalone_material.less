@@ -347,12 +347,17 @@
   .mo .propInput input[type=url],
   .mo .propInput select,
   .mo .propInput .data-select select,
+  .mo .propInput .data-editable_select input,
   .mo .propInput .ui-spinner .ui-spinner-input {
     border-width: 0 0 2px 0;
     background-color: transparent;
     &:hover, &:focus {
       border-color: @link-color;
     }
+  }
+
+  .mo .propInput .data-editable_select input {
+    min-height: 30px;
   }
 
   .mo .propInput .data-color input[type=text] {

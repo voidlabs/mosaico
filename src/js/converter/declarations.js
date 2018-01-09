@@ -136,7 +136,7 @@ var elaborateDeclarations = function(style, declarations, templateUrlConverter, 
 
 
             // Special handling for HREFs
-            if (bindType == 'virtualAttr' && bindName == 'href') {
+            if (bindType == 'virtualAttr' && bindName == 'href' && element && element.tagName.toLowerCase() === 'a') {
               bindType = null;
               bindName = 'wysiwygHref';
               // We have to remove it, otherwise we ends up with 2 rules writing it.

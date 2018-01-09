@@ -34,9 +34,8 @@
         }
         face {
             label: Font;
-            widget: select;
-            options:
-                Arial, Helvetica, sans-serif=Arial|
+            widget: editable_select;
+            options: Arial, Helvetica, sans-serif=Arial|
                 Arial Black, Arial Black, Gadget, sans-serif=Arial Black|
                 Comic Sans MS, Comic Sans MS5, cursive=Comic Sans|
                 Courier New, Courier New, monospace=Courier|
@@ -314,6 +313,11 @@
             help: Email background image;
             properties: src color;
         }
+        globalStyle {
+            label: Custom CSS;
+            help: Custom stylesheet;
+            properties: url;
+        }
 
         /* buttons */
         buttonStyle { label: Button; properties: align face color size buttonColor radius paddingTop paddingBottom borderWidth borderType borderColor }
@@ -355,7 +359,7 @@
         template {
             label: Page;
             theme: frameTheme;
-            properties: preheaderVisible=true globalBackgroundStyle;
+            properties: preheaderVisible=true globalBackgroundStyle globalStyle;
             version: 1.0.6;
         }
 
@@ -799,6 +803,7 @@
             text-decoration: underline;
         }
     </style>
+    <link rel="stylesheet" style="-ko-attr-href: @[_theme_.frameTheme.globalStyle.url]">
 
     <!--[if !mso]><!-- -->
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Playfair+Display:400,700|Roboto:400,700" rel="stylesheet">
@@ -819,11 +824,12 @@
     -ko-attr-vlink: @_theme_.contentTheme.longTextStyle.linksColor">
 
 <!-- global background image, wrapper table -->
-<table width="100%" border="0" cellspacing="0" cellpadding="0"
+<table width="100%" border="0" cellspacing="0" cellpadding="0" data-href=""
     style="
     background-color: #bfbfbf; -ko-background-color: @[_theme_.frameTheme.globalBackgroundStyle.color eq 'none' ? _theme_.contentTheme.externalBackgroundColor : _theme_.frameTheme.globalBackgroundStyle.color];
     backgnd-image: none; -ko-backgnd-image: @globalBackgroundStyle.src;
     backgnd-color: none; -ko-backgnd-color: @globalBackgroundStyle.color;
+    -ko-attr-data-href: @globalStyle.url;
     background-repeat: repeat;
     background-position: top center;
     background-image: none;

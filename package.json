@@ -31,7 +31,11 @@
     "jquery-ui/tabs": "global:jQuery.ui.tabs",
     "knockout": "global:ko",
     "knockout-jqueryui": "global:kojqui",
-    "tinymce": "global:tinymce"
+    "tinymce": "global:tinymce",
+    "select2": {
+      "depends": "jquery",
+      "exports": "$.select2"
+    }
   },
   "devDependencies": {
     "aliasify": "2.1.0",

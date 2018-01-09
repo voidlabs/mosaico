@@ -10,7 +10,7 @@ var _getOptionsObject = function(options) {
   var opts = {};
   for (var i = 0; i < optionsCouples.length; i++) {
     var opt = optionsCouples[i].split('=');
-    opts[opt[0]] = opt.length > 1 ? opt[1] : opt[0];
+    opts[opt[0].trim()] = opt.length > 1 ? opt[1].trim() : opt[0].trim();
   }
   return opts;
 };
@@ -67,7 +67,7 @@ var _propInput = function(model, prop, propAccessor, editType, widgets) {
     html += '<input type="checkbox" value="nothing" data-bind="checked: ' + propAccessor + ', ' + onfocusbinding + '" />';
     html += '<span class="checkbox-replacer" ></span>'; /* data-bind="css: { checked: '+propAccessor+' }" */
   } else if (widget == 'color') {
-    html += '<input size="7" type="text" data-bind="colorpicker: { color: ' + propAccessor + ', strings: $root.t(\'Theme Colors,Standard Colors,Web Colors,Theme Colors,Back to Palette,History,No history yet.\') }, ' + ', ' + onfocusbinding + '" />';
+    html += '<input size="7" type="text" data-bind="colorpicker: { color: ' + propAccessor + ', strings: $root.t(\'Theme Colors,Standard Colors,Web Colors,Theme Colors,Back to Palette,History,No history yet.\') }, ' + onfocusbinding + '" />';
   } else if (widget == 'src') {
     html += '<span data-bind="template: { name: \'img-widget\', data: { _placeholdersrc: \'\', _method: \'\', _width: 100, _height: 100, _src: ' + propAccessor + '} }"></span>';
   } else if (widget == 'select') {
@@ -78,6 +78,17 @@ var _propInput = function(model, prop, propAccessor, editType, widgets) {
       for (var opt in opts)
         if (opts.hasOwnProperty(opt)) {
           html += '<option value="' + opt + '" data-bind="text: $root.ut(\'template\', \'' + utils.addSlashes(opts[opt]) + '\')">' + opts[opt] + '</option>';
+        }
+      html += '</select>';
+    }
+  } else if (widget == 'editable_select') {
+    if (typeof model._options != 'undefined') {
+      var editableOpts = _getOptionsObject(model._options);
+      // var opts = model._options;
+      html += '<select data-bind="valueAllowUnset:true, editableSelect: {value: ' + propAccessor + '}, ' + onfocusbinding + '">';
+      for (var editableOpt in editableOpts)
+        if (editableOpts.hasOwnProperty(editableOpt)) {
+          html += '<option value="' + editableOpt + '" data-bind="text: $root.ut(\'template\', \'' + utils.addSlashes(editableOpts[editableOpt]) + '\')">' + editableOpts[editableOpt] + '</option>';
         }
       html += '</select>';
     }
