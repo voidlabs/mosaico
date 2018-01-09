@@ -821,8 +821,9 @@
 <!-- global background image, wrapper table -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0"
     style="
-    background-color: #bfbfbf; -ko-background-color: @[_theme_.frameTheme.globalBackgroundStyle.color ? _theme_.frameTheme.globalBackgroundStyle.color : _theme_.contentTheme.externalBackgroundColor];
+    background-color: #bfbfbf; -ko-background-color: @[_theme_.frameTheme.globalBackgroundStyle.color eq 'none' ? _theme_.contentTheme.externalBackgroundColor : _theme_.frameTheme.globalBackgroundStyle.color];
     backgnd-image: none; -ko-backgnd-image: @globalBackgroundStyle.src;
+    backgnd-color: none; -ko-backgnd-color: @globalBackgroundStyle.color;
     background-repeat: repeat;
     background-position: top center;
     background-image: none;
