@@ -20,7 +20,7 @@ ko.bindingHandlers.wysiwygOrHtml = {
     var isNotWysiwygMode = (typeof bindingContext.templateMode == 'undefined' || bindingContext.templateMode != 'wysiwyg');
     if (isNotWysiwygMode)
       return ko.bindingHandlers['virtualHtml'].update(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext);
-    //else 
+    //else
     //  return ko.bindingHandlers.wysiwyg.update(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext);
   }
 };
@@ -32,7 +32,7 @@ ko.bindingHandlers.wysiwygHref = {
       var v = valueAccessor();
 
       var isNotWysiwygMode = (typeof bindingContext.templateMode == 'undefined' || bindingContext.templateMode != 'wysiwyg');
-      // console.log("XXX", bindingContext.templateMode, isNotWysiwygMode, element.getAttribute("href"));
+      // //console.log("XXX", bindingContext.templateMode, isNotWysiwygMode, element.getAttribute("href"));
       if (isNotWysiwygMode) {
         element.setAttribute('target', '_new');
       } else {
@@ -142,7 +142,7 @@ ko.bindingHandlers.wysiwygImg = {
       var isWysiwygMode = (typeof bindingContext.templateMode != 'undefined' && bindingContext.templateMode == 'wysiwyg');
 
       var modelValue = valueAccessor(),
-        unwrappedValue = ko.utils.peekObservable(modelValue); // Unwrap without setting a dependency here
+          unwrappedValue = ko.utils.peekObservable(modelValue); // Unwrap without setting a dependency here
 
       // If unwrappedValue.data is the array, preserve all relevant options and unwrap again value so we get updates
       ko.utils.unwrapObservable(modelValue);
@@ -176,7 +176,7 @@ ko.bindingHandlers.wysiwyg = {
     plugins: ["link hr paste lists textcolor code"],
     // valid_elements: 'strong/b,em/i,*[*]',
     // extended_valid_elements: 'strong/b,em/i,*[*]',
-    // Removed: image fullscreen contextmenu 
+    // Removed: image fullscreen contextmenu
     // download custom:
     // jquery version con legacyoutput, anchor, code, importcss, link, paste, textcolor, hr, lists
   },
@@ -199,10 +199,14 @@ ko.bindingHandlers.wysiwyg = {
       element.setAttribute('id', selectorId);
     }
 
+    //console.log("addinghandlers to element", element.tagName);
+
     var fullEditor = element.tagName == 'DIV' || element.tagName == 'TD';
+    var linkEditor = element.tagName == 'A';
     var isSubscriberChange = false;
     var thisEditor;
     var isEditorChange = false;
+    var placeholder = '&nbsp;';
 
     var options = {
       selector: '#' + selectorId,
@@ -229,9 +233,12 @@ ko.bindingHandlers.wysiwyg = {
             // we failed with other ways to do this:
             // value($(element).html());
             // value(element.innerHTML);
-            value(editor.getContent({
+            var content = editor.getContent({
               format: 'raw'
-            }));
+            }).trim();
+            //console.log('setup:',content);
+
+            value(content == placeholder ? '' : content);
             isEditorChange = false;
           }
         });
@@ -249,21 +256,24 @@ ko.bindingHandlers.wysiwyg = {
         });
 
         /* NOTE: disabling "ENTER" in tiny editor, not a good thing but may be needed to work around contenteditable issues
-        if (!fullEditor) {
-          // se non abbiamo il "full Editor", disabilitiamo l'invio. (vari bug)
-          editor.on('keydown', function(e) {
-            if (e.keyCode == 13) { e.preventDefault(); }
-          });
-        }
-        */
+         if (!fullEditor) {
+         // se non abbiamo il "full Editor", disabilitiamo l'invio. (vari bug)
+         editor.on('keydown', function(e) {
+         if (e.keyCode == 13) { e.preventDefault(); }
+         });
+         }
+         */
 
         thisEditor = editor;
 
       }
     };
 
+    //ko.utils.extend(options, ko.bindingHandlers.wysiwyg.standardOptions);
+
     ko.utils.extend(options, ko.bindingHandlers.wysiwyg.standardOptions);
-    if (fullEditor) ko.utils.extend(options, ko.bindingHandlers.wysiwyg.fullOptions);
+    if (!linkEditor) ko.utils.extend(options, ko.bindingHandlers.wysiwyg.fullOptions);
+
 
     // we have to put initialization in a settimeout, otherwise switching from "1" to "2" columns blocks
     // will start the new editors before disposing the old ones and IDs get temporarily duplicated.
@@ -284,10 +294,12 @@ ko.bindingHandlers.wysiwyg = {
               format: 'raw'
             });
           } else {
-            ko.utils.setHtml(element, content);
+            //console.log('computed:',content);
+            ko.utils.setHtml(element, content ? content : placeholder);
           }
+
         } catch (e) {
-          console.log("TODO exception setting content to editable element", typeof thisEditor, e);
+          //console.log("TODO exception setting content to editable element", typeof thisEditor, e);
         }
         isSubscriberChange = false;
       }

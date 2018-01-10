@@ -121,7 +121,8 @@
   opacity: 1;
 }
 
-#main-edit-area .tool {
+#main-edit-area .tool,
+.img-widget .tool {
   .button-style();
 
   display: inline-block;
@@ -134,16 +135,21 @@
   padding-bottom: 2px;
   margin: 0;
   min-height: auto;
-  
+
   box-shadow: 0 0 5px @mosaico-button-shadow-color;
-  
+
   cursor: pointer;
 
   input.fileupload {
     padding-top: 50px;
   }
 }
-#main-edit-area .tool:hover {
+.img-widget .tool {
+  width: auto;
+  height: auto;
+}
+#main-edit-area .tool:hover,
+.img-widget .tool:hover {
   background-color: @mosaico-button-background-color-hover;
 }
 #main-edit-area .tools .tool.handle {
@@ -167,21 +173,24 @@
   margin-right: 16px;
 }
 
-#main-edit-area .midtools {
+#main-edit-area .midtools,
+.img-widget .midtools {
   // display: none;
   visibility: hidden;
-  z-index: 30; 
-  position: absolute; 
+  z-index: 30;
+  position: absolute;
   bottom: 16px;
   width: 100%;
   text-align: left;
 }
-#main-edit-area .img-wysiwyg:hover .midtools {
+#main-edit-area .img-wysiwyg:hover .midtools,
+.img-widget:hover .midtools {
   // display: block;
   visibility: visible;
 }
 // nascondo un po' di cose durante l'upload
-#main-edit-area .uploading {
+#main-edit-area .uploading,
+.img-widget .uploading {
   .midtools {
     // display: none !important;
     visibility: hidden !important;
@@ -197,7 +206,8 @@
 }
 
 
-#main-edit-area .img-wysiwyg .img-size {
+#main-edit-area .img-wysiwyg .img-size,
+.img-widget .img-size {
   visibility: hidden;
   position: absolute;
   top: 0;
@@ -206,14 +216,16 @@
   font-family: @font-family;
   font-size: 12px;
   background-color: rgba(128,128,128,.5);
-  color: white;  
+  color: white;
 }
 
-#main-edit-area .img-wysiwyg:hover .img-size {
+#main-edit-area .img-wysiwyg:hover .img-size,
+.img-widget:hover .img-size {
   visibility: visible;
 }
 
-#main-edit-area .midtools .tool {
+#main-edit-area .midtools .tool,
+.img-widget .midtools .tool {
   z-index: 20;
   margin-left: 8px;
 }
@@ -300,10 +312,10 @@
 #main-wysiwyg-area replacedbody {
   position: relative;
   display: block;
-  min-height: 100%;
+  min-height: 95%;
   max-width: 700px;
   margin: 0 auto !important;
-  padding: 16px 20px !important;
+  padding-right: 20px !important;
 
   @media (min-width: 1400px) {
     max-width: 800px;
@@ -338,41 +350,41 @@
       left: 0;
       width: 40px;
       bottom: 0;
-      background: linear-gradient( 90deg, 
+      background: linear-gradient( 90deg,
         rgba(255,255,255,0) 19%,
         white 21%,
         white 79%,
         rgba(255,255,255,0) 81%
-      ), linear-gradient( 135deg, 
+      ), linear-gradient( 135deg,
         rgba(255,255,255,0) 25%,
-        rgba(255,255,255,0) 28%, 
+        rgba(255,255,255,0) 28%,
         white 28%,
-        white 72%, 
-        rgba(255,255,255,0) 72%, 
+        white 72%,
+        rgba(255,255,255,0) 72%,
         rgba(255,255,255,0) 75%
-      ), linear-gradient( -135deg, 
+      ), linear-gradient( -135deg,
         rgba(255,255,255,0) 25%,
-        rgba(255,255,255,0) 28%, 
+        rgba(255,255,255,0) 28%,
         white 28%,
-        white 72%, 
-        rgba(255,255,255,0) 72%, 
+        white 72%,
+        rgba(255,255,255,0) 72%,
         rgba(255,255,255,0) 75%
-      ),linear-gradient( 135deg, 
+      ),linear-gradient( 135deg,
         rgba(255,255,255,0) 25%,
-        #CCC 25%, 
+        #CCC 25%,
         white 28%,
-        white 72%, 
-        #CCC 75%, 
+        white 72%,
+        #CCC 75%,
         rgba(255,255,255,0) 75%
-      ), linear-gradient( -135deg, 
+      ), linear-gradient( -135deg,
         rgba(255,255,255,0) 25%,
-        #CCC 25%, 
+        #CCC 25%,
         white 28%,
-        white 72%, 
-        #CCC 75%, 
+        white 72%,
+        #CCC 75%,
         rgba(255,255,255,0) 75%
       );
-      background-size: 80px 20px;
+      background-size: 10px 20px;
       background-position: left -40px top 0;
       z-index: 1;
     }

@@ -31,7 +31,11 @@
     "jquery-ui/tabs": "global:jQuery.ui.tabs",
     "knockout": "global:ko",
     "knockout-jqueryui": "global:kojqui",
-    "tinymce": "global:tinymce"
+    "tinymce": "global:tinymce",
+    "select2": {
+      "depends": "jquery",
+      "exports": "$.select2"
+    }
   },
   "devDependencies": {
     "aliasify": "2.1.0",
@@ -80,5 +84,8 @@
     "deps": "bower -V --allow-root install", 
     "test": "grunt jasmine_node"
   },
-  "engine": "node >= 6.0.0"
+  "engine": "node >= 6.0.0",
+  "dependencies": {
+    "grunt-cli": "^1.2.0"
+  }
 }

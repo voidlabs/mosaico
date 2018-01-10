@@ -183,7 +183,7 @@ ko.bindingHandlers['fileupload'] = {
   remoteFilePreprocessor: function(url) { return url; },
   init: function(element, valueAccessor) {
     // TODO domnodedisposal doesn't work when the upload is done by "clicking"
-    // Probably jquery-fileupload moves the DOM somewhere else so that KO doesn't 
+    // Probably jquery-fileupload moves the DOM somewhere else so that KO doesn't
     // detect the removal anymore.
     ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
       $(element).fileupload('destroy');
@@ -216,7 +216,7 @@ ko.bindingHandlers['fileupload'] = {
       dropZone: $parent.find('.mo-uploadzone')[0],
       autoUpload: true,
       acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
-      maxFileSize: 1024 * 1024,
+      maxFileSize: 10 * 1024 * 1024,
       // Enable image resizing, except for Android and Opera,
       // which actually support image resizing, but fail to
       // send Blob objects via XHR requests:

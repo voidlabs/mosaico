@@ -6,3 +6,5 @@ uploads/**
 !.tmp/README.md
 build
 dist
+.idea
+.DS_Store

@@ -301,7 +301,7 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
   });
 
   // Applied after the data-editable so to avoid processing hrefs for editable content
-  $("[href]", element).each(function(index, element) {
+  $("a[href]", element).each(function(index, element) {
     var attrValue = domutils.getAttribute(element, 'href');
     var newBinding = 'wysiwygHref: \'' + converterUtils.addSlashes(attrValue) + '\'';
     var currentBindings = domutils.getAttribute(element, 'data-bind');

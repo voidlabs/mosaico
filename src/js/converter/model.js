@@ -90,7 +90,7 @@ var _modelCreateOrUpdateBlockDef = function(defs, templateName, properties, name
       _modelCreateOrUpdateBlockDef(defs, 'theme', gs);
 
       if (typeof defs[templateName]._themeOverride === 'undefined' || !!defs[templateName]._themeOverride) {
-        _modelCreateOrUpdateBlockDef(defs, templateName, "customStyle=false");
+        _modelCreateOrUpdateBlockDef(defs, templateName, "customStyle=true");
       }
     }
     if (typeof namedProperties.contextName !== 'undefined') {
@@ -103,7 +103,7 @@ var _modelCreateOrUpdateBlockDef = function(defs, templateName, properties, name
         _modelCreateOrUpdateBlockDef(defs, 'theme', 'bodyTheme');
 
         if (typeof defs[templateName]._themeOverride == 'undefined' || defs[templateName]._themeOverride) {
-          _modelCreateOrUpdateBlockDef(defs, templateName, "customStyle=false");
+          _modelCreateOrUpdateBlockDef(defs, templateName, "customStyle=true");
         }
       }
     }

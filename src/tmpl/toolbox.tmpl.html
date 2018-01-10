@@ -3,6 +3,22 @@
     <li data-bind="tooltips: {}"><a title="Blocks ready to be added to the template" data-local="true" href="#toolblocks" data-bind="attr: { title: $root.t('Blocks ready to be added to the template') }"><i class="fa fa-fw fa-cubes"></i> <span data-bind="html: $root.t('Blocks')">Blocks</span></a></li>
     <li data-bind="tooltips: {}"><a title="Edit content options" href="#toolcontents" data-local="true" data-bind="attr: { title: $root.t('Edit content options') }"><i class="fa fa-fw fa-pencil"></i> <span data-bind="html: $root.t('Content')">Content</span></a></li>
     <li data-bind="tooltips: {}"><a title="Edit style options" href="#toolstyles" data-local="true" data-bind="attr: { title: $root.t('Edit style options') }"><i class="fa fa-fw fa-paint-brush"></i> <span data-bind="html: $root.t('Style')">Style</span></a></li>
+    <li data-bind="tooltips: {}" class="groupButton">
+      <a title="Undo last operation" href="javascript:void(0)" data-local="true"
+         data-bind="attr: { title: $root.t('Undo last operation') }, click: $root.undo.execute, clickBubble: false, button: { disabled: !$root.undo.enabled(), icons: { primary: 'fa fa-reply' }, label: $root.undo.name, text: true }">
+      </a>
+    </li>
+    <li data-bind="tooltips: {}" class="groupButton">
+      <a title="Redo last operation" href="javascript:void(0)" data-local="true"
+         data-bind="attr: { title: $root.t('Redo last operation') }, click: $root.redo.execute, clickBubble: false, button: { disabled: !$root.redo.enabled(), icons: { primary: 'fa fa-share' }, label: $root.redo.name, text: true }">
+      </a>
+    </li>
+    <li class="groupButton">
+      <input  id="previewFrameToggle" type="checkbox"
+             data-bind="checked: $root.showPreviewFrame, button: { refreshOn: $root.showPreviewFrame, icons: { primary: 'fa fa-fw fa-tablet', secondary: null }, text: false, label: $root.t('Preview') }">
+        <label title="Show live preview" for="previewFrameToggle" data-bind="attr: { title: $root.t('Show live preview') }">PREVIEW</label>
+      </input>
+    </li>
   </ul>
 
   <div id="toolblocks" data-bind="scrollable: true">
@@ -18,6 +34,12 @@
   </div>
 
   <div id="toolcontents" data-bind="scrollable: true">
+    <input id="showGallery" type="checkbox" data-bind="checked: $root.showGallery, button: { refreshOn: $root.showGallery,
+    icons: { primary: 'fa fa-fw fa-picture-o', secondary: null }, text: true, label: $root.t('Gallery') }"><label title="Show image gallery" for="showGallery" data-bind="attr: { title: $root.t('Show image gallery') }">show gallery</label></input>
+    </span>
+
+
+
     <!-- ko if: $root.selectedBlock() !== null -->
     <div data-bind="block: $root.selectedBlock"></div>
     <!-- /ko -->
@@ -26,36 +48,36 @@
     <!-- /ko -->
     <!-- ko block: content --><!-- /ko -->
   </div>
-  
+
   <div id="toolstyles" data-bind="scrollable: true, withProperties: { templateMode: 'styler' }">
     <!-- ko if: typeof $root.content().theme === 'undefined' || typeof $root.content().theme().scheme === 'undefined' || $root.content().theme().scheme() === 'custom' -->
-      <!-- ko if: $root.selectedBlock() !== null -->
-      <div data-bind="block: $root.selectedBlock, css: { workLocal: $root.selectedBlock().customStyle, workGlobal: typeof $root.selectedBlock().customStyle === 'undefined' || !$root.selectedBlock().customStyle() }"></div>
-      <!-- /ko -->
-      <!-- ko if: $root.selectedBlock() == null -->
-      <div class="noSelectedBlock" data-bind="text: $root.t('By clicking on message parts you will select a block and style options, if available, will show here')">By clicking on message parts you will select a block and style options, if available, will show here</div>
-      <!-- /ko -->
-      <div class="workGlobalContent">
+    <!-- ko if: $root.selectedBlock() !== null -->
+    <div data-bind="block: $root.selectedBlock, css: { workLocal: $root.selectedBlock().customStyle, workGlobal: typeof $root.selectedBlock().customStyle === 'undefined' || !$root.selectedBlock().customStyle() }"></div>
+    <!-- /ko -->
+    <!-- ko if: $root.selectedBlock() == null -->
+    <div class="noSelectedBlock" data-bind="text: $root.t('By clicking on message parts you will select a block and style options, if available, will show here')">By clicking on message parts you will select a block and style options, if available, will show here</div>
+    <!-- /ko -->
+    <div class="workGlobalContent">
       <!-- ko block: content --><!-- /ko -->
-      </div>
+    </div>
     <!-- /ko -->
   </div>
 </div>
-        
+
 <div id="toolimages" class="slidebar" data-bind="scrollable: true, css: { hidden: $root.showGallery() === false }">
   <div class="close" data-bind="click: $root.showGallery.bind($element, false);">X</div>
   <span class="pane-title" data-bind="text: $root.t('Gallery:')">Gallery:</span>
 
   <div data-drop-content="Drop here" class="img-dropzone pane uploadzone" data-bind="attr: { 'data-drop-content': $root.t('Drop here') }, fudroppable: { activeClass: 'ui-state-highlight', hoverClass: 'ui-state-draghover' }">
-  <div class="mo-uploadzone" style="position: relative; padding: 2em; border: 2px dotted #808080">
-     <input class="fileupload" type="file" multiple name="files[]" data-bind="fileupload: { onerror: $root.notifier.error, onfile: $root.loadImage }" style="z-index: 10; position: absolute; top: 0; left: 0; right: 0; bottom: 0; min-width: 100%; min-height: 100%; font-zie: 999px; text-align: right; filter: alpha(opacity=0); opacity: 0; outline: none; cursor: inherit; display: block">
-     <span data-bind="text: $root.t('Click or drag files here')">Click or drag files here</span>
-     <div class="workzone" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden;">
-       <div class="progress" style="opacity: .5; width: 80%; margin-left: 10%; position: absolute; bottom: 30%; height: 20px; border: 2px solid black;">
-         <div class="progress-bar progress-bar-success" style="height: 20px; background-color: black; "></div>
-       </div>
-     </div>
-  </div>
+    <div class="mo-uploadzone" style="position: relative; padding: 2em; border: 2px dotted #808080">
+      <input class="fileupload" type="file" multiple name="files[]" data-bind="fileupload: { onerror: $root.notifier.error, onfile: $root.loadImage }" style="z-index: 10; position: absolute; top: 0; left: 0; right: 0; bottom: 0; min-width: 100%; min-height: 100%; font-zie: 999px; text-align: right; filter: alpha(opacity=0); opacity: 0; outline: none; cursor: inherit; display: block">
+      <span data-bind="text: $root.t('Click or drag files here')">Click or drag files here</span>
+      <div class="workzone" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden;">
+        <div class="progress" style="opacity: .5; width: 80%; margin-left: 10%; position: absolute; bottom: 30%; height: 20px; border: 2px solid black;">
+          <div class="progress-bar progress-bar-success" style="height: 20px; background-color: black; "></div>
+        </div>
+      </div>
+    </div>
   </div>
 
 
@@ -72,12 +94,14 @@
     </div>
 
     <div id="toolimagesgallery" style="text-align: center">
-    <!-- ko if: $root.galleryLoaded() === false --><a class="loadbutton" title="Show images from the gallery" href="javascript:void(0)" data-bind="attr: { title: $root.t('Show images from the gallery') }, click: $root.loadGallery, button: { disabled: $root.galleryLoaded, icons: { primary: 'fa fa-fw fa-picture-o' }, label: $root.galleryLoaded() == 'loading' ? $root.t('Loading...') : $root.t('Load gallery'), text: true }"># load gally #</a><!-- /ko -->
+      <!-- ko if: $root.galleryLoaded() === false --><a class="loadbutton" title="Show images from the gallery" href="javascript:void(0)" data-bind="attr: { title: $root.t('Show images from the gallery') }, click: $root.loadGallery, button: { disabled: $root.galleryLoaded, icons: { primary: 'fa fa-fw fa-picture-o' }, label: $root.galleryLoaded() == 'loading' ? $root.t('Loading...') : $root.t('Load gallery'), text: true }"># load gally #</a><!-- /ko -->
 
 
-    <!-- ko if: $root.galleryLoaded() === 'loading' --><div class="galleryEmpty" data-bind="text: $root.t('Loading gallery...')">Loading gallery...</div><!-- /ko -->
-    <!-- ko if: $root.galleryLoaded() === 0 --><div class="galleryEmpty" data-bind="text: $root.t('The gallery is empty')">The gallery is empty</div><!-- /ko -->
-    <!-- ko template: {name: 'gallery-images', data: { items: galleryRemote } } --># remote gallery #<!-- /ko -->
+      <!-- ko if: $root.galleryLoaded() === 'loading' --><div class="galleryEmpty" data-bind="text: $root.t('Loading gallery...')">Loading gallery...</div><!-- /ko -->
+      <!-- ko if: $root.galleryLoaded() === 0 --><div class="galleryEmpty" data-bind="text: $root.t('The gallery is empty')">The gallery is empty</div><!-- /ko -->
+      <!-- ko template: {name: 'gallery-images', data: { items: galleryRemote } } --># remote gallery #<!-- /ko -->
+      <img width="180" src="https://aviarystatic.s3.amazonaws.com/creativesdk/branding/CC_connected_horizontal_badge_blk.svg"
+           style="position: relative; right: -110px; bottom: -15px;">
     </div>
   </div>
   <!-- /ko -->
@@ -86,7 +110,7 @@
 
 <div id="tooldebug" class="slidebar" data-bind="css: { hidden: $root.debug() === false }">
   <div class="close" data-bind="click: $root.debug.bind($element, false);">X</div>
-  
+
   <!-- ko if: $root.debug -->
   Content:
   <pre data-bind='text: ko.toJSON(content, null, 2)' style="overflow: auto; height: 20%"></pre>
@@ -102,10 +126,10 @@
 
 <div id="tooltheme" class="ui-widget slidebar" data-bind="css: { hidden: $root.showTheme() === false }">
   <div class="close" data-bind="click: $root.showTheme.bind($element, false);">X</div>
-  
+
   <!-- ko withProperties: { templateMode: 'styler' } -->
-    <!-- ko if: $root.showTheme -->
-      <!-- ko block: $root.content().theme --><!-- /ko -->
-    <!-- /ko -->
+  <!-- ko if: $root.showTheme -->
+  <!-- ko block: $root.content().theme --><!-- /ko -->
+  <!-- /ko -->
   <!-- /ko -->
 </div>

@@ -35,7 +35,7 @@
  * - .toast-* #toast-* (toastr)
  */
 
-@leftsidebar-width: 400px;
+@leftsidebar-width: 420px;
 @rightsidebar-width: 340px;
 @mainarea-minwidth: 600px;
 @topbar-height: 40px;
@@ -189,13 +189,13 @@
  ***************************************************************************************************************************/
 
 body {
-  background-color: @mosaico-ui-background-color;
+  background-color: transparent;
   margin: 0;
   overflow: hidden; /* otherwsie TinyMCE menues sometimes makes scrollbars show in main body */
 }
 input, select, textarea, button { // input don't inherit font properties from body by default.
   font-family: inherit;
-  font-size: inherit; 
+  font-size: inherit;
   max-width: 100%;
 }
 
@@ -203,8 +203,8 @@ input, select, textarea, button { // input don't inherit font properties from bo
   user-select: none;
 }
 input,
-textarea, 
-[contenteditable], 
+textarea,
+[contenteditable],
 [contenteditable] *, // makes IE contenteditable content selectable again
 .evo-color span // allow selecting for hex colors in colorpicker
 {
@@ -263,8 +263,10 @@ a[disabledhref]:-moz-read-write {
   backface-visibility: hidden;
   display: none;
   left: 0;
+  top: 42px;
   width: @leftsidebar-width;
   box-shadow: 0 0 10px @mosaico-shadow-color, 0 0 5px @mosaico-shadow-color;
+  border-bottom: 2px solid #ccc;
 }
 .withToolbox #main-toolbox {
   display: block;
@@ -319,16 +321,15 @@ a[disabledhref]:-moz-read-write {
   position: absolute;
   top: @topbar-height;
   left: 0;
-  right: 0;
+  right: 3px;
   bottom: 0;
   overflow-y: auto;
-  // http://blog.getpostman.com/2015/01/23/ui-repaint-issue-on-chrome/
+  box-shadow: 0 0 10px gray;
   -webkit-transform: translate3d(0,0,0);
-  // overflow-x: hidden;
 }
 
 /****************************************************************************************************************************
- * GENERIC UTILITIES: 
+ * GENERIC UTILITIES:
  * DRAG&DROP, UPLOADER, TOASTER, TOOLTIP, FONTS, LOADER
  ***************************************************************************************************************************/
 
@@ -412,7 +413,7 @@ a[disabledhref]:-moz-read-write {
 
 body > .ui-tooltip {
   .win();
-  
+
   .resetFont();
   // font-family: @font-family;
   // font-size: 1em;

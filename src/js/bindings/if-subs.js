@@ -75,7 +75,7 @@ if (typeof ko.subscription == 'function' && typeof ko.isWritableObservable !== '
 } else if (ko.version == "3.3.0") {
   beforeSubscriptionProp = 'ja';
   afterSubscriptionProp = 'ua';
-} else if (ko.version == "3.4.0") {
+} else if (ko.version.slice(0, 3) == "3.4") {
   beforeSubscriptionProp = 'sa';
   afterSubscriptionProp = 'Ia';
 } else if (ko.version == "3.4.1") {

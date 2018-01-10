@@ -56,7 +56,7 @@ var expressionGenerator = function(node, bindingProvider, defVal) {
   function gen(node, bindingProvider, lookupmember, defVal) {
     if (typeof lookupmember == 'undefined') lookupmember = true;
 
-    if (typeof defVal !== 'undefined' && node.type !== "Identifier" && node.type !== "MemberExpression") console.log("Cannot apply default value to variable when using expressions");
+    if (typeof defVal !== 'undefined' && node.type !== "Identifier" && node.type !== "MemberExpression"); //console.log("Cannot apply default value to variable when using expressions");
 
     if (node.type === "BinaryExpression" || node.type === "LogicalExpression") {
       return '(' + gen(node.left, bindingProvider, lookupmember) + ' ' + mapOperator(node.operator) + ' ' + gen(node.right, bindingProvider, lookupmember) + ')';
@@ -103,7 +103,7 @@ var expressionBinding = function(expression, bindingProvider, defaultValue) {
       matches = defaultValue.trim().match(new RegExp(check));
       if (!matches) {
         // TODO throw error?
-        console.log("Cannot find matches", matches, "for", defaultValue, expression, check, expression);
+        //console.log("Cannot find matches", matches, "for", defaultValue, expression, check, expression);
         throw "Cannot find default value for " + expression + " in " + defaultValue;
       }
     }
@@ -120,7 +120,7 @@ var expressionBinding = function(expression, bindingProvider, defaultValue) {
         if (typeof matches[vars] !== 'undefined') {
           defVal = matches[vars].trim();
         } else {
-          console.log("ABZZZ Cannot find default value for", varName, "in", matches, "as", vars);
+          //console.log("ABZZZ Cannot find default value for", varName, "in", matches, "as", vars);
         }
       }
       // in case we found p1 we are in a @[sequence] so we start an expression parser

@@ -30,7 +30,7 @@ module.exports = function(grunt) {
 
     less: {
       options: {
-        sourceMap: true,
+        sourceMap: false,
         sourceMapRootpath: '../',
         /* sourceMapFilename: 'build/mosaico.css.map' */
         sourceMapFileInline: true
@@ -178,6 +178,7 @@ module.exports = function(grunt) {
           'skins': 'tinymce/skins',
           'plugins': 'tinymce/plugins',
           'notoregular': 'webfont-notosans/regular',
+          'plugins/smileys': 'Smileys/smileys'
         }
       },
       fontawesome: {
