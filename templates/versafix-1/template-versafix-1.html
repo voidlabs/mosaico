@@ -629,6 +629,16 @@
             vertical-align: middle;
         }
 
+        /* apple devices */
+        /* reset detecting of date, numbers on apple devices */
+        a[x-apple-data-detectors] {
+          color: inherit !important;
+          font-size: inherit !important;
+          font-family: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+        }
+
         /* outlook */
         table { mso-table-rspace: 0pt; mso-table-lspace: 0pt; }
         #outlook a { padding: 0; }
@@ -837,6 +847,14 @@
     -ko-attr-background: @[_theme_.frameTheme.globalBackgroundStyle.src];">
     <tbody><tr><td>
   <!--[if gte mso 9]>
+  <style>
+    body{
+      background-color: #00aead;
+    }
+    .wrapper{
+      background-color: transparent !important;
+    }
+  </style>
   <v:background xmlns:v="urn:schemas-microsoft-com:vml" fill="t">
     <v:fill type="tile"
         style="-ko-attr-src: @[_theme_.frameTheme.globalBackgroundStyle.src];" />
