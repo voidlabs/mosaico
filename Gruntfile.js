@@ -72,6 +72,7 @@ module.exports = function(grunt) {
           browserifyOptions: {
             standalone: 'Mosaico'
           },
+          transform: [['browserify-shim', {global: true}]],
           cacheFile: 'build/debug-incremental.bin',
         },
         files: {
@@ -85,7 +86,7 @@ module.exports = function(grunt) {
             fullPaths: false,
             standalone: 'Mosaico'
           },
-          transform: ['uglifyify'],
+          transform: [['browserify-shim', {global: true}], 'uglifyify'],
           cacheFile: 'build/main-incremental.bin',
         },
         files: {

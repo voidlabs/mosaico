@@ -1,7 +1,7 @@
 "use strict";
 
 var ko = require("knockout");
-var undoManager = require('knockout-undomanager');
+var undoManager = require('./undomanager.js');
 var undoserializer = require("./undoserializer.js");
 
 var addUndoStackExtensionMaker = function(performanceAwareCaller) {

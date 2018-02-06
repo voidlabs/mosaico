@@ -77,7 +77,7 @@
   "license": "GPL-3.0",
   "scripts": {
     "postinstall": "bower -V --allow-root install",
-    "deps": "bower -V --allow-root install", 
+    "deps": "bower -V --allow-root install",
     "test": "grunt jasmine_node"
   },
   "engine": "node >= 6.0.0"
