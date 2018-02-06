@@ -10,18 +10,19 @@
     "type": "git",
     "url": "git://github.com/voidlabs/mosaico.git"
   },
-  "aliasify": {
-    "aliases": {
-      "console": "console-browserify/index.js",
-      "jsep": "jsep/src/jsep.js"
-    }
-  },
   "browserify": {
     "transform": [
       "aliasify",
-      "browserify-shim",
-      "debowerify"
+      "browserify-shim"
     ]
+  },
+  "aliasify": {
+    "aliases": {
+      "console": "console-browserify",
+      "knockoutjs-reactor": "ko-reactor/dist/ko-reactor.min.js",
+      "tinycolor": "tinycolor2",
+      "evol-colorpicker": "evol.colorpicker/js/evol.colorpicker.min.js"
+    }
   },
   "browserify-shim": {
     "jquery": "global:jQuery",
@@ -33,51 +34,69 @@
     "knockout-jqueryui": "global:kojqui",
     "tinymce": "global:tinymce"
   },
+  "dependencies": {
+    "blueimp-canvas-to-blob": "^3.14.0",
+    "blueimp-file-upload": "^9.20.0",
+    "blueimp-load-image": "^2.18.0",
+    "console-browserify": "^1.1.0",
+    "evol.colorpicker": "github:bago/colorpicker#mosaico",
+    "font-awesome": "^4.7.0",
+    "jquery": "^1.12.4",
+    "jquery-ui-dist": "^1.11.4",
+    "jquery-ui-touch-punch": "^0.2.3",
+    "jquery.iframe-transport": "^1.0.0",
+    "jsep": "^0.3.3",
+    "juice": "^4.2.2",
+    "knockout": "3.4.1",
+    "knockout-jqueryui": "github:gvas/knockout-jqueryui#v2.2.3",
+    "knockout-sortable": "github:rniemeyer/knockout-sortable#v0.15.0",
+    "ko-reactor": "github:ZiadJ/knockoutjs-reactor#v1.3.9",
+    "mensch": "^0.3.3",
+    "slick": "github:kamicane/slick#v1.12.2",
+    "tinycolor2": "github:bgrins/TinyColor#1.4.1",
+    "tinymce": "^4.7.6",
+    "toastr": "^2.1.4"
+  },
   "devDependencies": {
     "aliasify": "2.1.0",
     "async": "2.6.0",
-    "autoprefixer": "7.1.6",
+    "autoprefixer": "7.2.5",
     "body-parser": "1.18.2",
-    "bower": "1.8.2",
-    "browserify": "14.5.0",
+    "browserify": "15.2.0",
     "browserify-incremental": "3.1.1",
     "browserify-shim": "3.8.14",
     "cheerio": "1.0.0-rc.2",
     "connect-livereload": "0.6.0",
-    "csswring": "6.0.1",
+    "csswring": "6.0.2",
     "deamdify": "0.3.0",
-    "debowerify": "1.5.0",
     "express": "4.16.2",
-    "gm": "1.23.0",
+    "gm": "1.23.1",
     "grunt": "1.0.1",
-    "grunt-bowercopy": "1.2.4",
     "grunt-browserify": "5.2.0",
-    "grunt-contrib-connect": "1.0.2",
     "grunt-contrib-copy": "1.0.0",
     "grunt-contrib-jshint": "1.1.0",
     "grunt-contrib-less": "1.4.1",
     "grunt-contrib-watch": "1.0.0",
     "grunt-exorcise": "2.1.1",
     "grunt-express-server": "0.5.3",
+    "grunt-google-fonts": "^0.5.0",
     "grunt-jasmine-node-coverage": "2.0.1",
     "grunt-keepalive": "^1.0.0",
     "grunt-newer": "^1.2.0",
     "grunt-parallel": "0.5.1",
     "grunt-postcss": "0.9.0",
-    "jasmine-core": "2.8.0",
+    "jasmine-core": "2.9.1",
     "jquery-file-upload-middleware": "0.1.8",
     "jshint-stylish": "2.2.1",
     "load-grunt-tasks": "3.5.2",
-    "lodash": "4.17.4",
+    "lodash": "4.17.5",
     "mockery": "2.1.0",
-    "nodemailer": "4.3.1",
-    "uglifyify": "4.0.4"
+    "nodemailer": "4.4.2",
+    "uglifyify": "4.0.5"
   },
   "author": "Stefano Bagnara",
   "license": "GPL-3.0",
   "scripts": {
-    "postinstall": "bower -V --allow-root install",
-    "deps": "bower -V --allow-root install",
     "test": "grunt jasmine_node"
   },
   "engine": "node >= 6.0.0"
