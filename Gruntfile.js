@@ -260,6 +260,11 @@ module.exports = function(grunt) {
       }
     },
 
+    clean: {
+      build: ['build/'],
+      dist: ['dist/']
+    }
+
   });
 
   grunt.registerTask('js', ['combineKOTemplates', 'browserify', 'exorcise']);
