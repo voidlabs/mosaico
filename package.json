@@ -42,7 +42,7 @@
     "evol.colorpicker": "github:bago/colorpicker#mosaico",
     "font-awesome": "^4.7.0",
     "jquery": "~1.12.4",
-    "jquery-ui-bundle": "^1.11.4",
+    "jquery-ui-package": "1.11.4",
     "jquery-ui-touch-punch": "^0.2.3",
     "jquery.iframe-transport": "^1.0.0",
     "jsep": "^0.3.3",

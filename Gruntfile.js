@@ -190,7 +190,7 @@ module.exports = function(grunt) {
       
       jqueryui: {
         expand: true,
-        cwd: 'node_modules/jquery-ui-bundle',
+        cwd: 'node_modules/jquery-ui-package',
         src: 'jquery-ui.min.*',
         dest: 'dist/vendor/'
       },
