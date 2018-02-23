@@ -5,8 +5,47 @@
 // wrap/upwrap objects on simple array methods (push, splice)
 
 var ko = require("knockout");
-var kowrap = require("./knockout.wrap.js");
 var console = require("console");
+
+function wrap(v) {
+  var typeOfv = typeof v;
+  if (typeOfv === 'object') {
+    if (v) {
+      if (v.constructor == Date) typeOfv = 'date';
+      else if (Object.prototype.toString.call(v) == '[object Array]') typeOfv = 'array';
+    } else {
+      typeOfv = 'null';
+    }
+  }
+
+  if (typeOfv == "array") {
+
+    var r = ko.observableArray();
+    if (!v || v.length === 0) return r;
+    for (var i = 0, l = v.length; i < l; ++i) r.push(wrap(v[i]));
+    return r;
+
+  } else if (typeOfv == "object") {
+
+    var t = {};
+    for (var k in v) {
+      var wv = v[k];
+      t[k] = wrap(wv);
+    }
+    return ko.observable(t);
+
+  } else if (typeOfv == 'function') {
+
+    return v;
+
+  } else {
+
+    var t2 = ko.observable();
+    t2(v);
+    return t2;
+
+  }
+}
 
 var _getOptionsObject = function(options) {
   var optionsCouples = options.split('|');
@@ -226,7 +265,7 @@ var _makeBlocksWrap = function(instrument, inputModel) {
   var model = ko.toJS(inputModel);
   var input = model.blocks;
   model.blocks = [];
-  var res = kowrap.fromJS(model, undefined, true)();
+  var res = wrap(model)();
   _augmentBlocksObservable(res.blocks, instrument);
   for (var i = 0; i < input.length; i++) {
     var obj = ko.toJS(input[i]);
@@ -277,12 +316,10 @@ var _blockInstrumentFunction = function(def, defs, themes, knockout, self, model
   // ugly: sometimes we have to bind content but not self, so we repeat self at the end as "self2"
   if (typeof self == 'undefined') self = self2;
 
-  var computedFunctions;
-  computedFunctions = {
-    '': _makeComputedFunction.bind(self, def, defs, themes, knockout, modelContent, isContent)
-  };
+  var res = wrap(self);
+  // Augment observables with custom code
+  res(_makeComputedFunction(def, defs, themes, knockout, modelContent, isContent, res()));
 
-  var res = kowrap.fromJS(self, computedFunctions, true);
   res._unwrap = _unwrap.bind(res);
   return res;
 };
