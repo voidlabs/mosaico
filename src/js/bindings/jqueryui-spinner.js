@@ -4,7 +4,7 @@
 // We wants to use the step but also wants to leave the user the ability to select specific values.
 
 var $ = require('jquery');
-var spinner = require("jquery-ui/spinner");
+var spinner = require("jquery-ui/ui/widgets/spinner");
 var console = require('console');
 
 if (typeof spinner == 'undefined') throw "Cannot find jquery-ui spinner widget dependency!";

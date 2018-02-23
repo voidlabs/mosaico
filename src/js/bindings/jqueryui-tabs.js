@@ -5,7 +5,7 @@
 
 var $ = require('jquery');
 var console = require('console');
-var tabs = require("jquery-ui/tabs");
+var tabs = require("jquery-ui/ui/widgets/tabs");
 
 if (typeof tabs == 'undefined') throw "Cannot find jquery-ui tabs widget dependency!";
 
