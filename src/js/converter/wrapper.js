@@ -5,7 +5,7 @@
 // wrap/upwrap objects on simple array methods (push, splice)
 
 var ko = require("knockout");
-var kowrap = require("knockout.wrap");
+var kowrap = require("./knockout.wrap.js");
 var console = require("console");
 
 var _getOptionsObject = function(options) {

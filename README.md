@@ -61,6 +61,8 @@ First you have to build it using grunt, then you can read (https://github.com/vo
 
 *Matt Gordon* wrote a sample [ASP.NET Core backend](https://github.com/gordon-matt/Mosaico.NetCore) and a sample [ASP.NET MVC5 backend](https://github.com/gordon-matt/Mosaico.Mvc5) so you can start with those if you want to use Mosaico with a .NET backend.
 
+*Cameron Dutro* wrote a [Rails engine](https://github.com/camertron/mosaico-rails) and also wrote a [RoR application](https://github.com/camertron/mosaico-example) that can be used as a starting point.
+
 ### Are you having issues with Mosaico?
 
 See the [CONTRIBUTING file](https://github.com/voidlabs/mosaico/blob/master/CONTRIBUTING.md)

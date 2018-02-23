@@ -4,14 +4,14 @@
 
 var mockery = require('mockery');
 mockery.enable();
-mockery.registerAllowables(['../src/js/converter/declarations.js', 'console', './utils.js', './domutils.js', 'console', '../bower_components/mensch']);
+mockery.registerAllowables(['../src/js/converter/declarations.js', 'console', './utils.js', './domutils.js', 'console', '../node_modules/mensch']);
 
 var cheerio = require('cheerio');
 mockery.registerMock('jquery', cheerio);
 
-mockery.registerMock('jsep', require('../bower_components/jsep/src/jsep.js'));
+mockery.registerMock('jsep', require('../node_modules/jsep/src/jsep.js'));
 mockery.registerMock('mensch/lib/parser.js', function() {
-  var parse = require('../bower_components/mensch').parse;
+  var parse = require('../node_modules/mensch').parse;
   return parse.apply(parse, arguments);
 });
 var elaborateDeclarations = require('../src/js/converter/declarations.js');

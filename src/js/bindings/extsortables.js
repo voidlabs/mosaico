@@ -3,8 +3,8 @@
 
 var $ = require("jquery");
 var ko = require("knockout");
-var sortable = require("jquery-ui/sortable");
-var draggable = require("jquery-ui/draggable");
+var sortable = require("jquery-ui/ui/widgets/sortable");
+var draggable = require("jquery-ui/ui/widgets/draggable");
 var console = require("console");
 require("knockout-sortable");
 

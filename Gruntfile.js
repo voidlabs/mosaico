@@ -72,6 +72,7 @@ module.exports = function(grunt) {
           browserifyOptions: {
             standalone: 'Mosaico'
           },
+          transform: [['browserify-shim', {global: true}]],
           cacheFile: 'build/debug-incremental.bin',
         },
         files: {
@@ -85,7 +86,7 @@ module.exports = function(grunt) {
             fullPaths: false,
             standalone: 'Mosaico'
           },
-          transform: ['uglifyify'],
+          transform: [['browserify-shim', {global: true}], 'uglifyify'],
           cacheFile: 'build/main-incremental.bin',
         },
         files: {
@@ -144,54 +145,95 @@ module.exports = function(grunt) {
       }
     },
 
+    googlefonts: {
+      noto: {
+        options: {
+          fontPath: './dist/vendor/notoregular/',
+          httpPath: './',
+          cssFile: './dist/vendor/notoregular/stylesheet.css',
+          formats: { eot: true, woff: true, svg: false, ttf: true, woff2: false },
+          fonts: [
+            {
+              family: 'Noto Sans',
+              styles: [ 400 ],
+              subsets: [ 'latin' ]
+            }
+          ]
+        }
+      }
+    },
+
     copy: {
       res: {
         expand: true,
         cwd: 'res',
         src: '**',
         dest: 'dist/'
-      }
-    },
-
-    bowercopy: {
-      libs: {
-        options: {
-          destPrefix: 'dist/vendor'
-        },
-        files: {
-          'knockout.js': 'knockout/dist/knockout.js',
-          'jquery.min.js': 'jquery/dist/jquery.min.js',
-          'jquery.min.map': 'jquery/dist/jquery.min.map',
-          'jquery-ui.min.js': 'jquery-ui/jquery-ui.min.js',
-          'jquery-ui.min.css': 'jquery-ui/themes/smoothness/jquery-ui.min.css',
-          'jquery.ui.touch-punch.min.js': 'jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
-          'knockout-jqueryui.min.js': 'knockout-jqueryui/dist/knockout-jqueryui.min.js',
-          'canvas-to-blob.min.js': 'blueimp-canvas-to-blob/js/canvas-to-blob.min.js',
-          'load-image.all.min.js': 'blueimp-load-image/js/load-image.all.min.js',
-          'jquery.iframe-transport.js': 'jquery-file-upload/js/jquery.iframe-transport.js',
-          'jquery.fileupload.js': 'jquery-file-upload/js/jquery.fileupload.js',
-          'jquery.fileupload-process.js': 'jquery-file-upload/js/jquery.fileupload-process.js',
-          'jquery.fileupload-image.js': 'jquery-file-upload/js/jquery.fileupload-image.js',
-          'jquery.fileupload-validate.js': 'jquery-file-upload/js/jquery.fileupload-validate.js',
-          'tinymce.min.js': 'tinymce/tinymce.min.js',
-          'themes': 'tinymce/themes',
-          'skins': 'tinymce/skins',
-          'plugins': 'tinymce/plugins',
-          'notoregular': 'webfont-notosans/regular',
-        }
       },
+
+      tinymce: {
+        expand: true,
+        cwd: 'node_modules/tinymce/',
+        src: ['plugins/**', 'skins/**', 'themes/**', 'tinymce.min.js'],
+        dest: 'dist/vendor/'
+      },
+      
+      knockout: {
+        src: 'node_modules/knockout/build/output/knockout-latest.js',
+        dest: 'dist/vendor/knockout.js'
+      },
+      
+      jquery: {
+        src: 'node_modules/jquery/dist/jquery.min.js',
+        dest: 'dist/vendor/jquery.min.js'
+      },
+      
+      jquerymigrate: {
+        src: 'node_modules/jquery-migrate/dist/jquery-migrate.min.js',
+        dest: 'dist/vendor/jquery-migrate.min.js'
+      },
+      
+      jqueryui: {
+        expand: true,
+        cwd: 'node_modules/jquery-ui-package',
+        src: 'jquery-ui.min.*',
+        dest: 'dist/vendor/'
+      },
+
+      jqueryuitouchpunch: {
+        src: 'node_modules/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js',
+        dest: 'dist/vendor/jquery.ui.touch-punch.min.js'
+      },
+      
+      knockoutjqueryui: {
+        src: 'node_modules/knockout-jqueryui/dist/knockout-jqueryui.min.js',
+        dest: 'dist/vendor/knockout-jqueryui.min.js'
+      },
+
       fontawesome: {
-        options: {
-          destPrefix: 'dist/fa'
-        },
-        files: {
-          'fonts/fontawesome-webfont.woff2': 'font-awesome/fonts/fontawesome-webfont.woff2',
-          'fonts/fontawesome-webfont.woff': 'font-awesome/fonts/fontawesome-webfont.woff',
-          'fonts/fontawesome-webfont.ttf': 'font-awesome/fonts/fontawesome-webfont.ttf',
-          'fonts/fontawesome-webfont.svg': 'font-awesome/fonts/fontawesome-webfont.svg',
-          'fonts/fontawesome-webfont.eot': 'font-awesome/fonts/fontawesome-webfont.eot'
-        }
-      }
+        expand: true,
+        cwd: 'node_modules/font-awesome/fonts',
+        src: 'fontawesome-webfont.*',
+        dest: 'dist/fa/fonts/'
+      },
+
+      blueimpfileupload: {
+        expand: true,
+        cwd: 'node_modules/blueimp-file-upload/js/',
+        src: ['jquery.iframe-transport.js', 'jquery.fileupload.js', 'jquery.fileupload-process.js', 'jquery.fileupload-image.js', 'jquery.fileupload-validate.js'],
+        dest: 'dist/vendor/'
+      },
+
+      canvastoblob: {
+        src: 'node_modules/blueimp-canvas-to-blob/js/canvas-to-blob.min.js',
+        dest: 'dist/vendor/canvas-to-blob.min.js'
+      },
+
+      loadimage: {
+        src: 'node_modules/blueimp-load-image/js/load-image.all.min.js',
+        dest: 'dist/vendor/load-image.all.min.js'
+      },
+
     },
 
     jasmine_node: {
@@ -223,7 +265,7 @@ module.exports = function(grunt) {
   grunt.registerTask('js', ['combineKOTemplates', 'browserify', 'exorcise']);
   grunt.registerTask('css', ['less', 'postcss']);
   grunt.registerTask('server', ['express', 'watch', 'keepalive']);
-  grunt.registerTask('build', ['bowercopy', 'copy', 'jshint', 'js', 'css']);
+  grunt.registerTask('build', ['googlefonts', 'copy', 'jshint', 'js', 'css']);
   grunt.registerTask('default', ['build', 'server']);
   grunt.registerTask('test', ['jasmine_node']);
 };
