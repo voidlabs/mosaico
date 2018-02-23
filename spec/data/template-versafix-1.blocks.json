@@ -1,0 +1,425 @@
+[
+  {
+    "type": "logoBlock",
+    "customStyle": false,
+    "image": {
+      "type": "image",
+      "src": "",
+      "url": "",
+      "alt": ""
+    },
+    "imageWidth": "258",
+    "id": "",
+    "externalBackgroundColor": null,
+    "externalTextStyle": {
+      "type": "textStyle",
+      "face": null,
+      "color": null,
+      "size": null
+    }
+  },
+  {
+    "type": "sideArticleBlock",
+    "customStyle": false,
+    "backgroundColor": null,
+    "titleVisible": true,
+    "buttonVisible": true,
+    "imageWidth": "166",
+    "imagePos": "left",
+    "titleTextStyle": {
+      "type": "textStyle",
+      "face": null,
+      "color": null,
+      "size": null
+    },
+    "longTextStyle": {
+      "type": "longTextStyle",
+      "face": null,
+      "color": null,
+      "size": null,
+      "linksColor": null
+    },
+    "buttonStyle": {
+      "type": "buttonStyle",
+      "face": null,
+      "color": null,
+      "size": null,
+      "buttonColor": null,
+      "radius": null
+    },
+    "image": {
+      "type": "image",
+      "src": "",
+      "url": "",
+      "alt": ""
+    },
+    "longText": "\r\n                          <p>Far far away, behind the word mountains, far from the countries <a href=\"\">Vokalia and Consonantia</a>, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>\r\n                        ",
+    "buttonLink": {
+      "type": "link",
+      "text": "BUTTON",
+      "url": ""
+    },
+    "id": "",
+    "externalBackgroundColor": null,
+    "titleText": "\r\n                          Title\r\n                          "
+  },
+  {
+    "type": "singleArticleBlock",
+    "customStyle": false,
+    "backgroundColor": null,
+    "titleVisible": true,
+    "buttonVisible": true,
+    "imageVisible": true,
+    "titleTextStyle": {
+      "type": "textStyle",
+      "face": null,
+      "color": null,
+      "size": null
+    },
+    "longTextStyle": {
+      "type": "longTextStyle",
+      "face": null,
+      "color": null,
+      "size": null,
+      "linksColor": null
+    },
+    "buttonStyle": {
+      "type": "buttonStyle",
+      "face": null,
+      "color": null,
+      "size": null,
+      "buttonColor": null,
+      "radius": null
+    },
+    "image": {
+      "type": "image",
+      "src": "",
+      "url": "",
+      "alt": ""
+    },
+    "longText": "\r\n                <p>Far far away, behind the word mountains, far from the countries <a href=\"\">Vokalia and Consonantia</a>, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>\r\n              ",
+    "buttonLink": {
+      "type": "link",
+      "text": "BUTTON",
+      "url": ""
+    },
+    "id": "",
+    "externalBackgroundColor": null,
+    "text": "\r\n               Section Title\r\n                "
+  },
+  {
+    "type": "titleBlock",
+    "customStyle": false,
+    "id": "",
+    "externalBackgroundColor": null,
+    "backgroundColor": null,
+    "bigTitleStyle": {
+      "type": "bigTitleStyle",
+      "face": null,
+      "color": null,
+      "size": null,
+      "align": null
+    },
+    "text": "Section Title"
+  },
+  {
+    "type": "textBlock",
+    "customStyle": false,
+    "backgroundColor": null,
+    "longTextStyle": {
+      "type": "longTextStyle",
+      "face": null,
+      "color": null,
+      "size": null,
+      "linksColor": null
+    },
+    "longText": "\r\n              <p>Far far away, behind the word mountains, far from the countries <a href=\"\">Vokalia and Consonantia</a>, there live the blind texts.</p>\r\n              <p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>\r\n            ",
+    "id": "",
+    "externalBackgroundColor": null
+  },
+  {
+    "type": "tripleArticleBlock",
+    "customStyle": false,
+    "backgroundColor": null,
+    "titleVisible": true,
+    "buttonVisible": true,
+    "imageVisible": true,
+    "titleTextStyle": {
+      "type": "textStyle",
+      "face": null,
+      "color": null,
+      "size": null
+    },
+    "longTextStyle": {
+      "type": "longTextStyle",
+      "face": null,
+      "color": null,
+      "size": null,
+      "linksColor": null
+    },
+    "buttonStyle": {
+      "type": "buttonStyle",
+      "face": null,
+      "color": null,
+      "size": null,
+      "buttonColor": null,
+      "radius": null
+    },
+    "leftImage": {
+      "type": "image",
+      "src": "",
+      "url": "",
+      "alt": ""
+    },
+    "leftLongText": "\r\n                          <p>Far far away, behind the word mountains, far from the countries <a href=\"\">Vokalia and Consonantia</a>, there live the blind texts. </p>\r\n                        ",
+    "leftButtonLink": {
+      "type": "buttonLink",
+      "text": "BUTTON",
+      "url": ""
+    },
+    "middleImage": {
+      "type": "image",
+      "src": "",
+      "url": null,
+      "alt": ""
+    },
+    "middleLongText": "\r\n                          <p>Far far away, behind the word mountains, far from the countries <a href=\"\">Vokalia and Consonantia</a>, there live the blind texts. </p>\r\n                        ",
+    "middleButtonLink": {
+      "type": "buttonLink",
+      "text": "BUTTON",
+      "url": ""
+    },
+    "rightImage": {
+      "type": "image",
+      "src": "",
+      "url": null,
+      "alt": ""
+    },
+    "rightLongText": "\r\n                          <p>Far far away, behind the word mountains, far from the countries <a href=\"\">Vokalia and Consonantia</a>, there live the blind texts. </p>\r\n                        ",
+    "rightButtonLink": {
+      "type": "buttonLink",
+      "text": "BUTTON",
+      "url": ""
+    },
+    "id": "",
+    "externalBackgroundColor": null,
+    "imageHeight": "90",
+    "leftTitleText": "Title\r\n                          ",
+    "middleTitleText": "\r\n                         Title\r\n                          ",
+    "rightTitleText": "\r\n                         Title\r\n                          "
+  },
+  {
+    "type": "doubleArticleBlock",
+    "customStyle": false,
+    "backgroundColor": null,
+    "titleVisible": true,
+    "buttonVisible": true,
+    "imageVisible": true,
+    "titleTextStyle": {
+      "type": "textStyle",
+      "face": null,
+      "color": null,
+      "size": null
+    },
+    "longTextStyle": {
+      "type": "longTextStyle",
+      "face": null,
+      "color": null,
+      "size": null,
+      "linksColor": null
+    },
+    "buttonStyle": {
+      "type": "buttonStyle",
+      "face": null,
+      "color": null,
+      "size": null,
+      "buttonColor": null,
+      "radius": null
+    },
+    "leftImage": {
+      "type": "image",
+      "src": "",
+      "url": null,
+      "alt": ""
+    },
+    "leftLongText": "\r\n                          <p>Far far away, behind the word mountains, far from the countries <a href=\"\">Vokalia and Consonantia</a>, there live the blind texts. </p>\r\n                        ",
+    "leftButtonLink": {
+      "type": "buttonLink",
+      "text": "BUTTON",
+      "url": ""
+    },
+    "rightImage": {
+      "type": "image",
+      "src": "",
+      "url": null,
+      "alt": ""
+    },
+    "rightLongText": "\r\n                          <p>Far far away, behind the word mountains, far from the countries <a href=\"\">Vokalia and Consonantia</a>, there live the blind texts.</p>\r\n                        ",
+    "rightButtonLink": {
+      "type": "buttonLink",
+      "text": "BUTTON",
+      "url": ""
+    },
+    "id": "",
+    "externalBackgroundColor": null,
+    "imageHeight": "100",
+    "leftTitleText": "\r\n                          Title\r\n                          ",
+    "rightTitleText": "\r\n                         Title\r\n                          "
+  },
+  {
+    "type": "hrBlock",
+    "customStyle": false,
+    "id": "",
+    "externalBackgroundColor": null,
+    "backgroundColor": null,
+    "hrStyle": {
+      "type": "hrStyle",
+      "color": null,
+      "hrWidth": null,
+      "hrHeight": null
+    }
+  },
+  {
+    "type": "buttonBlock",
+    "customStyle": false,
+    "id": "",
+    "externalBackgroundColor": null,
+    "backgroundColor": null,
+    "bigButtonStyle": {
+      "type": "buttonStyle",
+      "face": null,
+      "color": null,
+      "size": null,
+      "buttonColor": null,
+      "radius": null
+    },
+    "link": {
+      "type": "link",
+      "text": "BUTTON",
+      "url": ""
+    }
+  },
+  {
+    "type": "imageBlock",
+    "customStyle": false,
+    "gutterVisible": false,
+    "longTextStyle": {
+      "type": "longTextStyle",
+      "face": null,
+      "color": null,
+      "size": null,
+      "linksColor": null
+    },
+    "id": "",
+    "externalBackgroundColor": null,
+    "backgroundColor": null,
+    "image": {
+      "type": "image",
+      "src": "",
+      "url": "",
+      "alt": ""
+    }
+  },
+  {
+    "type": "doubleImageBlock",
+    "customStyle": false,
+    "gutterVisible": false,
+    "longTextStyle": {
+      "type": "longTextStyle",
+      "face": null,
+      "color": null,
+      "size": null,
+      "linksColor": null
+    },
+    "id": "",
+    "externalBackgroundColor": null,
+    "backgroundColor": null,
+    "leftImage": {
+      "type": "image",
+      "src": "",
+      "url": "",
+      "alt": ""
+    },
+    "imageHeight": "180",
+    "rightImage": {
+      "type": "image",
+      "src": "",
+      "url": "",
+      "alt": ""
+    }
+  },
+  {
+    "type": "tripleImageBlock",
+    "customStyle": false,
+    "gutterVisible": false,
+    "longTextStyle": {
+      "type": "longTextStyle",
+      "face": null,
+      "color": null,
+      "size": null,
+      "linksColor": null
+    },
+    "id": "",
+    "externalBackgroundColor": null,
+    "backgroundColor": null,
+    "leftImage": {
+      "type": "image",
+      "src": "",
+      "url": "",
+      "alt": ""
+    },
+    "imageHeight": "160",
+    "middleImage": {
+      "type": "image",
+      "src": "",
+      "url": "",
+      "alt": ""
+    },
+    "rightImage": {
+      "type": "image",
+      "src": "",
+      "url": "",
+      "alt": ""
+    }
+  },
+  {
+    "type": "spacerBlock",
+    "customStyle": false,
+    "id": "",
+    "externalBackgroundColor": null,
+    "spacerSize": "24"
+  },
+  {
+    "type": "socialBlock",
+    "customStyle": false,
+    "socialIconType": "colors",
+    "fbVisible": true,
+    "fbUrl": "",
+    "twVisible": true,
+    "twUrl": "",
+    "ggVisible": true,
+    "ggUrl": "",
+    "webVisible": false,
+    "webUrl": "",
+    "inVisible": false,
+    "inUrl": "",
+    "flVisible": false,
+    "flUrl": "",
+    "viVisible": false,
+    "viUrl": "",
+    "instVisible": false,
+    "instUrl": "",
+    "youVisible": false,
+    "youUrl": "",
+    "longTextStyle": {
+      "type": "longTextStyle",
+      "face": null,
+      "color": null,
+      "size": null,
+      "linksColor": null
+    },
+    "longText": "\r\n                          <p>Address and <a href=\"\">Contacts</a></p>\r\n                        ",
+    "backgroundColor": null,
+    "id": ""
+  }
+]

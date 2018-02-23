@@ -4,7 +4,7 @@
 
 var mockery = require('mockery');
 mockery.enable();
-mockery.registerAllowables(['../src/js/converter/declarations.js', 'console', './utils.js', './domutils.js', 'console', '../bower_components/mensch']);
+mockery.registerAllowables(['../src/js/converter/declarations.js', 'console', './utils.js', './domutils.js', 'console', '../node_modules/mensch']);
 
 /*
 var cheerio = require('cheerio');
@@ -17,9 +17,9 @@ return currentDocument.apply(currentDocument, arguments);
 */
 mockery.registerMock('jquery', require('cheerio'));
 
-mockery.registerMock('jsep', require('../bower_components/jsep/src/jsep.js'));
+mockery.registerMock('jsep', require('../node_modules/jsep/src/jsep.js'));
 mockery.registerMock('mensch/lib/parser.js', function() {
-  var parse = require('../bower_components/mensch').parse;
+  var parse = require('../node_modules/mensch').parse;
   return parse.apply(parse, arguments);
 });
 var elaborateDeclarations = require('../src/js/converter/declarations.js');
@@ -97,7 +97,7 @@ describe('Template converter', function() {
 
     var fs = require('fs');
 
-    var templatecode = "" + fs.readFileSync("templates/versafix-1/template-versafix-1.html");
+    var templatecode = "" + fs.readFileSync("spec/data/template-versafix-1.html");
     var res = templatecode.match(/^([\S\s]*)([<]html[^>]*>[\S\s]*<\/html>)([\S\s]*)$/i);
     if (res === null) throw "Unable to find <html> opening and closing tags in the template";
     var html = res[2].replace(/(<\/?)(html|head|body)([^>]*>)/gi, function(match, p1, p2, p3) {
