@@ -188,6 +188,11 @@ module.exports = function(grunt) {
         dest: 'dist/vendor/jquery.min.js'
       },
       
+      jquerymigrate: {
+        src: 'node_modules/jquery-migrate/dist/jquery-migrate.min.js',
+        dest: 'dist/vendor/jquery-migrate.min.js'
+      },
+      
       jqueryui: {
         expand: true,
         cwd: 'node_modules/jquery-ui-package',
