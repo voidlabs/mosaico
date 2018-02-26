@@ -55,7 +55,7 @@
     "mensch": "^0.3.3",
     "slick": "1.12.2",
     "tinycolor2": "1.4.1",
-    "tinymce": "^4.7.7",
+    "tinymce": "^4.7.8",
     "toastr": "^2.1.4"
   },
   "devDependencies": {
@@ -74,7 +74,7 @@
     "gm": "1.23.1",
     "grunt": "1.0.2",
     "grunt-browserify": "5.2.0",
-    "grunt-contrib-clean": "1.1.0", 
+    "grunt-contrib-clean": "1.1.0",
     "grunt-contrib-copy": "1.0.0",
     "grunt-contrib-jshint": "1.1.0",
     "grunt-contrib-less": "1.4.1",

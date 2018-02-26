@@ -206,8 +206,8 @@ module.exports = function(grunt) {
       },
       
       knockoutjqueryui: {
-        src: 'node_modules/knockout-jqueryui/dist/knockout-jqueryui.min.js',
-        dest: 'dist/vendor/knockout-jqueryui.min.js'
+        src: 'node_modules/knockout-jqueryui/dist/knockout-jqueryui.js',
+        dest: 'dist/vendor/knockout-jqueryui.js'
       },
 
       fontawesome: {
