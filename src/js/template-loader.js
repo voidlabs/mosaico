@@ -280,7 +280,8 @@ var templateCompiler = function(performanceAwareCaller, templateUrlConverter, te
 
   viewModel.metadata = metadata;
   // let's run some version check on template and editor used to build the model being loaded.
-  var editver = '0.17.0';
+  // This will be replaced by browserify-versionify during the build
+  var editver = '__VERSION__';
   if (typeof viewModel.metadata.editorversion !== 'undefined' && viewModel.metadata.editorversion !== editver) {
     console.log("The model being loaded has been created with a different editor version", viewModel.metadata.editorversion, "runtime:", editver);
   }

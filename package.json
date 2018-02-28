@@ -13,7 +13,8 @@
   "browserify": {
     "transform": [
       "aliasify",
-      "browserify-shim"
+      "browserify-shim",
+      "browserify-versionify"
     ]
   },
   "aliasify": {
@@ -65,6 +66,7 @@
     "browserify": "16.1.0",
     "browserify-incremental": "3.1.1",
     "browserify-shim": "3.8.14",
+    "browserify-versionify": "^1.0.6",
     "cheerio": "1.0.0-rc.2",
     "connect-livereload": "0.6.0",
     "csswring": "6.0.3",
