@@ -52,7 +52,7 @@ docker run -p 9006:9006 mosaico/mosaico
 ```
 then open a browser to point to the port 9006 of your docker machine IP.
 
-### Serving via Apache PHP or Django?
+### Serving via Apache PHP or Django or something else?
 First you have to build it using grunt, then you can read (https://github.com/voidlabs/mosaico/wiki/Serving-Mosaico).
 
 *Access Interpreting* wrote a sample [PHP backend](https://github.com/ainterpreting/mosaico-php-backend) so you can start from there if you want to use Mosaico with an Apache/PHP backend.
@@ -62,6 +62,14 @@ First you have to build it using grunt, then you can read (https://github.com/vo
 *Matt Gordon* wrote a sample [ASP.NET Core backend](https://github.com/gordon-matt/Mosaico.NetCore) and a sample [ASP.NET MVC5 backend](https://github.com/gordon-matt/Mosaico.Mvc5) so you can start with those if you want to use Mosaico with a .NET backend.
 
 *Cameron Dutro* wrote a [Rails engine](https://github.com/camertron/mosaico-rails) and also wrote a [RoR application](https://github.com/camertron/mosaico-example) that can be used as a starting point.
+
+*Ahmed Rehan* implemented a featured [CodeIgniter](https://github.com/ar27111994/Mosaico-CodeIgniter-Ion-Auth) backend implementing email queue and auth.
+
+### OpenSource projects including/using Mosaico
+
+[MailTrain](https://github.com/Mailtrain-org/mailtrain) is a full featured newsletter web application written in Node and support email editing via Mosaico since their 1.23.0 release.
+
+[GoodEnough's Mosaico](https://github.com/goodenough/mosaico-backend) born as a Mosaico fork, now have become a full web application product built around Mosaico editing targeting agencies.
 
 ### Are you having issues with Mosaico?
 
