@@ -18,8 +18,8 @@ ColorPicker.prototype.init = function(element, valueAccessor, allBindings) {
   var va = valueAccessor();
   var value = va.color;
 
-  // In order to have a correct dependency tracking in "ifSubs" we have to ensure we use a single computer for each editable
-  // property. Given this binding needs 2 of them, we create a computed so to "proxy" the dependencies.
+  // In order to have a correct dependency tracking in "ifSubs" we have to ensure we use a single "computed" for each editable
+  // property. Given this binding needs 2 of them, we create a new wrapping computed so to "proxy" the dependencies.
   var newDO = ko.computed({
     read: value,
     write: value,
