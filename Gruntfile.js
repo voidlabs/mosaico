@@ -272,7 +272,20 @@ module.exports = function(grunt) {
           { src: ['dist/**', 'templates/versafix-1/**', '*.html', 'README.md', 'NOTICE.txt', 'LICENSE', 'favicon.ico'], dest: '/' },
         ]
       }
-    }
+    },
+
+    release: {
+      options: {
+        tagName: 'v<%= version %>',
+        // the release 0.14.0 plugin is buggy and they are all done BEFORE the tagging, so we stick to 0.13.1 until a new proper release is done.
+        beforeRelease: ['clean', 'build'],
+        afterRelease: ['compress'],
+        github: {
+          repo: 'voidlabs/mosaico',
+          accessTokenVar: 'GITHUB_ACCESS_TOKEN',
+        }
+      },
+    },
 
   });
 
