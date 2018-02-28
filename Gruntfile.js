@@ -266,7 +266,7 @@ module.exports = function(grunt) {
     compress: {
       dist: {
         options: {
-          archive: 'release/mosaico-<%= pkg.version %>.zip'
+          archive: 'release/mosaico-<%= pkg.version %>-bin.zip'
         },
         files: [
           { src: ['dist/**', 'templates/versafix-1/**', '*.html', 'README.md', 'NOTICE.txt', 'LICENSE', 'favicon.ico'], dest: '/' },
@@ -280,6 +280,7 @@ module.exports = function(grunt) {
         // the release 0.14.0 plugin is buggy and they are all done BEFORE the tagging, so we stick to 0.13.1 until a new proper release is done.
         beforeRelease: ['clean', 'build'],
         afterRelease: ['compress'],
+        npm: false,
         github: {
           repo: 'voidlabs/mosaico',
           accessTokenVar: 'GITHUB_ACCESS_TOKEN',
