@@ -7,6 +7,10 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
 
+    pkg: grunt.file.readJSON("package.json"),
+
+    pkgVersion: "<%= pkg.version %>",
+
     combineKOTemplates: {
       main: {
         src: "src/tmpl/*.tmpl.html",
@@ -67,18 +71,6 @@ module.exports = function(grunt) {
     },
 
     browserify: {
-      debug: {
-        options: {
-          browserifyOptions: {
-            standalone: 'Mosaico'
-          },
-          transform: [['browserify-shim', {global: true}]],
-          cacheFile: 'build/debug-incremental.bin',
-        },
-        files: {
-          'build/mosaico.js': ['./src/js/app.js', './build/templates.js']
-        }
-      },
       main: {
         options: {
           browserifyOptions: {
@@ -88,9 +80,15 @@ module.exports = function(grunt) {
           },
           transform: [['browserify-shim', {global: true}], 'uglifyify'],
           cacheFile: 'build/main-incremental.bin',
+          banner: '/** \n'+
+                  ' * <%= pkg.description %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %> \n'+
+                  ' * Licensed under the <%= pkg.license %> (<%= pkg.licenseurl %>)\n'+
+                  ' * \n'+
+                  ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author %> \n'+
+                  ' */',
         },
         files: {
-          'build/mosaico.debug.js': ['./src/js/app.js', './build/templates.js']
+          'build/mosaico.js': ['./src/js/app.js', './build/templates.js']
         }
       }
     },
@@ -101,7 +99,7 @@ module.exports = function(grunt) {
           bundleDest: 'dist/mosaico.min.js'
         },
         files: {
-          'dist/mosaico.min.js.map': ['build/mosaico.debug.js'],
+          'dist/mosaico.min.js.map': ['build/mosaico.js'],
         }
       }
     },
@@ -120,7 +118,7 @@ module.exports = function(grunt) {
         tasks: ['browserify', 'exorcise']
       },
       exorcise: {
-        files: ['build/mosaico.debug.js'],
+        files: ['build/mosaico.js'],
         tasks: ['exorcise']
       },
       web: {
@@ -263,6 +261,17 @@ module.exports = function(grunt) {
     clean: {
       build: ['build/'],
       dist: ['dist/']
+    },
+
+    compress: {
+      dist: {
+        options: {
+          archive: 'release/mosaico-<%= pkg.version %>.zip'
+        },
+        files: [
+          { src: ['dist/**', 'templates/versafix-1/**', '*.html', 'README.md', 'NOTICE.txt', 'LICENSE', 'favicon.ico'], dest: '/' },
+        ]
+      }
     }
 
   });

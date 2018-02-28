@@ -1,9 +1,10 @@
-bower_components
-node_modules
-uploads/**
+/bower_components
+/node_modules
+/uploads/**
 !uploads/README.md
 .tmp/**
 !.tmp/README.md
-build
-dist
-server-config.js
+/build
+/dist
+/server-config.js
+/release

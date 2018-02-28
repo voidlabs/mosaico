@@ -1,7 +1,7 @@
 {
   "name": "mosaico",
   "version": "0.17.0",
-  "description": "Free Email Template Editor",
+  "description": "Mosaico - OpenSource Email Template Editor",
   "main": "./src/js/app.js",
   "directories": {
     "test": "test"
@@ -74,6 +74,7 @@
     "grunt": "1.0.2",
     "grunt-browserify": "5.2.0",
     "grunt-contrib-clean": "1.1.0",
+    "grunt-contrib-compress": "^1.4.3",
     "grunt-contrib-copy": "1.0.0",
     "grunt-contrib-jshint": "1.1.0",
     "grunt-contrib-less": "1.4.1",
@@ -97,6 +98,7 @@
   },
   "author": "Stefano Bagnara",
   "license": "GPL-3.0",
+  "licenseurl": "https://www.gnu.org/licenses/gpl-3.0.en.html",
   "scripts": {
     "test": "grunt jasmine_node"
   },
