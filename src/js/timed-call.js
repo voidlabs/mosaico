@@ -15,7 +15,7 @@ var _timedCall = function(name, whatToCall) {
   res = _call(whatToCall);
   if (typeof console == 'object' && console.time) console.timeEnd(name);
   var diff = new Date().getTime() - start;
-  if (typeof console == 'object' && !console.time) console.log(name, "took", diff, "ms");
+  if (typeof console == 'object' && !console.time) console.debug(name, "took", diff, "ms");
   logs.push({
     name: name,
     time: diff

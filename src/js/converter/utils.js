@@ -56,7 +56,7 @@ var expressionGenerator = function(node, bindingProvider, defVal) {
   function gen(node, bindingProvider, lookupmember, defVal) {
     if (typeof lookupmember == 'undefined') lookupmember = true;
 
-    if (typeof defVal !== 'undefined' && node.type !== "Identifier" && node.type !== "MemberExpression") console.log("Cannot apply default value to variable when using expressions");
+    if (typeof defVal !== 'undefined' && node.type !== "Identifier" && node.type !== "MemberExpression") console.debug("Cannot apply default value to variable when using expressions");
 
     if (node.type === "BinaryExpression" || node.type === "LogicalExpression") {
       return '(' + gen(node.left, bindingProvider, lookupmember) + ' ' + mapOperator(node.operator) + ' ' + gen(node.right, bindingProvider, lookupmember) + ')';

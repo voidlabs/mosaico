@@ -280,15 +280,15 @@ var templateCompiler = function(performanceAwareCaller, templateUrlConverter, te
 
   viewModel.metadata = metadata;
   // let's run some version check on template and editor used to build the model being loaded.
-  var editver = '0.16.0';
+  var editver = '0.17.0';
   if (typeof viewModel.metadata.editorversion !== 'undefined' && viewModel.metadata.editorversion !== editver) {
-    console.warn("The model being loaded has been created with an older editor version", viewModel.metadata.editorversion, "vs", editver);
+    console.log("The model being loaded has been created with a different editor version", viewModel.metadata.editorversion, "runtime:", editver);
   }
   viewModel.metadata.editorversion = editver;
 
   if (typeof templateDef.version !== 'undefined') {
     if (typeof viewModel.metadata.templateversion !== 'undefined' && viewModel.metadata.templateversion !== templateDef.version) {
-      console.error("The model being loaded has been created with a different template version", templateDef.version, "vs", viewModel.metadata.templateversion);
+      console.log("The model being loaded has been created with a different template version", viewModel.metadata.templateversion, "runtime:", templateDef.version);
     }
     viewModel.metadata.templateversion = templateDef.version;
   }
