@@ -124,7 +124,7 @@ module.exports = function(grunt) {
         tasks: ['exorcise']
       },
       htmls: {
-        files: ['*.html'],
+        files: ['src/html/*.html'],
         tasks: ['copy:htmls']
       },
       web: {
@@ -181,6 +181,8 @@ module.exports = function(grunt) {
       },
 
       htmls: {
+        expand: true,
+        cwd: 'src/html',
         src: '*.html',
         dest: 'dist/',
         options: {
@@ -317,7 +319,8 @@ module.exports = function(grunt) {
           archive: 'release/<%= pkg.name %>-<%= pkg.version %>-bin.zip'
         },
         files: [
-          { src: ['dist/**', 'templates/versafix-1/**', 'README.md', 'NOTICE.txt', 'LICENSE'], dest: '/' },
+          { expand: true, cwd: 'dist', src: ['**'], dest: '/' },
+          { src: ['templates/versafix-1/**', 'README.md', 'NOTICE.txt', 'LICENSE'], dest: '/' }
         ]
       }
     },
