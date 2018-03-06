@@ -52,31 +52,35 @@ var lsCommandPluginFactory = function(md, emailProcessorBackend) {
       testCmd.enabled(false);
       var email = global.localStorage.getItem("testemail");
       if (email === null || email == 'null') email = viewModel.t('Insert here the recipient email address');
-      email = global.prompt(viewModel.t("Test email address"), email);
-      if (email.match(/@/)) {
-        global.localStorage.setItem("testemail", email);
-        console.log("TODO testing...", email);
-        var postUrl = emailProcessorBackend ? emailProcessorBackend : '/dl/';
-        var post = $.post(postUrl, {
-          action: 'email',
-          rcpt: email,
-          subject: "[test] " + mdkey + " - " + mdname,
-          html: viewModel.exportHTML()
-        }, null, 'html');
-        post.fail(function() {
-          console.log("fail", arguments);
-          viewModel.notifier.error(viewModel.t('Unexpected error talking to server: contact us!'));
-        });
-        post.success(function() {
-          console.log("success", arguments);
-          viewModel.notifier.success(viewModel.t("Test email sent..."));
-        });
-        post.always(function() {
-          testCmd.enabled(true);
-        });
-      } else {
-        global.alert(viewModel.t('Invalid email address'));
+      if (typeof global.prompt !== 'function') {
+        global.alert(viewModel.t('This feature is not supported by your browser'));
         testCmd.enabled(true);
+      } else {
+        email = global.prompt(viewModel.t("Test email address"), email);
+        if (typeof email !== 'undefined' && email !== null && email.match(/@/)) {
+          global.localStorage.setItem("testemail", email);
+          var postUrl = emailProcessorBackend ? emailProcessorBackend : '/dl/';
+          var post = $.post(postUrl, {
+            action: 'email',
+            rcpt: email,
+            subject: "[test] " + mdkey + " - " + mdname,
+            html: viewModel.exportHTML()
+          }, null, 'html');
+          post.fail(function() {
+            console.log("fail", arguments);
+            viewModel.notifier.error(viewModel.t('Unexpected error talking to server: contact us!'));
+          });
+          post.success(function() {
+            console.log("success", arguments);
+            viewModel.notifier.success(viewModel.t("Test email sent..."));
+          });
+          post.always(function() {
+            testCmd.enabled(true);
+          });
+        } else {
+          global.alert(viewModel.t('Invalid email address'));
+          testCmd.enabled(true);
+        }
       }
     };
     downloadCmd.execute = function() {
