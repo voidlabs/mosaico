@@ -3,18 +3,16 @@
   "version": "0.17.0",
   "description": "Mosaico - OpenSource Email Template Editor",
   "main": "./src/js/app.js",
-  "directories": {
-    "test": "test"
-  },
   "repository": {
     "type": "git",
-    "url": "git://github.com/voidlabs/mosaico.git"
+    "url": "git@github.com:voidlabs/mosaico.git"
   },
   "browserify": {
     "transform": [
       "aliasify",
       "browserify-shim",
-      "browserify-versionify"
+      "browserify-versionify",
+      "uglifyify"
     ]
   },
   "aliasify": {
@@ -70,7 +68,6 @@
     "cheerio": "1.0.0-rc.2",
     "connect-livereload": "0.6.0",
     "csswring": "6.0.3",
-    "deamdify": "0.3.0",
     "express": "4.16.2",
     "gm": "1.23.1",
     "grunt": "1.0.2",
@@ -90,7 +87,7 @@
     "grunt-parallel": "0.5.1",
     "grunt-postcss": "0.9.0",
     "grunt-release": "0.13.1",
-    "jasmine-core": "3.0.0",
+    "jasmine-core": "3.1.0",
     "jquery-file-upload-middleware": "0.1.8",
     "jshint-stylish": "2.2.1",
     "license-checker": "16.0.0",
