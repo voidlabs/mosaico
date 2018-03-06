@@ -263,6 +263,30 @@ module.exports = function(grunt) {
       dist: ['dist/']
     },
 
+    check_licenses: {
+      main: {
+        exclude: 'MIT, ISC, BSD, Apache-2.0, BSD-3-Clause, BSD-2-Clause, CC0-1.0, Unlicense, Public Domain',
+        whitelist: {
+          /* SELF */
+          'mosaico': 'GPL-3.0', // SELF
+          /* MIT with bad license declarations */
+          'expand-template': 'MIT', // Say "WTFPL" but on github project says "All code, unless stated otherwise, is dual-licensed under WTFPL and MIT."
+          'font-awesome': 'MIT', // (OFL-1.1 AND MIT)
+          'jshint': 'MIT', // (MIT AND JSON)
+          'pako': 'MIT', // (MIT AND Zlib)
+          'xmldom': 'MIT', // MIT or LGPL (https://github.com/jindw/xmldom/blob/master/LICENSE)
+          'spdx-expression-parse': 'MIT', // (MIT AND CC-BY-3.0)
+          'spdx-expression-validate': 'MIT', // (MIT AND CC-BY-3.0)
+          /* Optional runtime dependency */
+          'tinymce': 'LGPL-2.1', // LGPL-2.1, optional runtime dependency
+          /* CC-BY licensed */
+          'caniuse-lite': 'CC-BY-4.0', // Not bundled, used at build time
+          'spdx-exceptions': 'CC-BY-3.0', // Not bundled, used at build time
+          'spdx-ranges': 'CC-BY-3.0', // Not bundled, used at build time
+        }
+      }
+    },
+
     compress: {
       dist: {
         options: {
@@ -296,4 +320,6 @@ module.exports = function(grunt) {
   grunt.registerTask('build', ['googlefonts', 'copy', 'jshint', 'js', 'css']);
   grunt.registerTask('default', ['build', 'server']);
   grunt.registerTask('test', ['jasmine_node']);
+  grunt.registerTask('dist', ['check_licenses', 'build', 'test', 'compress']);
+
 };

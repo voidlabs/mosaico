@@ -93,6 +93,7 @@
     "jasmine-core": "3.0.0",
     "jquery-file-upload-middleware": "0.1.8",
     "jshint-stylish": "2.2.1",
+    "license-checker": "16.0.0",
     "load-grunt-tasks": "3.5.2",
     "lodash": "4.17.5",
     "mockery": "2.1.0",
