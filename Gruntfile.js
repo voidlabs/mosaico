@@ -146,9 +146,9 @@ module.exports = function(grunt) {
     googlefonts: {
       noto: {
         options: {
-          fontPath: './dist/vendor/notoregular/',
-          httpPath: './',
-          cssFile: './dist/vendor/notoregular/stylesheet.css',
+          fontPath: './dist/notoregular/',
+          httpPath: './notoregular/',
+          cssFile: './build/notoregular.css',
           formats: { eot: true, woff: true, svg: false, ttf: true, woff2: false },
           fonts: [
             {
@@ -169,45 +169,6 @@ module.exports = function(grunt) {
         dest: 'dist/'
       },
 
-      tinymce: {
-        expand: true,
-        cwd: 'node_modules/tinymce/',
-        src: ['plugins/**', 'skins/**', 'themes/**', 'tinymce.min.js'],
-        dest: 'dist/vendor/'
-      },
-      
-      knockout: {
-        src: 'node_modules/knockout/build/output/knockout-latest.js',
-        dest: 'dist/vendor/knockout.js'
-      },
-      
-      jquery: {
-        src: 'node_modules/jquery/dist/jquery.min.js',
-        dest: 'dist/vendor/jquery.min.js'
-      },
-      
-      jquerymigrate: {
-        src: 'node_modules/jquery-migrate/dist/jquery-migrate.min.js',
-        dest: 'dist/vendor/jquery-migrate.min.js'
-      },
-      
-      jqueryui: {
-        expand: true,
-        cwd: 'node_modules/jquery-ui-package',
-        src: 'jquery-ui.min.*',
-        dest: 'dist/vendor/'
-      },
-
-      jqueryuitouchpunch: {
-        src: 'node_modules/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js',
-        dest: 'dist/vendor/jquery.ui.touch-punch.min.js'
-      },
-      
-      knockoutjqueryui: {
-        src: 'node_modules/knockout-jqueryui/dist/knockout-jqueryui.js',
-        dest: 'dist/vendor/knockout-jqueryui.js'
-      },
-
       fontawesome: {
         expand: true,
         cwd: 'node_modules/font-awesome/fonts',
@@ -215,23 +176,65 @@ module.exports = function(grunt) {
         dest: 'dist/fa/fonts/'
       },
 
-      blueimpfileupload: {
-        expand: true,
-        cwd: 'node_modules/blueimp-file-upload/js/',
-        src: ['jquery.iframe-transport.js', 'jquery.fileupload.js', 'jquery.fileupload-process.js', 'jquery.fileupload-image.js', 'jquery.fileupload-validate.js'],
-        dest: 'dist/vendor/'
-      },
+    },
 
-      canvastoblob: {
-        src: 'node_modules/blueimp-canvas-to-blob/js/canvas-to-blob.min.js',
-        dest: 'dist/vendor/canvas-to-blob.min.js'
-      },
+    cssmin: {
+      deps: {
+        files: {
+          'dist/<%= pkg.name %>-libs.min.css': [
+            /* 'node_modules/jquery-ui-package/jquery-ui.css', */
+            'build/notoregular.css',
+            /*
+            'res/vendor/skins/gray-flat/skin.min.css',
+            'res/vendor/skins/gray-flat/content.inline.min.css'
+            */
+          ]
+        }
+      }
+    },
 
-      loadimage: {
-        src: 'node_modules/blueimp-load-image/js/load-image.all.min.js',
-        dest: 'dist/vendor/load-image.all.min.js'
-      },
-
+    uglify: {
+      deps: {
+        options: {
+          comments: 'some',
+          banner: '/*! \n'+
+                  ' * Bundle package for the following libraries:\n'+
+                  ' * jQuery | (c) JS Foundation and other contributors | jquery.org/license\n'+
+                  ' * jQuery Migrate v3.0.1 | (c) jQuery Foundation and other contributors | jquery.org/license\n'+
+                  ' * Knockout | (c) The Knockout.js team | License: MIT (http://www.opensource.org/licenses/mit-license.php)\n'+
+                  ' * jQuery UI | Copyright 2015 jQuery Foundation and other contributors; Licensed MIT\n'+
+                  ' * jQuery UI Touch Punch | Copyright 2011-2014, Dave Furfero | Dual licensed under the MIT or GPL Version 2 licenses.\n'+
+                  ' * jQuery File Upload Plugin + dependencies | Copyright 2010, Sebastian Tschan | Licensed under the MIT license: https://opensource.org/licenses/MIT\n'+
+                  ' * knockout-jqueryui | Copyright (c) 2016 Vas Gabor <gvas.munka@gmail.com> Licensed MIT\n'+
+                  ' * TinyMCE + Plugins | Copyright (c) 1999-2017 Ephox Corp. | Released under LGPL License. http://www.tinymce.com/license\n'+
+                  ' */'
+        },
+        files: {
+          'dist/<%= pkg.name %>-libs.min.js': [
+            'node_modules/jquery/dist/jquery.min.js',
+            'node_modules/jquery-migrate/dist/jquery-migrate.min.js',
+            'node_modules/knockout/build/output/knockout-latest.js',
+            'node_modules/jquery-ui-package/jquery-ui.min.js',
+            'node_modules/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js',
+            'node_modules/blueimp-file-upload/js/jquery.iframe-transport.js',
+            'node_modules/blueimp-file-upload/js/jquery.fileupload.js',
+            'node_modules/blueimp-file-upload/js/jquery.fileupload-process.js',
+            'node_modules/blueimp-file-upload/js/jquery.fileupload-image.js',
+            'node_modules/blueimp-file-upload/js/jquery.fileupload-validate.js',
+            'node_modules/blueimp-canvas-to-blob/js/canvas-to-blob.min.js',
+            'node_modules/blueimp-load-image/js/load-image.all.min.js',
+            'node_modules/knockout-jqueryui/dist/knockout-jqueryui.js',
+            'node_modules/tinymce/tinymce.min.js',
+            'node_modules/tinymce/themes/modern/theme.min.js',
+            'node_modules/tinymce/plugins/link/plugin.min.js',
+            'node_modules/tinymce/plugins/hr/plugin.min.js',
+            'node_modules/tinymce/plugins/paste/plugin.min.js',
+            'node_modules/tinymce/plugins/lists/plugin.min.js',
+            'node_modules/tinymce/plugins/textcolor/plugin.min.js',
+            'node_modules/tinymce/plugins/code/plugin.min.js',
+          ],
+        }
+      }
     },
 
     jasmine_node: {
@@ -318,7 +321,8 @@ module.exports = function(grunt) {
   grunt.registerTask('js', ['combineKOTemplates', 'browserify', 'exorcise']);
   grunt.registerTask('css', ['less', 'postcss']);
   grunt.registerTask('server', ['express', 'watch', 'keepalive']);
-  grunt.registerTask('build', ['googlefonts', 'copy', 'jshint', 'js', 'css']);
+  grunt.registerTask('deps', ['copy', 'uglify', 'cssmin']);
+  grunt.registerTask('build', ['googlefonts', 'deps', 'jshint', 'js', 'css']);
   grunt.registerTask('default', ['build', 'server']);
   grunt.registerTask('test', ['jasmine_node']);
   grunt.registerTask('dist', ['check_licenses', 'build', 'test', 'compress']);
