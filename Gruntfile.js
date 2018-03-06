@@ -5,9 +5,11 @@ module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
   grunt.loadTasks('tasks');
 
+  var pkg = grunt.file.readJSON("package.json");
+
   grunt.initConfig({
 
-    pkg: grunt.file.readJSON("package.json"),
+    pkg: pkg,
 
     pkgVersion: "<%= pkg.version %>",
 
@@ -62,11 +64,11 @@ module.exports = function(grunt) {
       },
       dist: {
         src: 'build/mosaico.css',
-        dest: 'dist/mosaico.min.css'
+        dest: 'dist/rs/mosaico.min.css'
       },
       material: {
         src: 'build/mosaico-material.css',
-        dest: 'dist/mosaico-material.min.css'
+        dest: 'dist/rs/mosaico-material.min.css'
       }
     },
 
@@ -96,10 +98,10 @@ module.exports = function(grunt) {
     exorcise: {
       main: {
         options: {
-          bundleDest: 'dist/mosaico.min.js'
+          bundleDest: 'dist/rs/mosaico.min.js'
         },
         files: {
-          'dist/mosaico.min.js.map': ['build/mosaico.js'],
+          'dist/rs/mosaico.min.js.map': ['build/mosaico.js'],
         }
       }
     },
@@ -121,11 +123,15 @@ module.exports = function(grunt) {
         files: ['build/mosaico.js'],
         tasks: ['exorcise']
       },
+      htmls: {
+        files: ['*.html'],
+        tasks: ['copy:htmls']
+      },
       web: {
         options: {
           livereload: true
         },
-        files: ['*.html', 'dist/**/*.js', 'dist/**/*.css'],
+        files: ['dist/*.html', 'dist/**/*.js', 'dist/**/*.css'],
       },
       jshint: {
         files: ['src/js/**/*.js'],
@@ -146,7 +152,7 @@ module.exports = function(grunt) {
     googlefonts: {
       noto: {
         options: {
-          fontPath: './dist/notoregular/',
+          fontPath: './dist/rs/notoregular/',
           httpPath: './notoregular/',
           cssFile: './build/notoregular.css',
           formats: { eot: true, woff: true, svg: false, ttf: true, woff2: false },
@@ -166,14 +172,29 @@ module.exports = function(grunt) {
         expand: true,
         cwd: 'res',
         src: '**',
+        dest: 'dist/rs/'
+      },
+
+      root: {
+        src: 'favicon.ico',
         dest: 'dist/'
+      },
+
+      htmls: {
+        src: '*.html',
+        dest: 'dist/',
+        options: {
+          process: function (content, srcpath) {
+            return content.replace(/__VERSION__/g, pkg.version);
+          },
+        },
       },
 
       fontawesome: {
         expand: true,
         cwd: 'node_modules/font-awesome/fonts',
         src: 'fontawesome-webfont.*',
-        dest: 'dist/fa/fonts/'
+        dest: 'dist/rs/fontawesome/'
       },
 
     },
@@ -181,7 +202,7 @@ module.exports = function(grunt) {
     cssmin: {
       deps: {
         files: {
-          'dist/<%= pkg.name %>-libs.min.css': [
+          'dist/rs/<%= pkg.name %>-libs.min.css': [
             /* 'node_modules/jquery-ui-package/jquery-ui.css', */
             'build/notoregular.css',
             /*
@@ -210,7 +231,7 @@ module.exports = function(grunt) {
                   ' */'
         },
         files: {
-          'dist/<%= pkg.name %>-libs.min.js': [
+          'dist/rs/<%= pkg.name %>-libs.min.js': [
             'node_modules/jquery/dist/jquery.min.js',
             'node_modules/jquery-migrate/dist/jquery-migrate.min.js',
             'node_modules/knockout/build/output/knockout-latest.js',
@@ -296,7 +317,7 @@ module.exports = function(grunt) {
           archive: 'release/<%= pkg.name %>-<%= pkg.version %>-bin.zip'
         },
         files: [
-          { src: ['dist/**', 'templates/versafix-1/**', '*.html', 'README.md', 'NOTICE.txt', 'LICENSE', 'favicon.ico'], dest: '/' },
+          { src: ['dist/**', 'templates/versafix-1/**', 'README.md', 'NOTICE.txt', 'LICENSE'], dest: '/' },
         ]
       }
     },

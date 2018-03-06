@@ -158,7 +158,9 @@ app.post('/dl/', function(req, res) {
 
 var PORT = process.env.PORT || 3000;
 
-app.use(express.static(__dirname + '/../'));
+app.use('/templates', express.static(__dirname + '/../templates'));
+app.use('/uploads', express.static(__dirname + '/../uploads'));
+app.use(express.static(__dirname + '/../dist/'));
 
 var server = app.listen( PORT, function() {
     var check = gm(100, 100, '#000000');

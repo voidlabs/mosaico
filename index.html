@@ -5,11 +5,10 @@
     <title>Free responsive email template editor | Mosaico</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-    <link rel="stylesheet" href="dist/mosaico-material.min.css" />
-    <link rel="stylesheet" href="dist/vendor/notoregular/stylesheet.css" />
+    <link rel="stylesheet" href="rs/mosaico-libs.min.css?v=__VERSION__" />
+    <link rel="stylesheet" href="rs/mosaico-material.min.css?v=__VERSION__" />
 
-    <script src="dist/vendor/knockout.js"></script>
-    <script src="dist/vendor/jquery.min.js"></script>
+    <script src="rs/mosaico-libs.min.js?v=__VERSION__"></script>
     <script>
       var initialEdits = [];
       if (localStorage.getItem('edits')) {
@@ -70,7 +69,7 @@
         var rnd = Math.random().toString(36).substr(2, 7);
         var template = 'templates/'+shorttmplname+'/template-'+shorttmplname+'.html';
         viewModel.edits.unshift({ created: Date.now(), key: rnd, name: shorttmplname, template: template });
-        document.location = 'editor.html#'+rnd;
+        document.location = 'editor.html?__VERSION__#'+rnd;
         // { data: 'AAAA-MM-GG', key: 'ABCDE' }
         // viewModel.edits.push(template);
       };
@@ -156,7 +155,7 @@ a, a:link, a:visited {
   </head>
   <body style="overflow: auto; text-align: center; background-color: #3f3d33; padding: 0; margin: 0; display: none;" data-bind="visible: true">
   <div style="background-color: #d2cbb1; padding: 10px;">
-    <table class="logoWrapper" valign="bottom" align="center"><tr><td valign="bottom"><img class="logoImage" alt="Mosaico" style="display: block;" src="dist/img/mosaicologo.png" /><div class="logoContainer"></div></td></tr></table>
+    <table class="logoWrapper" valign="bottom" align="center"><tr><td valign="bottom"><img class="logoImage" alt="Mosaico" style="display: block;" src="rs/img/mosaicologo.png" /><div class="logoContainer"></div></td></tr></table>
   </div>
     <!-- ko if: edits().length -->
     <div style="overflow-y: auto; max-height: 200px; z-index: 10; position: relative; padding: 1em; background-color: #f1eee6;">
@@ -169,12 +168,12 @@ a, a:link, a:visited {
       </tr></thead>
     <tbody data-bind="foreach: edits">
       <tr>
-        <td align="left"><a href="#" data-bind="attr: { href: 'editor.html#'+key }"><code>#<span data-bind="text: key">key</span></code></a></td>
-        <td style="font-weight: bold" align="left"><a href="#" data-bind="attr: { href: 'editor.html#'+key }"><span data-bind="text: name">versamix</span></a></td>
+        <td align="left"><a href="#" data-bind="attr: { href: 'editor.html?__VERSION__#'+key }"><code>#<span data-bind="text: key">key</span></code></a></td>
+        <td style="font-weight: bold" align="left"><a href="#" data-bind="attr: { href: 'editor.html?__VERSION__#'+key }"><span data-bind="text: name">versamix</span></a></td>
         <td><span data-bind="text: typeof created !== 'undefined' ? $root.dateFormat(created) : '-'">YYYY-MM-DD</span></td>
         <td><span style="font-weight: bold" data-bind="text: typeof changed !== 'undefined' ? $root.dateFormat(changed) : '-'">YYYY-MM-DD</span></td>
         <td>
-        <a class="operationButton" href="#" data-bind="attr: { href: 'editor.html#'+key }" title="edit"><i class="fa fa-pencil"></i></a>
+        <a class="operationButton" href="#" data-bind="attr: { href: 'editor.html?__VERSION__#'+key }" title="edit"><i class="fa fa-pencil"></i></a>
         <!--(<a href="#" data-bind="click: $root.renameEdit.bind(undefined, $index())" title="rinomina"><i class="fa fa-trash-o"></i></a>)-->
         <a class="operationButton" href="#" data-bind="click: $root.deleteEdit.bind(undefined, $index())" title="delete"><i class="fa fa-trash-o"></i></a>
         </td>
@@ -189,7 +188,7 @@ a, a:link, a:visited {
     <div data-bind="foreach: templates">
       <div class="template template-xx" style="" data-bind="attr: { class: 'template template-'+name }">
         <div class="description" style="padding-bottom:5px"><b data-bind="text: name">xx</b>: <span data-bind="text: desc">xx</span></div>
-        <a href="#" data-bind="click: $root.newEdit.bind(undefined, name), attr: { href: 'editor.html#templates/'+name+'/template-'+name+'.html' }">
+        <a href="#" data-bind="click: $root.newEdit.bind(undefined, name), attr: { href: 'editor.html?__VERSION__#templates/'+name+'/template-'+name+'.html' }">
           <img src width="100%" alt="xx" data-bind="attr: { src: 'templates/'+name+'/edres/_full.png' }">
         </a>
       </div>
