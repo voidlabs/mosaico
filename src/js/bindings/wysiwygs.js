@@ -167,6 +167,7 @@ ko.virtualElements.allowedBindings['wysiwygImg'] = true;
 // setting "forced_root_block: false" disable the default behaviour of adding a wrapper <p> when needed and this seems to fix many issues in IE.
 // also, maybe we should use the "raw" only for the "before SetContent" and instead read the "non-raw" content (the raw content sometimes have data- attributes and too many ending <br> in the code)
 ko.bindingHandlers.wysiwyg = {
+  debug: false,
   currentIndex: 0,
   standardOptions: {},
   fullOptions: {
@@ -184,20 +185,25 @@ ko.bindingHandlers.wysiwyg = {
     // TODO ugly, but works...
     ko.bindingHandlers.focusable.init(element);
 
-    ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
-      tinymce.remove('#' + element.getAttribute('id'));
-    });
-
-    var value = valueAccessor();
-
-    if (!ko.isObservable(value)) throw "Wysiwyg binding called with non observable";
-    if (element.nodeType === 8) throw "Wysiwyg binding called on virtual node, ignoring...." + element.innerHTML;
+    // 2018/03/07 investigating on TinyMCE exceptions.
+    var doDebug = ko.bindingHandlers.wysiwyg.debug && typeof console.debug == 'function';
 
     var selectorId = element.getAttribute('id');
     if (!selectorId) {
       selectorId = 'wysiwyg_' + (++ko.bindingHandlers['wysiwyg'].currentIndex);
       element.setAttribute('id', selectorId);
     }
+
+    ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
+      if (doDebug) console.debug("Editor for selector", selectorId, "is being removed...");
+      tinymce.remove('#' + element.getAttribute('id'));
+      if (doDebug) console.debug("Editor for selector", selectorId, "has been removed.");
+    });
+
+    var value = valueAccessor();
+
+    if (!ko.isObservable(value)) throw "Wysiwyg binding called with non observable";
+    if (element.nodeType === 8) throw "Wysiwyg binding called on virtual node, ignoring...." + element.innerHTML;
 
     var fullEditor = element.tagName == 'DIV' || element.tagName == 'TD';
     var isSubscriberChange = false;
@@ -220,7 +226,15 @@ ko.bindingHandlers.wysiwyg = {
       extended_valid_elements: 'strong/b,em/i,*[*]',
       menubar: false,
       skin: 'gray-flat',
+      // 2018-03-07: the force_*_newlines are not effective. force_root_block is the property dealing with newlines, now.
+      // force_br_newlines: !fullEditor, // we force BR as newline when NOT in full editor
+      // force_p_newlines: fullEditor,
+      forced_root_block: fullEditor ? 'p' : '',
+      init_instance_callback : function(editor) {
+        if (doDebug) console.debug("Editor for selector", selectorId, "is now initialized.");
+      },
       setup: function(editor) {
+        if (doDebug) console.debug("Editor for selector", selectorId, "is now in the setup phase.");
         // TODO change sometimes doesn't trigger (we have to document when)
         // listening on keyup would increase correctness but we would need a rateLimit to avoid flooding.
         editor.on('change redo undo', function() {
@@ -238,16 +252,21 @@ ko.bindingHandlers.wysiwyg = {
         // Clicking on the element on focus change allow the "clic" code to be triggered and propagate the selection.
         // Not elegant, maybe we have better options.
         editor.on('focus', function() {
+          if (doDebug) console.debug("Editor for selector", selectorId, "is now being focused...");
           // Used by scrollfix.js (maybe this is not needed by new scrollfix.js)
           editor.nodeChanged();
           editor.getElement().click();
+          if (doDebug) console.debug("Editor for selector", selectorId, "is focused...");
         });
 
         // NOTE: this fixes issue with "leading spaces" in default content that were lost during initialization.
         editor.on('BeforeSetContent', function(args) {
+          if (doDebug) console.debug("Editor for selector", selectorId, " called BeforeSetContent...");
           if (args.initial) args.format = 'raw';
         });
 
+        // 20180307: Newer TinyMCE versions (4.7.x for sure, maybe early versions too) stopped accepting ENTER on single paragraph elements
+        //           We try to use the "force_br_newlines : true," in non full version (see options)
         /* NOTE: disabling "ENTER" in tiny editor, not a good thing but may be needed to work around contenteditable issues
         if (!fullEditor) {
           // se non abbiamo il "full Editor", disabilitiamo l'invio. (vari bug)
@@ -269,7 +288,12 @@ ko.bindingHandlers.wysiwyg = {
     // will start the new editors before disposing the old ones and IDs get temporarily duplicated.
     // using setTimeout the dispose/create order is correct on every browser tested.
     global.setTimeout(function() {
-      tinymce.init(options);
+      if (doDebug) console.debug("Editor for selector", selectorId, "is being inizialized ...");
+      var res = tinymce.init(options);
+      if (doDebug) console.debug("Editor for selector", selectorId, "init has just been called returning", res);
+      res.then(function() {
+        if (doDebug) console.debug("Editor for selector", selectorId, "init promise has resolved.");
+      });
     });
 
     ko.computed(function() {
@@ -287,7 +311,7 @@ ko.bindingHandlers.wysiwyg = {
             ko.utils.setHtml(element, content);
           }
         } catch (e) {
-          console.log("TODO exception setting content to editable element", typeof thisEditor, e);
+          console.warn("Exception setting content to editable element", typeof thisEditor, e);
         }
         isSubscriberChange = false;
       }
