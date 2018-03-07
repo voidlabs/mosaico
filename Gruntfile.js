@@ -220,6 +220,7 @@ module.exports = function(grunt) {
       deps: {
         options: {
           comments: 'some',
+          sourceMap: true,
           banner: '/*! \n'+
                   ' * Bundle package for the following libraries:\n'+
                   ' * jQuery | (c) JS Foundation and other contributors | jquery.org/license\n'+
@@ -234,11 +235,13 @@ module.exports = function(grunt) {
         },
         files: {
           'dist/rs/<%= pkg.name %>-libs.min.js': [
-            'node_modules/jquery/dist/jquery.min.js',
+            'node_modules/jquery/dist/jquery.js',
+            // NOTE: use minimized version because non-min uses console to write migration warnings
             'node_modules/jquery-migrate/dist/jquery-migrate.min.js',
             'node_modules/knockout/build/output/knockout-latest.js',
-            'node_modules/jquery-ui-package/jquery-ui.min.js',
-            'node_modules/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js',
+            'node_modules/jquery-ui-package/jquery-ui.js',
+            'node_modules/jquery-ui-touch-punch/jquery.ui.touch-punch.js',
+            'node_modules/default-passive-events/dist/index.js',
             'node_modules/blueimp-file-upload/js/jquery.iframe-transport.js',
             'node_modules/blueimp-file-upload/js/jquery.fileupload.js',
             'node_modules/blueimp-file-upload/js/jquery.fileupload-process.js',
@@ -247,14 +250,14 @@ module.exports = function(grunt) {
             'node_modules/blueimp-canvas-to-blob/js/canvas-to-blob.min.js',
             'node_modules/blueimp-load-image/js/load-image.all.min.js',
             'node_modules/knockout-jqueryui/dist/knockout-jqueryui.js',
-            'node_modules/tinymce/tinymce.min.js',
-            'node_modules/tinymce/themes/modern/theme.min.js',
-            'node_modules/tinymce/plugins/link/plugin.min.js',
-            'node_modules/tinymce/plugins/hr/plugin.min.js',
-            'node_modules/tinymce/plugins/paste/plugin.min.js',
-            'node_modules/tinymce/plugins/lists/plugin.min.js',
-            'node_modules/tinymce/plugins/textcolor/plugin.min.js',
-            'node_modules/tinymce/plugins/code/plugin.min.js',
+            'node_modules/tinymce/tinymce.js',
+            'node_modules/tinymce/themes/modern/theme.js',
+            'node_modules/tinymce/plugins/link/plugin.js',
+            'node_modules/tinymce/plugins/hr/plugin.js',
+            'node_modules/tinymce/plugins/paste/plugin.js',
+            'node_modules/tinymce/plugins/lists/plugin.js',
+            'node_modules/tinymce/plugins/textcolor/plugin.js',
+            'node_modules/tinymce/plugins/code/plugin.js',
           ],
         }
       }
