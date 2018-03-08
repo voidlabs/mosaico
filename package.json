@@ -26,6 +26,7 @@
     "jquery": "global:jQuery",
     "jquery-ui/ui/widgets/sortable": "global:jQuery.ui.sortable",
     "jquery-ui/ui/widgets/draggable": "global:jQuery.ui.draggable",
+    "jquery-ui/ui/widgets/droppable": "global:jQuery.ui.droppable",
     "jquery-ui/ui/widgets/spinner": "global:jQuery.ui.spinner",
     "jquery-ui/ui/widgets/tabs": "global:jQuery.ui.tabs",
     "knockout": "global:ko",
@@ -54,7 +55,7 @@
     "mensch": "^0.3.3",
     "slick": "1.12.2",
     "tinycolor2": "1.4.1",
-    "tinymce": "^4.7.9",
+    "tinymce": "4.5.8",
     "toastr": "^2.1.4"
   },
   "devDependencies": {
