@@ -9,6 +9,8 @@ var console = require("console");
 var initializeViewmodel = require("./viewmodel.js");
 var templateSystem = require('./bindings/choose-template.js');
 
+if (!$.ui.version.match(/^1\.11\..*$/)) throw "Usupported jQuery UI version detected: "+$.ui.version+" (we only support 1.11.*)";
+
 // call a given method on every plugin implementing it.
 // supports a "reverse" parameter to call the methods from the last one to the first one.
 var pluginsCall = function(plugins, methodName, args, reverse) {
