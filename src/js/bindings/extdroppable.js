@@ -3,7 +3,7 @@
 var $ = require("jquery");
 var ko = require("knockout");
 
-/* knockout droppable, with simplified UMD */
+/* knockout droppable, with simplified UMD. */
 ;(function(factory) {
   factory(ko, $);
 })(function(ko, $) {
@@ -16,14 +16,15 @@ var ko = require("knockout");
     dataGet = ko.utils.domData.get,
     dataSet = ko.utils.domData.set;
 
-  ko.bindingHandlers.droppable = {
+  // 20180308: renamed from droppable to extdroppable to avoid name clash with the newly implemented droppable binding from ko-sortable in version >=1.1.0.
+  ko.bindingHandlers.extdroppable = {
     init: function(element, valueAccessor, allBindingsAccessor, data, context) {
       var $element = $(element),
         value = ko.utils.unwrapObservable(valueAccessor()) || {},
         droppable = {},
         dropActual;
 
-      $.extend(true, droppable, ko.bindingHandlers.droppable);
+      $.extend(true, droppable, ko.bindingHandlers.extdroppable);
       if (value.data) {
         if (value.options && droppable.options) {
           ko.utils.extend(droppable.options, value.options);

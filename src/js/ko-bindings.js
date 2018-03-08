@@ -8,7 +8,7 @@ require("./bindings/colorpicker.js");
 require("./bindings/blocks.js");
 require("./bindings/csstext.js");
 require("./bindings/bind-iframe.js");
-require("./bindings/droppable.js");
+require("./bindings/extdroppable.js");
 require("./bindings/fileupload.js");
 require("./bindings/virtuals.js");
 require("./bindings/wysiwygs.js");
