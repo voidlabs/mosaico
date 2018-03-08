@@ -163,6 +163,16 @@ ko.bindingHandlers.wysiwygImg = {
 };
 ko.virtualElements.allowedBindings['wysiwygImg'] = true;
 
+// A replacement for tinymce fire method, so to catch annoying exceptions, @see wysiwyg binding code in editor setup-
+var _catchingFire = function(event, args) {
+  try {
+    return this.originalFire.apply(this, arguments);
+  } catch (e) {
+    console.warn("Cought tinymce exception while firing editor event", event, e);
+  }
+};
+
+
 // NOTE: there are issues with the "raw" format and trash left around by tinymce workarounds for contenteditable issues.
 // setting "forced_root_block: false" disable the default behaviour of adding a wrapper <p> when needed and this seems to fix many issues in IE.
 // also, maybe we should use the "raw" only for the "before SetContent" and instead read the "non-raw" content (the raw content sometimes have data- attributes and too many ending <br> in the code)
@@ -252,16 +262,13 @@ ko.bindingHandlers.wysiwyg = {
         // Clicking on the element on focus change allow the "clic" code to be triggered and propagate the selection.
         // Not elegant, maybe we have better options.
         editor.on('focus', function() {
-          if (doDebug) console.debug("Editor for selector", selectorId, "is now being focused...");
           // Used by scrollfix.js (maybe this is not needed by new scrollfix.js)
           editor.nodeChanged();
           editor.getElement().click();
-          if (doDebug) console.debug("Editor for selector", selectorId, "is focused...");
         });
 
         // NOTE: this fixes issue with "leading spaces" in default content that were lost during initialization.
         editor.on('BeforeSetContent', function(args) {
-          if (doDebug) console.debug("Editor for selector", selectorId, " called BeforeSetContent...");
           if (args.initial) args.format = 'raw';
         });
 
@@ -275,6 +282,12 @@ ko.bindingHandlers.wysiwyg = {
           });
         }
         */
+
+        // Tinymce doesn't catch exceptions, let's wrap the fire.
+        if (typeof editor.originalFire == 'undefined') {
+          editor.originalFire = editor.fire;
+          editor.fire = _catchingFire;
+        }
 
         thisEditor = editor;
 
@@ -293,6 +306,8 @@ ko.bindingHandlers.wysiwyg = {
       if (doDebug) console.debug("Editor for selector", selectorId, "init has just been called returning", res);
       res.then(function() {
         if (doDebug) console.debug("Editor for selector", selectorId, "init promise has resolved.");
+      }, function(failure) {
+        console.log("Editor for selector", selectorId, "init promise has failed.", failure);
       });
     });
 
