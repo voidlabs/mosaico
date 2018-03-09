@@ -162,6 +162,15 @@ describe('Stylesheet declaration processor', function() {
     // console.log("BBB", blockDefsUpdater.calls);
   });
 
+  it('should parse -ko-blockdefs definitions, even quoted values', function() {
+    var result;
+    var blockDefsUpdater = jasmine.createSpy("blockDefsUpdater");
+    result = processStylesheetRules('@supports -ko-blockdefs { color { label: "esc\'aped" } }', undefined, mockedWithBindingProvider, blockDefsUpdater, undefined, '.', 'template', 'block');
+    expect(blockDefsUpdater).toHaveBeenCalledWith('color', '', { name: 'esc\'aped' });
+    expect(result).toEqual("");
+    // console.log("BBB", blockDefsUpdater.calls);
+  });
+
   it('should raise an error when mixing preview selctor with other declarations', function() {
     var result, exception;
     try {

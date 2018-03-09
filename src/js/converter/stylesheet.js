@@ -32,6 +32,15 @@ var _processStyleSheetRules_processThemes = function (bindingProvider, themeUpda
 };
 */
 
+var _removeOptionalQuotes = function(str) {
+  if ((str[0] == "'" || str[0] == '"') && str[str.length-1] == str[0]) {
+    // unescapeing
+    var res = str.substr(1, str.length-2).replace(/\\([\s\S])/gm, '$1');
+    return res;
+  }
+  return str;
+};
+
 var _processStyleSheetRules_processBlockDef = function(blockDefsUpdater, rules) {
   var properties, namedProps, decls;
   // name, contextName, globalStyle, themeOverride, extend, min, max, widget, options, category, variant, help, blockDescription, version, 
@@ -59,47 +68,19 @@ var _processStyleSheetRules_processBlockDef = function(blockDefsUpdater, rules) 
         properties = '';
         namedProps = {};
 
-/*
-        name = undefined;
-        contextName = undefined;
-        globalStyle = undefined;
-        themeOverride = undefined;
-        extend = undefined;
-        max = undefined;
-        min = undefined;
-        widget = undefined;
-        options = undefined;
-        category = undefined;
-        variant = undefined;
-        help = undefined;
-        blockDescription = undefined;
-        version = undefined;
-        */
         decls = rules[i].declarations;
-        for (var k = 0; k < decls.length; k++) if (decls[k].type == 'property') {
-          if (decls[k].name == 'label') namedProps.name = decls[k].value;
-          else if (decls[k].name == 'context') namedProps.contextName = decls[k].value;
-          else if (decls[k].name == 'properties') properties = decls[k].value;
-          else if (decls[k].name == 'theme') namedProps.globalStyle = '_theme_.' + decls[k].value;
-          else if (decls[k].name == 'themeOverride') namedProps.themeOverride = String(decls[k].value).toLowerCase() == 'true';
-          // else if (decls[k].name == 'extend') extend = decls[k].value;
-
-          // else if (decls[k].name == 'max') max = decls[k].value;
-          // else if (decls[k].name == 'min') min = decls[k].value;
-          // else if (decls[k].name == 'options') options = decls[k].value;
-
-          // else if (decls[k].name == 'widget') widget = decls[k].value;
-          // else if (decls[k].name == 'category') category = decls[k].value;
-          // else if (decls[k].name == 'variant') variant = decls[k].value;
-          // else if (decls[k].name == 'help') help = decls[k].value;
-          // else if (decls[k].name == 'blockDescription') blockDescription = decls[k].value;
-          // else if (decls[k].name == 'version') version = decls[k].value;
-          else {
-            namedProps[decls[k].name] = decls[k].value;
-            // TODO in past we detected unsupported properties, while now we simple push every declaration in a namedProperty.
-            // This make it harder to spot errors in declarations.
-            // console.warn("Unknown property processing @supports -ko-blockdefs ", decls[k], sels);
-          }
+        for (var k = 0, val; k < decls.length; k++) if (decls[k].type == 'property') {
+          val = _removeOptionalQuotes(decls[k].value);
+          if (decls[k].name == 'label') namedProps.name = val;
+          else if (decls[k].name == 'context') namedProps.contextName = val;
+          else if (decls[k].name == 'properties') properties = val;
+          else if (decls[k].name == 'theme') namedProps.globalStyle = '_theme_.' + val;
+          else if (decls[k].name == 'themeOverride') namedProps.themeOverride = String(val).toLowerCase() == 'true';
+          else namedProps[decls[k].name] = val;
+          // NOTE in past we detected unsupported properties, while now we simple push every declaration in a namedProperty.
+          // This make it harder to spot errors in declarations.
+          // Named properties we supported were extend, min, max, options, widget, category, variant, help, blockDescription, version
+          // console.warn("Unknown property processing @supports -ko-blockdefs ", decls[k], sels);
         }
         for (var l = 0; l < sels.length; l++) {
           blockDefsUpdater(sels[l], properties, namedProps);

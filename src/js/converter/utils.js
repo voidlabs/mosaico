@@ -12,7 +12,7 @@ jsep.addBinaryOp("gt", 7);
 jsep.addBinaryOp("gte", 7);
 
 var addSlashes = function(str) {
-  return str.replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
+  return str.replace(/[\\"'\r\n\t\v\f\b]/g, '\\$&').replace(/\u0000/g, '\\0');
 };
 
 var removeStyle = function(style, startPos, endPos, skipRows, startOffset, endOffset, insert) {
