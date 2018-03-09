@@ -34,9 +34,7 @@
     "tinymce": "global:tinymce"
   },
   "dependencies": {
-    "blueimp-canvas-to-blob": "^3.14.0",
     "blueimp-file-upload": "^9.20.0",
-    "blueimp-load-image": "^2.18.0",
     "console-browserify": "^1.1.0",
     "default-passive-events": "^1.0.7",
     "evol-colorpicker": "^3.3.1",
@@ -47,10 +45,10 @@
     "jquery-ui-touch-punch": "^0.2.3",
     "jquery.iframe-transport": "^1.0.0",
     "jsep": "^0.3.3",
-    "juice": "^4.2.2",
+    "juice": "^4.2.3",
     "knockout": "3.4.2",
     "knockout-jqueryui": "2.2.3",
-    "knockout-sortable": "1.1.0",
+    "knockout-sortable": "^1.1.0",
     "ko-reactor": "^1.4.0",
     "mensch": "^0.3.3",
     "slick": "1.12.2",
