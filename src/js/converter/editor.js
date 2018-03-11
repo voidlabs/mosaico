@@ -10,7 +10,7 @@ var _getOptionsObject = function(options) {
   var opts = {};
   for (var i = 0; i < optionsCouples.length; i++) {
     var opt = optionsCouples[i].split('=');
-    opts[opt[0]] = opt.length > 1 ? opt[1] : opt[0];
+    opts[opt[0].trim()] = opt.length > 1 ? opt[1].trim() : opt[0].trim();
   }
   return opts;
 };
