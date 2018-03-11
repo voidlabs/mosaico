@@ -23,6 +23,23 @@ var modelDef = require('../src/js/converter/model.js');
 
 describe('model wrapper and undomanager', function() {
 
+  it('should be able to load previous data and deal with variants', function() {
+
+    var templateDef = JSON.parse("" + fs.readFileSync("spec/data/template-versafix-1.def.json"));
+    var content = main.wrappedResultModel(templateDef);
+
+    var savedModel = JSON.parse("" + fs.readFileSync("spec/data/template-versafix-1.save1.json"));
+    content._wrap(savedModel);
+
+    // loaded correctly?
+    expect(content().mainBlocks().blocks()[2]().titleText()).toEqual("My title");
+
+    // able to switch to another variant
+    expect(content().mainBlocks().blocks()[0]().externalBackgroundVisible()).toEqual(true);
+    content().mainBlocks().blocks()[0]()._nextVariant();
+    expect(content().mainBlocks().blocks()[0]().externalBackgroundVisible()).toEqual(false);
+  });
+
   it('should support undo/redo and full model replacement', function() {
 
     var templateDef = JSON.parse("" + fs.readFileSync("spec/data/template-versafix-1.def.json"));

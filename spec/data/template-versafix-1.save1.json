@@ -1,0 +1,279 @@
+{
+    "type": "template",
+    "customStyle": false,
+    "preheaderVisible": true,
+    "titleText": "TITLE",
+    "preheaderBlock": {
+        "type": "preheaderBlock",
+        "customStyle": false,
+        "id": "ko_preheaderBlock_1",
+        "backgroundColor": null,
+        "preheaderText": "",
+        "linkStyle": {
+            "type": "linkStyle",
+            "face": null,
+            "color": null,
+            "size": null,
+            "decoration": null
+        },
+        "preheaderLinkOption": "[unsubscribe_link]",
+        "longTextStyle": {
+            "type": "longTextStyle",
+            "face": null,
+            "color": null,
+            "size": null,
+            "lineHeight": null,
+            "align": null,
+            "linksColor": null
+        },
+        "unsubscribeText": "Unsubscribe",
+        "webversionText": "View in your browser"
+    },
+    "sponsor": {
+        "type": "sponsor",
+        "visible": true,
+        "src": "http://127.0.0.1:9006/templates/versafix-1/img/sponsor.gif",
+        "url": "",
+        "alt": "sponsor"
+    },
+    "footerBlock": {
+        "type": "footerBlock",
+        "customStyle": false,
+        "longTextStyle": {
+            "type": "longTextStyle",
+            "face": null,
+            "color": null,
+            "size": null,
+            "lineHeight": null,
+            "align": null,
+            "linksColor": null
+        },
+        "id": "ko_footerBlock_2",
+        "backgroundColor": null,
+        "linkStyle": {
+            "type": "linkStyle",
+            "face": null,
+            "color": null,
+            "size": null,
+            "decoration": null
+        },
+        "longText": "<p>Email sent to <a href=\"mailto:[mail]\">[mail]</a></p>",
+        "disiscrivitiText": "Unsubscribe"
+    },
+    "mainBlocks": {
+        "type": "blocks",
+        "blocks": [
+            {
+                "type": "logoBlock",
+                "customStyle": false,
+                "externalBackgroundVisible": true,
+                "image": {
+                    "type": "image",
+                    "src": "",
+                    "url": "",
+                    "alt": ""
+                },
+                "imageWidth": "258",
+                "id": "ko_logoBlock_4",
+                "externalBackgroundColor": null,
+                "externalTextStyle": {
+                    "type": "textStyle",
+                    "face": null,
+                    "color": null,
+                    "size": null,
+                    "align": null
+                },
+                "backgroundColor": null,
+                "longTextStyle": {
+                    "type": "longTextStyle",
+                    "face": null,
+                    "color": null,
+                    "size": null,
+                    "lineHeight": null,
+                    "align": null,
+                    "linksColor": null
+                }
+            },
+            {
+                "type": "bigSocialBlock",
+                "customStyle": false,
+                "bigSocialIconType": "rdbl",
+                "bigSocialIconSize": "48",
+                "fbVisible": true,
+                "fbUrl": "",
+                "twVisible": true,
+                "twUrl": "",
+                "ggVisible": true,
+                "ggUrl": "",
+                "webVisible": false,
+                "webUrl": "",
+                "inVisible": true,
+                "inUrl": "",
+                "piVisible": false,
+                "piUrl": "",
+                "flVisible": false,
+                "flUrl": "",
+                "viVisible": false,
+                "viUrl": "",
+                "instVisible": true,
+                "instUrl": "",
+                "youVisible": true,
+                "youUrl": "",
+                "longTextStyle": {
+                    "type": "longTextStyle",
+                    "face": null,
+                    "color": null,
+                    "size": null,
+                    "lineHeight": null,
+                    "align": null,
+                    "linksColor": null
+                },
+                "longText": null,
+                "id": "ko_bigSocialBlock_7",
+                "externalBackgroundColor": null,
+                "backgroundColor": null
+            },
+            {
+                "type": "sideArticleBlock",
+                "customStyle": false,
+                "backgroundColor": null,
+                "titleVisible": true,
+                "buttonVisible": false,
+                "imageWidth": "166",
+                "imagePos": "left",
+                "titleTextStyle": {
+                    "type": "textStyle",
+                    "face": null,
+                    "color": null,
+                    "size": null,
+                    "align": null
+                },
+                "longTextStyle": {
+                    "type": "longTextStyle",
+                    "face": null,
+                    "color": null,
+                    "size": null,
+                    "lineHeight": null,
+                    "align": null,
+                    "linksColor": null
+                },
+                "buttonStyle": {
+                    "type": "buttonStyle",
+                    "face": null,
+                    "color": null,
+                    "size": null,
+                    "align": null,
+                    "buttonColor": null,
+                    "radius": null
+                },
+                "image": {
+                    "type": "image",
+                    "src": "",
+                    "url": "",
+                    "alt": ""
+                },
+                "longText": "<p>My long paragraph My long paragraph&nbsp;My long paragraph&nbsp;My long paragraph&nbsp;My long paragraph&nbsp;My long paragraph&nbsp;My long paragraph&nbsp;My long paragraph&nbsp;My long paragraph&nbsp;My long paragraph&nbsp;My long paragraph&nbsp;My long paragraph&nbsp;My long paragraph&nbsp;My long paragraph&nbsp;My long paragraph&nbsp;My long paragraph&nbsp;My long paragraph&nbsp;My long paragraph&nbsp;My long paragraph&nbsp;My long paragraph&nbsp;My long paragraph&nbsp;</p>",
+                "buttonLink": {
+                    "type": "link",
+                    "text": "BUTTON",
+                    "url": ""
+                },
+                "id": "ko_sideArticleBlock_3",
+                "externalBackgroundColor": null,
+                "titleText": "My title"
+            }
+        ]
+    },
+    "theme": {
+        "type": "theme",
+        "frameTheme": {
+            "type": "frameTheme",
+            "backgroundColor": "#3f3f3f",
+            "longTextStyle": {
+                "type": "longTextStyle",
+                "face": "Arial, Helvetica, sans-serif",
+                "color": "#919191",
+                "size": "13",
+                "lineHeight": null,
+                "align": "left",
+                "linksColor": "#cccccc"
+            },
+            "linkStyle": {
+                "type": "linkStyle",
+                "face": "Arial, Helvetica, sans-serif",
+                "color": "#ffffff",
+                "size": "13",
+                "decoration": "underline"
+            }
+        },
+        "contentTheme": {
+            "type": "contentTheme",
+            "longTextStyle": {
+                "type": "longTextStyle",
+                "face": "Arial, Helvetica, sans-serif",
+                "color": "#3f3f3f",
+                "size": "13",
+                "lineHeight": "normal",
+                "align": "left",
+                "linksColor": "#3f3f3f"
+            },
+            "externalBackgroundColor": "#bfbfbf",
+            "externalTextStyle": {
+                "type": "textStyle",
+                "face": "Arial, Helvetica, sans-serif",
+                "color": "#f3f3f3",
+                "size": "18",
+                "align": null
+            },
+            "backgroundColor": "#ffffff",
+            "titleTextStyle": {
+                "type": "textStyle",
+                "face": "Arial, Helvetica, sans-serif",
+                "color": "#3f3f3f",
+                "size": "18",
+                "align": "left"
+            },
+            "buttonStyle": {
+                "type": "buttonStyle",
+                "face": "Arial, Helvetica, sans-serif",
+                "color": "#3f3f3f",
+                "size": "13",
+                "align": "left",
+                "buttonColor": "#bfbfbf",
+                "radius": "4"
+            },
+            "bigTitleStyle": {
+                "type": "bigTitleStyle",
+                "face": "Arial, Helvetica, sans-serif",
+                "color": "#3f3f3f",
+                "size": "22",
+                "align": "center"
+            },
+            "hrStyle": {
+                "type": "hrStyle",
+                "color": "#3f3f3f",
+                "hrWidth": "100",
+                "hrHeight": "1"
+            },
+            "bigButtonStyle": {
+                "type": "buttonStyle",
+                "face": "Arial, Helvetica, sans-serif",
+                "color": "#3f3f3f",
+                "size": "22",
+                "align": "center",
+                "buttonColor": "#bfbfbf",
+                "radius": "4"
+            },
+            "shareButtonStyle": {
+                "type": "shareButtonStyle",
+                "face": "Arial, Helvetica, sans-serif",
+                "iconColorType": "black",
+                "color": "#3f3f3f",
+                "size": "13",
+                "align": null,
+                "buttonColor": "#bfbfbf",
+                "radius": "4"
+            }
+        }
+    }
+}

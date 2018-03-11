@@ -22,6 +22,8 @@
       "face": null,
       "color": null,
       "size": null,
+      "lineHeight": null,
+      "align": null,
       "linksColor": null
     },
     "unsubscribeText": "Unsubscribe",
@@ -42,6 +44,8 @@
       "face": null,
       "color": null,
       "size": null,
+      "lineHeight": null,
+      "align": null,
       "linksColor": null
     },
     "id": "",
@@ -70,6 +74,8 @@
         "face": "Arial, Helvetica, sans-serif",
         "color": "#919191",
         "size": "13",
+        "lineHeight": null,
+        "align": "left",
         "linksColor": "#cccccc"
       },
       "linkStyle": {
@@ -87,6 +93,8 @@
         "face": "Arial, Helvetica, sans-serif",
         "color": "#3f3f3f",
         "size": "13",
+        "lineHeight": "normal",
+        "align": "left",
         "linksColor": "#3f3f3f"
       },
       "externalBackgroundColor": "#bfbfbf",
@@ -94,20 +102,23 @@
         "type": "textStyle",
         "face": "Arial, Helvetica, sans-serif",
         "color": "#f3f3f3",
-        "size": "18"
+        "size": "18",
+        "align": null
       },
       "backgroundColor": "#ffffff",
       "titleTextStyle": {
         "type": "textStyle",
         "face": "Arial, Helvetica, sans-serif",
         "color": "#3f3f3f",
-        "size": "18"
+        "size": "18",
+        "align": "left"
       },
       "buttonStyle": {
         "type": "buttonStyle",
         "face": "Arial, Helvetica, sans-serif",
         "color": "#3f3f3f",
         "size": "13",
+        "align": "left",
         "buttonColor": "#bfbfbf",
         "radius": "4"
       },
@@ -129,6 +140,17 @@
         "face": "Arial, Helvetica, sans-serif",
         "color": "#3f3f3f",
         "size": "22",
+        "align": "center",
+        "buttonColor": "#bfbfbf",
+        "radius": "4"
+      },
+      "shareButtonStyle": {
+        "type": "shareButtonStyle",
+        "face": "Arial, Helvetica, sans-serif",
+        "iconColorType": "black",
+        "color": "#3f3f3f",
+        "size": "13",
+        "align": null,
         "buttonColor": "#bfbfbf",
         "radius": "4"
       }
