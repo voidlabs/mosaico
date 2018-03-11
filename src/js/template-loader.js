@@ -42,7 +42,8 @@ ko.utils.domNodeDisposal.addDisposeCallback = function(node, callback) {
     try {
       callback(node);
     } catch (e) {
-      console.warn("Caught unexpected dispose callback exception", e);
+      // this wrapper catches "expected" exceptions
+      if (typeof console.debug == 'function') console.debug("Caught unexpected dispose callback exception", e);
     }
   };
   origDisposeCallback(node, newCallback);
