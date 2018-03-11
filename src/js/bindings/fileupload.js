@@ -192,7 +192,7 @@ ko.bindingHandlers['fileupload'] = {
     // if we leave the title the native control will show us a tooltip we don't want.
     // In WebKit the right way to remove it is leaving a "whitespace".
     // In Gecko we have to set it empty.
-    if (global.webkitURL)
+    if ('WebkitAppearance' in global.document.documentElement.style) // was global.webkitURL but this gave a deprecation warning
       $(element).attr('title', ' ');
     else
       $(element).attr('title', '');
