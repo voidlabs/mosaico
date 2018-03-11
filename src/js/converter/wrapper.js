@@ -47,12 +47,14 @@ function wrap(v) {
   }
 }
 
-var _getOptionsObject = function(options) {
+// TODO the "select widget" uses its own _getOptionsObject to read and parse the "option" string
+//      we should merge the logic.
+var _getOptionsObjectKeys = function(options) {
   var optionsCouples = options.split('|');
-  var opts = {};
+  var opts = [];
   for (var i = 0; i < optionsCouples.length; i++) {
     var opt = optionsCouples[i].split('=');
-    opts[opt[0]] = opt.length > 1 ? opt[1] : opt[0];
+    opts.push(opt[0].trim());
   }
   return opts;
 };
@@ -123,9 +125,8 @@ var _getVariants = function(def) {
     console.error("Unexpected variant declaration", variantProp, def[variantProp]);
     throw "Unexpected variant declaration: cannot find property " + variantProp + " or its _options string and it is not a boolean";
   }
-  // TODO I read the "keys" but this is not 100% correct because they are not garanteed to be sorted as in declaration
   if (typeof def[variantProp]._options == 'string') {
-    variantOptions = Object.keys(_getOptionsObject(def[variantProp]._options));
+    variantOptions = _getOptionsObjectKeys(def[variantProp]._options);
   } else {
     variantOptions = [true, false];
   }
