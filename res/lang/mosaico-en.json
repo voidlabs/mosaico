@@ -55,7 +55,6 @@
     "Drop an image here or click the upload button": "Drop an image here or click the upload button",
     "Drag this image and drop it on any template image placeholder": "Drag this image and drop it on any template image placeholder",
     "Gallery:": "Gallery:",
-    "__current__ of __total__": "__current__ of __total__",
     "Session images": "Session images",
     "Recents": "Recents",
     "Remote gallery": "Remote gallery",
@@ -85,5 +84,6 @@
     "File upload aborted": "File upload aborted",
     "Failed to resize image": "Failed to resize image",
     "Unexpected upload error": "Unexpected upload error",
-    "Unexpected error listing files": "Unexpected error listing files"
+    "Unexpected error listing files": "Unexpected error listing files",
+    "__current__ of __total__": "__current__ of __total__"
 }
