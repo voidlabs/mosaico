@@ -84,5 +84,6 @@
     "File upload aborted": "Postavljanje fajla prekinuto",
     "Failed to resize image": "Izmena dimenzija slike nije uspela",
     "Unexpected upload error": "Neočekivana greška pri postavljanju",
-    "Unexpected error listing files": "Neočekivana greška pri listingu fajlova"
+    "Unexpected error listing files": "Neočekivana greška pri listingu fajlova",
+    "__current__ of __total__": "__current__ од __total__"
 }
