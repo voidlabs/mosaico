@@ -9,5 +9,5 @@ before_install:
 install:
   - npm install
 script:
-  - istanbul cover node_modules/jasmine/bin/jasmine.js
+  - npm test
   - codecov
