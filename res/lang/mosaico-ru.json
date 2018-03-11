@@ -66,7 +66,7 @@
     "Delete block": "Удалить блок",
     "Duplicate block": "Дублировать блок",
     "Switch block variant": "Переключение варианта блока",
-    "Theme Colors,Standard Colors,Web Colors,Theme Colors,Back to Palette,History,No history yet.": "Тематические цвета, Стандартные цвета, Цветовая гамма, Цвет темы, Назад в палитру, История, История еще не существует.",
+    "Theme Colors,Standard Colors,Web Colors,Theme Colors,Back to Palette,History,No history yet.": "Тематические цвета,Стандартные цвета,Цветовая гамма,Цвет темы,Назад в палитру,История,История еще не существует.",
     "Drop here": "Бросьте сюда",
     "Unknown error": "Неизвестная ошибка",
     "Uploaded bytes exceed file size": "Загруженные байты превышают размер файла",
@@ -84,5 +84,6 @@
     "File upload aborted": "Выгрузка файла прервана",
     "Failed to resize image": "Не удалось изменить размер изображения.",
     "Unexpected upload error": "Неожиданная ошибка загрузки",
-    "Unexpected error listing files": "Неожиданная ошибка при просмотре файлов"
+    "Unexpected error listing files": "Неожиданная ошибка при просмотре файлов",
+    "__current__ of __total__": "__current__ из __total__"
 }
