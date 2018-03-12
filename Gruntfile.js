@@ -320,7 +320,7 @@ module.exports = function(grunt) {
     compress: {
       dist: {
         options: {
-          archive: 'release/<%= pkg.name %>-<%= pkg.version %>-bin.zip'
+          archive: 'release/<%= pkg.name %>-<%= pkg.version %>-dist.zip'
         },
         files: [
           { expand: true, cwd: 'dist', src: ['**'], dest: '/' },
