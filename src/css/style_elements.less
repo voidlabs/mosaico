@@ -129,7 +129,7 @@ table {
       background-color: @table-odd-row-background-color;
     }
   }
-  tr.even td {
+  > tr.even > td, > tbody > tr.even > td {
     background-color: @table-even-row-background-color;
     &.active {
       background-color: @table-even-row-background-color;
@@ -221,6 +221,9 @@ ul.links {
 }
 .half-width {
   width: 50% !important;
+}
+.three-quarter-width {
+  width: 75% !important;
 }
 .full-width {
   width: 100% !important;
@@ -469,6 +472,7 @@ ul.popup_links {
  * FORM
  *************************************************************************************************************************/
 
+// WARN: direct selectors are only used by mosaico (no .form-select-wrapper here)
 select, textarea {
   .input-style;
 }
@@ -488,7 +492,7 @@ input:disabled, select:disabled, textarea:disabled {
 .async_loading {
   color: transparent;
   text-align: center;
-  background: url(../../../../misc/others/loading.gif) no-repeat 50% 50% white; // TODO remove me
+  background: url(../../../../misc/others/loading.gif) no-repeat 50% 50% transparent; // TODO remove me
   opacity: .5;
 }
 
