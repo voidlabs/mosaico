@@ -244,6 +244,12 @@
   bottom: 0;
 }
 
+@keyframes opacityAnimation {
+  0%   { opacity: 0.6; }
+  50%  { opacity: 0.3; }
+  100% { opacity: 0.6; }
+}
+
 #main-wysiwyg-area {
   // Prevent images inside A tags to show "hand cursor"
   a[href] {
@@ -252,6 +258,12 @@
   // The ruls above breaks the cursor in tinymce, so fix it:
   a[contenteditable] {
     cursor: text !important;
+  }
+
+  // Prevent clicking and show loading whily tinymce is being initialized
+  .wysiwyg-loading {
+    pointer-events: none;
+    animation: opacityAnimation 2s infinite;
   }
 
   // prevent some contenteditable to collapse

@@ -178,8 +178,12 @@ var _catchingFire = function(event, args) {
 // also, maybe we should use the "raw" only for the "before SetContent" and instead read the "non-raw" content (the raw content sometimes have data- attributes and too many ending <br> in the code)
 ko.bindingHandlers.wysiwyg = {
   debug: false,
+  getContentOptions: { format: 'raw' },
+  useTarget: false,
   currentIndex: 0,
   standardOptions: {},
+  // add this class to the element while initializing the editor
+  initializingClass: 'wysiwyg-loading',
   fullOptions: {
     toolbar1: 'bold italic forecolor backcolor hr styleselect removeformat | link unlink | pastetext code',
     //toolbar1: "bold italic | forecolor backcolor | link unlink | hr | pastetext code", // | newsletter_profile newsletter_optlink newsletter_unsubscribe newsletter_showlink";
@@ -198,10 +202,19 @@ ko.bindingHandlers.wysiwyg = {
     // 2018/03/07 investigating on TinyMCE exceptions.
     var doDebug = ko.bindingHandlers.wysiwyg.debug && typeof console.debug == 'function';
 
-    var selectorId = element.getAttribute('id');
-    if (!selectorId) {
-      selectorId = 'wysiwyg_' + (++ko.bindingHandlers['wysiwyg'].currentIndex);
-      element.setAttribute('id', selectorId);
+    var selectorId;
+    if (ko.bindingHandlers.wysiwyg.useTarget) {
+      selectorId = '@target_' + (++ko.bindingHandlers['wysiwyg'].currentIndex);
+    } else {
+      selectorId = element.getAttribute('id');
+      if (!selectorId) {
+        selectorId = 'wysiwyg_' + (++ko.bindingHandlers['wysiwyg'].currentIndex);
+        element.setAttribute('id', selectorId);
+      }
+    }
+
+    if (ko.bindingHandlers.wysiwyg.initializingClass) {
+      element.classList.add(ko.bindingHandlers.wysiwyg.initializingClass);
     }
 
     ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
@@ -221,7 +234,6 @@ ko.bindingHandlers.wysiwyg = {
     var isEditorChange = false;
 
     var options = {
-      selector: '#' + selectorId,
       inline: true,
       // maybe not needed, but won't hurt.
       hidden_input: false,
@@ -242,6 +254,9 @@ ko.bindingHandlers.wysiwyg = {
       forced_root_block: fullEditor ? 'p' : '',
       init_instance_callback : function(editor) {
         if (doDebug) console.debug("Editor for selector", selectorId, "is now initialized.");
+        if (ko.bindingHandlers.wysiwyg.initializingClass) {
+          element.classList.remove(ko.bindingHandlers.wysiwyg.initializingClass);
+        }
       },
       setup: function(editor) {
         if (doDebug) console.debug("Editor for selector", selectorId, "is now in the setup phase.");
@@ -253,9 +268,12 @@ ko.bindingHandlers.wysiwyg = {
             // we failed with other ways to do this:
             // value($(element).html());
             // value(element.innerHTML);
-            value(editor.getContent({
-              format: 'raw'
-            }));
+            // This used to be 'raw' trying to keep simmetry with the setContent (see BeforeSetContent below)
+            // We moved this to a binding option so that this can be changed. We found that using 'raw' the field is often
+            // not emptied and full of tags used by tinymce as workaround.
+            // In future we'll probably change the default to "non raw", but at this time we keep this as an option
+            // in order to keep backward compatibility.
+            value(editor.getContent(ko.bindingHandlers.wysiwyg.getContentOptions));
             isEditorChange = false;
           }
         });
@@ -293,6 +311,13 @@ ko.bindingHandlers.wysiwyg = {
 
       }
     };
+
+    // we used to use selector but now we also support target (so to not require an ID) as init method.
+    if (ko.bindingHandlers.wysiwyg.useTarget) {
+      options.target = element;
+    } else {
+      options.selector = '#' + selectorId;
+    }
 
     ko.utils.extend(options, ko.bindingHandlers.wysiwyg.standardOptions);
     if (fullEditor) ko.utils.extend(options, ko.bindingHandlers.wysiwyg.fullOptions);
