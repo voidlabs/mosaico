@@ -43,10 +43,12 @@
 @button-text-color: @background-color;
 @button-text-color-disabled: lighten(@button-background-color, 20%);
 @button-background-color: @text-color;
+@button-hover-background-color: darken(@button-background-color, 10%);
 @button-border-color: @button-background-color;
 @button-border-color-split: contrast(difference(@button-border-color, @button-background-color), @button-border-color, @background-color, 5%);
 @button-primary-text-color: @button-text-color;
 @button-primary-background-color: @link-color;
+@button-primary-hover-background-color: darken(@button-primary-background-color, 10%);
 @button-primary-border-color: @button-primary-background-color;
 @input-border-color: @button-border-color;
 @input-focus-border-color: #66AFE9; // TODO
@@ -150,7 +152,5 @@
 @large-border-radius: @standard-border-radius * 1.4;
 @large-button-border-radius: @button-border-radius * 1.4;
 @tabs-border-width: 1px;
-
-@button-hover-background-color: darken(@button-background-color, 10%);
 
 @ui-tabs-panel-padding: 4px;

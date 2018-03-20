@@ -34,7 +34,9 @@
     "tinymce": "global:tinymce"
   },
   "dependencies": {
-    "blueimp-file-upload": "^9.20.0",
+    "blueimp-canvas-to-blob": "3.5.0",
+    "blueimp-load-image": "2.12.2",
+    "blueimp-file-upload": "9.20.0",
     "console-browserify": "^1.1.0",
     "default-passive-events": "^1.0.7",
     "evol-colorpicker": "^3.3.1",

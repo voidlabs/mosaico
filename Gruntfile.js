@@ -243,8 +243,11 @@ module.exports = function(grunt) {
             'node_modules/jquery-ui-touch-punch/jquery.ui.touch-punch.js',
             'node_modules/default-passive-events/dist/index.js',
             // NOTE: include these 2 BEFORE the fileupload libs
-            'node_modules/blueimp-file-upload/node_modules/blueimp-canvas-to-blob/js/canvas-to-blob.js',
-            'node_modules/blueimp-file-upload/node_modules/blueimp-load-image/js/load-image.all.min.js',
+            // using npm5 we can get sub-dependencies from nested paths, but npm3 does flatten them, so let's depend on them explicitly.
+            // 'node_modules/blueimp-file-upload/node_modules/blueimp-canvas-to-blob/js/canvas-to-blob.js',
+            // 'node_modules/blueimp-file-upload/node_modules/blueimp-load-image/js/load-image.all.min.js',
+            'node_modules/blueimp-canvas-to-blob/js/canvas-to-blob.js',
+            'node_modules/blueimp-load-image/js/load-image.all.min.js',
             // 'node_modules/blueimp-file-upload/js/jquery.iframe-transport.js',
             'node_modules/blueimp-file-upload/js/jquery.fileupload.js',
             'node_modules/blueimp-file-upload/js/jquery.fileupload-process.js',

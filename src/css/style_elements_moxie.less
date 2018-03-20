@@ -5,14 +5,15 @@
 /**
  * moxiemanager window
  */
-.moxman-window, .mce-window {
+.moxman-container.moxman-window, .mce-window {
   border: none;
   border-top-left-radius: @large-border-radius;
   border-top-right-radius: @large-border-radius;
   border-color: fade(@shadow-color, 0%);
   box-shadow: 0 2px 20px @shadow-color;
   overflow: hidden;
-  
+}
+.moxman-window, .mce-window {
   .moxman-window-head, .mce-window-head {
     background: none @dialog-title-background-color;
     font-size: 1.1em;
@@ -23,7 +24,7 @@
       color: @text-color;
     }
     button.moxman-close, button.mce-close {
-      color: @background-color;
+      //color: @background-color;
       font-size: 1.6em;
       top: 6px;
       &:hover {
@@ -127,4 +128,39 @@
 
 .mce-menu, .moxman-menu {
   .win();
+}
+
+body.moxman-v2 {
+  .moxman-btn {
+    border: none;
+    background-color: transparent;
+    button {
+      background-color: @button-background-color;
+      color: @button-text-color;
+      border: 1px solid @button-background-color;
+      border-radius: @button-border-radius;
+      i { color: @button-text-color; }
+      .moxman-caret { border-top-color: @button-text-color; }
+    }
+    &.moxman-active button {
+      background-color: @button-hover-background-color;
+    }
+    &.moxman-primary button {
+      color: @button-primary-text-color;
+      background-color: @button-primary-background-color;
+      border: 1px solid @button-primary-background-color;
+      i { color: @button-primary-text-color; }
+      .moxman-caret { border-top-color: @button-primary-text-color; }
+    }
+  }
+  .moxman-combobox {
+    .moxman-textbox {
+      border-top-left-radius: @button-border-radius;
+      border-bottom-left-radius: @button-border-radius;
+    }
+    .moxman-btn button {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
 }

@@ -7,12 +7,13 @@
 @input-margin-bottom: 10px; // 0.7em;
 @input-margin-right: 7px; // .5em
 @input-border-size: 1px;
+@input-base-height: 18px;
 
 .input-button-common() {
   font-size: 1.0em;
   line-height: normal; // Firefox uses a "line-height: normal !important" for input elements, resulting in "1.2". If we use "1.2" on chrome we get bigger text (li has 1.25). Using "normal" works fine on both.
-  min-height: (18px + @input-border-size * 2 + @input-padding-v * 2); // Select size on Firefox is 18px, while another input is 16px, this creates differences fixed by min-height.
-  min-height: (18px + @input-border-size * 2 )@ie8hackprop; // IE8 ignores box-sizing for minheight, so we don't add @input-padding-v
+  min-height: (@input-base-height + @input-border-size * 2 + @input-padding-v * 2); // Select size on Firefox is 18px, while another input is 16px, this creates differences fixed by min-height.
+  min-height: (@input-base-height + @input-border-size * 2 )@ie8hackprop; // IE8 ignores box-sizing for minheight, so we don't add @input-padding-v
   vertical-align: middle;
 }
 
@@ -61,9 +62,9 @@
     color: @button-primary-text-color;
     background-color: @button-primary-background-color;
     border-color: @button-primary-border-color;
-    &:hover {
-      background-color: darken(@button-primary-background-color, 10%);
-      border-color: darken(@button-primary-border-color, 10%);
+    &:hover, &.pressed, &.selected {
+      background-color: @button-primary-hover-background-color;
+//      border-color: darken(@button-primary-border-color, 10%);
     }
   }
   &.big {
