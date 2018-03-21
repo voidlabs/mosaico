@@ -477,6 +477,12 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
     viewModel.selectedImageTab(0);
   };
 
+  // you can ovverride this method if you want to browse images using an external tool
+  // if you call _src(yourSrc) you will set a new source for the image.
+  viewModel.selectImage = function(_src) {
+    viewModel.showGallery(true);
+  };
+
   viewModel.dialog = function(selector, options) {
     $(selector).dialog(options);
   };
