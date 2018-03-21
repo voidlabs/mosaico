@@ -87,10 +87,6 @@
 }
 
 
-#main-edit-area #main-wysiwyg-area:not(.isdragging):not(.isdraggingimg) .editable {
-  .makeSelectable(10px, ~'.selected', 0, ~' .mo-blockselectionhelper');
-}
-
 #main-edit-area .isdragging .sortable-blocks-edit > div:not(.sortable-placeholder) + div:not(.sortable-placeholder):not(.ui-sortable-helper):not(.ui-draggable-dragging):before,
 #main-edit-area .isdragging .sortable-blocks-edit > div:not(.sortable-placeholder):not(.ui-sortable-helper):not(.ui-draggable-dragging):first-child:before,
 #main-edit-area .isdragging .sortable-blocks-edit > div:not(.sortable-placeholder):not(.ui-sortable-helper):not(.ui-draggable-dragging):last-child:after {
@@ -213,9 +209,12 @@
   visibility: visible;
 }
 
-#main-edit-area .midtools .tool {
-  z-index: 20;
-  margin-left: 8px;
+#main-edit-area .midtools {
+  margin-left: 4px;
+  .tool {
+    z-index: 20;
+    margin-left: 4px;
+  }
 }
 
 #main-edit-area .tools {
@@ -266,18 +265,18 @@
     animation: opacityAnimation 2s infinite;
   }
 
-  // prevent some contenteditable to collapse
-  // TODO maybe we should call this on every inline element
-  span, a {
-    &[contenteditable]:empty {
+  // we force inline editable elements to be shown as inline-block in editing
+  // there are many issues with editing inline (non inline-block) elements so 
+  // this is a sensible behaviour
+  span, a, b, i, cite, code, em, label, small, strong, sub, sup, q {
+    &[contenteditable] {
       display: inline-block;
-      min-width: 50px;
     }
   }
-  div, p, td {
-    &[contenteditable] {
-      min-width: 50px;
-    }
+  // Force a minimum width for any contenteditable, to prevent it from collapsing
+  // and becoming "non-selectable" with clicks/touches (we can't expect people to use TAB)
+  [contenteditable] {
+    min-width: 1em;
   }
 
 }
@@ -287,10 +286,32 @@
     outline: none;
   }
 
+  // selectable elements
   #main-wysiwyg-area:not(.isdragging):not(.isdraggingimg) {
+    // blocks
+    .editable {
+      .makeSelectable(10px, ~'.selected', 0, ~' .mo-blockselectionhelper');
+      &:hover {
+        // note that we use the same selector we used in the makeSelectable 4th parameter (defaulting to :after)
+        .mce-content-body:not(.selecteditem):not(:hover):after,
+        .selectable-img:not(.selecteditem):not(:hover) .mo-imgselectionhelper {
+          visibility: visible;
+          z-index: 0;
+          // outline-width: 1px;
+          // outline-style: dashed;
+          border-style: dashed;
+          border-width: 1px;
+          // background-color: currentColor;
+          opacity: 0.3;
+        }
+      }
+    }
+    // texts
     .mce-content-body {
       .makeSelectable(5px, ~'.selecteditem', 1px);
+      cursor: text;
     }
+    // images
     .selectable-img {
       .makeSelectable(5px, ~'.selecteditem', 1px, ~' .mo-imgselectionhelper');
     }
