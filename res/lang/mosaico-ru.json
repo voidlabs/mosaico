@@ -85,5 +85,6 @@
     "Failed to resize image": "Не удалось изменить размер изображения.",
     "Unexpected upload error": "Неожиданная ошибка загрузки",
     "Unexpected error listing files": "Неожиданная ошибка при просмотре файлов",
-    "__current__ of __total__": "__current__ из __total__"
+    "__current__ of __total__": "__current__ из __total__",
+    "Select from gallery": "Выберите из галереи"
 }
