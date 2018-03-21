@@ -277,6 +277,13 @@
   // and becoming "non-selectable" with clicks/touches (we can't expect people to use TAB)
   [contenteditable] {
     min-width: 1em;
+    // In Firefox if you put the caret in a span and then delete char by char you can get to a point where the content is empty.
+    // Even if we force an inline-block, if it is empty it loose its height. So we force a pseudo element as an invisible separator for this specific case.
+    &:empty::before {
+      content: "\2063";
+      display: inline-block;
+      position: relative;
+    }
   }
 
 }
