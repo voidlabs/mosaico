@@ -19,7 +19,6 @@
     "Undo last operation": "Annulla ultima operazione",
     "Redo last operation": "Ripeti operazione annullata",
     "Show image gallery": "Visualizza galleria immagini",
-    "Select from gallery": "Seleziona dalla galleria",
     "Gallery": "Galleria",
     "Preview": "Anteprima",
     "Show live preview": "Mostra anteprima live",
@@ -86,5 +85,6 @@
     "Failed to resize image": "Impossibile ridimensionare l'immagine",
     "Unexpected upload error": "Errore inaspettato durante il caricamento",
     "Unexpected error listing files": "Errore inaspettato caricando la lista dei file",
-    "__current__ of __total__": "__current__ di __total__"
+    "__current__ of __total__": "__current__ di __total__",
+    "Select from gallery": "Seleziona dalla galleria"
 }
