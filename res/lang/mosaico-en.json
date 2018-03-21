@@ -19,7 +19,6 @@
     "Undo last operation": "Undo last operation",
     "Redo last operation": "Redo last operation",
     "Show image gallery": "Show image gallery",
-    "Select from gallery": "Select from gallery",
     "Gallery": "Gallery",
     "Preview": "Preview",
     "Show live preview": "Show live preview",
@@ -86,5 +85,6 @@
     "Failed to resize image": "Failed to resize image",
     "Unexpected upload error": "Unexpected upload error",
     "Unexpected error listing files": "Unexpected error listing files",
-    "__current__ of __total__": "__current__ of __total__"
+    "__current__ of __total__": "__current__ of __total__",
+    "Select from gallery": "Select from gallery"
 }
