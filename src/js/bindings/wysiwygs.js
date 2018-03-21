@@ -227,15 +227,6 @@ ko.bindingHandlers.wysiwyg = {
       if (doDebug) console.debug("Editor for selector", selectorId, "has been removed.");
     });
 
-    // Warn about editing inline elements. Please note that we force wellknown HTML inline element to display as inline-block 
-    // in our default style, so this should not happen unless you use unknown elements or you force the display: inline.
-    if (typeof console.debug == 'function') {
-      var elementStyle = element.currentStyle ? element.currentStyle.display : global.getComputedStyle(element, null).display;
-      if (elementStyle == 'inline') {
-        console.debug("Initializing an editor on an inline element: please note that while it may work, this is unsupported because of a multitude of browser issues", element, selectorId);
-      }
-    }
-
     var value = valueAccessor();
 
     if (!ko.isObservable(value)) throw "Wysiwyg binding called with non observable";
@@ -270,6 +261,17 @@ ko.bindingHandlers.wysiwyg = {
         if (ko.bindingHandlers.wysiwyg.initializingClass) {
           element.classList.remove(ko.bindingHandlers.wysiwyg.initializingClass);
         }
+
+        // Warn about editing inline elements. Please note that we force wellknown HTML inline element to display as inline-block 
+        // in our default style, so this should not happen unless you use unknown elements or you force the display: inline.
+        // NOTE: we do this in a setTimeout to let the browser apply the CSS styles to the elements!
+        if (typeof console.debug == 'function') {
+          var elementStyle = element.currentStyle ? element.currentStyle.display : global.getComputedStyle(element, null).display;
+          if (elementStyle == 'inline') {
+            console.debug("Initializing an editor on an inline element: please note that while it may work, this is unsupported because of a multitude of browser issues", element.tagName, elementStyle, selectorId);
+          }
+        }
+
       },
       setup: function(editor) {
         if (doDebug) console.debug("Editor for selector", selectorId, "is now in the setup phase.");
