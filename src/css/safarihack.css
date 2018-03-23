@@ -25,10 +25,6 @@ want to tarket webkit (Safari) and not blink (Chrome).
 @media screen and (min-color-index:0) and(-webkit-min-device-pixel-ratio:0) { @media  {
   #main-edit-area #main-wysiwyg-area:not(.isdragging):not(.isdraggingimg) .editable:hover .mce-content-body:not(.selecteditem):not(:hover):after,
   #main-edit-area #main-wysiwyg-area:not(.isdragging):not(.isdraggingimg) .editable:hover .selectable-img:not(.selecteditem):not(:hover) .mo-imgselectionhelper {
-  	visibility: hidden !important;
-  	z-index: -1 !important;
   	opacity: 1 !important;
-  	border-width: 0px 0px !important;
-    border-style: solid solid !important;
   }
 }}

@@ -130,23 +130,17 @@
 
   &@{borderElementSelector} {
     content: "";
-    // display: none;
-    visibility: hidden;
+    display: block;
     position: absolute;
     z-index: -1;
     top: -3px; bottom: -3px;
-    // animation: border-color-selection-pulsate 4s infinite;
     left: -2px - @size;
     right: -2px - @size;
-    border-width: 0px 0px;
-    border-style: solid solid;
-    border-color: @mosaico-outline-color;
-    outline-color: @mosaico-outline-color;
+    border: 1px solid transparent;
+    outline: 1px solid transparent;
   }
   &@{selectedSelector}@{borderElementSelector} {
-    display: block;
-    visibility: visible;
-
+    outline-color: transparent;
     border: @selectedSize dashed @mosaico-selection-color;
     border-left-width: @size;
     border-right-width: @size;
@@ -154,23 +148,14 @@
     animation: border-color-selection-pulsate 4s infinite;
   }
   &:hover@{borderElementSelector} {
-    display: block;
-    visibility: visible;
-    outline-width: 1px;
-    outline-style: solid;
+    outline-color: @mosaico-outline-color;
     border-top-width: 0;
     border-bottom-width: 0;
-  }
-
-  &:hover,
-  &@{selectedSelector} {
-    position: relative;
   }
 
   &@{selectedSelector} {
     z-index: 10;
   }
-
   &:hover {
     z-index: 11;
   }

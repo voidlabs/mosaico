@@ -298,20 +298,19 @@
     // blocks
     .editable {
       .makeSelectable(10px, ~'.selected', 0, ~' .mo-blockselectionhelper');
+
       &:hover {
         // note that we use the same selector we used in the makeSelectable 4th parameter (defaulting to :after)
         .mce-content-body:not(.selecteditem):not(:hover):after,
         .selectable-img:not(.selecteditem):not(:hover) .mo-imgselectionhelper {
-          visibility: visible;
-          z-index: 0;
-          // outline-width: 1px;
-          // outline-style: dashed;
           border-style: dashed;
-          border-width: 1px;
-          // background-color: currentColor;
+          border-color: @mosaico-outline-color;
           opacity: 0.3;
+          // background-color: red;
+          z-index: 0;
         }
       }
+
     }
     // texts
     .mce-content-body {
