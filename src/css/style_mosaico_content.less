@@ -66,11 +66,23 @@
 }
 
 #main-edit-area .img-wysiwyg {
-  position: relative;
-  /* questo dovrebbe avere lo stesso stile dell'immagine rimpiazzata! */
+  // position: relative;
+  /* This should emulate the stlye of the replaced image... */
   /* display: inline-block; */
-  display: block;
+  // Using block won't work, either.. see the versafix image+article block where the image is smaller
+  /* display: block; */
   width: auto;
+
+  .mo-preloading {
+    animation: opacityAnimation 2s infinite;
+  }
+
+  // declaring block in order to correctly resize image placeholder while preloading
+  // related to the width: auto in the parent img-wysiwyg.
+  td.uploadzone {
+   overflow: hidden;
+   display: block;
+  }
 }
 #main-edit-area .isdraggingimg .ui-droppable.img-wysiwyg {
   &:before {
