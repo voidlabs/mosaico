@@ -169,7 +169,7 @@
   z-index: 30; 
   position: absolute; 
   bottom: 16px;
-  width: 100%;
+  // width: 100%;
   text-align: left;
 }
 #main-edit-area .img-wysiwyg:hover .midtools {
@@ -288,6 +288,30 @@
 
 }
 
+.makeEditableHover(@size, @editableSelector, @borderElementSelector: ~':before') {
+  @{editableSelector}@{borderElementSelector} {
+    content: "";
+    display: block;
+    position: absolute;
+    // z-index: 0;
+    top: -3px; bottom: -3px;
+    left: -7px; right: -7px;
+    border: 1px dashed transparent;
+    opacity: 0.3;
+
+    // otherwise this catches clicks and prevent correct selection of underlying text
+    pointer-events: none;
+  }
+
+  &:hover @{editableSelector}@{borderElementSelector} {
+    border-color: @mosaico-outline-color;
+  }
+
+  &:hover @{editableSelector}:hover@{borderElementSelector} {
+    border-color: transparent;
+  }
+}
+
 #main-edit-area {
   .mce-edit-focus {
     outline: none;
@@ -299,17 +323,8 @@
     .editable {
       .makeSelectable(10px, ~'.selected', 0, ~' .mo-blockselectionhelper');
 
-      &:hover {
-        // note that we use the same selector we used in the makeSelectable 4th parameter (defaulting to :after)
-        .mce-content-body:not(.selecteditem):not(:hover):after,
-        .selectable-img:not(.selecteditem):not(:hover) .mo-imgselectionhelper {
-          border-style: dashed;
-          border-color: @mosaico-outline-color;
-          opacity: 0.3;
-          // background-color: red;
-          z-index: 0;
-        }
-      }
+      .makeEditableHover(10px, ~'.mce-content-body');
+      .makeEditableHover(10px, ~'.selectable-img', ~' .mo-imgselectionhelper:before');
 
     }
     // texts
@@ -319,7 +334,7 @@
     }
     // images
     .selectable-img {
-      .makeSelectable(5px, ~'.selecteditem', 1px, ~' .mo-imgselectionhelper');
+      .makeSelectable(5px, ~'.selecteditem', 1px, ~' .mo-imgselectionhelper:after');
     }
   }
 

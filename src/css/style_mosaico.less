@@ -125,6 +125,7 @@
   pointer-events: none;
 }
 
+// Note that we avoid altering border/outline widths/opacity on hover/selection because of Webkit bugs (see safarihacks.css)
 .makeSelectable(@size: 10px, @selectedSelector: ~'.selected', @selectedSize: 1px, @borderElementSelector: ~':after') {
   position: relative;
 
@@ -132,25 +133,38 @@
     content: "";
     display: block;
     position: absolute;
-    z-index: -1;
+    // z-index: 0;
     top: -3px; bottom: -3px;
     left: -2px - @size;
     right: -2px - @size;
+
+    // Use border for selection
     border: 1px solid transparent;
+    border-width: @selectedSize;
+    border-left-width: @size;
+    border-right-width: @size;
+
+    // Use outline for hover effects
     outline: 1px solid transparent;
+    // outline-offset: -1px;
+
+    // otherwise this catches clicks and prevent correct selection of underlying text
+    pointer-events: none;
   }
   &@{selectedSelector}@{borderElementSelector} {
     outline-color: transparent;
-    border: @selectedSize dashed @mosaico-selection-color;
-    border-left-width: @size;
-    border-right-width: @size;
+    // border: @selectedSize dashed @mosaico-selection-color;
+    // border-left-width: @size;
+    // border-right-width: @size;
+    border-color: @mosaico-selection-color;
     border-style: dashed solid;
     animation: border-color-selection-pulsate 4s infinite;
   }
   &:hover@{borderElementSelector} {
     outline-color: @mosaico-outline-color;
-    border-top-width: 0;
-    border-bottom-width: 0;
+    border-top-color: transparent !important;
+    border-bottom-color: transparent !important;
+    animation: none;
   }
 
   &@{selectedSelector} {
