@@ -125,56 +125,79 @@
   pointer-events: none;
 }
 
+// Note that we avoid altering border/outline widths/opacity on hover/selection because of Webkit bugs (see safarihacks.css)
 .makeSelectable(@size: 10px, @selectedSelector: ~'.selected', @selectedSize: 1px, @borderElementSelector: ~':after') {
   position: relative;
 
   &@{borderElementSelector} {
     content: "";
-    // display: none;
-    visibility: hidden;
+    display: block;
     position: absolute;
-    z-index: -1;
+    // z-index: 0;
     top: -3px; bottom: -3px;
-    // animation: border-color-selection-pulsate 4s infinite;
     left: -2px - @size;
     right: -2px - @size;
-    border-width: 0px 0px;
-    border-style: solid solid;
-    border-color: @mosaico-outline-color;
-    outline-color: @mosaico-outline-color;
-  }
-  &@{selectedSelector}@{borderElementSelector} {
-    display: block;
-    visibility: visible;
 
-    border: @selectedSize dashed @mosaico-selection-color;
+    // Use border for selection
+    border: 1px solid transparent;
+    border-width: @selectedSize;
     border-left-width: @size;
     border-right-width: @size;
+
+    // Use outline for hover effects
+    outline: 1px solid transparent;
+    // outline-offset: -1px;
+
+    // otherwise this catches clicks and prevent correct selection of underlying text
+    pointer-events: none;
+  }
+  &@{selectedSelector}@{borderElementSelector} {
+    outline-color: transparent;
+    // border: @selectedSize dashed @mosaico-selection-color;
+    // border-left-width: @size;
+    // border-right-width: @size;
+    border-color: @mosaico-selection-color;
     border-style: dashed solid;
     animation: border-color-selection-pulsate 4s infinite;
   }
   &:hover@{borderElementSelector} {
-    display: block;
-    visibility: visible;
-    outline-width: 1px;
-    outline-style: solid;
-    border-top-width: 0;
-    border-bottom-width: 0;
-  }
-
-  &:hover,
-  &@{selectedSelector} {
-    position: relative;
+    outline-color: @mosaico-outline-color;
+    border-top-color: transparent !important;
+    border-bottom-color: transparent !important;
+    animation: none;
   }
 
   &@{selectedSelector} {
     z-index: 10;
   }
-
   &:hover {
     z-index: 11;
   }
 
+}
+
+.makeEditableHover(@size, @editableSelector, @borderElementSelector: ~':before') {
+  @{editableSelector}@{borderElementSelector} {
+    content: "";
+    display: block;
+    position: absolute;
+    // z-index: 0;
+    top: -3px; bottom: -3px;
+    left: -7px; right: -7px;
+    border: 1px dashed transparent;
+    opacity: 0.3;
+
+    // otherwise this catches clicks and prevent correct selection of underlying text
+    pointer-events: none;
+  }
+
+  &:hover @{editableSelector}@{borderElementSelector} {
+    border-color: @mosaico-outline-color;
+  }
+
+  &:hover @{editableSelector}:hover@{borderElementSelector} {
+    border-color: transparent;
+  }
 }
 
 .resetFont() {

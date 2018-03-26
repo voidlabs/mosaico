@@ -19,16 +19,7 @@ So we broadened the application of this hack to include Chrome.
 After enabling the dashed outlines for editable contents we had reports from webkit based
 browsers (Safari) users of flickering similar to the previous issues.
   See: https://github.com/voidlabs/mosaico/issues/430
-Please note there is no space between "and" and the following bracket because we only
-want to tarket webkit (Safari) and not blink (Chrome).
+Then we separated semi-transparent hover effect from the selection effect into before/after so
+that we never have to change the opacity or the border size dynamically and this seems to make Safari
+happier.
 */
-@media screen and (min-color-index:0) and(-webkit-min-device-pixel-ratio:0) { @media  {
-  #main-edit-area #main-wysiwyg-area:not(.isdragging):not(.isdraggingimg) .editable:hover .mce-content-body:not(.selecteditem):not(:hover):after,
-  #main-edit-area #main-wysiwyg-area:not(.isdragging):not(.isdraggingimg) .editable:hover .selectable-img:not(.selecteditem):not(:hover) .mo-imgselectionhelper {
-  	visibility: hidden !important;
-  	z-index: -1 !important;
-  	opacity: 1 !important;
-  	border-width: 0px 0px !important;
-    border-style: solid solid !important;
-  }
-}}

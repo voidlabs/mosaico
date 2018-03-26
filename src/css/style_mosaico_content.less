@@ -169,7 +169,7 @@
   z-index: 30; 
   position: absolute; 
   bottom: 16px;
-  width: 100%;
+  // width: 100%;
   text-align: left;
 }
 #main-edit-area .img-wysiwyg:hover .midtools {
@@ -212,7 +212,7 @@
 #main-edit-area .midtools {
   margin-left: 4px;
   .tool {
-    z-index: 20;
+    // z-index: 20;
     margin-left: 4px;
   }
 }
@@ -298,29 +298,19 @@
     // blocks
     .editable {
       .makeSelectable(10px, ~'.selected', 0, ~' .mo-blockselectionhelper');
-      &:hover {
-        // note that we use the same selector we used in the makeSelectable 4th parameter (defaulting to :after)
-        .mce-content-body:not(.selecteditem):not(:hover):after,
-        .selectable-img:not(.selecteditem):not(:hover) .mo-imgselectionhelper {
-          visibility: visible;
-          z-index: 0;
-          // outline-width: 1px;
-          // outline-style: dashed;
-          border-style: dashed;
-          border-width: 1px;
-          // background-color: currentColor;
-          opacity: 0.3;
-        }
-      }
+
+      .makeEditableHover(10px, ~'.mce-content-body');
+      .makeEditableHover(10px, ~'.selectable-img', ~' .mo-imgselectionhelper:before');
+
     }
     // texts
     .mce-content-body {
-      .makeSelectable(5px, ~'.selecteditem', 1px);
+      .makeSelectable(5px, ~'.selecteditem', 0);
       cursor: text;
     }
     // images
     .selectable-img {
-      .makeSelectable(5px, ~'.selecteditem', 1px, ~' .mo-imgselectionhelper');
+      .makeSelectable(5px, ~'.selecteditem', 0, ~' .mo-imgselectionhelper:after');
     }
   }
 
