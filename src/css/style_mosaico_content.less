@@ -212,7 +212,7 @@
 #main-edit-area .midtools {
   margin-left: 4px;
   .tool {
-    z-index: 20;
+    // z-index: 20;
     margin-left: 4px;
   }
 }
@@ -329,12 +329,12 @@
     }
     // texts
     .mce-content-body {
-      .makeSelectable(5px, ~'.selecteditem', 1px);
+      .makeSelectable(5px, ~'.selecteditem', 0);
       cursor: text;
     }
     // images
     .selectable-img {
-      .makeSelectable(5px, ~'.selecteditem', 1px, ~' .mo-imgselectionhelper:after');
+      .makeSelectable(5px, ~'.selecteditem', 0, ~' .mo-imgselectionhelper:after');
     }
   }
 
