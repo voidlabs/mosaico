@@ -403,7 +403,9 @@ var translateTemplate = function(templateName, html, templateUrlConverter, templ
   var replacedHtml = conditional_replace(html.replace(/(<[^>]+\s)(style|http-equiv)(="[^"]*"[^>]*>)/gi, function(match, p1, p2, p3) {
     return p1 + 'replaced' + p2 + p3;
   }));
-  var content = $(replacedHtml);
+  // Use parseHTML to avoid placing the dom in the docuemnt and prevent resources from being downloaded beforehand
+  // This only works correctly when using jquery3 because previous versions of jQuery will not create a new document when passed a "context = false" argument.
+  var content = typeof $.parseHTML == 'function' ? $($.parseHTML(replacedHtml, false)) : $(replacedHtml);
   var element = content[0];
 
   var blocks = []; // {rootName, blockName, containerName}
