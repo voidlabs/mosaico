@@ -74,7 +74,11 @@ ko.bindingHandlers['fileupload'] = {
     // if we leave the title the native control will show us a tooltip we don't want.
     // In WebKit the right way to remove it is leaving a "whitespace".
     // In Gecko we have to set it empty.
-    if ('WebkitAppearance' in global.document.documentElement.style) // was global.webkitURL but this gave a deprecation warning
+    // 2018/03/26 WebkitAppearance matches also safari and Edge, but they wants the empty string!
+    // webkitNbspMode is not defined in Chrome
+    // StyleMedia is defined only in IE/Edge
+    // we tried "window.chrome.webstore" but Opera blink based doesn't have this property but still wants the Chrome workaround
+    if (('WebkitAppearance' in global.document.documentElement.style) && !('webkitNbspMode' in global.document.documentElement.style) && !('StyleMedia' in global)) // was global.webkitURL but this gave a deprecation warning
       $(element).attr('title', ' ');
     else
       $(element).attr('title', '');
