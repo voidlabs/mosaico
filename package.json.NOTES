@@ -1,0 +1,3 @@
+tinymce is "locked" to 4.5.8 because of major issues with the newer releases (still broken in4.8.0)
+grunt-release is "locked" to 0.13.1 because 0.14.0 is broken and no new releases have been made since that.
+grunt-contrib-compress is locked to 1.3.0 because 1.4.3 introduce iltorb dependency (even if optional) and makes the build instable.
