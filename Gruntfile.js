@@ -204,7 +204,7 @@ module.exports = function(grunt) {
     cssmin: {
       deps: {
         files: {
-          'dist/rs/<%= pkg.name %>-libs.min.css': [
+          'dist/rs/<%= pkg.name %>-libs-and-tinymce.min.css': [
             /* 'node_modules/jquery-ui-package/jquery-ui.css', */
             'build/notoregular.css',
             /*
@@ -233,8 +233,9 @@ module.exports = function(grunt) {
                   ' * TinyMCE + Plugins | Copyright (c) 1999-2017 Ephox Corp. | Released under LGPL License. http://www.tinymce.com/license\n'+
                   ' */'
         },
+        /* This is named "*and-tinymce.min.js" by purpose otherwise Tinymce on IE11 is unable to find its own skin */
         files: {
-          'dist/rs/<%= pkg.name %>-libs.min.js': [
+          'dist/rs/<%= pkg.name %>-libs-and-tinymce.min.js': [
             'node_modules/jquery/dist/jquery.js',
             // NOTE: use minimized version because non-min uses console to write migration warnings
             'node_modules/jquery-migrate/dist/jquery-migrate.min.js',
