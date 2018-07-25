@@ -1,6 +1,6 @@
 {
   "name": "mosaico",
-  "version": "0.17.3",
+  "version": "0.17.4",
   "description": "Mosaico - OpenSource Email Template Editor",
   "main": "./src/js/app.js",
   "repository": {
@@ -69,7 +69,7 @@
     "browserify-versionify": "^1.0.6",
     "cheerio": "1.0.0-rc.2",
     "connect-livereload": "0.6.0",
-    "csswring": "7.0.0",
+    "csswring": "6.0.3",
     "express": "4.16.3",
     "gm": "1.23.1",
     "grunt": "1.0.3",

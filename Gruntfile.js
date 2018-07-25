@@ -317,6 +317,7 @@ module.exports = function(grunt) {
           'caniuse-lite': 'CC-BY-4.0', // Not bundled, used at build time
           'spdx-exceptions': 'CC-BY-3.0', // Not bundled, used at build time
           'spdx-ranges': 'CC-BY-3.0', // Not bundled, used at build time
+          'node-releases': 'CC-BY-4.0', // Not bundled, used at build time
         }
       }
     },
