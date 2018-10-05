@@ -25,6 +25,7 @@ Thanks to translators:
 - sv (Swedish): P-H Westman
 - sr_RS (Serbian): Đorđe Kolaković
 - ru (Russian): Andrey ANM
+- tr (Turkish): Andriya Uçar
 
 Sign-up to POEditor if you want to collaborate or suggest changes to the current languages, or provide PR for full new complete languages.
 
