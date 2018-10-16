@@ -36,7 +36,7 @@
   "dependencies": {
     "blueimp-canvas-to-blob": "3.14.0",
     "blueimp-load-image": "2.19.0",
-    "blueimp-file-upload": "9.22.0",
+    "blueimp-file-upload": "9.22.1",
     "console-browserify": "^1.1.0",
     "default-passive-events": "^1.0.7",
     "evol-colorpicker": "^3.3.1",
