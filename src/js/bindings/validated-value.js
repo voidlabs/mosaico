@@ -12,11 +12,13 @@ ko.bindingHandlers['validatedValue'] = {
 			var computed = ko.computed({
 				read: function() {
 					var res = ko.utils.unwrapObservable(valueAccessor());
+
 					// TODO support for element.required ?
 					var valid = res === null || res === '' || re.test(res);
 					// IE11 doesn't support classList.toggle('invalid', state)
 					if (valid) {
 						element.classList.remove('invalid');
+
 					} else {
 						element.classList.add('invalid');
 					}
@@ -24,6 +26,13 @@ ko.bindingHandlers['validatedValue'] = {
 				},
 				write: ko.isWriteableObservable(valueAccessor()) && function(value) {
 					// @see https://github.com/voidlabs/mosaico/issues/103
+					var protocol = "http://";
+					var secProtocol = "https://";
+					if( (value.search(protocol)) == -1 && (value.search(secProtocol)) == -1 ) {
+						value = "http://" + value;
+					} else {
+							console.log("Its good");
+					}
 					ko.selectExtensions.writeValue(element, value);
 					var updValue = ko.selectExtensions.readValue(element);
 					valueAccessor()(updValue);
