@@ -28,8 +28,10 @@ ko.bindingHandlers['validatedValue'] = {
 					// @see https://github.com/voidlabs/mosaico/issues/103
 					var protocol = "http://";
 					var secProtocol = "https://";
-					if( (value.search(protocol)) == -1 && (value.search(secProtocol)) == -1 ) {
-						value = "http://" + value;
+					if( value.charAt(0) !== "#" ) {
+						if( (value.search(protocol)) == -1 && (value.search(secProtocol)) == -1 ) {
+							value = "http://" + value;
+						}
 					} else {
 							console.log("Its good");
 					}
