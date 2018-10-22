@@ -1,5 +1,6 @@
 /bower_components
-/node_modules
+/node_modules/**
+!node_modules/tinymce
 /uploads/**
 !uploads/README.md
 .tmp/**

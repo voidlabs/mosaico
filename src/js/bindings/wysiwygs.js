@@ -306,8 +306,8 @@ ko.bindingHandlers.wysiwyg = {
                 // in order to keep backward compatibility.
                 value(editor.getContent(ko.bindingHandlers.wysiwyg.getContentOptions));
               } else {
-                JSAlert.alert("Please Delete the iFrame");
-                throw "iFrame  is not included!";
+                JSAlert.alert("iFrames Elements Cannot be Embeded Into Mosaico!");
+                throw "iFrame is not included!";
 
               }
             } catch (e) {
@@ -346,7 +346,15 @@ ko.bindingHandlers.wysiwyg = {
 
         // NOTE: this fixes issue with "leading spaces" in default content that were lost during initialization.
         editor.on('BeforeSetContent', function(args) {
-          if (args.initial) args.format = 'raw';
+          var code = editor.getContent().toString();
+          if(code.search("<iframe") == -1) {
+              if (args.initial) args.format = 'raw';
+          }
+          else {
+            console.log("CANT");
+
+          }
+
         });
 
         // 20180307: Newer TinyMCE versions (4.7.x for sure, maybe early versions too) stopped accepting ENTER on single paragraph elements
@@ -359,14 +367,14 @@ ko.bindingHandlers.wysiwyg = {
           });
         }
         */
-        if (!fullEditor) {
-          // if we are not in "full" Editor, we disable the enter. (misc bugs)
-          editor.on('keydown', function(e) {
-            if (e.keyCode == 13) {
-               console.log("enterd");
-              e.preventDefault(); }
-          });
-        }
+        // if (!fullEditor) {
+        //   // if we are not in "full" Editor, we disable the enter. (misc bugs)
+        //   editor.on('keydown', function(e) {
+        //     if (e.keyCode == 13) {
+        //        console.log("enterd");
+        //       e.preventDefault(); }
+        //   });
+        // }
 
         // Tinymce doesn't catch exceptions, let's wrap the fire.
         if (typeof editor.originalFire == 'undefined') {
