@@ -30,7 +30,6 @@ ko.bindingHandlers.wysiwygHref = {
   init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
     if (element.nodeType !== 8) {
       var v = valueAccessor();
-
       var isNotWysiwygMode = (typeof bindingContext.templateMode == 'undefined' || bindingContext.templateMode != 'wysiwyg');
       // console.log("XXX", bindingContext.templateMode, isNotWysiwygMode, element.getAttribute("href"));
       if (isNotWysiwygMode) {
