@@ -331,12 +331,17 @@ var templateCompiler = function(performanceAwareCaller, templateUrlConverter, te
 
 var checkFeature = function(feature, func) {
   if (!func()) {
-    console.warn("Missing feature", feature);
-    throw "Missing feature " + feature;
+    console.warn("Missing required browser feature", feature);
+    throw "Missing required browser feature: " + feature;
   }
 };
 
-var isCompatible = function() {
+/**
+ * Check if the current browser provides the required features to run mosaico.
+ * Returns true/false unless "detailedException" parameter is true:
+ * in this case returns true or an exception with the problem detail.
+ */
+var isCompatible = function(detailedException) {
   try {
     // window.msMatchMedia would match also IE9
     // IE9 wouldn't be so hard to support, but it doesn't worth it. (preview iframe and automatic scroll are 2 things not working in IE9)
@@ -369,6 +374,7 @@ var isCompatible = function() {
     checkBadBrowserExtensions();
     return true;
   } catch (exception) {
+    if (detailedException) throw exception;
     return false;
   }
 };
@@ -397,8 +403,9 @@ var checkBadBrowserExtensions = function() {
   var expected3 = "<!DOCTYPE html>\n<html><head><title>A</title>\n</head>\n<body><p style=\"color: red;\" align=\"right\" data-bind=\"style: { color: 'red' }\">B</p><div data-bind=\"text: content\">dummy content</div>\n\n</body></html>";
   if (expected !== content && expected2 !== content && expected3 !== content) {
     console.info("BadBrowser.FrameContentCheck", content.length, expected.length, expected2.length, expected3.length, content == expected, content == expected2, content == expected3);
-    console.info(content);
-    throw "Unexpected frame content. Misbehaving browser: "+content.length+"/"+expected.length+"/"+expected2.length+"/"+expected3.length;
+    console.warn("Detected incompatible/misbehaving browser, probably introduced by a bad browser extension.");
+    console.warn(content);
+    throw "Detected misbehaving browser/extension: unexpected frame content.";
   }
 };
 
