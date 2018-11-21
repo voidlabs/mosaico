@@ -111,6 +111,7 @@ app.get('/img/', function(req, res) {
                 }
             } else {
                 console.error("ImageMagick failed to detect image format for", src, ". Error:", err);
+                res.status(404).send('Error: '+err);
             }
         });
 
@@ -140,7 +141,6 @@ app.post('/dl/', function(req, res) {
                 if (error) {
                     console.log(error);
                     res.status(500).send('Error: '+error);
-                    res.write('ERR');
                 } else {
                     console.log('Message sent: ' + info.response);
                     res.send('OK: '+info.response);
