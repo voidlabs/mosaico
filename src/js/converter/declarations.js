@@ -238,7 +238,8 @@ var elaborateDeclarations = function(style, declarations, templateUrlConverter, 
 
     var currentBindings = domutils.getAttribute(element, 'data-bind');
     var dataBind = (currentBindings !== null ? currentBindings + ", " : "") + _bindingSerializer(newBindings);
-    domutils.setAttribute(element, 'data-bind', dataBind);
+    if (dataBind == '') domutils.removeAttribute(element, 'data-bind');
+    else domutils.setAttribute(element, 'data-bind', dataBind);
   }
 
   // TODO a function whose return type depends on the input parameters is very ugly.. please FIX ME.

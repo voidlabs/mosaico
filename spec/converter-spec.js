@@ -53,7 +53,7 @@ describe('Template converter', function() {
     var expectedTemplates = [{
       optionalName: 'template',
       templateMode: 'show',
-      html: '<replacedhtml data-bind=""><replacedhead></replacedhead><repleacedbody><div data-bind="block: mainBlocks"></div></repleacedbody></replacedhtml>'
+      html: '<replacedhtml><replacedhead></replacedhead><repleacedbody><div data-bind="block: mainBlocks"></div></repleacedbody></replacedhtml>'
     }, {
       optionalName: 'simpleBlock',
       templateMode: 'show',
