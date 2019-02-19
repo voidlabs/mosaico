@@ -3,9 +3,15 @@ Safari Hack: Safari create reflow glitches due to a webkit bug with border-spaci
 when the template being edited makes use of horizontal border spacing.
   See: https://github.com/voidlabs/mosaico/issues/53
 The following are terrible hacks to make this happens less often.
+
 It seems something similar happens to Chrome, too;
-  See:; https://github.com/voidlabs/mosaico/issues/85
+  See: https://github.com/voidlabs/mosaico/issues/85
 So we broadened the application of this hack to include Chrome.
+
+2019/02/19 Update: since Mozilla Firefox 63 (Sept 2018), Mozilla implemented 
+"-webkit-min-device-pixel-ratio", so this hack is currently being executed also by Firefox:
+  See: https://developer.mozilla.org/en-US/docs/Web/CSS/@media
+We have no reports of side effects on Firefox resulting from this code being enabled.
 */
 @media screen and (min-color-index:0) and (-webkit-min-device-pixel-ratio:0) { @media {
   #main-wysiwyg-area table:not(.img-wysiwyg), #main-wysiwyg-area .selected table:not(.img-wysiwyg):hover {
@@ -19,7 +25,17 @@ So we broadened the application of this hack to include Chrome.
 After enabling the dashed outlines for editable contents we had reports from webkit based
 browsers (Safari) users of flickering similar to the previous issues.
   See: https://github.com/voidlabs/mosaico/issues/430
-Then we separated semi-transparent hover effect from the selection effect into before/after so
-that we never have to change the opacity or the border size dynamically and this seems to make Safari
-happier.
+Please note there is no space between "and" and the following bracket because we only
+want to tarket webkit (Safari) and not blink (Chrome).
 */
+@media screen and (min-color-index:0) and(-webkit-min-device-pixel-ratio:0) { @media  {
+  #main-edit-area #main-wysiwyg-area:not(.isdragging):not(.isdraggingimg) .editable:hover .mce-content-body:not(.selecteditem):not(:hover):after,
+  #main-edit-area #main-wysiwyg-area:not(.isdragging):not(.isdraggingimg) .editable:hover .selectable-img:not(.selecteditem):not(:hover) .mo-imgselectionhelper {
+  	visibility: hidden !important;
+  	z-index: -1 !important;
+  	opacity: 1 !important;
+  	border-width: 0px 0px !important;
+    border-style: solid solid !important;
+  }
+
+}}
