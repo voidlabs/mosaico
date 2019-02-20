@@ -67,7 +67,7 @@ var checkModel = function(reference, blockDefs, model, origPrefix, reverse) {
                 }
               } else {
                 // in the case of different array we check blockDefs
-                for (i = 0; i < reference[prop].length; i++) {
+                for (i = 0; i < reference[prop].length; i++) {                
                   if (typeof reference[prop][i].type !== 'string') {
                     console.log("TODO found an object with no type", prefix, reference[prop][i]);
                     valid = Math.max(valid, 2);

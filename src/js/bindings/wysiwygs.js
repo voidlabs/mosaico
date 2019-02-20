@@ -1,10 +1,10 @@
 "use strict";
 /* global global: false */
-
 var tinymce = require("tinymce");
 var $ = require("jquery");
 var ko = require("knockout");
 var console = require("console");
+var JSAlert = require("js-alert");
 require("./eventable.js");
 
 ko.bindingHandlers.wysiwygOrHtml = {
@@ -20,7 +20,7 @@ ko.bindingHandlers.wysiwygOrHtml = {
     var isNotWysiwygMode = (typeof bindingContext.templateMode == 'undefined' || bindingContext.templateMode != 'wysiwyg');
     if (isNotWysiwygMode)
       return ko.bindingHandlers['virtualHtml'].update(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext);
-    //else 
+    //else
     //  return ko.bindingHandlers.wysiwyg.update(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext);
   }
 };
@@ -30,7 +30,6 @@ ko.bindingHandlers.wysiwygHref = {
   init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
     if (element.nodeType !== 8) {
       var v = valueAccessor();
-
       var isNotWysiwygMode = (typeof bindingContext.templateMode == 'undefined' || bindingContext.templateMode != 'wysiwyg');
       // console.log("XXX", bindingContext.templateMode, isNotWysiwygMode, element.getAttribute("href"));
       if (isNotWysiwygMode) {
@@ -197,7 +196,7 @@ ko.bindingHandlers.wysiwyg = {
     plugins: ["link hr paste lists textcolor code"],
     // valid_elements: 'strong/b,em/i,*[*]',
     // extended_valid_elements: 'strong/b,em/i,*[*]',
-    // Removed: image fullscreen contextmenu 
+    // Removed: image fullscreen contextmenu
     // download custom:
     // jquery version con legacyoutput, anchor, code, importcss, link, paste, textcolor, hr, lists
   },
@@ -264,7 +263,7 @@ ko.bindingHandlers.wysiwyg = {
           element.classList.remove(ko.bindingHandlers.wysiwyg.initializingClass);
         }
 
-        // Warn about editing inline elements. Please note that we force wellknown HTML inline element to display as inline-block 
+        // Warn about editing inline elements. Please note that we force wellknown HTML inline element to display as inline-block
         // in our default style, so this should not happen unless you use unknown elements or you force the display: inline.
         // NOTE: we do this in a setTimeout to let the browser apply the CSS styles to the elements!
         if (typeof console.debug == 'function') {
@@ -292,16 +291,24 @@ ko.bindingHandlers.wysiwyg = {
         editor.on('change redo undo', function() {
           if (!isSubscriberChange) {
             try {
-              isEditorChange = true;
-              // we failed with other ways to do this:
-              // value($(element).html());
-              // value(element.innerHTML);
-              // This used to be 'raw' trying to keep simmetry with the setContent (see BeforeSetContent below)
-              // We moved this to a binding option so that this can be changed. We found that using 'raw' the field is often
-              // not emptied and full of tags used by tinymce as workaround.
-              // In future we'll probably change the default to "non raw", but at this time we keep this as an option
-              // in order to keep backward compatibility.
-              value(editor.getContent(ko.bindingHandlers.wysiwyg.getContentOptions));
+              var code = editor.getContent().toString();
+              if(code.search("<iframe>") == -1) {
+                console.log("Does not contain an iFrame");
+                isEditorChange = true;
+                // we failed with other ways to do this:
+                // value($(element).html());
+                // value(element.innerHTML);
+                // This used to be 'raw' trying to keep simmetry with the setContent (see BeforeSetContent below)
+                // We moved this to a binding option so that this can be changed. We found that using 'raw' the field is often
+                // not emptied and full of tags used by tinymce as workaround.
+                // In future we'll probably change the default to "non raw", but at this time we keep this as an option
+                // in order to keep backward compatibility.
+                value(editor.getContent(ko.bindingHandlers.wysiwyg.getContentOptions));
+              } else {
+                JSAlert.alert("iFrames Elements Cannot be Embeded Into Mosaico!");
+                throw "iFrame is not included!";
+
+              }
             } catch (e) {
               console.warn("Unexpected error setting content value for", selectorId, e);
             } finally {
@@ -322,7 +329,10 @@ ko.bindingHandlers.wysiwyg = {
         editor.on('focus', function() {
           // Used by scrollfix.js (maybe this is not needed by new scrollfix.js)
           editor.nodeChanged();
+
           editor.getElement().click();
+
+
         });
 
         // Make this an option, default to true, but we let users revert the behaviour to pre 0.17.2 release by
@@ -335,7 +345,15 @@ ko.bindingHandlers.wysiwyg = {
 
         // NOTE: this fixes issue with "leading spaces" in default content that were lost during initialization.
         editor.on('BeforeSetContent', function(args) {
-          if (args.initial) args.format = 'raw';
+          var code = editor.getContent().toString();
+          if(code.search("<iframe") == -1) {
+              if (args.initial) args.format = 'raw';
+          }
+          else {
+            console.log("CANT");
+
+          }
+
         });
 
         // 20180307: Newer TinyMCE versions (4.7.x for sure, maybe early versions too) stopped accepting ENTER on single paragraph elements
@@ -348,6 +366,14 @@ ko.bindingHandlers.wysiwyg = {
           });
         }
         */
+        // if (!fullEditor) {
+        //   // if we are not in "full" Editor, we disable the enter. (misc bugs)
+        //   editor.on('keydown', function(e) {
+        //     if (e.keyCode == 13) {
+        //        console.log("enterd");
+        //       e.preventDefault(); }
+        //   });
+        // }
 
         // Tinymce doesn't catch exceptions, let's wrap the fire.
         if (typeof editor.originalFire == 'undefined') {
@@ -391,6 +417,7 @@ ko.bindingHandlers.wysiwyg = {
           isSubscriberChange = true;
           // we failed setting contents in other ways...
           // $(element).html(content);
+
           if (typeof thisEditor !== 'undefined') {
             thisEditor.setContent(content, { format: 'raw' });
           } else {
@@ -400,6 +427,9 @@ ko.bindingHandlers.wysiwyg = {
           console.warn("Exception setting content to editable element", typeof thisEditor, e);
         }
         isSubscriberChange = false;
+      }
+      else {
+        console.log("HAS CHANGED");
       }
     }, null, {
       disposeWhenNodeIsRemoved: element
