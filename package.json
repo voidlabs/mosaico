@@ -48,7 +48,7 @@
     "jquery.iframe-transport": "^1.0.0",
     "jsep": "^0.3.3",
     "juice": "^5.1.0",
-    "knockout": "3.4.2",
+    "knockout": "3.5.0",
     "knockout-jqueryui": "2.2.3",
     "knockout-sortable": "^1.1.0",
     "ko-reactor": "^1.4.0",
