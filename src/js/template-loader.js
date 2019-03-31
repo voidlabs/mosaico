@@ -382,7 +382,7 @@ var isCompatible = function(detailedException) {
 var checkBadBrowserExtensions = function() {
   var id = 'checkbadbrowsersframe';
   var origTpl = ko.bindingHandlers.bindIframe.tpl;
-  ko.bindingHandlers.bindIframe.tpl = "<!DOCTYPE html>\r\n<html>\r\n<head><title>A</title>\r\n</head>\r\n<body><p style=\"color: blue\" align=\"right\" data-bind=\"style: { color: 'red' }\">B</p><div data-bind=\"text: content\"></div></body>\r\n</html>\r\n";
+  ko.bindingHandlers.bindIframe.tpl = "<!DOCTYPE html>\r\n<html>\r\n<head><title>A</title>\r\n</head>\r\n<body><p align=\"right\" data-bind=\"attr: { align: 'left' }\">B</p><div data-bind=\"text: content\"></div></body>\r\n</html>\r\n";
   $('body').append('<iframe id="' + id + '" data-bind="bindIframe: $data"></iframe>');
   var frameEl = global.document.getElementById(id);
   ko.applyBindings({ content: "dummy content" }, frameEl);
@@ -398,11 +398,11 @@ var checkBadBrowserExtensions = function() {
   ko.removeNode(frameEl);
   ko.bindingHandlers.bindIframe.tpl = origTpl;
 
-  var expected = "<!DOCTYPE html>\n<html><head><title>A</title>\n</head>\n<body><p align=\"right\" style=\"color: red;\" data-bind=\"style: { color: 'red' }\">B</p><div data-bind=\"text: content\">dummy content</div>\n\n</body></html>";
-  var expected2 = "<!DOCTYPE html>\n<html><head><title>A</title>\n</head>\n<body><p style=\"color: red;\" data-bind=\"style: { color: 'red' }\" align=\"right\">B</p><div data-bind=\"text: content\">dummy content</div>\n\n</body></html>";
-  var expected3 = "<!DOCTYPE html>\n<html><head><title>A</title>\n</head>\n<body><p style=\"color: red;\" align=\"right\" data-bind=\"style: { color: 'red' }\">B</p><div data-bind=\"text: content\">dummy content</div>\n\n</body></html>";
-  if (expected !== content && expected2 !== content && expected3 !== content) {
-    console.info("BadBrowser.FrameContentCheck", content.length, expected.length, expected2.length, expected3.length, content == expected, content == expected2, content == expected3);
+  var expected = "<!DOCTYPE html>\n<html><head><title>A</title>\n</head>\n<body><p align=\"left\" data-bind=\"attr: { align: 'left' }\">B</p><div data-bind=\"text: content\">dummy content</div>\n\n</body></html>";
+  // Firefox changes the attributes order.
+  var expected2 = "<!DOCTYPE html>\n<html><head><title>A</title>\n</head>\n<body><p data-bind=\"attr: { align: 'left' }\" align=\"left\">B</p><div data-bind=\"text: content\">dummy content</div>\n\n</body></html>";
+  if (expected !== content && expected2 !== content) {
+    console.info("BadBrowser.FrameContentCheck", content.length, expected.length, expected2.length, content == expected, content == expected2);
     console.warn("Detected incompatible/misbehaving browser, probably introduced by a bad browser extension.");
     console.warn(content);
     throw "Detected misbehaving browser/extension: unexpected frame content.";
