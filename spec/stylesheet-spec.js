@@ -46,7 +46,7 @@ describe('Stylesheet declaration processor', function() {
     var result;
     // function(style, rules, localWithBindingProvider, blockDefsUpdater, themeUpdater, basePath, rootModelName, templateName) {
     result = processStylesheetRules('a { b: c; -ko-b: @myc }', undefined, mockedWithBindingProvider, undefined, undefined, '.', 'template', 'block');
-    expect(result).toEqual("<!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->a{ b: c; b: <!-- ko text: $block.myc[c]() -->c<!-- /ko -->}");
+    expect(result).toEqual("<!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->a{ b: c; b: <!-- ko text: $block.myc[c] -->c<!-- /ko -->}");
 
     result = processStylesheetRules('prova{color: #3f3f3f;-ko-color:@[\'#3f3f3f\'];}\r\nprova{color: #3f3f3f;-ko-color:@[\'#3f3f3f\'];}', undefined, mockedWithBindingProvider, undefined, undefined, '.', 'template', 'block');
     expect(result).toEqual("<!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->prova{color: #3f3f3f;color: <!-- ko text: '#3f3f3f' -->#3f3f3f<!-- /ko -->;}\r\n<!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->prova{color: #3f3f3f;color: <!-- ko text: '#3f3f3f' -->#3f3f3f<!-- /ko -->;}");
@@ -60,20 +60,20 @@ describe('Stylesheet declaration processor', function() {
 
     // function(style, rules, localWithBindingProvider, blockDefsUpdater, themeUpdater, basePath, rootModelName, templateName) {
     result = processStylesheetRules('a[data-ko-block=foo] { b: c; -ko-b: @myc }', undefined, mockedWithBindingProvider, blockDefsUpdater, themeUpdater, '.', 'template', 'block');
-    expect(result).toEqual("<!-- ko foreach: $root.findObjectsOfType($data, 'foo') --> <!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->a<!-- ko text: '#'+id() -->foo<!-- /ko -->{ b: c; b: <!-- ko text: $foo.myc[c]() -->c<!-- /ko --> } <!-- /ko -->");
+    expect(result).toEqual("<!-- ko foreach: $root.findObjectsOfType($data, 'foo') --> <!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->a<!-- ko text: '#'+id() -->foo<!-- /ko -->{ b: c; b: <!-- ko text: $foo.myc[c] -->c<!-- /ko --> } <!-- /ko -->");
 
     expect(blockDefsUpdater).toHaveBeenCalledWith('foo', '', { contextName: 'block' });
     // blockDefsUpdater.calls.reset();
 
     result = processStylesheetRules('a[data-ko-block=foo], [data-ko-block=foo] a { b: c; -ko-b: @myc }', undefined, mockedWithBindingProvider, blockDefsUpdater, themeUpdater, '.', 'template', 'block');
-    expect(result).toEqual("<!-- ko foreach: $root.findObjectsOfType($data, 'foo') --> <!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->a<!-- ko text: '#'+id() -->foo<!-- /ko -->, <!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko --><!-- ko text: '#'+id() -->foo<!-- /ko --> a{ b: c; b: <!-- ko text: $foo.myc[c]() -->c<!-- /ko --> } <!-- /ko -->");
+    expect(result).toEqual("<!-- ko foreach: $root.findObjectsOfType($data, 'foo') --> <!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->a<!-- ko text: '#'+id() -->foo<!-- /ko -->, <!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko --><!-- ko text: '#'+id() -->foo<!-- /ko --> a{ b: c; b: <!-- ko text: $foo.myc[c] -->c<!-- /ko --> } <!-- /ko -->");
 
     // expect(blockDefsUpdater).toHaveBeenCalledWith('foo', '', undefined, 'block');
     // expect(blockDefsUpdater.calls.count()).toEqual(2);
     // blockDefsUpdater.calls.reset();
 
     result = processStylesheetRules('a[data-ko-block=foo],\n [data-ko-block=foo] a { b: c; -ko-b: @myc }', undefined, mockedWithBindingProvider, blockDefsUpdater, themeUpdater, '.', 'template', 'block');
-    expect(result).toEqual("<!-- ko foreach: $root.findObjectsOfType($data, 'foo') --> <!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->a<!-- ko text: '#'+id() -->foo<!-- /ko -->, <!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko --><!-- ko text: '#'+id() -->foo<!-- /ko --> a{ b: c; b: <!-- ko text: $foo.myc[c]() -->c<!-- /ko --> } <!-- /ko -->");
+    expect(result).toEqual("<!-- ko foreach: $root.findObjectsOfType($data, 'foo') --> <!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->a<!-- ko text: '#'+id() -->foo<!-- /ko -->, <!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko --><!-- ko text: '#'+id() -->foo<!-- /ko --> a{ b: c; b: <!-- ko text: $foo.myc[c] -->c<!-- /ko --> } <!-- /ko -->");
 
     result = processStylesheetRules('a[data-ko-block=foo]{}b[data-ko-block=foo]{}', undefined, mockedWithBindingProvider, blockDefsUpdater, themeUpdater, '.', 'template', 'block');
     expect(result).toEqual("<!-- ko foreach: $root.findObjectsOfType($data, 'foo') --> <!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->a<!-- ko text: '#'+id() -->foo<!-- /ko -->{} <!-- /ko --><!-- ko foreach: $root.findObjectsOfType($data, 'foo') --> <!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->b<!-- ko text: '#'+id() -->foo<!-- /ko -->{} <!-- /ko -->");
@@ -102,22 +102,22 @@ describe('Stylesheet declaration processor', function() {
     var result;
     // function(style, rules, localWithBindingProvider, blockDefsUpdater, themeUpdater, basePath, rootModelName, templateName) {
     result = processStylesheetRules('    a[data-ko-block=foo] {\n      b: c;\n      -ko-b: @myc\n    }\n', undefined, mockedWithBindingProvider, blockDefsUpdater, themeUpdater, '.', 'template', 'block');
-    expect(result).toEqual("    <!-- ko foreach: $root.findObjectsOfType($data, 'foo') -->\n    <!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->a<!-- ko text: '#'+id() -->foo<!-- /ko -->{\n      b: c;\n      b: <!-- ko text: $foo.myc[c]() -->c<!-- /ko -->\n    }\n    <!-- /ko -->");
+    expect(result).toEqual("    <!-- ko foreach: $root.findObjectsOfType($data, 'foo') -->\n    <!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->a<!-- ko text: '#'+id() -->foo<!-- /ko -->{\n      b: c;\n      b: <!-- ko text: $foo.myc[c] -->c<!-- /ko -->\n    }\n    <!-- /ko -->");
 
     // function(style, rules, localWithBindingProvider, blockDefsUpdater, themeUpdater, basePath, rootModelName, templateName) {
     result = processStylesheetRules('    f { g: h; }\n    i{j:k}\n    a[data-ko-block=foo] {\n      b: c;\n      -ko-b: @myc\n    }\n', undefined, mockedWithBindingProvider, blockDefsUpdater, themeUpdater, '.', 'template', 'block');
-    expect(result).toEqual("    <!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->f{ g: h; }\n    <!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->i{j:k}\n    <!-- ko foreach: $root.findObjectsOfType($data, 'foo') -->\n    <!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->a<!-- ko text: '#'+id() -->foo<!-- /ko -->{\n      b: c;\n      b: <!-- ko text: $foo.myc[c]() -->c<!-- /ko -->\n    }\n    <!-- /ko -->");
+    expect(result).toEqual("    <!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->f{ g: h; }\n    <!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->i{j:k}\n    <!-- ko foreach: $root.findObjectsOfType($data, 'foo') -->\n    <!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->a<!-- ko text: '#'+id() -->foo<!-- /ko -->{\n      b: c;\n      b: <!-- ko text: $foo.myc[c] -->c<!-- /ko -->\n    }\n    <!-- /ko -->");
 
 
     result = processStylesheetRules("\n    [data-ko-block=tripleArticleBlock] .links-color a,\n    [data-ko-block=tripleArticleBlock] .links-color a:hover {\n      color: #3f3f3f;\n      -ko-color: @longTextStyle.linksColor;\n      text-decoration: underline;\n    }\na{b:c}", undefined, mockedWithBindingProvider, blockDefsUpdater, themeUpdater, '.', 'template', 'block');
-    expect(result).toEqual("\n    <!-- ko foreach: $root.findObjectsOfType($data, 'tripleArticleBlock') -->\n    <!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko --><!-- ko text: '#'+id() -->tripleArticleBlock<!-- /ko --> .links-color a, <!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko --><!-- ko text: '#'+id() -->tripleArticleBlock<!-- /ko --> .links-color a:hover{\n      color: #3f3f3f;\n      color: <!-- ko text: $tripleArticleBlock.longTextStyle.linksColor[#3f3f3f]() -->#3f3f3f<!-- /ko -->;\n      text-decoration: underline\n    }\n    <!-- /ko --><!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->a{b:c}");
+    expect(result).toEqual("\n    <!-- ko foreach: $root.findObjectsOfType($data, 'tripleArticleBlock') -->\n    <!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko --><!-- ko text: '#'+id() -->tripleArticleBlock<!-- /ko --> .links-color a, <!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko --><!-- ko text: '#'+id() -->tripleArticleBlock<!-- /ko --> .links-color a:hover{\n      color: #3f3f3f;\n      color: <!-- ko text: $tripleArticleBlock.longTextStyle.linksColor[#3f3f3f] -->#3f3f3f<!-- /ko -->;\n      text-decoration: underline\n    }\n    <!-- /ko --><!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->a{b:c}");
   });
 
   it('should ignore comments or unknown rules but keep them', function() {
     var result;
     // function(style, rules, localWithBindingProvider, blockDefsUpdater, themeUpdater, basePath, rootModelName, templateName) {
     result = processStylesheetRules('/* first */a { b: c; /* second */-ko-b: @myc }/* third */', undefined, mockedWithBindingProvider, undefined, undefined, '.', 'template', 'block');
-    expect(result).toEqual("/* first */<!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->a{ b: c; /* second */b: <!-- ko text: $block.myc[c]() -->c<!-- /ko -->}/* third */");
+    expect(result).toEqual("/* first */<!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->a{ b: c; /* second */b: <!-- ko text: $block.myc[c] -->c<!-- /ko -->}/* third */");
 
     result = processStylesheetRules('@keyframes{a{-ko-b:@c}}a {b:c}', undefined, mockedWithBindingProvider, undefined, undefined, '.', 'template', 'block');
     expect(result).toEqual("@keyframes{a{-ko-b:@c}}<!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->a{b:c}");
@@ -126,7 +126,7 @@ describe('Stylesheet declaration processor', function() {
   it('should parse unsupported supports rules', function() {
     var result;
     result = processStylesheetRules('@supports cips {a{b:1;-ko-b:@myb}}a {b:c}', undefined, mockedWithBindingProvider, undefined, undefined, '.', 'template', 'block');
-    expect(result).toEqual("@supports cips {<!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->a{b:1;b: <!-- ko text: $block.myb[1]() -->1<!-- /ko -->}}<!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->a{b:c}");
+    expect(result).toEqual("@supports cips {<!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->a{b:1;b: <!-- ko text: $block.myb[1] -->1<!-- /ko -->}}<!-- ko text: templateMode =='wysiwyg' ? '#main-wysiwyg-area ' : '' --><!-- /ko -->a{b:c}");
   });
 
   it('should parse -ko-blockdefs definitions', function() {

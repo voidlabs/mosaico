@@ -250,14 +250,6 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
         defaultValue = domutils.getAttribute(element, 'src');
       }
 
-      var size;
-      if (width && height) {
-        size = width + "+'x'+" + height;
-      } else if (!height) {
-        size = "'w'+" + width + "+''";
-      } else if (!width) {
-        size = "'h'+" + height + "+''";
-      }
       var placeholdersrc;
       var plheight = height || domutils.getAttribute(element, 'data-ko-placeholder-height');
       var plwidth = width || domutils.getAttribute(element, 'data-ko-placeholder-width');
@@ -269,7 +261,7 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
       domutils.removeAttribute(element, 'data-ko-placeholder-src');
 
       if (defaultValue) {
-        placeholdersrc = "{ width: " + plwidth + ", height: " + plheight + ", text: " + size + "}";
+        placeholdersrc = "{ width: " + plwidth + ", height: " + plheight + " }";
       }
 
       if (!plwidth || !plheight) {
@@ -294,7 +286,11 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
       else if (align == 'bottom') containerBind += ', verticalAlign: \'bottom\'';
       containerBind += '}';
 
-      $(element).before('<!-- ko wysiwygImg: { _data: $data, _item: ' + itemBindValue + ', _template: \'' + tmplName + '\', _editTemplate: \'img-wysiwyg\', _src: ' + bindingValue + ', _width: ' + width + ', _height: ' + height + ', _align: ' + (align === null ? undefined : '\'' + align + '\'') + ', _size: ' + size + ', _method: ' + method + ', _placeholdersrc: ' + placeholdersrc + ', _stylebind: ' + containerBind + ' } -->');
+      // TODO maybe we could use ko let to add variables and ko template to use a simple template based on the current status.
+      // $(element).before('<!-- ko let: { _data: $data, _item: ' + itemBindValue + ', _template: \'' + tmplName + '\', _src: ' + bindingValue + ', _width: ' + width + ', _height: ' + height + ', _align: ' + (align === null ? undefined : '\'' + align + '\'') + ', _method: ' + method + ', _stylebind: ' + containerBind + ' } -->'+
+      //                   '<!-- ko template: { name: templateMode != \'undefined\' && templateMode == \'wysiwyg\' ? \'img-wysiwyg\' : \'' + tmplName + '\' } -->');
+      // $(element).after('<!-- /ko --><!-- /ko -->');
+      $(element).before('<!-- ko wysiwygImg: { _data: $data, _item: ' + itemBindValue + ', _template: \'' + tmplName + '\', _editTemplate: \'img-wysiwyg\', _src: ' + bindingValue + ', _width: ' + width + ', _height: ' + height + ', _align: ' + (align === null ? undefined : '\'' + align + '\'') + ', _method: ' + method + ', _stylebind: ' + containerBind + ' } -->');
       $(element).after('<!-- /ko -->');
     }
 

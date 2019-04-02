@@ -131,7 +131,9 @@ var expressionBinding = function(expression, bindingProvider, defaultValue) {
       }
       return "'+" + bindingProvider(varName, defVal) + "()+'";
     }) + "'";
-    result = result.replace(/(^|[^\\])''\+/g, '$1').replace(/\+''/g, '');
+    // 20180322: we refactored the code to try to keep moving around observable objects instead of their unwrapped values
+    // result = result.replace(/(^|[^\\])''\+/g, '$1').replace(/\+''$/, '');
+    result = result.replace(/^''\+/, '').replace(/\+''$/, '').replace(/^([^'+ ]*)\(\)$/, '$1');
 
     if (vars === 0 && result !== 'false' && result !== 'true') {
       console.error("Unexpected expression with no valid @variable references", expression);

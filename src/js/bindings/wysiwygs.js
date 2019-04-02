@@ -1,5 +1,5 @@
 "use strict";
-/* global global: false */
+/* global global: false, Image: false */
 
 var tinymce = require("tinymce");
 var $ = require("jquery");
@@ -69,6 +69,12 @@ ko.bindingHandlers.wysiwygHref = {
 ko.virtualElements.allowedBindings['wysiwygHref'] = true;
 
 ko.bindingHandlers.wysiwygSrc = {
+  preload: true,
+  preloadingClass: 'mo-preloading',
+  // Version with "width x height" text
+  // svg: '<svg xmlns="http://www.w3.org/2000/svg" width="__WIDTH__" height="__HEIGHT__"><defs><pattern id="pinstripe" patternUnits="userSpaceOnUse" width="56.568" height="56.568" patternTransform="rotate(135)"><line x1="28.284" y="0" x2="28.284" y2="56.568" stroke="#808080" stroke-width="28.284" /></pattern></defs><rect width="100%" height="100%" fill="#707070"/><rect width="100%" height="100%" fill="url(#pinstripe)" /><text x="50%" y="50%" font-size="20" text-anchor="middle" alignment-baseline="middle" font-family="monospace, sans-serif" fill="#B0B0B0">__TEXT__</text></svg>',
+  // Stripes only
+  svg: '<svg xmlns="http://www.w3.org/2000/svg" width="__WIDTH__" height="__HEIGHT__"><defs><pattern id="pinstripe" patternUnits="userSpaceOnUse" width="56.568" height="56.568" patternTransform="rotate(135)"><line x1="28.284" y="0" x2="28.284" y2="56.568" stroke="#808080" stroke-width="28.284" /></pattern></defs><rect width="100%" height="100%" fill="#707070"/><rect width="100%" height="100%" fill="url(#pinstripe)" /></svg>',
   convertedUrl: function(src, method, width, height) {
     var queryParamSeparator = src.indexOf('?') == -1 ? '?' : '&';
     var res = src + queryParamSeparator + "method=" + method + "&width=" + width + (height !== null ? "&height=" + height : '');
@@ -80,21 +86,61 @@ ko.bindingHandlers.wysiwygSrc = {
     // placeholdersrc = "'http://placehold.it/'+"+width+"+'x'+"+height+"+'.png/cccccc/333333&text='+"+size;
     // placeholdersrc = "'"+converterUtils.addSlashes(defaultValue)+"'";
   },
+  init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+    if (ko.bindingHandlers['wysiwygSrc'].preload) $(element).data('preloadimg', new Image());
+  },
   update: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
-    var value = ko.utils.unwrapObservable(valueAccessor());
-    var attrValue = ko.utils.unwrapObservable(value.src);
+    var valueAcc = valueAccessor();
+
+    var srcSetter = function(src, w, h, text, isPlaceholder) {
+      if (src == undefined || src == null || src == "") {
+        element.removeAttribute('src');
+      } else if (element.getAttribute('src') !== src) {
+        if (ko.bindingHandlers['wysiwygSrc'].preload) {
+          // if we are waiting for a remote placeholder, let's generate an SVG placeholder on the clientsize!
+          if (typeof ko.bindingHandlers.wysiwygSrc.svg == 'string' && isPlaceholder) {
+            var svgcode = ko.bindingHandlers.wysiwygSrc.svg.replace('__WIDTH__', w).replace('__HEIGHT__', h).replace('__TEXT__', text);
+            element.setAttribute('src', 'data:image/svg+xml;base64,'+global.btoa(svgcode));
+          }
+          if (ko.bindingHandlers['wysiwygSrc'].preloadingClass) element.classList.add(ko.bindingHandlers['wysiwygSrc'].preloadingClass);
+          var img = $(element).data('preloadimg');
+          img.onload = function() {
+            element.setAttribute('src', src);
+            if (ko.bindingHandlers['wysiwygSrc'].preloadingClass) element.classList.remove(ko.bindingHandlers['wysiwygSrc'].preloadingClass);
+          };
+          img.onerror = function(e) {
+            console.warn('Unable to preload image', src, e);
+            element.setAttribute('src', src);
+            if (ko.bindingHandlers['wysiwygSrc'].preloadingClass) element.classList.remove(ko.bindingHandlers['wysiwygSrc'].preloadingClass);
+          };
+          img.src = src;
+        } else {
+          element.setAttribute('src', src);
+        }
+      }
+    };
+
+    var value = ko.utils.unwrapObservable(valueAcc);
+    var srcValue = ko.utils.unwrapObservable(value.src);
     var placeholderValue = ko.utils.unwrapObservable(value.placeholder);
     var width = ko.utils.unwrapObservable(value.width);
     var height = ko.utils.unwrapObservable(value.height);
-    if ((attrValue === false) || (attrValue === null) || (attrValue === undefined) || (attrValue === '')) {
-      if (typeof placeholderValue == 'object' && placeholderValue !== null) element.setAttribute('src', ko.bindingHandlers.wysiwygSrc.placeholderUrl(placeholderValue.width, placeholderValue.height, placeholderValue.text));
-      else element.removeAttribute('src');
+
+    var src = null;
+    var w = ko.utils.unwrapObservable(placeholderValue.width);
+    var h = ko.utils.unwrapObservable(placeholderValue.height);
+    var text = w && h ? w+'x'+h : w ? 'w'+w : 'h'+h;
+    var isPlaceholder = false;
+    if ((srcValue === false) || (srcValue === null) || (srcValue === undefined) || (srcValue === '')) {
+      if (typeof placeholderValue == 'object' && placeholderValue !== null) src = ko.bindingHandlers.wysiwygSrc.placeholderUrl(w, h, text);
+      isPlaceholder = true;
     } else {
       var method = ko.utils.unwrapObservable(value.method);
       if (!method) method = width > 0 && height > 0 ? 'cover' : 'resize';
-      var src = ko.bindingHandlers.wysiwygSrc.convertedUrl(attrValue.toString(), method, width, height);
-      element.setAttribute('src', src);
+      src = ko.bindingHandlers.wysiwygSrc.convertedUrl(srcValue, method, width, height);
     }
+    srcSetter(src, w, h, text, isPlaceholder);
+
     if (typeof width !== 'undefined' && width !== null) element.setAttribute("width", width);
     else element.removeAttribute("width");
     if (typeof height !== 'undefined' && height !== null) element.setAttribute("height", height);
