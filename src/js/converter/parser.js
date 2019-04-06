@@ -280,7 +280,7 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
       var containerBind = '{ width: ' + width;
       if (align == 'left') containerBind += ', float: \'left\'';
       else if (align == 'right') containerBind += ', float: \'right\'';
-      else if (align == 'center') if (typeof console.debug == 'function') console.debug('Ignoring align=center on an img tag: we don\'t know how to emulate this alignment in the editor!');
+      // else if (align == 'center') if (typeof console.debug == 'function') console.debug('Ignoring align=center on an img tag: we don\'t know how to emulate this alignment in the editor!');
       else if (align == 'top') containerBind += ', verticalAlign: \'top\'';
       else if (align == 'middle') containerBind += ', verticalAlign: \'middle\'';
       else if (align == 'bottom') containerBind += ', verticalAlign: \'bottom\'';

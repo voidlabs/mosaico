@@ -29,7 +29,14 @@ var removeStyle = function(style, startPos, endPos, skipRows, startOffset, endOf
   return newStyle;
 };
 
-var expressionGenerator = function(node, bindingProvider, defVal) {
+/**
+ * convert a "Mosaico condition" in a javascript/knockout condition.
+ * bindingProvider is a function to get the javascript/knockout binding for a variable
+ * defVal is a string containing the default value for the condition
+ */
+var conditionBinding = function(expression, bindingProvider, defVal) {
+  var node = jsep(expression);
+
   function mapOperator(op) {
     switch (op) {
       case 'or':
@@ -54,9 +61,7 @@ var expressionGenerator = function(node, bindingProvider, defVal) {
   }
 
   function gen(node, bindingProvider, lookupmember, defVal) {
-    if (typeof lookupmember == 'undefined') lookupmember = true;
-
-    if (typeof defVal !== 'undefined' && node.type !== "Identifier" && node.type !== "MemberExpression") if (typeof console.debug == 'function') console.debug("Cannot apply default value to variable when using expressions");
+    // if (typeof defVal !== 'undefined' && node.type !== "Identifier" && node.type !== "MemberExpression") if (typeof console.debug == 'function') console.debug("Cannot apply default value to variable when using expressions");
 
     if (node.type === "BinaryExpression" || node.type === "LogicalExpression") {
       return '(' + gen(node.left, bindingProvider, lookupmember) + ' ' + mapOperator(node.operator) + ' ' + gen(node.right, bindingProvider, lookupmember) + ')';
@@ -89,7 +94,7 @@ var expressionGenerator = function(node, bindingProvider, defVal) {
     }
   }
 
-  return gen(node, bindingProvider, undefined, defVal);
+  return gen(node, bindingProvider, true, defVal);
 };
 
 var expressionBinding = function(expression, bindingProvider, defaultValue) {
@@ -102,8 +107,7 @@ var expressionBinding = function(expression, bindingProvider, defaultValue) {
       check = '^' + check.replace(/###var###/g, '(.+)') + '$';
       matches = defaultValue.trim().match(new RegExp(check));
       if (!matches) {
-        // TODO throw error?
-        console.log("Cannot find matches", matches, "for", defaultValue, expression, check, expression);
+        console.error("Cannot find matches", matches, "for", defaultValue, expression, check, expression);
         throw "Cannot find default value for " + expression + " in " + defaultValue;
       }
     }
@@ -120,14 +124,13 @@ var expressionBinding = function(expression, bindingProvider, defaultValue) {
         if (typeof matches[vars] !== 'undefined') {
           defVal = matches[vars].trim();
         } else {
-          console.log("ABZZZ Cannot find default value for", varName, "in", matches, "as", vars);
+          console.log("Cannot find default value for", varName, "in", matches, "as", vars);
+          throw "Cannot find default value for "+varName+" at "+vars;
         }
       }
       // in case we found p1 we are in a @[sequence] so we start an expression parser
       if (p1) {
-        var parsetree = jsep(p1);
-        var gentree = expressionGenerator(parsetree, bindingProvider, defVal);
-        return "'+" + gentree + "+'";
+        return "'+" + conditionBinding(p1, bindingProvider, defVal) + "+'";
       }
       return "'+" + bindingProvider(varName, defVal) + "()+'";
     }) + "'";
@@ -137,17 +140,12 @@ var expressionBinding = function(expression, bindingProvider, defaultValue) {
 
     if (vars === 0 && result !== 'false' && result !== 'true') {
       console.error("Unexpected expression with no valid @variable references", expression);
+      throw "Unexpected expression with no valid @variable references: "+expression;
     }
     return result;
   } catch (e) {
     throw "Exception parsing expression " + expression + " " + e;
   }
-};
-
-var conditionBinding = function(condition, bindingProvider) {
-  var parsetree = jsep(condition);
-  var gentree = expressionGenerator(parsetree, bindingProvider);
-  return gentree;
 };
 
 module.exports = {

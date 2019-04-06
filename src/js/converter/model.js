@@ -53,7 +53,7 @@ var _valueSet = function(defs, model, prop, value) {
 
 var _modelCreateOrUpdateBlockDef = function(defs, templateName, properties, namedProperties) {
   if (typeof defs[templateName] !== 'undefined' && defs[templateName]._initialized && !defs[templateName]._writeable) {
-    console.log("_modelCreateOrUpdateBlockDef", defs, templateName, properties, namedProperties);
+    console.error("Trying to alter non writeable model", defs, templateName, properties, namedProperties);
     throw "Trying to alter non writeable model: " + templateName + " / " + properties;
   }
 
@@ -142,7 +142,7 @@ var _generateModelFromDef = function(modelDef, defs) {
         // for customStyle this is set to null.
       } else {
         console.error("Unexpected model def", prop, value, modelDef);
-        throw "Unexpected model def [" + prop + "]=" + value;
+        throw "Unexpected model def [" + prop + "] = " + value;
       }
     }
 
@@ -174,11 +174,10 @@ var _getModelDef = function(defs, name, returnClone, readonly) {
     // otherwise try looking up using a deprefixed name.
     var res = _removePrefix(name);
     if (res !== null) {
-      // TODO the deprefixing is powerful, but maybe not really needed.
+      // Note: the deprefixing is powerful, but maybe not really needed.
       return _getModelDef(defs, res, returnClone, readonly);
     }
     // not a prefixed name
-    // TODO should we raise an error?
     return null;
   } else {
     // when the name is already defined...
@@ -201,20 +200,6 @@ var _getModelDef = function(defs, name, returnClone, readonly) {
         var extended = objExtend(typeDef, defObj);
         defObj = extended;
         defs[name] = defObj;
-      } else if (typeof defObj._widget == 'undefined' && typeof defObj._props == 'undefined' && typeof defObj._complex == 'undefined') {
-        // TODO here I tried to deal with inheritance for every object without a "type" by using a simple deprefix.
-        // but this break on theme containing "pageTheme" that would inherit from is parent. (creating a loop)
-        /*
-        var superType = _removePrefix(defObj.type);
-        if (superType !== null) {
-          console.log("Extending", typeDef, name, superType, defObj.type);
-          var typeDef = _getModelDef(defs, superType, true);
-          
-          var extended = jQuery.extend(true, typeDef, defObj);
-          defObj = extended;
-          defs[name] = defObj;
-        }
-        */
       }
       defObj._writeable = true;
       defObj._initialized = true;
@@ -250,27 +235,22 @@ var _getModelDef = function(defs, name, returnClone, readonly) {
         var propDef = prop.match(/^([^=\[\]]+)(\[\])?(=?)(.*)$/);
         if (propDef !== null) {
           prop = propDef[1];
-          // TODO array definition should be done differently
+          // array definition should be done differently
           if (propDef[2] == '[]') {
-            // TODO type should not be defined in this function
+            // type should not be defined in this function
             if (typeof defObj[prop] == 'undefined') defObj[prop] = [];
             defValue = [];
           }
           if (propDef[3] == '=') {
-            // TODO remove hardcoded "visible" matching (this should be defined in the template definition)
-            if (prop.match(/(^v|V)isible$/)) defValue = String(propDef[4]).toLowerCase() == 'true';
-            else if (prop.match(/^customStyle$/)) {
+            // "visible" and customStyle properties are handled as boolean. This is hardcoded.
+            if (prop.match(/(^v|V)isible$/) || prop.match(/^customStyle$/)) {
               defValue = String(propDef[4]).toLowerCase() == 'true';
             } else defValue = propDef[4];
           }
         }
         // default values found in "properties" are not being processed by "modelEnsureValue" and by consequence do not call "themeUpdater".
-        // TODO document why this is needed, or remove.
-        if (defValue !== null) {
-          if (typeof defObj._defaultValues[prop] == 'undefined') {
-            // if (prop.match(/^_/)) console.log("defValue for", prop, "in", name);
-            defObj._defaultValues[prop] = defValue;
-          }
+        if (defValue !== null && typeof defObj._defaultValues[prop] == 'undefined') {
+          defObj._defaultValues[prop] = defValue;
         }
 
         if (typeof defObj[prop] == 'undefined') {
@@ -329,31 +309,7 @@ var modelEnsurePathAndGetBindValue = function(readonly, defs, themeUpdater, root
   var modelName;
   var res;
   var path;
-  // TODO remove '$' and '#' handing
-  if (fullPath.substr(0, 1) == '$') {
-    console.warn("DEPRECATED $ in bindingProvider: ", fullPath, templateName);
-    var p = fullPath.indexOf('.');
-    if (p == -1) {
-      throw "Unexpected fullPath: " + fullPath + "/" + within + "/" + templateName + "/" + defaultValue + "/" + overrideDefault;
-    } else {
-      modelName = fullPath.substr(1, p - 1);
-      path = fullPath.substr(p + 1);
-      // TODO refactor me please
-      if (modelName == 'theme') {
-        var p2 = path.indexOf('.');
-        modelName = path.substr(0, p2);
-        path = path.substr(p2 + 1);
-      } else {
-        throw "Unexpected $ sequence: " + modelName + " in " + fullPath;
-      }
-      res = "$root.content().theme()." + modelName + "()." + path.replace(new RegExp('\\.', 'g'), '().');
-    }
-  } else if (fullPath.substr(0, 1) == '#') {
-    console.warn("DEPRECATED # in bindingProvider: ", fullPath, templateName);
-    modelName = rootModelName;
-    path = fullPath.substr(1);
-    res = "$root.content()." + path.replace(new RegExp('\\.', 'g'), '().');
-  } else if (fullPath.substr(0, 8) == '_theme_.') {
+  if (fullPath.substr(0, 8) == '_theme_.') {
     var p3 = fullPath.indexOf('.', 8);
     modelName = fullPath.substr(8, p3 - 8);
     path = fullPath.substr(p3 + 1);
@@ -374,12 +330,10 @@ var modelEnsurePathAndGetBindValue = function(readonly, defs, themeUpdater, root
   var propName = propPos == -1 ? path : path.substr(0, propPos);
 
   if (modelName.indexOf('-') != -1) {
-    console.error("ERROR cannot use - for block names", modelName);
-    throw "ERROR unexpected char in block name: " + modelName;
+    throw "Unexpected char in block name: " + modelName;
   }
   if (propName.indexOf('-') != -1) {
-    console.error("ERROR cannot use - for property names", propName);
-    throw "ERROR unexpected char in property name: " + modelName;
+    throw "Unexpected char in property name: " + propName;
   }
 
   // Fastpath
@@ -450,7 +404,7 @@ var modelEnsurePathAndGetBindValue = function(readonly, defs, themeUpdater, root
 
     _increaseUseCount(readonly, childModel);
   } catch (e) {
-    console.error("TODO ERROR Property lookup exception", e, modelName, path, templateName, fullPath, defs);
+    console.error("Property lookup exception", e, modelName, path, templateName, fullPath, defs);
     throw e;
   }
 
@@ -478,7 +432,6 @@ var modelEnsurePathAndGetBindValue = function(readonly, defs, themeUpdater, root
 
     if (typeof defaultValue !== 'undefined') {
       if (readonly) {
-        console.error("Cannot set a new theme default value", gsFullPath.substr(7), defaultValue, "while in readonly mode");
         throw "Cannot set a new theme default value (" + defaultValue + ") for " + gsFullPath.substr(7) + " while in readonly mode!";
       }
       themeUpdater('default', gsFullPath.substr(7), defaultValue);
@@ -501,7 +454,6 @@ var modelEnsurePathAndGetBindValue = function(readonly, defs, themeUpdater, root
         // This remove default value. Ugly. (Needs this for defaults in template-lm socialLinksIcon)
         defs[modelName]._defaultValues[path] = null;
       } else if (defs[modelName]._defaultValues[path] != defaultValue) {
-        console.error("TODO error!!! Trying to set a new default value for " + modelName + " " + path + " while it already exists (current: " + defs[modelName]._defaultValues[path] + ", new: " + defaultValue + ")");
         throw "Trying to set a new default value for " + modelName + " " + path + " while it already exists (current: " + defs[modelName].defaultValues[path] + ", new: " + defaultValue + ")";
       }
     }
