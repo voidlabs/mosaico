@@ -99,7 +99,8 @@
     "lodash": "4.17.11",
     "mockery": "2.1.0",
     "nodemailer": "6.0.0",
-    "uglifyify": "5.0.1"
+    "uglifyify": "5.0.1",
+    "superagent": ">=3.7.0"
   },
   "author": "Stefano Bagnara",
   "license": "GPL-3.0",
