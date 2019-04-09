@@ -20,6 +20,7 @@ var options = {
   items: '[title][title!=""][title!=" "]'
 };
 
+// See https://bugs.jqueryui.com/ticket/15333#ticket for a known bug with Edge showing an empty "native tooltip" too.
 ko.bindingHandlers.tooltips = {
   init: function(element, valueAccessor, allBindingsAccessor, data, context) {
     if (typeof $.fn.tooltip !== 'undefined' && typeof ko.bindingHandlers.tooltip !== 'undefined') {
