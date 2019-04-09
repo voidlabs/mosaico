@@ -3,14 +3,14 @@
 
 var mockery = require('mockery');
 mockery.enable();
-mockery.registerAllowables(['../src/js/converter/declarations.js', './wrapper.js', 'console', './utils.js', './domutils.js', 'console', '../node_modules/mensch', 'fs', 'path', 'mkdirp']);
+mockery.registerAllowables(['../src/js/converter/declarations.js', './wrapper.js', 'console', './utils.js', './domutils.js', 'console', 'mensch', 'fs', 'path', 'mkdirp']);
 
 var main = require('../src/js/converter/main.js');
 var fs = require('fs');
 
-mockery.registerMock('knockout', require('../node_modules/knockout'));
+mockery.registerMock('knockout', require('knockout'));
 // mockery.registerMock('knockout.wrap', require('../node_modules/knockout.wrap/knockout.wrap.js'));
-mockery.registerMock('knockoutjs-reactor', require('../node_modules/ko-reactor/dist/ko-reactor.js'));
+mockery.registerMock('knockoutjs-reactor', require('ko-reactor/dist/ko-reactor.js'));
 // mockery.registerMock('knockout-undomanager', require('../node_modules/knockout-undomanager/knockout-undomanager.js'));
 
 var undoserializer = require("../src/js/undomanager/undoserializer.js");
@@ -75,9 +75,8 @@ describe('model wrapper and undomanager', function() {
 
     content().mainBlocks().blocks.push(titleBlock);
 
-    /* This is not supported in the current code 
     var unwrapped = ko.utils.parseJson(jsonContent);
-    content(unwrapped);
+    content._wrap(unwrapped);
 
     expect(content().titleText()).toEqual("TITLE");
 
@@ -87,7 +86,23 @@ describe('model wrapper and undomanager', function() {
 
     undoRedoStack.undoCommand.execute();
 
+    // This requires the "sync" option (async: false) of ko-reactor
     expect(content().titleText()).toEqual("TITLE");
+
+    undoRedoStack.redoCommand.execute();
+
+    expect(content().titleText()).toEqual("New Title 2");
+
+    var unwrapped = ko.utils.parseJson(jsonContent);
+    content._wrap(unwrapped);
+
+    expect(content().titleText()).toEqual("TITLE");
+
+    // Fails on current code because the "undo" of a full content _wrap doesn't wrap the previous model
+    /*
+    undoRedoStack.undoCommand.execute();
+
+    expect(content().titleText()).toEqual("New Title 2");
     */
 
   });
@@ -128,12 +143,12 @@ describe('model wrapper and undomanager', function() {
 
     var debug = function(prefix, blocks) {
         for (var i = 0; i < blocks().length; i++) {
-            console.log(prefix, i, blocks()[i]().text());
+            // console.log(prefix, i, blocks()[i]().text());
         }
     };
 
     undoserializer.setListener(function(path, child, oldVal, item) {
-        console.log("UL:", path, oldVal, item.status, item.index, item.moved, item.value.text);
+        // console.log("UL:", path, oldVal, item.status, item.index, item.moved, item.value.text);
     });
 
     debug("A", blocks);
@@ -141,7 +156,7 @@ describe('model wrapper and undomanager', function() {
     blocks.subscribe(function (changes) {
         var ch = ko.toJS(changes);
         for (var i = 0; i < ch.length; i++) {
-            console.log("AC", i, ch[i].status, ch[i].index, ch[i].moved, ch[i].value.text);
+            // console.log("AC", i, ch[i].status, ch[i].index, ch[i].moved, ch[i].value.text);
         }
     }, undefined, 'arrayChange');
 
@@ -156,6 +171,7 @@ describe('model wrapper and undomanager', function() {
     debug("B", blocks);
 
     expect(blocks()[0]().text()).toEqual("Title 3");
+    expect(blocks()[1]().text()).toEqual("Title 1");
     expect(blocks()[2]().text()).toEqual("Title 2");
 
     undoRedoStack.undoCommand.execute();
@@ -163,9 +179,9 @@ describe('model wrapper and undomanager', function() {
     debug("C", blocks);
 
     expect(blocks()[0]().text()).toEqual("Title 1");
+    expect(blocks()[1]().text()).toEqual("Title 2");
     expect(blocks()[2]().text()).toEqual("Title 3");
 
-    /* This is not supported in the current code
 
     // using "move action" (sortable with move strategy will use valueWillMute/hasMutated
     blocks.valueWillMutate();
@@ -177,6 +193,7 @@ describe('model wrapper and undomanager', function() {
     debug("D", blocks);
 
     expect(blocks()[0]().text()).toEqual("Title 3");
+    expect(blocks()[1]().text()).toEqual("Title 1");
     expect(blocks()[2]().text()).toEqual("Title 2");
 
     undoRedoStack.undoCommand.execute();
@@ -184,8 +201,37 @@ describe('model wrapper and undomanager', function() {
     debug("E", blocks);
 
     expect(blocks()[0]().text()).toEqual("Title 1");
+    expect(blocks()[1]().text()).toEqual("Title 2");
     expect(blocks()[2]().text()).toEqual("Title 3");
-    */
+
+    // using "move action" (sortable with move strategy will use valueWillMute/hasMutated
+    blocks.valueWillMutate();
+    var underlyingBlocks = ko.utils.unwrapObservable(blocks);
+    var removed2 = underlyingBlocks.splice(0, 1);
+    underlyingBlocks.splice(2, 0, removed2[0]);
+    blocks.valueHasMutated();
+
+    debug("F", blocks);
+
+    expect(blocks()[0]().text()).toEqual("Title 2");
+    expect(blocks()[1]().text()).toEqual("Title 3");
+    expect(blocks()[2]().text()).toEqual("Title 1");
+
+    undoRedoStack.undoCommand.execute();
+
+    debug("G", blocks);
+
+    expect(blocks()[0]().text()).toEqual("Title 1");
+    expect(blocks()[1]().text()).toEqual("Title 2");
+    expect(blocks()[2]().text()).toEqual("Title 3");
+
+    undoRedoStack.redoCommand.execute();
+
+    debug("H", blocks);
+
+    expect(blocks()[0]().text()).toEqual("Title 2");
+    expect(blocks()[1]().text()).toEqual("Title 3");
+    expect(blocks()[2]().text()).toEqual("Title 1");
 
   });
 

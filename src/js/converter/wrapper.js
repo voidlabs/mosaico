@@ -136,12 +136,15 @@ var _getVariants = function(def) {
 var _makeComputedFunction = function(def, defs, thms, ko, contentModel, isContent, t) {
   if (typeof def == 'undefined') {
     if (typeof ko.utils.unwrapObservable(t).type === 'undefined') {
-      console.log("TODO ERROR Found a non-typed def ", def, t);
+      console.error("Found a non-typed def ", def, t);
       throw "Found a non-typed def " + def;
     }
     var type = ko.utils.unwrapObservable(ko.utils.unwrapObservable(t).type);
     def = defs[type];
-    if (typeof def !== 'object') console.log("TODO ERROR Found a non-object def ", def, "for", type);
+    if (typeof def !== 'object') {
+      console.error("Found a non-object def ", def, "for", type);
+      throw "Found a non-object def " + def;
+    }
   }
 
   if (typeof contentModel == 'undefined' && typeof isContent != 'undefined' && isContent) {
@@ -166,7 +169,8 @@ var _makeComputedFunction = function(def, defs, thms, ko, contentModel, isConten
         if (schemePathOrig.substr(0, selfPath.length) == selfPath) {
           schemePath = schemePathOrig.substr(selfPath.length);
         } else {
-          console.log("IS THIS CORRECT?", schemePathOrig, selfPath);
+          // Debug this scenario if it happens
+          console.log("Scheme path doesn't match selfPath", schemePathOrig, selfPath);
           schemePath = schemePathOrig;
         }
 
@@ -216,8 +220,8 @@ var _makeComputedFunction = function(def, defs, thms, ko, contentModel, isConten
       pTarget = pTarget._defaultComputed;
     }
     if (typeof pTarget == 'undefined') {
-      console.log("ERROR looking for variant target", def._variant, t);
-      throw "ERROR looking for variant target " + def._variant;
+      console.error("Error looking for variant target", def._variant, t);
+      throw "Error looking for variant target " + def._variant;
     }
     pParent._nextVariant = _nextVariantFunction.bind(pTarget, ko, pTarget, _getVariants(def));
   }

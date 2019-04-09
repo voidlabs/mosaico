@@ -90,9 +90,7 @@ var undoManager = function (model, options) {
           state = workState;
           var oldMode = mode;
           mode = MODE_MERGE;
-          // console.log("XDO", "before", label);
           action();
-          // console.log("XDO", "after", label);
           _removeMergedAction(lastPushedStack);
           mode = oldMode;
           state = prevState;
@@ -106,7 +104,6 @@ var undoManager = function (model, options) {
     if (typeof myStack == 'undefined') throw "Unexpected operation: stack cleaner called with undefined stack";
     
     if (myStack().length > 0 && typeof myStack()[myStack().length - 1].mergedAction !== 'undefined') {
-      // console.log("Removing mergedAction from stack");
       delete myStack()[myStack().length - 1].mergedAction;
     }
   };
@@ -123,16 +120,25 @@ var undoManager = function (model, options) {
   };
 
   var executeUndoAction = function(child, value, item) {
-    // console.log("executeUndoAction", child, value, item);
     if (typeof value !== 'undefined') {
       child(value);
     } else if (item) {
-      if (item.status == 'deleted') {
-        child.splice(item.index, 0, item.value);
-      } else if (item.status == 'added') {
-        child.splice(item.index, 1);
+      if (item.status !== 'added' && item.status !== 'deleted') throw "Unsupported item.status: "+item.status;
+
+      // When the items are "moved" we do both delete and add on the "add" action and ignore the delete action
+      if (typeof item.moved !== 'undefined') {
+        if (item.status == 'added') {
+          child.splice(item.index, 1);
+          child.splice(item.moved, 0, item.value);
+        } else {
+          // console.log("Ignoring undo move", item);
+        }
       } else {
-        throw "Unsupported item.status: "+item.status;
+        if (item.status == 'added') {
+          child.splice(item.index, 1);
+        } else {
+          child.splice(item.index, 0, item.value);
+        }
       }
     } else {
       throw "Unexpected condition: no item and no child.oldValues!";
@@ -146,14 +152,12 @@ var undoManager = function (model, options) {
   var makeUndoAction = makeUndoActionDefault;
 
   var changePusher = function(parents, child, item) {
-    // console.log("CP", item, child.oldValues);
     var oldVal = typeof child.oldValues != 'undefined' ? child.oldValues[0] : undefined;
     var act = makeUndoAction(executeUndoAction, parents, child, oldVal, item);
 
     if (mode == MODE_IGNORE) return;
 
     if (mode == MODE_MERGE) {
-      // console.log("UR", "mergemode");
       if (typeof act !== 'undefined') {
         act.mergedAction = function(newAction) {
           if (typeof newAction.mergeMe !== 'undefined' && newAction.mergeMe) {
@@ -167,23 +171,21 @@ var undoManager = function (model, options) {
         if (child.oldValues && mode == MODE_ONCE) {
           act.mergedAction = function(oldChild, oldItem, newAction) {
             if (typeof newAction.mergeableAction == 'object' && oldChild == newAction.mergeableAction.child) {
-              // console.log("UR", "ignore update for property in MODE_ONCE");
               return this;
             } else return null;
           }.bind(act, child, item);
           act.mergeableAction = { child: child, item: item };
         }
-        // console.log("UR", "item.status", item.status);
+
         // "item" is valued when an item is added/removed/reteined in an array
         // sometimes KO detect "moves" and add a "moved" property with the index but
         // this doesn't happen for example using knockout-sortable or when moving objects
         // between arrays.
         // So this ends up handling this with "mergeableMove" and "mergedAction": 
-        if (item && item.status == 'deleted') {
+        if (item && (item.status == 'deleted' || item.status == 'added')) {
           // TODO se sono in MODE = MERGE devo metteer una funzione di merge che accetta tutto.
           // altrimenti lascio questa.
           act.mergedAction = function(oldChild, oldItem, newAction) {
-            // console.log("UR", "act.mergedAction", typeof newAction.mergeableMove);
             // a deleted action is able to merge with a added action if they apply to the same
             // object.
             if (typeof newAction.mergeableMove == 'object' && oldItem.value == newAction.mergeableMove.item.value) {
@@ -191,24 +193,23 @@ var undoManager = function (model, options) {
               // this way the "undo" will need to undo only once for a "move" operation.
               return _combinedFunction(newAction, this);
             } else {
-              // console.log("UR", "not mergeable", typeof newAction.mergeableMove);
             }
 
             return null;
           }.bind(act, child, item);
-        } else if (item && item.status == 'added') {
+
           // add a mergeableMove property that will be used by the next action "mergedAction" to see if this action
           // can be merged.
           act.mergeableMove = { child: child, item: item };
         } else if (item) {
-          console.warn("Unsupported item.status", item.status);
+          console.warn("Unsupported item.status", item.status, typeof item, item);
         }
       }
     }
     if (typeof act !== 'undefined') _push(act);
   };
 
-  var reactorOptions = { depth: -1, oldValues: 1, mutable: true, /* tagParentsWithName: true */ tagFields: true };
+  var reactorOptions = { depth: -1, oldValues: 1, mutable: true, /* tagParentsWithName: true */ tagFields: true, async: false /*, splitArrayChanges: false */ };
 
   var context = {};
   var react = typeof reactor == 'function' ? reactor : ko.watch;
