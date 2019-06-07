@@ -39,9 +39,9 @@
     "blueimp-load-image": "2.20.1",
     "console-browserify": "^1.1.0",
     "default-passive-events": "^1.0.10",
-    "evol-colorpicker": "^3.3.2",
+    "evol-colorpicker": "^3.4.0",
     "font-awesome": "^4.7.0",
-    "jquery": "^3.3.1",
+    "jquery": "^3.4.1",
     "jquery-migrate": "^3.0.1",
     "jquery-ui-package": "1.11.4",
     "jquery-ui-touch-punch": "^0.2.3",
@@ -99,13 +99,18 @@
     "lodash": "4.17.11",
     "mockery": "2.1.0",
     "nodemailer": "6.0.0",
-    "uglifyify": "5.0.1",
-    "superagent": ">=3.7.0"
+    "npm-force-resolutions": "0.0.2",
+    "uglifyify": "5.0.1"
   },
   "author": "Stefano Bagnara",
   "license": "GPL-3.0",
   "licenseurl": "https://www.gnu.org/licenses/gpl-3.0.en.html",
+  "resolutions": {
+    "superagent": "5.0.6"
+  },
   "scripts": {
+    "start": "grunt",
+    "lockdeps": "npx npm-force-resolutions",
     "test": "grunt jasmine_node"
   },
   "engines": {
