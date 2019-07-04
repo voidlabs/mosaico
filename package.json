@@ -56,7 +56,8 @@
     "slick": "1.12.2",
     "tinycolor2": "1.4.1",
     "tinymce": "4.5.8",
-    "toastr": "^2.1.4"
+    "toastr": "^2.1.4",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "aliasify": "2.1.0",
@@ -111,10 +112,13 @@
   "scripts": {
     "start": "grunt",
     "lockdeps": "npx npm-force-resolutions",
-    "test": "grunt jasmine_node"
+    "test": "grunt jasmine_node",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "engines": {
     "node": ">= 6.0.0",
     "npm": ">= 3.0.0"
-  }
+  },
+  "snyk": true
 }
