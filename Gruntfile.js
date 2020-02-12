@@ -9,7 +9,17 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
 
-    pkg: pkg,
+    jinja: {
+      // https://www.npmjs.com/package/grunt-jinja
+      options: {
+        // Task-specific options go here.
+      },
+      your_target: {
+        // Target-specific file lists and/or options go here.
+      },
+    },
+
+        pkg: pkg,
 
     pkgVersion: "<%= pkg.version %>",
 
@@ -43,8 +53,8 @@ module.exports = function(grunt) {
       },
       css: {
         files: {
-          "build/mosaico.css": "src/css/app_standalone.less",
-          "build/mosaico-material.css": "src/css/app_standalone_material.less"
+          "build/mosaico-material.css": "src/css/app_standalone_material.less",
+          "build/mosaico.css": "src/css/app_standalone.less"
         }
       }
     },
@@ -359,5 +369,7 @@ module.exports = function(grunt) {
   grunt.registerTask('default', ['build', 'server']);
   grunt.registerTask('test', ['jasmine_node']);
   grunt.registerTask('dist', ['check_licenses', 'build', 'test', 'compress']);
+
+  grunt.loadNpmTasks('grunt-jinja');
 
 };

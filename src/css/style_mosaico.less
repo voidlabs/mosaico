@@ -24,7 +24,7 @@
  *   #toast-container
  *   #contextmenu-help.mo
  *   #carousel-container.mo
- * 
+ *
  * CSS selector used, beyond the #ids before:
  * - .mo e .mo-*
  * - .ui-* (ui-helper-hidden-accessible, ui-tooltip)
@@ -67,7 +67,7 @@
 @import "style_variables.less";
 
 // Icone font-awesome (.fa-* , configurable via @fa-css-prefix)
-@import (optional) "font-awesome/less/font-awesome.less";
+@import "font-awesome/less/font-awesome.less";
 
 // Mosaico: editing tools (toolbar, left toolbox, right preview)
 @import 'style_mosaico_tools.less';
@@ -218,7 +218,7 @@ body {
 }
 input, select, textarea, button { // input don't inherit font properties from body by default.
   font-family: inherit;
-  font-size: inherit; 
+  font-size: inherit;
   max-width: 100%;
 }
 
@@ -226,8 +226,8 @@ input, select, textarea, button { // input don't inherit font properties from bo
   user-select: none;
 }
 input,
-textarea, 
-[contenteditable], 
+textarea,
+[contenteditable],
 [contenteditable] *, // makes IE contenteditable content selectable again
 .evo-color span // allow selecting for hex colors in colorpicker
 {
@@ -351,7 +351,7 @@ a[disabledhref]:-moz-read-write {
 }
 
 /****************************************************************************************************************************
- * GENERIC UTILITIES: 
+ * GENERIC UTILITIES:
  * DRAG&DROP, UPLOADER, TOASTER, TOOLTIP, FONTS, LOADER
  ***************************************************************************************************************************/
 
@@ -435,7 +435,7 @@ a[disabledhref]:-moz-read-write {
 
 body > .ui-tooltip {
   .win();
-  
+
   .resetFont();
   // font-family: @font-family;
   // font-size: 1em;
