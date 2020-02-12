@@ -5,6 +5,7 @@
   // display: table;
 }
 
+
 /* minimum size for empty dropzones */
 #main-edit-area .sortable-blocks-edit.empty {
   min-height: 200px;
@@ -142,9 +143,9 @@
   padding-bottom: 2px;
   margin: 0;
   min-height: 25px;
-  
+
   box-shadow: 0 0 5px @mosaico-button-shadow-color;
-  
+
   cursor: pointer;
 
   input.fileupload {
@@ -178,8 +179,8 @@
 #main-edit-area .midtools {
   // display: none;
   visibility: hidden;
-  z-index: 30; 
-  position: absolute; 
+  z-index: 30;
+  position: absolute;
   bottom: 16px;
   // width: 100%;
   text-align: left;
@@ -214,7 +215,7 @@
   font-family: @font-family;
   font-size: 12px;
   background-color: rgba(128,128,128,.5);
-  color: white;  
+  color: white;
 }
 
 #main-edit-area .img-wysiwyg:hover .img-size {
@@ -246,7 +247,7 @@
 
 #main-wysiwyg-area {
   backface-visibility: hidden;
-  background-color: white;
+  background-color: #cccccc;
 }
 
 #main-edit-area, #main-toolbox, #main-preview {
@@ -278,7 +279,7 @@
   }
 
   // we force inline editable elements to be shown as inline-block in editing
-  // there are many issues with editing inline (non inline-block) elements so 
+  // there are many issues with editing inline (non inline-block) elements so
   // this is a sensible behaviour
   span, a, b, i, cite, code, em, label, small, strong, sub, sup, q {
     &[contenteditable] {
@@ -343,9 +344,11 @@
   position: relative;
   display: block;
   min-height: 100%;
+  box-shadow: 0px 0px 20px 12px #900000;
   max-width: 700px;
+  background-color: #ffffff;
   margin: 0 auto !important;
-  padding: 16px 20px !important;
+  //padding: 16px 20px !important;
 
   @media (min-width: 1400px) {
     max-width: 800px;
@@ -378,44 +381,9 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 40px;
+      width: 20px;
       bottom: 0;
-      background: linear-gradient( 90deg, 
-        rgba(255,255,255,0) 19%,
-        white 21%,
-        white 79%,
-        rgba(255,255,255,0) 81%
-      ), linear-gradient( 135deg, 
-        rgba(255,255,255,0) 25%,
-        rgba(255,255,255,0) 28%, 
-        white 28%,
-        white 72%, 
-        rgba(255,255,255,0) 72%, 
-        rgba(255,255,255,0) 75%
-      ), linear-gradient( -135deg, 
-        rgba(255,255,255,0) 25%,
-        rgba(255,255,255,0) 28%, 
-        white 28%,
-        white 72%, 
-        rgba(255,255,255,0) 72%, 
-        rgba(255,255,255,0) 75%
-      ),linear-gradient( 135deg, 
-        rgba(255,255,255,0) 25%,
-        #CCC 25%, 
-        white 28%,
-        white 72%, 
-        #CCC 75%, 
-        rgba(255,255,255,0) 75%
-      ), linear-gradient( -135deg, 
-        rgba(255,255,255,0) 25%,
-        #CCC 25%, 
-        white 28%,
-        white 72%, 
-        #CCC 75%, 
-        rgba(255,255,255,0) 75%
-      );
-      background-size: 80px 20px;
-      background-position: left -40px top 0;
+      //background-color: green;
       z-index: 1;
     }
     &:after {
