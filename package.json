@@ -41,7 +41,7 @@
     "default-passive-events": "^1.0.10",
     "evol-colorpicker": "^3.4.0",
     "font-awesome": "^4.7.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "jquery-migrate": "^3.0.1",
     "jquery-ui-package": "1.11.4",
     "jquery-ui-touch-punch": "^0.2.3",
@@ -56,7 +56,8 @@
     "slick": "1.12.2",
     "tinycolor2": "1.4.1",
     "tinymce": "4.5.8",
-    "toastr": "^2.1.4"
+    "toastr": "^2.1.4",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "aliasify": "2.1.0",
@@ -111,10 +112,13 @@
   "scripts": {
     "start": "grunt",
     "lockdeps": "npx npm-force-resolutions",
-    "test": "grunt jasmine_node"
+    "test": "grunt jasmine_node",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "engines": {
     "node": ">= 6.0.0",
     "npm": ">= 3.0.0"
-  }
+  },
+  "snyk": true
 }
