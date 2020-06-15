@@ -113,7 +113,7 @@
   "license": "GPL-3.0",
   "licenseurl": "https://www.gnu.org/licenses/gpl-3.0.en.html",
   "resolutions": {
-    "superagent": "5.0.6"
+    "superagent": "5.2.2"
   },
   "scripts": {
     "start": "grunt",
