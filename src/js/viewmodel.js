@@ -345,8 +345,8 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
   function conditional_restore(html) {
     return html.replace(/<replacedcc[^>]* condition="([^"]*)"[^>]*>([\s\S]*?)<\/replacedcc>/g, function(match, condition, body) {
       var dd = '<!--[if '+condition.replace(/&amp;/, '&')+']>';
-      dd += body.replace(/<!-- cc:bc:([A-Za-z:]*) -->(<\/cc>)?<!-- cc:ac:\1 -->/g, '</$1>') // restore closing tags (including lost tags)
-            .replace(/><\/cc><!-- cc:sc -->/g, '/>') // restore selfclosing tags
+      dd += body.replace(/(<\/cc>)?<!-- cc:ac:([A-Za-z:]*) -->/g, '</$2>') // restore closing tags (including lost tags)
+            .replace(/><!-- cc:sc -->/g, '/>') // restore selfclosing tags
             .replace(/<!-- cc:bo:([A-Za-z:]*) --><cc/g, '<$1') // restore open tags
             .replace(/^.*<!-- cc:start -->/,'') // remove content before start
             .replace(/<!-- cc:end -->.*$/,''); // remove content after end

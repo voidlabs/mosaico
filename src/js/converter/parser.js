@@ -381,7 +381,7 @@ function conditional_replace(html) {
   return html.replace(/<!--\[if ([^\]]*)\]>((?:(?!--)[\s\S])*?)<!\[endif\]-->/g, function(match, condition, body) {
     var dd = '<!-- cc:start -->';
     dd += body.replace(/<([A-Za-z:]+)/g, '<!-- cc:bo:$1 --><cc') // before open tag
-           .replace(/<\/([A-Za-z:]+)>/g,'<!-- cc:bc:$1 --></cc><!-- cc:ac:$1 -->') // before/after close tag
+           .replace(/<\/([A-Za-z:]+)>/g,'</cc><!-- cc:ac:$1 -->') // before/after close tag
            .replace(/\/>/g,'/><!-- cc:sc -->'); // self-close tag
     dd += '<!-- cc:end -->';
     var output = '<replacedcc condition="'+condition+'" style="display: none">';
