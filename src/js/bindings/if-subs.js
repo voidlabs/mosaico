@@ -87,8 +87,11 @@ if (typeof ko.subscription == 'function' && typeof ko.isWritableObservable !== '
 } else if (ko.version == "3.5.0") {
   beforeSubscriptionProp = 'Qa';
   afterSubscriptionProp = 'cb';
+} else if (ko.version == "3.5.1") {
+  beforeSubscriptionProp = 'Qa';
+  afterSubscriptionProp = 'hb';
 }
-else throw "Unsupported minimized Knockout version " + ko.version + " (supported DEBUG or minimized 3.2.0 ... 3.5.0)";
+else throw "Unsupported minimized Knockout version " + ko.version + " (supported DEBUG or minimized 3.2.0 ... 3.5.1)";
 
 // internally used by ifsubs binding.
 // WARNING this break when used with pureComputed or deferredEvaluated
