@@ -1,4 +1,4 @@
-FROM node:6-alpine
+FROM node:8-alpine
 
 RUN apk update
 RUN apk add bzip2 tar git imagemagick
