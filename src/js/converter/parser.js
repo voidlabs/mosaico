@@ -164,8 +164,14 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
     processStyle(element, templateUrlConverter, bindingProvider, false);
   });
 
+  // We don't want in html code otherwise IE11 will strip the whole tag from the html (see #557)
+  // This means that while editing/previewing we are disabling any effect provided by those tags
+  // E.g: if a template declares a charset different than UTF-8 mosaico is not able to correclty
+  // edit it as it will add the content to its own main iframe.
+  // Also note that in the development environment Express will add an UTF-8 charset to every
+  // html request, so even if a template declared a different charset, Express would overwrite it.
   $("[replacedhttp-equiv]", element).each(function(index, element) {
-    replacedAttributes(element, "http-equiv");
+    // replacedAttributes(element, "http-equiv");
   });
 
   $("[data-ko-display]", element).each(function(index, element) {
