@@ -90,13 +90,15 @@ ko.bindingHandlers.wysiwygSrc = {
     if (ko.bindingHandlers['wysiwygSrc'].preload) $(element).data('preloadimg', new Image());
   },
   update: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+    var isWysiwygMode = (typeof bindingContext.templateMode != 'undefined' && bindingContext.templateMode == 'wysiwyg');
+
     var valueAcc = valueAccessor();
 
     var srcSetter = function(src, w, h, text, isPlaceholder) {
       if (src == undefined || src == null || src == "") {
         element.removeAttribute('src');
       } else if (element.getAttribute('src') !== src) {
-        if (ko.bindingHandlers['wysiwygSrc'].preload) {
+        if (ko.bindingHandlers['wysiwygSrc'].preload && isWysiwygMode) {
           // if we are waiting for a remote placeholder, let's generate an SVG placeholder on the clientsize!
           if (typeof ko.bindingHandlers.wysiwygSrc.svg == 'string' && isPlaceholder) {
             var svgcode = ko.bindingHandlers.wysiwygSrc.svg.replace('__WIDTH__', w).replace('__HEIGHT__', h).replace('__TEXT__', text);
