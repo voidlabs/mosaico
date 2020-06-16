@@ -11,8 +11,7 @@
     "transform": [
       "aliasify",
       "browserify-shim",
-      "browserify-versionify",
-      "uglifyify"
+      "browserify-versionify"
     ]
   },
   "aliasify": {
@@ -99,8 +98,7 @@
     "lodash": "^4.17.15",
     "mockery": "2.1.0",
     "nodemailer": "6.4.8",
-    "npm-force-resolutions": "0.0.3",
-    "uglifyify": "^5.0.2"
+    "npm-force-resolutions": "0.0.3"
   },
   "browserslist": [
     "last 2 versions",

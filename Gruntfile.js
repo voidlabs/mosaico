@@ -78,7 +78,11 @@ module.exports = function(grunt) {
             fullPaths: false,
             standalone: 'Mosaico'
           },
-          transform: [['browserify-shim', {global: true}], ['uglifyify', {global: true}]],
+          // transforms are declared in the package.json ("aliasify", "browserify-versionify" are executed because declared there).
+          // We only redeclare browserify-shim so to be able to pass the global argument to strip down depedencies.
+          // We used to do run uglifyify transform as part of browserify but this now breaks sourcemapping
+          // transform: [['browserify-shim', {global: true}], ['uglifyify', {global: true}]],
+          transform: [ ['browserify-shim', {global: true}] ],
           cacheFile: 'build/main-incremental.bin',
           banner: '/** \n'+
                   ' * <%= pkg.description %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %> \n'+
@@ -88,53 +92,48 @@ module.exports = function(grunt) {
                   ' */',
         },
         files: {
-          'build/mosaico.js': ['./src/js/app.js', './build/templates.js']
+          'build/mosaico.inlinesourcemap.js': ['./src/js/app.js', './build/templates.js']
         }
       }
     },
 
+    // We use exorcise before uglify because uglify doesn't correctly handle inline sourcemaps.
     exorcise: {
       main: {
         options: {
-          bundleDest: 'dist/rs/mosaico.min.js'
+          bundleDest: 'build/mosaico.js'
         },
         files: {
-          'dist/rs/mosaico.min.js.map': ['build/mosaico.js'],
+          'build/mosaico.js.map': ['build/mosaico.inlinesourcemap.js'],
         }
       }
     },
 
     watch: {
+      // for each set of files we have to define the whole execution steps (recursion not supported)
       css: {
         files: ['src/css/*.less', 'src/**/*.css'],
         tasks: ['less', 'postcss']
       },
       tmpl: {
         files: ['src/tmpl/*.tmpl.html'],
-        tasks: ['combineKOTemplates']
+        tasks: ['combineKOTemplates', 'browserify', 'exorcise', 'uglify:min']
       },
       browserify: {
         files: ['src/js/**/*.js', 'build/templates.js'],
-        tasks: ['browserify', 'exorcise']
-      },
-      exorcise: {
-        files: ['build/mosaico.js'],
-        tasks: ['exorcise']
+        tasks: ['newer:jshint', 'browserify', 'exorcise', 'uglify:min']
       },
       htmls: {
         files: ['src/html/*.html'],
         tasks: ['copy:htmls']
       },
+
       web: {
         options: {
           livereload: true
         },
         files: ['dist/*.html', 'dist/**/*.js', 'dist/**/*.css'],
       },
-      jshint: {
-        files: ['src/js/**/*.js'],
-        tasks: ['newer:jshint']
-      }
     },
 
     express: {
@@ -215,10 +214,23 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      min: {
+        options: {
+          sourceMap: {
+            includeSources: true
+          },
+          sourceMapIn: 'build/mosaico.js.map',
+        },
+        files: {
+          'dist/rs/mosaico.min.js': [ 'build/mosaico.js' ]
+        }
+      },
       deps: {
         options: {
           comments: 'some',
-          sourceMap: true,
+          sourceMap: {
+            includeSources: true
+          },
           banner: '/*! \n'+
                   ' * Bundle package for the following libraries:\n'+
                   ' * jQuery | (c) JS Foundation and other contributors | jquery.org/license\n'+
@@ -349,10 +361,10 @@ module.exports = function(grunt) {
 
   });
 
-  grunt.registerTask('js', ['combineKOTemplates', 'browserify', 'exorcise']);
+  grunt.registerTask('js', ['combineKOTemplates', 'browserify', 'exorcise', 'uglify:min']);
   grunt.registerTask('css', ['less', 'postcss']);
   grunt.registerTask('server', ['express', 'watch', 'keepalive']);
-  grunt.registerTask('deps', ['copy', 'uglify', 'cssmin']);
+  grunt.registerTask('deps', ['copy', 'uglify:deps', 'cssmin']);
   grunt.registerTask('build', ['googlefonts', 'deps', 'jshint', 'js', 'css']);
   grunt.registerTask('default', ['build', 'server']);
   grunt.registerTask('test', ['jasmine_node']);
