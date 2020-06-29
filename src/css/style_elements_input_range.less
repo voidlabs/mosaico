@@ -1,0 +1,54 @@
+input[type=range].number-slider {
+  -webkit-appearance: none;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  height: @slider-height;
+  background-color: transparent;
+
+
+  &:focus {
+    outline: none;
+  }
+
+  &::-moz-range-track {
+    .slider-track;
+  }
+  &::-moz-range-thumb {
+    .slider-thumb;
+  }
+
+  &::-webkit-slider-runnable-track {
+    .slider-track;
+    margin: 0;
+  }
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    .slider-thumb;
+    margin-top: (@slider-track-height - @slider-thumb-height) / 2; // Webkit vertical alignment is weird. This works for font-size 0.
+  }
+
+  &::-ms-track {
+    background: transparent;
+    border-color: transparent;
+    border-width: @slider-margin 2px;
+    box-sizing: border-box;
+    color: transparent; // removes tick marks
+    height: @slider-height;
+  }
+  &::-ms-thumb {
+    .slider-thumb;
+    margin-top: 2px;
+    margin-right: 1px;
+  }
+  &::-ms-fill-lower, &::-ms-fill-upper {
+    .slider-track;
+    margin: 0;
+  }
+  &::-ms-tooltip {
+    display: none;
+  }
+
+}

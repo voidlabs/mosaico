@@ -107,11 +107,19 @@ var _propInput = function(model, prop, propAccessor, editType, widgets) {
     // maybe we should expose "step" as a configuration, too
     var min = 0;
     var max = 1000;
+    var step;
     if (model !== null && typeof model._max !== 'undefined') max = model._max;
     if (model !== null && typeof model._min !== 'undefined') min = model._min;
-    var step = (max - min) >= 100 ? 10 : 1;
+    if (model !== null && typeof model._step !== 'undefined') step = model._step;
+    else step = (max - min) >= 100 ? 10 : 1;
     var page = step * 5;
-    html += '<input class="number-spinner" size="7" step="' + step + '" type="number" value="-1" data-bind="spinner: { min: ' + min + ', max: ' + max + ', page: ' + page + ', value: ' + propAccessor + ' }, valueUpdate: [\'change\', \'spin\']' + ', ' + onfocusbinding + '" />';
+    html += '<!-- ko letproxy: { prop: ' + propAccessor + ' } -->';
+    html += '<div style="width: 58%; display: inline-block;">';
+    html += '<input class="number-slider" step="' + step + '" min="' + min + '" max="' + max + '" type="range" value="-1" data-bind="textInput: prop, ' + onfocusbinding + '" />';
+    html += '</div><div style="width: 38%; display: inline-block; float: right;">';
+    html += '<input class="number-spinner" size="7" step="' + step + '" type="number" value="-1" data-bind="spinner: { min: ' + min + ', max: ' + max + ', page: ' + page + ', value: prop }, valueUpdate: [\'change\', \'spin\']' + ', ' + onfocusbinding + '" />';
+    html += '</div>';
+    html += '<!-- /ko -->';
   } else {
     html += '<input size="7" type="text" value="nothing" data-bind="value: ' + propAccessor + ', ' + onfocusbinding + '" />';
   }

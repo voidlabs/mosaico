@@ -70,6 +70,7 @@
   @import "style_elements.less"; // (button, dropdown, tooltip, dialog...)
   @import (optional) "style_elements_drupal.less"; // TODO remove me
   @import "style_elements_jquery.less";
+  @import "style_elements_input_range.less";
   @import (optional) "style_elements_qtip.less"; // TODO remove me
   
   *,
@@ -145,7 +146,8 @@
   }
   
   .propEditor {
-    display: table;
+    display: flex;
+    align-items: center;
     width: 100%;
   }
   

@@ -3,6 +3,28 @@
 var ko = require("knockout");
 var console = require("console");
 
+function _makeProxyObservableComputed(element, ob) {
+  return ko.computed({
+    read: function() { return ob(); },
+    write: function(v) { ob(v); },
+    disposeWhenNodeIsRemoved: element
+  });
+}
+
+ko.bindingHandlers['letproxy'] = {
+    'init': function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+        var val = valueAccessor();
+        var newVal = {};
+        for (var prop in val) newVal[prop] = _makeProxyObservableComputed(element, val[prop]);
+
+        var innerContext = bindingContext['extend'](function() { return newVal; });
+        ko.applyBindingsToDescendants(innerContext, element);
+
+        return { 'controlsDescendantBindings': true };
+    }
+};
+ko.virtualElements.allowedBindings['letproxy'] = true;
+
 ko.bindingHandlers['ifSubs'] = {
   // cloneNodes from ko.utils.cloneNodes (missing in minimized KO)
   cloneNodes: function(nodesArray, shouldCleanNodes) {

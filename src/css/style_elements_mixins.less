@@ -9,6 +9,11 @@
 @input-border-size: 1px;
 @input-base-height: 18px;
 
+@slider-height: @input-base-height + @input-border-size * 2 + @input-padding-v * 2;
+@slider-track-height: 8px;
+@slider-margin: (@slider-height - @slider-track-height) / 2;
+@slider-thumb-height: @slider-height - 2px;
+
 .input-button-common() {
   font-size: 1.0em;
   line-height: normal; // Firefox uses a "line-height: normal !important" for input elements, resulting in "1.2". If we use "1.2" on chrome we get bigger text (li has 1.25). Using "normal" works fine on both.
@@ -404,4 +409,27 @@
 .no-focus() {
   &:focus, &:-moz-focusring { outline: 0 none !important; }
   &::-moz-focus-inner { border: none; }
+}
+
+
+.slider-track() {
+  .input-style;
+  box-sizing: border-box;
+  height: @slider-track-height;
+  min-height: 0;
+  padding: 0;
+  cursor: pointer;
+  margin: @slider-margin 0;
+  font-size: 0; // Chrome thumb alignment depends on font-size/line-height
+  line-height: 0;
+}
+
+.slider-thumb() {
+  .button-style;
+  box-sizing: border-box;
+  min-height: 0;
+  height: @slider-thumb-height;
+  width: (@slider-height / 2);
+  padding: 0;
+  margin: 0;
 }
