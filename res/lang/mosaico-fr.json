@@ -29,7 +29,7 @@
     "Download template": "Télécharger le template",
     "Save template": "Sauvegarder le template",
     "Saved model is obsolete": "Le modèle sauvegardé est obsolète",
-    "<p>The saved model has been created with a previous, non completely compatible version, of the template</p><p>Some content or style in the model <b>COULD BE LOST</b> if you will <b>save</b></p><p>Contact us for more informations!</p>": "<p>Le modèle sauvegardé a été créé avec une version précédente, non complètement compatible, du template.</p><p>Certains contenus ou styles du modèle <b>POURRAIENT ÊTRE PERDUS</b> si vous <b>savegardez</b></p><p>Contactez-nous pour plus d'informations !</p>",
+    "<p>The saved model has been created with a previous, non completely compatible version, of the template</p><p>Some content or style in the model <b>COULD BE LOST</b> if you will <b>save</b></p><p>Contact us for more informations!</p>": "<p>Le modèle sauvegardé a été créé avec une version précédente, non complètement compatible, du template.</p><p>Certains contenus ou styles du modèle <b>POURRAIENT ÊTRE PERDUS</b> si vous <b>sauvegardez</b></p><p>Contactez-nous pour plus d'informations !</p>",
     "Blocks": "Blocs",
     "Blocks ready to be added to the template": "Les blocs sont prêts à être ajoutés au template",
     "Content": "Contenu",
