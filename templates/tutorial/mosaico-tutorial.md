@@ -33,25 +33,20 @@ For sake of simplyicity, we make a very simple HTML - Template.
 
         <!DOCTYPE html>
         <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <title></title>
-        </head>
-
-        <div id="preface">
-            <h1>This is the Mosaico Tutorial</h1>
-
-        </div>
-
-        <div data-ko-container="main">
-        </div>
-
-        <div id="trailer">
-            <h1>This is the end of Mosaico Tutorial</h1>
-        </div>
-
-
-        </body>
+            <head>
+                <meta charset="UTF-8">
+                <title></title>
+            </head>
+            <body>
+                <div id="preface">
+                    <h1>This is the Mosaico Tutorial</h1>
+                </div>
+                <div data-ko-container="main">
+                </div>
+                <div id="trailer">
+                    <h1>This is the end of Mosaico Tutorial</h1>
+                </div>
+            </body>
         </html>
 
     The `<div data-ko-container="main">` marks the draggable area as
