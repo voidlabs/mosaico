@@ -78,14 +78,14 @@ app.get('/img/', function(req, res) {
     var params = req.query.params.split(',');
 
     if (req.query.method == 'placeholder') {
-        var out = gm(params[0], params[1], '#707070');
+        var out = gm(params[0], params[1], '#808080');
         res.set('Content-Type', 'image/png');
         var x = 0, y = 0;
         var size = 40;
         // stripes
         while (y < params[1]) {
             out = out
-              .fill('#808080')
+              .fill('#707070')
               .drawPolygon([x, y], [x + size, y], [x + size*2, y + size], [x + size*2, y + size*2])
               .drawPolygon([x, y + size], [x + size, y + size*2], [x, y + size*2]);
             x = x + size*2;

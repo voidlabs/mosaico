@@ -74,7 +74,8 @@ ko.bindingHandlers.wysiwygSrc = {
   // Version with "width x height" text
   // svg: '<svg xmlns="http://www.w3.org/2000/svg" width="__WIDTH__" height="__HEIGHT__"><defs><pattern id="pinstripe" patternUnits="userSpaceOnUse" width="56.568" height="56.568" patternTransform="rotate(135)"><line x1="28.284" y="0" x2="28.284" y2="56.568" stroke="#808080" stroke-width="28.284" /></pattern></defs><rect width="100%" height="100%" fill="#707070"/><rect width="100%" height="100%" fill="url(#pinstripe)" /><text x="50%" y="50%" font-size="20" text-anchor="middle" alignment-baseline="middle" font-family="monospace, sans-serif" fill="#B0B0B0">__TEXT__</text></svg>',
   // Stripes only
-  svg: '<svg xmlns="http://www.w3.org/2000/svg" width="__WIDTH__" height="__HEIGHT__"><defs><pattern id="pinstripe" patternUnits="userSpaceOnUse" width="56.568" height="56.568" patternTransform="rotate(135)"><line x1="28.284" y="0" x2="28.284" y2="56.568" stroke="#808080" stroke-width="28.284" /></pattern></defs><rect width="100%" height="100%" fill="#707070"/><rect width="100%" height="100%" fill="url(#pinstripe)" /></svg>',
+  svg: '<svg xmlns="http://www.w3.org/2000/svg" width="__WIDTH__" height="__HEIGHT__"><defs><pattern id="pinstripe" patternUnits="userSpaceOnUse" width="56.568" height="56.568" patternTransform="rotate(135)">'+
+    '<line x1="14.142" y1="0" x2="14.142" y2="56.568" stroke="#808080" stroke-width="28.284" /></pattern></defs><rect width="100%" height="100%" fill="#707070"/><rect width="100%" height="100%" fill="url(#pinstripe)" /></svg>',
   convertedUrl: function(src, method, width, height) {
     var queryParamSeparator = src.indexOf('?') == -1 ? '?' : '&';
     var res = src + queryParamSeparator + "method=" + method + "&width=" + width + (height !== null ? "&height=" + height : '');
