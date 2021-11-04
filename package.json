@@ -54,7 +54,7 @@
     "mensch": "^0.3.4",
     "slick": "1.12.2",
     "tinycolor2": "1.4.1",
-    "tinymce": "4.5.8",
+    "tinymce": "5.10.0",
     "toastr": "^2.1.4"
   },
   "devDependencies": {
