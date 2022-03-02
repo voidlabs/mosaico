@@ -454,7 +454,7 @@ var modelEnsurePathAndGetBindValue = function(readonly, defs, themeUpdater, root
         // This remove default value. Ugly. (Needs this for defaults in template-lm socialLinksIcon)
         defs[modelName]._defaultValues[path] = null;
       } else if (defs[modelName]._defaultValues[path] != defaultValue) {
-        throw "Trying to set a new default value for " + modelName + " " + path + " while it already exists (current: " + defs[modelName].defaultValues[path] + ", new: " + defaultValue + ")";
+        throw "Trying to set a new default value for " + modelName + " " + path + " while it already exists (current: " + defs[modelName]._defaultValues[path] + ", new: " + defaultValue + ")";
       }
     }
   }
