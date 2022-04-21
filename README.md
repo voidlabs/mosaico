@@ -63,6 +63,8 @@ First you have to build it using grunt, then you MUST read [Serving Mosaico](htt
 
 [GoodEnough's Mosaico](https://github.com/goodenough/mosaico-backend) born as a Mosaico fork, now have become a full web application product built around Mosaico editing targeting agencies.
 
+[CiviCRM](https://civicrm.org) is an open source CRM built by a community of contributors and supporters, and coordinated by the Core Team. CiviCRM is web-based software used by a diverse range of organisations, particularly not-for-profit organizations (nonprofits and civic sector organizations). CiviCRM offers a complete feature set out of the box and can integrate with your website.
+
 ### Are you having issues with Mosaico?
 
 See the [CONTRIBUTING file](https://github.com/voidlabs/mosaico/blob/master/CONTRIBUTING.md)
