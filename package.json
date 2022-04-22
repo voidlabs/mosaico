@@ -54,7 +54,6 @@
     "mensch": "^0.3.4",
     "slick": "1.12.2",
     "tinycolor2": "1.4.1",
-    "tinymce": "4.5.8",
     "toastr": "^2.1.4"
   },
   "devDependencies": {
@@ -98,7 +97,8 @@
     "mockery": "2.1.0",
     "multer": "1.4.4",
     "nodemailer": "6.4.8",
-    "npm-force-resolutions": "0.0.3"
+    "npm-force-resolutions": "0.0.3",
+    "tinymce": "4.5.8"
   },
   "browserslist": [
     "last 2 versions",
