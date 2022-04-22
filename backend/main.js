@@ -2,19 +2,18 @@
 /* global module: false, console: false, __dirname: false, process: false */
 
 var express = require('express');
-var upload = require('jquery-file-upload-middleware');
+var multer = require('multer');
 var bodyParser = require('body-parser');
 var fs = require('fs');
 var _ = require('lodash');
 var app = express();
-var gmagic = require('gm');
-var gm = gmagic.subClass({imageMagick: true});
+var gm = require('gm').subClass({imageMagick: true});
 var config = require('../server-config.js');
 var extend = require('util')._extend;
 var url = require('url');
+var mime = require('mime-types');
 
-app.use(require('connect-livereload')({ ignore: [/^\/dl/, /^\/img/] }));
-// app.use(require('morgan')('dev'));
+app.use(require('connect-livereload')({ ignore: [/^\/dl/, /^\/img/, /^\/upload/] }));
 
 app.use(bodyParser.json({limit: '5mb'}));
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
@@ -22,55 +21,73 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 })); 
 
-var listFiles = function (req, options, callback) {
-
-    var files = [];
-    var counter = 1;
-    var finish = function () {
-        if (!--counter)
-            callback(files);
-    };
-
-    var uploadHost = req.protocol + '://' + req.get('host');
-
-    fs.readdir(options.uploadDir, _.bind(function (err, list) {
-        _.each(list, function (name) {
-            var stats = fs.statSync(options.uploadDir + '/' + name);
-            if (stats.isFile()) {
-                var file = {
-                    name: name,
-                    url: uploadHost + options.uploadUrl + '/' + name,
-                    size: stats.size
-                };
-                _.each(options.imageVersions, function (value, version) {
-                    counter++;
-                    fs.exists(options.uploadDir + '/' + version + '/' + name, function (exists) {
-                        if (exists)
-                            file.thumbnailUrl = uploadHost + options.uploadUrl + '/' + version + '/' + name;
-                        finish();
-                    });
-                });
-                files.push(file);
-            }
-        }, this);
-        finish();
-    }, this));
-}; 
-
 var uploadOptions = {
   tmpDir: '.tmp',
   uploadDir: './uploads',
   uploadUrl: '/uploads',
-  imageVersions: { thumbnail: { width: 90, height: 90 } }
+  fileTypes: ['image/png', 'image/jpg', 'image/jpeg', 'image/gif'],
 };
 
 app.get('/upload/', function(req, res) {
-    listFiles(req, uploadOptions, function (files) {
-      res.json({ files: files });
-    }); 
+    var files = [];
+    var uploadHost = req.protocol + '://' + req.get('host');
+    fs.readdirSync(uploadOptions.uploadDir).forEach( name => {
+        var stats = fs.statSync(uploadOptions.uploadDir + '/' + name);
+        if (stats.isFile() && uploadOptions.fileTypes.includes(mime.lookup(name))) {
+            files.push({
+                name: name,
+                size: stats.size,
+                url: uploadHost + uploadOptions.uploadUrl + '/' + name,
+                thumbnailUrl: '/img/?src=' + encodeURIComponent(uploadOptions.uploadUrl + '/' + name) + '&method=resize&params=' + encodeURIComponent('90,90')
+            });
+        }
+    });
+    res.json({ files: files });
 });
 
-app.use('/upload/', upload.fileHandler(uploadOptions));
+const safeName = function (dir, filename, callback) {
+    fs.exists(dir + '/' + filename, function (exists) {
+        if (exists) {
+            filename = filename.replace(/(?:(?: \(([\d]+)\))?(\.[^.]+))?$/, function (s, index, ext) {
+                return ' (' + ((parseInt(index, 10) || 0) + 1) + ')' + (ext || '');
+            });
+            safeName(dir, filename, callback)
+        } else {
+            callback(filename);
+        }
+    });
+};
+
+const uploadHandler = multer({
+    storage: multer.diskStorage({
+        destination: (req, file, cb) => {
+            cb(null, uploadOptions.uploadDir)
+        },
+        filename: (req, file, cb) => {
+            safeName(uploadOptions.uploadDir, file.originalname, name => {
+                cb(null, name);
+            });            
+        }
+    }),
+    filterImgFile: (req, file, cb) => {
+        if(uploadOptions.fileTypes.includes(file.mimetype)) cb(null, true)
+        else cb('Only .png .gif .jpg and .jpeg format allowed!', false)
+    }
+});
+
+app.use('/upload/', uploadHandler.array('files[]', 20), function(req, res) {
+    var files = [];
+    var uploadHost = req.protocol + '://' + req.get('host');
+    req.files.forEach( f => {
+        files.push({
+            name: f.filename,
+            size: f.size,
+            url: uploadHost + uploadOptions.uploadUrl + '/' + f.filename,
+            thumbnailUrl: '/img/?src=' + encodeURIComponent(uploadOptions.uploadUrl + '/' + f.filename) + '&method=resize&params=' + encodeURIComponent('90,90')
+        });
+    });
+    res.json({ files: files });
+});
 
 // imgProcessorBackend + "?src=" + encodeURIComponent(src) + "&method=" + encodeURIComponent(method) + "&params=" + encodeURIComponent(width + "," + height);
 app.get('/img/', function(req, res) {
@@ -153,8 +170,6 @@ app.post('/dl/', function(req, res) {
     response(req.body.html);
 });
 
-
-// This is needed with grunt-express-server (while it was not needed with grunt-express)
 
 var PORT = process.env.PORT || 3000;
 

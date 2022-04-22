@@ -91,12 +91,12 @@
     "grunt-postcss": "0.9.0",
     "grunt-release": "0.13.1",
     "jasmine-core": "3.5.0",
-    "jquery-file-upload-middleware": "0.1.8",
     "jshint-stylish": "2.2.1",
     "license-checker": "25.0.1",
     "load-grunt-tasks": "5.1.0",
     "lodash": "^4.17.15",
     "mockery": "2.1.0",
+    "multer": "1.4.4",
     "nodemailer": "6.4.8",
     "npm-force-resolutions": "0.0.3"
   },
