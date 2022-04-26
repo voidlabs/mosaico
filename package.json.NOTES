@@ -1,5 +1,11 @@
-- tinymce is "locked" to 4.5.8 because of major issues with the newer releases (still broken in4.8.0)
-- grunt-release is "locked" to 0.13.1 because 0.14.0 is broken and no new releases have been made since that.
-- grunt-contrib-compress is locked to 1.3.0 because 1.4.3 introduce iltorb dependency (even if optional) and makes the build instable (starting from node 10.16 node ships brotli compression and does not require iltorb)
-- csswring is "locked" to 6.0.3 because 7.0 uses "..." construct and fails to build on older nodes (6,7)
-- superagent is not a direct dev dependency: added to devdependencies with ">=3.7.0" version only to make sure we don't inherit an older/vulnerable version of superagent from grunt-release (as we can't upgrade grunt-release)
+- tinymce is "locked" to 4.5.12 because of major issues with the newer releases
+  (still broken in 4.8.0)
+- grunt-release is "locked" to 0.13.1 because 0.14.0 is broken and no new 
+  releases have been made since that.
+- cheerio is "locked" to 1.0.0-rc.6 because 1.0.0-rc.10 doesn't support $(html)
+  anymore.
+
+Other:
+
+- we manually declare "postcss" as a devDependencies because @ladder/grunt-postcss 
+  does not declare it as a dependency.
