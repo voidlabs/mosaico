@@ -25,7 +25,7 @@ Subscribe to our newsletter to get updates: https://mosaico.voxmail.it/user/regi
 
 ### Build/Run with the development backend [![Build Status](https://travis-ci.org/voidlabs/mosaico.svg)](https://travis-ci.org/voidlabs/mosaico)
 
-You need NodeJS v6.0 or higher + ImageMagick
+You need NodeJS v8.0 or higher + ImageMagick + NPM 8.3 (because of "overrides" support in package.json)
 
 Download/install the dependencies (run again if you get an error, as it probably is a race issues in npm)
 ```

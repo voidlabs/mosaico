@@ -51,7 +51,7 @@ describe('Template converter', function() {
     }, {
       optionalName: 'simpleBlock',
       templateMode: 'show',
-      html: '<div data-bind="attr: { id: id }, uniqueId: $data"><div data-bind="wysiwygId: id()+&apos;_text&apos;, wysiwygClick: function(obj, evt) { $root.selectItem(text, $data); return false }, clickBubble: false, wysiwygCss: { selecteditem: $root.isSelectedItem(text) }, scrollIntoView: $root.isSelectedItem(text), wysiwygOrHtml: text"></div></div>'
+      html: '<div data-bind="attr: { id: id }, uniqueId: $data"><div data-bind="wysiwygId: id()+\'_text\', wysiwygClick: function(obj, evt) { $root.selectItem(text, $data); return false }, clickBubble: false, wysiwygCss: { selecteditem: $root.isSelectedItem(text) }, scrollIntoView: $root.isSelectedItem(text), wysiwygOrHtml: text"></div></div>'
     }];
 
     expect(parseData.templates).toEqual(expectedTemplates);
