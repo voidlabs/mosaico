@@ -111,11 +111,11 @@ module.exports = function(grunt) {
       },
       tmpl: {
         files: ['src/tmpl/*.tmpl.html'],
-        tasks: ['combineKOTemplates', 'browserify', 'exorcise', 'uglify:min']
+        tasks: ['combineKOTemplates', 'browserify', 'exorcise', 'uglifyPrecheck:min']
       },
       browserify: {
         files: ['src/js/**/*.js', 'build/templates.js'],
-        tasks: ['newer:jshint', 'browserify', 'exorcise', 'uglify:min']
+        tasks: ['newer:jshint', 'browserify', 'exorcise', 'uglifyPrecheck:min']
       },
       htmls: {
         files: ['src/html/*.html'],
@@ -361,10 +361,10 @@ module.exports = function(grunt) {
 
   });
 
-  grunt.registerTask('js', ['combineKOTemplates', 'browserify', 'exorcise', 'uglify:min']);
+  grunt.registerTask('js', ['combineKOTemplates', 'browserify', 'exorcise', 'uglifyPrecheck:min']);
   grunt.registerTask('css', ['less', 'postcss']);
   grunt.registerTask('server', ['express', 'watch', 'keepalive']);
-  grunt.registerTask('deps', ['copy', 'uglify:deps', 'cssmin']);
+  grunt.registerTask('deps', ['copy', 'uglifyPrecheck:deps', 'cssmin']);
   grunt.registerTask('build', ['googlefonts', 'deps', 'jshint', 'js', 'css']);
   grunt.registerTask('default', ['build', 'server']);
   grunt.registerTask('test', ['jasmine_node']);
