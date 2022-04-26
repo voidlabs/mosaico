@@ -2,27 +2,24 @@
 /* globals describe: false, it: false, expect: false */
 /* globals process: false, console: false */
 
-var mockery = require('mockery');
-mockery.enable();
-mockery.registerAllowables(['../src/js/converter/declarations.js', 'console', './utils.js', './domutils.js', 'console', '../node_modules/mensch']);
-
-var cheerio = require('cheerio');
-mockery.registerMock('jquery', cheerio);
-
-mockery.registerMock('jsep', require('../node_modules/jsep/src/jsep.js'));
-mockery.registerMock('mensch/lib/parser.js', function() {
-  var parse = require('../node_modules/mensch').parse;
-  return parse.apply(parse, arguments);
-});
-var elaborateDeclarations = require('../src/js/converter/declarations.js');
-var templateUrlConverter = function(url) { return '.'+url; };
-
-var mockedBindingProvider = function(a, b) {
-  // console.log("binding provider for", a, b);
-  return "$" + a + "[" + b + "]";
-};
-
 describe('Style declaration processor', function() {
+
+  var mockery = require('mockery');
+  var elaborateDeclarations;
+
+  var templateUrlConverter = function(url) { return '.'+url; };
+
+  var mockedBindingProvider = function(a, b) {
+    // console.log("binding provider for", a, b);
+    return "$" + a + "[" + b + "]";
+  };
+
+  beforeAll(function() {
+    mockery.registerMock('jquery', require('cheerio'));
+    mockery.registerAllowables(['cheerio', '../src/js/converter/declarations.js', './utils.js', 'console', 'jsep', 'mensch/lib/parser.js', './debug', './lexer', './domutils.js']);
+    mockery.enable();
+    elaborateDeclarations = require('../src/js/converter/declarations.js');
+  });
 
   it('should not loose simple properties after a -ko-property', function() {
     var styleSheet, declarations, previewBindings;
@@ -281,9 +278,15 @@ describe('Style declaration processor', function() {
 
   it('should camel case styles but not attributes', function() {
     var result;
+    var cheerio = require('cheerio');
     var $ = cheerio.load('<a data-attribute="ciao"></a>');
     result = elaborateDeclarations('-ko-attr-data-attribute: @myvalue; background-color: red; -ko-background-color: @mycolor', undefined, templateUrlConverter, mockedBindingProvider, $('a')[0]);
     expect($('a').attr('data-bind')).toEqual("virtualAttr: { 'data-attribute': $myvalue[ciao] }, virtualAttrStyle: 'background-color: '+ko.utils.unwrapObservable($mycolor[red])+';'+''");
+  });
+
+  afterAll(function() {
+    mockery.disable();
+    mockery.deregisterAll();
   });
 
 });

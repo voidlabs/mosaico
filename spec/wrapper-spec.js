@@ -1,27 +1,24 @@
 'use strict';
 /* globals describe: false, it: false, expect: false */
 
-var mockery = require('mockery');
-mockery.enable();
-mockery.registerAllowables(['../src/js/converter/declarations.js', './wrapper.js', 'console', './utils.js', './domutils.js', 'console', 'mensch', 'fs', 'path', 'mkdirp']);
-
-var main = require('../src/js/converter/main.js');
-var fs = require('fs');
-
-mockery.registerMock('knockout', require('knockout'));
-// mockery.registerMock('knockout.wrap', require('../node_modules/knockout.wrap/knockout.wrap.js'));
-mockery.registerMock('knockoutjs-reactor', require('ko-reactor/dist/ko-reactor.js'));
-// mockery.registerMock('knockout-undomanager', require('../node_modules/knockout-undomanager/knockout-undomanager.js'));
-
-var undoserializer = require("../src/js/undomanager/undoserializer.js");
-var console = require("console");
-
-var ko = require('knockout');
-// var undoManager = require('knockout-undomanager');
-var undoManager = require('../src/js/undomanager/undomanager.js');
-var modelDef = require('../src/js/converter/model.js');
-
 describe('model wrapper and undomanager', function() {
+  var fs = require('fs');
+  var mockery = require('mockery');
+  var console = require("console");
+
+  var ko, main, undoManager, modelDef, undoserializer;
+
+  beforeAll(function() {
+    mockery.registerMock('knockoutjs-reactor', require('ko-reactor/dist/ko-reactor.js'));
+    mockery.enable();
+    mockery.registerAllowables(['../src/js/converter/declarations.js', './wrapper.js', 'console', './utils.js', './domutils.js', 'console', 'mensch', 'path', 'mkdirp', './model.js', 'jquery', 'knockout', 'ko-reactor/dist/ko-reactor.js', '../src/js/undomanager/undoserializer.js', '../src/js/undomanager/undomanager.js', '../src/js/converter/model.js', '../src/js/converter/main.js']);
+
+    main = require('../src/js/converter/main.js');
+    ko = require('knockout');
+    undoserializer = require("../src/js/undomanager/undoserializer.js");
+    undoManager = require('../src/js/undomanager/undomanager.js');
+    modelDef = require('../src/js/converter/model.js');
+  });
 
   it('should be able to load previous data and deal with variants', function() {
 
@@ -233,6 +230,11 @@ describe('model wrapper and undomanager', function() {
     expect(blocks()[1]().text()).toEqual("Title 3");
     expect(blocks()[2]().text()).toEqual("Title 1");
 
+  });
+
+  afterAll(function() {
+    mockery.disable();
+    mockery.deregisterAll();
   });
 
 });

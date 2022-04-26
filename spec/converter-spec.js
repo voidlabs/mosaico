@@ -2,58 +2,44 @@
 /* globals describe: false, it: false, expect: false */
 /* globals process: false, console: false */
 
-var mockery = require('mockery');
-mockery.enable();
-mockery.registerAllowables(['../src/js/converter/declarations.js', 'console', './utils.js', './domutils.js', 'console', '../node_modules/mensch']);
-
-/*
-var cheerio = require('cheerio');
-var currentDocument = cheerio.load('<body></body>');
-
-mockery.registerMock('jquery', function() {
-console.log("XXXXX", currentDocument);
-return currentDocument.apply(currentDocument, arguments);
-});
-*/
-mockery.registerMock('jquery', require('cheerio'));
-
-mockery.registerMock('jsep', require('../node_modules/jsep/src/jsep.js'));
-mockery.registerMock('mensch/lib/parser.js', function() {
-  var parse = require('../node_modules/mensch').parse;
-  return parse.apply(parse, arguments);
-});
-var elaborateDeclarations = require('../src/js/converter/declarations.js');
-
-var mockedBindingProvider = function(a, b) {
-  // console.log("binding provider for", a, b);
-  return "$" + a + "[" + b + "]";
-};
-
-var templateUrlConverter = function(url) {
-  return url;
-}
-
-
-
-function _parseTemplate(html) {
-  var translateTemplate = require('../src/js/converter/parser.js');
-  var templates = [];
-  var $ = require('jquery');
-  var myTemplateCreator = function(htmlOrElement, optionalName, templateMode) {
-    templates.push({
-      optionalName: optionalName,
-      templateMode: templateMode,
-      html: typeof htmlOrElement == 'object' ? $.html(htmlOrElement) : htmlOrElement
-    });
-  };
-  var templateDef = translateTemplate('template', html, templateUrlConverter, myTemplateCreator);
-  return {
-    templates: templates,
-    templateDef: templateDef
-  }
-}
-
 describe('Template converter', function() {
+
+  var mockery = require('mockery');
+
+  var mockedBindingProvider = function(a, b) {
+    // console.log("binding provider for", a, b);
+    return "$" + a + "[" + b + "]";
+  };
+
+  var templateUrlConverter = function(url) {
+    return url;
+  }
+
+  var _parseTemplate;
+
+  beforeAll(function() {
+    mockery.registerMock('jquery', require('cheerio'));
+    mockery.registerAllowables(['fs', '../src/js/converter/declarations.js', '../src/js/converter/model.js', '../src/js/converter/parser.js', 'console', './utils.js', './domutils.js', 'console', '../node_modules/mensch', './lib/lexer', './lib/parser', './lib/stringify', './debug', 'jsep', './declarations.js', 'mensch/lib/parser.js', 'mensch/lib/parser.js', './lexer', './stylesheet.js', './model.js']);
+    mockery.enable();
+
+    _parseTemplate = function(html) {
+      var translateTemplate = require('../src/js/converter/parser.js');
+      var templates = [];
+      var $ = require('jquery');
+      var myTemplateCreator = function(htmlOrElement, optionalName, templateMode) {
+        templates.push({
+          optionalName: optionalName,
+          templateMode: templateMode,
+          html: typeof htmlOrElement == 'object' ? $.html(htmlOrElement) : htmlOrElement
+        });
+      };
+      var templateDef = translateTemplate('template', html, templateUrlConverter, myTemplateCreator);
+      return {
+        templates: templates,
+        templateDef: templateDef
+      }
+    }
+  });
 
   it('should handle basic template conversion', function() {
     var parseData = _parseTemplate('<replacedhtml><replacedhead></replacedhead><repleacedbody><div data-ko-container="main"><div data-ko-block="simpleBlock"><div data-ko-editable="text">block1</div></div></div></replacedbody></replacedhtml>');
@@ -253,5 +239,10 @@ describe('Template converter', function() {
 
   });
 
+  afterAll(function() {
+    mockery.disable();
+    mockery.deregisterAll();
+  });
 
 });
+

@@ -1,22 +1,9 @@
 'use strict';
 /* globals describe: false, it: false, expect: false */
 
-var mockery = require('mockery');
-mockery.enable();
-mockery.registerAllowables(['../src/js/converter/declarations.js', 'console', './utils.js', './domutils.js', 'console', '../node_modules/mensch']);
-var currentDocument;
-mockery.registerMock('jquery', function() {
-  return currentDocument.apply(currentDocument, arguments);
-});
-mockery.registerMock('mensch/lib/parser.js', function() {
-  var parse = require('../node_modules/mensch').parse;
-  return parse.apply(parse, arguments);
-});
-
-var utils = require('../src/js/converter/utils.js');
-
-
 describe('Mensch parser', function() {
+
+  var utils = require('../src/js/converter/utils.js');
 
   it('should return expected positions', function() {
     var styleText = " \nselector \n{\n color: red\n;\t}\n selector2{a:b}";

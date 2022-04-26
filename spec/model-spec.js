@@ -1,15 +1,13 @@
 'use strict';
 /* globals it:false, describe:false, expect:false */
 
-var mockery = require('mockery');
-mockery.enable();
-mockery.registerAllowables(['console', './domutils.js']);
-var currentDocument;
-mockery.registerMock('jquery', function() {
-  return currentDocument.apply(currentDocument, arguments);
-});
-
 describe('Model generator', function() {
+  var mockery = require('mockery');
+
+  beforeAll(function() {
+    mockery.enable();
+    mockery.registerAllowables(['console', './domutils.js', 'mensch/lib/parser.js', './debug', './lexer', '../src/js/converter/utils.js', 'jsep']);
+  });
 
   /*
   ensurePathAndGetBindValue: modelEnsurePathAndGetBindValue.bind(undefined, false),
@@ -83,6 +81,11 @@ describe('Model generator', function() {
       expect(replacedText).toEqual(" \nAAA{\n BBB;\t}\n CCC{a:b}");
     });
 
+  });
+
+  afterAll(function() {
+    mockery.disable();
+    mockery.deregisterAll();
   });
 
 });

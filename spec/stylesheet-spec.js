@@ -1,31 +1,27 @@
 'use strict';
 /* globals console:false, describe:false, it:false, expect:false, jasmine:false */
 
-var mockery = require('mockery');
-mockery.enable();
-mockery.registerAllowables(['../src/js/converter/declarations.js', 'console', './utils.js', './domutils.js', 'console', '../node_modules/mensch'])
-
-mockery.registerMock('jquery', require('cheerio'));
-
-mockery.registerMock('mensch/lib/parser.js', function() {
-  var parse = require('../node_modules/mensch').parse;
-  return parse.apply(parse, arguments);
-});
-var processStylesheetRules = require('../src/js/converter/stylesheet.js');
-
-var mockedWithBindingProvider = function(x, y, a, b) {
-  return "$" + x + '.' + a + "[" + b + "]";
-};
-
-var blockDefsUpdater = function() {
-  console.log("BDU", arguments);
-};
-
-var themeUpdater = function() {
-  console.log("TU", arguments);
-};
-
 describe('Stylesheet declaration processor', function() {
+  var processStylesheetRules;
+  var mockery = require('mockery');
+
+  var mockedWithBindingProvider = function(x, y, a, b) {
+    return "$" + x + '.' + a + "[" + b + "]";
+  };
+
+  var blockDefsUpdater = function() {
+    console.log("BDU", arguments);
+  };
+
+  var themeUpdater = function() {
+    console.log("TU", arguments);
+  };
+
+  beforeAll(function() {
+    mockery.enable();
+    mockery.registerAllowables(['../src/js/converter/declarations.js', 'console', './utils.js', './domutils.js', 'console', '../node_modules/mensch', './declarations.js', '../src/js/converter/stylesheet.js', 'mensch/lib/parser.js', './debug', './lexer', 'jsep', 'jquery'])
+    processStylesheetRules = require('../src/js/converter/stylesheet.js');
+  });
 
   it('should add "namespacing" to every rule', function() {
     var result;
@@ -181,6 +177,11 @@ describe('Stylesheet declaration processor', function() {
     expect(result).toBeUndefined();
     expect(exception).toMatch(/^Cannot mix/);
     // console.log("BBB", blockDefsUpdater.calls);
+  });
+
+  afterAll(function() {
+    mockery.disable();
+    mockery.deregisterAll();
   });
 
 });
