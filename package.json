@@ -98,6 +98,7 @@
     "multer": "1.4.4",
     "nodemailer": "6.7.3",
     "npm-force-resolutions": "0.0.10",
+    "postcss": "8.4.12",
     "tinymce": "4.5.12"
   },
   "browserslist": [
@@ -113,6 +114,7 @@
   "overrides": {
     "async": "3.2.3",
     "minimist": "1.2.6",
+    "shelljs": "0.8.5",
     "superagent": "7.1.2"
   },
   "scripts": {
