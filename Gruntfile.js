@@ -84,12 +84,6 @@ module.exports = function(grunt) {
           // transform: [['browserify-shim', {global: true}], ['uglifyify', {global: true}]],
           transform: [ ['browserify-shim', {global: true}] ],
           cacheFile: 'build/main-incremental.bin',
-          banner: '/** \n'+
-                  ' * <%= pkg.description %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %> \n'+
-                  ' * Licensed under the <%= pkg.license %> (<%= pkg.licenseurl %>)\n'+
-                  ' * \n'+
-                  ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author %> \n'+
-                  ' */',
         },
         files: {
           'build/mosaico.inlinesourcemap.js': ['./src/js/app.js', './build/templates.js']
@@ -220,6 +214,12 @@ module.exports = function(grunt) {
             includeSources: true
           },
           sourceMapIn: 'build/mosaico.js.map',
+          banner: '/** \n'+
+                  ' * <%= pkg.description %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %> \n'+
+                  ' * Licensed under the <%= pkg.license %> (<%= pkg.licenseurl %>)\n'+
+                  ' * \n'+
+                  ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author %> \n'+
+                  ' */',
         },
         files: {
           'dist/rs/mosaico.min.js': [ 'build/mosaico.js' ]
