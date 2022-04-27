@@ -160,6 +160,25 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
     domutils.removeAttribute(element, 'data-ko-link');
   });
 
+  // should be only used on resizable items, like TD.
+  $("[data-ko-height]", element).each(function(index, element) {
+    var heightVar = domutils.getAttribute(element, 'data-ko-height');
+
+    // var bindingValue = bindingProvider(heightVar, value, false, 'wysiwyg');
+    var bindingValue = bindingProvider(heightVar);
+    var resizingBinding = "extresizable: { data: " + bindingValue + ", options: { handles: 's', resizing: $root.resizing } }, attr: { 'data-size': ko.utils.unwrapObservable(" + bindingValue + ")+'px' } ";
+
+    var resizingDiv = $('<div class="ui-resizing-div" data-ko-wrap="false" style="width: 100%; height: 100%"></div>')[0];
+    domutils.setAttribute(resizingDiv, 'data-bind', resizingBinding);
+    $(element).append(resizingDiv);
+
+    var newBinding = "wysiwygCss: { 'ui-resizable-container': true }";
+    var currentBindings = domutils.getAttribute(element, 'data-bind');
+    var dataBind = (currentBindings !== null ? currentBindings + ", " : "") + newBinding;
+    domutils.setAttribute(element, 'data-bind', dataBind);
+    domutils.removeAttribute(element, 'data-ko-height');
+  });
+
   $("[replacedstyle]", element).each(function(index, element) {
     processStyle(element, templateUrlConverter, bindingProvider, false);
   });

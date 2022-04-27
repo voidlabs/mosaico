@@ -16,6 +16,7 @@ require("./bindings/wysiwygs.js");
 require("./bindings/scrollfix.js");
 require("./bindings/if-subs.js");
 require("./bindings/extsortables.js");
+require("./bindings/extresizable.js");
 require("./bindings/eventable.js");
 require("./bindings/tooltips.js");
 require("./bindings/extender-pagination.js");

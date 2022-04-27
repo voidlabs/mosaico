@@ -120,6 +120,82 @@
   visibility: visible;
 }
 
+#main-edit-area .isresizing .tools {
+  visibility: hidden !important;
+}
+
+// resizable
+#main-edit-area .ui-resizable {
+  position: relative;
+}
+#main-edit-area .ui-resizable-container {
+  position: relative;
+}
+#main-edit-area .ui-resizable.ui-resizing-div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  &.ui-resizable-resizing:before {
+    display: block;
+  }
+
+  &:before {
+    content: attr(data-size);
+    display: none;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    margin-top: -6px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-size: 12px;
+    line-height: 12px;
+    color: black;
+  }
+}
+
+#main-edit-area .ui-resizable-handle.ui-resizable-s {
+  .button-style();
+  margin: 0;
+  padding: 0;
+  min-height: 0;
+  display: none;
+  position: absolute;
+  bottom: -8px;
+  height: 16px;
+  border-radius: 8px;
+  left: 50%;
+  width: 50px;
+  margin-left: -25px;
+  box-shadow: 0 0 5px @mosaico-button-shadow-color;
+
+  &:before {
+    content: "\f107";
+    position: relative;
+    font-size: 16px;
+    line-height: 16px;
+    display: block;
+    font-family: FontAwesome;
+    text-align: center;
+    cursor: row-resize;
+    // color: #eee;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+}
+
+#main-edit-area .ui-resizable:hover .ui-resizable-handle.ui-resizable-s, 
+#main-edit-area .ui-resizable .ui-resizable-handle:hover {
+  display: block;
+}
+
+
 #main-edit-area .ui-sortable-helper > *,
 #main-edit-area .ui-sortable-helper .tools > * {
   opacity: .3;
@@ -307,7 +383,7 @@
   }
 
   // selectable elements
-  #main-wysiwyg-area:not(.isdragging):not(.isdraggingimg) {
+  #main-wysiwyg-area:not(.isdragging):not(.isdraggingimg):not(.isresizing) {
     // blocks
     .editable {
       .makeSelectable(10px, ~'.selected', 0, ~' .mo-blockselectionhelper');

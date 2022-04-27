@@ -37,6 +37,7 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
     selectedTool: ko.observable(0),
     selectedImageTab: ko.observable(0),
     dragging: ko.observable(false),
+    resizing: ko.observable(false),
     draggingImage: ko.observable(false),
     galleryLoaded: ko.observable(false),
     showPreviewFrame: ko.observable(false),

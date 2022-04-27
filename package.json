@@ -26,6 +26,7 @@
     "jquery-ui/ui/widgets/sortable": "global:jQuery.ui.sortable",
     "jquery-ui/ui/widgets/draggable": "global:jQuery.ui.draggable",
     "jquery-ui/ui/widgets/droppable": "global:jQuery.ui.droppable",
+    "jquery-ui/ui/widgets/resizable": "global:jQuery.ui.resizable",
     "jquery-ui/ui/widgets/spinner": "global:jQuery.ui.spinner",
     "jquery-ui/ui/widgets/tabs": "global:jQuery.ui.tabs",
     "knockout": "global:ko",
