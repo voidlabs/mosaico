@@ -12,7 +12,7 @@
     <!-- /ko -->
     <!-- ko if: _src() == '' -->
     <div title="Upload a new image" data-bind="attr: { title: $root.t('Upload a new image') }" class="tool upload" style="position: relative; overflow: hidden;"><i class="fa fa-fw fa-upload"></i>
-      <input class="fileupload nofile" type="file" name="files[]" data-bind="fileupload: { data: _src, onerror: $root.notifier.error, onfile: $root.loadImage, canvasPreview: true }" style="z-index: 20; position: absolute; top: 0; left: 0; right: 0; bottom: 0; min-width: 100%; min-height: 100%; font-size: 999px; text-align: right; filter: alpha(opacity=0); opacity: 0; outline: none; cursor: inherit; display: block">
+      <input class="fileupload nofile" type="file" accept="image/png, image/jpeg, image/gif" name="files[]" data-bind="fileupload: { data: _src, onerror: $root.notifier.error, onfile: $root.loadImage, canvasPreview: true }" style="z-index: 20; position: absolute; top: 0; left: 0; right: 0; bottom: 0; min-width: 100%; min-height: 100%; font-size: 999px; text-align: right; filter: alpha(opacity=0); opacity: 0; outline: none; cursor: inherit; display: block">
     </div>
     <!-- ko if: typeof $root.selectImage !== 'undefined' -->
     <div title="Select from gallery" class="tool gallery" data-bind="attr: { title: $root.t('Select from gallery') }, click: $root.selectImage.bind($element, _src), clickBubble: true"><i class="fa fa-fw fa-picture-o"></i></div>
@@ -29,7 +29,7 @@
   <div title="Drop an image here or click the upload button" data-bind="attr: { title: $root.t('Drop an image here or click the upload button') }, tooltips: {}" class="workzone" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden;">
     <!-- ko if: _src.preloaded && _src() != _src.preloaded() -->PRELOADING....<!-- /ko -->
     <!-- ko if: _src() != '' -->
-      <input class="fileupload withfile" type="file" name="files[]" data-bind="fileupload: { data: _src, onerror: $root.notifier.error, onfile: $root.galleryRecent.unshift.bind($root.galleryRecent), canvasPreview: true }" style="z-index: -20; position: absolute; top: 0; left: 0; right: 0; bottom: 0; min-width: 100%; min-height: 100%; font-zie: 999px; text-align: right; filter: alpha(opacity=0); opacity: 0; outline: none; cursor: inherit; display: block">
+      <input class="fileupload withfile" type="file" accept="image/png, image/jpeg, image/gif" name="files[]" data-bind="fileupload: { data: _src, onerror: $root.notifier.error, onfile: $root.galleryRecent.unshift.bind($root.galleryRecent), canvasPreview: true }" style="z-index: -20; position: absolute; top: 0; left: 0; right: 0; bottom: 0; min-width: 100%; min-height: 100%; font-zie: 999px; text-align: right; filter: alpha(opacity=0); opacity: 0; outline: none; cursor: inherit; display: block">
     <!-- /ko -->
     <div class="progress" style="opacity: .5; width: 80%; margin-left: 10%; position: absolute; bottom: 30%; height: 20px; border: 2px solid black;">
       <div class="progress-bar progress-bar-success" style="height: 20px; background-color: black; "></div>
