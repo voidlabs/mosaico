@@ -57,7 +57,7 @@ module.exports = function(grunt) {
         diff: false,
         processors: [
           require('autoprefixer')(),
-          require('csswring')()
+          require('postcss-minify')()
         ]
       },
       dist: {
