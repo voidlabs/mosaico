@@ -15,7 +15,7 @@ describe('Style declaration processor', function() {
   };
 
   beforeAll(function() {
-    mockery.registerMock('jquery', require('cheerio'));
+    mockery.registerMock('jquery', require('cheerio').load('<html />'));
     mockery.registerAllowables(['cheerio', '../src/js/converter/declarations.js', './utils.js', 'console', 'jsep', 'mensch/lib/parser.js', './debug', './lexer', './domutils.js']);
     mockery.enable();
     elaborateDeclarations = require('../src/js/converter/declarations.js');

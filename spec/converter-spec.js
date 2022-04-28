@@ -18,7 +18,7 @@ describe('Template converter', function() {
   var _parseTemplate;
 
   beforeAll(function() {
-    mockery.registerMock('jquery', require('cheerio'));
+    mockery.registerMock('jquery', require('cheerio').load('<html />'));
     mockery.registerAllowables(['fs', '../src/js/converter/declarations.js', '../src/js/converter/model.js', '../src/js/converter/parser.js', 'console', './utils.js', './domutils.js', 'console', '../node_modules/mensch', './lib/lexer', './lib/parser', './lib/stringify', './debug', 'jsep', './declarations.js', 'mensch/lib/parser.js', 'mensch/lib/parser.js', './lexer', './stylesheet.js', './model.js']);
     mockery.enable();
 
@@ -38,6 +38,16 @@ describe('Template converter', function() {
         templates: templates,
         templateDef: templateDef
       }
+    }
+  });
+
+  it('should have a working cheerio', function() {
+    try {
+      var $ = require('cheerio').load("whatever");
+      const a = $('<!-- comment 1 --><!-- comment 2 -->');
+    } catch (e) {
+      console.log(e);
+      fail("Bundled cheerio is broken!");
     }
   });
 
