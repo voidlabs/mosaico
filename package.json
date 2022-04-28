@@ -46,7 +46,7 @@
     "jquery-ui-package": "1.11.4",
     "jquery-ui-touch-punch": "^0.2.3",
     "jquery.iframe-transport": "^1.0.0",
-    "jsep": "^1.3.4",
+    "jsep": "^0.4.0",
     "juice": "^8.0.0",
     "knockout": "3.5.1",
     "knockout-jqueryui": "2.2.4",

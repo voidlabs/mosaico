@@ -4,6 +4,7 @@
   releases have been made since that.
 - cheerio is "locked" to 1.0.0-rc.6 because 1.0.0-rc.10 doesn't support $(html)
   anymore.
+- jsep is "locked" to 0.4.0 because 1.0+ is ES6 and breaks IE11 compatibility
 
 Other:
 
