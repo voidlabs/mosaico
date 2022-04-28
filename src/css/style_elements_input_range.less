@@ -27,7 +27,7 @@ input[type=range].number-slider {
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
     .slider-thumb;
-    margin-top: (@slider-track-height - @slider-thumb-height) / 2; // Webkit vertical alignment is weird. This works for font-size 0.
+    margin-top: ((@slider-track-height - @slider-thumb-height) / 2); // Webkit vertical alignment is weird. This works for font-size 0.
   }
 
   &::-ms-track {
@@ -36,7 +36,7 @@ input[type=range].number-slider {
     border-width: @slider-margin 2px;
     box-sizing: border-box;
     color: transparent; // removes tick marks
-    height: @slider-height;
+    height: @slider-track-height;
   }
   &::-ms-thumb {
     .slider-thumb;
