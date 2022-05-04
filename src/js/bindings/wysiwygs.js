@@ -99,7 +99,8 @@ ko.bindingHandlers.wysiwygSrc = {
       if (src == undefined || src == null || src == "") {
         element.removeAttribute('src');
       } else if (element.getAttribute('src') !== src) {
-        if (ko.bindingHandlers['wysiwygSrc'].preload && isWysiwygMode) {
+        // when the current src is null we don't do preloading to avoid flickering (e.g on wizard button for sideimage block)
+        if (ko.bindingHandlers['wysiwygSrc'].preload && isWysiwygMode && element.getAttribute('src') !== null) {
           // if we are waiting for a remote placeholder, let's generate an SVG placeholder on the clientsize!
           if (typeof ko.bindingHandlers.wysiwygSrc.svg == 'string' && isPlaceholder) {
             var svgcode = ko.bindingHandlers.wysiwygSrc.svg.replace('__WIDTH__', w).replace('__HEIGHT__', h).replace('__TEXT__', text);
