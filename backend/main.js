@@ -38,7 +38,7 @@ app.get('/upload/', function(req, res) {
                 name: name,
                 size: stats.size,
                 url: uploadHost + uploadOptions.uploadUrl + '/' + name,
-                thumbnailUrl: '/img/?src=' + encodeURIComponent(uploadOptions.uploadUrl + '/' + name) + '&method=resize&params=' + encodeURIComponent('90,90')
+                thumbnailUrl: '/img/?src=' + encodeURIComponent(uploadOptions.uploadUrl + '/' + name) + '&method=resize&params=' + encodeURIComponent('180,180')
             });
         }
     });
