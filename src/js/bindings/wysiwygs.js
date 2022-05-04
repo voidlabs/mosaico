@@ -41,7 +41,7 @@ ko.bindingHandlers.wysiwygHref = {
         // element.setAttribute('href', 'javascript:void(0)');
         // 20150309: on IE, an editable <a href="" data-editable=""> prevent tinymce toolbar to be shown.
         //           so I change behaviour based on the use of "wysiwygOrHtml"
-        // @see: http://www.tinymce.com/develop/bugtracker_view.php?id=7432
+        // @see: https://github.com/tinymce/tinymce/issues/2146
         var allbindings = allBindingsAccessor();
         if (typeof allbindings.wysiwygOrHtml !== 'undefined') {
           element.setAttribute('href', 'javascript:void(0)');
