@@ -20,7 +20,8 @@ toastr.options = {
   "showEasing": "swing",
   "hideEasing": "linear",
   "showMethod": "fadeIn",
-  "hideMethod": "fadeOut"
+  "hideMethod": "fadeOut",
+  "escapeHtml": "true" // XSS
 };
 
 function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
