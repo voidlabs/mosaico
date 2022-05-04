@@ -18,6 +18,33 @@ describe('model wrapper and undomanager', function() {
     undoserializer = require("../src/js/undomanager/undoserializer.js");
     undoManager = require('../src/js/undomanager/undomanager.js');
     modelDef = require('../src/js/converter/model.js');
+
+  });
+
+  beforeEach(function() {
+    global.document = {
+      lookedup: {},
+      getElementById: function(id) {
+        if (this.lookedup.hasOwnProperty(id)) return true;
+        this.lookedup[id] = 1;
+        return false;
+      }
+    }
+  });
+
+  afterEach(function() {
+    delete global.document;
+  });
+
+  it('should not alter input object on push', function() {
+    var templateDef = JSON.parse("" + fs.readFileSync("spec/data/template-versafix-1.def.json"));
+    var content = main.wrappedResultModel(templateDef);
+    var titleBlock = modelDef.generateModel(templateDef._defs, 'titleBlock');
+    var originalDef = ko.toJSON(titleBlock);
+    var blocks = content().mainBlocks().blocks;
+    blocks.push(titleBlock);
+    var newDef = ko.toJSON(titleBlock);
+    expect(originalDef).toEqual(newDef);
   });
 
   it('should be able to load previous data and deal with variants', function() {
@@ -26,7 +53,7 @@ describe('model wrapper and undomanager', function() {
     var content = main.wrappedResultModel(templateDef);
 
     var savedModel = JSON.parse("" + fs.readFileSync("spec/data/template-versafix-1.save1.json"));
-    content._wrap(savedModel);
+    content._plainObject(savedModel);
 
     // loaded correctly?
     expect(content().mainBlocks().blocks()[2]().titleText()).toEqual("My title");
@@ -38,13 +65,12 @@ describe('model wrapper and undomanager', function() {
   });
 
   it('should support undo/redo and full model replacement', function() {
-
     var templateDef = JSON.parse("" + fs.readFileSync("spec/data/template-versafix-1.def.json"));
     var content = main.wrappedResultModel(templateDef);
 
     var titleBlock = modelDef.generateModel(templateDef._defs, 'titleBlock');
 
-    var jsonContent = ko.toJSON(content);
+    var jsonContent = ko.toJSON(content._plainObject());
 
     var undoRedoStack = undoManager(content, {
       levels: 100,
@@ -73,7 +99,7 @@ describe('model wrapper and undomanager', function() {
     content().mainBlocks().blocks.push(titleBlock);
 
     var unwrapped = ko.utils.parseJson(jsonContent);
-    content._wrap(unwrapped);
+    content._plainObject(unwrapped);
 
     expect(content().titleText()).toEqual("TITLE");
 
@@ -91,17 +117,14 @@ describe('model wrapper and undomanager', function() {
     expect(content().titleText()).toEqual("New Title 2");
 
     var unwrapped = ko.utils.parseJson(jsonContent);
-    content._wrap(unwrapped);
+    content._plainObject(unwrapped);
 
     expect(content().titleText()).toEqual("TITLE");
 
-    // Fails on current code because the "undo" of a full content _wrap doesn't wrap the previous model
-    /*
+    // Fails on current code because the "undo" of a full content _plainObject doesn't wrap the previous model
     undoRedoStack.undoCommand.execute();
 
     expect(content().titleText()).toEqual("New Title 2");
-    */
-
   });
 
   it('should support undo/redo of move actions', function() {
@@ -113,7 +136,7 @@ describe('model wrapper and undomanager', function() {
     var titleBlock2 = modelDef.generateModel(templateDef._defs, 'titleBlock');
     var titleBlock3 = modelDef.generateModel(templateDef._defs, 'titleBlock');
 
-    var jsonContent = ko.toJSON(content);
+    var jsonContent = ko.toJSON(content._plainObject());
 
     var undoRedoStack = undoManager(content, {
       levels: 100,
@@ -201,12 +224,10 @@ describe('model wrapper and undomanager', function() {
     expect(blocks()[1]().text()).toEqual("Title 2");
     expect(blocks()[2]().text()).toEqual("Title 3");
 
-    // using "move action" (sortable with move strategy will use valueWillMute/hasMutated
-    blocks.valueWillMutate();
-    var underlyingBlocks = ko.utils.unwrapObservable(blocks);
-    var removed2 = underlyingBlocks.splice(0, 1);
-    underlyingBlocks.splice(2, 0, removed2[0]);
-    blocks.valueHasMutated();
+    // using separate remove-add actions without valueWillMutate and without manual declaration of the mergemode.
+    // maybe this case is no more needed with the updated knockout/knockout-sortable libraries that correctly detect the move
+    var removed2 = blocks.splice(0, 1);
+    blocks.splice(2, 0, removed2[0]);
 
     debug("F", blocks);
 
@@ -230,6 +251,33 @@ describe('model wrapper and undomanager', function() {
     expect(blocks()[1]().text()).toEqual("Title 3");
     expect(blocks()[2]().text()).toEqual("Title 1");
 
+  });
+
+  it('should not merge removal of a block being just added', function() {
+    var templateDef = JSON.parse("" + fs.readFileSync("spec/data/template-versafix-1.def.json"));
+    var content = main.wrappedResultModel(templateDef);
+    var titleBlock = modelDef.generateModel(templateDef._defs, 'titleBlock');
+    var jsonContent = ko.toJSON(content._plainObject());
+
+    var undoRedoStack = undoManager(content, {
+      levels: 100,
+      undoLabel: ko.computed(function() { return "Undo (#COUNT#)"; }),
+      redoLabel: ko.computed(function() { return "Redo"; })
+    });
+    undoRedoStack.setUndoActionMaker(undoserializer.makeUndoAction.bind(undefined, content));
+    undoserializer.watchEnabled(true);
+    undoRedoStack.setModeOnce();
+
+    var blocks = content().mainBlocks().blocks;
+
+    blocks.push(titleBlock);
+    expect(blocks().length).toEqual(1);
+
+    blocks.remove(blocks()[0]);
+    expect(blocks().length).toEqual(0);
+
+    undoRedoStack.undoCommand.execute();
+    expect(blocks().length).toEqual(1);
   });
 
   afterAll(function() {

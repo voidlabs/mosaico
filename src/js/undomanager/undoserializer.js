@@ -71,7 +71,8 @@ var _getPath = function(parents, child) {
 
 var makeDereferencedUndoAction = function(undoFunc, model, path, value, item) {
   var child = _reference(model, path);
-  undoFunc(child, value, item);
+  // when we replace the full content (load a new content) or undo the replacement of a full content the child has the _plainObject method.
+  undoFunc(child._plainObject || child, value, item);
 };
 
 var listener;
@@ -85,12 +86,10 @@ var makeUndoActionDereferenced = function(model, undoFunc, parents, child, oldVa
   try {
     var path = _getPath(parents, child);
 
-    // Transform actions in simple JS objects.
-    if (typeof oldVal === 'object' || typeof oldVal === 'function') oldVal = ko.toJS(oldVal);
-    if (typeof item !== 'undefined' && (typeof item.value === 'object' || typeof item.value === 'function')) {
-      var newItem = ko.toJS(item);
-      item = newItem;
-    }
+    /* Debug
+    var check = _reference(model, path);
+    if (check !== child) console.error("Dereferencing error for path", path, parents, item, typeof check, typeof child);
+    */
 
     if (typeof listener !== 'undefined') {
       try {

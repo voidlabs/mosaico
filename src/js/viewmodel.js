@@ -156,18 +156,16 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
 
   // test method, command line use only
   viewModel.loadDefaultBlocks = function() {
-    // cloning the whole "mainBlocks" object so that undomanager will
-    // see it as a single operation (maybe I could use "startMultiple"/"stopMultiple".
-    var res = ko.toJS(viewModel.content().mainBlocks);
-    res.blocks = [];
-    var input = ko.utils.unwrapObservable(viewModel.blockDefs);
+    var input = viewModel.blockDefs;
+    // Make sure undomanager consider this as a single action.
+    viewModel.startMultiple();
+    // empty the mainblock container
+    viewModel.content().mainBlocks().blocks.splice(0, viewModel.content().mainBlocks().blocks().length);
+    // add each block
     for (var i = 0; i < input.length; i++) {
-      var obj = ko.toJS(input[i]);
-      // generating ids for blocks, maybe this would work also leaving it empty.
-      obj.id = 'block_' + i;
-      res.blocks.push(obj);
+      viewModel.content().mainBlocks().blocks.push(input[i]);
     }
-    performanceAwareCaller('setMainBlocks', viewModel.content().mainBlocks._wrap.bind(viewModel.content().mainBlocks, res));
+    viewModel.stopMultiple();
   };
 
   // gallery-images.tmpl.html
@@ -239,20 +237,6 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
     return res;
   };
 
-  /*
-  viewModel.placeholderHelper = 'sortable-placeholder';
-  if (false) {
-    viewModel.placeholderHelper = {
-      element: function(currentItem) {
-        return $('<div />').removeClass('ui-draggable').addClass('sortable-placeholder').css('position', 'relative').css('width', '100%').css('height', currentItem.css('height')).css('opacity', '.8')[0];
-      },
-      update: function(container, p) {
-       return;
-      }
-    };
-  }
-  */
-
   // Attempt to insert the block in the destination layout during dragging
   viewModel.placeholderHelper = {
     element: function(currentItem) {
@@ -263,7 +247,7 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
     }
   };
 
-  // TODO the undumanager should be pluggable.
+  // TODO the undomanager should be pluggable.
   // Used by "moveBlock" and blocks-wysiwyg.tmpl.html to "merge" drag/drop operations into a single undo/redo op.
   viewModel.startMultiple = function() {
     if (typeof viewModel.setUndoModeMerge !== 'undefined') viewModel.setUndoModeMerge();
@@ -426,17 +410,16 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
   };
 
   viewModel.exportJSON = function() {
-    var json = ko.toJSON(viewModel.content);
-    return json;
+    return ko.toJSON(viewModel.exportJS());
   };
 
   viewModel.exportJS = function() {
-    return ko.toJS(viewModel.content);
+    return viewModel.content._plainObject();
   };
 
   viewModel.importJSON = function(json) {
     var unwrapped = ko.utils.parseJson(json);
-    viewModel.content._wrap(unwrapped);
+    viewModel.content._plainObject(unwrapped);
   };
 
   viewModel.exportTheme = function() {

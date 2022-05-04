@@ -246,15 +246,15 @@ var templateCompiler = function(performanceAwareCaller, templateUrlConverter, te
     }
 
     // we run a basic compatibility check between the content-model we expect and the initialization model
-    var checkModelRes = performanceAwareCaller('checkModel', templateConverter.checkModel.bind(undefined, content._unwrap(), blockDefs, unwrapped));
+    var checkModelRes = performanceAwareCaller('checkModel', templateConverter.checkModel.bind(undefined, content._plainObject(), blockDefs, unwrapped));
     // if checkModelRes is 1 then the model is not fully compatible but we fixed it
     if (checkModelRes == 2) {
-      console.error("Trying to compile an incompatible template version!", content._unwrap(), blockDefs, unwrapped);
+      console.error("Trying to compile an incompatible template version!", content._plainObject(), blockDefs, unwrapped);
       incompatibleTemplate = true;
     }
 
     try {
-      content._wrap(unwrapped);
+      content._plainObject(unwrapped);
     } catch (ex) {
       console.error("Unable to inject model content!", ex);
       incompatibleTemplate = true;

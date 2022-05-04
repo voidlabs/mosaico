@@ -33,7 +33,8 @@ var processStyle = function(element, templateUrlConverter, bindingProvider, addU
   var newStyle = null;
   var newBindings;
   if (addUniqueId) newBindings = {
-    uniqueId: '$data',
+    // unique id is assigned automatically by the wrapper (to prevent 2 separate async operations)
+    // uniqueId: '$data',
     attr: {
       id: 'id'
     }

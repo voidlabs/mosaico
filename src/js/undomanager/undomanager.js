@@ -183,20 +183,28 @@ var undoManager = function (model, options) {
         // between arrays.
         // So this ends up handling this with "mergeableMove" and "mergedAction": 
         if (item && (item.status == 'deleted' || item.status == 'added')) {
-          // TODO se sono in MODE = MERGE devo metteer una funzione di merge che accetta tutto.
-          // altrimenti lascio questa.
-          act.mergedAction = function(oldChild, oldItem, newAction) {
-            // a deleted action is able to merge with a added action if they apply to the same
-            // object.
-            if (typeof newAction.mergeableMove == 'object' && oldItem.value == newAction.mergeableMove.item.value) {
-              // in this case I simply return a single action running both actions in sequence,
-              // this way the "undo" will need to undo only once for a "move" operation.
-              return _combinedFunction(newAction, this);
-            } else {
-            }
 
-            return null;
-          }.bind(act, child, item);
+          // We do merge only if the first action is a delete (preparing for the add) or if it declares it is part of a move.
+          if (item.status == 'deleted' || typeof item.moved !== 'undefined') {
+            act.mergedAction = function(oldChild, oldItem, newAction) {
+              // a deleted action is able to merge with a added action if they apply to the same
+              // object.
+
+              // we do the merge only for 2 different actions (deleted+added or viceversa) with moved property and moved-index property pointing each other
+              if (typeof newAction.mergeableMove == 'object' && oldItem.value == newAction.mergeableMove.item.value && 
+                ((typeof oldItem.moved == 'undefined' && typeof newAction.mergeableMove.item.moved == 'undefined') ||
+                (typeof oldItem.moved !== 'undefined' && typeof newAction.mergeableMove.item.moved !== 'undefined' &&
+                oldItem.moved == newAction.mergeableMove.item.index && oldItem.index == newAction.mergeableMove.item.moved)) &&
+                oldItem.status !== newAction.mergeableMove.item.status) {
+                // in this case I simply return a single action running both actions in sequence,
+                // this way the "undo" will need to undo only once for a "move" operation.
+                return _combinedFunction(newAction, this);
+              } else {
+              }
+
+              return null;
+            }.bind(act, child, item);
+          }
 
           // add a mergeableMove property that will be used by the next action "mergedAction" to see if this action
           // can be merged.
