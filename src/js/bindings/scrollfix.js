@@ -22,6 +22,7 @@ var render = function() {
 
   timeout = undefined;
 
+  // For Tinymce 4.x
   if (typeof tinymce.activeEditor !== 'undefined' && tinymce.activeEditor !== null &&
       typeof tinymce.activeEditor.theme !== 'undefined' && tinymce.activeEditor.theme !== null && 
       typeof tinymce.activeEditor.theme.panel !== 'undefined' && tinymce.activeEditor.theme.panel !== null) {
@@ -42,6 +43,19 @@ var render = function() {
         tinymce.activeEditor.theme.panel.moveBy(0, 40 - tinymce.activeEditor.theme.panel.layoutRect().y);
     }
 
+  }
+
+  // For Tinymce 5.x and 6.0.x
+  if (typeof tinymce.activeEditor !== 'undefined' && tinymce.activeEditor !== null &&
+    typeof tinymce.activeEditor.container !== 'undefined' && tinymce.activeEditor.container !== null &&
+    typeof tinymce.activeEditor.ui !== 'undefined' && tinymce.activeEditor.ui !== null) {
+
+    // this is not null when the toolbar is visible
+    if (tinymce.activeEditor.container.offsetParent !== null) {
+      // nodeChanged updates the toolbar position but doesn't move it around the editable (on top or bottom) according to the best placement, while ui.show does.
+      // tinymce.activeEditor.nodeChanged();
+      tinymce.activeEditor.ui.show();
+    }
   }
 };
 
