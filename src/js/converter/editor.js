@@ -5,16 +5,6 @@ var elaborateDeclarations = require("./declarations.js");
 var utils = require('./utils.js');
 var modelDef = require('./model.js');
 
-var _getOptionsObject = function(options) {
-  var optionsCouples = options.split('|');
-  var opts = {};
-  for (var i = 0; i < optionsCouples.length; i++) {
-    var opt = optionsCouples[i].split('=');
-    opts[opt[0].trim()] = opt.length > 1 ? opt[1].trim() : opt[0].trim();
-  }
-  return opts;
-};
-
 // TODO this should not have hardcoded rules (we now have a way to declare them in the template definition)
 // Category "style" is used by editType "styler"
 // Cateogry "content" is used by editType "edit"
@@ -63,63 +53,6 @@ var _propInput = function(model, prop, propAccessor, editType, widgets) {
         if (w.parameters.hasOwnProperty(p) && typeof model['_'+p] !== 'undefined')
           parameters[p] = model['_'+p];
     html += w.html(propAccessor, onfocusbinding, parameters);
-  } else if (widget == 'boolean') {
-    html += '<input type="checkbox" value="nothing" data-bind="checked: ' + propAccessor + ', ' + onfocusbinding + '" />';
-    html += '<span class="checkbox-replacer" ></span>'; /* data-bind="css: { checked: '+propAccessor+' }" */
-  } else if (widget == 'color') {
-    html += '<input size="7" type="text" data-bind="colorpicker: { color: ' + propAccessor + ', strings: $root.t(\'Theme Colors,Standard Colors,Web Colors,Theme Colors,Back to Palette,History,No history yet.\') }, ' + ', ' + onfocusbinding + '" />';
-  } else if (widget == 'select') {
-    if (typeof model._options != 'undefined') {
-      var opts = _getOptionsObject(model._options);
-      // var opts = model._options;
-      html += '<select data-bind="value: ' + propAccessor + ', ' + onfocusbinding + '">';
-      for (var opt in opts)
-        if (opts.hasOwnProperty(opt)) {
-          html += '<option value="' + opt + '" data-bind="text: $root.ut(\'template\', \'' + utils.addSlashes(opts[opt]) + '\')">' + opts[opt] + '</option>';
-        }
-      html += '</select>';
-    }
-  } else if (widget == 'font') {
-    html += '<select type="text" data-bind="value: ' + propAccessor + ', ' + onfocusbinding + '">';
-    html += '<optgroup label="Sans-Serif Fonts">';
-    html += '<option value="Arial,Helvetica,sans-serif">Arial</option>';
-    html += '<option value="\'Comic Sans MS\',cursive,sans-serif">Comic Sans MS</option>';
-    html += '<option value="Impact,Charcoal,sans-serif">Impact</option>';
-    html += '<option value="\'Trebuchet MS\',Helvetica,sans-serif">Trebuchet MS</option>';
-    html += '<option value="Verdana,Geneva,sans-serif">Verdana</option>';
-    html += '</optgroup>';
-    html += '<optgroup label="Serif Fonts">';
-    html += '<option value="Georgia,serif">Georgia</option>';
-    html += '<option value="\'Times New Roman\',Times,serif">Times New Roman</option>';
-    html += '</optgroup>';
-    html += '<optgroup label="Monospace Fonts">';
-    html += '<option value="\'Courier New\',Courier,monospace">Courier New</option>';
-    html += '</optgroup>';
-    html += '</select>';
-  } else if (widget == 'url') {
-    html += '<div class="ui-textbutton">';
-    // <a class="ui-spinner-button ui-spinner-down ui-corner-br ui-button ui-widget ui-state-default ui-button-text-only" tabindex="-1" role="button"><span class="ui-button-text"><span class="ui-icon fa fa-fw caret-down">▼</span></span></a>
-    html += '<input class="ui-textbutton-input" size="7" type="url" pattern="(mailto:.+@.+|https?://.+\\..+|\\[.*\\].*)" value="nothing" data-bind="css: { withButton: typeof $root.linkDialog !== \'undefined\' }, validatedValue: ' + propAccessor + ', ' + onfocusbinding + '" />';
-    html += '<a class="ui-textbutton-button" data-bind="visible: typeof $root.linkDialog !== \'undefined\', click: typeof $root.linkDialog !== \'undefined\' ? $root.linkDialog.bind($element.previousSibling) : false, button: { icons: { primary: \'fa fa-fw fa-ellipsis-h\' }, label: \'Opzioni\', text: false }">Opzioni</a>';
-    html += '</div>';
-  } else if (widget == 'integer') {
-    // at this time the "step" depends on max being greater than 100.
-    // maybe we should expose "step" as a configuration, too
-    var min = 0;
-    var max = 1000;
-    var step;
-    if (model !== null && typeof model._max !== 'undefined') max = model._max;
-    if (model !== null && typeof model._min !== 'undefined') min = model._min;
-    if (model !== null && typeof model._step !== 'undefined') step = model._step;
-    else step = (max - min) >= 100 ? 10 : 1;
-    var page = step * 5;
-    html += '<!-- ko letproxy: { prop: ' + propAccessor + ' } -->';
-    html += '<div style="width: 58%; display: inline-block;">';
-    html += '<input class="number-slider" step="' + step + '" min="' + min + '" max="' + max + '" type="range" value="-1" data-bind="textInput: prop, ' + onfocusbinding + '" />';
-    html += '</div><div style="width: 38%; display: inline-block; float: right;">';
-    html += '<input class="number-spinner" size="7" step="' + step + '" type="number" value="-1" data-bind="spinner: { min: ' + min + ', max: ' + max + ', page: ' + page + ', value: prop }, valueUpdate: [\'change\', \'spin\']' + ', ' + onfocusbinding + '" />';
-    html += '</div>';
-    html += '<!-- /ko -->';
   } else {
     html += '<input size="7" type="text" value="nothing" data-bind="value: ' + propAccessor + ', ' + onfocusbinding + '" />';
   }
