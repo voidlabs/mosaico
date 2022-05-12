@@ -77,7 +77,7 @@ var conditionBinding = function(expression, bindingProvider, defVal) {
       // return gen(node.object) + '[' + gen(node.property) + ']';
     } else if (node.type == 'MemberExpression' && !node.computed) {
       var me = gen(node.object, bindingProvider, false) + '.' + gen(node.property, bindingProvider, false);
-      if (lookupmember && node.object.name !== 'Math' && node.object.name !== 'Color' && node.object.name !== 'Util') return bindingProvider(me, defVal) + '()';
+      if (lookupmember && node.object.name !== 'Math' && node.object.name !== 'Color' && node.object.name !== 'Util' && node.object.name !== 'Url') return bindingProvider(me, defVal) + '()';
       return me;
     } else if (node.type === "Literal") {
       return node.raw;
