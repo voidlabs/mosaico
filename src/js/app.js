@@ -12,6 +12,7 @@ var performanceAwareCaller = require("./timed-call.js").timedCall;
 var addUndoStackExtensionMaker = require("./undomanager/undomain.js");
 var colorPlugin = require("./ext/color.js");
 var utilPlugin = require("./ext/util.js");
+var urlPlugin = require("./ext/url.js");
 var inlinerPlugin = require("./ext/inliner.js");
 
 var localStorageLoader = require("./ext/localstorage.js");
@@ -118,7 +119,7 @@ var start = function(options, templateFile, templateMetadata, jsorjson, customEx
   };
 
   // simpleTranslationPlugin must be before the undoStack to translate undo/redo labels
-  var extensions = [simpleTranslationPlugin, addUndoStackExtensionMaker(performanceAwareCaller), colorPlugin, utilPlugin, inlinerPlugin];
+  var extensions = [simpleTranslationPlugin, addUndoStackExtensionMaker(performanceAwareCaller), colorPlugin, utilPlugin, urlPlugin, inlinerPlugin];
   if (typeof customExtensions !== 'undefined')
     for (var k = 0; k < customExtensions.length; k++) extensions.push(customExtensions[k]);
   extensions.push(fileUploadMessagesExtension);

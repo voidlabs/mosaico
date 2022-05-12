@@ -1,3 +1,6 @@
+"use strict";
+/* global global: false */
+
 var utilPlugin = function(vm) {
   global.Util = {
     'decodeURI': decodeURI,
