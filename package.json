@@ -100,7 +100,7 @@
     "npm-force-resolutions": "0.0.10",
     "postcss": "8.4.12",
     "postcss-minify": "^1.1.0",
-    "tinymce": "4.5.12"
+    "tinymce": "4.9.11"
   },
   "browserslist": [
     "last 2 versions",
