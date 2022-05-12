@@ -12,6 +12,7 @@ var performanceAwareCaller = require("./timed-call.js").timedCall;
 var addUndoStackExtensionMaker = require("./undomanager/undomain.js");
 var colorPlugin = require("./ext/color.js");
 var utilPlugin = require("./ext/util.js");
+var urlPlugin = require("./ext/url.js");
 var inlinerPlugin = require("./ext/inliner.js");
 
 var localStorageLoader = require("./ext/localstorage.js");

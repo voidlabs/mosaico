@@ -233,8 +233,29 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
 
       newBinding += "wysiwygOrHtml: " + modelBindValue;
 
-      if (domutils.getLowerTagName(element) == 'td') {
-        var wrappingDiv = $('<div data-ko-wrap="false" style="width: 100%; height: 100%"></div>')[0];
+      var lowerTagName = domutils.getLowerTagName(element);
+
+      var editorStyle = domutils.getAttribute(element, 'data-ko-editor-style');
+      if (editorStyle) {
+        domutils.removeAttribute(element, 'data-ko-editor-style');
+      } else if (lowerTagName == 'div' || lowerTagName == 'td') {
+        editorStyle = 'multiline';
+      } else {
+        editorStyle = 'singleline';
+      }
+
+      newBinding += ", wysiwygStyle: '"+editorStyle+"'";
+
+      // 2022-05-04: we now always use a wrapping DIV for every element (but a DIV).
+      // In past we only used the wrapping div for td elements (because it didn't work in IE10-IE11)
+      // https://github.com/voidlabs/mosaico/issues/11
+      // but we found that every element but divs have contenteditable/tinymce issues.
+      // We stuck to tinymce 4.5.x for long time because of tinymce issue with editing spans.
+      if (lowerTagName !== 'div') {
+        var wrappingDivAttrs = editorStyle == 'singleline' ? 
+          ' style="display: inline-block;"' : 
+          ' style="width: 100%; height: 100%"';
+        var wrappingDiv = $('<div data-ko-wrap="false"'+wrappingDivAttrs+'></div>')[0];
         domutils.setAttribute(wrappingDiv, 'data-bind', newBinding);
         var newContent = domutils.getInnerHtml($('<div></div>').append(wrappingDiv));
         domutils.setContent(element, newContent);
