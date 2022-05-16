@@ -13,6 +13,7 @@ require("./bindings/preloader.js");
 require("./bindings/fileupload.js");
 require("./bindings/virtuals.js");
 require("./bindings/wysiwygs.js");
+require("./bindings/stylesheet.js");
 require("./bindings/scrollfix.js");
 require("./bindings/if-subs.js");
 require("./bindings/extsortables.js");

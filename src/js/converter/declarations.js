@@ -65,7 +65,7 @@ var elaborateDeclarations = function(style, declarations, templateUrlConverter, 
         if (newStyle === null) newStyle = style;
         newStyle = converterUtils.removeStyle(newStyle, declarations[i].position.start, declarations[i].position.end, skipLines, 0, 0, '');
       } else {
-        var decl = declarations[i].name.match(/^-ko-(bind-|attr-)?([a-z0-9-]*?)(-if|-ifnot)?$/);
+        var decl = declarations[i].name.match(/^-ko-(bind-|attr-)?([A-Za-z0-9-]*?)(-if|-ifnot)?$/);
         if (decl !== null) {
           // rimozione dello stile -ko- dall'attributo style.
           if (newStyle === null && typeof style != 'undefined') newStyle = style;
@@ -99,7 +99,7 @@ var elaborateDeclarations = function(style, declarations, templateUrlConverter, 
               bindType = 'virtualStyle';
             } else {
               bindType = null;
-              if (propName == 'text') {
+              if (propName == 'text' || propName == 'stylesheet') {
                 if (typeof element !== 'undefined') {
                   propDefaultValue = domutils.getInnerText(element);
                 } else {
