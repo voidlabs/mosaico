@@ -127,6 +127,8 @@ var start = function(options, templateFile, templateMetadata, jsorjson, customEx
     require("./widgets/font.js"), 
     require("./widgets/integer.js"), 
     require("./widgets/select.js"), 
+    require("./widgets/src.js"), 
+    require("./widgets/textarea.js"), 
     require("./widgets/url.js"), 
     colorPlugin, 
     utilPlugin, 

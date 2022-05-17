@@ -1,0 +1,39 @@
+<table tabfocus="0" cellspacing="0" cellpadding="0" data-drop-content="Drop here" data-bind="click: function(obj, evt) { $root.selectImage(_src); return true; }, clickBubble: false, fudroppable: { activeClass: 'ui-state-highlight', hoverClass: 'ui-state-draghover' }, extdroppable: { options: { accept: '.image', activeClass: 'ui-state-highlight', hoverClass: 'ui-state-draghover', tolerance: 'pointer' }, data: _src, dragged: $root.fileToImage }, attr: { 'data-drop-content': $root.t('Drop here') }"
+  class="widget-src selectable-img" style="display: table; margin: 0; min-height: 50px;"><tr><td class="uploadzone" style="padding: 0">
+  <div class="mo-uploadzone"></div>
+
+  <div class="midtools" data-bind="tooltips: {}">
+    <!-- ko if: _src() != '' -->
+    <div title="Remove image" class="tool delete" data-bind="attr: { title: $root.t('Remove image') }, click: _src.bind(_src, ''), clickBubble: false"><i class="fa fa-fw fa-trash-o"></i></div>
+    <!-- ko if: typeof $root.editImage !== 'undefined' -->
+    <div title="Open the image editing tool" class="tool edit" data-bind="attr: { title: $root.t('Open the image editing tool') }, click: $root.editImage.bind($element, _src), clickBubble: false"><i class="fa fa-fw fa-pencil"></i></div>
+    <!-- /ko -->
+    <!-- /ko -->
+    <!-- ko if: _src() == '' -->
+    <div title="Upload a new image" data-bind="attr: { title: $root.t('Upload a new image') }" class="tool upload" style="position: relative; overflow: hidden;"><i class="fa fa-fw fa-upload"></i>
+      <input class="fileupload nofile" type="file" accept="image/png, image/jpeg, image/gif" name="files[]" data-bind="fileupload: { data: _src, onerror: $root.notifier.error, onfile: $root.loadImage, canvasPreview: true }" style="z-index: 20; position: absolute; top: 0; left: 0; right: 0; bottom: 0; min-width: 100%; min-height: 100%; font-size: 999px; text-align: right; filter: alpha(opacity=0); opacity: 0; outline: none; cursor: inherit; display: block">
+    </div>
+    <!-- ko if: typeof $root.selectImage !== 'undefined' -->
+    <div title="Select from gallery" class="tool gallery" data-bind="attr: { title: $root.t('Select from gallery') }, click: $root.selectImage.bind($element, _src), clickBubble: true"><i class="fa fa-fw fa-picture-o"></i></div>
+    <!-- /ko -->
+    <!-- /ko -->
+  </div>
+
+  <!-- ko if: _src() == '' -->
+    <span class="fileuploadtext" style="text-align: center; display: -ms-flexbox; display: flex; align-items: center; flex-align: center; justify-content: center; padding: 1em; position: absolute; top: 0; left: 0; right: 0; bottom: 0;"><span class="textMiddle" style=" text-shadow: 1px 1px 0 #FFFFFF, 0 0 10px #FFFFFF; font-weight: bold;" data-bind="text: $root.t('Drop an image here')">Drop an image here</span></span>
+  <!-- /ko -->
+
+  <!-- ko if: _src() != '' -->
+  <img style="display: block; max-width: 100%;" src="" data-bind="preloader: _src, wysiwygSrc: { src: _src.preloaded, placeholder: { width: 160, height: 100 }, width: 400, height: null }" />
+  <!-- /ko -->
+
+  <div title="Drop an image here or click the upload button" data-bind="attr: { title: $root.t('Drop an image here or click the upload button') }, tooltips: {}" class="workzone" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden;">
+    <!-- ko if: _src.preloaded && _src() != _src.preloaded() -->PRELOADING....<!-- /ko -->
+    <!-- ko if: _src() != '' -->
+      <input class="fileupload withfile" type="file" accept="image/png, image/jpeg, image/gif" name="files[]" data-bind="fileupload: { data: _src, onerror: $root.notifier.error, onfile: $root.galleryRecent.unshift.bind($root.galleryRecent), canvasPreview: true }" style="z-index: -20; position: absolute; top: 0; left: 0; right: 0; bottom: 0; min-width: 100%; min-height: 100%; font-zie: 999px; text-align: right; filter: alpha(opacity=0); opacity: 0; outline: none; cursor: inherit; display: block">
+    <!-- /ko -->
+    <div class="progress" style="opacity: .5; width: 80%; margin-left: 10%; position: absolute; bottom: 30%; height: 20px; border: 2px solid black;">
+      <div class="progress-bar progress-bar-success" style="height: 20px; background-color: black; "></div>
+    </div>
+  </div>
+</td></tr></table>
