@@ -148,9 +148,33 @@ var expressionBinding = function(expression, bindingProvider, defaultValue) {
   }
 };
 
+var declarationValueUrlPrefixer = function(value, templateUrlConverter) {
+  if (value.match(/url\(.*\)/)) {
+    var replaced = value.replace(/(url\()([^\)]*)(\))/g, function(matched, prefix, url, postfix) {
+      var trimmed = url.trim();
+      var apice = url.trim().charAt(0);
+      if (apice == '\'' || apice == '"') {
+        trimmed = trimmed.substr(1, trimmed.length - 2);
+      } else {
+        apice = '';
+      }
+      var newUrl = templateUrlConverter(trimmed);
+      if (newUrl !== null) {
+        return prefix + apice + newUrl + apice + postfix;
+      } else {
+        return matched;
+      }
+    });
+    return replaced;
+  } else {
+    return value;
+  }
+};
+
 module.exports = {
   addSlashes: addSlashes,
   removeStyle: removeStyle,
   conditionBinding: conditionBinding,
-  expressionBinding: expressionBinding
+  expressionBinding: expressionBinding,
+  declarationValueUrlPrefixer: declarationValueUrlPrefixer
 };

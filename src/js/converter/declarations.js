@@ -12,7 +12,7 @@ var domutils = require("./domutils.js");
 var _declarationValueLookup = function(declarations, propertyname, templateUrlConverter) {
   for (var i = declarations.length - 1; i >= 0; i--) {
     if (declarations[i].type == 'property' && declarations[i].name == propertyname) {
-      return _declarationValueUrlPrefixer(declarations[i].value, templateUrlConverter);
+      return converterUtils.declarationValueUrlPrefixer(declarations[i].value, templateUrlConverter);
     }
   }
   return null;
@@ -22,29 +22,6 @@ var _propToCamelCase = function(propName) {
   return propName.replace(/-([a-z])/g, function(match, contents, offset, s) {
     return contents.toUpperCase();
   });
-};
-
-var _declarationValueUrlPrefixer = function(value, templateUrlConverter) {
-  if (value.match(/url\(.*\)/)) {
-    var replaced = value.replace(/(url\()([^\)]*)(\))/g, function(matched, prefix, url, postfix) {
-      var trimmed = url.trim();
-      var apice = url.trim().charAt(0);
-      if (apice == '\'' || apice == '"') {
-        trimmed = trimmed.substr(1, trimmed.length - 2);
-      } else {
-        apice = '';
-      }
-      var newUrl = templateUrlConverter(trimmed);
-      if (newUrl !== null) {
-        return prefix + apice + newUrl + apice + postfix;
-      } else {
-        return matched;
-      }
-    });
-    return replaced;
-  } else {
-    return value;
-  }
 };
 
 var elaborateDeclarations = function(style, declarations, templateUrlConverter, bindingProvider, element, basicBindings, removeDisplayNone) {
@@ -201,7 +178,7 @@ var elaborateDeclarations = function(style, declarations, templateUrlConverter, 
 
         } else {
           // prefixing urls
-          var replacedValue = _declarationValueUrlPrefixer(declarations[i].value, templateUrlConverter);
+          var replacedValue = converterUtils.declarationValueUrlPrefixer(declarations[i].value, templateUrlConverter);
           if (replacedValue != declarations[i].value) {
             if (newStyle === null && typeof style !== 'undefined') newStyle = style;
             if (newStyle !== null) {
