@@ -31,7 +31,8 @@
     "jquery-ui/ui/widgets/tabs": "global:jQuery.ui.tabs",
     "knockout": "global:ko",
     "knockout-jqueryui": "global:kojqui",
-    "tinymce": "global:tinymce"
+    "tinymce": "global:tinymce",
+    "sifter": "global:Sifter"
   },
   "dependencies": {
     "blueimp-canvas-to-blob": "3.29.0",
@@ -58,6 +59,9 @@
     "toastr": "^2.1.4"
   },
   "devDependencies": {
+    "@lodder/grunt-postcss": "3.1.1",
+    "@selectize/selectize": "^0.13.5",
+    "@selectize/sifter": "^0.6.2",
     "aliasify": "2.1.0",
     "async": "3.2.3",
     "autoprefixer": "^10.4.5",
@@ -87,7 +91,6 @@
     "grunt-keepalive": "^1.0.0",
     "grunt-newer": "^1.3.0",
     "grunt-parallel": "0.5.1",
-    "@lodder/grunt-postcss": "3.1.1",
     "grunt-release": "0.13.1",
     "jasmine-core": "4.1.0",
     "jshint-stylish": "2.2.1",

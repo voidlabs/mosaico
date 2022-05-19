@@ -9,7 +9,7 @@
 @font-family: "Noto Sans", "Helvetica Neue", Helvetica, Arial, "Nimbus Sans L", "Liberation Sans", Arimo, sans-serif;
 @standard-border-radius: 2px;
 @info-border-radius: @standard-border-radius;
-@button-border-radius: @standard-border-radius;
+@button-border-radius: 20px;
 @large-balloon-border-radius: 2px; 
 
 @object-background-color: #DDDDDD;
@@ -49,6 +49,7 @@
 
 #toolbar, #preview-toolbar {
   .ui-button {
+    border-radius: 0;
     padding-top: 7px;
     padding-bottom: 7px;
     line-height: 22px;
@@ -67,6 +68,10 @@
   }
 } 
 
+#main-toolbox #toolimages .ui-tabs > .ui-tabs-nav > li > a {
+  border-radius: 0;
+}
+
 #main-toolbox #tooltabs.ui-tabs > .ui-tabs-nav {
   box-shadow: 0 0 10px @shadow-color;
   position: absolute;
@@ -81,6 +86,9 @@
     li {
       margin: 1px 1px 0 0;
       line-height: @topbar-height - 4px;
+      a {
+        border-radius: 0;
+      }
     }
   }
 }
@@ -99,6 +107,7 @@
   }
   li > a when (@buttonstyle) {
     background-color: transparent; 
+    border-radius: 0;
     &:hover {
       background-color: lighten(@mosaico-ui-background-color, 10%);
       border-bottom: 3px solid lighten(@mosaico-ui-background-color, 10%);
@@ -179,12 +188,13 @@
   color: @button-background-color;
 }
 
-.mo .propInput .data-select select {
+.mo .propInput .mo-select select {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-.mo .propInput .data-select:after {
-  background-color: transparent;
+.mo .propInput .mo-select:after,
+.mo .propInput .data-select .selectize-control.single .selectize-input:after {
+  background-color: transparent !important;
   color: lighten(@text-color, 30%);
 }
 .mo .propInput .evo-pointer:before {
@@ -195,7 +205,8 @@
   background-color: transparent;
   color: lighten(@text-color, 30%);
 }
-.mo .propInput .data-select:hover:after,
+.mo .propInput .mo-select:hover:after,
+.mo .propInput .data-select .selectize-control.single .selectize-input:hover:after,
 .mo .propInput .evo-pointer:hover:before,
 .mo .ui-button.ui-spinner-button.ui-state-hover,
 .mo .propInput .data-integer .ui-button-text,
@@ -308,11 +319,12 @@
   .mo .propInput input[type=number], 
   .mo .propInput input[type=url],
   .mo .propInput select,
-  .mo .propInput .data-select select,
+  .mo .propInput .mo-select select,
+  .mo .propInput .data-select .selectize-control .selectize-input,
   .mo .propInput .ui-spinner .ui-spinner-input {
     border-width: 0 0 2px 0;
     background-color: transparent;
-    &:hover, &:focus {
+    &:hover, &:focus, &.focus {
       border-color: @link-color;
     }
   }
@@ -371,9 +383,10 @@
 
   }
 
-  // file manager broser button
+  // file manager browser button + buttonsets
+  .mo .propInput .ui-buttonset,
   .mo .propInput .ui-textbutton .ui-textbutton-button {
-    border-radius: 50%;
+    border-radius: @button-border-radius;
     box-shadow: 1px 1px 3px @shadow-color;
   }
 
