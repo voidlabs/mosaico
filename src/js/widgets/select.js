@@ -29,16 +29,7 @@ var widgetPlugin = {
 
           // when the buttonsetIconClasses or the parameters.buttonsetLabels are defined we use a buttonset widget instead of a selectbox
           // if (typeof parameters.buttonsetIconClasses !== 'undefined' || typeof parameters.buttonsetLabels !== 'undefined') {
-          if (typeof parameters.buttonsetIconClasses !== 'undefined' || typeof parameters.buttonsetLabels !== 'undefined' || (typeof parameters.renderHint !== 'undefined' && parameters.renderHint == 'buttonset') /* || propAccessor.endsWith('align') || propAccessor.endsWith('imagePos') || propAccessor.endsWith('Align') || propAccessor.endsWith('conSize') || propAccessor.endsWith('lineHeight') || propAccessor.endsWith('imageWidth') */) {
-
-            /*
-            // TODO remove me
-            if (propAccessor.endsWith('align')) {
-              parameters.buttonsetIconClasses = 'left=fa fa-fw fa-align-left|center=fa fa-fw fa-align-center|right=fa fa-fw fa-align-right';
-            } else if (propAccessor.endsWith('imagePos')) {
-              parameters.buttonsetIconClasses = 'left=fa fa-fw fa-address-card-o|right=fa fa-fw fa-address-card-o fa-flip-horizontal';
-            }
-            */
+          if (typeof parameters.buttonsetIconClasses !== 'undefined' || typeof parameters.buttonsetLabels !== 'undefined' || (typeof parameters.renderHint !== 'undefined' && parameters.renderHint == 'buttonset')) {
 
             uniqueCounter++;
             var optionCounter = 0;
@@ -62,21 +53,7 @@ var widgetPlugin = {
             html1 += '<!-- /ko -->';
             return html1;
 
-          // } else if (typeof parameters.renderHint !== 'undefined') {
-          } else if (typeof parameters.renderHint !== 'undefined' || typeof parameters.imagesSources !== 'undefined' /* || propAccessor.endsWith('face') || propAccessor == 'bigSocialIconType' */ ) {
-
-            /* TODO remove me
-            if (propAccessor.endsWith('face')) {
-              parameters.renderHint = 'fontface';
-            } else if (propAccessor == 'bigSocialIconType') {
-              parameters.renderHint = 'images';
-              parameters.imagesSources = '';
-              for (var opt3 in opts) if (opts.hasOwnProperty(opt3)) {
-                if (parameters.imagesSources !== '') parameters.imagesSources += '|';
-                parameters.imagesSources += opt3 + "=url('/templates/versafix-1/img/icons/tg-"+opt3+"-96.png')";
-              }
-            }
-            */
+          } else if (typeof parameters.renderHint !== 'undefined' || typeof parameters.imagesSources !== 'undefined') {
 
             var rendererBinding = '';
             var imagesSources = {};
@@ -88,7 +65,6 @@ var widgetPlugin = {
                 for (var is in imagesSources) if (imagesSources.hasOwnProperty(is)) imagesSources[is] = imagesSources[is].replace(/\s*url\s*\(\s*(?:'(\S*?)'|"(\S*?)"|((?:\\\s|\\\)|\\\"|\\\'|\S)*?))\s*\)/gi, function(mathed, url) {
                   return url.replace(/(?:\\(.))/g, '$1');
                 });
-                global.console.log("XXXXX", imagesSources);
               }
               rendererBinding = ', selectizeRenderer: function(type, item, escape) { return \'<div class=&quot;\' + type + \'&quot;><img style=&quot;max-width: 100%&quot; src=&quot;\' + escape(item.url) + \'&quot; /></div>\'; }';
             }
