@@ -19,6 +19,11 @@
     // Simple Resizable Implementation
     // binding that updates (function or observable)
     ko.bindingHandlers.extresizable = {
+        options: {
+            minHeight: 2,
+            maxHeight: 1000,
+            autoHide: false
+        },
         init: function(element, valueAccessor, allBindingsAccessor, data, bindingContext) {
             var value = unwrap(valueAccessor()) || {},
                 options = value.options || {},
@@ -33,10 +38,6 @@
                 //get reference to drop method
                 value = "data" in value ? value.data : valueAccessor();
 
-                // TODO we probably should get this from parameters
-                options.minHeight = 2;
-                options.maxHeight = 1000;
-                options.autoHide = false;
                 // options.helper = $("<div/>");
                 // options.ghost = true;
                 options.start = function(event, ui) {
@@ -94,8 +95,6 @@
                 });
 
             }
-        },
-        options: {
         }
     }; 
 
