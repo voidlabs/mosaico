@@ -111,14 +111,15 @@ app.get('/img/', function(req, res) {
         // text
         out.fill('#B0B0B0').fontSize(20).drawText(0, 0, params[0] + ' x ' + params[1], 'center').stream('png').pipe(res);
 
-    } else if (req.query.method == 'resize' || req.query.method == 'cover') {
+    } else if (req.query.method == 'resize' || req.query.method == 'cover' || req.query.method == 'aspect') {
         // NOTE: req.query.src is an URL but gm is ok with URLS.
         // We do parse it to localpath to avoid strict "securityPolicy" found in some ImageMagick install to prevent the manipulation
         var urlparsed = url.parse(req.query.src);
         var src = "./"+decodeURI(urlparsed.pathname);
 
         var ir = gm(src);
-        ir.format(function(err,format) {
+
+        var format = function(err,format) {
             if (!err) {
                 res.set('Content-Type', 'image/'+format.toLowerCase());
                 if (req.query.method == 'resize') {
@@ -130,8 +131,30 @@ app.get('/img/', function(req, res) {
                 console.error("ImageMagick failed to detect image format for", src, ". Error:", err);
                 res.status(404).send('Error: '+err);
             }
-        });
+        };
 
+        // "aspect" method is currently unused, but we're evaluating it.
+        if (req.query.method == 'aspect') {
+            ir.size(function(err, size) {
+                if (!err) {
+                    var oldparams = [ params[0], params[1] ];
+                    if (params[0] / params[1] > size.width / size.height) {
+                        params[1] = Math.round(size.width / (params[0] / params[1]));
+                        params[0] = size.width;
+                    } else {
+                        params[0] = Math.round(size.height * (params[0] / params[1]));
+                        params[1] = size.height;
+                    }
+                    // console.log("Image size: ", size, oldparams, params);
+                    ir.format(format);
+                } else {
+                    console.error("ImageMagick failed to detect image size for", src, ". Error:", err);
+                    res.status(404).send('Error: '+err);
+                }
+            });
+        } else {
+            ir.format(format);
+        }
     }
 
 });
