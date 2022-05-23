@@ -41,7 +41,7 @@ var _removeOptionalQuotes = function(str) {
   return str;
 };
 
-var _processStyleSheetRules_processBlockDef = function(blockDefsUpdater, rules) {
+var _processStyleSheetRules_processBlockDef = function(blockDefsUpdater, rules, templateUrlConverter) {
   var properties, namedProps, decls;
   // name, contextName, globalStyle, themeOverride, extend, min, max, widget, options, category, variant, help, blockDescription, version, 
   for (var i = 0; i < rules.length; i++) {
@@ -76,7 +76,7 @@ var _processStyleSheetRules_processBlockDef = function(blockDefsUpdater, rules) 
           else if (decls[k].name == 'properties') properties = val;
           else if (decls[k].name == 'theme') namedProps.globalStyle = '_theme_.' + val;
           else if (decls[k].name == 'themeOverride') namedProps.themeOverride = String(val).toLowerCase() == 'true';
-          else namedProps[decls[k].name] = val;
+          else namedProps[decls[k].name] = converterUtils.declarationValueUrlPrefixer(val, templateUrlConverter);
           // NOTE in past we detected unsupported properties, while now we simple push every declaration in a namedProperty.
           // This make it harder to spot errors in declarations.
           // Named properties we supported were extend, min, max, options, widget, category, variant, help, blockDescription, version
@@ -124,7 +124,7 @@ var processStylesheetRules = function(style, rules, localWithBindingProvider, bl
 
   for (var i = rules.length - 1; i >= 0; i--) {
     if (rules[i].type == 'supports' && rules[i].name == '-ko-blockdefs') {
-      _processStyleSheetRules_processBlockDef(blockDefsUpdater, rules[i].rules);
+      _processStyleSheetRules_processBlockDef(blockDefsUpdater, rules[i].rules, templateUrlConverter);
       newStyle = converterUtils.removeStyle(newStyle, rules[i].position.start, lastStart, 0, 0, 0, '');
       /* temporary experimental code not used
       } else if (rules[i].type == 'supports' && rules[i].name == '-ko-themes') {

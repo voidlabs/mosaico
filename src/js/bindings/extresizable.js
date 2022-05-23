@@ -19,6 +19,11 @@
     // Simple Resizable Implementation
     // binding that updates (function or observable)
     ko.bindingHandlers.extresizable = {
+        options: {
+            minHeight: 2,
+            maxHeight: 1000,
+            autoHide: false
+        },
         init: function(element, valueAccessor, allBindingsAccessor, data, bindingContext) {
             var value = unwrap(valueAccessor()) || {},
                 options = value.options || {},
@@ -33,15 +38,10 @@
                 //get reference to drop method
                 value = "data" in value ? value.data : valueAccessor();
 
-
-                // TODO questi devono venire da parametri
-                options.minHeight = 2;
-                options.maxHeight = 1000;
-                options.autoHide = true;
                 // options.helper = $("<div/>");
                 // options.ghost = true;
                 options.start = function(event, ui) {
-                    console.log("start");
+                    // console.log("start");
                     if (typeof options.resizing == 'function') options.resizing(true);
                     ko.utils.toggleDomNodeCssClass(element, "resizable-resizing", true); 
                     /*
@@ -53,7 +53,7 @@
                     */
                 };
                 options.stop = function(event, ui) {
-                    console.log("stop");
+                    // console.log("stop");
                     if (typeof options.resizing == 'function') options.resizing(false);
                     ko.utils.toggleDomNodeCssClass(element, "resizable-resizing", false); 
                     event.target.style.height = "auto";
@@ -65,7 +65,7 @@
                     */
                 };
                 options.resize = function(event, ui) {
-                    console.log("resize", ui.size.height, ui.originalSize.height, value());
+                    // console.log("resize", ui.size.height, ui.originalSize.height, value());
                     value(ui.size.height);
                     ui.size.height = value();
                 };
@@ -75,14 +75,14 @@
 
                 //initialize resizable
                 $(element).resizable(resizableOptions);
-                console.log(element, "resizable init");
+                // console.log(element, "resizable init");
 
                 //handle enabling/disabling resizable
                 if (isEnabled !== undefined) {
                     ko.computed({
                         read: function() {
                             $(element).resizable(unwrap(isEnabled) ? "enable": "disable");
-                            console.log(element, "resizable enabled read");
+                            // console.log(element, "resizable enabled read");
                         },
                         disposeWhenNodeIsRemoved: element
                     });
@@ -91,12 +91,10 @@
                 //handle disposal
                 ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
                     $(element).resizable("destroy");
-                    console.log(element, "resizable destroy");
+                    // console.log(element, "resizable destroy");
                 });
 
             }
-        },
-        options: {
         }
     }; 
 

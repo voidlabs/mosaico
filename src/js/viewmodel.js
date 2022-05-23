@@ -35,6 +35,7 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
     }),
     selectedBlock: ko.observable(null),
     selectedItem: ko.observable(null),
+    selectedImage: ko.observable(null),
     selectedTool: ko.observable(0),
     selectedImageTab: ko.observable(0),
     dragging: ko.observable(false),
@@ -171,6 +172,10 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
 
   // gallery-images.tmpl.html
   viewModel.addImage = function(img) {
+    if (viewModel.selectedImage() !== null) {
+      viewModel.selectedImage()(img.url);
+      return true;
+    }
     var selectedImg = $('#main-wysiwyg-area .selectable-img.selecteditem');
     if (selectedImg.length == 1 && typeof img == 'object' && typeof img.url !== 'undefined') {
       ko.contextFor(selectedImg[0])._src(img.url);
@@ -274,6 +279,7 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
       // On selectItem if we were on "Blocks" toolbox tab we move to "Content" toolbox tab.
       if (item !== null && viewModel.selectedTool() === 0) viewModel.selectedTool(1);
     }
+    viewModel.selectedImage(null);
     return false;
   }.bind(viewModel, viewModel.selectedItem);
 
@@ -465,6 +471,8 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
   // you can ovverride this method if you want to browse images using an external tool
   // if you call _src(yourSrc) you will set a new source for the image.
   viewModel.selectImage = function(_src) {
+    viewModel.selectedItem(null);
+    viewModel.selectedImage(_src);
     viewModel.showGallery(true);
   };
 

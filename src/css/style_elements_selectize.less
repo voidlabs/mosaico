@@ -1,0 +1,56 @@
+.selectize-control.single {
+  // hide the autocomplete/edit input as we are in a non-editable select
+  &.selectize-force-single-noadd .selectize-input {
+    cursor: default;
+    > input {
+      display: none !important;
+    }
+    &.input-active {
+      cursor: inherit;
+    }
+  }
+  &.selectize-hint-images img {
+    display: block;
+  }
+  &.selectize-hint-images .selectize-input, &.selectize-hint-images .selectize-input.input-active {
+    padding-top: 2px;
+    padding-bottom: 0px;
+    padding-right: 32px;
+  }
+  .selectize-input, .selectize-input.input-active {
+    // default selectize uses relative but we don't need that.
+    position: initial;
+    .input-style();
+    margin: 0;
+    &:after {
+      .button-style();
+      margin: 0;
+
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      height: auto;
+      line-height: 30px;
+      width: 28px;
+      margin-right: 0;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      
+      font-family: FontAwesome;
+      content: "\f0d7";
+      font-weight: normal;
+
+      pointer-events:none;
+    }
+  }
+  .selectize-input.dropdown-active::before {
+    // prevent the 1px move
+    display: none;
+  }
+  .selectize-dropdown {
+    .win();
+    z-index: 1000;
+  }
+}
+

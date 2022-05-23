@@ -1,8 +1,7 @@
-<table tabfocus="0" cellspacing="0" cellpadding="0" data-drop-content="Drop here" data-bind="style: _stylebind, click: function(obj, evt) { $root.selectItem(_item, _data); return true; }, clickBubble: false, fudroppable: { activeClass: 'ui-state-highlight', hoverClass: 'ui-state-draghover' }, extdroppable: { options: { accept: '.image', activeClass: 'ui-state-highlight', hoverClass: 'ui-state-draghover', tolerance: 'pointer' }, data: _src, dragged: $root.fileToImage }, css: { selecteditem: $root.isSelectedItem(_item) }, scrollIntoView: $root.isSelectedItem(_item), attr: { 'data-drop-content': $root.t('Drop here'), width: _width, height: _height, align: _align }"
-  class="img-wysiwyg selectable-img"><tr><td class="uploadzone" data-bind="attr: { width: _width, height: _height }">
-  <div class="mo-imgselectionhelper"></div>
+<table tabfocus="0" cellspacing="0" cellpadding="0" data-drop-content="Drop here" data-bind="click: function(obj, evt) { $root.selectImage(_src); return true; }, clickBubble: false, fudroppable: { activeClass: 'ui-state-highlight', hoverClass: 'ui-state-draghover' }, extdroppable: { options: { accept: '.image', activeClass: 'ui-state-highlight', hoverClass: 'ui-state-draghover', tolerance: 'pointer' }, data: _src, dragged: $root.fileToImage }, attr: { 'data-drop-content': $root.t('Drop here') }"
+  class="widget-src selectable-img" style="display: table; margin: 0; min-height: 50px;"><tr><td class="uploadzone" style="padding: 0">
   <div class="mo-uploadzone"></div>
-  <div class="img-size" data-bind="text: _width && _height ? ko.utils.unwrapObservable(_width)+'x'+ko.utils.unwrapObservable(_height) : _width ? 'w'+ko.utils.unwrapObservable(_width) : 'h'+ko.utils.unwrapObservable(_height)">size</div>
+
   <div class="midtools" data-bind="tooltips: {}">
     <!-- ko if: _src() != '' -->
     <div title="Remove image" class="tool delete" data-bind="attr: { title: $root.t('Remove image') }, click: _src.bind(_src, ''), clickBubble: false"><i class="fa fa-fw fa-trash-o"></i></div>
@@ -20,12 +19,14 @@
     <!-- /ko -->
   </div>
 
-  <!-- ko template: _template --><!-- /ko -->
   <!-- ko if: _src() == '' -->
     <span class="fileuploadtext" style="text-align: center; display: -ms-flexbox; display: flex; align-items: center; flex-align: center; justify-content: center; padding: 1em; position: absolute; top: 0; left: 0; right: 0; bottom: 0;"><span class="textMiddle" style=" text-shadow: 1px 1px 0 #FFFFFF, 0 0 10px #FFFFFF; font-weight: bold;" data-bind="text: $root.t('Drop an image here')">Drop an image here</span></span>
   <!-- /ko -->
 
-  <!-- pulsante per la cancellazione -->
+  <!-- ko if: _src() != '' -->
+  <img style="display: block; max-width: 100%;" src="" data-bind="preloader: _src, wysiwygSrc: { src: _src.preloaded, placeholder: { width: 160, height: 100 }, width: 400, height: null }" />
+  <!-- /ko -->
+
   <div title="Drop an image here or click the upload button" data-bind="attr: { title: $root.t('Drop an image here or click the upload button') }, tooltips: {}" class="workzone" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden;">
     <!-- ko if: _src.preloaded && _src() != _src.preloaded() -->PRELOADING....<!-- /ko -->
     <!-- ko if: _src() != '' -->

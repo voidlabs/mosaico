@@ -65,7 +65,8 @@
   opacity: .8;
 }
 
-#main-edit-area .img-wysiwyg {
+#main-edit-area .img-wysiwyg,
+#main-edit-area .widget-src {
   // required for imgdroppable zones
   position: relative;
   /* This should emulate the stlye of the replaced image... */
@@ -85,6 +86,7 @@
    display: block;
   }
 }
+
 #main-edit-area .isdraggingimg .ui-droppable.img-wysiwyg {
   &:before {
     .makeDroppable();
@@ -131,6 +133,12 @@
 }
 #main-edit-area .ui-resizable-container {
   position: relative;
+  .ui-resizable-handle {
+    display: none !important;
+  }
+  &:hover .ui-resizable-handle {
+    display: block !important;
+  }
 }
 #main-edit-area .ui-resizable.ui-resizing-div {
   position: absolute;
@@ -138,6 +146,11 @@
   left: 0;
   right: 0;
   bottom: 0;
+
+  &.ui-resizable-resizing {
+    z-index: 1000;
+    background-color: #ffffffcc;
+  }
 
   &.ui-resizable-resizing:before {
     display: block;
@@ -206,53 +219,61 @@
   opacity: 1;
 }
 
-#main-edit-area .tool {
-  .button-style();
+#main-edit-area, 
+#main-toolbox {
 
-  display: inline-block;
-  text-align: center;
-  width: 25px;
-  height: 25px;
-  // border-radius: 3px;
-  font-size: 20px;
-  padding: 3px;
-  padding-bottom: 2px;
-  margin: 0;
-  min-height: 25px;
-  
-  box-shadow: 0 0 5px @mosaico-button-shadow-color;
-  
-  cursor: pointer;
+  .tool {
+    .button-style();
 
-  input.fileupload {
-    padding-top: 50px;
+    box-sizing: border-box;
+    display: inline-block;
+    text-align: center;
+    width: 35px;
+    height: 33px;
+    // border-radius: 3px;
+    font-size: 20px;
+    padding: 3px;
+    padding-bottom: 2px;
+    margin: 0;
+    min-height: 35px;
+    
+    box-shadow: 0 0 5px @mosaico-button-shadow-color;
+    
+    cursor: pointer;
+
+    input.fileupload {
+      padding-top: 50px;
+    }
   }
-}
-#main-edit-area .tool:hover {
-  background-color: @mosaico-button-background-color-hover;
-}
-#main-edit-area .tools .tool.handle {
-  float: left;
-  margin-left: 16px;
-  cursor: move;
-}
-#main-edit-area .tools .tool.moveup,
-#main-edit-area .tools .tool.movedown {
-  float: left;
-  margin-left: 3px;
+
+  .tool:hover {
+    background-color: @mosaico-button-background-color-hover;
+  }
+  .tools .tool.handle {
+    float: left;
+    margin-left: 16px;
+    cursor: move;
+  }
+  .tools .tool.moveup,
+  .tools .tool.movedown {
+    float: left;
+    margin-left: 3px;
+  }
+  
+  .tools .tool.delete,
+  .tools .tool.clone {
+    float: right;
+    margin-left: 3px;
+  }
+  
+  .tools .tool.delete {
+    margin-right: 16px;
+  }
+
 }
 
-#main-edit-area .tools .tool.delete,
-#main-edit-area .tools .tool.clone {
-  float: right;
-  margin-left: 3px;
-}
-
-#main-edit-area .tools .tool.delete {
-  margin-right: 16px;
-}
-
-#main-edit-area .midtools {
+#main-edit-area .midtools,
+#main-toolbox .midtools {
   // display: none;
   visibility: hidden;
   z-index: 30; 
@@ -261,12 +282,18 @@
   // width: 100%;
   text-align: left;
 }
+#main-toolbox .midtools {
+  visibility: visible;
+  bottom: 6px;
+}
+
 #main-edit-area .img-wysiwyg:hover .midtools {
   // display: block;
   visibility: visible;
 }
 // nascondo un po' di cose durante l'upload
-#main-edit-area .uploading {
+#main-edit-area .uploading,
+#main-toolbox .uploading {
   .midtools {
     // display: none !important;
     visibility: hidden !important;
@@ -298,7 +325,8 @@
   visibility: visible;
 }
 
-#main-edit-area .midtools {
+#main-edit-area .midtools,
+#main-toolbox .midtools {
   margin-left: 4px;
   .tool {
     // z-index: 20;
@@ -306,7 +334,8 @@
   }
 }
 
-#main-edit-area .tools {
+#main-edit-area .tools,
+#main-toolbox .tools {
   position: absolute;
   // display: none;
   visibility: hidden;

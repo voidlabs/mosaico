@@ -18,9 +18,9 @@ var widgetPlugin = {
         else step = (max - min) >= 100 ? 10 : 1;
         var page = step * 5;
         var html = '<!-- ko letproxy: { prop: ' + propAccessor + ' } -->';
-        html += '<div style="width: 58%; display: inline-block;">';
+        html += '<div style="width: 64%; display: inline-block;">';
         html += '<input class="number-slider" step="' + step + '" min="' + min + '" max="' + max + '" type="range" value="-1" data-bind="textInput: prop, ' + onfocusbinding + '" />';
-        html += '</div><div style="width: 38%; display: inline-block; float: right;">';
+        html += '</div><div style="width: 33%; display: inline-block; float: right;">';
         html += '<input class="number-spinner" size="7" step="' + step + '" type="number" value="-1" data-bind="spinner: { min: ' + min + ', max: ' + max + ', page: ' + page + ', value: prop }, valueUpdate: [\'change\', \'spin\']' + ', ' + onfocusbinding + '" />';
         html += '</div>';
         html += '<!-- /ko -->';

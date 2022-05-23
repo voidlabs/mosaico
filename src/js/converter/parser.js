@@ -167,7 +167,12 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
 
     // var bindingValue = bindingProvider(heightVar, value, false, 'wysiwyg');
     var bindingValue = bindingProvider(heightVar);
-    var resizingBinding = "extresizable: { data: " + bindingValue + ", options: { handles: 's', resizing: $root.resizing } }, attr: { 'data-size': ko.utils.unwrapObservable(" + bindingValue + ")+'px' } ";
+
+    var resizableOptions = '';
+    if (typeof defs[bindingValue] !== 'undefined' && typeof defs[bindingValue]._min !== 'undefined') resizableOptions += ', minHeight: '+defs[bindingValue]._min;
+    if (typeof defs[bindingValue] !== 'undefined' && typeof defs[bindingValue]._max !== 'undefined') resizableOptions += ', maxHeight: '+defs[bindingValue]._max;
+
+    var resizingBinding = "extresizable: { data: " + bindingValue + ", options: { handles: 's'" + resizableOptions + ", resizing: $root.resizing } }, attr: { 'data-size': ko.utils.unwrapObservable(" + bindingValue + ")+'px' } ";
 
     var resizingDiv = $('<div class="ui-resizing-div" data-ko-wrap="false" style="width: 100%; height: 100%"></div>')[0];
     domutils.setAttribute(resizingDiv, 'data-bind', resizingBinding);
