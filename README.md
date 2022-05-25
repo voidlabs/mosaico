@@ -25,7 +25,7 @@ Subscribe to our newsletter to get updates: https://mosaico.voxmail.it/user/regi
 
 ### Build/Run with the development backend [![Build Status](https://travis-ci.org/voidlabs/mosaico.svg)](https://travis-ci.org/voidlabs/mosaico)
 
-You need NodeJS v8.0 or higher + ImageMagick + NPM 8.3 (because of "overrides" support in package.json)
+You need NodeJS v8.0 or higher + NPM 8.3 (because of "overrides" support in package.json you need npm 8.3 if you want to change/upgrade dependencies, but it should work with older npm, too, if you rely on package-lock.json)
 
 Download/install the dependencies (run again if you get an error, as it probably is a race issues in npm)
 ```
@@ -39,9 +39,6 @@ compile and run a local webserver (http://127.0.0.1:9006) with incremental build
 ```
   grunt
 ```
-*IMPORTANT* in order to use image uploading/processing feature in Node you need imageMagick installed in your environment.
-e.g. running "convert" and "identify" on the command line should output imageMagick command line help (if you are on Windows and install imageMagick 7.x then make sure to install ["legacy utilities"](https://github.com/aheckmann/gm/issues/559)).
-
 *NOTE* we have reports that default Ubuntu node package have issues with building Mosaico via Grunt. If you see a ```Fatal error: watch ENOSPC``` then have a look at https://github.com/voidlabs/mosaico/issues/82
 
 ### Docker
