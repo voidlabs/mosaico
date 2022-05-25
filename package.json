@@ -90,7 +90,6 @@
     "grunt-keepalive": "^1.0.0",
     "grunt-newer": "^1.3.0",
     "grunt-parallel": "0.5.1",
-    "grunt-release": "0.13.1",
     "jasmine-core": "4.1.1",
     "jimp": "^0.16.1",
     "jshint-stylish": "2.2.1",
@@ -128,5 +127,21 @@
   "engines": {
     "node": ">= 8.0.0",
     "npm": ">= 8.3.0"
+  },
+  "release-it": {
+    "github": {
+      "release": true,
+      "releaseName": "v${version}"
+    },
+    "hooks": {
+      "before:init": [
+        "npm run test",
+        "grunt check_licenses"
+      ],
+      "after:bump": [
+        "grunt dist"
+      ],
+      "after:release": "echo Successfully released ${name} v${version} to ${repo.repository}."
+    }
   }
 }

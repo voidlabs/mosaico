@@ -344,21 +344,6 @@ module.exports = function(grunt) {
       }
     },
 
-    release: {
-      options: {
-        additionalFiles: ['package-lock.json'],
-        tagName: 'v<%= version %>',
-        // the release 0.14.0 plugin is buggy and they are all done BEFORE the tagging, so we stick to 0.13.1 until a new proper release is done.
-        beforeRelease: ['clean', 'build'],
-        afterRelease: ['compress'],
-        npm: false,
-        github: {
-          repo: 'voidlabs/mosaico',
-          accessTokenVar: 'GITHUB_ACCESS_TOKEN',
-        }
-      },
-    },
-
   });
 
   grunt.registerTask('js', ['combineKOTemplates', 'browserify', 'exorcise', 'uglifyPrecheck:min']);
