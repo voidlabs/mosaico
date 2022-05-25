@@ -1,11 +1,7 @@
-- tinymce is "locked" to 4.5.12 because of major issues with the newer releases
-  (still broken in 4.8.0)
+- tinymce is "locked" to 4.9.x because our skin, build code, and css overrides
+  still rely on 4.x.
 - grunt-release is "locked" to 0.13.1 because 0.14.0 is broken and no new 
   releases have been made since that.
-- cheerio is "locked" to 1.0.0-rc.5 because 1.0.0-rc.6 and following fail to
-  deal with 2 sibling comments in html.
-  was: (cheerio is "locked" to 1.0.0-rc.6 because 1.0.0-rc.10 doesn't support
-  $(html) anymore)
 - jsep is "locked" to 0.4.0 because 1.0+ is ES6 and breaks IE11 compatibility
 
 Other:
@@ -17,3 +13,10 @@ Overrides:
 
 - the overrides are only used to override security issues
 - css-what 6.1.0 can be removed once we'll be able to update cheerio
+
+Old:
+- cheerio 1.0.0-rc.11 fixed the bug that prevented our dependency update.
+  was: (cheerio "locked" to 1.0.0-rc.5 because 1.0.0-rc.6 and following fail to
+  deal with 2 sibling comments in html.)
+  was: (cheerio is "locked" to 1.0.0-rc.6 because 1.0.0-rc.10 doesn't support
+  $(html) anymore)
