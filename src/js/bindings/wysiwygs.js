@@ -68,6 +68,27 @@ ko.bindingHandlers.wysiwygHref = {
 };
 ko.virtualElements.allowedBindings['wysiwygHref'] = true;
 
+/* debounce */
+function _debounce(func, wait, initialWait) {
+  var timeout;
+  return function() {
+    var context = this, args = arguments;
+    var delay = function() {
+      timeout = null;
+      func.apply(context, args);
+    };
+
+    var callNow = !timeout;
+    global.clearTimeout(timeout);
+
+    if (callNow) {
+      timeout = global.setTimeout(delay, initialWait);
+    } else {
+      timeout = global.setTimeout(delay, wait);
+    }
+  };
+}
+
 ko.bindingHandlers.wysiwygSrc = {
   preload: true,
   preloadingClass: 'mo-preloading',
@@ -95,6 +116,29 @@ ko.bindingHandlers.wysiwygSrc = {
 
     var valueAcc = valueAccessor();
 
+    if (typeof valueAccessor.imagePreloadAndSetElementSrc == 'undefined') {
+
+      valueAccessor.imagePreloadAndSetElementSrc = _debounce(function(src) {
+        if (ko.bindingHandlers['wysiwygSrc'].preloadingClass) element.classList.add(ko.bindingHandlers['wysiwygSrc'].preloadingClass);
+        var img = $(element).data('preloadimg');
+        img.onload = function() {
+          element.setAttribute('src', src);
+          if (ko.bindingHandlers['wysiwygSrc'].preloadingClass) element.classList.remove(ko.bindingHandlers['wysiwygSrc'].preloadingClass);
+        };
+        img.onerror = function(e) {
+          console.warn('Unable to preload image', src, e);
+          element.setAttribute('src', src);
+          if (ko.bindingHandlers['wysiwygSrc'].preloadingClass) element.classList.remove(ko.bindingHandlers['wysiwygSrc'].preloadingClass);
+        };
+        img.src = src;
+      }, 500, 100);
+
+      valueAccessor.setElementSrc = _debounce(function(src) {
+        element.setAttribute('src', src);
+      }, 500, 100);
+
+    }
+
     var srcSetter = function(src, w, h, text, isPlaceholder) {
       if (src == undefined || src == null || src == "") {
         element.removeAttribute('src');
@@ -106,20 +150,9 @@ ko.bindingHandlers.wysiwygSrc = {
             var svgcode = ko.bindingHandlers.wysiwygSrc.svg.replace('__WIDTH__', w).replace('__HEIGHT__', h).replace('__TEXT__', text);
             element.setAttribute('src', 'data:image/svg+xml;base64,'+global.btoa(svgcode));
           }
-          if (ko.bindingHandlers['wysiwygSrc'].preloadingClass) element.classList.add(ko.bindingHandlers['wysiwygSrc'].preloadingClass);
-          var img = $(element).data('preloadimg');
-          img.onload = function() {
-            element.setAttribute('src', src);
-            if (ko.bindingHandlers['wysiwygSrc'].preloadingClass) element.classList.remove(ko.bindingHandlers['wysiwygSrc'].preloadingClass);
-          };
-          img.onerror = function(e) {
-            console.warn('Unable to preload image', src, e);
-            element.setAttribute('src', src);
-            if (ko.bindingHandlers['wysiwygSrc'].preloadingClass) element.classList.remove(ko.bindingHandlers['wysiwygSrc'].preloadingClass);
-          };
-          img.src = src;
+          valueAccessor.imagePreloadAndSetElementSrc(src);
         } else {
-          element.setAttribute('src', src);
+          valueAccessor.setElementSrc(src);
         }
       }
     };
@@ -143,6 +176,7 @@ ko.bindingHandlers.wysiwygSrc = {
       if (!method) method = width > 0 && height > 0 ? 'cover' : 'resize';
       src = ko.bindingHandlers.wysiwygSrc.convertedUrl(srcValue, method, width, height);
     }
+
     srcSetter(src, w, h, text, isPlaceholder);
 
     if (typeof width !== 'undefined' && width !== null) element.setAttribute("width", width);
