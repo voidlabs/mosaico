@@ -35,6 +35,8 @@
     "sifter": "global:Sifter"
   },
   "dependencies": {
+    "@selectize/selectize": "^0.13.5",
+    "@selectize/sifter": "^0.6.2",
     "blueimp-canvas-to-blob": "3.29.0",
     "blueimp-file-upload": "10.32.0",
     "blueimp-load-image": "5.16.0",
@@ -60,8 +62,6 @@
   },
   "devDependencies": {
     "@lodder/grunt-postcss": "3.1.1",
-    "@selectize/selectize": "^0.13.5",
-    "@selectize/sifter": "^0.6.2",
     "aliasify": "2.1.0",
     "async": "3.2.3",
     "autoprefixer": "^10.4.7",

@@ -54,6 +54,9 @@ JSEP (expression engine):
 Mensch (CSS parser used by Mosaico and Juice):
 - MIT License, Copyright (c) Brett Stimmerman <brettstimmerman@gmail.com>
 
+Selectize.js (Advanced Select box/Combo box widget):
+- Apache License v2.0, Copyright (c) Brian Reavis <brian@thirdroute.com>
+
 ----------------------------
 Runtime Bundled Dependencies
 ----------------------------
