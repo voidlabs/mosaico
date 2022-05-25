@@ -7,11 +7,15 @@ var bodyParser = require('body-parser');
 var fs = require('fs');
 var _ = require('lodash');
 var app = express();
-var gm = require('gm').subClass({imageMagick: true});
 var config = require('../server-config.js');
 var extend = require('util')._extend;
 var url = require('url');
 var mime = require('mime-types');
+var Jimp = require('jimp');
+var font;
+Jimp.loadFont(Jimp.FONT_SANS_32_BLACK, function(err, f) {
+    font = f;
+});
 
 app.use(require('connect-livereload')({ ignore: [/^\/dl/, /^\/img/, /^\/upload/] }));
 
@@ -95,66 +99,104 @@ app.get('/img/', function(req, res) {
     var params = req.query.params.split(',');
 
     if (req.query.method == 'placeholder') {
-        var out = gm(params[0], params[1], '#808080');
-        res.set('Content-Type', 'image/png');
-        var x = 0, y = 0;
         var size = 40;
-        // stripes
-        while (y < params[1]) {
-            out = out
-              .fill('#707070')
-              .drawPolygon([x, y], [x + size, y], [x + size*2, y + size], [x + size*2, y + size*2])
-              .drawPolygon([x, y + size], [x + size, y + size*2], [x, y + size*2]);
-            x = x + size*2;
-            if (x > params[0]) { x = 0; y = y + size*2; }
-        }
-        // text
-        out.fill('#B0B0B0').fontSize(20).drawText(0, 0, params[0] + ' x ' + params[1], 'center').stream('png').pipe(res);
+        var w = parseInt(params[0]);
+        var h = parseInt(params[1]);
+        var workScale = 1;
+
+        new Jimp(w * workScale, h * workScale, '#808080', function(err, image) {
+            image.scan(0, 0, image.bitmap.width, image.bitmap.height, function(x, y, idx) {
+                if ((((Math.ceil(image.bitmap.height / (size * workScale * 2))+1)*(size * workScale * 2) + x - y) % (size * workScale * 2)) < size * workScale) image.setPixelColor(0x707070FF, x, y);
+                if (x == image.bitmap.width - 1 && y == image.bitmap.height - 1) {
+                    var tempImg = new Jimp(w * workScale, h * workScale, 0x0)
+                        .print(font, 0, 0, {
+                            text: '' + w + ' x ' + h,
+                            alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
+                            alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE
+                        }, w * workScale, h * workScale)
+                        .color([{ apply: 'xor', params: ['#B0B0B0'] }], function (err, tempImg2) {
+                            if (err) {
+                                console.log("Error #1 creating placeholder: ", err);
+                                res.status(500);
+                            } else {
+                                image.blit(tempImg2, 0, 0)
+                                .getBuffer(Jimp.MIME_PNG, function(error, buffer) {
+                                    if (error) {
+                                        console.log("Error #2 creating placeholder: ", error);
+                                        res.status(500);
+                                    } else res.status(200).send(new Buffer(buffer));
+                                });
+                            }
+                        });
+                }
+            });
+        });
 
     } else if (req.query.method == 'resize' || req.query.method == 'cover' || req.query.method == 'aspect') {
-        // NOTE: req.query.src is an URL but gm is ok with URLS.
-        // We do parse it to localpath to avoid strict "securityPolicy" found in some ImageMagick install to prevent the manipulation
+        // NOTE: req.query.src is an URL: we do parse it to localpath.
         var urlparsed = url.parse(req.query.src);
         var src = "./"+decodeURI(urlparsed.pathname);
 
-        var ir = gm(src);
+        var ir = Jimp.read(src, function(err, image) {
 
-        var format = function(err,format) {
-            if (!err) {
-                res.set('Content-Type', 'image/'+format.toLowerCase());
-                if (req.query.method == 'resize') {
-                    ir.autoOrient().resize(params[0] == 'null' ? null : params[0], params[1] == 'null' ? null : params[1]).stream().pipe(res);
-                } else {
-                    ir.autoOrient().resize(params[0],params[1]+'^').gravity('Center').extent(params[0], params[1]+'>').stream().pipe(res);
-                }
+            if (err) {
+                console.log("Error reading image: ", err);
+                res.status(404);
             } else {
-                console.error("ImageMagick failed to detect image format for", src, ". Error:", err);
-                res.status(404).send('Error: '+err);
-            }
-        };
 
-        // "aspect" method is currently unused, but we're evaluating it.
-        if (req.query.method == 'aspect') {
-            ir.size(function(err, size) {
-                if (!err) {
+                // "aspect" method is currently unused, but we're evaluating it.
+                if (req.query.method == 'aspect') {
                     var oldparams = [ params[0], params[1] ];
-                    if (params[0] / params[1] > size.width / size.height) {
-                        params[1] = Math.round(size.width / (params[0] / params[1]));
-                        params[0] = size.width;
+                    if (params[0] / params[1] > image.bitmap.width / image.bitmap.height) {
+                        params[1] = Math.round(image.bitmap.width / (params[0] / params[1]));
+                        params[0] = image.bitmap.width;
                     } else {
-                        params[0] = Math.round(size.height * (params[0] / params[1]));
-                        params[1] = size.height;
+                        params[0] = Math.round(image.bitmap.height * (params[0] / params[1]));
+                        params[1] = image.bitmap.height;
                     }
-                    // console.log("Image size: ", size, oldparams, params);
-                    ir.format(format);
-                } else {
-                    console.error("ImageMagick failed to detect image size for", src, ". Error:", err);
-                    res.status(404).send('Error: '+err);
                 }
-            });
-        } else {
-            ir.format(format);
-        }
+
+                // res.set('Content-Type', 'image/'+format.toLowerCase());
+                var sendOrError = function(err, image) {
+                    if (err) {
+                        console.log("Error manipulating image: ", err);
+                        res.status(500);
+                    } else {
+                        image.getBuffer(Jimp.MIME_PNG, function(error, buffer) {
+                            if (error) {
+                                console.log("Error sending manipulated image: ", error);
+                                res.status(500);
+                            } else res.status(200).send(new Buffer(buffer));
+                        });
+                    }
+                };
+                if (req.query.method == 'resize') {
+                    if (params[0] == 'null')
+                        image.resize(Jimp.AUTO, parseInt(params[1]), sendOrError);
+                    else if (params[1] == 'null')
+                        image.resize(parseInt(params[0]), Jimp.AUTO, sendOrError);
+                    else
+                        image.contain(parseInt(params[0]), parseInt(params[1]), sendOrError);
+                } else {
+                    // Compute crop coordinates for cover algorythm
+                    var w = parseInt(params[0]);
+                    var h = parseInt(params[1]);
+                    var ar = w/h;
+                    var origAr = image.bitmap.width/image.bitmap.height;
+                    if (ar > origAr) {
+                        var newH = Math.round(image.bitmap.width / ar);
+                        var newY = Math.round((image.bitmap.height - newH) / 2);
+                        image.crop(0, newY, image.bitmap.width, newH).resize(w, h, sendOrError);
+                    } else {
+                        var newW = Math.round(image.bitmap.height * ar);
+                        var newX = Math.round((image.bitmap.width - newW) / 2);
+                        image.crop(newX, 0, newW, image.bitmap.height).resize(w, h, sendOrError);
+                    }
+                }
+
+            }
+
+        });
     }
 
 });
@@ -201,10 +243,6 @@ app.use('/uploads', express.static(__dirname + '/../uploads'));
 app.use(express.static(__dirname + '/../dist/'));
 
 var server = app.listen( PORT, function() {
-    var check = gm(100, 100, '#000000');
-    check.format(function (err, format) {
-        if (err) console.error("ImageMagick failed to run self-check image format detection. Error:", err);
-    });
     console.log('Express server listening on port ' + PORT);
 } );
 

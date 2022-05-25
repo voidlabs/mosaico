@@ -1,7 +1,7 @@
 FROM node:8-alpine
 
 RUN apk update
-RUN apk add bzip2 tar git imagemagick
+RUN apk add bzip2 tar git
 
 RUN npm install grunt-cli -g
 

@@ -4,7 +4,7 @@ Provides the following services:
 
 /dl
   receives a post with the html body and a parameter asking for "download" or "email".
-  (it does inlining using Styliner) since Mosaico 0.15 CSS inlining happens in the client.
+  (it does inlining using Juice) since Mosaico 0.15 CSS inlining happens in the client.
   if asked to send an email it sends it using nodemailer
 
 /upload
@@ -18,6 +18,6 @@ Provides the following services:
   "placeholder" will return a placeholder image with the given width/height (encoded in params as "width,height")
   "cover" will resize the image keeping the aspect ratio and covering the whole dimension (cutting it if different A/R)
   "resize" can receive one dimension to resize while keeping the A/R, or 2 to resize the image to be inside the dimensions.
-  this uses "gm" library to do manipulation (you need ImageMagick installed in your system).
+  this uses "jimp" library to do manipulation (not very fast/secure, but we only use it for development).
 
 This currently doesn't provide any authentication or security options, so don't use this in production!
