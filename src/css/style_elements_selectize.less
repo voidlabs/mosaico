@@ -3,7 +3,10 @@
   &.selectize-force-single-noadd .selectize-input {
     cursor: default;
     > input {
-      display: none !important;
+      // use opacity instead of display none for accessibility/focus/keyboard usage.
+      opacity: 0 !important;
+      position: absolute !important;
+      left: -1000px;
     }
     &.input-active {
       cursor: inherit;
