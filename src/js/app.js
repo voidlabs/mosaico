@@ -10,10 +10,6 @@ require("./ko-bindings.js");
 var performanceAwareCaller = require("./timed-call.js").timedCall;
 
 var addUndoStackExtensionMaker = require("./undomanager/undomain.js");
-var colorPlugin = require("./ext/color.js");
-var utilPlugin = require("./ext/util.js");
-var urlPlugin = require("./ext/url.js");
-var inlinerPlugin = require("./ext/inliner.js");
 
 var localStorageLoader = require("./ext/localstorage.js");
 
@@ -130,9 +126,10 @@ var start = function(options, templateFile, templateMetadata, jsorjson, customEx
     require("./widgets/src.js"), 
     require("./widgets/textarea.js"), 
     require("./widgets/url.js"), 
-    colorPlugin, 
-    utilPlugin, 
-    inlinerPlugin
+    require("./ext/color.js"),
+    require("./ext/util.js"),
+    require("./ext/url.js"),
+    require("./ext/inliner.js")
   ];
   if (typeof customExtensions !== 'undefined')
     for (var k = 0; k < customExtensions.length; k++) extensions.push(customExtensions[k]);
