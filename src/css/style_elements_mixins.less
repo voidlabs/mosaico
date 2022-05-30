@@ -22,6 +22,22 @@
   vertical-align: middle;
 }
 
+.input-style-focus() {
+  border-color: @input-focus-border-color;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px fade(@input-focus-border-color, 60);
+  outline: 0 none;
+}
+
+.button-style-focus() {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px fade(@input-focus-border-color, 60);
+  outline: 0 none;
+}
+
+.button-unstyle-focus() {
+  box-shadow: none;
+  outline: 0 none;
+}
+
 .button-style() {
   .input-button-common();
   display: inline-block;
@@ -105,6 +121,9 @@
       content: '...';
     }*/
   }
+  &:focus {
+    .button-style-focus;
+  }
 }
 
 .buttonset-style() {
@@ -144,9 +163,7 @@
   transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
   
   &:focus {
-    border-color: @input-focus-border-color;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px fade(@input-focus-border-color, 60);
-    outline: 0 none;
+    .input-style-focus;
   }
   &.inline {
     margin-right: .5em;
@@ -346,7 +363,7 @@
   }
 }
 
-.tabs-style(@activeclass: ~'.active', @buttonstyle: false) {
+.tabs-style(@activeclass: ~'.active', @buttonstyle: false, @focusclass: ~'.focus') {
   & when (@buttonstyle) {
     background-color: @sidebar-background-color;
   }
@@ -382,6 +399,18 @@
       outline: 0 none !important;
     }
   }
+  li@{focusclass} when (@buttonstyle) {
+    outline: none;
+    a {
+      .button-style-focus();
+    }
+  }
+  li@{focusclass} when not (@buttonstyle) {
+    outline: none;
+    a {
+      .input-style-focus();
+    }
+  }
   li@{activeclass} a {
     border-bottom: @tabs-border-width solid @background-color;
     background: transparent;
@@ -395,7 +424,6 @@
       color: @text-color;
     }
   }
-
 }
 
 

@@ -43,7 +43,7 @@ var _propInput = function(model, prop, propAccessor, editType, widgets) {
     onfocusbinding += ', event: { focus: function(ui, event) { $($element).click(); } } ';
   }
 
-  html += '<label class="data-' + widget + '"' + (widget == 'boolean' ? ' data-bind="event: { mousedown: function(ui, evt) { if (evt.button == 0) { var input = $($element).find(\'input\'); var ch = input.prop(\'checked\'); setTimeout(function() { input.click(); input.prop(\'checked\', !ch); input.trigger(\'change\'); }, 0); } } }, click: function(ui, evt) { evt.preventDefault(); }, clickBubble: false"' : '') + '>';
+  html += '<div class="data-' + widget + '">';
 
   if (typeof widgets !== 'undefined' && typeof widgets[widget] !== 'undefined') {
     var w = widgets[widget];
@@ -57,7 +57,7 @@ var _propInput = function(model, prop, propAccessor, editType, widgets) {
     html += '<input size="7" type="text" value="nothing" data-bind="value: ' + propAccessor + ', ' + onfocusbinding + '" />';
   }
 
-  html += '</label>';
+  html += '</div>';
 
   return html;
 };

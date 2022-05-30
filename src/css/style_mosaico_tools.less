@@ -450,7 +450,15 @@
   }
 
   .objEdit input[type=checkbox] {
-    display: none;
+    // make the replacement accessible
+    // display: none;
+    opacity: 0;
+    position: absolute;
+    z-index: -1000;
+
+    &:focus + .checkbox-replacer:before {
+      .button-style-focus;
+    }
   
     & + .checkbox-replacer {
       width: 1.28571429em;
@@ -892,6 +900,12 @@
       opacity: 1;
       z-index: 1;
     }
+
+    &:not(:checked):focus + .checkbox-replacer:after,
+    &:checked:focus + .checkbox-replacer:before {
+      .button-style-focus;
+    }
+
 
   }
   

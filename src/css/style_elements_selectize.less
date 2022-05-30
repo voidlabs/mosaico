@@ -46,7 +46,12 @@
 
       pointer-events:none;
     }
+
+    &.focus {
+      .input-style-focus();
+    }
   }
+
   .selectize-input.dropdown-active::before {
     // prevent the 1px move
     display: none;
