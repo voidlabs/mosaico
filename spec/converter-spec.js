@@ -161,7 +161,7 @@ describe('Template converter', function() {
       optionalName: 'template',
       templateMode: 'show',
       html: '<replacedhtml><replacedhead>              </replacedhead><repleacedbody><replacedcc condition="mso" style="display: none">\n\
-  <!-- cc:bo:v:roundrect --><cc xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" target="_blank" fillcolor="#ffffff" data-bind="wysiwygHref: url, virtualAttr: {  }">\n\
+  <!-- cc:bo:v:roundrect --><cc xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" target="_blank" fillcolor="#ffffff" data-bind="wysiwygHref: url">\n\
     <!-- cc:bo:w:anchorlock --><cc><!-- cc:sc -->\n\
     <!-- cc:bo:center --><cc data-bind="html: text">\n\
       Some text\n\
@@ -174,7 +174,7 @@ describe('Template converter', function() {
 
     var restoredHTML = conditional_restore(expectedTemplates[0].html);
     expect(restoredHTML).toEqual('<replacedhtml><replacedhead>              </replacedhead><repleacedbody><!--[if mso]>\n\
-  <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" target="_blank" fillcolor="#ffffff" data-bind="wysiwygHref: url, virtualAttr: {  }">\n\
+  <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" target="_blank" fillcolor="#ffffff" data-bind="wysiwygHref: url">\n\
     <w:anchorlock/>\n\
     <center data-bind="html: text">\n\
       Some text\n\
@@ -223,7 +223,7 @@ describe('Template converter', function() {
     },{
       optionalName: undefined,
       templateMode: undefined,
-      html: '<cc xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" target="_blank" fillcolor="#ffffff" data-bind="wysiwygHref: url, virtualAttr: {  }"><!-- ko template: \'undefined\' --><!-- /ko --></cc>' 
+      html: '<cc xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" target="_blank" fillcolor="#ffffff" data-bind="wysiwygHref: url"><!-- ko template: \'undefined\' --><!-- /ko --></cc>' 
     },{
       optionalName: 'template',
       templateMode: 'show',
@@ -239,7 +239,7 @@ describe('Template converter', function() {
 
     var restoredHTML = conditional_restore(composedHTML);
     expect(restoredHTML).toEqual('<replacedhtml><replacedhead>              </replacedhead><repleacedbody><!--[if mso]>\n\
-  <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" target="_blank" fillcolor="#ffffff" data-bind="wysiwygHref: url, virtualAttr: {  }">\n\
+  <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" target="_blank" fillcolor="#ffffff" data-bind="wysiwygHref: url">\n\
     <w:anchorlock/>\n\
     <center data-bind="html: text">\n\
       Some text\n\

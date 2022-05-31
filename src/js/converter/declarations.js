@@ -24,6 +24,56 @@ var _propToCamelCase = function(propName) {
   });
 };
 
+// element is only used for logging purposes
+function _generateBindValue(declarations, bindingProvider, declarationname, declarationvalue, defaultValue, templateUrlConverter, element) {
+  try {
+    var bindValue = converterUtils.expressionBinding(declarationvalue, bindingProvider, defaultValue);
+    // TODO evaluate the use of "-then" (and -else) postfixes to complete the -if instead of relaying
+    // on the same basic sintax (or maybe it is better to support ternary operator COND ? THEN : ELSE).
+    var declarationCondition = _declarationValueLookup(declarations, declarationname + '-if', templateUrlConverter);
+    var not = false;
+    if (declarationCondition === null) {
+      declarationCondition = _declarationValueLookup(declarations, declarationname + '-ifnot', templateUrlConverter);
+      not = true;
+    } else {
+      if (_declarationValueLookup(declarations, declarationname + '-ifnot', templateUrlConverter) !== null) {
+        throw "Unexpected error: cannot use both -if and -ifnot property conditions";
+      }
+    }
+    if (declarationCondition !== null) {
+      try {
+        var bindingCond = converterUtils.conditionBinding(declarationCondition, bindingProvider);
+
+        // the match is a bit ugly, but we don't want to unwrap things if not needed (performance)
+        if (bindingCond.match(/^[^' ]*[^' \)]$/)) bindingCond = 'ko.utils.unwrapObservable(' + bindingCond + ')';
+        if (bindValue.match(/^[^' ]*[^' \)]$/)) bindValue = 'ko.utils.unwrapObservable(' + bindValue + ')';
+
+        // bindingCond should already have surrounding brackets when needed (at least this is true until we find a bug and create a test case for it)
+        if (not) bindingCond = '!' + bindingCond;
+
+        bindValue = bindingCond + " ? " + bindValue + " : null";
+      } catch (e) {
+        console.error("Unable to deal with -ko style binding condition", declarationCondition, declarationname);
+        throw e;
+      }
+    }
+    return bindValue;
+  } catch (e) {
+    console.error("Model ensure path failed", e.stack, "name", declarationname, "value", declarationvalue, "default", defaultValue, "element", element);
+    throw e;
+  }
+}
+
+/*
+ * NOTE:
+ * - sometimes this is called with style "undefined" and declarations passed (editor.js when dealing with :preview bindings)
+ *   when style is undefined this function return a new style instead of replacing the input one.
+ * - most times this is called with style "defined" and declarations "undefined": this is the classic style replacement and this do the parsing.
+ *   in this case we also have element, basicBindings and removeDisplayNone
+ * - other times this is called with both style and declarations because the parsing happened externally and we want to process only the provided 
+ *   declarations and to return the updated style, if any.
+ * - tests (declarations-spec.js) call this with different combinations.
+ */
 var elaborateDeclarations = function(style, declarations, templateUrlConverter, bindingProvider, element, basicBindings, removeDisplayNone) {
   var newBindings = typeof basicBindings == 'object' && basicBindings !== null ? basicBindings : {};
   var newStyle = null;
@@ -101,15 +151,7 @@ var elaborateDeclarations = function(style, declarations, templateUrlConverter, 
 
             var bindName = !isBind && !isAttr ? _propToCamelCase(propName) : (propName.indexOf('-') != -1 ? '\''+propName+'\'' : propName);
 
-            try {
-              bindValue = converterUtils.expressionBinding(declarations[i].value, bindingProvider, bindDefaultValue);
-            } catch (e) {
-              console.error("Model ensure path failed", e.stack, "name", declarations[i].name, "value", declarations[i].value, "default", propDefaultValue, "element", element);
-              throw e;
-            }
-
-            if (bindType !== null && typeof newBindings[bindType] == 'undefined') newBindings[bindType] = {};
-
+            bindValue = _generateBindValue(declarations, bindingProvider, declarations[i].name, declarations[i].value, propDefaultValue, templateUrlConverter);
 
             // Special handling for HREFs
             if (bindType == 'virtualAttr' && bindName == 'href') {
@@ -121,38 +163,10 @@ var elaborateDeclarations = function(style, declarations, templateUrlConverter, 
               }
             }
 
-            // TODO evaluate the use of "-then" (and -else) postfixes to complete the -if instead of relaying
-            // on the same basic sintax (or maybe it is better to support ternary operator COND ? THEN : ELSE).
-            var declarationCondition = _declarationValueLookup(declarations, declarations[i].name + '-if', templateUrlConverter);
-            var not = false;
-            if (declarationCondition === null) {
-              declarationCondition = _declarationValueLookup(declarations, declarations[i].name + '-ifnot', templateUrlConverter);
-              not = true;
-            } else {
-              if (_declarationValueLookup(declarations, declarations[i].name + '-ifnot', templateUrlConverter) !== null) {
-                throw "Unexpected error: cannot use both -if and -ifnot property conditions";
-              }
-            }
-            if (declarationCondition !== null) {
-              try {
-                var bindingCond = converterUtils.conditionBinding(declarationCondition, bindingProvider);
-
-                // the match is a bit ugly, but we don't want to unwrap things if not needed (performance)
-                if (bindingCond.match(/^[^' ]*[^' \)]$/)) bindingCond = 'ko.utils.unwrapObservable(' + bindingCond + ')';
-                if (bindValue.match(/^[^' ]*[^' \)]$/)) bindValue = 'ko.utils.unwrapObservable(' + bindValue + ')';
-
-                // bindingCond should already have surrounding brackets when needed (at least this is true until we find a bug and create a test case for it)
-                if (not) bindingCond = '!' + bindingCond;
-
-                bindValue = bindingCond + " ? " + bindValue + " : null";
-              } catch (e) {
-                console.error("Unable to deal with -ko style binding condition", declarationCondition, declarations[i].name);
-                throw e;
-              }
-            }
-
-            if (bindType !== null) newBindings[bindType][bindName] = bindValue;
-            else newBindings[bindName] = bindValue;
+            if (bindType !== null) {
+              if (typeof newBindings[bindType] == 'undefined') newBindings[bindType] = {};
+              newBindings[bindType][bindName] = bindValue;
+            } else newBindings[bindName] = bindValue;
           }
 
           // parsing @supports :preview
