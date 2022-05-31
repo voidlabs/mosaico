@@ -106,6 +106,7 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
 
   var dataDefs = domutils.getAttribute(element, 'data-ko-properties');
   if (dataDefs === null) dataDefs = "";
+  else domutils.removeAttribute(element, 'data-ko-properties');
   $("[data-ko-properties]", element).each(function(index, element) {
     if (dataDefs.length > 0) dataDefs = dataDefs + " ";
     dataDefs = dataDefs + domutils.getAttribute(element, 'data-ko-properties');
