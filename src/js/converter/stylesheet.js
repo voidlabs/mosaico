@@ -175,6 +175,9 @@ var processStylesheetRules = function(style, rules, localWithBindingProvider, bl
       if (elaboratedStyle !== null) newStyle = elaboratedStyle;
 
       newStyle = converterUtils.removeStyle(newStyle, rules[i].position.start, rules[i].position.end, 0, 0, 0, newSel);
+    } else if (rules[i].type == 'font-face') {
+      var elaboratedFF = elaborateDeclarations(newStyle, rules[i].declarations, templateUrlConverter, bindingProvider);
+      if (elaboratedFF !== null) newStyle = elaboratedFF;
     } else {
       console.log("Unknown rule type", rules[i].type, "while parsing <style> rules");
     }
