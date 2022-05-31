@@ -32,10 +32,16 @@ var checkModel = function() {
   return cm.apply(cm, arguments);
 };
 
+var checkDefs = function() {
+  var cd = require('./checkdefs.js');
+  return cd.apply(cd, arguments);
+};
+
 module.exports = {
   translateTemplate: translateTemplate,
   wrappedResultModel: wrappedResultModel,
   generateResultModel: modelDef.generateResultModel,
   generateEditors: generateEditors,
-  checkModel: checkModel
+  checkModel: checkModel,
+  checkDefs: checkDefs
 };
