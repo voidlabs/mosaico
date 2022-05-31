@@ -108,7 +108,7 @@ describe('Style declaration processor', function() {
     });
     declarations = styleSheet.stylesheet.rules[0].declarations;
     result = elaborateDeclarations(undefined, declarations, templateUrlConverter, mockedBindingProvider);
-    expect(result).toEqual("virtualAttrStyle: 'color: '+$mycondition[undefined]() ? ko.utils.unwrapObservable($mycolor[undefined]) : null+';'+''");
+    expect(result).toEqual("virtualAttrStyle: 'color: '+($mycondition[undefined]() ? ko.utils.unwrapObservable($mycolor[undefined]) : null)+';'+''");
 
     result = elaborateDeclarations('color: red; -ko-color: @mycolor; -ko-color-if: mycondition', undefined, templateUrlConverter, mockedBindingProvider);
     expect(result).toEqual("color: red; color: <!-- ko text: $mycondition[undefined]() ? ko.utils.unwrapObservable($mycolor[red]) : null -->red<!-- /ko -->; ");
@@ -122,7 +122,7 @@ describe('Style declaration processor', function() {
     });
     declarations = styleSheet.stylesheet.rules[0].declarations;
     result = elaborateDeclarations(undefined, declarations, templateUrlConverter, mockedBindingProvider);
-    expect(result).toEqual("virtualAttrStyle: 'color: '+(($mycondition[undefined]() > 1) && ($mycondition[undefined]() < 3)) ? ko.utils.unwrapObservable($mycolor[undefined]) : null+';'+''");
+    expect(result).toEqual("virtualAttrStyle: 'color: '+((($mycondition[undefined]() > 1) && ($mycondition[undefined]() < 3)) ? ko.utils.unwrapObservable($mycolor[undefined]) : null)+';'+''");
 
     result = elaborateDeclarations('color: red; -ko-color: @mycolor; -ko-color-if: mycondition gt 1 and mycondition lt 3', undefined, templateUrlConverter, mockedBindingProvider);
     expect(result).toEqual("color: red; color: <!-- ko text: (($mycondition[undefined]() > 1) && ($mycondition[undefined]() < 3)) ? ko.utils.unwrapObservable($mycolor[red]) : null -->red<!-- /ko -->; ");
@@ -282,6 +282,14 @@ describe('Style declaration processor', function() {
     var $ = cheerio.load('<a data-attribute="ciao"></a>');
     result = elaborateDeclarations('-ko-attr-data-attribute: @myvalue; background-color: red; -ko-background-color: @mycolor', undefined, templateUrlConverter, mockedBindingProvider, $('a')[0]);
     expect($('a').attr('data-bind')).toEqual("virtualAttr: { 'data-attribute': $myvalue[ciao] }, virtualAttrStyle: 'background-color: '+ko.utils.unwrapObservable($mycolor[red])+';'+''");
+  });
+
+  it('should deal with conditional bindings with correct parentheses', function() {
+    var result;
+    var cheerio = require('cheerio');
+    var $ = cheerio.load('<a data-attribute="ciao"></a>');
+    result = elaborateDeclarations('background-color: red; -ko-background-color: @color; -ko-background-color-if: visible', undefined, templateUrlConverter, mockedBindingProvider, $('a')[0]);
+    expect($('a').attr('data-bind')).toEqual("virtualAttrStyle: 'background-color: '+($visible[undefined]() ? ko.utils.unwrapObservable($color[red]) : null)+';'+''");
   });
 
   afterAll(function() {

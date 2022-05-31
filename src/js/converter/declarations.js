@@ -219,6 +219,8 @@ var elaborateDeclarations = function(style, declarations, templateUrlConverter, 
           if (typeof bindVal2 !== 'undefined') {
             // the match is a bit ugly, but we don't want to unwrap things if not needed (performance)
             if (bindVal2.match(/^[^' ]*[^' \)]$/)) bindVal2 = 'ko.utils.unwrapObservable(' + bindVal2 + ')';
+            // make sure we use parentheses for ternary conditional operator
+            else bindVal2 = '(' + bindVal2 + ')';
             newBindings[bind] = "'" + declarations[i].name + ": '+" + bindVal2 + "+';" + dist + "'+" + newBindings[bind];
             delete newBindings['virtualStyle'][bindName2];
           } else {
