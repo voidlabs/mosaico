@@ -164,8 +164,9 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
   // should be only used on resizable items, like TD.
   $("[data-ko-height]", element).each(function(index, element) {
     var heightVar = domutils.getAttribute(element, 'data-ko-height');
-
-    // var bindingValue = bindingProvider(heightVar, value, false, 'wysiwyg');
+    // we expect defaults for the variable used in data-ko-height to be set via properties 
+    // in -ko-support or via data-ko-properties or any other mean, as we can't magically
+    // detect a default
     var bindingValue = bindingProvider(heightVar);
 
     var resizableOptions = '';
@@ -204,22 +205,11 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
   });
 
   $("[data-ko-editable]", element).each(function(index, element) {
-    var newBinding, defaultValue, model, currentBindings, dataBind;
-
+    var newBinding, defaultValue, model, currentBindings, dataBind, itemBindValue;
 
     var dataEditable = domutils.getAttribute(element, "data-ko-editable");
 
     // TODO add validation of the editable
-
-    var itemBindValue;
-    var selectBinding;
-    if (dataEditable.lastIndexOf('.') > 0) {
-      var subs = dataEditable.substr(0, dataEditable.lastIndexOf('.'));
-      itemBindValue = bindingProvider(subs);
-    } else {
-      itemBindValue = bindingProvider(dataEditable);
-    }
-    selectBinding = "wysiwygClick: function(obj, evt) { $root.selectItem(" + itemBindValue + ", $data); return false }, clickBubble: false, wysiwygCss: { selecteditem: $root.isSelectedItem(" + itemBindValue + ") }, scrollIntoView: $root.isSelectedItem(" + itemBindValue + ")";
 
     if (domutils.getLowerTagName(element) != 'img') {
 
@@ -232,9 +222,13 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
         newBinding += "wysiwygId: id()+'_" + dataEditable.replace('.', '_') + "', ";
       }
 
-      if (typeof selectBinding !== 'undefined') {
-        newBinding += selectBinding + ", ";
+      // item selection
+      if (dataEditable.lastIndexOf('.') > 0) {
+        itemBindValue = bindingProvider(dataEditable.substr(0, dataEditable.lastIndexOf('.')));
+      } else {
+        itemBindValue = modelBindValue;
       }
+      newBinding += "wysiwygClick: function(obj, evt) { $root.selectItem(" + itemBindValue + ", $data); return false }, clickBubble: false, wysiwygCss: { selecteditem: $root.isSelectedItem(" + itemBindValue + ") }, scrollIntoView: $root.isSelectedItem(" + itemBindValue + "), ";
 
       newBinding += "wysiwygOrHtml: " + modelBindValue;
 
@@ -337,6 +331,12 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
       else if (align == 'middle') containerBind += ', verticalAlign: \'middle\'';
       else if (align == 'bottom') containerBind += ', verticalAlign: \'bottom\'';
       containerBind += '}';
+
+      if (dataEditable.lastIndexOf('.') > 0) {
+        itemBindValue = bindingProvider(dataEditable.substr(0, dataEditable.lastIndexOf('.')));
+      } else {
+        itemBindValue = bindingValue;
+      }
 
       // TODO maybe we could use ko let to add variables and ko template to use a simple template based on the current status.
       // $(element).before('<!-- ko let: { _data: $data, _item: ' + itemBindValue + ', _template: \'' + tmplName + '\', _src: ' + bindingValue + ', _width: ' + width + ', _height: ' + height + ', _align: ' + (align === null ? undefined : '\'' + align + '\'') + ', _method: ' + method + ', _stylebind: ' + containerBind + ' } -->'+
