@@ -114,6 +114,7 @@ function _makeNextVariantFunction(contentModel, t, variant) {
     else pTarget = ko.utils.unwrapObservable(pTarget)[pParts[i4]];
   }
   if (typeof pTarget._defaultComputed != 'undefined') {
+    // maybe this is an acceptable condition and we could remove this warning
     console.log("Found variant on a style property: beware variants should be only used on content properties because they don't match the theme fallback behaviour", variant);
     pTarget = pTarget._defaultComputed;
   }
@@ -256,7 +257,13 @@ var _makeComputedFunction = function(defs, contentModel, tobs) {
           // create a _nextValue helper for boolean and select-options observable
           var variants = _getValueVariants(val);
           if (variants !== null) {
-            t[prop2]._nextValue = _nextValueFunction.bind(undefined, t[prop2], variants);
+            // When a _defaultComputed is defined the editing area will work on this observable, 
+            // so we put the nextValue there
+            if (typeof t[prop2]._defaultComputed !== 'undefined') {
+              t[prop2]._defaultComputed._nextValue = _nextValueFunction.bind(undefined, t[prop2]._defaultComputed, variants);
+            } else {
+              t[prop2]._nextValue = _nextValueFunction.bind(undefined, t[prop2], variants);
+            }
           }
         }
       }
