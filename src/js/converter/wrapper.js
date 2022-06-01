@@ -98,7 +98,34 @@ var _makeDefaultComputedObservable = function(target, def, nullIfEqual, schemeSe
   return res;
 };
 
-var _nextVariantFunction = function(prop, variants) {
+var _nextVariant = function(target) {
+  return target._nextValue();
+};
+
+// When a block define a variant option we find the linked variable and 
+// link the block _nextVariant function to the linked variable _nextValue.
+function _makeNextVariantFunction(contentModel, t, variant) {
+  var pParts = variant.split('.');
+  // looks in t and not contentModel because variants are declared on single blocks.
+  var pTarget = t;
+  for (var i4 = 0; i4 < pParts.length; i4++) {
+    if (i4 == 0 && pParts[i4] == '_root_') pTarget = contentModel;
+    else if (i4 == 0 && pParts[i4] == '_theme_') pTarget = ko.utils.unwrapObservable(contentModel.theme);
+    else pTarget = ko.utils.unwrapObservable(pTarget)[pParts[i4]];
+  }
+  if (typeof pTarget._defaultComputed != 'undefined') {
+    console.log("Found variant on a style property: beware variants should be only used on content properties because they don't match the theme fallback behaviour", variant);
+    pTarget = pTarget._defaultComputed;
+  }
+  if (typeof pTarget == 'undefined') {
+    console.error("Error looking for variant target", variant, t);
+    throw "Error looking for variant target " + variant;
+  }
+  // pTarget._nextValue may not exists yet, at this time, so we create a dynamic proxy:
+  t._nextVariant = _nextVariant.bind(undefined, pTarget);
+}
+
+var _nextValueFunction = function(prop, variants) {
   var currentValue = ko.utils.unwrapObservable(prop);
   var variantValue;
 
@@ -119,22 +146,18 @@ var _nextVariantFunction = function(prop, variants) {
   prop(nextValue);
 };
 
-var _getVariants = function(def) {
-  var variantProp = def._variant;
-  var variantOptions;
-  if (typeof def[variantProp] !== 'object' || typeof def[variantProp]._widget === 'undefined' || (typeof def[variantProp]._options !== 'string' && def[variantProp]._widget !== 'boolean')) {
-    console.error("Unexpected variant declaration", variantProp, def[variantProp]);
-    throw "Unexpected variant declaration: cannot find property " + variantProp + " or its _options string and it is not a boolean";
-  }
-  if (typeof def[variantProp]._options == 'string') {
-    variantOptions = _getOptionsObjectKeys(def[variantProp]._options);
-  } else {
+var _getValueVariants = function(def) {
+  var variantOptions = null;
+  if (def._widget == 'select' && typeof def._options == 'string') {
+    variantOptions = _getOptionsObjectKeys(def._options);
+  } else if (def._widget == 'boolean') {
     variantOptions = [true, false];
   }
   return variantOptions;
 };
 
-var _makeComputedFunction = function(defs, contentModel, t) {
+var _makeComputedFunction = function(defs, contentModel, tobs) {
+  var t = tobs();
   if (typeof t.type === 'undefined') {
     console.error("Found a non-typed def ", def, t);
     throw "Found a non-typed def " + def;
@@ -175,6 +198,7 @@ var _makeComputedFunction = function(defs, contentModel, t) {
 
         var schemeSelector = vm;
 
+
         var pathParts = path.split('().');
         var themePath = '';
         var skip = true;
@@ -206,41 +230,35 @@ var _makeComputedFunction = function(defs, contentModel, t) {
         target._defaultComputed = _makeDefaultComputedObservable(target, vm, nullIfEqual, schemeSelector, themePath, defs['themes']);
       }
 
-  if (typeof def._variant != 'undefined') {
-    var pParts = def._variant.split('.');
-    // looks in t and not contentModel because variants are declared on single blocks.
-    var pTarget = t;
-    var pParent = ko.utils.unwrapObservable(t);
-    for (var i4 = 0; i4 < pParts.length; i4++) {
-      pTarget = ko.utils.unwrapObservable(pTarget)[pParts[i4]];
-    }
-    if (typeof pTarget._defaultComputed != 'undefined') {
-      console.log("Found variant on a style property: beware variants should be only used on content properties because they don't match the theme fallback behaviour", def._variant);
-      pTarget = pTarget._defaultComputed;
-    }
-    if (typeof pTarget == 'undefined') {
-      console.error("Error looking for variant target", def._variant, t);
-      throw "Error looking for variant target " + def._variant;
-    }
-    pParent._nextVariant = _nextVariantFunction.bind(undefined, pTarget, _getVariants(def));
+  if (typeof def._variant !== 'undefined') {
+    _makeNextVariantFunction(contentModel, tobs, def._variant);
   }
 
   for (var prop2 in def)
     if (def.hasOwnProperty(prop2)) {
       var val = def[prop2];
-      if (typeof val == 'object' && val !== null && typeof val._context != 'undefined' && val._context == 'block') {
-        var propVm = contentModel[prop2]();
-        _makeComputedFunction(defs, contentModel, propVm);
-      } else if (typeof val == 'object' && val !== null && val.type == 'blocks') {
-        var mainVm = contentModel[prop2]();
+      if (typeof val == 'object' && val !== null) {
+        if (typeof val._context != 'undefined' && val._context == 'block') {
+          // this only happens when "contentModel == t"
+          _makeComputedFunction(defs, contentModel, contentModel[prop2]);
+        } else if (val.type == 'blocks') {
+          // this only happens when "contentModel == t"
+          var mainVm = contentModel[prop2]();
 
-        var blocksVm = mainVm.blocks();
-        for (var ib = 0; ib < blocksVm.length; ib++) {
-          _makeComputedFunction(defs, contentModel, ko.utils.unwrapObservable(blocksVm[ib]));
+          var blocksVm = mainVm.blocks();
+          for (var ib = 0; ib < blocksVm.length; ib++) {
+            _makeComputedFunction(defs, contentModel, blocksVm[ib]);
+          }
+
+          var blocksObs = mainVm.blocks;
+          _augmentBlocksObservable(blocksObs, _blockInstrumentFunction.bind(undefined, defs, contentModel));
+        } else {
+          // create a _nextValue helper for boolean and select-options observable
+          var variants = _getValueVariants(val);
+          if (variants !== null) {
+            t[prop2]._nextValue = _nextValueFunction.bind(undefined, t[prop2], variants);
+          }
         }
-
-        var blocksObs = mainVm.blocks;
-        _augmentBlocksObservable(blocksObs, _blockInstrumentFunction.bind(undefined, defs, contentModel));
       }
     }
 };
@@ -316,7 +334,7 @@ var _blockInstrumentFunction = function(defs, contentModel, self) {
   }
 
   // Augment observables with custom code
-  _makeComputedFunction(defs, contentModel, res());
+  _makeComputedFunction(defs, contentModel, res);
 
   res._plainObject = _makePlainObjectAccessor(res, _blockInstrumentFunction.bind(undefined, defs, contentModel));
 
