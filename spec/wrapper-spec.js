@@ -60,7 +60,7 @@ describe('model wrapper and undomanager', function() {
 
     // able to switch to another variant
     expect(content().mainBlocks().blocks()[0]().externalBackgroundVisible()).toEqual(true);
-    content().mainBlocks().blocks()[0]()._nextVariant();
+    content().mainBlocks().blocks()[0]._nextVariant();
     expect(content().mainBlocks().blocks()[0]().externalBackgroundVisible()).toEqual(false);
   });
 
