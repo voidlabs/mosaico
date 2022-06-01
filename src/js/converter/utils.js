@@ -144,7 +144,7 @@ var expressionBinding = function(expression, bindingProvider, defaultValue) {
     }
     return result;
   } catch (e) {
-    throw "Exception parsing expression " + expression + " " + e;
+    throw "Exception parsing expression " + expression + " [" + defaultValue + "] " + e;
   }
 };
 

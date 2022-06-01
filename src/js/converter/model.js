@@ -7,9 +7,9 @@ var _valueSet = function(defs, model, prop, value) {
   var dotPos = prop.indexOf('.');
   if (dotPos == -1) {
     if (typeof model[prop] == 'undefined') {
-      console.log("Undefined prop " + prop + " while setting value " + value + " in model._valueSet");
+      console.log("Undefined prop", prop, "while setting value", value, "in model._valueSet");
     } else if (model[prop] === null) {
-      if (typeof value == 'object' && value !== null && typeof value.push == 'undefined') console.log("nullpropobjectvalue", prop, value);
+      if (typeof value == 'object' && value !== null && typeof value.push == 'undefined') console.log("Null prop ", prop, "while setting value", value, "in model._valueSet");
       model[prop] = value;
     } else if (typeof model[prop] == 'object' && typeof model[prop].push == 'function') {
       var values;
@@ -364,6 +364,11 @@ var modelEnsurePathAndGetBindValue = function(readonly, defs, themeUpdater, root
     if (readonly) throw "Cannot find path " + propName + " for " + modelName + "!";
     _modelCreateOrUpdateBlockDef(defs, modelName, propName);
     model = _getModelDef(defs, modelName, false);
+    /* We used to raise an error on missing default values, but we're trying to make it more lazy and do a run on the final model
+    if (model[propName]._complex !== true && (typeof defaultValue == 'undefined' || defaultValue === null)) {
+      throw "Attempt to create a new property without a default value: " + modelName + "/" + path + " (" + propName + ")";
+    }
+    */
   }
 
   // Needs to do this again, because "_modelCreateOrUpdateBlockDef" could have been just created the property (e.g: backgroundColor buttonBlock not getting defaultComputed in template-lm)
@@ -422,7 +427,11 @@ var modelEnsurePathAndGetBindValue = function(readonly, defs, themeUpdater, root
       gsPath = defs[modelName][propName]._globalStyle;
     }
 
-    ensureGlobalStyle(defs, readonly, gsBindingProvider, modelName, propName, gsPath, undefined, false);
+    // if we have an object.prop reference we have to ensure the parent, first, but when there's no parent we better leave to the
+    // following ensureGlobalStyle the job (so the default value is correctly set on the first call)
+    if (subPath !== '') {
+      ensureGlobalStyle(defs, readonly, gsBindingProvider, modelName, propName, gsPath, undefined, false);
+    }
 
     var gsFullPath = gsPath + subPath;
 
