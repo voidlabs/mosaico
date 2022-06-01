@@ -6,7 +6,10 @@ var widgetPlugin = {
     return {
       widget: 'src',
       html: function(propAccessor, onfocusbinding, parameters) {
-        return '<span data-bind="template: { name: \'widget-src\', data: { _src: ' + propAccessor + ' } }"></span>';
+        var html = '<!-- ko letproxy: { prop: ' + propAccessor + ' } -->';
+        html += '<span data-bind="template: { name: \'widget-src\', data: { _src: prop } }"></span>';
+        html += '<!-- /ko -->';
+        return html;
       }
     };
   },
