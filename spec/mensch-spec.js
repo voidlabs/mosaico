@@ -3,14 +3,11 @@
 
 describe('Mensch parser', function() {
 
-  var utils = require('../src/js/converter/utils.js');
+  var cssParser = require('../src/js/converter/cssparser.js');
 
   it('should return expected positions', function() {
     var styleText = " \nselector \n{\n color: red\n;\t}\n selector2{a:b}";
-    var styleSheet = require('mensch/lib/parser.js')(styleText, {
-      comments: true,
-      position: true
-    });
+    var styleSheet = cssParser.parse(styleText);
     var declarations = styleSheet.stylesheet.rules[0].declarations;
 
     expect(styleSheet.stylesheet.rules[0].position).toEqual({
@@ -46,18 +43,15 @@ describe('Mensch parser', function() {
 
 
     var replacedText = styleText;
-    replacedText = utils.removeStyle(replacedText, styleSheet.stylesheet.rules[1].position.start, styleSheet.stylesheet.rules[1].position.end, 0, 0, 0, 'CCC');
-    replacedText = utils.removeStyle(replacedText, declarations[0].position.start, declarations[0].position.end, 0, 0, 0, 'BBB');
-    replacedText = utils.removeStyle(replacedText, styleSheet.stylesheet.rules[0].position.start, styleSheet.stylesheet.rules[0].position.end, 0, 0, 0, 'AAA');
+    replacedText = cssParser.replaceStyle(replacedText, styleSheet.stylesheet.rules[1].position.start, styleSheet.stylesheet.rules[1].position.end, 'CCC');
+    replacedText = cssParser.replaceStyle(replacedText, declarations[0].position.start, declarations[0].position.end, 'BBB');
+    replacedText = cssParser.replaceStyle(replacedText, styleSheet.stylesheet.rules[0].position.start, styleSheet.stylesheet.rules[0].position.end, 'AAA');
     expect(replacedText).toEqual(" \nAAA{\n BBB;\t}\n CCC{a:b}");
   });
 
   it('should return expected positions 2', function() {
     var styleText = "a { b: c; d: e }\na { b: c; d: e }";
-    var styleSheet = require('mensch/lib/parser.js')(styleText, {
-      comments: true,
-      position: true
-    });
+    var styleSheet = cssParser.parse(styleText);
     var declarations = styleSheet.stylesheet.rules[0].declarations;
 
     expect(styleSheet.stylesheet.rules[0].position).toEqual({
@@ -92,9 +86,9 @@ describe('Mensch parser', function() {
     });
 
     var replacedText = styleText;
-    replacedText = utils.removeStyle(replacedText, declarations[1].position.start, declarations[1].position.end, 0, 0, 0, 'D:E');
-    replacedText = utils.removeStyle(replacedText, declarations[0].position.start, declarations[0].position.end, 0, 0, 0, 'B:C');
-    replacedText = utils.removeStyle(replacedText, styleSheet.stylesheet.rules[0].position.start, styleSheet.stylesheet.rules[0].position.end, 0, 0, 0, 'A');
+    replacedText = cssParser.replaceStyle(replacedText, declarations[1].position.start, declarations[1].position.end, 'D:E');
+    replacedText = cssParser.replaceStyle(replacedText, declarations[0].position.start, declarations[0].position.end, 'B:C');
+    replacedText = cssParser.replaceStyle(replacedText, styleSheet.stylesheet.rules[0].position.start, styleSheet.stylesheet.rules[0].position.end, 'A');
     expect(replacedText).toEqual("A{ B:C; D:E}\na { b: c; d: e }");
   });
 

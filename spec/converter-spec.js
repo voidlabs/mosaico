@@ -19,7 +19,7 @@ describe('Template converter', function() {
 
   beforeAll(function() {
     mockery.registerMock('jquery', require('cheerio').load('<html />'));
-    mockery.registerAllowables(['fs', '../src/js/converter/checkdefs.js', '../src/js/converter/declarations.js', '../src/js/converter/model.js', '../src/js/converter/parser.js', 'console', './utils.js', './domutils.js', 'console', '../node_modules/mensch', './lib/lexer', './lib/parser', './lib/stringify', './debug', 'jsep', './declarations.js', 'mensch/lib/parser.js', 'mensch/lib/parser.js', './lexer', './stylesheet.js', './model.js']);
+    mockery.registerAllowables(['fs', '../src/js/converter/checkdefs.js', '../src/js/converter/declarations.js', '../src/js/converter/model.js', '../src/js/converter/parser.js', 'console', './utils.js', './domutils.js', 'console', '../node_modules/mensch', './lib/lexer', './lib/parser', './lib/stringify', './debug', 'jsep', './declarations.js', './cssparser.js', 'mensch/lib/parser.js', './lexer', './stylesheet.js', './model.js']);
     mockery.enable();
 
     _parseTemplate = function(html) {

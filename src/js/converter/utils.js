@@ -15,20 +15,6 @@ var addSlashes = function(str) {
   return str.replace(/[\\"'\r\n\t\v\f\b]/g, '\\$&').replace(/\u0000/g, '\\0');
 };
 
-var removeStyle = function(style, startPos, endPos, skipRows, startOffset, endOffset, insert) {
-  var styleRows = style.split("\n");
-  var start = startOffset;
-  var end = endOffset;
-  for (var r = 1 + skipRows; r < startPos.line; r++) start += styleRows[r - 1 - skipRows].length + 1;
-  start += startPos.col;
-  if (endPos !== null) {
-    for (var r2 = 1 + skipRows; r2 < endPos.line; r2++) end += styleRows[r2 - 1 - skipRows].length + 1;
-    end += endPos.col;
-  } else end += style.length + 1;
-  var newStyle = style.substr(0, start - 1) + insert + style.substr(end - 1);
-  return newStyle;
-};
-
 /**
  * convert a "Mosaico condition" in a javascript/knockout condition.
  * bindingProvider is a function to get the javascript/knockout binding for a variable
@@ -173,7 +159,6 @@ var declarationValueUrlPrefixer = function(value, templateUrlConverter) {
 
 module.exports = {
   addSlashes: addSlashes,
-  removeStyle: removeStyle,
   conditionBinding: conditionBinding,
   expressionBinding: expressionBinding,
   declarationValueUrlPrefixer: declarationValueUrlPrefixer

@@ -5,7 +5,7 @@
 // Needs a bindingProvider
 // Also uses a blockDefsUpdater to update definitions while parsing the stylesheet.
 
-var cssParse = require("mensch/lib/parser.js");
+var cssParser = require("./cssparser.js");
 var console = require("console");
 var converterUtils = require("./utils.js");
 var elaborateDeclarations = require("./declarations.js");
@@ -105,10 +105,7 @@ var processStylesheetRules = function(style, rules, localWithBindingProvider, bl
   var lastStart = null;
 
   if (typeof rules == 'undefined') {
-    var styleSheet = cssParse(style, {
-      comments: true,
-      position: true
-    });
+    var styleSheet = cssParser.parse(style);
     if (styleSheet.type != 'stylesheet' || typeof styleSheet.stylesheet == 'undefined') {
       console.log("unable to process styleSheet", styleSheet);
       throw "Unable to parse stylesheet";
@@ -125,12 +122,12 @@ var processStylesheetRules = function(style, rules, localWithBindingProvider, bl
   for (var i = rules.length - 1; i >= 0; i--) {
     if (rules[i].type == 'supports' && rules[i].name == '-ko-blockdefs') {
       _processStyleSheetRules_processBlockDef(blockDefsUpdater, rules[i].rules, templateUrlConverter);
-      newStyle = converterUtils.removeStyle(newStyle, rules[i].position.start, lastStart, 0, 0, 0, '');
+      newStyle = cssParser.replaceStyle(newStyle, rules[i].position.start, lastStart, '');
       /* temporary experimental code not used
       } else if (rules[i].type == 'supports' && rules[i].name == '-ko-themes') {
         bindingProvider = localWithBindingProvider.bind(this, 'theme', '');
         _processStyleSheetRules_processThemes(bindingProvider, themeUpdater, rules[i].rules);
-        newStyle = converterUtils.removeStyle(newStyle, rules[i].position.start, lastStart, 0, 0, 0, '');
+        newStyle = cssParser.replaceStyle(newStyle, rules[i].position.start, lastStart, '');
       */
     } else if (rules[i].type == 'media' || rules[i].type == 'supports') {
       newStyle = processStylesheetRules(newStyle, rules[i].rules, localWithBindingProvider, blockDefsUpdater, themeUpdater, templateUrlConverter, rootModelName, templateName);
@@ -161,8 +158,8 @@ var processStylesheetRules = function(style, rules, localWithBindingProvider, bl
           end = rules[i].declarations[rules[i].declarations.length - 1].position.end;
         }
         if (end === null) newStyle += spacing + loopPostfix;
-        else if (end == lastStart) newStyle = converterUtils.removeStyle(newStyle, end, lastStart, 0, 0, 0, spacing + loopPostfix);
-        else newStyle = converterUtils.removeStyle(newStyle, end, lastStart, 0, 0, 0, spacing + '}' + spacing + loopPostfix);
+        else if (end == lastStart) newStyle = cssParser.replaceStyle(newStyle, end, lastStart, spacing + loopPostfix);
+        else newStyle = cssParser.replaceStyle(newStyle, end, lastStart, spacing + '}' + spacing + loopPostfix);
         newSel = loopPrefix + spacing + newSel.replace(new RegExp('\\[data-ko-block=' + foundBlockMatch + '\\]', 'g'), '<!-- ko text: \'#\'+id() -->' + foundBlockMatch + '<!-- /ko -->');
 
         blockDefsUpdater(foundBlockMatch, '', { contextName: 'block' });
@@ -174,7 +171,7 @@ var processStylesheetRules = function(style, rules, localWithBindingProvider, bl
       var elaboratedStyle = elaborateDeclarations(newStyle, rules[i].declarations, templateUrlConverter, bindingProvider);
       if (elaboratedStyle !== null) newStyle = elaboratedStyle;
 
-      newStyle = converterUtils.removeStyle(newStyle, rules[i].position.start, rules[i].position.end, 0, 0, 0, newSel);
+      newStyle = cssParser.replaceStyle(newStyle, rules[i].position.start, rules[i].position.end, newSel);
     } else if (rules[i].type == 'font-face') {
       var elaboratedFF = elaborateDeclarations(newStyle, rules[i].declarations, templateUrlConverter, bindingProvider);
       if (elaboratedFF !== null) newStyle = elaboratedFF;

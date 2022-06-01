@@ -5,7 +5,7 @@
 // Needs a bindingProvider.
 
 var converterUtils = require("./utils.js");
-var cssParse = require("mensch/lib/parser.js");
+var cssParser = require("./cssparser.js");
 var console = require("console");
 var domutils = require("./domutils.js");
 
@@ -64,6 +64,14 @@ function _generateBindValue(declarations, bindingProvider, declarationname, decl
   }
 }
 
+var _wrapStyle = function(style) {
+  return "#{\n" + style + "}";
+};
+
+var _unwrapStyle = function(style) {
+  return style.substring(3, style.length - 1);
+};
+
 /*
  * NOTE:
  * - sometimes this is called with style "undefined" and declarations passed (editor.js when dealing with :preview bindings)
@@ -77,25 +85,24 @@ function _generateBindValue(declarations, bindingProvider, declarationname, decl
 var elaborateDeclarations = function(style, declarations, templateUrlConverter, bindingProvider, element, basicBindings, removeDisplayNone) {
   var newBindings = typeof basicBindings == 'object' && basicBindings !== null ? basicBindings : {};
   var newStyle = null;
-  var skipLines = 0;
+  var wrappedStyle = false;
   if (typeof declarations == 'undefined') {
-    var styleSheet = cssParse("#{\n" + style + "}", {
-      comments: true,
-      position: true
-    });
+    wrappedStyle = true;
+    newStyle = _wrapStyle(style);
+    var styleSheet = cssParser.parse(newStyle);
     declarations = styleSheet.stylesheet.rules[0].declarations;
-    skipLines = 1;
   }
   for (var i = declarations.length - 1; i >= 0; i--)
     if (declarations[i].type == 'property') {
       if (removeDisplayNone === true && declarations[i].name == 'display' && declarations[i].value == 'none') {
-        if (newStyle === null) newStyle = style;
-        newStyle = converterUtils.removeStyle(newStyle, declarations[i].position.start, declarations[i].position.end, skipLines, 0, 0, '');
+        // when removeDisplayNone is true we always have a style, so this is not really needed
+        if (newStyle === null && typeof style != 'undefined') newStyle = style;
+        if (newStyle !== null) {
+          newStyle = cssParser.replaceStyle(newStyle, declarations[i].position.start, declarations[i].position.end, '');
+        }
       } else {
         var decl = declarations[i].name.match(/^-ko-(bind-|attr-)?([A-Za-z0-9-]*?)(-if|-ifnot)?$/);
         if (decl !== null) {
-          // rimozione dello stile -ko- dall'attributo style.
-          if (newStyle === null && typeof style != 'undefined') newStyle = style;
 
           var isAttr = decl[1] == 'attr-';
           var isBind = decl[1] == 'bind-';
@@ -170,18 +177,20 @@ var elaborateDeclarations = function(style, declarations, templateUrlConverter, 
           }
 
           // parsing @supports :preview
+          // rimozione dello stile -ko- dall'attributo style.
+          if (newStyle === null && typeof style != 'undefined') newStyle = style;
           if (newStyle !== null) {
 
             try {
               // if "element" is defined then we are parsing an "inline" style and we want to remove it.
               if (typeof element != 'undefined' && element !== null) {
-                newStyle = converterUtils.removeStyle(newStyle, declarations[i].position.start, declarations[i].position.end, skipLines, 0, 0, '');
+                newStyle = cssParser.replaceStyle(newStyle, declarations[i].position.start, declarations[i].position.end, '');
               } else {
                 // otherwise we are parsing a full stylesheet.. let's rewrite the full "prop: value" without caring about the original syntax.
                 var replacedWith = '';
                 // if it is an "if" we simply have to remove it, otherwise we replace the input code with "prop: value" generating expression.
                 if (!isIf) replacedWith = propName + ': <!-- ko text: ' + bindValue + ' -->' + propDefaultValue + '<!-- /ko -->';
-                newStyle = converterUtils.removeStyle(newStyle, declarations[i].position.start, declarations[i].position.end, skipLines, 0, 0, replacedWith);
+                newStyle = cssParser.replaceStyle(newStyle, declarations[i].position.start, declarations[i].position.end, replacedWith);
               }
             } catch (e) {
               console.warn("Remove style failed", e, "name", declarations[i]);
@@ -197,7 +206,7 @@ var elaborateDeclarations = function(style, declarations, templateUrlConverter, 
             if (newStyle === null && typeof style !== 'undefined') newStyle = style;
             if (newStyle !== null) {
               try {
-                newStyle = converterUtils.removeStyle(newStyle, declarations[i].position.start, declarations[i].position.end, skipLines, 0, 0, declarations[i].name + ": " + replacedValue);
+                newStyle = cssParser.replaceStyle(newStyle, declarations[i].position.start, declarations[i].position.end, declarations[i].name + ": " + replacedValue);
               } catch (e) {
                 console.log("Remove style failed replacing url", e, "name", declarations[i]);
                 throw e;
@@ -267,7 +276,11 @@ var elaborateDeclarations = function(style, declarations, templateUrlConverter, 
     return _bindingSerializer(newBindings);
   }
 
-  return newStyle;
+  if (wrappedStyle) {
+    if (newStyle == _wrapStyle(style)) return null;
+    // clean up our garbage
+    else return _unwrapStyle(newStyle);
+  } else return newStyle;
 };
 
 var _bindingSerializer = function(val) {
@@ -280,4 +293,6 @@ var _bindingSerializer = function(val) {
   return res.reverse().join(', ');
 };
 
+// TODO refactor this to return multiple helper functions, so that callers wanting
+// the bindings will use a whole different method instead of different parameters
 module.exports = elaborateDeclarations;

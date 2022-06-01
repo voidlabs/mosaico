@@ -2,18 +2,14 @@
 var ko = require("knockout");
 var console = require("console");
 	
-var cssParse = require("mensch/lib/parser.js");
-var converterUtils = require("../converter/utils.js");
+var cssParser = require("../converter/cssparser.js");
 
 var _processStylesheetRules = function(style, rules) {
   var newStyle = style;
   var lastStart = null;
 
   if (typeof rules == 'undefined') {
-    var styleSheet = cssParse(style, {
-      comments: true,
-      position: true
-    });
+    var styleSheet = cssParser.parse(style);
     if (styleSheet.type != 'stylesheet' || typeof styleSheet.stylesheet == 'undefined') {
       console.log("unable to process styleSheet", styleSheet);
       throw "Unable to parse stylesheet";
@@ -33,7 +29,7 @@ var _processStylesheetRules = function(style, rules) {
         if (newSel.length > 0) newSel += ", ";
         newSel += '#main-wysiwyg-area ' + sels[j];
       }
-      newStyle = converterUtils.removeStyle(newStyle, rules[i].position.start, rules[i].position.end, 0, 0, 0, newSel);
+      newStyle = cssParser.replaceStyle(newStyle, rules[i].position.start, rules[i].position.end, newSel);
     } else {
       console.error("Unsupported rule type", rules[i].type, "while parsing <style> rules");
     }
