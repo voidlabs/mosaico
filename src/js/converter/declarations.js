@@ -4,6 +4,7 @@
 // Create KO bindings but doesn't depend on KO.
 // Needs a bindingProvider.
 
+var addSlashes = require("./utils.js").addSlashes;
 var converterUtils = require("./utils.js");
 var cssParser = require("./cssparser.js");
 var console = require("console");
@@ -72,31 +73,12 @@ var _unwrapStyle = function(style) {
   return style.substring(3, style.length - 1);
 };
 
-/*
- * NOTE:
- * - sometimes this is called with style "undefined" and declarations passed (editor.js when dealing with :preview bindings)
- *   when style is undefined this function return a new style instead of replacing the input one.
- * - most times this is called with style "defined" and declarations "undefined": this is the classic style replacement and this do the parsing.
- *   in this case we also have element, basicBindings and removeDisplayNone
- * - other times this is called with both style and declarations because the parsing happened externally and we want to process only the provided 
- *   declarations and to return the updated style, if any.
- * - tests (declarations-spec.js) call this with different combinations.
- */
-var elaborateDeclarations = function(style, declarations, templateUrlConverter, bindingProvider, element, basicBindings, removeDisplayNone) {
-  var newBindings = typeof basicBindings == 'object' && basicBindings !== null ? basicBindings : {};
-  var newStyle = null;
-  var wrappedStyle = false;
-  if (typeof declarations == 'undefined') {
-    wrappedStyle = true;
-    newStyle = _wrapStyle(style);
-    var styleSheet = cssParser.parse(newStyle);
-    declarations = styleSheet.stylesheet.rules[0].declarations;
-  }
+var elaborateDeclarations = function(newStyle, declarations, templateUrlConverter, bindingProvider, element, removeDisplayNone) {
+  var newBindings = {};
   for (var i = declarations.length - 1; i >= 0; i--)
     if (declarations[i].type == 'property') {
       if (removeDisplayNone === true && declarations[i].name == 'display' && declarations[i].value == 'none') {
         // when removeDisplayNone is true we always have a style, so this is not really needed
-        if (newStyle === null && typeof style != 'undefined') newStyle = style;
         if (newStyle !== null) {
           newStyle = cssParser.replaceStyle(newStyle, declarations[i].position.start, declarations[i].position.end, '');
         }
@@ -119,7 +101,7 @@ var elaborateDeclarations = function(style, declarations, templateUrlConverter, 
             if (conditionedDeclaration === null) throw "Unable to find declaration " + condDecl + " for " + declarations[i].name;
           } else {
 
-            if ((isAttr || isBind) && (typeof element == 'undefined' && typeof style != 'undefined')) throw "Attributes and bind declarations are only allowed in inline styles!";
+            if ((isAttr || isBind) && (typeof element == 'undefined' && newStyle !== null)) throw "Attributes and bind declarations are only allowed in inline styles!";
 
             var needDefaultValue = true;
             var bindType;
@@ -128,8 +110,10 @@ var elaborateDeclarations = function(style, declarations, templateUrlConverter, 
               needDefaultValue = false;
               bindType = 'virtualAttr';
             } else if (!isBind) {
-              needDefaultValue = typeof style !== 'undefined';
-              if (needDefaultValue) propDefaultValue = _declarationValueLookup(declarations, propName, templateUrlConverter);
+              needDefaultValue = newStyle !== null;
+              // in past we didn't read the default value when "needDefaultValue" was false: 
+              // now we try to find it anyway, and simply don't enforce it.
+              propDefaultValue = _declarationValueLookup(declarations, propName, templateUrlConverter);
               bindType = 'virtualStyle';
             } else {
               bindType = null;
@@ -152,7 +136,7 @@ var elaborateDeclarations = function(style, declarations, templateUrlConverter, 
 
             if (needDefaultValue && propDefaultValue === null) {
               console.error("Cannot find default value for", declarations[i].name, declarations);
-              throw "Cannot find default value for " + declarations[i].name + ": " + declarations[i].value + " in " + element + " (" + typeof style + "/" + propName + ")";
+              throw "Cannot find default value for " + declarations[i].name + ": " + declarations[i].value + " in " + element + " (" + typeof newStyle + "/" + propName + ")";
             }
             var bindDefaultValue = propDefaultValue;
 
@@ -178,7 +162,6 @@ var elaborateDeclarations = function(style, declarations, templateUrlConverter, 
 
           // parsing @supports :preview
           // rimozione dello stile -ko- dall'attributo style.
-          if (newStyle === null && typeof style != 'undefined') newStyle = style;
           if (newStyle !== null) {
 
             try {
@@ -203,7 +186,6 @@ var elaborateDeclarations = function(style, declarations, templateUrlConverter, 
           // prefixing urls
           var replacedValue = converterUtils.declarationValueUrlPrefixer(declarations[i].value, templateUrlConverter);
           if (replacedValue != declarations[i].value) {
-            if (newStyle === null && typeof style !== 'undefined') newStyle = style;
             if (newStyle !== null) {
               try {
                 newStyle = cssParser.replaceStyle(newStyle, declarations[i].position.start, declarations[i].position.end, declarations[i].name + ": " + replacedValue);
@@ -233,7 +215,7 @@ var elaborateDeclarations = function(style, declarations, templateUrlConverter, 
             newBindings[bind] = "'" + declarations[i].name + ": '+" + bindVal2 + "+';" + dist + "'+" + newBindings[bind];
             delete newBindings['virtualStyle'][bindName2];
           } else {
-            newBindings[bind] = "'" + declarations[i].name + ": " + converterUtils.addSlashes(replacedValue) + ";" + dist + "'+" + newBindings[bind];
+            newBindings[bind] = "'" + declarations[i].name + ": " + addSlashes(replacedValue) + ";" + dist + "'+" + newBindings[bind];
           }
 
         }
@@ -243,7 +225,7 @@ var elaborateDeclarations = function(style, declarations, templateUrlConverter, 
   if (typeof element != 'undefined' && element !== null) {
     for (var prop in newBindings['virtualStyle'])
       if (newBindings['virtualStyle'].hasOwnProperty(prop)) {
-        console.log("Unexpected virtualStyle binding after conversion to virtualAttr.style", prop, newBindings['virtualStyle'][prop], style);
+        console.log("Unexpected virtualStyle binding after conversion to virtualAttr.style", prop, newBindings['virtualStyle'][prop], newStyle);
         throw "Unexpected virtualStyle binding after conversion to virtualAttr.style for " + prop;
       }
     delete newBindings['virtualStyle'];
@@ -255,7 +237,7 @@ var elaborateDeclarations = function(style, declarations, templateUrlConverter, 
   }
 
   // TODO a function whose return type depends on the input parameters is very ugly.. please FIX ME.
-  if (typeof style == 'undefined') {
+  if (newStyle == null) {
     // clean virtualStyle if empty
     var hasVirtualStyle = false;
     for (var prop1 in newBindings['virtualStyle'])
@@ -276,11 +258,7 @@ var elaborateDeclarations = function(style, declarations, templateUrlConverter, 
     return _bindingSerializer(newBindings);
   }
 
-  if (wrappedStyle) {
-    if (newStyle == _wrapStyle(style)) return null;
-    // clean up our garbage
-    else return _unwrapStyle(newStyle);
-  } else return newStyle;
+  return newStyle;
 };
 
 var _bindingSerializer = function(val) {
@@ -293,6 +271,30 @@ var _bindingSerializer = function(val) {
   return res.reverse().join(', ');
 };
 
-// TODO refactor this to return multiple helper functions, so that callers wanting
-// the bindings will use a whole different method instead of different parameters
-module.exports = elaborateDeclarations;
+var elaborateDeclarationsAndReplaceStyles = function(style, declarations, templateUrlConverter, bindingProvider) {
+  var res = elaborateDeclarations(style, declarations, templateUrlConverter, bindingProvider);
+  if (res == null) return style;
+  else return res;
+};
+
+var elaborateDeclarationsAndReturnStyleBindings = function(declarations, templateUrlConverter, bindingProvider) {
+  return elaborateDeclarations(null, declarations, templateUrlConverter, bindingProvider);
+};
+
+// element and removeDisplayNone are optionals (declaration test suite call this without them)
+var elaborateElementStyleDeclarations = function(style, templateUrlConverter, bindingProvider, element, removeDisplayNone) {
+  var wStyle = _wrapStyle(style);
+  var styleSheet = cssParser.parse(wStyle);
+  var res = elaborateDeclarations(wStyle, styleSheet.stylesheet.rules[0].declarations, templateUrlConverter, bindingProvider, element, removeDisplayNone);
+  if (res == null) return style;
+  else return _unwrapStyle(res);
+};
+
+
+module.exports = {
+  elaborateElementStyleDeclarations: elaborateElementStyleDeclarations,
+  elaborateDeclarationsAndReplaceStyles: elaborateDeclarationsAndReplaceStyles,
+  elaborateDeclarationsAndReturnStyleBindings: elaborateDeclarationsAndReturnStyleBindings,
+  conditionBinding: converterUtils.conditionBinding,
+  declarationValueUrlPrefixer: converterUtils.declarationValueUrlPrefixer
+};

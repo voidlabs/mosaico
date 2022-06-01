@@ -7,8 +7,7 @@
 
 var cssParser = require("./cssparser.js");
 var console = require("console");
-var converterUtils = require("./utils.js");
-var elaborateDeclarations = require("./declarations.js");
+var declarations = require("./declarations.js");
 
 /* Temporary experimental code not used
 var _processStyleSheetRules_processThemes = function (bindingProvider, themeUpdater, rules) {
@@ -76,7 +75,7 @@ var _processStyleSheetRules_processBlockDef = function(blockDefsUpdater, rules, 
           else if (decls[k].name == 'properties') properties = val;
           else if (decls[k].name == 'theme') namedProps.globalStyle = '_theme_.' + val;
           else if (decls[k].name == 'themeOverride') namedProps.themeOverride = String(val).toLowerCase() == 'true';
-          else namedProps[decls[k].name] = converterUtils.declarationValueUrlPrefixer(val, templateUrlConverter);
+          else namedProps[decls[k].name] = declarations.declarationValueUrlPrefixer(val, templateUrlConverter);
           // NOTE in past we detected unsupported properties, while now we simple push every declaration in a namedProperty.
           // This make it harder to spot errors in declarations.
           // Named properties we supported were extend, min, max, options, widget, category, variant, help, blockDescription, version
@@ -168,13 +167,11 @@ var processStylesheetRules = function(style, rules, localWithBindingProvider, bl
       // newSel += " {";
       var localBlockName = foundBlockMatch ? foundBlockMatch : templateName;
       bindingProvider = localWithBindingProvider.bind(this, localBlockName, '');
-      var elaboratedStyle = elaborateDeclarations(newStyle, rules[i].declarations, templateUrlConverter, bindingProvider);
-      if (elaboratedStyle !== null) newStyle = elaboratedStyle;
+      newStyle = declarations.elaborateDeclarationsAndReplaceStyles(newStyle, rules[i].declarations, templateUrlConverter, bindingProvider);
 
       newStyle = cssParser.replaceStyle(newStyle, rules[i].position.start, rules[i].position.end, newSel);
     } else if (rules[i].type == 'font-face') {
-      var elaboratedFF = elaborateDeclarations(newStyle, rules[i].declarations, templateUrlConverter, bindingProvider);
-      if (elaboratedFF !== null) newStyle = elaboratedFF;
+      newStyle = declarations.elaborateDeclarationsAndReplaceStyles(newStyle, rules[i].declarations, templateUrlConverter, bindingProvider);
     } else {
       console.log("Unknown rule type", rules[i].type, "while parsing <style> rules");
     }

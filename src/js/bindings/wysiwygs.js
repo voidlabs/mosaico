@@ -106,7 +106,6 @@ ko.bindingHandlers.wysiwygSrc = {
     var placeholdersrc = "'http://lorempixel.com/g/'+" + plwidth + "+'/'+" + plheight + "+'/abstract/'+encodeURIComponent(" + pltext + ")";
     // http://placehold.it/200x150.png/cccccc/333333&text=placehold.it#sthash.nA3r26vR.dpuf
     // placeholdersrc = "'http://placehold.it/'+"+width+"+'x'+"+height+"+'.png/cccccc/333333&text='+"+size;
-    // placeholdersrc = "'"+converterUtils.addSlashes(defaultValue)+"'";
   },
   init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
     if (ko.bindingHandlers['wysiwygSrc'].preload) $(element).data('preloadimg', new Image());
