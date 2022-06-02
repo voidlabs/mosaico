@@ -11,7 +11,7 @@ describe('model wrapper and undomanager', function() {
   beforeAll(function() {
     mockery.registerMock('knockoutjs-reactor', require('ko-reactor/dist/ko-reactor.js'));
     mockery.enable();
-    mockery.registerAllowables(['../src/js/converter/declarations.js', './wrapper.js', 'console', './utils.js', './domutils.js', 'console', 'mensch', 'path', 'mkdirp', './model.js', 'jquery', 'knockout', 'ko-reactor/dist/ko-reactor.js', '../src/js/undomanager/undoserializer.js', '../src/js/undomanager/undomanager.js', '../src/js/converter/model.js', '../src/js/converter/main.js']);
+    mockery.registerAllowables(['../src/js/converter/declarations.js', './wrapper.js', 'console', './utils.js', './domutils.js', 'console', './cssparser.js', 'path', 'mkdirp', './model.js', 'jquery', 'knockout', 'ko-reactor/dist/ko-reactor.js', '../src/js/undomanager/undoserializer.js', '../src/js/undomanager/undomanager.js', '../src/js/converter/model.js', '../src/js/converter/main.js']);
 
     main = require('../src/js/converter/main.js');
     ko = require('knockout');
@@ -60,7 +60,7 @@ describe('model wrapper and undomanager', function() {
 
     // able to switch to another variant
     expect(content().mainBlocks().blocks()[0]().externalBackgroundVisible()).toEqual(true);
-    content().mainBlocks().blocks()[0]()._nextVariant();
+    content().mainBlocks().blocks()[0]._nextVariant();
     expect(content().mainBlocks().blocks()[0]().externalBackgroundVisible()).toEqual(false);
   });
 

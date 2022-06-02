@@ -6,8 +6,11 @@ var widgetPlugin = {
     return {
       widget: 'boolean',
       html: function(propAccessor, onfocusbinding, parameters) {
-        return '<input type="checkbox" value="nothing" data-bind="checked: ' + propAccessor + ', ' + onfocusbinding + '" />' +
-          '<span class="checkbox-replacer" ></span>';
+        var html = '<!-- ko letproxy: { prop: ' + propAccessor + ' } -->';
+        html += '<input type="checkbox" data-bind="checked: prop" />';
+        html += '<span class="checkbox-replacer" data-bind="event: { mousedown: function(ui, evt) { prop(!prop()); } }, click: function(ui, evt) { evt.preventDefault(); }, clickBubble: false" ></span>';
+        html += '<!-- /ko -->';
+        return html;
       }
     };
   },

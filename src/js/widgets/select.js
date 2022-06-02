@@ -41,7 +41,7 @@ var widgetPlugin = {
             if (typeof parameters.buttonsetLabels !== 'undefined') labels = _getOptionsObject(parameters.buttonsetLabels);
 
             var html1 = '<!-- ko letproxy: { prop: ' + propAccessor + ' } -->';
-            html1 += '<div data-bind="buttonset: { }, ' + onfocusbinding + '" style="display: inline-block">';
+            html1 += '<div data-bind="buttonset: { refreshOn: prop }, ' + onfocusbinding + '" style="display: inline-block">';
             // html1 += '<div class="ui-buttonset" style="display: inline-block">';
             for (var opt1 in opts) {
               optionCounter++;

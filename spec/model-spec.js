@@ -6,7 +6,7 @@ describe('Model generator', function() {
 
   beforeAll(function() {
     mockery.enable();
-    mockery.registerAllowables(['console', './domutils.js', 'mensch/lib/parser.js', './debug', './lexer', '../src/js/converter/utils.js', 'jsep']);
+    mockery.registerAllowables(['console', './domutils.js', './cssparser.js', 'mensch/lib/parser.js', './debug', './lexer', '../src/js/converter/utils.js', 'jsep']);
   });
 
   /*
@@ -30,56 +30,6 @@ describe('Model generator', function() {
     stylesheet.js.processStylesheetRules: bindingProvider = localWithBindingProvider.bind(this, 'theme', '');
     stylesheet.js.processStylesheetRules: bindingProvider = localWithBindingProvider.bind(this, localBlockName, '');
     */
-
-
-
-    it('should return expected positions', function() {
-      var styleText = " \nselector \n{\n color: red\n;\t}\n selector2{a:b}";
-      var styleSheet = require('mensch/lib/parser.js')(styleText, {
-        comments: true,
-        position: true
-      });
-      var declarations = styleSheet.stylesheet.rules[0].declarations;
-
-      expect(styleSheet.stylesheet.rules[0].position).toEqual({
-        start: {
-          line: 2,
-          col: 1
-        },
-        end: {
-          line: 3,
-          col: 1
-        }
-      });
-      expect(declarations[0].position).toEqual({
-        start: {
-          line: 4,
-          col: 2
-        },
-        end: {
-          line: 5,
-          col: 1
-        }
-      });
-      expect(styleSheet.stylesheet.rules[1].position).toEqual({
-        start: {
-          line: 6,
-          col: 2
-        },
-        end: {
-          line: 6,
-          col: 11
-        }
-      });
-
-      var utils = require('../src/js/converter/utils.js');
-
-      var replacedText = styleText;
-      replacedText = utils.removeStyle(replacedText, styleSheet.stylesheet.rules[1].position.start, styleSheet.stylesheet.rules[1].position.end, 0, 0, 0, 'CCC');
-      replacedText = utils.removeStyle(replacedText, declarations[0].position.start, declarations[0].position.end, 0, 0, 0, 'BBB');
-      replacedText = utils.removeStyle(replacedText, styleSheet.stylesheet.rules[0].position.start, styleSheet.stylesheet.rules[0].position.end, 0, 0, 0, 'AAA');
-      expect(replacedText).toEqual(" \nAAA{\n BBB;\t}\n CCC{a:b}");
-    });
 
   });
 

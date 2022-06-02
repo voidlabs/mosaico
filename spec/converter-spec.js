@@ -19,7 +19,7 @@ describe('Template converter', function() {
 
   beforeAll(function() {
     mockery.registerMock('jquery', require('cheerio').load('<html />'));
-    mockery.registerAllowables(['fs', '../src/js/converter/declarations.js', '../src/js/converter/model.js', '../src/js/converter/parser.js', 'console', './utils.js', './domutils.js', 'console', '../node_modules/mensch', './lib/lexer', './lib/parser', './lib/stringify', './debug', 'jsep', './declarations.js', 'mensch/lib/parser.js', 'mensch/lib/parser.js', './lexer', './stylesheet.js', './model.js']);
+    mockery.registerAllowables(['fs', '../src/js/converter/checkdefs.js', '../src/js/converter/declarations.js', '../src/js/converter/model.js', '../src/js/converter/parser.js', 'console', './utils.js', './domutils.js', 'console', '../node_modules/mensch', './lib/lexer', './lib/parser', './lib/stringify', './debug', 'jsep', './declarations.js', './cssparser.js', 'mensch/lib/parser.js', './lexer', './stylesheet.js', './model.js']);
     mockery.enable();
 
     _parseTemplate = function(html) {
@@ -161,7 +161,7 @@ describe('Template converter', function() {
       optionalName: 'template',
       templateMode: 'show',
       html: '<replacedhtml><replacedhead>              </replacedhead><repleacedbody><replacedcc condition="mso" style="display: none">\n\
-  <!-- cc:bo:v:roundrect --><cc xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" target="_blank" fillcolor="#ffffff" data-bind="wysiwygHref: url, virtualAttr: {  }">\n\
+  <!-- cc:bo:v:roundrect --><cc xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" target="_blank" fillcolor="#ffffff" data-bind="wysiwygHref: url">\n\
     <!-- cc:bo:w:anchorlock --><cc><!-- cc:sc -->\n\
     <!-- cc:bo:center --><cc data-bind="html: text">\n\
       Some text\n\
@@ -174,7 +174,7 @@ describe('Template converter', function() {
 
     var restoredHTML = conditional_restore(expectedTemplates[0].html);
     expect(restoredHTML).toEqual('<replacedhtml><replacedhead>              </replacedhead><repleacedbody><!--[if mso]>\n\
-  <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" target="_blank" fillcolor="#ffffff" data-bind="wysiwygHref: url, virtualAttr: {  }">\n\
+  <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" target="_blank" fillcolor="#ffffff" data-bind="wysiwygHref: url">\n\
     <w:anchorlock/>\n\
     <center data-bind="html: text">\n\
       Some text\n\
@@ -223,7 +223,7 @@ describe('Template converter', function() {
     },{
       optionalName: undefined,
       templateMode: undefined,
-      html: '<cc xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" target="_blank" fillcolor="#ffffff" data-bind="wysiwygHref: url, virtualAttr: {  }"><!-- ko template: \'undefined\' --><!-- /ko --></cc>' 
+      html: '<cc xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" target="_blank" fillcolor="#ffffff" data-bind="wysiwygHref: url"><!-- ko template: \'undefined\' --><!-- /ko --></cc>' 
     },{
       optionalName: 'template',
       templateMode: 'show',
@@ -239,7 +239,7 @@ describe('Template converter', function() {
 
     var restoredHTML = conditional_restore(composedHTML);
     expect(restoredHTML).toEqual('<replacedhtml><replacedhead>              </replacedhead><repleacedbody><!--[if mso]>\n\
-  <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" target="_blank" fillcolor="#ffffff" data-bind="wysiwygHref: url, virtualAttr: {  }">\n\
+  <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" target="_blank" fillcolor="#ffffff" data-bind="wysiwygHref: url">\n\
     <w:anchorlock/>\n\
     <center data-bind="html: text">\n\
       Some text\n\
@@ -247,6 +247,55 @@ describe('Template converter', function() {
   </v:roundrect>\n\
   <![endif]--><div data-bind="block: mainBlocks"></div></repleacedbody></replacedhtml>');
 
+  });
+
+  it('should detect missing default values', function() {
+    var parseData = _parseTemplate('<replacedhtml><replacedhead>\
+        <style type="text/css">\
+    @supports -ko-blockdefs {\
+      text { label: Paragraph; widget: text }\
+      url { label: Link; widget: url }\
+      template { label: Page; }\
+}\
+  </style>\
+      </replacedhead><repleacedbody><div style="something: 23; -ko-something: @[myUrl !== \'\' ? \'foo\' : \'bar\']" /><div data-ko-container="main"></div></replacedbody></replacedhtml>');
+
+    var checkDefs = require('../src/js/converter/checkdefs.js');
+    var ok = checkDefs(parseData.templateDef._defs);
+    expect(ok).toBe(false);
+  });
+
+  it('should detect data-ko-properties default value declarations', function() {
+    var parseData = _parseTemplate('<replacedhtml><replacedhead>\
+        <style type="text/css">\
+    @supports -ko-blockdefs {\
+      text { label: Paragraph; widget: text }\
+      url { label: Link; widget: url }\
+      template { label: Page; }\
+}\
+  </style>\
+      </replacedhead><repleacedbody><div data-ko-properties="myUrl=\'\'" style="something: 23; -ko-something: @[myUrl !== \'\' ? \'foo\' : \'bar\']" /><div data-ko-container="main"></div></replacedbody></replacedhtml>');
+
+    var checkDefs = require('../src/js/converter/checkdefs.js');
+    var ok = checkDefs(parseData.templateDef._defs);
+
+    expect(ok).toBe(true);
+  });
+
+  it('should detect -ko-blockdefs default value declarations in properties', function() {
+    var parseData = _parseTemplate('<replacedhtml><replacedhead>\
+        <style type="text/css">\
+    @supports -ko-blockdefs {\
+      text { label: Paragraph; widget: text }\
+      url { label: Link; widget: url }\
+      template { label: Page; properties: myUrl=\'\' }\
+}\
+  </style>\
+      </replacedhead><repleacedbody><div style="something: 23; -ko-something: @[myUrl !== \'\' ? \'foo\' : \'bar\']" /><div data-ko-container="main"></div></replacedbody></replacedhtml>');
+
+    var checkDefs = require('../src/js/converter/checkdefs.js');
+    var ok = checkDefs(parseData.templateDef._defs);
+    expect(ok).toBe(true);
   });
 
   afterAll(function() {

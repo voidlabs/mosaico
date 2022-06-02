@@ -40,6 +40,11 @@
   text-transform: uppercase;
 }
 
+.button-style-focus() {
+  background-color: lighten(@button-background-color, 10%);
+  box-shadow: none;
+}
+
 #main-edit-area .tool {
   border-radius: 100%;
   padding: 4px;
@@ -48,6 +53,12 @@
 }
 
 #toolbar, #preview-toolbar {
+  .ui-buttonset {
+    &:focus-within {
+      background-color: @mosaico-ui-background-color;
+      box-shadow: none;
+    }
+  }
   .ui-button {
     border-radius: 0;
     padding-top: 7px;
@@ -55,8 +66,9 @@
     line-height: 22px;
 
     background-color: @mosaico-ui-background-color;
-    &:hover, &.pressed {
+    &:hover, &.pressed, &:focus, &.ui-state-focus {
       background-color: lighten(@mosaico-ui-background-color, 10%);
+      box-shadow: none;
     }
     &.selected, &.ui-state-active {
       border-bottom: 2px solid @button-text-color;
@@ -86,6 +98,12 @@
     li {
       margin: 1px 1px 0 0;
       line-height: @topbar-height - 4px;
+
+      &.ui-state-focus {
+        background-color: lighten(@mosaico-ui-background-color, 10%);
+        box-shadow: none;
+      }
+
       a {
         border-radius: 0;
       }
@@ -97,7 +115,7 @@
   box-shadow: 1px 1px 3px @shadow-color;
 }
 
-.tabs-style(@activeclass: ~'.active', @buttonstyle: false) {
+.tabs-style(@activeclass: ~'.active', @buttonstyle: false, @focusclass: ~'.focus') {
 
   text-transform: uppercase;
 
@@ -114,6 +132,13 @@
     } 
   }
 
+  li@{focusclass} when (@buttonstyle) {
+    .button-style-focus();
+  }
+  li@{focusclass} when not (@buttonstyle) {
+    .input-style-focus();
+  }
+
   li@{activeclass} a {
     & when(@buttonstyle) {
       background-color: transparent;
@@ -121,6 +146,8 @@
       border-bottom: 3px solid @button-text-color;
     } 
   }
+
+
 }
 
 #main-toolbox {
@@ -153,6 +180,10 @@
 
 
   .objEdit .propInput input[type=checkbox] {
+    &:focus + .checkbox-replacer:after {
+      .input-style-focus;
+    }
+  
     &:checked + .checkbox-replacer:before {
       margin-left: 20px;
       background-color: @button-background-color;

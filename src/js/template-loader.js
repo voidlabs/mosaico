@@ -200,7 +200,7 @@ var templateCompiler = function(performanceAwareCaller, templateUrlConverter, te
       if (typeof html !== 'string') throw "Template system: cannot create new template " + id;
       var trash = html.match(/(data)?-ko-[^ =:]*/g);
       if (trash) {
-        console.error("ERROR: found unexpected -ko- attribute in compiled template", id, ", you probably mispelled it:", trash);
+        console.error("ERROR: found unexpected -ko- attribute", '('+trash[0]+')', "in compiled template", id, ", you probably mispelled it!", [ html ]);
       }
       templateSystem.addTemplate(id, html);
       createdTemplates.push(id);
@@ -224,6 +224,12 @@ var templateCompiler = function(performanceAwareCaller, templateUrlConverter, te
 
   // first pass: we "compile" the template into a termplateDef object
   var templateDef = performanceAwareCaller('translateTemplate', templateConverter.translateTemplate.bind(undefined, templateName, html, templateUrlConverter, myTemplateCreator));
+
+  var checkDefRes = performanceAwareCaller('checkDefs', templateConverter.checkDefs.bind(undefined, templateDef._defs));
+  // if checkModelRes is 1 then the model is not fully compatible but we fixed it
+  if (!checkDefRes) {
+    console.error("Failed to validate compiled template definitions! Your source template probably have missing default values and this can lead to unexpected behaviours.");
+  }
 
   // second pass: given the templateDef we create a base content model object for this template.
   var content = performanceAwareCaller('generateModel', templateConverter.wrappedResultModel.bind(undefined, templateDef));

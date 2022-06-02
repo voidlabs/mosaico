@@ -3,17 +3,23 @@
 
 var $ = require("jquery");
 var console = require("console");
-var converterUtils = require("./utils.js");
-var elaborateDeclarations = require("./declarations.js");
+var declarations = require("./declarations.js");
 var processStylesheetRules = require("./stylesheet.js");
 var modelDef = require("./model.js");
 var domutils = require("./domutils.js");
+var addSlashes = require('./utils.js').addSlashes;
+
+var domutilsSetOrAppendDataBind = function (element, newBinding) {
+  var currentBindings = domutils.getAttribute(element, 'data-bind');
+  var dataBind = (currentBindings !== null ? currentBindings + ", " : "") + newBinding;
+  domutils.setAttribute(element, 'data-bind', dataBind);
+};
 
 var wrapElementWithCondition = function(attribute, element, bindingProvider) {
   var cond = domutils.getAttribute(element, attribute);
 
   try {
-    var binding = converterUtils.conditionBinding(cond, bindingProvider);
+    var binding = declarations.conditionBinding(cond, bindingProvider);
     $(element).before('<!-- ko if: ' + binding + ' -->');
     $(element).after('<!-- /ko -->');
     domutils.removeAttribute(element, attribute);
@@ -28,26 +34,14 @@ var replacedAttributes = function(element, attributeName) {
   domutils.setAttribute(element, attributeName, domutils.getAttribute(element, "replaced" + attributeName));
 };
 
-var processStyle = function(element, templateUrlConverter, bindingProvider, addUniqueId) {
+var processStyleAttribute = function(element, templateUrlConverter, bindingProvider) {
   var style = domutils.getAttribute(element, 'replacedstyle');
-  var newStyle = null;
-  var newBindings;
-  if (addUniqueId) newBindings = {
-    // unique id is assigned automatically by the wrapper (to prevent 2 separate async operations)
-    // uniqueId: '$data',
-    attr: {
-      id: 'id'
-    }
-  };
 
   var removeDisplayNone = domutils.getAttribute(element, 'data-ko-display') !== null;
 
-  newStyle = elaborateDeclarations(style, undefined, templateUrlConverter, bindingProvider, element, newBindings, removeDisplayNone);
+  var newStyle = declarations.elaborateElementStyleDeclarations(style, templateUrlConverter, bindingProvider, element, removeDisplayNone);
 
-  // only when using "replaced"
-  if (newStyle === null) {
-    newStyle = style;
-  } else {
+  if (newStyle !== style) {
     // in case there are no bindings we keep replacedstyle to be used by IE during output
     // otherwise I remove it because it will be overwritten by virtualAttrStyle binding.
     // TODO maybe we better use different names for "replaced" used during template conversion
@@ -55,11 +49,9 @@ var processStyle = function(element, templateUrlConverter, bindingProvider, addU
     domutils.removeAttribute(element, 'replacedstyle');
   }
 
-  if (newStyle !== null) {
-    if (newStyle.trim().length > 0) {
-      domutils.setAttribute(element, 'style', newStyle);
-    } else domutils.removeAttribute(element, 'style');
-  }
+  if (newStyle.trim().length > 0) {
+    domutils.setAttribute(element, 'style', newStyle);
+  } else domutils.removeAttribute(element, 'style');
 };
 
 
@@ -73,7 +65,7 @@ var _fixRelativePath = function(attribute, templateUrlConverter, index, element)
 };
 
 
-var processBlock = function(element, defs, themeUpdater, blockPusher, templateUrlConverter, contextName, rootModelName, containerName, generateUniqueId, templateCreator) {
+var processBlock = function(element, defs, themeUpdater, blockPusher, templateUrlConverter, contextName, rootModelName, containerName, templateCreator, addId) {
 
   try {
 
@@ -106,6 +98,7 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
 
   var dataDefs = domutils.getAttribute(element, 'data-ko-properties');
   if (dataDefs === null) dataDefs = "";
+  else domutils.removeAttribute(element, 'data-ko-properties');
   $("[data-ko-properties]", element).each(function(index, element) {
     if (dataDefs.length > 0) dataDefs = dataDefs + " ";
     dataDefs = dataDefs + domutils.getAttribute(element, 'data-ko-properties');
@@ -127,6 +120,7 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
     if (newStyle != style) {
       if (newStyle.trim() !== '') {
         var tmpName = templateCreator(newStyle);
+
         domutils.setAttribute(element, 'data-bind', 'template: { name: \'' + tmpName + '\' }');
         // template have been created, let's empty the source content.
         domutils.setContent(element, '');
@@ -137,7 +131,11 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
     }
   });
 
-  processStyle(element, templateUrlConverter, bindingProvider, generateUniqueId);
+  if (addId) domutilsSetOrAppendDataBind(element, 'attr: { id: id }');
+
+  if (domutils.getAttribute(element, 'replacedstyle') !== null) {
+    processStyleAttribute(element, templateUrlConverter, bindingProvider);
+  }
 
   // TODO href should be supported. data-ko-display and data-ko-wrap should never happen in here.
   var notsupported = ['data-ko-display', 'data-ko-editable', 'data-ko-wrap', 'href'];
@@ -164,8 +162,9 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
   // should be only used on resizable items, like TD.
   $("[data-ko-height]", element).each(function(index, element) {
     var heightVar = domutils.getAttribute(element, 'data-ko-height');
-
-    // var bindingValue = bindingProvider(heightVar, value, false, 'wysiwyg');
+    // we expect defaults for the variable used in data-ko-height to be set via properties 
+    // in -ko-support or via data-ko-properties or any other mean, as we can't magically
+    // detect a default
     var bindingValue = bindingProvider(heightVar);
 
     var resizableOptions = '';
@@ -179,14 +178,12 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
     $(element).append(resizingDiv);
 
     var newBinding = "wysiwygCss: { 'ui-resizable-container': true }";
-    var currentBindings = domutils.getAttribute(element, 'data-bind');
-    var dataBind = (currentBindings !== null ? currentBindings + ", " : "") + newBinding;
-    domutils.setAttribute(element, 'data-bind', dataBind);
+    domutilsSetOrAppendDataBind(element, newBinding);
     domutils.removeAttribute(element, 'data-ko-height');
   });
 
   $("[replacedstyle]", element).each(function(index, element) {
-    processStyle(element, templateUrlConverter, bindingProvider, false);
+    processStyleAttribute(element, templateUrlConverter, bindingProvider);
   });
 
   // We don't want in html code otherwise IE11 will strip the whole tag from the html (see #557)
@@ -204,22 +201,11 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
   });
 
   $("[data-ko-editable]", element).each(function(index, element) {
-    var newBinding, defaultValue, model, currentBindings, dataBind;
-
+    var newBinding, defaultValue, model, dataBind, itemBindValue;
 
     var dataEditable = domutils.getAttribute(element, "data-ko-editable");
 
     // TODO add validation of the editable
-
-    var itemBindValue;
-    var selectBinding;
-    if (dataEditable.lastIndexOf('.') > 0) {
-      var subs = dataEditable.substr(0, dataEditable.lastIndexOf('.'));
-      itemBindValue = bindingProvider(subs);
-    } else {
-      itemBindValue = bindingProvider(dataEditable);
-    }
-    selectBinding = "wysiwygClick: function(obj, evt) { $root.selectItem(" + itemBindValue + ", $data); return false }, clickBubble: false, wysiwygCss: { selecteditem: $root.isSelectedItem(" + itemBindValue + ") }, scrollIntoView: $root.isSelectedItem(" + itemBindValue + ")";
 
     if (domutils.getLowerTagName(element) != 'img') {
 
@@ -232,9 +218,13 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
         newBinding += "wysiwygId: id()+'_" + dataEditable.replace('.', '_') + "', ";
       }
 
-      if (typeof selectBinding !== 'undefined') {
-        newBinding += selectBinding + ", ";
+      // item selection
+      if (dataEditable.lastIndexOf('.') > 0) {
+        itemBindValue = bindingProvider(dataEditable.substr(0, dataEditable.lastIndexOf('.')));
+      } else {
+        itemBindValue = modelBindValue;
       }
+      newBinding += "wysiwygClick: function(obj, evt) { $root.selectItem(" + itemBindValue + ", $data); return false }, clickBubble: false, wysiwygCss: { selecteditem: $root.isSelectedItem(" + itemBindValue + ") }, scrollIntoView: $root.isSelectedItem(" + itemBindValue + "), ";
 
       newBinding += "wysiwygOrHtml: " + modelBindValue;
 
@@ -265,9 +255,7 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
         var newContent = domutils.getInnerHtml($('<div></div>').append(wrappingDiv));
         domutils.setContent(element, newContent);
       } else {
-        currentBindings = domutils.getAttribute(element, 'data-bind');
-        dataBind = (currentBindings !== null ? currentBindings + ", " : "") + newBinding;
-        domutils.setAttribute(element, 'data-bind', dataBind);
+        domutilsSetOrAppendDataBind(element, newBinding);
         domutils.setContent(element, '');
       }
       domutils.removeAttribute(element, 'data-ko-editable');
@@ -283,7 +271,7 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
 
       var align = domutils.getAttribute(element, 'align');
 
-      currentBindings = domutils.getAttribute(element, 'data-bind');
+      var currentBindings = domutils.getAttribute(element, 'data-bind');
 
       // TODO this is ugly... maybe a better strategy is to pass this around using "data-" attributes
       var dynHeight = currentBindings && currentBindings.match(/virtualAttr: {[^}]* height: ([^,}]*)[,}]/);
@@ -324,8 +312,7 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
 
       var bindingValue = bindingProvider(dataEditable, value, false, 'wysiwyg');
       newBinding = "wysiwygSrc: { width: " + width + ", height: " + height + ", src: " + bindingValue + ", placeholder: " + placeholdersrc + " }";
-      dataBind = (currentBindings !== null ? currentBindings + ", " : "") + newBinding;
-      domutils.setAttribute(element, 'data-bind', dataBind);
+      domutilsSetOrAppendDataBind(element, newBinding);
 
       var tmplName = templateCreator(element);
 
@@ -337,6 +324,12 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
       else if (align == 'middle') containerBind += ', verticalAlign: \'middle\'';
       else if (align == 'bottom') containerBind += ', verticalAlign: \'bottom\'';
       containerBind += '}';
+
+      if (dataEditable.lastIndexOf('.') > 0) {
+        itemBindValue = bindingProvider(dataEditable.substr(0, dataEditable.lastIndexOf('.')));
+      } else {
+        itemBindValue = bindingValue;
+      }
 
       // TODO maybe we could use ko let to add variables and ko template to use a simple template based on the current status.
       // $(element).before('<!-- ko let: { _data: $data, _item: ' + itemBindValue + ', _template: \'' + tmplName + '\', _src: ' + bindingValue + ', _width: ' + width + ', _height: ' + height + ', _align: ' + (align === null ? undefined : '\'' + align + '\'') + ', _method: ' + method + ', _stylebind: ' + containerBind + ' } -->'+
@@ -351,21 +344,19 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
   // Applied after the data-editable so to avoid processing hrefs for editable content
   $("[href]", element).each(function(index, element) {
     var attrValue = domutils.getAttribute(element, 'href');
-    var newBinding = 'wysiwygHref: \'' + converterUtils.addSlashes(attrValue) + '\'';
-    var currentBindings = domutils.getAttribute(element, 'data-bind');
-    var dataBind = (currentBindings !== null ? currentBindings + ", " : "") + newBinding;
-    domutils.setAttribute(element, 'data-bind', dataBind);
+    var newBinding = 'wysiwygHref: \'' + addSlashes(attrValue) + '\'';
+    domutilsSetOrAppendDataBind(element, newBinding);
   });
 
   $("replacedblock", element).each(function(index, element) {
     var blockElement = fixedBlocks[index];
 
-    var blockName = processBlock(blockElement, defs, themeUpdater, blockPusher, templateUrlConverter, 'block', templateName, containerName, true, templateCreator);
+    var blockName = processBlock(blockElement, defs, themeUpdater, blockPusher, templateUrlConverter, 'block', templateName, containerName, templateCreator, true);
     // replaced blocks are defined in the model root
     var modelBindValue = modelDef.ensurePathAndGetBindValue(defs, themeUpdater, rootModelName, templateName, '', blockName);
 
     // this way we call block-wysiwyg or block-show and not directly the right block
-    $(element).before('<!-- ko block: { data: ' + converterUtils.addSlashes(modelBindValue) + ', template: \'block\' } -->');
+    $(element).before('<!-- ko block: { data: ' + addSlashes(modelBindValue) + ', template: \'block\' } -->');
     $(element).after('<!-- /ko -->');
     $(element).remove();
   });
@@ -379,7 +370,7 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
       throw "Unsupported empty value for data-ko-wrap: use false value if you want to always remove the tag";
     }
 
-    var condBinding = converterUtils.conditionBinding(cond, bindingProvider);
+    var condBinding = declarations.conditionBinding(cond, bindingProvider);
 
     /*
           var condBinding = false;
@@ -483,7 +474,7 @@ var translateTemplate = function(templateName, html, templateUrlConverter, templ
     var containerName = domutils.getAttribute(element, 'data-ko-container') + "Blocks";
 
     domutils.removeAttribute(element, 'data-ko-container');
-    domutils.setAttribute(element, 'data-bind', 'block: ' + containerName);
+    domutilsSetOrAppendDataBind(element, 'block: ' + containerName);
 
     var containerBlocks = $("> [data-ko-block]", element);
     domutils.removeElements(containerBlocks, true);
@@ -502,10 +493,10 @@ var translateTemplate = function(templateName, html, templateUrlConverter, templ
   // Needed if you want to use a text variable? TODO this should not be needed!
   modelDef.createOrUpdateBlockDef(defs, 'text');
 
-  processBlock(element, defs, themeUpdater, _blockPusher, templateUrlConverter, 'template', templateName, undefined, false, templateCreator);
+  processBlock(element, defs, themeUpdater, _blockPusher, templateUrlConverter, 'template', templateName, undefined, templateCreator);
 
   var blockProcess = function(containerName, index, element) {
-    processBlock(element, defs, themeUpdater, _blockPusher, templateUrlConverter, 'block', templateName, containerName, true, templateCreator);
+    processBlock(element, defs, themeUpdater, _blockPusher, templateUrlConverter, 'block', templateName, containerName, templateCreator, true);
   };
 
   for (var prop in containersDom)

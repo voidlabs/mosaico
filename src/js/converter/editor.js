@@ -1,9 +1,9 @@
 "use strict";
 
 var console = require("console");
-var elaborateDeclarations = require("./declarations.js");
-var utils = require('./utils.js');
+var declarations = require("./declarations.js");
 var modelDef = require('./model.js');
+var addSlashes = require('./utils.js').addSlashes;
 
 // TODO this should not have hardcoded rules (we now have a way to declare them in the template definition)
 // Category "style" is used by editType "styler"
@@ -43,7 +43,7 @@ var _propInput = function(model, prop, propAccessor, editType, widgets) {
     onfocusbinding += ', event: { focus: function(ui, event) { $($element).click(); } } ';
   }
 
-  html += '<label class="data-' + widget + '"' + (widget == 'boolean' ? ' data-bind="event: { mousedown: function(ui, evt) { if (evt.button == 0) { var input = $($element).find(\'input\'); var ch = input.prop(\'checked\'); setTimeout(function() { input.click(); input.prop(\'checked\', !ch); input.trigger(\'change\'); }, 0); } } }, click: function(ui, evt) { evt.preventDefault(); }, clickBubble: false"' : '') + '>';
+  html += '<div class="data-' + widget + '">';
 
   if (typeof widgets !== 'undefined' && typeof widgets[widget] !== 'undefined') {
     var w = widgets[widget];
@@ -57,7 +57,7 @@ var _propInput = function(model, prop, propAccessor, editType, widgets) {
     html += '<input size="7" type="text" value="nothing" data-bind="value: ' + propAccessor + ', ' + onfocusbinding + '" />';
   }
 
-  html += '</label>';
+  html += '</div>';
 
   return html;
 };
@@ -145,15 +145,15 @@ var _propEditor = function(withBindingProvider, widgets, templateUrlConverter, m
         console.log("Missing label for theme section ", prop, model !== null ? model.type : '-');
       }
 
-      modelName = '<span class="blockSelectionMethod" data-bind="text: customStyle() ? $root.ut(\'template\', \'' + utils.addSlashes(modelName) + '\') : $root.ut(\'template\', \'' + utils.addSlashes(themeSectionName) + '\')">Block</span>';
+      modelName = '<span class="blockSelectionMethod" data-bind="text: customStyle() ? $root.ut(\'template\', \'' + addSlashes(modelName) + '\') : $root.ut(\'template\', \'' + addSlashes(themeSectionName) + '\')">Block</span>';
     } else {
-      modelName = '<span data-bind="text: $root.ut(\'template\', \'' + utils.addSlashes(modelName) + '\')">' + modelName + '</span>';
+      modelName = '<span data-bind="text: $root.ut(\'template\', \'' + addSlashes(modelName) + '\')">' + modelName + '</span>';
     }
-    title = model !== null && typeof model._help !== 'undefined' ? ' title="' + utils.addSlashes(model._help) + '" data-bind="attr: { title: $root.ut(\'template\', \'' + utils.addSlashes(model._help) + '\') }"' : '';
+    title = model !== null && typeof model._help !== 'undefined' ? ' title="' + addSlashes(model._help) + '" data-bind="attr: { title: $root.ut(\'template\', \'' + addSlashes(model._help) + '\') }"' : '';
     html += '<span' + title + ' class="objLabel level' + level + '">' + modelName + '</span>';
 
     if (editType == 'edit' && typeof model._blockDescription !== 'undefined') {
-      html += '<div class="blockDescription" data-bind="html: $root.ut(\'template\', \'' + utils.addSlashes(model._blockDescription) + '\')">' + model._blockDescription + '</div>';
+      html += '<div class="blockDescription" data-bind="html: $root.ut(\'template\', \'' + addSlashes(model._blockDescription) + '\')">' + model._blockDescription + '</div>';
     }
 
     /* CUSTOM STYLE */
@@ -173,7 +173,7 @@ var _propEditor = function(withBindingProvider, widgets, templateUrlConverter, m
         if (typeof model._previewBindings != 'undefined' && typeof withBindingProvider != 'undefined') {
           if (typeof rootPreviewBinding != 'undefined') html += '<!-- ko with: $root.content() --><div class="objPreview" data-bind="' + rootPreviewBinding + '"></div><!-- /ko -->';
           if (typeof previewBackground != 'undefined') html += '<!-- ko with: $parent --><div class="objPreview" data-bind="' + previewBackground + '"></div><!-- /ko -->';
-          var previewBindings = elaborateDeclarations(undefined, model._previewBindings, templateUrlConverter, withBindingProvider.bind(this, path + '.'));
+          var previewBindings = declarations.elaborateDeclarationsAndReturnStyleBindings(model._previewBindings, templateUrlConverter, withBindingProvider.bind(this, path + '.'));
           html += '<div class="objPreview"><div class="objPreviewInner" data-bind="' + previewBindings + '"></div></div>';
         }
       }
@@ -183,7 +183,7 @@ var _propEditor = function(withBindingProvider, widgets, templateUrlConverter, m
     var previewBG;
     if (level === 0) {
       if (typeof model._previewBindings != 'undefined') {
-        previewBG = elaborateDeclarations(undefined, model._previewBindings, templateUrlConverter, withBindingProvider.bind(this, path.length > 0 ? path + '.' : ''));
+        previewBG = declarations.elaborateDeclarationsAndReturnStyleBindings(model._previewBindings, templateUrlConverter, withBindingProvider.bind(this, path.length > 0 ? path + '.' : ''));
       }
     }
 
@@ -244,13 +244,13 @@ var _propEditor = function(withBindingProvider, widgets, templateUrlConverter, m
       var bindings = [];
 
       if (typeof globalStyleProp != 'undefined') bindings.push('css: { notnull: ' + prop + '() !== null }');
-      title = model !== null && typeof model._help !== 'undefined' ? ' title="' + utils.addSlashes(model._help) + '" data-bind="attr: { title: $root.ut(\'template\', \'' + utils.addSlashes(model._help) + '\') }"' : '';
+      title = model !== null && typeof model._help !== 'undefined' ? ' title="' + addSlashes(model._help) + '" data-bind="attr: { title: $root.ut(\'template\', \'' + addSlashes(model._help) + '\') }"' : '';
       if (title.length > 0) bindings.push('tooltips: {}');
-      var bind = bindings.length > 0 ? 'data-bind="' + utils.addSlashes(bindings.join()) + '"' : '';
+      var bind = bindings.length > 0 ? 'data-bind="' + addSlashes(bindings.join()) + '"' : '';
       html += '<div class="propEditor ' + (checkboxes ? 'checkboxes' : '') + '"' + bind + '>';
 
       var modelName2 = (model !== null && typeof model._name != 'undefined' ? model._name : (typeof prop !== 'undefined' ? '[' + prop + ']' : ''));
-      modelName2 = '<span data-bind="text: $root.ut(\'template\', \'' + utils.addSlashes(modelName2) + '\')">' + modelName2 + '</span>';
+      modelName2 = '<span data-bind="text: $root.ut(\'template\', \'' + addSlashes(modelName2) + '\')">' + modelName2 + '</span>';
       html += '<span' + title + ' class="propLabel">' + modelName2 + '</span>';
       html += '<div class="propInput ' + (typeof globalStyles != 'undefined' ? 'local' : '') + '" data-bind="css: { default: ' + prop + '() === null }">';
       html += _propInput(model, prop, propAccessor, editType, widgets);
@@ -296,7 +296,7 @@ var createBlockEditor = function(defs, widgets, themeUpdater, templateUrlConvert
   var rootModel = modelDef.getDef(defs, rootModelName);
   var rootPreviewBindings;
   if (typeof rootModel._previewBindings != 'undefined' && templateName != 'thaeme' && editType == 'styler') {
-    rootPreviewBindings = elaborateDeclarations(undefined, rootModel._previewBindings, templateUrlConverter, modelDef.getBindValue.bind(undefined, defs, themeUpdater, rootModelName, rootModelName, ''));
+    rootPreviewBindings = declarations.elaborateDeclarationsAndReturnStyleBindings(rootModel._previewBindings, templateUrlConverter, modelDef.getBindValue.bind(undefined, defs, themeUpdater, rootModelName, rootModelName, ''));
   }
 
   var globalStyles = typeof trackGlobalStyles != 'undefined' && trackGlobalStyles ? defs[templateName]._globalStyles : undefined;

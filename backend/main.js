@@ -117,13 +117,13 @@ app.get('/img/', function(req, res) {
                         .color([{ apply: 'xor', params: ['#B0B0B0'] }], function (err, tempImg2) {
                             if (err) {
                                 console.log("Error #1 creating placeholder: ", err);
-                                res.status(500);
+                                res.status(500).send('Error #1 creating placeholder: ' + err.message);
                             } else {
                                 image.blit(tempImg2, 0, 0)
                                 .getBuffer(Jimp.MIME_PNG, function(error, buffer) {
                                     if (error) {
                                         console.log("Error #2 creating placeholder: ", error);
-                                        res.status(500);
+                                        res.status(500).send('Error #1 creating placeholder: ' + err.message);
                                     } else res.status(200).send(new Buffer(buffer));
                                 });
                             }
@@ -140,8 +140,8 @@ app.get('/img/', function(req, res) {
         var ir = Jimp.read(src, function(err, image) {
 
             if (err) {
-                console.log("Error reading image: ", err);
-                res.status(404);
+                console.log("Error reading image: ", err.message);
+                res.status(404).send('Not found');
             } else {
 
                 // "aspect" method is currently unused, but we're evaluating it.
@@ -160,12 +160,12 @@ app.get('/img/', function(req, res) {
                 var sendOrError = function(err, image) {
                     if (err) {
                         console.log("Error manipulating image: ", err);
-                        res.status(500);
+                        res.status(500).send('Unexpected condition: ' + err.message);
                     } else {
                         image.getBuffer(Jimp.MIME_PNG, function(error, buffer) {
                             if (error) {
                                 console.log("Error sending manipulated image: ", error);
-                                res.status(500);
+                                res.status(500).send('Unexpected condition manipulating image: ' + error.message);
                             } else res.status(200).send(new Buffer(buffer));
                         });
                     }

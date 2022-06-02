@@ -5,6 +5,8 @@ describe('Stylesheet declaration processor', function() {
   var processStylesheetRules;
   var mockery = require('mockery');
 
+  var templateUrlConverter = function(url) { return 'https://PREFIXED/'+url; };
+
   var mockedWithBindingProvider = function(x, y, a, b) {
     return "$" + x + '.' + a + "[" + b + "]";
   };
@@ -178,6 +180,14 @@ describe('Stylesheet declaration processor', function() {
     expect(exception).toMatch(/^Cannot mix/);
     // console.log("BBB", blockDefsUpdater.calls);
   });
+
+  it('should parse @font-face definitions, mainly for template url prefixing', function() {
+    var result;
+    var blockDefsUpdater = jasmine.createSpy("blockDefsUpdater");
+    result = processStylesheetRules('@font-face { src: url("../fonts/Calibri.woff") format("woff"), url("../fonts/Calibri.woff2") format("woff2"); }', undefined, mockedWithBindingProvider, undefined, undefined, templateUrlConverter, 'template', 'block');
+    expect(result).toEqual('@font-face { src: url("https://PREFIXED/../fonts/Calibri.woff") format("woff"), url("https://PREFIXED/../fonts/Calibri.woff2") format("woff2"); }');
+  });
+
 
   afterAll(function() {
     mockery.disable();

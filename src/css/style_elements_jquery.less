@@ -29,6 +29,10 @@
 
 .ui-button {
   .button-style();
+
+  &.ui-state-focus {
+    .button-style-focus();
+  }
   
   .ui-button-text, .ui-icon {
     color: @button-text-color;
@@ -50,6 +54,14 @@
 
 .ui-buttonset {
   .buttonset-style();
+  &:focus-within {
+    .button-style-focus();
+
+    .ui-button {
+      // reset .button-style-focus();
+      .button-unstyle-focus();
+    }
+  }
 }
 
 .ui-dialog {
@@ -203,7 +215,7 @@
  */
 .ui-tabs.tabs_horizontal {
   > ul {
-    .tabs-style(~'.ui-state-active', false);
+    .tabs-style(~'.ui-state-active', false, ~'.ui-state-focus');
     padding: 0px 0px 0px .5em;
   }
   .ui-tabs-panel {
@@ -215,7 +227,7 @@
 }
 .ui-tabs.tabs_horizontal.button_color {
   > ul {
-    .tabs-style(~'.ui-state-active', true);
+    .tabs-style(~'.ui-state-active', true, ~'.ui-state-focus');
   }
 }
 
