@@ -13,7 +13,6 @@ var sweetAlert = Swal.mixin({
   target: "#mo-body",
   position: 'bottom',
   width: "50%",
-  // customClass: 'toast-bottom-full-width',
   showConfirmButton: false,
   timer: 3000
 });
