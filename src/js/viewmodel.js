@@ -6,23 +6,17 @@ var ko = require("knockout");
 var console = require("console");
 var performanceAwareCaller = require("./timed-call.js").timedCall;
 
-var toastr = require("toastr");
-toastr.options = {
-  "closeButton": false,
-  "debug": false,
-  "positionClass": "toast-bottom-full-width",
-  "target": "#mo-body",
-  "onclick": null,
-  "showDuration": "300",
-  "hideDuration": "1000",
-  "timeOut": "5000",
-  "extendedTimeOut": "1000",
-  "showEasing": "swing",
-  "hideEasing": "linear",
-  "showMethod": "fadeIn",
-  "hideMethod": "fadeOut",
-  "escapeHtml": "true" // XSS
-};
+var Swal = require('sweetalert2');
+var sweetAlert = Swal.mixin({
+  toast: true,
+  heightAuto: false,
+  target: "#mo-body",
+  position: 'bottom',
+  width: "50%",
+  // customClass: 'toast-bottom-full-width',
+  showConfirmButton: false,
+  timer: 3000
+});
 
 function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
 
@@ -59,7 +53,7 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
   viewModel.content = content;
   viewModel.blockDefs = blockDefs;
 
-  viewModel.notifier = toastr;
+  viewModel.notifier = sweetAlert;
 
   // Does token substitution in i18next style
   viewModel.tt = function(key, paramObj) {
@@ -109,7 +103,10 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
       viewModel.galleryRemote(data.files.reverse());
     }).fail(function() {
       viewModel.galleryLoaded(false);
-      viewModel.notifier.error(viewModel.t('Unexpected error listing files'));
+      viewModel.notifier.fire({
+        icon: 'error',
+        title: 'Unexpected error listing files'
+      });
     });
   };
 
@@ -127,7 +124,10 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
     }
     var res = parent.blocks.remove(data);
     // TODO This message should be different depending on undo plugin presence.
-    viewModel.notifier.info(viewModel.t('Block removed: use undo button to restore it...'));
+    viewModel.notifier.fire({
+      icon: 'info',
+      title: 'Block removed: use undo button to restore it...'
+    });
     return res;
   };
 
@@ -204,15 +204,21 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
     if (typeof found !== 'undefined') {
       pos = found + 1;
       viewModel.content().mainBlocks().blocks.splice(pos, 0, obj);
-      viewModel.notifier.info(viewModel.t('New block added after the selected one (__pos__)', {
-        pos: pos
-      }));
+      viewModel.notifier.fire({
+        icon: 'info',
+        title: viewModel.t('New block added after the selected one (__pos__)', {
+          pos: pos
+        })
+      });
     } else {
       viewModel.content().mainBlocks().blocks.push(obj);
       pos = viewModel.content().mainBlocks().blocks().length - 1;
-      viewModel.notifier.info(viewModel.t('New block added at the model bottom (__pos__)', {
-        pos: pos
-      }));
+      viewModel.notifier.fire({
+        icon: 'info',
+        title: viewModel.t('New block added at the model bottom (__pos__)', {
+          pos: pos
+        })
+      });
     }
     // find the newly added block and select it!
     var added = viewModel.content().mainBlocks().blocks()[pos]();

@@ -68,11 +68,17 @@ var lsCommandPluginFactory = function(md, emailProcessorBackend) {
           }, null, 'html');
           post.fail(function() {
             console.log("fail", arguments);
-            viewModel.notifier.error(viewModel.t('Unexpected error talking to server: contact us!'));
+            viewModel.notifier.fire({
+              icon: 'error',
+              title: viewModel.t('Unexpected error talking to server: contact us!')
+            });
           });
           post.success(function() {
             console.log("success", arguments);
-            viewModel.notifier.success(viewModel.t("Test email sent..."));
+            viewModel.notifier.fire({
+              icon: 'success',
+              title: viewModel.t("Test email sent...")
+            });
           });
           post.always(function() {
             testCmd.enabled(true);
@@ -85,7 +91,10 @@ var lsCommandPluginFactory = function(md, emailProcessorBackend) {
     };
     downloadCmd.execute = function() {
       downloadCmd.enabled(false);
-      viewModel.notifier.info(viewModel.t("Downloading..."));
+      viewModel.notifier.fire({
+        icon: 'info',
+        title: "Downloading..."
+      });
       viewModel.exportHTMLtoTextarea('#downloadHtmlTextarea');
       var postUrl = emailProcessorBackend ? emailProcessorBackend : '/dl/';
       global.document.getElementById('downloadForm').setAttribute("action", postUrl);

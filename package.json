@@ -57,8 +57,8 @@
     "ko-reactor": "^1.4.2",
     "mensch": "^0.3.4",
     "slick": "1.12.2",
-    "tinycolor2": "1.4.2",
-    "toastr": "^2.1.4"
+    "sweetalert2": "11.4.7",
+    "tinycolor2": "1.4.2"
   },
   "devDependencies": {
     "@lodder/grunt-postcss": "3.1.1",

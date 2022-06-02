@@ -32,10 +32,10 @@ Knockout-Reactor (Knockout value tracking used by Knockout-UndoManager):
 
 TinyColor (Color manipulation library):
 - MIT License, Copyright (c) Brian Grinstead <briangrinstead@gmail.com>
-                             (http://briangrinstead.com)", 
+                             (http://briangrinstead.com)",
 
-Toastr (Toast notifications):
-- MIT License, Copyright (c) 2012-2015 John Papa, Hans Fjällemark, and Tim Ferrell
+SweetAlert2 (Toast notifications):
+- MIT License, Copyright (c) 2014 Tristan Edwards & Limon Monte
 
 Evol-Colorpicker (Color picker):
 - MIT License, Copyright (c) 2015 Olivier Giulieri
