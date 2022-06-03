@@ -52,7 +52,17 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
   viewModel.content = content;
   viewModel.blockDefs = blockDefs;
 
-  viewModel.notifier = sweetAlert;
+  viewModel.notifier = {
+    'error': function (msg) {
+      sweetAlert.fire({icon: 'error', title: msg});
+    },
+    'success': function (msg) {
+      sweetAlert.fire({icon: 'success', title: msg});
+    },
+    'info': function (msg) {
+      sweetAlert.fire({icon: 'info', title: msg});
+    },
+  };
 
   // Does token substitution in i18next style
   viewModel.tt = function(key, paramObj) {
@@ -102,10 +112,7 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
       viewModel.galleryRemote(data.files.reverse());
     }).fail(function() {
       viewModel.galleryLoaded(false);
-      viewModel.notifier.fire({
-        icon: 'error',
-        title: 'Unexpected error listing files'
-      });
+      viewModel.notifier.error(viewModel.t('Unexpected error listing files'));
     });
   };
 
@@ -123,10 +130,7 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
     }
     var res = parent.blocks.remove(data);
     // TODO This message should be different depending on undo plugin presence.
-    viewModel.notifier.fire({
-      icon: 'info',
-      title: 'Block removed: use undo button to restore it...'
-    });
+    viewModel.notifier.info(viewModel.t('Block removed: use undo button to restore it...'));
     return res;
   };
 
@@ -203,21 +207,15 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
     if (typeof found !== 'undefined') {
       pos = found + 1;
       viewModel.content().mainBlocks().blocks.splice(pos, 0, obj);
-      viewModel.notifier.fire({
-        icon: 'info',
-        title: viewModel.t('New block added after the selected one (__pos__)', {
-          pos: pos
-        })
-      });
+      viewModel.notifier.info(viewModel.t('New block added after the selected one (__pos__)', {
+        pos: pos
+      }));
     } else {
       viewModel.content().mainBlocks().blocks.push(obj);
       pos = viewModel.content().mainBlocks().blocks().length - 1;
-      viewModel.notifier.fire({
-        icon: 'info',
-        title: viewModel.t('New block added at the model bottom (__pos__)', {
-          pos: pos
-        })
-      });
+      viewModel.notifier.info(viewModel.t('New block added at the model bottom (__pos__)', {
+        pos: pos
+      }));
     }
     // find the newly added block and select it!
     var added = viewModel.content().mainBlocks().blocks()[pos]();
