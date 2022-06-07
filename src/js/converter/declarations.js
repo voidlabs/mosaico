@@ -135,7 +135,7 @@ var elaborateDeclarations = function(newStyle, declarations, templateUrlConverte
             }
 
             if (needDefaultValue && propDefaultValue === null) {
-              console.error("Cannot find default value for", declarations[i].name, declarations);
+              console.error("Cannot find default value for", declarations[i].name, declarations, element, newStyle, declarations[i]);
               throw "Cannot find default value for " + declarations[i].name + ": " + declarations[i].value + " in " + element + " (" + typeof newStyle + "/" + propName + ")";
             }
             var bindDefaultValue = propDefaultValue;

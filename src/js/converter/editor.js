@@ -288,7 +288,6 @@ var _propEditor = function(withBindingProvider, widgets, templateUrlConverter, m
   return html;
 };
 
-
 var createBlockEditor = function(defs, widgets, themeUpdater, templateUrlConverter, rootModelName, templateName, editType, templateCreator, baseThreshold, trackGlobalStyles, trackUsage, fromLevel) {
   if (typeof trackUsage == 'undefined') trackUsage = true;
   var model = modelDef.getDef(defs, templateName);
@@ -337,16 +336,11 @@ var generateEditors = function(templateDef, widgets, templateUrlConverter, templ
   var templateName = templateDef.templateName;
   var blocks = templateDef._blocks;
   var idx;
-  var blockDefs = [];
   for (idx = 0; idx < blocks.length; idx++) {
-    if (typeof blocks[idx].container !== 'undefined') {
-      blockDefs.push(modelDef.generateModel(defs, blocks[idx].block));
-    }
     createBlockEditors(defs, widgets, undefined, templateUrlConverter, blocks[idx].root, blocks[idx].block, templateCreator, baseThreshold);
   }
 
   if (typeof defs['theme'] != 'undefined') createBlockEditor(defs, widgets, undefined, templateUrlConverter, templateName, 'theme', 'styler', templateCreator, undefined, false, false, -1);
-  return blockDefs;
 };
 
 module.exports = generateEditors;

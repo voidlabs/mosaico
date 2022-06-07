@@ -2,15 +2,15 @@
 var console = require("console");
 
 // returns 0 if equal (0.0.x release), 1 with backward compatible additions (0.x.0 release), 2 on lost data or incompatible data (x.0.0 release)
-var checkModel = function(reference, blockDefs, model, origPrefix, reverse) {
-  var blockDefsObj, i, prefix;
+var checkModel = function(reference, blocks, model, origPrefix, reverse) {
+  var blocksObj, i, prefix;
   var valid = 0;
   if (typeof reverse == 'undefined') reverse = false;
-  if (typeof blockDefs !== 'undefined' && typeof blockDefs.splice == 'function') {
-    blockDefsObj = {};
-    for (i = 0; i < blockDefs.length; i++) blockDefsObj[blockDefs[i].type] = blockDefs[i];
+  if (typeof blocks !== 'undefined' && typeof blocks.splice == 'function') {
+    blocksObj = {};
+    for (i = 0; i < blocks.length; i++) blocksObj[blocks[i].type] = blocks[i];
   } else {
-    blockDefsObj = blockDefs;
+    blocksObj = blocks;
   }
   for (var prop in reference)
     if (reference.hasOwnProperty(prop)) {
@@ -66,18 +66,18 @@ var checkModel = function(reference, blockDefs, model, origPrefix, reverse) {
                   }
                 }
               } else {
-                // in the case of different array we check blockDefs
+                // in the case of different array we check blocks
                 for (i = 0; i < reference[prop].length; i++) {
                   if (typeof reference[prop][i].type !== 'string') {
                     console.log("TODO found an object with no type", prefix, reference[prop][i]);
                     valid = Math.max(valid, 2);
-                  } else if (!blockDefsObj.hasOwnProperty(reference[prop][i].type)) {
+                  } else if (!blocksObj.hasOwnProperty(reference[prop][i].type)) {
                     console.warn("TODO the model uses a block type not defined by the template. REMOVING IT!!", prefix, reference[prop][i]);
                     reference[prop].splice(i, 1);
                     i--;
                     valid = Math.max(valid, 2);
                   } else {
-                    valid = Math.max(valid, checkModel(blockDefsObj[reference[prop][i].type], blockDefsObj, reference[prop][i], prefix + "[" + i + "." + reference[prop][i].type + "]"));
+                    valid = Math.max(valid, checkModel(blocksObj[reference[prop][i].type], blocksObj, reference[prop][i], prefix + "[" + i + "." + reference[prop][i].type + "]"));
                   }
                 }
               }
@@ -94,7 +94,7 @@ var checkModel = function(reference, blockDefs, model, origPrefix, reverse) {
                 model[prop] = reference[prop];
               }
             } else {
-              valid = Math.max(valid, checkModel(reference[prop], blockDefsObj, model[prop], prefix, reverse));
+              valid = Math.max(valid, checkModel(reference[prop], blocksObj, model[prop], prefix, reverse));
             }
           }
         } else if (model[prop] !== null) {
@@ -107,7 +107,7 @@ var checkModel = function(reference, blockDefs, model, origPrefix, reverse) {
       }
 
     }
-  if (!reverse) valid = Math.max(valid, checkModel(model, blockDefs, reference, typeof origPrefix !== 'undefined' ? origPrefix + "!R" : "!R", true));
+  if (!reverse) valid = Math.max(valid, checkModel(model, blocksObj, reference, typeof origPrefix !== 'undefined' ? origPrefix + "!R" : "!R", true));
   return valid;
 };
 

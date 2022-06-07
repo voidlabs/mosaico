@@ -42,7 +42,7 @@ var _removeOptionalQuotes = function(str) {
 
 var _processStyleSheetRules_processBlockDef = function(blockDefsUpdater, rules, templateUrlConverter) {
   var properties, namedProps, decls;
-  // name, contextName, globalStyle, themeOverride, extend, min, max, widget, options, category, variant, visibility, help, blockDescription, version, 
+  // name, contextName, globalStyle, themeOverride, extend, min, max, widget, options, category, variant, visibility, deprecated, help, blockDescription, version, 
   for (var i = 0; i < rules.length; i++) {
     if (rules[i].type == 'rule') {
       var sels = rules[i].selectors;
@@ -78,7 +78,7 @@ var _processStyleSheetRules_processBlockDef = function(blockDefsUpdater, rules, 
           else namedProps[decls[k].name] = declarations.declarationValueUrlPrefixer(val, templateUrlConverter);
           // NOTE in past we detected unsupported properties, while now we simple push every declaration in a namedProperty.
           // This make it harder to spot errors in declarations.
-          // Named properties we supported were extend, min, max, options, widget, category, variant, visibility, help, blockDescription, version
+          // Named properties we supported were extend, min, max, options, widget, category, variant, visibility, deprecated, help, blockDescription, version
           // console.warn("Unknown property processing @supports -ko-blockdefs ", decls[k], sels);
         }
         for (var l = 0; l < sels.length; l++) {

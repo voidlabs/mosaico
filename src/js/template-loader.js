@@ -177,7 +177,6 @@ var templateCompiler = function(performanceAwareCaller, templateUrlConverter, te
     if (basicStructure[ele] > 1) throw "ERROR: multiple element "+ele+"> occourences are not supported (found "+basicStructure[ele]+" occourences)";
   }
   var postfix = res[3];
-  var blockDefs = [];
   var enableUndo = true;
   var enableRecorder = true;
   var baseThreshold = '+$root.contentListeners()';
@@ -240,7 +239,9 @@ var templateCompiler = function(performanceAwareCaller, templateUrlConverter, te
   for (var wi = 0; wi < widgetPlugins.length; wi++) {
     widgets[widgetPlugins[wi].widget] = widgetPlugins[wi];
   }
-  blockDefs.push.apply(blockDefs, performanceAwareCaller('generateEditors', templateConverter.generateEditors.bind(undefined, templateDef, widgets, templateUrlConverter, myTemplateCreator, baseThreshold)));
+  performanceAwareCaller('generateEditors', templateConverter.generateEditors.bind(undefined, templateDef, widgets, templateUrlConverter, myTemplateCreator, baseThreshold));
+
+  var blockModels = performanceAwareCaller('generateBlockModels', templateConverter.generateBlockModels.bind(undefined, templateDef));
 
   var incompatibleTemplate = false;
   if (typeof jsorjson !== 'undefined' && jsorjson !== null) {
@@ -252,10 +253,10 @@ var templateCompiler = function(performanceAwareCaller, templateUrlConverter, te
     }
 
     // we run a basic compatibility check between the content-model we expect and the initialization model
-    var checkModelRes = performanceAwareCaller('checkModel', templateConverter.checkModel.bind(undefined, content._plainObject(), blockDefs, unwrapped));
+    var checkModelRes = performanceAwareCaller('checkModel', templateConverter.checkModel.bind(undefined, content._plainObject(), blockModels.allBlocks, unwrapped));
     // if checkModelRes is 1 then the model is not fully compatible but we fixed it
     if (checkModelRes == 2) {
-      console.error("Trying to compile an incompatible template version!", content._plainObject(), blockDefs, unwrapped);
+      console.error("Trying to compile an incompatible template version!", content._plainObject(), blockModels.allBlocks, unwrapped);
       incompatibleTemplate = true;
     }
 
@@ -285,7 +286,7 @@ var templateCompiler = function(performanceAwareCaller, templateUrlConverter, te
   plugins.push(templatesPlugin);
 
   // initialize the viewModel object based on the content model.
-  var viewModel = performanceAwareCaller('initializeViewmodel', initializeViewmodel.bind(this, content, blockDefs, templateUrlConverter, galleryUrl));
+  var viewModel = performanceAwareCaller('initializeViewmodel', initializeViewmodel.bind(this, content, blockModels.blockList, templateUrlConverter, galleryUrl));
 
   viewModel.metadata = metadata;
   // let's run some version check on template and editor used to build the model being loaded.

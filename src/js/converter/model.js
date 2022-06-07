@@ -157,13 +157,13 @@ var _generateModelFromDef = function(modelDef, defs) {
   return res;
 };
 
-var _generateModel = function(defs, name) {
-  var modelDef = _getModelDef(defs, name, false, true);
-  return _generateModelFromDef(modelDef, defs);
-};
-
 var _getDef = function(defs, name) {
   return _getModelDef(defs, name, false, true);
+};
+
+var _generateModel = function(defs, name) {
+  var modelDef = _getDef(defs, name);
+  return _generateModelFromDef(modelDef, defs);
 };
 
 var _getModelDef = function(defs, name, returnClone, readonly) {
@@ -485,6 +485,32 @@ var generateResultModel = function(templateDef) {
   return finalModelContent;
 };
 
+// returns 2 object: "blockList" and "allBlocks".
+// we use "blockList" to decide which blocks to show in the blocklist
+// we use instead allBlocks to know the model of a block by its name
+var generateBlockModels = function(templateDef) {
+  var defs = templateDef._defs;
+  var blocks = templateDef._blocks;
+
+  var res = { 
+    blockList: [],
+    allBlocks: {} 
+  };
+  var idx, blockDef, blockModel;
+
+  for (idx = 0; idx < blocks.length; idx++) {
+    if (typeof blocks[idx].container !== 'undefined') {
+      blockDef = _getDef(defs, blocks[idx].block);
+      blockModel = _generateModelFromDef(blockDef);
+      if (typeof blockDef._deprecated == 'undefined') {
+        res.blockList.push(blockModel);
+      }
+      res.allBlocks[blocks[idx].block]  = blockModel;
+    }
+  }
+  return res;
+};
+
 module.exports = {
   // used to compile the template
   ensurePathAndGetBindValue: modelEnsurePathAndGetBindValue.bind(undefined, false),
@@ -493,5 +519,6 @@ module.exports = {
   generateModel: _generateModel,
   generateResultModel: generateResultModel,
   getDef: _getDef,
-  createOrUpdateBlockDef: _modelCreateOrUpdateBlockDef
+  createOrUpdateBlockDef: _modelCreateOrUpdateBlockDef,
+  generateBlockModels: generateBlockModels
 };

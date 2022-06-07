@@ -41,6 +41,7 @@ module.exports = {
   translateTemplate: translateTemplate,
   wrappedResultModel: wrappedResultModel,
   generateResultModel: modelDef.generateResultModel,
+  generateBlockModels: modelDef.generateBlockModels,
   generateEditors: generateEditors,
   checkModel: checkModel,
   checkDefs: checkDefs

@@ -6,7 +6,7 @@
   </ul>
 
   <div id="toolblocks" data-bind="scrollable: true">
-    <div class="block-list" data-bind="foreach: blockDefs" style="text-align: center">
+    <div class="block-list" data-bind="foreach: blocks" style="text-align: center">
       <div class="draggable-item" data-bind="withProperties: { templateMode: 'show' }">
         <div class="block" data-bind="extdraggable: { connectClass: 'sortable-blocks-edit', data: $data, dropContainer: '#main-wysiwyg-area', dragging: $root.dragging, 'options': { handle: '.handle', distance: 10, 'appendTo': '#page' } }, click: $root.addBlock" style="position: relative;">
           <div title="Click or drag to add this block to the template" class="handle" data-bind="attr: { title: $root.t('Click or drag to add this block to the template') }, tooltips: {}"></div>
@@ -90,8 +90,8 @@
   <!-- ko if: $root.debug -->
   Content:
   <pre data-bind='text: ko.toJSON(content, null, 2)' style="overflow: auto; height: 20%"></pre>
-  BlockDefs:
-  <pre data-bind='text: ko.toJSON(blockDefs, null, 2)' style="overflow: auto; height: 20%"></pre>
+  Blocks:
+  <pre data-bind='text: ko.toJSON(blocks, null, 2)' style="overflow: auto; height: 20%"></pre>
   <!-- /ko -->
   <a href="javascript:void(0)" data-bind="click: $root.exportHTMLtoTextarea.bind($element, '#outputhtml'); clickBubble: false, button: { text: true, label:'Generate' }">Output</a>
   <a href="javascript:void(0)" data-bind="click: $root.exportJSONtoTextarea.bind($element, '#outputhtml'); clickBubble: false, button: { text: true, label:'Export' }">Export</a>

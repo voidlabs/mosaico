@@ -24,7 +24,7 @@ toastr.options = {
   "escapeHtml": "true" // XSS
 };
 
-function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
+function initializeEditor(content, blocks, thumbPathConverter, galleryUrl) {
 
   var viewModel = {
     galleryRecent: ko.observableArray([]).extend({
@@ -57,8 +57,8 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
 
   // viewModel.content = content._instrument(ko, content, undefined, true);
   viewModel.content = content;
-  viewModel.blockDefs = blockDefs;
-
+  viewModel.blocks = blocks;
+  
   viewModel.notifier = toastr;
 
   // Does token substitution in i18next style
@@ -164,7 +164,7 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
 
   // test method, command line use only
   viewModel.loadDefaultBlocks = function() {
-    var input = viewModel.blockDefs;
+    var input = viewModel.blocks;
     // Make sure undomanager consider this as a single action.
     viewModel.startMultiple();
     // empty the mainblock container
