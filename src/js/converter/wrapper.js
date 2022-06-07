@@ -102,9 +102,7 @@ var _nextVariant = function(target) {
   return target._nextValue();
 };
 
-// When a block define a variant option we find the linked variable and 
-// link the block _nextVariant function to the linked variable _nextValue.
-function _makeNextVariantFunction(contentModel, t, variant) {
+function _targetLookup(contentModel, t, variant) {
   var pParts = variant.split('.');
   // looks in t and not contentModel because variants are declared on single blocks.
   var pTarget = t;
@@ -113,17 +111,35 @@ function _makeNextVariantFunction(contentModel, t, variant) {
     else if (i4 == 0 && pParts[i4] == '_theme_') pTarget = ko.utils.unwrapObservable(contentModel.theme);
     else pTarget = ko.utils.unwrapObservable(pTarget)[pParts[i4]];
   }
+  if (typeof pTarget == 'undefined') {
+    console.error("Error looking for target variable", variant, t);
+    throw "Error looking for target variable" + variant;
+  }
+  return pTarget;
+}
+
+// When a block define a variant option we find the linked variable and 
+// link the block _nextVariant function to the linked variable _nextValue.
+function _makeNextVariantFunction(contentModel, t, variant) {
+  var pTarget = _targetLookup(contentModel, t, variant);
   if (typeof pTarget._defaultComputed != 'undefined') {
     // maybe this is an acceptable condition and we could remove this warning
     console.log("Found variant on a style property: beware variants should be only used on content properties because they don't match the theme fallback behaviour", variant);
     pTarget = pTarget._defaultComputed;
   }
-  if (typeof pTarget == 'undefined') {
-    console.error("Error looking for variant target", variant, t);
-    throw "Error looking for variant target " + variant;
-  }
   // pTarget._nextValue may not exists yet, at this time, so we create a dynamic proxy:
   t._nextVariant = _nextVariant.bind(undefined, pTarget);
+}
+
+function _makeSwitchVisibilityFunction(contentModel, t, variant) {
+  var pTarget = _targetLookup(contentModel, t, variant);
+  if (typeof pTarget._defaultComputed != 'undefined') {
+    // maybe this is an acceptable condition and we could remove this warning
+    console.error("Found visibility option on a style property", variant, t);
+    throw "Unsupported visibility option targeting a style property: "+variant;
+  }
+  // pTarget._nextValue may not exists yet, at this time, so we create a dynamic proxy:
+  t._switchVisibility = _nextVariant.bind(undefined, pTarget);
 }
 
 var _nextValueFunction = function(prop, variants) {
@@ -233,6 +249,10 @@ var _makeComputedFunction = function(defs, contentModel, tobs) {
 
   if (typeof def._variant !== 'undefined') {
     _makeNextVariantFunction(contentModel, tobs, def._variant);
+  }
+
+  if (typeof def._visibility !== 'undefined') {
+    _makeSwitchVisibilityFunction(contentModel, tobs, def._visibility);
   }
 
   for (var prop2 in def)

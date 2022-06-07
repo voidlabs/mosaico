@@ -12,6 +12,7 @@
     <div title="Delete block" class="tool delete" data-bind="attr: { title: $root.t('Delete block') }, click: $root.removeBlock.bind($element, $rawData, $parent)"><i class="fa fa-fw fa-trash-o"></i></div>
     <div title="Duplicate block" class="tool clone" data-bind="attr: { title: $root.t('Duplicate block') }, click: $root.duplicateBlock.bind($element, $index, $parent)"><i class="fa fa-fw fa-files-o"></i></div>
     <!-- /ko -->
+    <!-- ko if: typeof $rawData._switchVisibility != 'undefined' --><div title="Delete block" class="tool delete" data-bind="attr: { title: $root.t('Delete block') }, click: $root.removeBlock.bind($element, $rawData, $parent)"><i class="fa fa-fw fa-trash-o"></i></div><!-- /ko -->
     <!-- ko if: typeof $rawData._nextVariant != 'undefined' --><div title="Switch block variant" class="tool variant" data-bind="attr: { title: $root.t('Switch block variant') }, click: $rawData._nextVariant"><i class="fa fa-fw fa-magic"></i></div><!-- /ko -->
   </div>
   <!-- ko block: $data --><!-- /ko -->

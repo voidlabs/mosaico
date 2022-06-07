@@ -119,16 +119,22 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
     return obj.url;
   };
 
+  // This is used to remove a block from a container or to hide a fixed block using the "visibility" property
   // block-wysiwyg.tmpl.html
   viewModel.removeBlock = function(data, parent) {
     // let's unselect the block
     if (ko.utils.unwrapObservable(viewModel.selectedBlock) == ko.utils.unwrapObservable(data)) {
       viewModel.selectBlock(null, true);
     }
-    var res = parent.blocks.remove(data);
-    // TODO This message should be different depending on undo plugin presence.
-    viewModel.notifier.info(viewModel.t('Block removed: use undo button to restore it...'));
-    return res;
+    if (typeof data._switchVisibility == 'function') {
+      data._switchVisibility();
+      viewModel.notifier.info(viewModel.t('Block removed: use the visibility flag in the content tab to restore it...'));
+    } else if (typeof parent !== 'undefined' && parent !== null) {
+      var res = parent.blocks.remove(data);
+      // TODO This message should be different depending on undo plugin presence.
+      viewModel.notifier.info(viewModel.t('Block removed: use undo button to restore it...'));
+      return res;
+    }
   };
 
   // block-wysiwyg.tmpl.html
@@ -267,6 +273,18 @@ function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
     var current = prop();
     if (current === null) prop(globalProp());
     else prop(null);
+    return false;
+  };
+  // This is not used right now. Provides an helper method to push a local style to a new theme default value
+  viewModel.localToGlobalSwitch = function(prop, globalProp) {
+    var current = prop();
+    if (current === null) prop(globalProp());
+    else {
+      viewModel.startMultiple();
+      globalProp(current);
+      prop(null);
+      viewModel.stopMultiple();
+    }
     return false;
   };
 
