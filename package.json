@@ -63,7 +63,7 @@
   "devDependencies": {
     "@lodder/grunt-postcss": "3.1.1",
     "aliasify": "2.1.0",
-    "async": "3.2.3",
+    "async": "3.2.4",
     "autoprefixer": "^10.4.7",
     "body-parser": "1.20.0",
     "browserify": "17.0.0",
@@ -115,7 +115,7 @@
   "license": "GPL-3.0",
   "licenseurl": "https://www.gnu.org/licenses/gpl-3.0.en.html",
   "overrides": {
-    "async": "3.2.3",
+    "async": "3.2.4",
     "minimist": "1.2.6",
     "shelljs": "0.8.5",
     "superagent": "7.1.2"
