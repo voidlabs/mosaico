@@ -20,7 +20,7 @@ var _declarationValueLookup = function(declarations, propertyname, templateUrlCo
   }
   // compatibility mode: if we can't find a default value before the current declaration we loop from the end.
   if (start < declarations.length) {
-    return _declarationValueLookup(declarations, propertyname, templateUrlConverter, declarations.length, start)
+    return _declarationValueLookup(declarations, propertyname, templateUrlConverter, declarations.length, start);
   }
 
   return null;
