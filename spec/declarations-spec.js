@@ -26,12 +26,12 @@ describe('Style declaration processor', function() {
     styleSheet = require('../src/js/converter/cssparser.js').parse("#{\n" + 'color: red; -ko-color: @color; background-color: white' + "}");
     decls = styleSheet.stylesheet.rules[0].declarations;
     previewBindings = declarations.elaborateDeclarationsAndReturnStyleBindings(decls, templateUrlConverter, mockedBindingProvider);
-    expect(previewBindings).toEqual("virtualAttrStyle: 'color: '+ko.utils.unwrapObservable($color[red])+'; '+'background-color: white;'+''");
+    expect(previewBindings).toEqual("virtualAttrStyles: { color: $color[red], 'background-color': 'white' }");
 
     styleSheet = require('../src/js/converter/cssparser.js').parse("#{\n" + 'color: red; background-color: white; -ko-color: @color' + "}");
     decls = styleSheet.stylesheet.rules[0].declarations;
     previewBindings = declarations.elaborateDeclarationsAndReturnStyleBindings(decls, templateUrlConverter, mockedBindingProvider);
-    expect(previewBindings).toEqual("virtualAttrStyle: 'color: '+ko.utils.unwrapObservable($color[red])+'; '+'background-color: white;'+''");
+    expect(previewBindings).toEqual("virtualAttrStyles: { color: $color[red], 'background-color': 'white' }");
 
   });
 
@@ -40,7 +40,16 @@ describe('Style declaration processor', function() {
     styleSheet = require('../src/js/converter/cssparser.js').parse("#{\n" + '-ko-bind-text: @[\'Pulsante\']; -ko-font-family: @face; -ko-color: @color; -ko-font-size: @[size]px; -ko-background-color: @buttonColor; padding-left: 5px; -ko-border-radius: @[radius]px; padding: 5px;' + "}");
     decls = styleSheet.stylesheet.rules[0].declarations;
     previewBindings = declarations.elaborateDeclarationsAndReturnStyleBindings(decls, templateUrlConverter, mockedBindingProvider);
-    expect(previewBindings).toEqual("virtualAttrStyle: 'padding-left: 5px; '+'padding: 5px;'+'', text: 'Pulsante', virtualStyle: { fontFamily: $face[undefined], color: $color[undefined], fontSize: $size[undefined]()+'px', backgroundColor: $buttonColor[undefined], borderRadius: $radius[undefined]()+'px' }");
+    expect(previewBindings).toEqual("virtualAttrStyles: { 'padding-left': '5px', padding: '5px' }, text: 'Pulsante', virtualStyle: { fontFamily: $face[undefined], color: $color[undefined], fontSize: $size[undefined]()+'px', backgroundColor: $buttonColor[undefined], borderRadius: $radius[undefined]()+'px' }");
+  });
+
+  it('should correctly deal with dashed properties', function() {
+    var result;
+    result = declarations.elaborateElementStyleDeclarations('background-color: red; -ko-background-color: @color', templateUrlConverter, mockedBindingProvider);
+    expect(result).toEqual("background-color: red; background-color: <!-- ko text: $color[red] -->red<!-- /ko -->");
+
+    result = declarations.elaborateElementStyleDeclarations('-ms-color: red;-ko--ms-color: @color;background-color: white', templateUrlConverter, mockedBindingProvider);
+    expect(result).toEqual("-ms-color: red;-ms-color: <!-- ko text: $color[red] -->red<!-- /ko -->;background-color: white");
   });
 
   it('should mantain spaces and ; when removing/replacing declarations', function() {
@@ -96,7 +105,7 @@ describe('Style declaration processor', function() {
     styleSheet = require('../src/js/converter/cssparser.js').parse("#{\n" + 'color: red; -ko-color: @mycolor; -ko-color-if: mycondition' + "}");
     decls = styleSheet.stylesheet.rules[0].declarations;
     result = declarations.elaborateDeclarationsAndReturnStyleBindings(decls, templateUrlConverter, mockedBindingProvider);
-    expect(result).toEqual("virtualAttrStyle: 'color: '+($mycondition[undefined]() ? ko.utils.unwrapObservable($mycolor[red]) : null)+';'+''");
+    expect(result).toEqual("virtualAttrStyles: { color: $mycondition[undefined]() ? ko.utils.unwrapObservable($mycolor[red]) : null }");
 
     result = declarations.elaborateElementStyleDeclarations('color: red; -ko-color: @mycolor; -ko-color-if: mycondition', templateUrlConverter, mockedBindingProvider);
     expect(result).toEqual("color: red; color: <!-- ko text: $mycondition[undefined]() ? ko.utils.unwrapObservable($mycolor[red]) : null -->red<!-- /ko -->; ");
@@ -107,7 +116,7 @@ describe('Style declaration processor', function() {
     styleSheet = require('../src/js/converter/cssparser.js').parse("#{\n" + 'color: red; -ko-color: @mycolor; -ko-color-if: mycondition gt 1 and mycondition lt 3' + "}");
     decls = styleSheet.stylesheet.rules[0].declarations;
     result = declarations.elaborateDeclarationsAndReturnStyleBindings(decls, templateUrlConverter, mockedBindingProvider);
-    expect(result).toEqual("virtualAttrStyle: 'color: '+((($mycondition[undefined]() > 1) && ($mycondition[undefined]() < 3)) ? ko.utils.unwrapObservable($mycolor[red]) : null)+';'+''");
+    expect(result).toEqual("virtualAttrStyles: { color: (($mycondition[undefined]() > 1) && ($mycondition[undefined]() < 3)) ? ko.utils.unwrapObservable($mycolor[red]) : null }");
 
     result = declarations.elaborateElementStyleDeclarations('color: red; -ko-color: @mycolor; -ko-color-if: mycondition gt 1 and mycondition lt 3', templateUrlConverter, mockedBindingProvider);
     expect(result).toEqual("color: red; color: <!-- ko text: (($mycondition[undefined]() > 1) && ($mycondition[undefined]() < 3)) ? ko.utils.unwrapObservable($mycolor[red]) : null -->red<!-- /ko -->; ");
@@ -266,7 +275,36 @@ describe('Style declaration processor', function() {
     var cheerio = require('cheerio');
     var $ = cheerio.load('<a data-attribute="ciao"></a>');
     result = declarations.elaborateElementStyleDeclarations('-ko-attr-data-attribute: @myvalue; background-color: red; -ko-background-color: @mycolor', templateUrlConverter, mockedBindingProvider, $('a')[0]);
-    expect($('a').attr('data-bind')).toEqual("virtualAttr: { 'data-attribute': $myvalue[ciao] }, virtualAttrStyle: 'background-color: '+ko.utils.unwrapObservable($mycolor[red])+';'+''");
+    expect($('a').attr('data-bind')).toEqual("virtualAttr: { 'data-attribute': $myvalue[ciao] }, virtualAttrStyles: { 'background-color': $mycolor[red] }");
+
+    $ = cheerio.load('<a attribute="ciao"></a>');
+    result = declarations.elaborateElementStyleDeclarations('-ko-attr-attribute: @myvalue; color: red; -ko-color: @mycolor', templateUrlConverter, mockedBindingProvider, $('a')[0]);
+    expect($('a').attr('data-bind')).toEqual("virtualAttr: { attribute: $myvalue[ciao] }, virtualAttrStyles: { color: $mycolor[red] }");
+
+  });
+
+  it('should keep multiple declarations for the same property', function() {
+    var result;
+    var cheerio = require('cheerio');
+    var $ = cheerio.load('<div/>');
+    result = declarations.elaborateElementStyleDeclarations('color: yellow; color: red; color: blue; -ko-color: @mycolor', templateUrlConverter, mockedBindingProvider, $('div')[0]);
+    expect($('div').attr('data-bind')).toEqual("virtualAttrStyles: { color$2: 'yellow', color$1: 'red', color: $mycolor[blue] }");
+
+    // This is a weird use case, but we have templates using this style and we want to maintain the behaviour
+    $ = cheerio.load('<div/>');
+    result = declarations.elaborateElementStyleDeclarations('color: yellow; color: red; color: blue; -ko-color: @mycolor1; -ko-color: @mycolor2', templateUrlConverter, mockedBindingProvider, $('div')[0]);
+    expect($('div').attr('data-bind')).toEqual("virtualAttrStyles: { color$2: 'yellow', color$1: 'red', color: $mycolor1[blue] }");
+
+    // Before mosaico 0.18.6 this used to produce something like "color: yellow, color: $mycolor1[blue], color: blue"
+    //    where the default "blue" value was read from the rightmost element.
+    // Then we slightly changed the logic so that it should get the default value from the same property it will replace.
+    $ = cheerio.load('<div/>');
+    result = declarations.elaborateElementStyleDeclarations('color: yellow; color: red; -ko-color: @mycolor1; -ko-color: @mycolor2; color: blue', templateUrlConverter, mockedBindingProvider, $('div')[0]);
+    expect($('div').attr('data-bind')).toEqual("virtualAttrStyles: { color$2: 'yellow', color$1: $mycolor1[red], color: 'blue' }");
+
+    $ = cheerio.load('<div/>');
+    result = declarations.elaborateElementStyleDeclarations('color: yellow; color: red; -ko-color: @mycolor1; color: blue; -ko-color: @mycolor2', templateUrlConverter, mockedBindingProvider, $('div')[0]);
+    expect($('div').attr('data-bind')).toEqual("virtualAttrStyles: { color$2: 'yellow', color$1: $mycolor1[red], color: $mycolor2[blue] }");
   });
 
   it('should deal with conditional bindings with correct parentheses', function() {
@@ -274,7 +312,7 @@ describe('Style declaration processor', function() {
     var cheerio = require('cheerio');
     var $ = cheerio.load('<a data-attribute="ciao"></a>');
     result = declarations.elaborateElementStyleDeclarations('background-color: red; -ko-background-color: @color; -ko-background-color-if: visible', templateUrlConverter, mockedBindingProvider, $('a')[0]);
-    expect($('a').attr('data-bind')).toEqual("virtualAttrStyle: 'background-color: '+($visible[undefined]() ? ko.utils.unwrapObservable($color[red]) : null)+';'+''");
+    expect($('a').attr('data-bind')).toEqual("virtualAttrStyles: { 'background-color': $visible[undefined]() ? ko.utils.unwrapObservable($color[red]) : null }");
   });
 
   afterAll(function() {

@@ -10,12 +10,19 @@ var cssParser = require("./cssparser.js");
 var console = require("console");
 var domutils = require("./domutils.js");
 
-var _declarationValueLookup = function(declarations, propertyname, templateUrlConverter) {
-  for (var i = declarations.length - 1; i >= 0; i--) {
+var _declarationValueLookup = function(declarations, propertyname, templateUrlConverter, start, end) {
+  if (start == undefined) start = declarations.length;
+  if (end == undefined) end = 0;
+  for (var i = start - 1; i >= end; i--) {
     if (declarations[i].type == 'property' && declarations[i].name == propertyname) {
       return converterUtils.declarationValueUrlPrefixer(declarations[i].value, templateUrlConverter);
     }
   }
+  // compatibility mode: if we can't find a default value before the current declaration we loop from the end.
+  if (start < declarations.length) {
+    return _declarationValueLookup(declarations, propertyname, templateUrlConverter, declarations.length, start)
+  }
+
   return null;
 };
 
@@ -104,6 +111,7 @@ var elaborateDeclarations = function(newStyle, declarations, templateUrlConverte
             if ((isAttr || isBind) && (typeof element == 'undefined' && newStyle !== null)) throw "Attributes and bind declarations are only allowed in inline styles!";
 
             var needDefaultValue = true;
+            var bindName = propName;
             var bindType;
             if (isAttr) {
               propDefaultValue = domutils.getAttribute(element, propName);
@@ -111,10 +119,13 @@ var elaborateDeclarations = function(newStyle, declarations, templateUrlConverte
               bindType = 'virtualAttr';
             } else if (!isBind) {
               needDefaultValue = newStyle !== null;
+              bindType = 'virtualStyle';
+              bindName = _propToCamelCase(propName);
+
               // in past we didn't read the default value when "needDefaultValue" was false: 
               // now we try to find it anyway, and simply don't enforce it.
-              propDefaultValue = _declarationValueLookup(declarations, propName, templateUrlConverter);
-              bindType = 'virtualStyle';
+              propDefaultValue = _declarationValueLookup(declarations, propName, templateUrlConverter, i);
+
             } else {
               bindType = null;
               if (propName == 'text' || propName == 'stylesheet') {
@@ -138,9 +149,6 @@ var elaborateDeclarations = function(newStyle, declarations, templateUrlConverte
               console.error("Cannot find default value for", declarations[i].name, declarations, element, newStyle, declarations[i]);
               throw "Cannot find default value for " + declarations[i].name + ": " + declarations[i].value + " in " + element + " (" + typeof newStyle + "/" + propName + ")";
             }
-            var bindDefaultValue = propDefaultValue;
-
-            var bindName = !isBind && !isAttr ? _propToCamelCase(propName) : (propName.indexOf('-') != -1 ? '\''+propName+'\'' : propName);
 
             bindValue = _generateBindValue(declarations, bindingProvider, declarations[i].name, declarations[i].value, propDefaultValue, templateUrlConverter);
 
@@ -197,25 +205,29 @@ var elaborateDeclarations = function(newStyle, declarations, templateUrlConverte
           }
 
           // Style handling by concatenated "style attribute" (worse performance but more stable than direct style handling)
+          var bind = 'virtualAttrStyles';
+
+          if (typeof newBindings[bind] == 'undefined') newBindings[bind] = {};
+
           var bindName2 = _propToCamelCase(declarations[i].name);
-          var bind = 'virtualAttrStyle';
           var bindVal2 = typeof newBindings['virtualStyle'] !== 'undefined' ? newBindings['virtualStyle'][bindName2] : undefined;
 
-          var dist = ' ';
-          if (typeof newBindings[bind] == 'undefined') {
-            newBindings[bind] = "''";
-            dist = '';
+          // make sure to use an unique property name to avoid overriding properties.
+          // If the input have multiple named properties we want to keep them all and dynamically
+          // replace only the last one.
+          // The 'virtualAttrStyles' binding will remove the $i at the end of the property name.
+          var key = ""+declarations[i].name;
+          var kk;
+          while (typeof newBindings[bind][key] !== 'undefined') {
+            kk = key.split('$');
+            key = kk[0] + '$' + (kk.length > 1 ? Math.round(kk[1])+1 : 1);
           }
 
           if (typeof bindVal2 !== 'undefined') {
-            // the match is a bit ugly, but we don't want to unwrap things if not needed (performance)
-            if (bindVal2.match(/^[^' ]*[^' \)]$/)) bindVal2 = 'ko.utils.unwrapObservable(' + bindVal2 + ')';
-            // make sure we use parentheses for ternary conditional operator
-            else bindVal2 = '(' + bindVal2 + ')';
-            newBindings[bind] = "'" + declarations[i].name + ": '+" + bindVal2 + "+';" + dist + "'+" + newBindings[bind];
+            newBindings[bind][key] = bindVal2;
             delete newBindings['virtualStyle'][bindName2];
           } else {
-            newBindings[bind] = "'" + declarations[i].name + ": " + addSlashes(replacedValue) + ";" + dist + "'+" + newBindings[bind];
+            newBindings[bind][key] = "'" + addSlashes(replacedValue) + "'";
           }
 
         }
@@ -225,7 +237,7 @@ var elaborateDeclarations = function(newStyle, declarations, templateUrlConverte
   if (typeof element != 'undefined' && element !== null) {
     for (var prop in newBindings['virtualStyle'])
       if (newBindings['virtualStyle'].hasOwnProperty(prop)) {
-        console.log("Unexpected virtualStyle binding after conversion to virtualAttr.style", prop, newBindings['virtualStyle'][prop], newStyle);
+        console.error("Unexpected virtualStyle binding after conversion to virtualAttr.style", prop, newBindings['virtualStyle'][prop], newStyle, newBindings, declarations);
         throw "Unexpected virtualStyle binding after conversion to virtualAttr.style for " + prop;
       }
     delete newBindings['virtualStyle'];
@@ -247,11 +259,11 @@ var elaborateDeclarations = function(newStyle, declarations, templateUrlConverte
       }
     if (!hasVirtualStyle) delete newBindings['virtualStyle'];
     else {
-      // remove and add back virtualAttrStyle so it gets appended BEFORE virtualAttrStyle (_bindingSerializer reverse them...)
-      if (typeof newBindings['virtualAttrStyle'] !== 'undefined') {
-        var vs = newBindings['virtualAttrStyle'];
-        delete newBindings['virtualAttrStyle'];
-        newBindings['virtualAttrStyle'] = vs;
+      // remove and add back virtualAttrStyles so it gets appended BEFORE virtualStyle (_bindingSerializer reverse them...)
+      if (typeof newBindings['virtualAttrStyles'] !== 'undefined') {
+        var vs = newBindings['virtualAttrStyles'];
+        delete newBindings['virtualAttrStyles'];
+        newBindings['virtualAttrStyles'] = vs;
       }
     }
     // returns new serialized bindings
@@ -265,8 +277,10 @@ var _bindingSerializer = function(val) {
   var res = [];
   for (var prop in val)
     if (val.hasOwnProperty(prop)) {
-      if (typeof val[prop] == 'object') res.push(prop + ": " + "{ " + _bindingSerializer(val[prop]) + " }");
-      else res.push(prop + ": " + val[prop]);
+      res.push(
+        (prop.indexOf('-') !== -1 ? "'" + addSlashes(prop) + "'" : prop) + ': ' +
+        (typeof val[prop] == 'object' ? "{ " + _bindingSerializer(val[prop]) + " }" : val[prop])
+      );
     }
   return res.reverse().join(', ');
 };
