@@ -379,6 +379,11 @@
     cursor: text !important;
   }
 
+  // Our div wrapper prevent some css property to correctly propagate
+  .mo-editor-wrapper {
+    text-decoration: inherit;
+  }
+
   // Prevent clicking and show loading whily tinymce is being initialized
   .wysiwyg-loading {
     pointer-events: none;

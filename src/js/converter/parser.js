@@ -250,7 +250,7 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
         var wrappingDivAttrs = editorStyle == 'singleline' ? 
           ' style="display: inline-block;"' : 
           ' style="width: 100%; height: 100%"';
-        var wrappingDiv = $('<div data-ko-wrap="false"'+wrappingDivAttrs+'></div>')[0];
+        var wrappingDiv = $('<div class="mo-editor-wrapper" data-ko-wrap="false"'+wrappingDivAttrs+'></div>')[0];
         domutils.setAttribute(wrappingDiv, 'data-bind', newBinding);
         var newContent = domutils.getInnerHtml($('<div></div>').append(wrappingDiv));
         domutils.setContent(element, newContent);
