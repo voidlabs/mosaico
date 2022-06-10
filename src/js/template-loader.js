@@ -160,6 +160,39 @@ var templateLoader = function(performanceAwareCaller, templateFileName, template
   });
 };
 
+var checkAndImportNewContentModel = function(performanceAwareCaller, content, allBlocks, newModel) {
+  var compatibleTemplate = true;
+
+  // we run a basic compatibility check between the content-model we expect and the initialization model
+  var checkModelRes = performanceAwareCaller('checkModel', templateConverter.checkModel.bind(undefined, content._plainObject(), allBlocks, newModel));
+  // if checkModelRes is 1 then the model is not fully compatible but we fixed it
+  if (checkModelRes == 2) {
+    console.error("Model and template seems to be incompatible!", content._plainObject(), allBlocks, newModel);
+    compatibleTemplate = false;
+  }
+
+  try {
+    content._plainObject(newModel);
+  } catch (ex) {
+    console.error("Unable to inject model content!", ex);
+    compatibleTemplate = false;
+  }
+
+  if (!compatibleTemplate) {
+    $('#incompatible-template').dialog({
+      modal: true,
+      appendTo: '#mo-body',
+      buttons: {
+        Ok: function() {
+          $(this).dialog("close");
+        }
+      }
+    });
+  }
+
+  return compatibleTemplate;
+};
+
 var templateCompiler = function(performanceAwareCaller, templateUrlConverter, templateName, templatecode, jsorjson, metadata, extensions, galleryUrl) {
   // we strip content before <html> tag and after </html> because jquery doesn't parse it.
   // we'll keep it "raw" and use it in the preview/output methods.
@@ -243,6 +276,9 @@ var templateCompiler = function(performanceAwareCaller, templateUrlConverter, te
 
   var blockModels = performanceAwareCaller('generateBlockModels', templateConverter.generateBlockModels.bind(undefined, templateDef));
 
+
+  var modelImporter = checkAndImportNewContentModel.bind(undefined, performanceAwareCaller, content, blockModels.allBlocks);
+
   var incompatibleTemplate = false;
   if (typeof jsorjson !== 'undefined' && jsorjson !== null) {
     var unwrapped;
@@ -251,21 +287,7 @@ var templateCompiler = function(performanceAwareCaller, templateUrlConverter, te
     } else {
       unwrapped = jsorjson;
     }
-
-    // we run a basic compatibility check between the content-model we expect and the initialization model
-    var checkModelRes = performanceAwareCaller('checkModel', templateConverter.checkModel.bind(undefined, content._plainObject(), blockModels.allBlocks, unwrapped));
-    // if checkModelRes is 1 then the model is not fully compatible but we fixed it
-    if (checkModelRes == 2) {
-      console.error("Trying to compile an incompatible template version!", content._plainObject(), blockModels.allBlocks, unwrapped);
-      incompatibleTemplate = true;
-    }
-
-    try {
-      content._plainObject(unwrapped);
-    } catch (ex) {
-      console.error("Unable to inject model content!", ex);
-      incompatibleTemplate = true;
-    }
+    incompatibleTemplate = !modelImporter(unwrapped);
   }
 
   // This build the template for the preview/output, but concatenating prefix, template and content and stripping the "replaced" prefix added to "problematic" tag (html/head/body)
@@ -286,7 +308,7 @@ var templateCompiler = function(performanceAwareCaller, templateUrlConverter, te
   plugins.push(templatesPlugin);
 
   // initialize the viewModel object based on the content model.
-  var viewModel = performanceAwareCaller('initializeViewmodel', initializeViewmodel.bind(this, content, blockModels.blockList, templateUrlConverter, galleryUrl));
+  var viewModel = performanceAwareCaller('initializeViewmodel', initializeViewmodel.bind(this, content, blockModels.blockList, templateUrlConverter, galleryUrl, modelImporter));
 
   viewModel.metadata = metadata;
   // let's run some version check on template and editor used to build the model being loaded.
@@ -310,18 +332,6 @@ var templateCompiler = function(performanceAwareCaller, templateUrlConverter, te
   plugins.push(bindingPluginMaker(performanceAwareCaller));
 
   pluginsCall(plugins, 'viewModel', [viewModel]);
-
-  if (incompatibleTemplate) {
-    $('#incompatible-template').dialog({
-      modal: true,
-      appendTo: '#mo-body',
-      buttons: {
-        Ok: function() {
-          $(this).dialog("close");
-        }
-      }
-    });
-  }
 
   return {
     model: viewModel,

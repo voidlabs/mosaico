@@ -24,7 +24,7 @@ toastr.options = {
   "escapeHtml": "true" // XSS
 };
 
-function initializeEditor(content, blocks, thumbPathConverter, galleryUrl) {
+function initializeEditor(content, blocks, thumbPathConverter, galleryUrl, contentModelImporter) {
 
   var viewModel = {
     galleryRecent: ko.observableArray([]).extend({
@@ -444,7 +444,9 @@ function initializeEditor(content, blocks, thumbPathConverter, galleryUrl) {
 
   viewModel.importJSON = function(json) {
     var unwrapped = ko.utils.parseJson(json);
-    viewModel.content._plainObject(unwrapped);
+    // TODO, we should use checkModel to upgrade the model if it was from a previous template version.
+    // viewModel.content._plainObject(unwrapped);
+    contentModelImporter(unwrapped);
   };
 
   viewModel.exportTheme = function() {
