@@ -126,7 +126,7 @@
     "test": "grunt jasmine_node"
   },
   "engines": {
-    "node": ">= 8.0.0",
+    "node": ">= 14.0.0",
     "npm": ">= 8.3.0"
   },
   "release-it": {
