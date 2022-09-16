@@ -348,7 +348,7 @@ var templateCompiler = function(performanceAwareCaller, templateUrlConverter, te
 
 var checkFeature = function(feature, func) {
   if (!func()) {
-    console.warn("Missing required browser feature", feature);
+    console.warn("Missing required browser feature: ", feature);
     throw "Missing required browser feature: " + feature;
   }
 };
@@ -364,6 +364,16 @@ var isCompatible = function(detailedException) {
     // IE9 wouldn't be so hard to support, but it doesn't worth it. (preview iframe and automatic scroll are 2 things not working in IE9)
     checkFeature('matchMedia', function() {
       return typeof global.matchMedia != 'undefined';
+    });
+    // Since 0.18 some of our dependencies use block level functions in strict-mode:
+    // They throw a parsing error in IE10 and Safari 8-9 that we previously supported.
+    checkFeature('Block-level functions', function() {
+      try {
+        new Function('\'use strict\'; { function g() { } }');
+        return true;
+      } catch (e) {
+        return false;
+      }
     });
     checkFeature('XMLHttpRequest 2', function() {
       return 'XMLHttpRequest' in global && 'withCredentials' in new global.XMLHttpRequest();
