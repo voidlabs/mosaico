@@ -24,7 +24,7 @@ toastr.options = {
   "escapeHtml": "true" // XSS
 };
 
-function initializeEditor(content, blocks, thumbPathConverter, galleryUrl, contentModelImporter) {
+function initializeEditor(content, blocks, thumbPathConverter, galleryUrl, contentModelImporter, exportCleanedHTML) {
 
   var viewModel = {
     galleryRecent: ko.observableArray([]).extend({
@@ -352,63 +352,12 @@ function initializeEditor(content, blocks, thumbPathConverter, galleryUrl, conte
     return content;
   };
 
-  function conditional_restore(html) {
-    return html.replace(/<replacedcc[^>]* condition="([^"]*)"[^>]*>([\s\S]*?)<\/replacedcc>/g, function(match, condition, body) {
-      var dd = '<!--[if '+condition.replace(/&amp;/, '&')+']>';
-      dd += body.replace(/(<\/cc>)?<!-- cc:ac:([A-Za-z:]*) -->/g, '</$2>') // restore closing tags (including lost tags)
-            .replace(/><!-- cc:sc -->/g, '/>') // restore selfclosing tags
-            .replace(/<!-- cc:bo:([A-Za-z:]*) --><cc/g, '<$1') // restore open tags
-            .replace(/^.*<!-- cc:start -->/,'') // remove content before start
-            .replace(/<!-- cc:end -->.*$/,''); // remove content after end
-      dd += '<![endif]-->';
-      return dd;
-    });
-  }
-
   viewModel.exportHTML = function() {
-    var id = 'exportframe';
-    $('body').append('<iframe id="' + id + '" data-bind="bindIframe: $data"></iframe>');
-    var frameEl = global.document.getElementById(id);
-    ko.applyBindings(viewModel, frameEl);
+    content = exportCleanedHTML(viewModel);
 
-    ko.cleanNode(frameEl);
-
-    if (viewModel.inline) viewModel.inline(frameEl.contentWindow.document);
-
-    // Obsolete method didn't work on IE11 when using "HTML5 doctype":
-    // var docType = new XMLSerializer().serializeToString(global.document.doctype);
-    var node = frameEl.contentWindow.document.doctype;
-    var docType = "<!DOCTYPE " + node.name +
-      (node.publicId ? ' PUBLIC "' + node.publicId + '"' : '') +
-      (!node.publicId && node.systemId ? ' SYSTEM' : '') +
-      (node.systemId ? ' "' + node.systemId + '"' : '') + '>';
-    var content = docType + "\n" + frameEl.contentWindow.document.documentElement.outerHTML;
-    ko.removeNode(frameEl);
-
-    content = content.replace(/<script ([^>]* )?type="text\/html"[^>]*>[\s\S]*?<\/script>/gm, '');
-    // content = content.replace(/<!-- ko .*? -->/g, ''); // sometimes we have expressions like (<!-- ko var > 2 -->)
-    content = content.replace(/<!-- ko ((?!--).)*? -->/g, ''); // this replaces the above with a more formal (but slower) solution
-    content = content.replace(/<!-- \/ko -->/g, '');
-    // Remove data-bind/data-block attributes
-    content = content.replace(/ data-bind="[^"]*"/gm, '');
     // Remove trash leftover by TinyMCE
     content = content.replace(/ data-mce-(href|src|style)="[^"]*"/gm, '');
 
-    // Replace "replacedstyle" to "style" attributes (chrome puts replacedstyle after style)
-    content = content.replace(/ style="[^"]*"([^>]*) replaced(style="[^"]*")/gm, '$1 $2');
-    // Replace "replacedstyle" to "style" attributes (ie/ff have reverse order)
-    content = content.replace(/ replaced(style="[^"]*")([^>]*) style="[^"]*"/gm, ' $1$2');
-    content = content.replace(/ replaced(style="[^"]*")/gm, ' $1');
-
-    // same as style, but for http-equiv (some browser break it if we don't replace, but then we find it duplicated)
-    content = content.replace(/ http-equiv="[^"]*"([^>]*) replaced(http-equiv="[^"]*")/gm, '$1 $2');
-    content = content.replace(/ replaced(http-equiv="[^"]*")([^>]*) http-equiv="[^"]*"/gm, ' $1$2');
-    content = content.replace(/ replaced(http-equiv="[^"]*")/gm, ' $1');
-
-    // We already replace style and http-equiv and we don't need this.
-    // content = content.replace(/ replaced([^= ]*=)/gm, ' $1');
-    // Restore conditional comments
-    content = conditional_restore(content);
     var trash = content.match(/ data-[^ =]+(="[^"]+")? /) || content.match(/ replaced([^= ]*=)/);
     if (trash) {
       console.warn("Output HTML contains unexpected data- attributes or replaced attributes", trash);

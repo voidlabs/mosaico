@@ -308,7 +308,7 @@ var templateCompiler = function(performanceAwareCaller, templateUrlConverter, te
   plugins.push(templatesPlugin);
 
   // initialize the viewModel object based on the content model.
-  var viewModel = performanceAwareCaller('initializeViewmodel', initializeViewmodel.bind(this, content, blockModels.blockList, templateUrlConverter, galleryUrl, modelImporter));
+  var viewModel = performanceAwareCaller('initializeViewmodel', initializeViewmodel.bind(this, content, blockModels.blockList, templateUrlConverter, galleryUrl, modelImporter, exportCleanedHTML));
 
   viewModel.metadata = metadata;
   // let's run some version check on template and editor used to build the model being loaded.
@@ -367,6 +367,7 @@ var isCompatible = function(detailedException) {
     });
     // Since 0.18 some of our dependencies use block level functions in strict-mode:
     // They throw a parsing error in IE10 and Safari 8-9 that we previously supported.
+    /*jslint evil: true */
     checkFeature('Block-level functions', function() {
       try {
         new Function('\'use strict\'; { function g() { } }');
@@ -406,13 +407,42 @@ var isCompatible = function(detailedException) {
   }
 };
 
-var checkBadBrowserExtensions = function() {
-  var id = 'checkbadbrowsersframe';
-  var origTpl = ko.bindingHandlers.bindIframe.tpl;
-  ko.bindingHandlers.bindIframe.tpl = "<!DOCTYPE html>\r\n<html>\r\n<head><title>A</title>\r\n</head>\r\n<body><p align=\"right\" data-bind=\"attr: { align: 'left' }\">B</p><div data-bind=\"text: content\"></div></body>\r\n</html>\r\n";
+var cleanUpMap = {
+  '<script type="text/javascript" id="__gaOptOutExtension">window["_gaUserPrefs"] = { ioo : function() { return true; } }</script>': '',
+  ' data-gr-c-s-loaded="true"': '',
+  '<script type="text/javascript" id="RTCEarlyScript"> window.oldSetTimeout=window.setTimeout;window.setTimeout=function(func,delay){return window.oldSetTimeout(function(){try{if(!document.documentElement.getAttribute(\'stopTimers\')){if(typeof func==\'string\') {var nfunc = new Function(func); nfunc();} else func();}}catch(ex){}},delay);}; window.oldSetInterval=window.setInterval;window.setInterval=function(func,delay){return window.oldSetInterval(function(){try{if(!document.documentElement.getAttribute(\'stopTimers\')){if(typeof func==\'string\') {var nfunc = new Function(func); nfunc();} else func();}}catch(ex){}},delay);}; </script>': '',
+  '<script id="RTCEarlyScript" type="text/javascript"> window.oldSetTimeout=window.setTimeout;window.setTimeout=function(func,delay){return window.oldSetTimeout(function(){try{if(!document.documentElement.getAttribute(\'stopTimers\')){if(typeof func==\'string\') {var nfunc = new Function(func); nfunc();} else func();}}catch(ex){}},delay);};  window.oldSetInterval=window.setInterval;window.setInterval=function(func,delay){return window.oldSetInterval(function(){try{if(!document.documentElement.getAttribute(\'stopTimers\')){if(typeof func==\'string\') {var nfunc = new Function(func); nfunc();} else func();}}catch(ex){}},delay);}; </script>': '',
+};
+
+var cleanUpKnownExtensionsGarbage = function(input) {
+  for (var search in cleanUpMap) input = input.replace(search, cleanUpMap[search]);
+  return input;
+};
+
+
+function conditional_restore(html) {
+  return html.replace(/<replacedcc[^>]* condition="([^"]*)"[^>]*>([\s\S]*?)<\/replacedcc>/g, function(match, condition, body) {
+    var dd = '<!--[if '+condition.replace(/&amp;/, '&')+']>';
+    dd += body.replace(/(<\/cc>)?<!-- cc:ac:([A-Za-z:]*) -->/g, '</$2>') // restore closing tags (including lost tags)
+          .replace(/><!-- cc:sc -->/g, '/>') // restore selfclosing tags
+          .replace(/<!-- cc:bo:([A-Za-z:]*) --><cc/g, '<$1') // restore open tags
+          .replace(/^.*<!-- cc:start -->/,'') // remove content before start
+          .replace(/<!-- cc:end -->.*$/,''); // remove content after end
+    dd += '<![endif]-->';
+    return dd;
+  });
+}
+
+function exportCleanedHTML(viewModel) {
+  var id = 'exportframe';
   $('body').append('<iframe id="' + id + '" data-bind="bindIframe: $data"></iframe>');
   var frameEl = global.document.getElementById(id);
-  ko.applyBindings({ content: "dummy content" }, frameEl);
+  ko.applyBindings(viewModel, frameEl);
+
+  ko.cleanNode(frameEl);
+
+  if (viewModel.inline) viewModel.inline(frameEl.contentWindow.document);
+
   // Obsolete method didn't work on IE11 when using "HTML5 doctype":
   // var docType = new XMLSerializer().serializeToString(global.document.doctype);
   var node = frameEl.contentWindow.document.doctype;
@@ -421,15 +451,45 @@ var checkBadBrowserExtensions = function() {
     (!node.publicId && node.systemId ? ' SYSTEM' : '') +
     (node.systemId ? ' "' + node.systemId + '"' : '') + '>';
   var content = docType + "\n" + frameEl.contentWindow.document.documentElement.outerHTML;
-  ko.cleanNode(frameEl);
   ko.removeNode(frameEl);
+
+  content = content.replace(/<script ([^>]* )?type="text\/html"[^>]*>[\s\S]*?<\/script>/gm, '');
+  // content = content.replace(/<!-- ko .*? -->/g, ''); // sometimes we have expressions like (<!-- ko var > 2 -->)
+  content = content.replace(/<!-- ko ((?!--).)*? -->/g, ''); // this replaces the above with a more formal (but slower) solution
+  content = content.replace(/<!-- \/ko -->/g, '');
+  // Remove data-bind/data-block attributes
+  content = content.replace(/ data-bind="[^"]*"/gm, '');
+
+  // Replace "replacedstyle" to "style" attributes (chrome puts replacedstyle after style)
+  content = content.replace(/ style="[^"]*"([^>]*) replaced(style="[^"]*")/gm, '$1 $2');
+  // Replace "replacedstyle" to "style" attributes (ie/ff have reverse order)
+  content = content.replace(/ replaced(style="[^"]*")([^>]*) style="[^"]*"/gm, ' $1$2');
+  content = content.replace(/ replaced(style="[^"]*")/gm, ' $1');
+
+  // same as style, but for http-equiv (some browser break it if we don't replace, but then we find it duplicated)
+  content = content.replace(/ http-equiv="[^"]*"([^>]*) replaced(http-equiv="[^"]*")/gm, '$1 $2');
+  content = content.replace(/ replaced(http-equiv="[^"]*")([^>]*) http-equiv="[^"]*"/gm, ' $1$2');
+  content = content.replace(/ replaced(http-equiv="[^"]*")/gm, ' $1');
+
+  // We already replace style and http-equiv and we don't need this.
+  // content = content.replace(/ replaced([^= ]*=)/gm, ' $1');
+  // Restore conditional comments
+  content = conditional_restore(content);
+
+  // remove garbage added by known browser extensions
+  content = cleanUpKnownExtensionsGarbage(content);
+  return content;
+}
+
+var checkBadBrowserExtensions = function() {
+  var origTpl = ko.bindingHandlers.bindIframe.tpl;
+  ko.bindingHandlers.bindIframe.tpl = "<!DOCTYPE html>\r\n<html>\r\n<head><title>A</title>\r\n</head>\r\n<body><p align=\"right\" data-bind=\"attr: { align: 'left' }\">B</p><div data-bind=\"text: content\"></div></body>\r\n</html>\r\n";
+  var content = exportCleanedHTML({ content: "dummy content" });
   ko.bindingHandlers.bindIframe.tpl = origTpl;
 
-  var expected = "<!DOCTYPE html>\n<html><head><title>A</title>\n</head>\n<body><p align=\"left\" data-bind=\"attr: { align: 'left' }\">B</p><div data-bind=\"text: content\">dummy content</div>\n\n</body></html>";
-  // Firefox changes the attributes order.
-  var expected2 = "<!DOCTYPE html>\n<html><head><title>A</title>\n</head>\n<body><p data-bind=\"attr: { align: 'left' }\" align=\"left\">B</p><div data-bind=\"text: content\">dummy content</div>\n\n</body></html>";
-  if (expected !== content && expected2 !== content) {
-    console.info("BadBrowser.FrameContentCheck", content.length, expected.length, expected2.length, content == expected, content == expected2);
+  var expected = "<!DOCTYPE html>\n<html><head><title>A</title>\n</head>\n<body><p align=\"left\">B</p><div>dummy content</div>\n\n</body></html>";
+  if (expected !== content) {
+    console.info("BadBrowser.FrameContentCheck", content.length, expected.length, content == expected);
     console.warn("Detected incompatible/misbehaving browser, probably introduced by a bad browser extension.");
     console.warn(content);
     throw "Detected misbehaving browser/extension: unexpected frame content.";
