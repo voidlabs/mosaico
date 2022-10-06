@@ -2,8 +2,6 @@
 /* global global: false, console: false */
 var $ = require("jquery");
 var ko = require("knockout");
-// selectize doesn't work if we don't expose this in the global (window) object
-global.Sifter = require('@selectize/sifter');
 var Selectize = require('@selectize/selectize');
 
 // automatic dropdown direction: loop-logic like the one we contributed to Colorpicker
