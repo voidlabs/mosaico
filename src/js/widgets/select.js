@@ -47,7 +47,7 @@ var widgetPlugin = {
               optionCounter++;
               var iconOption = iconClasses.hasOwnProperty(opt1) ? ', icons: { primary: \'' + addSlashes(iconClasses[opt1]) + '\' }' : '';
               html1 += '<input name="buttonset-widget-'+uniqueCounter+'" id="buttonset-widget-'+uniqueCounter+'-'+optionCounter+'" type="radio" value="' + addSlashes(opt1) + '" data-bind="checked: prop, button: { text: ' + (useLabels ? 'true' : 'false')  + ', label: \'' + addSlashes(labels.hasOwnProperty(opt1) ? labels[opt1] : opts[opt1]) + '\''+iconOption+' }" />';
-              html1 += '<label for="buttonset-widget-'+uniqueCounter+'-'+optionCounter+'" data-bind="attr: { title: $root.t(\'' + addSlashes(opts[opt1]) + '\') }">' + opt1 + '</label>';
+              html1 += '<label for="buttonset-widget-'+uniqueCounter+'-'+optionCounter+'" data-bind="attr: { title: $root.ut(\'template\', \'' + addSlashes(opts[opt1]) + '\') }">' + opt1 + '</label>';
             }
             html1 += '</div>';
             html1 += '<!-- /ko -->';
