@@ -1,6 +1,7 @@
 "use strict";
-/* global global: false */
+
 var addSlashes = require('../converter/utils.js').addSlashes;
+var console = require("console");
 require('../bindings/selectize.js');
 
 // TODO make option parsing more solid (escaping, quoting, first equal lookup)
@@ -53,11 +54,14 @@ var widgetPlugin = {
             html1 += '<!-- /ko -->';
             return html1;
 
-          } else if (typeof parameters.renderHint !== 'undefined' || typeof parameters.imagesSources !== 'undefined') {
+          } 
+
+          if (typeof parameters.renderHint !== 'undefined' || typeof parameters.imagesSources !== 'undefined') {
 
             var rendererBinding = '';
             var imagesSources = {};
             if (parameters.renderHint == 'fontface') {
+              imagesSources = false;
               rendererBinding = ', selectizeRenderer: function(type, item, escape) { return \'<div class=&quot;\' + type + \'&quot; style=&quot;font-family: \' + escape(item.value) + \'&quot;>\' + escape(item.text) + \'</div>\'; }';
             } else if (parameters.renderHint == 'images' || typeof parameters.imagesSources !== 'undefined') {
               if (typeof parameters.imagesSources !== 'undefined') {
@@ -76,30 +80,35 @@ var widgetPlugin = {
             var html2 = '<select class="selectize-force-single-noadd selectize-hint-' + parameters.renderHint + '" data-bind="selectize: ' + propAccessor + rendererBinding + ',' + onfocusbinding + '">';
             var datadata;
             var dataobj;
+            var ok = true;
             for (var opt2 in opts) if (opts.hasOwnProperty(opt2)) {
               // TODO we should use a proper escaping function (or dom utilities to add element attributes)
-              if (imagesSources.hasOwnProperty(opt2)) {
+              if (imagesSources === false) {
+                datadata = null;
+              } else if (imagesSources.hasOwnProperty(opt2)) {
                 dataobj = { value: opt2, text: opts[opt2], url: imagesSources[opt2] };
                 datadata = JSON.stringify(dataobj).replace(/"/g, '&quot;');
               } else {
+                console.warn("Template uses imagesSources hint but doesn't define", opt2, "option:", parameters.imagesSources, ". Falling back to non-hinted select.");
+                ok = false;
                 datadata = null;
               }
               html2 += '<option' + (datadata !== null ? ' data-data="'+datadata+'"' : '') + ' value="' + opt2 + '" data-bind="text: $root.ut(\'template\', \'' + addSlashes(opts[opt2]) + '\')">' + opts[opt2] + '</option>';
             }
             html2 += '</select>';
-            return html2;
-
-          } else {
-
-            var html = '<div class="mo-select"><select data-bind="value: ' + propAccessor + ', ' + onfocusbinding + '">';
-            for (var opt in opts)
-              if (opts.hasOwnProperty(opt)) {
-                html += '<option value="' + opt + '" data-bind="text: $root.ut(\'template\', \'' + addSlashes(opts[opt]) + '\')">' + opts[opt] + '</option>';
-              }
-            html += '</select></div>';
-            return html;
+            
+            // if imageSources array miss a key from the options we don't use this widget.
+            if (ok) return html2;
 
           }
+
+          var html = '<div class="mo-select"><select data-bind="value: ' + propAccessor + ', ' + onfocusbinding + '">';
+          for (var opt in opts)
+            if (opts.hasOwnProperty(opt)) {
+              html += '<option value="' + opt + '" data-bind="text: $root.ut(\'template\', \'' + addSlashes(opts[opt]) + '\')">' + opts[opt] + '</option>';
+            }
+          html += '</select></div>';
+          return html;
 
         }
         return '';
