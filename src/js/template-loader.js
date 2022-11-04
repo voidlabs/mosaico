@@ -308,7 +308,7 @@ var templateCompiler = function(performanceAwareCaller, templateUrlConverter, te
   plugins.push(templatesPlugin);
 
   // initialize the viewModel object based on the content model.
-  var viewModel = performanceAwareCaller('initializeViewmodel', initializeViewmodel.bind(this, content, blockModels.blockList, templateUrlConverter, galleryUrl, modelImporter, exportCleanedHTML));
+  var viewModel = performanceAwareCaller('initializeViewmodel', initializeViewmodel.bind(this, content, blockModels.blockList, templateUrlConverter, galleryUrl, modelImporter, timedExportCleanedHTML.bind(undefined, performanceAwareCaller)));
 
   viewModel.metadata = metadata;
   // let's run some version check on template and editor used to build the model being loaded.
@@ -431,6 +431,10 @@ function conditional_restore(html) {
     dd += '<![endif]-->';
     return dd;
   });
+}
+
+function timedExportCleanedHTML(performanceAwareCaller, viewModel) {
+  return performanceAwareCaller("exportCleanedHTML", viewModel);
 }
 
 function exportCleanedHTML(viewModel) {

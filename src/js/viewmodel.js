@@ -4,7 +4,6 @@
 var $ = require("jquery");
 var ko = require("knockout");
 var console = require("console");
-var performanceAwareCaller = require("./timed-call.js").timedCall;
 
 var toastr = require("toastr");
 toastr.options = {
@@ -347,12 +346,8 @@ function initializeEditor(content, blocks, thumbPathConverter, galleryUrl, conte
     global.setTimeout(viewModel.loopSubscriptionsCount, 1000);
   };
 
-  viewModel.export = function() {
-    var content = performanceAwareCaller("exportHTML", viewModel.exportHTML);
-    return content;
-  };
-
-  viewModel.exportHTML = function() {
+  // before 0.18.8 "export" used to log exportHTML timing, but we moved that in the internal exporter function.
+  viewModel.export = viewModel.exportHTML = function() {
     content = exportCleanedHTML(viewModel);
 
     // Remove trash leftover by TinyMCE
