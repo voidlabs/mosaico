@@ -52,9 +52,9 @@ var applyBindingOptions = function(options, ko) {
     }
   };
 
-  ko.bindingHandlers.wysiwygSrc.placeholderUrl = function(width, height, text) {
+  ko.bindingHandlers.wysiwygSrc.placeholderUrl = function(width, height, text, method) {
     var imgProcessorBackend = options.imgProcessorBackend ? options.imgProcessorBackend : './upload';
-    return _appendUrlParameters(imgProcessorBackend, { method: 'placeholder', params: width + "," + height });
+    return _appendUrlParameters(imgProcessorBackend, { method: method ? method : 'placeholder', params: width + "," + height, text: text });
   };
 
   // pushes custom tinymce configurations from options to the binding

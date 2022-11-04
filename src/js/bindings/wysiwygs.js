@@ -107,6 +107,9 @@ ko.bindingHandlers.wysiwygSrc = {
     // http://placehold.it/200x150.png/cccccc/333333&text=placehold.it#sthash.nA3r26vR.dpuf
     // placeholdersrc = "'http://placehold.it/'+"+width+"+'x'+"+height+"+'.png/cccccc/333333&text='+"+size;
   },
+  placeholderText: function(w, h) {
+    return w && h ? w+'x'+h : w ? 'w'+w : 'h'+h;
+  },
   init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
     if (ko.bindingHandlers['wysiwygSrc'].preload) $(element).data('preloadimg', new Image());
   },
@@ -167,7 +170,7 @@ ko.bindingHandlers.wysiwygSrc = {
     var src = null;
     var w = ko.utils.unwrapObservable(placeholderValue.width);
     var h = ko.utils.unwrapObservable(placeholderValue.height);
-    var text = w && h ? w+'x'+h : w ? 'w'+w : 'h'+h;
+    var text = ko.bindingHandlers.wysiwygSrc.placeholderText(width, height);
     var isPlaceholder = false;
     if ((srcValue === false) || (srcValue === null) || (srcValue === undefined) || (srcValue === '')) {
       if (typeof placeholderValue == 'object' && placeholderValue !== null) src = ko.bindingHandlers.wysiwygSrc.placeholderUrl(w, h, text);

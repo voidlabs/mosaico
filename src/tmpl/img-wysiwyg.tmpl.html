@@ -2,7 +2,7 @@
   class="img-wysiwyg selectable-img"><tr><td class="uploadzone">
   <div class="mo-imgselectionhelper"></div>
   <div class="mo-uploadzone"></div>
-  <div class="img-size" data-bind="text: _width && _height ? ko.utils.unwrapObservable(_width)+'x'+ko.utils.unwrapObservable(_height) : _width ? 'w'+ko.utils.unwrapObservable(_width) : 'h'+ko.utils.unwrapObservable(_height)">size</div>
+  <div class="img-size" data-bind="text: ko.bindingHandlers.wysiwygSrc.placeholderText(ko.utils.unwrapObservable(_width), ko.utils.unwrapObservable(_height))">size</div>
   <div class="midtools" data-bind="tooltips: {}">
     <!-- ko if: _src() != '' -->
     <div title="Remove image" class="tool delete" data-bind="attr: { title: $root.t('Remove image') }, click: _src.bind(_src, ''), clickBubble: false"><i class="fa fa-fw fa-trash-o"></i></div>
