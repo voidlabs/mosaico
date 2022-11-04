@@ -103,10 +103,14 @@ ko.bindingHandlers['fileupload'] = {
       autoUpload: true,
       acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
       maxFileSize: 1024 * 1024,
+      // 2022-11-04 we used to disable image resizing for Android and Opera
+      // but newer versions seems to deal with resizing correclty
       // Enable image resizing, except for Android and Opera,
       // which actually support image resizing, but fail to
       // send Blob objects via XHR requests:
-      disableImageResize: /Android(?!.*Chrome)|Opera/.test(global.navigator.userAgent),
+      // disableImageResize: /Android(?!.*Chrome)|Opera/.test(global.navigator.userAgent),
+      imageMaxWidth: 1920, // default
+      imageMaxHeight: 1080, // default
       previewMaxWidth: 200,
       previewMaxHeight: 200,
       previewCrop: false,
