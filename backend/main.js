@@ -16,6 +16,10 @@ var font;
 Jimp.loadFont(Jimp.FONT_SANS_32_BLACK, function(err, f) {
     font = f;
 });
+var font2x;
+Jimp.loadFont(Jimp.FONT_SANS_64_BLACK, function(err, f) {
+    font2x = f;
+});
 
 app.use(require('connect-livereload')({ ignore: [/^\/dl/, /^\/img/, /^\/upload/] }));
 
@@ -98,10 +102,11 @@ app.get('/img/', function(req, res) {
 
     var params = req.query.params.split(',');
 
-    if (req.query.method == 'placeholder') {
-        var size = 40;
+    if (req.query.method == 'placeholder' || req.query.method == 'placeholder2') {
+        var size = req.query.method == 'placeholder2' ? 80 : 40;
         var w = parseInt(params[0]);
         var h = parseInt(params[1]);
+        var text = req.query.text ? req.query.text : '' + w + ' x ' + h;
         var workScale = 1;
 
         new Jimp(w * workScale, h * workScale, '#808080', function(err, image) {
@@ -109,8 +114,8 @@ app.get('/img/', function(req, res) {
                 if ((((Math.ceil(image.bitmap.height / (size * workScale * 2))+1)*(size * workScale * 2) + x - y) % (size * workScale * 2)) < size * workScale) image.setPixelColor(0x707070FF, x, y);
                 if (x == image.bitmap.width - 1 && y == image.bitmap.height - 1) {
                     var tempImg = new Jimp(w * workScale, h * workScale, 0x0)
-                        .print(font, 0, 0, {
-                            text: '' + w + ' x ' + h,
+                        .print(req.query.method == 'placeholder2' ? font2x : font, 0, 0, {
+                            text: text,
                             alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
                             alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE
                         }, w * workScale, h * workScale)
@@ -124,7 +129,7 @@ app.get('/img/', function(req, res) {
                                     if (error) {
                                         console.log("Error #2 creating placeholder: ", error);
                                         res.status(500).send('Error #1 creating placeholder: ' + err.message);
-                                    } else res.status(200).send(new Buffer(buffer));
+                                    } else res.status(200).contentType('image/png').send(new Buffer(buffer));
                                 });
                             }
                         });
@@ -132,7 +137,7 @@ app.get('/img/', function(req, res) {
             });
         });
 
-    } else if (req.query.method == 'resize' || req.query.method == 'cover' || req.query.method == 'aspect') {
+    } else if (req.query.method == 'resize' || req.query.method == 'resizex' || req.query.method == 'cover' || req.query.method == 'coverx' || req.query.method == 'aspect') {
         // NOTE: req.query.src is an URL: we do parse it to localpath.
         var urlparsed = url.parse(req.query.src);
         var src = "./"+decodeURI(urlparsed.pathname);
@@ -166,17 +171,21 @@ app.get('/img/', function(req, res) {
                             if (error) {
                                 console.log("Error sending manipulated image: ", error);
                                 res.status(500).send('Unexpected condition manipulating image: ' + error.message);
-                            } else res.status(200).send(new Buffer(buffer));
+                            } else res.status(200).contentType('image/png').send(new Buffer(buffer));
                         });
                     }
                 };
-                if (req.query.method == 'resize') {
-                    if (params[0] == 'null')
-                        image.resize(Jimp.AUTO, parseInt(params[1]), sendOrError);
-                    else if (params[1] == 'null')
-                        image.resize(parseInt(params[0]), Jimp.AUTO, sendOrError);
-                    else
-                        image.contain(parseInt(params[0]), parseInt(params[1]), sendOrError);
+                if (req.query.method == 'resize' || req.query.method == 'resizex') {
+                    if (params[0] == 'null') {
+                        if (req.query.method == 'resize' || image.bitmap.height > parseInt(params[1])) image.resize(Jimp.AUTO, parseInt(params[1]), sendOrError);
+                        else sendOrError(false, image);
+                    } else if (params[1] == 'null') {
+                        if (req.query.method == 'resize' || image.bitmap.width > parseInt(params[0])) image.resize(parseInt(params[0]), Jimp.AUTO, sendOrError);
+                        else sendOrError(false, image);
+                    } else {
+                        if (req.query.method == 'resize' || image.bitmap.width > parseInt(params[0]) || image.bitmap.height > parseInt(params[1])) image.contain(parseInt(params[0]), parseInt(params[1]), sendOrError);
+                        else sendOrError(false, image);
+                    }
                 } else {
                     // Compute crop coordinates for cover algorythm
                     var w = parseInt(params[0]);
@@ -186,11 +195,17 @@ app.get('/img/', function(req, res) {
                     if (ar > origAr) {
                         var newH = Math.round(image.bitmap.width / ar);
                         var newY = Math.round((image.bitmap.height - newH) / 2);
-                        image.crop(0, newY, image.bitmap.width, newH).resize(w, h, sendOrError);
+                        image.crop(0, newY, image.bitmap.width, newH);
+                        // coverx does not enlarge cropped images
+                        if (req.query.method == 'cover' || newH > h) image.resize(w, h, sendOrError);
+                        else sendOrError(false, image);
                     } else {
                         var newW = Math.round(image.bitmap.height * ar);
                         var newX = Math.round((image.bitmap.width - newW) / 2);
-                        image.crop(newX, 0, newW, image.bitmap.height).resize(w, h, sendOrError);
+                        image.crop(newX, 0, newW, image.bitmap.height);
+                        // coverx does not enlarge cropped images
+                        if (req.query.method == 'cover' || newW > w) image.resize(w, h, sendOrError);
+                        else sendOrError(false, image);
                     }
                 }
 
