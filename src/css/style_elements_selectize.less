@@ -25,6 +25,15 @@
     position: initial;
     .input-style();
     margin: 0;
+
+    /* tolto il :after e messo input-select che però fa più css inutile in questo caso: valutare se fare una sorta di mixin input-select-button() e comunque verificare le skin mosaico */
+    .input-select();
+    display: flex !important;
+    > div {
+      display: block;
+      margin: auto;
+    }
+    /*
     &:after {
       .button-style();
       margin: 0;
@@ -46,6 +55,7 @@
 
       pointer-events:none;
     }
+    */
 
     &.focus {
       .input-style-focus();
