@@ -7,7 +7,6 @@ var console = require("console");
 var ko = require("knockout");
 var $ = require("jquery");
 require("./ko-bindings.js");
-var performanceAwareCaller = require("./timed-call.js").timedCall;
 
 var addUndoStackExtensionMaker = require("./undomanager/undomain.js");
 
@@ -64,9 +63,11 @@ var applyBindingOptions = function(options, ko) {
     ko.bindingHandlers.wysiwyg.fullOptions = options.tinymceConfigFull;
 };
 
+var basicFunctionCaller = function(name, func) {
+  return func();
+};
+
 var start = function(options, templateFile, templateMetadata, jsorjson, customExtensions) {
-
-
 
   templateLoader.fixPageEvents();
 
@@ -114,10 +115,12 @@ var start = function(options, templateFile, templateMetadata, jsorjson, customEx
     }
   };
 
+  var functionCaller = typeof options.functionCaller == 'function' ? options.functionCaller : basicFunctionCaller;
+
   // simpleTranslationPlugin must be before the undoStack to translate undo/redo labels
   var extensions = [
     simpleTranslationPlugin, 
-    addUndoStackExtensionMaker(performanceAwareCaller), 
+    addUndoStackExtensionMaker(functionCaller), 
     require("./widgets/boolean.js"), 
     require("./widgets/color.js"), 
     require("./widgets/font.js"), 
@@ -147,7 +150,7 @@ var start = function(options, templateFile, templateMetadata, jsorjson, customEx
   }
   // TODO canonicalize templateFile to absolute or relative depending on "relativeUrlsException" plugin
 
-  templateLoader.load(performanceAwareCaller, templateFile, templateMetadata, jsorjson, extensions, galleryUrl);
+  templateLoader.load(functionCaller, templateFile, templateMetadata, jsorjson, extensions, galleryUrl);
 
 };
 

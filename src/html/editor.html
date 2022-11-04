@@ -50,7 +50,19 @@ $(function() {
     fileuploadConfig: {
       url: basePath+'/upload/',
       // messages??
+    },
+    /* until mosaico 0.18.7 this was the default functionCaller logging loading times. Now you can pass this as an option if you need the old behaviour
+    functionCaller: function(name, whatToCall) {
+      var res;
+      var start = new Date().getTime();
+      if (typeof console == 'object' && console.time) console.time(name);
+      res = whatToCall();
+      if (typeof console == 'object' && console.time) console.timeEnd(name);
+      var diff = new Date().getTime() - start;
+      if (typeof console == 'object' && !console.time) if (typeof console.debug == 'function') console.debug(name, "took", diff, "ms");
+      return res;
     }
+    */
   }, plugins);
   if (!ok) {
     console.log("Missing initialization hash, redirecting to main entrypoint");
