@@ -60,8 +60,9 @@
                 */
             };
             options.resize = function(event, ui) {
-                // console.log("resize", ui.size.height, ui.originalSize.height, value());
-                value(ui.size.height);
+                // the Math.round is needed to prevent non integer heights after a "non-perfeclty" size image is added to a resizable placeholder
+                // console.log("resize", ui.size.height, Math.round(ui.size.height), ui.originalSize.height, value());
+                value(Math.round(ui.size.height));
                 ui.size.height = value();
             };
 
@@ -70,7 +71,7 @@
 
             //initialize resizable
             $(element).resizable(resizableOptions);
-            // console.log(element, "resizable init");
+            // console.log(element, "resizable init", resizableOptions);
 
             //handle enabling/disabling resizable
             if (isEnabled !== undefined) {
