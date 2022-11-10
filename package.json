@@ -1,6 +1,6 @@
 {
   "name": "mosaico",
-  "version": "0.18.8",
+  "version": "0.18.9",
   "description": "Mosaico - OpenSource Email Template Editor",
   "main": "./src/js/app.js",
   "repository": {
