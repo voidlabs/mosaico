@@ -434,7 +434,7 @@ function conditional_restore(html) {
 }
 
 function timedExportCleanedHTML(performanceAwareCaller, viewModel) {
-  return performanceAwareCaller("exportCleanedHTML", viewModel);
+  return performanceAwareCaller('exportCleanedHTML', exportCleanedHTML.bind(undefined, viewModel));
 }
 
 function exportCleanedHTML(viewModel) {
