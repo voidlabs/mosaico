@@ -160,7 +160,19 @@ var templateLoader = function(performanceAwareCaller, templateFileName, template
   });
 };
 
-var checkAndImportNewContentModel = function(performanceAwareCaller, content, allBlocks, newModel) {
+var incompatibleTemplateDialog = function() {
+  $('#incompatible-template').dialog({
+    modal: true,
+    appendTo: '#mo-body',
+    buttons: {
+      Ok: function() {
+        $(this).dialog("close");
+      }
+    }
+  });
+};
+
+var checkAndImportNewContentModel = function(performanceAwareCaller, content, allBlocks, newModel, silent) {
   var compatibleTemplate = true;
 
   // we run a basic compatibility check between the content-model we expect and the initialization model
@@ -178,17 +190,7 @@ var checkAndImportNewContentModel = function(performanceAwareCaller, content, al
     compatibleTemplate = false;
   }
 
-  if (!compatibleTemplate) {
-    $('#incompatible-template').dialog({
-      modal: true,
-      appendTo: '#mo-body',
-      buttons: {
-        Ok: function() {
-          $(this).dialog("close");
-        }
-      }
-    });
-  }
+  if ((typeof silent == 'undefined' || !silent) && !compatibleTemplate) incompatibleTemplateDialog();
 
   return compatibleTemplate;
 };
@@ -332,6 +334,8 @@ var templateCompiler = function(performanceAwareCaller, templateUrlConverter, te
   plugins.push(bindingPluginMaker(performanceAwareCaller));
 
   pluginsCall(plugins, 'viewModel', [viewModel]);
+
+  if (incompatibleTemplate) incompatibleTemplateDialog();
 
   return {
     model: viewModel,
