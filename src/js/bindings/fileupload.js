@@ -109,6 +109,8 @@ ko.bindingHandlers['fileupload'] = {
       // which actually support image resizing, but fail to
       // send Blob objects via XHR requests:
       // disableImageResize: /Android(?!.*Chrome)|Opera/.test(global.navigator.userAgent),
+      // Note: this defaults to true, so we have to explicitly set it to false
+      disableImageResize: false,
       imageMaxWidth: 1920, // default
       imageMaxHeight: 1080, // default
       previewMaxWidth: 200,
