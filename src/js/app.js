@@ -52,7 +52,7 @@ var applyBindingOptions = function(options, ko) {
   };
 
   ko.bindingHandlers.wysiwygSrc.placeholderUrl = function(width, height, text, method) {
-    var imgProcessorBackend = options.imgProcessorBackend ? options.imgProcessorBackend : './upload';
+    var imgProcessorBackend = options.imgPlaceholderUrl ? options.imgPlaceholderUrl : './upload';
     return _appendUrlParameters(imgProcessorBackend, { method: method ? method : 'placeholder', params: width + "," + height, text: text });
   };
 
