@@ -461,6 +461,15 @@ ko.bindingHandlers.wysiwyg = {
           });
         }
         */
+        // 20230301: since we moved to "div" editing the shift-enter will add "p"s.
+        if (!fullEditor) {
+          editor.on('keydown', function(e) {
+            if (e.shiftKey && (e.which === 13 || e.keyCode === 13)) {
+              // e.preventDefault();
+              tinymce.dom.Event.cancel(e);
+            }
+          });
+        }
 
         // Tinymce doesn't catch exceptions, let's wrap the fire.
         if (typeof editor.originalFire == 'undefined') {
