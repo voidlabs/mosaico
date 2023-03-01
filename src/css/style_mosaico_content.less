@@ -423,19 +423,21 @@
     // blocks
     .editable {
       .makeSelectable(10px, ~'.selected', 0, ~' .mo-blockselectionhelper');
-
-      .makeEditableHover(10px, ~'.mce-content-body');
-      .makeEditableHover(10px, ~'.selectable-img', ~' .mo-imgselectionhelper:before');
-
     }
+    
     // texts
     .mce-content-body {
-      .makeSelectable(5px, ~'.selecteditem', 0);
+      .makeSelectable(4px, ~'.selecteditem', 0, ~':before');
       cursor: text;
     }
     // images
     .selectable-img {
-      .makeSelectable(5px, ~'.selecteditem', 0, ~' .mo-imgselectionhelper:after');
+      .makeSelectable(4px, ~'.selecteditem', 0, ~' .mo-imgselectionhelper:before');
+    }
+
+    .editable {
+      .makeSelectableHover(~'.mce-content-body', ~'.selecteditem', ~':before');
+      .makeSelectableHover(~'.selectable-img', ~'.selecteditem', ~' .mo-imgselectionhelper:before');
     }
   }
 
