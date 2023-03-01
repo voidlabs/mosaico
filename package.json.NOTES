@@ -1,6 +1,8 @@
 - tinymce is "locked" to 4.9.x because our skin, build code, and css overrides
   still rely on 4.x.
 - jsep is "locked" to 0.4.0 because 1.0+ is ES6 and breaks IE11 compatibility
+- selectize is "locked" to 0.14.0 because 0.15 breaks/alter data-data handling:
+  https://github.com/selectize/selectize.js/issues/1976
 
 Other:
 
