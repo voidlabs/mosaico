@@ -344,7 +344,7 @@ ko.bindingHandlers.wysiwyg = {
       // we have to disable preview_styles otherwise tinymce push inline every style he thinks will be applied and
       // this makes the style menu to inherit color/font-family and more.
       preview_styles: false,
-      paste_as_text: true,
+      paste_as_text: false,
       language: 'en',
       schema: "html5",
 
