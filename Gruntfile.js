@@ -309,7 +309,7 @@ module.exports = function(grunt) {
 
     check_licenses: {
       main: {
-        exclude: 'MIT, ISC, BSD, Apache-2.0, BSD-3-Clause, BSD-2-Clause, CC0-1.0, Unlicense, Public Domain',
+        exclude: 'MIT, MIT-0, ISC, BSD, Apache-2.0, BSD-3-Clause, BSD-2-Clause, CC0-1.0, Unlicense, Public Domain',
         whitelist: {
           /* SELF */
           'mosaico': 'GPL-3.0', // SELF
