@@ -191,12 +191,12 @@
       frameTheme:preview { -ko-background-color: @[backgroundColor] }
       template preheaderText { label: Preheader; }
 
-      template { label: Page; theme: frameTheme; properties: preheaderVisible=true; version: 1.3.6; }
+      template { label: Page; theme: frameTheme; properties: preheaderVisible=true; version: 1.3.7; }
 
       footerBlock { label: Unsubscribe Block; theme: frameTheme }
       
       fbVisible { label: Facebook; extend: visible }
-      twVisible { label: Twitter; extend: visible }
+      twVisible { label: X / Twitter; extend: visible }
       ggVisible { label: Google+; extend: visible }
       inVisible { label: LinkedIn; extend: visible }
       piVisible { label: Pinterest; extend: visible }
@@ -210,7 +210,7 @@
       ttVisible { label: TikTok; extend: visible }
       tcVisible { label: Twitch; extend: visible }
       fbUrl { label: Facebook Link; extend: url }
-      twUrl { label: Twitter Link; extend: url}
+      twUrl { label: X / Twitter Link; extend: url}
       ggUrl { label: Google+ Link; extend: url}
       inUrl { label: LinkedIn Link; extend: url}
       piUrl { label: Pinterest Link; extend: url}
@@ -246,7 +246,7 @@
 
       shareButtonType { label: Button Version;widget: select; options:reverse=Brand buttons|simple=Brand icons|custom=Custom buttons; }
       shareBlock fbVisible { label: Facebook; }
-      shareBlock twVisible { label: Twitter }
+      shareBlock twVisible { label: X / Twitter }
       shareBlock inVisible { label: LinkedIn }
       shareBlock ggVisible { label: Google+ }
       shareBlock piVisible { label: Pinterest }
@@ -1205,7 +1205,7 @@
             
               <div data-ko-wrap="false" style="display: inline-block;" data-ko-display="fbVisible">&nbsp;<a href="" data-ko-display="fbVisible" style="border-radius: 50px; -ko-attr-href: @[fbUrl]"><img border="0" style="display: inline-block; vertical-align: top; padding-bottom: 0px; -ko-attr-src: @[Url.templatePath('img/icons/fb-'+bigSocialIconType+'-96.png')]; -ko-attr-width: @[bigSocialIconSize]; -ko-attr-height: @[bigSocialIconSize]" src="img/icons/fb-rdcol-96.png" width="48" height="48" alt="Facebook"></a></div>
             
-              <div data-ko-wrap="false" style="display: inline-block;" data-ko-display="twVisible">&nbsp;<a href="" data-ko-display="twVisible" style="border-radius: 50px; -ko-attr-href: @[twUrl]"><img border="0" style="display: inline-block; vertical-align: top; padding-bottom: 0px; -ko-attr-src: @[Url.templatePath('img/icons/tw-'+bigSocialIconType+'-96.png')]; -ko-attr-width: @[bigSocialIconSize]; -ko-attr-height: @[bigSocialIconSize]" src="img/icons/tw-rdcol-96.png" width="48" height="48" alt="Twitter"></a></div>
+              <div data-ko-wrap="false" style="display: inline-block;" data-ko-display="twVisible">&nbsp;<a href="" data-ko-display="twVisible" style="border-radius: 50px; -ko-attr-href: @[twUrl]"><img border="0" style="display: inline-block; vertical-align: top; padding-bottom: 0px; -ko-attr-src: @[Url.templatePath('img/icons/tw-'+bigSocialIconType+'-96.png')]; -ko-attr-width: @[bigSocialIconSize]; -ko-attr-height: @[bigSocialIconSize]" src="img/icons/tw-rdcol-96.png" width="48" height="48" alt="X / Twitter"></a></div>
             
               <div data-ko-wrap="false" style="display: inline-block; display: none" data-ko-display="ggVisible">&nbsp;<a href="" data-ko-display="ggVisible" style="display: none; border-radius: 50px; -ko-attr-href: @[ggUrl]"><img border="0" style="display: inline-block; vertical-align: top; padding-bottom: 0px; -ko-attr-src: @[Url.templatePath('img/icons/gg-'+bigSocialIconType+'-96.png')]; -ko-attr-width: @[bigSocialIconSize]; -ko-attr-height: @[bigSocialIconSize]" src="img/icons/gg-rdcol-96.png" width="48" height="48" alt="Google"></a></div>
             
@@ -1274,7 +1274,7 @@
           
               <tr>
       <td valign="top" style="padding: 9px; padding-top: 5px; padding-bottom: 5px; padding: 9px; padding-top: 5px; padding-bottom: 5px; -ko-padding: @[blockSpacing.horizontalSpacing]px; -ko-padding-top: @[blockSpacing.verticalSpacing]px; -ko-padding-bottom: @[blockSpacing.verticalSpacing]px; line-height: 24px;"><table role="presentation" cellpadding="0" border="0" align="center" cellspacing="6" style="border-spacing: 0; mso-cellspacing: 6px; border-collapse: separate; border-spacing: 6px; background-color: #4099FF; border-radius: 4px; -ko-border-radius: @[shareButtonStyle.radius]px;" bgcolor="#4099FF"><tr>
-        <td class="shareIcon" valign="middle" style="font-weight: normal; padding-left: 4px; color: #FFFFFF; font-size: 13px; font-family: Arial, Helvetica, sans-serif; -ko-font-size: @[shareButtonStyle.size]px; -ko-font-family: @shareButtonStyle.face; line-height: 24px;" width="24"><a href="http://twitter.com/share?url=%5Bpermlink_urlenc%5D" style="text-decoration: none; font-weight: normal; color: #FFFFFF; font-size: 13px; font-family: Arial, Helvetica, sans-serif; -ko-font-size: @[shareButtonStyle.size]px; -ko-font-family: @shareButtonStyle.face"><img style="display: block" src="img/icons/tw-white-96.png" alt="Twitter" width="24" height="24"></a></td>
+        <td class="shareIcon" valign="middle" style="font-weight: normal; padding-left: 4px; color: #FFFFFF; font-size: 13px; font-family: Arial, Helvetica, sans-serif; -ko-font-size: @[shareButtonStyle.size]px; -ko-font-family: @shareButtonStyle.face; line-height: 24px;" width="24"><a href="http://twitter.com/share?url=%5Bpermlink_urlenc%5D" style="text-decoration: none; font-weight: normal; color: #FFFFFF; font-size: 13px; font-family: Arial, Helvetica, sans-serif; -ko-font-size: @[shareButtonStyle.size]px; -ko-font-family: @shareButtonStyle.face"><img style="display: block" src="img/icons/tw-white-96.png" alt="X / Twitter" width="24" height="24"></a></td>
         <td width="auto" valign="middle" style="font-weight: normal; padding-right: 4px; color: #FFFFFF; font-size: 13px; font-family: Arial, Helvetica, sans-serif; -ko-font-size: @[shareButtonStyle.size]px; -ko-font-family: @shareButtonStyle.face; line-height: 24px;"><a href="http://twitter.com/share?url=%5Bpermlink_urlenc%5D" style="text-decoration: none; font-weight: normal; color: #FFFFFF; font-size: 13px; font-family: Arial, Helvetica, sans-serif; -ko-font-size: @[shareButtonStyle.size]px; -ko-font-family: @shareButtonStyle.face"><span data-ko-wrap="false" data-ko-editable="twText">Share</span></a></td>
       </tr></table></td>
     </tr>
@@ -1357,7 +1357,7 @@
           
               <tr>
       <td valign="top" style="padding: 9px; padding-top: 5px; padding-bottom: 5px; padding: 9px; padding-top: 5px; padding-bottom: 5px; -ko-padding: @[blockSpacing.horizontalSpacing]px; -ko-padding-top: @[blockSpacing.verticalSpacing]px; -ko-padding-bottom: @[blockSpacing.verticalSpacing]px; line-height: 24px;"><table role="presentation" cellpadding="0" border="0" align="center" cellspacing="6" style="border-spacing: 0; mso-cellspacing: 6px; border-collapse: separate; border-spacing: 6px; background-color: #FFFFFF; border-radius: 4px" bgcolor="#FFFFFF"><tr>
-        <td class="shareIcon" valign="middle" style="font-weight: normal; padding-left: 4px; color: #000000; font-size: 13px; font-family: Arial, Helvetica, sans-serif; -ko-font-size: @[shareButtonStyle.size]px; -ko-font-family: @shareButtonStyle.face; line-height: 24px;" width="24"><a href="http://twitter.com/share?url=%5Bpermlink_urlenc%5D" style="text-decoration: none; font-weight: normal; color: #000000; font-size: 13px; font-family: Arial, Helvetica, sans-serif; -ko-font-size: @[shareButtonStyle.size]px; -ko-font-family: @shareButtonStyle.face"><img style="display: block" src="img/icons/tw-coloured-96.png" alt="Twitter" width="24" height="24"></a></td>
+        <td class="shareIcon" valign="middle" style="font-weight: normal; padding-left: 4px; color: #000000; font-size: 13px; font-family: Arial, Helvetica, sans-serif; -ko-font-size: @[shareButtonStyle.size]px; -ko-font-family: @shareButtonStyle.face; line-height: 24px;" width="24"><a href="http://twitter.com/share?url=%5Bpermlink_urlenc%5D" style="text-decoration: none; font-weight: normal; color: #000000; font-size: 13px; font-family: Arial, Helvetica, sans-serif; -ko-font-size: @[shareButtonStyle.size]px; -ko-font-family: @shareButtonStyle.face"><img style="display: block" src="img/icons/tw-coloured-96.png" alt="X / Twitter" width="24" height="24"></a></td>
         <td width="auto" valign="middle" style="font-weight: normal; padding-right: 4px; color: #000000; font-size: 13px; font-family: Arial, Helvetica, sans-serif; -ko-font-size: @[shareButtonStyle.size]px; -ko-font-family: @shareButtonStyle.face; line-height: 24px;"><a href="http://twitter.com/share?url=%5Bpermlink_urlenc%5D" style="text-decoration: none; font-weight: normal; color: #000000; font-size: 13px; font-family: Arial, Helvetica, sans-serif; -ko-font-size: @[shareButtonStyle.size]px; -ko-font-family: @shareButtonStyle.face"><span data-ko-wrap="false" data-ko-editable="twText">Share</span></a></td>
       </tr></table></td>
     </tr>
@@ -1440,7 +1440,7 @@
           
               <tr>
       <td valign="top" style="padding: 9px; padding-top: 5px; padding-bottom: 5px; padding: 9px; padding-top: 5px; padding-bottom: 5px; -ko-padding: @[blockSpacing.horizontalSpacing]px; -ko-padding-top: @[blockSpacing.verticalSpacing]px; -ko-padding-bottom: @[blockSpacing.verticalSpacing]px; line-height: 24px;"><table role="presentation" cellpadding="0" border="0" align="center" cellspacing="6" style="border-spacing: 0; mso-cellspacing: 6px; border-collapse: separate; border-spacing: 6px; background-color: #bfbfbf; border-radius: 4px; -ko-attr-bgcolor: @shareButtonStyle.buttonColor; -ko-background-color: @shareButtonStyle.buttonColor; -ko-border-radius: @[shareButtonStyle.radius]px;" bgcolor="#bfbfbf"><tr>
-        <td class="shareIcon" valign="middle" style="font-weight: normal; padding-left: 4px; color: #3f3f3f; font-size: 13px; font-family: Arial, Helvetica, sans-serif; -ko-color: @shareButtonStyle.color; -ko-font-size: @[shareButtonStyle.size]px; -ko-font-family: @shareButtonStyle.face; line-height: 24px;" width="24"><a href="http://twitter.com/share?url=%5Bpermlink_urlenc%5D" style="text-decoration: none; font-weight: normal; color: #3f3f3f; font-size: 13px; font-family: Arial, Helvetica, sans-serif; -ko-color: @shareButtonStyle.color; -ko-font-size: @[shareButtonStyle.size]px; -ko-font-family: @shareButtonStyle.face"><img style="display: block; -ko-attr-src: @[Url.templatePath('img/icons/tw-'+shareButtonStyle.iconColorType+'-96.png')]" src="img/icons/tw-black-96.png" alt="Twitter" width="24" height="24"></a></td>
+        <td class="shareIcon" valign="middle" style="font-weight: normal; padding-left: 4px; color: #3f3f3f; font-size: 13px; font-family: Arial, Helvetica, sans-serif; -ko-color: @shareButtonStyle.color; -ko-font-size: @[shareButtonStyle.size]px; -ko-font-family: @shareButtonStyle.face; line-height: 24px;" width="24"><a href="http://twitter.com/share?url=%5Bpermlink_urlenc%5D" style="text-decoration: none; font-weight: normal; color: #3f3f3f; font-size: 13px; font-family: Arial, Helvetica, sans-serif; -ko-color: @shareButtonStyle.color; -ko-font-size: @[shareButtonStyle.size]px; -ko-font-family: @shareButtonStyle.face"><img style="display: block; -ko-attr-src: @[Url.templatePath('img/icons/tw-'+shareButtonStyle.iconColorType+'-96.png')]" src="img/icons/tw-black-96.png" alt="X / Twitter" width="24" height="24"></a></td>
         <td width="auto" valign="middle" style="font-weight: normal; padding-right: 4px; color: #3f3f3f; font-size: 13px; font-family: Arial, Helvetica, sans-serif; -ko-color: @shareButtonStyle.color; -ko-font-size: @[shareButtonStyle.size]px; -ko-font-family: @shareButtonStyle.face; line-height: 24px;"><a href="http://twitter.com/share?url=%5Bpermlink_urlenc%5D" style="text-decoration: none; font-weight: normal; color: #3f3f3f; font-size: 13px; font-family: Arial, Helvetica, sans-serif; -ko-color: @shareButtonStyle.color; -ko-font-size: @[shareButtonStyle.size]px; -ko-font-family: @shareButtonStyle.face"><span data-ko-wrap="false" data-ko-editable="twText">Share</span></a></td>
       </tr></table></td>
     </tr>
@@ -1546,7 +1546,7 @@
               
                 <div data-ko-wrap="false" style="display: inline-block;" data-ko-display="fbVisible">&nbsp;<a href="" data-ko-display="fbVisible" style="background: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7), #3b5998; border-radius: 50px; -ko-attr-href: @[fbUrl]"><img border="0" style="display: inline-block; vertical-align: top; padding-bottom: 0px" src="img/icons/fb-colors-96.png" width="32" height="32" alt="Facebook"></a></div>
               
-                <div data-ko-wrap="false" style="display: inline-block;" data-ko-display="twVisible">&nbsp;<a href="" data-ko-display="twVisible" style="background: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7), #4099FF; border-radius: 50px; -ko-attr-href: @[twUrl]"><img border="0" style="display: inline-block; vertical-align: top; padding-bottom: 0px" src="img/icons/tw-colors-96.png" width="32" height="32" alt="Twitter"></a></div>
+                <div data-ko-wrap="false" style="display: inline-block;" data-ko-display="twVisible">&nbsp;<a href="" data-ko-display="twVisible" style="background: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7), #4099FF; border-radius: 50px; -ko-attr-href: @[twUrl]"><img border="0" style="display: inline-block; vertical-align: top; padding-bottom: 0px" src="img/icons/tw-colors-96.png" width="32" height="32" alt="X / Twitter"></a></div>
               
                 <div data-ko-wrap="false" style="display: inline-block; display: none" data-ko-display="ggVisible">&nbsp;<a href="" data-ko-display="ggVisible" style="display: none; background: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7), #d34836; border-radius: 50px; -ko-attr-href: @[ggUrl]"><img border="0" style="display: inline-block; vertical-align: top; padding-bottom: 0px" src="img/icons/gg-colors-96.png" width="32" height="32" alt="Google"></a></div>
               
@@ -1577,7 +1577,7 @@
               
                 <div data-ko-wrap="false" style="display: inline-block;" data-ko-display="fbVisible">&nbsp;<a href="" data-ko-display="fbVisible" style="background: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7), #818181; border-radius: 50px; -ko-attr-href: @[fbUrl]"><img border="0" style="display: inline-block; vertical-align: top; padding-bottom: 0px" src="img/icons/fb-bw-96.png" width="32" height="32" alt="Facebook"></a></div>
               
-                <div data-ko-wrap="false" style="display: inline-block;" data-ko-display="twVisible">&nbsp;<a href="" data-ko-display="twVisible" style="background: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7), #818181; border-radius: 50px; -ko-attr-href: @[twUrl]"><img border="0" style="display: inline-block; vertical-align: top; padding-bottom: 0px" src="img/icons/tw-bw-96.png" width="32" height="32" alt="Twitter"></a></div>
+                <div data-ko-wrap="false" style="display: inline-block;" data-ko-display="twVisible">&nbsp;<a href="" data-ko-display="twVisible" style="background: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7), #818181; border-radius: 50px; -ko-attr-href: @[twUrl]"><img border="0" style="display: inline-block; vertical-align: top; padding-bottom: 0px" src="img/icons/tw-bw-96.png" width="32" height="32" alt="X / Twitter"></a></div>
               
                 <div data-ko-wrap="false" style="display: inline-block; display: none" data-ko-display="ggVisible">&nbsp;<a href="" data-ko-display="ggVisible" style="display: none; background: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7), #818181; border-radius: 50px; -ko-attr-href: @[ggUrl]"><img border="0" style="display: inline-block; vertical-align: top; padding-bottom: 0px" src="img/icons/gg-bw-96.png" width="32" height="32" alt="Google"></a></div>
               
@@ -1608,7 +1608,7 @@
               
                 <div data-ko-wrap="false" style="display: inline-block;" data-ko-display="fbVisible">&nbsp;<a href="" data-ko-display="fbVisible" style="border-radius: 50px; -ko-attr-href: @[fbUrl]"><img border="0" style="display: inline-block; vertical-align: top; padding-bottom: 0px; -ko-attr-src: @[Url.templatePath('img/icons/fb-'+socialIconType+'-96.png')]" src="img/icons/fb-rdcol-96.png" width="32" height="32" alt="Facebook"></a></div>
               
-                <div data-ko-wrap="false" style="display: inline-block;" data-ko-display="twVisible">&nbsp;<a href="" data-ko-display="twVisible" style="border-radius: 50px; -ko-attr-href: @[twUrl]"><img border="0" style="display: inline-block; vertical-align: top; padding-bottom: 0px; -ko-attr-src: @[Url.templatePath('img/icons/tw-'+socialIconType+'-96.png')]" src="img/icons/tw-rdcol-96.png" width="32" height="32" alt="Twitter"></a></div>
+                <div data-ko-wrap="false" style="display: inline-block;" data-ko-display="twVisible">&nbsp;<a href="" data-ko-display="twVisible" style="border-radius: 50px; -ko-attr-href: @[twUrl]"><img border="0" style="display: inline-block; vertical-align: top; padding-bottom: 0px; -ko-attr-src: @[Url.templatePath('img/icons/tw-'+socialIconType+'-96.png')]" src="img/icons/tw-rdcol-96.png" width="32" height="32" alt="X / Twitter"></a></div>
               
                 <div data-ko-wrap="false" style="display: inline-block; display: none" data-ko-display="ggVisible">&nbsp;<a href="" data-ko-display="ggVisible" style="display: none; border-radius: 50px; -ko-attr-href: @[ggUrl]"><img border="0" style="display: inline-block; vertical-align: top; padding-bottom: 0px; -ko-attr-src: @[Url.templatePath('img/icons/gg-'+socialIconType+'-96.png')]" src="img/icons/gg-rdcol-96.png" width="32" height="32" alt="Google"></a></div>
               
