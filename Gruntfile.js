@@ -114,7 +114,7 @@ module.exports = function(grunt) {
         tasks: ['combineKOTemplates', 'browserify', 'exorcise', 'uglifyPrecheck:min']
       },
       browserify: {
-        files: ['src/js/**/*.js', 'build/templates.js'],
+        files: ['src/js/**/*.js', 'src/js/*.js', 'build/templates.js'],
         tasks: ['newer:jshint', 'browserify', 'exorcise', 'uglifyPrecheck:min']
       },
       htmls: {
