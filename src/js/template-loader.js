@@ -1,4 +1,5 @@
 "use strict";
+/* jshint -W034 */
 /* global global: false */
 
 var $ = require("jquery");
@@ -384,9 +385,7 @@ var isCompatible = function(detailedException) {
       return 'XMLHttpRequest' in global && 'withCredentials' in new global.XMLHttpRequest();
     });
     checkFeature('ES5 strict', function() {
-      return function() { /* "use strict";*/
-        return typeof this == 'undefined';
-      }();
+      return new Function('\'use strict\'; return typeof this === \'undefined\';')();
     });
     checkFeature('CSS borderRadius', function() {
       return typeof global.document.body.style['borderRadius'] != 'undefined';
