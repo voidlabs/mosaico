@@ -117,7 +117,8 @@
     "jpeg-js": "0.4.4",
     "minimist": "1.2.6",
     "uglify-js": "3.17.4",
-    "underscore": "1.13.7"
+    "underscore": "1.13.7",
+    "undici": "5.21.0"
   },
   "scripts": {
     "start": "grunt",
