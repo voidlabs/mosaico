@@ -4,7 +4,7 @@
 
 describe('Template converter', function() {
 
-  var mockery = require('mockery');
+  var rewiremock = require('rewiremock/node');
 
   var mockedBindingProvider = function(a, b) {
     // console.log("binding provider for", a, b);
@@ -18,9 +18,10 @@ describe('Template converter', function() {
   var _parseTemplate;
 
   beforeAll(function() {
-    mockery.registerMock('jquery', require('cheerio').load('<html />'));
-    mockery.registerAllowables(['fs', '../src/js/converter/checkdefs.js', '../src/js/converter/declarations.js', '../src/js/converter/model.js', '../src/js/converter/parser.js', 'console', './utils.js', './domutils.js', 'console', '../node_modules/mensch', './lib/lexer', './lib/parser', './lib/stringify', './debug', 'jsep', './declarations.js', './cssparser.js', 'mensch/lib/parser.js', './lexer', './stylesheet.js', './model.js']);
-    mockery.enable();
+    var cheerioMock = require('cheerio').load('<html />');
+    
+    rewiremock.enable();
+    rewiremock('jquery').with(cheerioMock);
 
     _parseTemplate = function(html) {
       var translateTemplate = require('../src/js/converter/parser.js');
@@ -299,8 +300,7 @@ describe('Template converter', function() {
   });
 
   afterAll(function() {
-    mockery.disable();
-    mockery.deregisterAll();
+    rewiremock.disable();
   });
 
 });

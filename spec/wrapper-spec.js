@@ -3,22 +3,23 @@
 
 describe('model wrapper and undomanager', function() {
   var fs = require('fs');
-  var mockery = require('mockery');
   var console = require("console");
 
-  var ko, main, undoManager, modelDef, undoserializer;
+  var main, undoManager, modelDef, undoserializer;
+
+  var ko = require('knockout');
+  // use ".default" instead of require require('rewiremock/node') becausa by default node plugin check for module existence and this is a fake module (alias).
+  var rewiremock = require('rewiremock').default;
+  // must be loaded after "ko" otherwise ko.watch is not set and we get a "react is not function" error
+  var koReactorMock = require('ko-reactor/src/knockout.reactor.js');
 
   beforeAll(function() {
-    mockery.registerMock('knockoutjs-reactor', require('ko-reactor/dist/ko-reactor.js'));
-    mockery.enable();
-    mockery.registerAllowables(['../src/js/converter/declarations.js', './wrapper.js', 'console', './utils.js', './domutils.js', 'console', './cssparser.js', 'path', 'mkdirp', './model.js', 'jquery', 'knockout', 'ko-reactor/dist/ko-reactor.js', '../src/js/undomanager/undoserializer.js', '../src/js/undomanager/undomanager.js', '../src/js/converter/model.js', '../src/js/converter/main.js']);
-
-    main = require('../src/js/converter/main.js');
-    ko = require('knockout');
+    rewiremock('knockoutjs-reactor').with(koReactorMock);
+    rewiremock.enable();
+    main = require('../src/js/converter/main.js');;
     undoserializer = require("../src/js/undomanager/undoserializer.js");
     undoManager = require('../src/js/undomanager/undomanager.js');
     modelDef = require('../src/js/converter/model.js');
-
   });
 
   beforeEach(function() {
@@ -281,8 +282,7 @@ describe('model wrapper and undomanager', function() {
   });
 
   afterAll(function() {
-    mockery.disable();
-    mockery.deregisterAll();
+    rewiremock.disable();
   });
 
 });

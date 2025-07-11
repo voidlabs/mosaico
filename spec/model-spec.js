@@ -2,12 +2,6 @@
 /* globals it:false, describe:false, expect:false */
 
 describe('Model generator', function() {
-  var mockery = require('mockery');
-
-  beforeAll(function() {
-    mockery.enable();
-    mockery.registerAllowables(['console', './domutils.js', './cssparser.js', 'mensch/lib/parser.js', './debug', './lexer', '../src/js/converter/utils.js', 'jsep']);
-  });
 
   /*
   ensurePathAndGetBindValue: modelEnsurePathAndGetBindValue.bind(undefined, false),
@@ -31,11 +25,6 @@ describe('Model generator', function() {
     stylesheet.js.processStylesheetRules: bindingProvider = localWithBindingProvider.bind(this, localBlockName, '');
     */
 
-  });
-
-  afterAll(function() {
-    mockery.disable();
-    mockery.deregisterAll();
   });
 
 });

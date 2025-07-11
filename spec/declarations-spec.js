@@ -4,7 +4,7 @@
 
 describe('Style declaration processor', function() {
 
-  var mockery = require('mockery');
+  var rewiremock = require('rewiremock/node');
   var declarations;
 
   var templateUrlConverter = function(url) { return '.'+url; };
@@ -15,9 +15,11 @@ describe('Style declaration processor', function() {
   };
 
   beforeAll(function() {
-    mockery.registerMock('jquery', require('cheerio').load('<html />'));
-    mockery.registerAllowables(['cheerio', '../src/js/converter/declarations.js', './utils.js', 'console', 'jsep', 'mensch/lib/parser.js', './debug', './lexer', './domutils.js']);
-    mockery.enable();
+    var cheerioMock = require('cheerio').load('<html />');
+    
+    rewiremock.enable();
+    rewiremock('jquery').with(cheerioMock);
+    
     declarations = require('../src/js/converter/declarations.js');
   });
 
@@ -316,8 +318,7 @@ describe('Style declaration processor', function() {
   });
 
   afterAll(function() {
-    mockery.disable();
-    mockery.deregisterAll();
+    rewiremock.disable();
   });
 
 });

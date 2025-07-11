@@ -3,7 +3,6 @@
 
 describe('Stylesheet declaration processor', function() {
   var processStylesheetRules;
-  var mockery = require('mockery');
 
   var templateUrlConverter = function(url) { return 'https://PREFIXED/'+url; };
 
@@ -20,8 +19,6 @@ describe('Stylesheet declaration processor', function() {
   };
 
   beforeAll(function() {
-    mockery.enable();
-    mockery.registerAllowables(['../src/js/converter/declarations.js', 'console', './utils.js', './domutils.js', 'console', '../node_modules/mensch', './declarations.js', '../src/js/converter/stylesheet.js', 'mensch/lib/parser.js', './debug', './lexer', 'jsep', 'jquery'])
     processStylesheetRules = require('../src/js/converter/stylesheet.js');
   });
 
@@ -188,10 +185,5 @@ describe('Stylesheet declaration processor', function() {
     expect(result).toEqual('@font-face { src: url("https://PREFIXED/../fonts/Calibri.woff") format("woff"), url("https://PREFIXED/../fonts/Calibri.woff2") format("woff2"); }');
   });
 
-
-  afterAll(function() {
-    mockery.disable();
-    mockery.deregisterAll();
-  });
 
 });
