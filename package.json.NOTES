@@ -2,6 +2,8 @@
   still rely on 4.x.
 - selectize is "locked" to 0.14.0 because 0.15 breaks/alter data-data handling:
   https://github.com/selectize/selectize.js/issues/1976
+- grunt-google-fonts is locked to 0.3.5 because newer versions have vulnerable
+  dependencies.
 
 Other:
 
@@ -10,7 +12,10 @@ Other:
 
 Overrides:
 
-- the overrides are only used to override security issues
+- the overrides are mainly used to override security issues
+- uglify-js is locked to 3.17.4 because 3.18.0 and following uses the 
+  "module: true" option by default and this breacks things removing 'no script'
+  and maybe others (e.g: tooltips are positioned badly)
 
 Old:
 - cheerio 1.0.0-rc.11 fixed the bug that prevented our dependency update.

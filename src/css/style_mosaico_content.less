@@ -187,7 +187,7 @@
   width: 50px;
   margin-left: -25px;
   box-shadow: 0 0 5px @mosaico-button-shadow-color;
-  z-index: 90;
+  /* z-index: 90; // this was added because of a bug in uglify-js breaking jquery-ui stuff */
 
   &:before {
     content: "\f107";
