@@ -8,7 +8,6 @@ var fs = require('fs');
 var _ = require('lodash');
 var app = express();
 var config = require('../server-config.js');
-var extend = require('util')._extend;
 var url = require('url');
 var mime = require('mime-types');
 var { Jimp, loadFont, JimpMime, HorizontalAlign, VerticalAlign } = require('jimp');
@@ -219,11 +218,7 @@ app.post('/dl/', function(req, res) {
             var nodemailer = require('nodemailer');
             var transporter = nodemailer.createTransport(config.emailTransport);
 
-            var mailOptions = extend({
-                to: req.body.rcpt, // list of receivers
-                subject: req.body.subject, // Subject line
-                html: source // html body
-            }, config.emailOptions);
+            var mailOptions = { ...config.emailOptions, to: req.body.rcpt, subject: req.body.subject, html: source };
 
             transporter.sendMail(mailOptions, function(error, info){
                 if (error) {
