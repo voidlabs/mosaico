@@ -39,7 +39,7 @@ var uploadOptions = {
 
 app.get('/upload/', function(req, res) {
     var files = [];
-    var uploadHost = req.protocol + '://' + req.get('host');
+    var uploadHost = process.env.SERVER_URL || req.protocol + '://' + req.get('host');
     fs.readdirSync(uploadOptions.uploadDir).forEach( name => {
         var stats = fs.statSync(uploadOptions.uploadDir + '/' + name);
         if (stats.isFile() && uploadOptions.fileTypes.includes(mime.lookup(name))) {
@@ -86,7 +86,7 @@ const uploadHandler = multer({
 
 app.use('/upload/', uploadHandler.array('files[]', 20), function(req, res) {
     var files = [];
-    var uploadHost = req.protocol + '://' + req.get('host');
+    var uploadHost = process.env.SERVER_URL || req.protocol + '://' + req.get('host');
     req.files.forEach( f => {
         files.push({
             name: f.filename,
