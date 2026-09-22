@@ -6,7 +6,7 @@
   "preheaderBlock": {
     "type": "preheaderBlock",
     "customStyle": false,
-    "id": "",
+    "id": "preheaderBlock",
     "backgroundColor": null,
     "preheaderText": "",
     "linkStyle": {
@@ -48,7 +48,7 @@
       "align": null,
       "linksColor": null
     },
-    "id": "",
+    "id": "footerBlock",
     "backgroundColor": null,
     "linkStyle": {
       "type": "linkStyle",
