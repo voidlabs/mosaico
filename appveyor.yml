@@ -1,10 +1,8 @@
 environment:
   matrix:
-    - nodejs_version: "18"
-    - nodejs_version: "22"
+    - nodejs_version: "24"
 
 platform:
-  - x86
   - x64
 
 # Install scripts. (runs after repo cloning)
