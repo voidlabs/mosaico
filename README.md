@@ -25,7 +25,7 @@ Subscribe to our newsletter to get updates: https://mosaico.voxmail.it/user/regi
 
 ### Build/Run with the development backend [![Build Status](https://travis-ci.org/voidlabs/mosaico.svg)](https://travis-ci.org/voidlabs/mosaico)
 
-You need NodeJS v8.0 or higher + NPM 8.3 (because of "overrides" support in package.json you need npm 8.3 if you want to change/upgrade dependencies, but it should work with older npm, too, if you rely on package-lock.json)
+You need NodeJS v24.0 or higher + NPM 8.3 (because of "overrides" support in package.json you need npm 8.3 if you want to change/upgrade dependencies, but it should work with older npm, too, if you rely on package-lock.json)
 
 Download/install the dependencies (run again if you get an error, as it probably is a race issues in npm)
 ```
