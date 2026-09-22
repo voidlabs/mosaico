@@ -338,6 +338,34 @@ var _blockInstrumentFunction = function(defs, contentModel, self) {
 
   var res = wrap(self);
 
+  // Ensure nested fixed blocks (not in arrays) get a unique id.
+  // Blocks added to containers get instrumented via push/splice, but single,
+  // template-level blocks (e.g., footerBlock) need id assignment here.
+  try {
+    var root = res();
+    if (root && typeof root === 'object') {
+      for (var k in root) if (root.hasOwnProperty(k)) {
+        var childObs = root[k];
+        if (ko.isObservable(childObs)) {
+          var child = childObs();
+          if (child && typeof child === 'object' && typeof child.id !== 'undefined' && typeof child.type !== 'undefined') {
+            if (ko.isObservable(child.id) && ko.isObservable(child.type) && child.id() == '') {
+              var nestedIndex = 0, newId, nestedElement;
+              var btype = ko.utils.unwrapObservable(child.type);
+              do {
+                newId = 'ko_' + btype + '_' + (++nestedIndex);
+                nestedElement = global.document.getElementById(newId);
+              } while (nestedElement);
+              child.id(newId);
+            }
+          }
+        }
+      }
+    }
+  } catch (e) {
+    console.log('Warning assigning nested block ids', e);
+  }
+
   // console.log("_blockInstrumentFunction", self, typeof self.id, typeof self.type, self.id, self.type);
   if (typeof res().id !== 'undefined' && typeof res().type !== 'undefined' && res().id() == '') {
     // Assign an unique id to the block

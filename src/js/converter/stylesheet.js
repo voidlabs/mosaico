@@ -159,7 +159,9 @@ var processStylesheetRules = function(style, rules, localWithBindingProvider, bl
         if (end === null) newStyle += spacing + loopPostfix;
         else if (end == lastStart) newStyle = cssParser.replaceStyle(newStyle, end, lastStart, spacing + loopPostfix);
         else newStyle = cssParser.replaceStyle(newStyle, end, lastStart, spacing + '}' + spacing + loopPostfix);
-        newSel = loopPrefix + spacing + newSel.replace(new RegExp('\\[data-ko-block=' + foundBlockMatch + '\\]', 'g'), '<!-- ko text: \'#\'+id() -->' + foundBlockMatch + '<!-- /ko -->');
+        newSel = loopPrefix + spacing + newSel.replace(new RegExp('\\[data-ko-block=' + foundBlockMatch + '\\]', 'g'), '<!-- ko text: \'#\'+id() --><!-- /ko -->');
+        // NOTE: selectors using quoted values like [data-ko-block='name'] are uncommon in templates;
+        // if needed, support can be added similarly with additional replace patterns.
 
         blockDefsUpdater(foundBlockMatch, '', { contextName: 'block' });
       }

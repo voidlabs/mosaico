@@ -108,7 +108,12 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
   modelDef.createOrUpdateBlockDef(defs, templateName, dataDefs, { contextName: contextName });
 
   var bindingProvider = modelDef.ensurePathAndGetBindValue.bind(undefined, defs, themeUpdater, rootModelName, templateName, '');
-  if (contextName == 'block') bindingProvider('id', '');
+  if (contextName == 'block') {
+    // For blocks not inside a container (fixed blocks), assign a stable id equal to the block name.
+    // For container blocks, keep empty default so wrapper assigns a unique runtime id.
+    var defaultId = (typeof containerName === 'undefined' || containerName === null) ? templateName : '';
+    bindingProvider('id', defaultId);
+  }
 
   $('style', element).each(function(index, element) {
     var style = domutils.getInnerHtml(element);
